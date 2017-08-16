@@ -8,7 +8,7 @@ module.exports = [
   "bower_components/moment/min/moment.min.js",
 
 
-  //Angular Libs
+  //Angular Libs   
   'bower_components/angular/angular.js',
   'bower_components/angular-sanitize/angular-sanitize.js',
   'bower_components/angular-animate/angular-animate.min.js',
