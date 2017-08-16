@@ -7,7 +7,6 @@ module.exports = [
   'bower_components/smart-app-banner/smart-app-banner.js',
   "bower_components/moment/min/moment.min.js",
   
-   
   //Angular Libs   
   'bower_components/angular/angular.js',
   'bower_components/angular-sanitize/angular-sanitize.js',
@@ -46,7 +45,6 @@ module.exports = [
   "frontend/themeassets/layouts/global/scripts/quick-sidebar.min.js",
   "frontend/themeassets/layouts/global/scripts/quick-nav.min.js",
   "frontend/themeassets/layouts/layout/scripts/demo.min.js",
-
 
   //App.js
   'frontend/js/app.js',

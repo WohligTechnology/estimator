@@ -175,7 +175,8 @@ var Layout = function () {
         }
 
         // handle sidebar link click
-        $('.page-sidebar-menu').on('click', 'li > a.nav-toggle, li > a > span.nav-toggle', function (e) {
+        $('.page-sidebar-menu').unbind().on('click', 'li > a.nav-toggle, li > a > span.nav-toggle', function (e) {
+            // or we can use .off() instead of .unbind() in case of .unbind() is depreacated
             var that = $(this).closest('.nav-item').children('.nav-link');
 
             if (App.getViewPort().width >= resBreakpointMd && !$('.page-sidebar-menu').attr("data-initialized") && $('body').hasClass('page-sidebar-closed') &&  that.parent('li').parent('.page-sidebar-menu').size() === 1) {
