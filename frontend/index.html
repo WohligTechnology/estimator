@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head ng-controller="headerCtrl">
+    <meta charset="utf-8">
+    <base href="/">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="noindex">
+    <meta name="googlebot" content="noindex">
+    <link rel="shortcut icon" href="img/favicon.ico" />
+
+    <title ng-bind="'Node Framework | '+template.title"></title>
+    <link rel="stylesheet" type="text/css" href="css/import.css" />
+
+
+    <!--[if IE]> <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script> <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script> <![endif]-->
+    <!--[if IE]> <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script> <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script> <![endif]-->
+</head>
+
+<body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-on-load" ng-class="{'page-content-white': settings.layout.pageContentWhite,'page-container-bg-solid': settings.layout.pageBodySolid, 'page-sidebar-closed': settings.layout.pageSidebarClosed}">
+    <!-- BEGIN PAGE SPINNER -->
+    <div ng-spinner-bar class="page-spinner-bar">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <!-- END PAGE SPINNER -->
+    <!-- BEGIN HEADER -->
+    <div data-ng-include="'../frontend/views/tpl/header.html'" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top">
+    </div>
+    <!-- END HEADER -->
+    <div class="clearfix"> </div>
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container">
+        <!-- BEGIN SIDEBAR -->
+        <div data-ng-include="'../frontend/views/tpl/sidebar.html'" data-ng-controller="SidebarController" class="page-sidebar-wrapper"> </div>
+        <!-- END SIDEBAR -->
+        <!-- BEGIN CONTENT -->
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                <!-- BEGIN STYLE CUSTOMIZER(optional) -->
+                <div data-ng-include="'../frontend/views/tpl/theme-panel.html'" data-ng-controller="ThemePanelController" class="theme-panel hidden-xs hidden-sm">
+                </div>
+                <!-- END STYLE CUSTOMIZER -->
+                <!-- BEGIN ACTUAL CONTENT -->
+                <div ui-view class="fade-in-up"> </div>
+                <!-- END ACTUAL CONTENT -->
+            </div>
+        </div>
+        <!-- END CONTENT -->
+        <!-- BEGIN QUICK SIDEBAR -->
+        <a href="javascript:;" class="page-quick-sidebar-toggler">
+                <i class="icon-login"></i>
+            </a>
+        <div data-ng-include="'../frontend/views/tpl/quick-sidebar.html'" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper"></div>
+        <!-- END QUICK SIDEBAR -->
+    </div>
+    <!-- END CONTAINER -->
+    <!-- BEGIN FOOTER -->
+    <div data-ng-include="'../frontend/views/tpl/footer.html'" data-ng-controller="FooterController" class="page-footer"> </div>
+    <!-- END FOOTER -->
+    <!-- BEGIN QUICK NAV -->
+    <nav class="quick-nav">
+        <a class="quick-nav-trigger" href="#">
+                <span aria-hidden="true"></span>
+            </a>
+        <ul>
+            <li>
+                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" target="_blank"
+                    class="active">
+                        <span>Purchase Metronic</span>
+                        <i class="icon-basket"></i>
+                    </a>
+            </li>
+            <li>
+                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/reviews/4021469?ref=keenthemes" target="_blank">
+                        <span>Customer Reviews</span>
+                        <i class="icon-users"></i>
+                    </a>
+            </li>
+            <li>
+                <a href="http://keenthemes.com/showcast/" target="_blank">
+                        <span>Showcase</span>
+                        <i class="icon-user"></i>
+                    </a>
+            </li>
+            <li>
+                <a href="http://keenthemes.com/metronic-theme/changelog/" target="_blank">
+                        <span>Changelog</span>
+                        <i class="icon-graph"></i>
+                    </a>
+            </li>
+        </ul>
+        <span aria-hidden="true" class="quick-nav-bg"></span>
+    </nav>
+    <div class="quick-nav-overlay"></div>
+
+    <!-- <div class="repeated-item" ui-view></div> -->
+    <script>
+        var adminurl = "http://wohlig.io/api/";
+        var isproduction = true;
+        var chintan = function(content) {
+            console.log("%c ---------------------------------------", 'background: #222; color: #bada55');
+            console.log(content);
+            console.log("%c ---------------------------------------", 'background: #222; color: #bada55');
+        };
+    </script>
+    
+        <script src="bower_components/jquery/jquery.min.js"></script>
+        
+        <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+        
+        <script src="bower_components/flexslider/jquery.flexslider-min.js"></script>
+        
+        <script src="bower_components/fancybox/dist/jquery.fancybox.js"></script>
+        
+        <script src="bower_components/smart-app-banner/smart-app-banner.js"></script>
+        
+        <script src="bower_components/moment/min/moment.min.js"></script>
+        
+        <script src="bower_components/angular/angular.js"></script>
+        
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        
+        <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+        
+        <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+        
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        
+        <script src="bower_components/angular-flexslider/angular-flexslider.js"></script>
+        
+        <script src="bower_components/angular-translate/angular-translate.js"></script>
+        
+        <script src="bower_components/lodash/lodash.js"></script>
+        
+        <script src="bower_components/angulartics/dist/angulartics.min.js"></script>
+        
+        <script src="bower_components/angulartics-google-analytics/dist/angulartics-ga.min.js"></script>
+        
+        <script src="bower_components/angular-ui-swiper/dist/angular-ui-swiper.js"></script>
+        
+        <script src="bower_components/angular-toastr/dist/angular-toastr.js"></script>
+        
+        <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+        
+        <script src="bower_components/angular-promise-buttons/dist/angular-promise-buttons.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/jquery.blockui.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/js.cookie.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/angularjs/angular-touch.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/angularjs/plugins/ocLazyLoad.min.js"></script>
+        
+        <script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+        
+        <script src="frontend/themeassets/global/scripts/app.min.js"></script>
+        
+        <script src="frontend/themeassets/layouts/layout/scripts/layout.js"></script>
+        
+        <script src="frontend/themeassets/layouts/global/scripts/quick-sidebar.min.js"></script>
+        
+        <script src="frontend/themeassets/layouts/global/scripts/quick-nav.min.js"></script>
+        
+        <script src="frontend/themeassets/layouts/layout/scripts/demo.min.js"></script>
+        
+        <script src="frontend/js/app.js"></script>
+        
+        <script src="frontend/js/languages/language.js"></script>
+        
+        <script src="frontend/js/directives/directive.js"></script>
+        
+        <script src="frontend/js/filters/filter.js"></script>
+        
+        <script src="frontend/js/services/template.js"></script>
+        
+        <script src="frontend/js/factories/navigation.js"></script>
+        
+        <script src="frontend/js/factories/api.js"></script>
+        
+        <script src="frontend/js/controllers/controller.js"></script>
+        
+        <script src="frontend/js/controllers/header-controller.js"></script>
+        
+        <script src="frontend/js/controllers/language-controller.js"></script>
+        
+        <script src="frontend/js/controllers/BlankController.js"></script>
+        
+        <script src="frontend/js/controllers/DashboardController.js"></script>
+        
+        <script src="frontend/js/controllers/GeneralPageController.js"></script>
+        
+        <script src="frontend/js/controllers/TodoController.js"></script>
+        
+        <script src="frontend/js/controllers/UserProfileController.js"></script>
+        
+        <script src="frontend/js/controllers/UISelectController.js"></script>
+        
+</body>
+
+</html>
