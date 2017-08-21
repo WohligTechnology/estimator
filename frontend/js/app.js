@@ -40,6 +40,7 @@ myApp.config(['$controllerProvider', function($controllerProvider) {
 *********************************************/
 
 /* Setup global settings */
+// 
 myApp.factory('settings', ['$rootScope', function($rootScope) {
     // supported languages
     var settings = {
