@@ -134,11 +134,12 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         //     templateUrl: tempateURL,
         //     controller: 'FormCtrl'
         // })
-        // .state('grid', {
-        //     url: "/grid",
-        //     templateUrl: tempateURL,
-        //     controller: 'GridCtrl'
-        // })
+        .state('app', {
+            abstract:true,
+            url: "/app",
+            template:"<div ui-view></div>",
+            controller: 'rootCtrl'
+        })
         .state('dashboard', {
             url: "/dashboard",
             templateUrl: "views/dashboard.html",
@@ -178,7 +179,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         name: 'myApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                            'js/controllers/BlankController.js'
+                            'controllers/BlankController.js'
                         ]
                     });
                 }]
@@ -198,12 +199,12 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     return $ocLazyLoad.load([{
                         name: 'angularFileUpload',
                         files: [
-                            '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
+                            './themeassets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
                         ]
                     }, {
                         name: 'myApp',
                         files: [
-                            'js/controllers/GeneralPageController.js'
+                            // 'controllers/GeneralPageController.js'
                         ]
                     }]);
                 }]
@@ -212,7 +213,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
 
         // UI Select
         .state('uiselect', {
-            url: "/ui_select.html",
+            url: "/ui_select",
             templateUrl: "views/ui_select.html",
             data: {
                 pageTitle: 'AngularJS Ui Select'
@@ -224,13 +225,13 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         name: 'ui.select',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
-                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js'
+                            './themeassets/global/plugins/angularjs/plugins/ui-select/select.min.css',
+                            './themeassets/global/plugins/angularjs/plugins/ui-select/select.min.js'
                         ]
                     }, {
                         name: 'myApp',
                         files: [
-                            'js/controllers/UISelectController.js'
+                            // 'controllers/UISelectController.js'
                         ]
                     }]);
                 }]
@@ -271,10 +272,10 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         name: 'myApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/jstree/dist/themes/default/style.min.css',
-                            '../assets/global/plugins/jstree/dist/jstree.min.js',
-                            '../assets/pages/scripts/ui-tree.min.js',
-                            'js/controllers/GeneralPageController.js'
+                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
+                            './themeassets/global/plugins/jstree/dist/jstree.min.js',
+                            './themeassets/pages/scripts/ui-tree.min.js',
+                            // 'controllers/GeneralPageController.js'
                         ]
                     }]);
                 }]
@@ -295,24 +296,24 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         name: 'myApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            '../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
-                            '../assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
-                            '../assets/global/plugins/typeahead/typeahead.css',
+                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            './themeassets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
+                            './themeassets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
+                            './themeassets/global/plugins/typeahead/typeahead.css',
 
-                            '../assets/global/plugins/fuelux/js/spinner.min.js',
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-                            '../assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
-                            '../assets/global/plugins/jquery.input-ip-address-control-1.0.min.js',
-                            '../assets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js',
-                            '../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js',
-                            '../assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js',
-                            '../assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js',
-                            '../assets/global/plugins/typeahead/handlebars.min.js',
-                            '../assets/global/plugins/typeahead/typeahead.bundle.min.js',
-                            '../assets/pages/scripts/components-form-tools-2.min.js',
+                            './themeassets/global/plugins/fuelux/js/spinner.min.js',
+                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+                            './themeassets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
+                            './themeassets/global/plugins/jquery.input-ip-address-control-1.0.min.js',
+                            './themeassets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js',
+                            './themeassets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js',
+                            './themeassets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js',
+                            './themeassets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js',
+                            './themeassets/global/plugins/typeahead/handlebars.min.js',
+                            './themeassets/global/plugins/typeahead/typeahead.bundle.min.js',
+                            './themeassets/pages/scripts/components-form-tools-2.min.js',
 
-                            'js/controllers/GeneralPageController.js'
+                            // 'controllers/GeneralPageController.js'
                         ]
                     }]);
                 }]
@@ -333,21 +334,21 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         name: 'myApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/clockface/css/clockface.css',
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            '../assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
-                            '../assets/global/plugins/bootstrap-colorpicker/css/colorpicker.css',
-                            '../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css',
+                            './themeassets/global/plugins/clockface/css/clockface.css',
+                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            './themeassets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
+                            './themeassets/global/plugins/bootstrap-colorpicker/css/colorpicker.css',
+                            './themeassets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css',
 
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            '../assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
-                            '../assets/global/plugins/clockface/js/clockface.js',
-                            '../assets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js',
-                            '../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js',
+                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            './themeassets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
+                            './themeassets/global/plugins/clockface/js/clockface.js',
+                            './themeassets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js',
+                            './themeassets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js',
 
-                            '../assets/pages/scripts/components-date-time-pickers.min.js',
+                            './themeassets/pages/scripts/components-date-time-pickers.min.js',
 
-                            'js/controllers/GeneralPageController.js'
+                            // 'controllers/GeneralPageController.js'
                         ]
                     }]);
                 }]
@@ -368,17 +369,17 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         name: 'myApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            './themeassets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
+                            './themeassets/global/plugins/select2/css/select2.min.css',
+                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
 
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
+                            './themeassets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
+                            './themeassets/global/plugins/select2/js/select2.full.min.js',
 
-                            '../assets/pages/scripts/components-bootstrap-select.min.js',
-                            '../assets/pages/scripts/components-select2.min.js',
+                            './themeassets/pages/scripts/components-bootstrap-select.min.js',
+                            './themeassets/pages/scripts/components-select2.min.js',
 
-                            'js/controllers/GeneralPageController.js'
+                            // 'controllers/GeneralPageController.js'
                         ]
                     }]);
                 }]
@@ -387,7 +388,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
 
         // Advanced Datatables
         .state('datatablesmanaged', {
-            url: "/datatables/managed.html",
+            url: "/datatables",
             templateUrl: "views/datatables/managed.html",
             data: {
                 pageTitle: 'Advanced Datatables'
@@ -399,11 +400,11 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         name: 'myApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/datatables/datatables.min.css',
-                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            '../assets/global/plugins/datatables/datatables.all.min.js',
-                            '../assets/pages/scripts/table-datatables-managed.min.js',
-                            'js/controllers/GeneralPageController.js'
+                            './themeassets/global/plugins/datatables/datatables.min.css',
+                            './themeassets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                            './themeassets/global/plugins/datatables/datatables.all.min.js',
+                            './themeassets/pages/scripts/table-datatables-managed.min.js',
+                            // 'controllers/GeneralPageController.js'
                         ]
                     });
                 }]
@@ -412,7 +413,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
 
         // Ajax Datetables
         .state('datatablesajax', {
-            url: "/datatables/ajax.html",
+            url: "/datatables",
             templateUrl: "views/datatables/ajax.html",
             data: {
                 pageTitle: 'Ajax Datatables'
@@ -424,16 +425,16 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         name: 'myApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/datatables/datatables.min.css',
-                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            './themeassets/global/plugins/datatables/datatables.min.css',
+                            './themeassets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
 
-                            '../assets/global/plugins/datatables/datatables.all.min.js',
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            '../assets/global/scripts/datatable.js',
+                            './themeassets/global/plugins/datatables/datatables.all.min.js',
+                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            './themeassets/global/scripts/datatable.js',
 
-                            'js/scripts/table-ajax.js',
-                            'js/controllers/GeneralPageController.js'
+                            'scripts/table-ajax.js',
+                            // 'controllers/GeneralPageController.js'
                         ]
                     });
                 }]
@@ -454,15 +455,15 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         name: 'myApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            '../assets/pages/css/profile.css',
+                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            './themeassets/pages/css/profile.css',
 
-                            '../assets/global/plugins/jquery.sparkline.min.js',
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+                            './themeassets/global/plugins/jquery.sparkline.min.js',
+                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
 
-                            '../assets/pages/scripts/profile.min.js',
+                            './themeassets/pages/scripts/profile.min.js',
 
-                            'js/controllers/UserProfileController.js'
+                            // 'controllers/UserProfileController.js'
                         ]
                     });
                 }]
@@ -510,18 +511,14 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         name: 'myApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            '../assets/apps/css/todo-2.css',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
-
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-
-                            '../assets/apps/scripts/todo-2.min.js',
-
-                            'js/controllers/TodoController.js'
+                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            './themeassets/apps/css/todo-2.css',
+                            './themeassets/global/plugins/select2/css/select2.min.css',
+                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            './themeassets/global/plugins/select2/js/select2.full.min.js',
+                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            './themeassets/apps/scripts/todo-2.min.js',
+                            // 'controllers/TodoController.js'
                         ]
                     });
                 }]
