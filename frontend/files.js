@@ -69,4 +69,6 @@ module.exports = [
   'frontend/js/controllers/TodoController.js',
   'frontend/js/controllers/UserProfileController.js',
   'frontend/js/controllers/UISelectController.js',
+  'frontend/js/controllers/Enquiries.js',
+  'frontend/js/controllers/estimate.js',
 ];

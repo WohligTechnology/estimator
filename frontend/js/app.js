@@ -135,6 +135,14 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         //     templateUrl: tempateURL,
         //     controller: 'FormCtrl'
         // })
+
+        //enquiries state 
+
+        .state('enquiries', {
+            url: "/enquiries",
+            templateUrl: "views/enquiries.html",
+            controller: "EnquiriesController",
+        })
         .state('app', {
             abstract:true,
             url: "/app",
@@ -274,8 +282,8 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
                             './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                            './themeassets/global/plugins/jstree/dist/jstree.min.js',
-                            './themeassets/pages/scripts/ui-tree.min.js',
+                            './themeassets/global/plugins/jstree/dist/jstree.js',
+                            './themeassets/pages/scripts/ui-tree.js',
                             // 'controllers/GeneralPageController.js'
                         ]
                     }]);
@@ -440,6 +448,35 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     });
                 }]
             }
+        })
+//estimate
+       .state("estimate", {
+            url: "/estimate",
+            templateUrl: "views/estimate.html",
+          
+            controller: "GeneralPageController",
+             resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            './themeassets/apps/css/todo-2.css',
+                            './themeassets/global/plugins/select2/css/select2.min.css',
+                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            './themeassets/global/plugins/select2/js/select2.full.min.js',
+                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            './themeassets/apps/scripts/todo-2.min.js',
+                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
+                            './themeassets/global/plugins/jstree/dist/jstree.js',
+                            './themeassets/pages/scripts/ui-tree.js',
+                            // 'controllers/TodoController.js'
+                        ]
+                    });
+                }]
+            }
+            
         })
 
         // User Profile
