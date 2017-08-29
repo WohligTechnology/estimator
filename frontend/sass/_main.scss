@@ -122,5 +122,25 @@ header {
 
 //table css
 .action{
-    margin-right: 10px;
+    margin-right: 4px;
+}
+.search{
+    .input-small {
+    width: 200px!important;
+}
+}
+.showing-records{
+    margin: 20px 0px;
+}
+.tabs-left{
+    .nav-tabs {
+            float: left !important;
+    }
+}
+.sub-assembly-icon{
+    .label.label-sm {
+    font-size: 10px !important;
+    padding: 2px 3px !important;
+    margin: 1px 2px;
+}
 }
