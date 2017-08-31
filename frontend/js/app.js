@@ -22,17 +22,17 @@ myApp.config(function ($translateProvider) {
 });
 
 
-myApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
+myApp.config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
         // global configs go here
     });
 }]);
 
 // AngularJS v1.3.x workaround for old style controller declarition in HTML
-myApp.config(['$controllerProvider', function($controllerProvider) {
-  // this option might be handy for migrating old apps, but please don't use it
-  // in new ones!
-  $controllerProvider.allowGlobals();
+myApp.config(['$controllerProvider', function ($controllerProvider) {
+    // this option might be handy for migrating old apps, but please don't use it
+    // in new ones!
+    $controllerProvider.allowGlobals();
 }]);
 
 /********************************************
@@ -41,7 +41,7 @@ myApp.config(['$controllerProvider', function($controllerProvider) {
 
 /* Setup global settings */
 // 
-myApp.factory('settings', ['$rootScope', function($rootScope) {
+myApp.factory('settings', ['$rootScope', function ($rootScope) {
     // supported languages
     var settings = {
         layout: {
@@ -61,8 +61,9 @@ myApp.factory('settings', ['$rootScope', function($rootScope) {
 }]);
 
 /* Setup App Main Controller */
-myApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
-    $scope.$on('$viewContentLoaded', function() {
+myApp.controller('AppController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+    // $scope.isSidebActive = "active";
+    $scope.$on('$viewContentLoaded', function () {
         App.initComponents(); // init core components
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
@@ -75,44 +76,44 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-myApp.controller('HeaderController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
+myApp.controller('HeaderController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
         Layout.initHeader(); // init header
     });
 }]);
 
 /* Setup Layout Part - Sidebar */
-myApp.controller('SidebarController', ['$state', '$scope', function($state, $scope) {
-    $scope.$on('$includeContentLoaded', function() {
+myApp.controller('SidebarController', ['$state', '$scope', function ($state, $scope) {
+    $scope.$on('$includeContentLoaded', function () {
         Layout.initSidebar($state); // init sidebar
     });
 }]);
 
 /* Setup Layout Part - Quick Sidebar */
-myApp.controller('QuickSidebarController', ['$scope', function($scope) {    
-    $scope.$on('$includeContentLoaded', function() {
-       setTimeout(function(){
+myApp.controller('QuickSidebarController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
+        setTimeout(function () {
             QuickSidebar.init(); // init quick sidebar        
         }, 2000)
     });
 }]);
 
 /* Setup Layout Part - Theme Panel */
-myApp.controller('ThemePanelController', ['$scope', function($scope) {    
-    $scope.$on('$includeContentLoaded', function() {
+myApp.controller('ThemePanelController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
         Demo.init(); // init theme panel
     });
 }]);
 
 /* Setup Layout Part - Footer */
-myApp.controller('FooterController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
+myApp.controller('FooterController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
         Layout.initFooter(); // init footer
     });
 }]);
 
 /* Init global settings and run the app */
-myApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
+myApp.run(["$rootScope", "settings", "$state", function ($rootScope, settings, $state) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 }]);
@@ -125,53 +126,233 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
     // for http request with session
     $httpProvider.defaults.withCredentials = true;
     $stateProvider
-        // .state('home', {
-        //     url: "/",
-        //     templateUrl: tempateURL,
-        //     controller: 'HomeCtrl'
-        // })
-        // .state('form', {
-        //     url: "/form",
-        //     templateUrl: tempateURL,
-        //     controller: 'FormCtrl'
-        // })
+        .state('app', {
+            abstract: true,
+            url: "/app",
+            templateUrl: "views/tpl/template.html"
+            // controller: "rootCtrl"
+        })
 
-        //enquiries state 
+        // login module
+        .state('app.login', {
+            url: "/login",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "ThemePanelController"
+                }
+            }
+        })
+
+        // dashboard module
+        .state('app.dashboard', {
+            url: "/dashboard",
+            data: {
+                pageTitle: 'Admin Dashboard Template'
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            './themeassets/global/plugins/morris/morris.css',
+                            './themeassets/global/plugins/morris/morris.min.js',
+                            './themeassets/global/plugins/morris/raphael-min.js',
+                            './themeassets/global/plugins/jquery.sparkline.min.js',
+                            './themeassets/pages/scripts/dashboard.min.js',
+                            // 'controllers/DashboardController.js',
+                        ]
+                    });
+                }]
+            },
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "ThemePanelController"
+                }
+            }
+        })
+
+        // enquiry module
+        .state('app.enquiry', {
+            url: "/enquiry",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "ThemePanelController"
+                }
+            }
+        })
+        // create enquiry
+        .state('app.createEnquiry', {
+            url: "/enquiry/create",
+            data:{
+                isSidebarActive:'active'
+            },
+            views: {
+                // "sidebar": {
+                //     templateUrl: "views/tpl/sidebar.html",
+                //     controller: "SidebarController"
+                // },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "ThemePanelController"
+                }
+            }
+        })
+        // edit enquiry 
+        .state('app.editEnquiry', {
+            url: "/enquiry/edit/:enquiryId",
+            views: {
+                // "sidebar": {
+                //     templateUrl: "views/tpl/sidebar.html",
+                //     controller: "SidebarController"
+                // },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "ThemePanelController"
+                }
+            }
+        })
+
+        // estimate module
+        .state('app.estimate', {
+            url: "/estimate",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "ThemePanelController"
+                }
+            }
+        })
+
+         // estimate module
+        .state('app.createEstimate', {
+            url: "/estimate/create/:enquiryId",
+            data:{
+                isSidebActive:true
+            },
+            views: {
+                // "sidebar": {
+                //     templateUrl: "views/tpl/sidebar.html",
+                //     controller: "SidebarController"
+                // },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "ThemePanelController"
+                }
+            }
+        })
+
+         // estimate module
+        .state('app.editEstimate', {
+            url: "/estimate/edit/:estimateId",
+            views: {
+                // "sidebar": {
+                //     templateUrl: "views/tpl/sidebar.html",
+                //     controller: "SidebarController"
+                // },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "ThemePanelController"
+                }
+            }
+        })
+
+        // user module
+        .state('app.user', {
+            url: "/user",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "ThemePanelController"
+                }
+            }
+        })
+
+        // customer module
+        .state('app.customer', {
+            url: "/customer",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "ThemePanelController"
+                }
+            }
+        })
+
+        // master module    
+        .state('app.master', {
+            url: "/master",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "ThemePanelController"
+                }
+            }
+        })
+
+        // estimate
+        .state("estimate", {
+            url: "/estimate",
+            templateUrl: "views/estimate.html",
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            './themeassets/apps/css/todo-2.css',
+                            './themeassets/global/plugins/select2/css/select2.min.css',
+                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            './themeassets/global/plugins/select2/js/select2.full.min.js',
+                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            './themeassets/apps/scripts/todo-2.min.js',
+                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
+                            './themeassets/global/plugins/jstree/dist/jstree.js',
+                            './themeassets/pages/scripts/ui-tree.js',
+                            // 'controllers/TodoController.js'
+                        ]
+                    });
+                }]
+            }
+        })
 
         .state('enquiries', {
             url: "/enquiries",
             templateUrl: "views/enquiries.html",
             controller: "EnquiriesController",
-        })
-        .state('app', {
-            abstract:true,
-            url: "/app",
-            template:"<div ui-view></div>",
-            controller: 'rootCtrl'
-        })
-        .state('dashboard', {
-            url: "/dashboard",
-            templateUrl: "views/dashboard.html",
-            data: {
-                pageTitle: 'Admin Dashboard Template'
-            },
-            controller: "DashboardController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            './themeassets/global/plugins/morris/morris.css',                            
-                            './themeassets/global/plugins/morris/morris.min.js',
-                            './themeassets/global/plugins/morris/raphael-min.js',                            
-                            './themeassets/global/plugins/jquery.sparkline.min.js',
-                            './themeassets/pages/scripts/dashboard.min.js',
-                            // 'controllers/DashboardController.js',
-                        ] 
-                    });
-                }]
-            }
         })
 
         // Blank Page
@@ -449,35 +630,6 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                 }]
             }
         })
-//estimate
-       .state("estimate", {
-            url: "/estimate",
-            templateUrl: "views/estimate.html",
-          
-            controller: "GeneralPageController",
-             resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            './themeassets/apps/css/todo-2.css',
-                            './themeassets/global/plugins/select2/css/select2.min.css',
-                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
-                            './themeassets/global/plugins/select2/js/select2.full.min.js',
-                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            './themeassets/apps/scripts/todo-2.min.js',
-                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                            './themeassets/global/plugins/jstree/dist/jstree.js',
-                            './themeassets/pages/scripts/ui-tree.js',
-                            // 'controllers/TodoController.js'
-                        ]
-                    });
-                }]
-            }
-            
-        })
 
         // User Profile
         .state("profile", {
@@ -510,7 +662,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
 
         // User Profile Dashboard
         .state("profile.dashboard", {
-            url: "/dashboard",
+            url: "/profileDashboard",
             templateUrl: "views/profile/dashboard.html",
             data: {
                 pageTitle: 'User Profile'
@@ -563,6 +715,6 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         });
 
-    $urlRouterProvider.otherwise("/dashboard");
+    $urlRouterProvider.otherwise("/app");
     $locationProvider.html5Mode(isproduction);
 });

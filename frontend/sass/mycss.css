@@ -1,0 +1,5 @@
+@media (min-width: 992px) {
+  .hideSideBar{
+    margin-left: 0px !important;
+  }
+}
