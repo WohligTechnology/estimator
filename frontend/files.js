@@ -6,7 +6,7 @@ module.exports = [
   'bower_components/fancybox/dist/jquery.fancybox.js',
   'bower_components/smart-app-banner/smart-app-banner.js',
   "bower_components/moment/min/moment.min.js",
-  
+
   //Angular Libs   
   'bower_components/angular/angular.js',
   'bower_components/angular-sanitize/angular-sanitize.js',
@@ -23,7 +23,7 @@ module.exports = [
   "bower_components/angular-toastr/dist/angular-toastr.js",
   "bower_components/angular-toastr/dist/angular-toastr.tpls.js",
   "bower_components/angular-promise-buttons/dist/angular-promise-buttons.js",
-  
+
   // "frontend/themeassets/global/plugins/jquery.min.js",
   // "frontend/themeassets/global/plugins/bootstrap/js/bootstrap.min.js",
   "frontend/themeassets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js",
@@ -69,6 +69,12 @@ module.exports = [
   'frontend/js/controllers/TodoController.js',
   'frontend/js/controllers/UserProfileController.js',
   'frontend/js/controllers/UISelectController.js',
-  'frontend/js/controllers/Enquiries.js',
+  'frontend/js/controllers/enquiryCtrl.js',
   'frontend/js/controllers/estimate.js',
+  'frontend/js/controllers/estimate/createEstimateCtrl.js',
+  'frontend/js/controllers/estimate/estimateCtrl.js',
+  'frontend/js/controllers/user/userCtrl.js',
+  'frontend/js/controllers/user/createCtrl.js',
+  'frontend/js/controllers/user/editCtrl.js',
+  'frontend/js/controllers/user/viewCtrl.js',
 ];

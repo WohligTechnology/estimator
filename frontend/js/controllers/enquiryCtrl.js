@@ -1,4 +1,4 @@
-myApp.controller('EnquiriesController', function($rootScope, $scope, $http, $timeout,$uibModal) {
+myApp.controller('enquiryCtrl', function($rootScope, $scope, $http, $timeout,$uibModal) {
 
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components

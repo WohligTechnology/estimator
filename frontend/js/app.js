@@ -191,8 +191,8 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl: "views/dashboard.html",
-                    controller: "ThemePanelController"
+                    templateUrl: "views/enquiries.html",
+                    controller: "enquiryCtrl"
                 }
             }
         })
@@ -237,8 +237,8 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl: "views/dashboard.html",
-                    controller: "ThemePanelController"
+                    templateUrl: "views/estimate.html",
+                    controller: "enquiryCtrl"
                 }
             }
         })
@@ -255,9 +255,22 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                 //     controller: "SidebarController"
                 // },
                 "mainView": {
-                    templateUrl: "views/dashboard.html",
-                    controller: "ThemePanelController"
+                    templateUrl: "views/createEstimate.html",
+                    controller: "estimateCtrl"
                 }
+            }, resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
+                            './themeassets/global/plugins/jstree/dist/jstree.js',
+                            './themeassets/pages/scripts/ui-tree.js',
+                            // 'controllers/TodoController.js'
+                        ]
+                    });
+                }]
             }
         })
 
@@ -276,6 +289,21 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
 
+       //estimate assembly
+         .state('app.estimateassembly', {
+            url: "/estimateassembly",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/estimateAssembly.html",
+                    controller: "enquiryCtrl"
+                }
+            }
+        })
+
         // user module
         .state('app.user', {
             url: "/user",
@@ -285,12 +313,67 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl: "views/dashboard.html",
-                    controller: "ThemePanelController"
+                    templateUrl: "views/user.html",
+                    controller: "userCtrl"
                 }
             }
         })
 
+       //create user
+         .state('app.createUser', {
+            url: "/user/create",
+            data:{
+                isSidebarActive:'active'
+            },
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "createCtrl"
+                }
+            }
+        })
+
+      //edit user
+     .state('app.editUser', {
+            url: "/user/edit",
+            data:{
+                isSidebarActive:'active'
+            },
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "editCtrl"
+                }
+            }
+        })
+
+
+         //view user
+     .state('app.viewUser', {
+            url: "/user/view",
+            data:{
+                isSidebarActive:'active'
+            },
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "viewCtrl"
+                }
+            }
+        })
+        
         // customer module
         .state('app.customer', {
             url: "/customer",

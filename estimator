@@ -21,7 +21,6 @@
 @import url(../../frontend/themeassets/layouts/layout/css/layout.min.css);
 @import url(../../frontend/themeassets/layouts/layout/css/themes/darkblue.min.css);
 @import url(../../frontend/themeassets/layouts/layout/css/custom.min.css);
-@import url(../../frontend/css/mycss.css);
 @font-face {
   font-family: 'flexslider-icon';
   src: url("fonts/flexslider-icon.eot");
@@ -9295,10 +9294,6 @@ button.close {
 @media print {
   .hidden-print {
     display: none !important; } }
-
-@media (min-width: 992px) {
-  .hideSideBar {
-    margin-left: 0px !important; } }
 
 /* Bootstrap Variables Goes Here */
 /* Bootstrap Variables Goes Here */

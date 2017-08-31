@@ -1,242 +1,134 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="portlet light">
-            <div class="portlet-title tabbable-line tabs-left">
-                <!--<div class="caption caption-md">
-                    <i class="icon-globe theme-font hide"></i>
-                    <span class="caption-subject font-blue-madison bold uppercase">Profile Account</span>
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="caption">
+                            <i class="icon-settings font-red"></i>
+                            <span class="caption-subject font-red sbold uppercase">Enquiries</span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="btn-group pull-right">
+                            <button id="sample_editable_1_new" class="btn green"> <i class="fa fa-plus"></i> </button>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="btn-group pull-right">
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;"> Save as PDF </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Export to Excel </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Delete </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="actions">
+                    <div class="btn-group btn-group-devided" data-toggle="buttons">
+                        <label class="btn btn-transparent red btn-outline btn-circle btn-sm active">
+                                                    <input type="radio" name="options" class="toggle" id="option1">Actions</label>
+                        <label class="btn btn-transparent red btn-outline btn-circle btn-sm">
+                                                    <input type="radio" name="options" class="toggle" id="option2">Settings</label>
+                    </div>
                 </div>-->
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#" data-target="#tab_1_1" data-toggle="tab">Details</a>
-                    </li>
-                    <li>
-                        <a href="#" data-target="#tab_1_2" data-toggle="tab">Estimate</a>
-                    </li>
-                    <li>
-                        <a href="#" data-target="#tab_1_3" data-toggle="tab">BOQ</a>
-                    </li>
-                    <li>
-                        <a href="#" data-target="#tab_1_4" data-toggle="tab">Attachments</a>
-                    </li>
-                </ul>
             </div>
             <div class="portlet-body">
-                <div class="tab-content">
-                    <!-- PERSONAL INFO TAB -->
-                    <div class="tab-pane active" id="tab_1_1">
-                        <!--<div class="row">
-                            <div class="col-md-6">
-                                <div class="portlet light bordered">
-                                    <div class="portlet-title">
-                                        <div class="caption">
-                                            <i class="fa fa-cogs font-green-sharp"></i>
-                                            <span class="caption-subject font-green-sharp bold uppercase">Default Tree</span>
-                                        </div>
-                                        <div class="tools">
-                                            <a href="javascript:;" class="collapse"> </a>
-                                            <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                                            <a href="javascript:;" class="reload"> </a>
-                                            <a href="javascript:;" class="remove"> </a>
-                                        </div>
-                                    </div>
-                                    <div class="portlet-body">
-                                        <div id="tree_1" class="tree-demo">
-                                            <ul>
-                                                <li> Root node 1
-                                                    <ul>
-                                                        <li data-jstree='{ "selected" : true }'>
-                                                            <a href="javascript:;"> Initially selected </a>
-                                                        </li>
-                                                        <li data-jstree='{ "icon" : "fa fa-briefcase icon-state-success " }'> custom icon URL </li>
-                                                        <li data-jstree='{ "opened" : true }'> initially open
-                                                            <ul>
-                                                                <li data-jstree='{ "disabled" : true }'> Disabled Node </li>
-                                                                <li data-jstree='{ "type" : "file" }'> Another node </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li data-jstree='{ "icon" : "fa fa-warning icon-state-danger" }'> Custom icon class (bootstrap) </li>
-                                                    </ul>
-                                                </li>
-                                                <li data-jstree='{ "type" : "file" }'>
-                                                    <a href="http://www.jstree.com"> Clickanle link node </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">Show Records</button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
+                                    data-close-others="true">
+                                     <i class="fa fa-angle-down"></i></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a> 5</a>
+                                    </li>
+                                    <li>
+                                        <a> 10 </a>
+                                    </li>
+                                    <li>
+                                        <a> 15 </a>
+                                    </li>
+                                    <li class="divider"> </li>
+                                    <li>
+                                        <a> 50 </a>
+                                    </li>
+                                </ul>
                             </div>
-                        </div>-->
-                    </div>
-                    <!-- END PERSONAL INFO TAB -->
-                    <!-- Estimate TAB -->
-                    <div class="tab-pane" id="tab_1_2">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="portlet light bordered">
-                                    <div class="portlet-body">
-                                        <div id="tree_1" class="tree-demo">
-                                            <ul>
-                                                <li class="sub-assembly-icon"> Assembly
-                                                    <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                            <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                    <ul>
-                                                        <li class="sub-assembly-icon">
-                                                            Sub-Assembly 1
-                                                            <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                            <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                            <ul>
-                                                                <li class="sub-assembly-icon" data-jstree='{ "disabled" : false }'> Part 1
-                                                                     <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>
-                                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'> Part 2
-                                                                     <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>
-                                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'> Part 3 
-                                                                     <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li class="sub-assembly-icon" data-jstree='{ "icon" : "fa fa-briefcase icon-state-success " }'> Sub-Assembly 2
-                                                            <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                            <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                            <ul>
-                                                                <li class="sub-assembly-icon" data-jstree='{ "disabled" : flase }'> Part 1
-                                                                    <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>
-                                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'> Part 2 
-                                                                    <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>
-                                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'> Part 3 
-                                                                    <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li class="sub-assembly-icon" data-jstree='{ "selected" : false }'> Processing
-                                                            <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                        </li>
-                                                        <li class="sub-assembly-icon" data-jstree='{ "selected" : false }'> Address
-                                                            <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                        </li>
-                                                        <li class="sub-assembly-icon" data-jstree='{ "selected" : false }'> Extras
-                                                            <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'>
-                                                    Processing
-                                                    <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                </li>
-                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'>
-                                                    Address
-                                                    <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                </li>
-                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'>
-                                                    Extras
-                                                    <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div>
-                                    <form action="#">
-                                        <div class="form-group">
-                                            <label class="control-label">Current Password</label>
-                                            <input type="password" class="form-control" /> </div>
-                                        <div class="form-group">
-                                            <label class="control-label">New Password</label>
-                                            <input type="password" class="form-control" /> </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Re-type New Password</label>
-                                            <input type="password" class="form-control" /> </div>
-                                        <div class="margin-top-10">
-                                            <a href="#" class="btn green-haze"> Change Password </a>
-                                            <a href="#" class="btn default"> Cancel </a>
-                                        </div>
-                                    </form>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="inputs search pull-right">
+                                <div class="portlet-input input-small input-inline">
+                                    <div class="input-icon right">
+                                        <i class="icon-magnifier"></i>
+                                        <input type="text" class="form-control form-control-solid" placeholder="search...">                                        </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- END Estimate TAB -->
-                    <!-- CHANGE PASSWORD TAB -->
-                    <div class="tab-pane" id="tab_1_3">
-                        <form action="#">
-                            <div class="form-group">
-                                <label class="control-label">Current Password</label>
-                                <input type="password" class="form-control" /> </div>
-                            <div class="form-group">
-                                <label class="control-label">New Password</label>
-                                <input type="password" class="form-control" /> </div>
-                            <div class="form-group">
-                                <label class="control-label">Re-type New Password</label>
-                                <input type="password" class="form-control" /> </div>
-                            <div class="margin-top-10">
-                                <a href="#" class="btn green-haze"> Change Password </a>
-                                <a href="#" class="btn default"> Cancel </a>
-                            </div>
-                        </form>
+                </div>
+                <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
+                            <th> Id </th>
+                            <th> Name </th>
+                            <th> C_Name </th>
+                            <th> Notes </th>
+                            <th> Notes </th>
+                            <th> Notes </th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="table in tableData">
+                            <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                            <td>{{table.id}} </td>
+                            <td>{{table.name}} </td>
+                            <td>{{table.dname}} </td>
+                            <td class="center"> {{table.dname}} </td>
+                            <td>
+                                <a class="edit" href="javascript:;"> Edit </a>
+                            </td>
+                            <td>
+                                <a class="delete" href=":;"> Delete </a>
+                            </td>
+                            <td>
+                                <a class="" ng-click="edit();"> <span class="label label-sm label-info"><i class="fa fa-eye"></i></span></a>
+                               <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                 <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                <a class="" ui-sref="app.estimate"> <span class="label label-sm label-warning"> Estimate </span></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div>
                     </div>
-                    <!-- END CHANGE PASSWORD TAB -->
-                    <!-- PRIVACY SETTINGS TAB -->
-                    <div class="tab-pane" id="tab_1_4">
-                        <form action="#">
-                            <table class="table table-light table-hover">
-                                <tr>
-                                    <td> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus.. </td>
-                                    <td>
-                                        <label class="uniform-inline">
-                                            <input type="radio" name="optionsRadios1" value="option1" /> Yes </label>
-                                        <label class="uniform-inline">
-                                            <input type="radio" name="optionsRadios1" value="option2" checked/> No </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> Enim eiusmod high life accusamus terry richardson ad squid wolf moon </td>
-                                    <td>
-                                        <label class="uniform-inline">
-                                            <input type="checkbox" value="" /> Yes </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> Enim eiusmod high life accusamus terry richardson ad squid wolf moon </td>
-                                    <td>
-                                        <label class="uniform-inline">
-                                            <input type="checkbox" value="" /> Yes </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> Enim eiusmod high life accusamus terry richardson ad squid wolf moon </td>
-                                    <td>
-                                        <label class="uniform-inline">
-                                            <input type="checkbox" value="" /> Yes </label>
-                                    </td>
-                                </tr>
-                            </table>
-                            <!--end profile-settings-->
-                            <div class="margin-top-10">
-                                <a href="#" class="btn green-haze"> Save Changes </a>
-                                <a href="#" class="btn default"> Cancel </a>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- END PRIVACY SETTINGS TAB -->
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
+                    next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                        </div>
+                </div>
                 </div>
             </div>
         </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
     </div>
 </div>
-<script>
-    UITree.init(); // init todo page
-</script>
