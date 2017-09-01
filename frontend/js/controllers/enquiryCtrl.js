@@ -66,9 +66,6 @@ myApp.controller('enquiryCtrl', function($rootScope, $scope, $http, $timeout,$ui
 $("#checkAll").click(function () {
      $('input:checkbox').not(this).prop('checked', this.checked);
  });
- // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageContentWhite = true;
-    $rootScope.settings.layout.pageBodySolid = false;
-    $rootScope.settings.layout.pageSidebarClosed = false;
+ 
     
 });

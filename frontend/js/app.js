@@ -201,7 +201,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             },
             views: {
                 "mainView": {
-                    templateUrl: "views/dashboard.html",
+                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html", 
                     controller: "createOrEditEnquiryCtrl"
                 }
             }
@@ -210,7 +210,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             url: "/enquiry/edit/:enquiryId",
             views: {
                 "mainView": {
-                    templateUrl: "views/dashboard.html",
+                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html", 
                     controller: "createOrEditEnquiryCtrl"
                 }
             }
@@ -303,8 +303,8 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl: "views/dashboard.html",
-                    controller: "ThemePanelController"
+                    templateUrl: "views/content/customer/allCustomers.html",
+                    controller: "customerCtrl"
                 }
             }
         })
@@ -456,12 +456,73 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                 }]
             }
         })
+        //estimate assembly
+    .state('app.assembly', {
+            url: "/assembly",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl:  "views/content/insideestimate/assembly.html",
+                    controller: ""
+                }
+            }
+        })
+//subasembly
+ .state('app.subassembly', {
+            url: "/subassembly",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl:  "views/content/insideestimate/subassembly.html",
+                    controller: ""
+                }
+            }
+        })
+        //processing view
+        .state('app.processing', {
+            url: "/processing",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl:  "views/content/insideestimate/processing.html",
+                    controller: ""
+                }
+            }
+        })
+//part
 
+ .state('app.part', {
+            url: "/part",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl:  "views/content/insideestimate/part.html",
+                    controller: ""
+                }
+            }
+        })
         .state('enquiries', {
             url: "/enquiries",
             templateUrl: "views/enquiries.html",
             controller: "EnquiriesController",
         })
+        //  .state('subasembly', {
+        //     url: "/subasembly",
+        //     templateUrl: "views/content/insideestimate/subasembly.html",
+        //     controller: "",
+        // })
 
         // Blank Page
         .state('blank', {

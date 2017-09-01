@@ -7174,6 +7174,7 @@ tbody.collapse.in {
     overflow-y: auto; }
   @media (min-width: 768px) {
     .navbar-collapse {
+      width: auto;
       border-top: 0;
       box-shadow: none; }
       .navbar-collapse.collapse {
@@ -9416,6 +9417,12 @@ header {
   font-size: 10px !important;
   padding: 2px 3px !important;
   margin: 1px 2px; }
+
+.align-top {
+  vertical-align: top !important; }
+
+.align-right {
+  text-align: right; }
 
 #fancybox-loading,
 .fancybox-close,
