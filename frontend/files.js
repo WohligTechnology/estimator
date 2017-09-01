@@ -69,12 +69,30 @@ module.exports = [
   'frontend/js/controllers/TodoController.js',
   'frontend/js/controllers/UserProfileController.js',
   'frontend/js/controllers/UISelectController.js',
-  'frontend/js/controllers/enquiryCtrl.js',
-  'frontend/js/controllers/estimate.js',
-  'frontend/js/controllers/estimate/createEstimateCtrl.js',
+
+
+  'frontend/js/controllers/appCtrl.js',
+  'frontend/js/controllers/dashboardCtrl.js',
+
+  'frontend/js/controllers/customer/customerCtrl.js',
+
+  'frontend/js/controllers/enquiry/createOrEditEnquiryCtrl.js',
+  'frontend/js/controllers/enquiry/enquiryCtrl.js',
+  
+  'frontend/js/controllers/estimate/createOrEditEstimateCtrl.js',
+  'frontend/js/controllers/estimate/createOrEditEstimatePartCtrl.js',
   'frontend/js/controllers/estimate/estimateCtrl.js',
+  
+  'frontend/js/controllers/login/loginCtrl.js',
+  
+  'frontend/js/controllers/master/baseMatserCtrl.js',
+  'frontend/js/controllers/master/masterAddonCtrl.js',
+  'frontend/js/controllers/master/masterExtraCtrl.js',
+  'frontend/js/controllers/master/masterMaterialCtrl.js',
+  'frontend/js/controllers/master/masterPartCtrl.js',
+  'frontend/js/controllers/master/masterProcessCtrl.js',
+  'frontend/js/controllers/master/masterShapeCtrl.js',
+  
   'frontend/js/controllers/user/userCtrl.js',
-  'frontend/js/controllers/user/createCtrl.js',
-  'frontend/js/controllers/user/editCtrl.js',
-  'frontend/js/controllers/user/viewCtrl.js',
+
 ];
