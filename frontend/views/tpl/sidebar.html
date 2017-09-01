@@ -28,7 +28,7 @@
             <!-- END RESPONSIVE QUICK SEARCH FORM -->
         </li>
         <li class="start nav-item">
-            <a ui-sref="dashboard">
+            <a ui-sref="app.dashboard">
                 <i class="icon-home"></i>
                 <span class="title">Dashboard</span>
             </a>
@@ -46,18 +46,19 @@
                 <span class="title">Estimates</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a ui-sref="app.user" id="sidebar_menu_link_profile">
-                <i class="icon-user"></i>
-                <span class="title">Users</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="javascript:;" class="nav-link nav-toggle">
+         <li class="nav-item">
+            <a ui-sref="app.customer" class="nav-link nav-toggle">
                 <i class="icon-refresh"></i>
                 <span class="title">Customers</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a ui-sref="app.users" id="sidebar_menu_link_profile">
+                <i class="icon-user"></i>
+                <span class="title">Users</span>
+            </a>
+        </li>
+       
         <li class="nav-item">
             <a class="nav-link nav-toggle">
                 <i class="icon-settings"></i>
@@ -66,37 +67,37 @@
             </a>
             <ul class="sub-menu">
                 <li>
-                    <a ui-sref="uibootstrap">
+                    <a ui-sref="app.masterMaterial">
                         <i class="icon-puzzle"></i> Material Master </span>
                     </a>
                 </li>
                 <li>
-                    <a ui-sref="fileupload">
-                        <i class="icon-paper-clip"></i>Shape Master</span>
+                    <a ui-sref="app.masterShape">
+                        <i class="icon-paper-clip"></i> Shape Master</span>
                     </a>
                 </li>
                 <li>
-                    <a ui-sref="uiselect">
+                    <a ui-sref="app.masterPart">
                         <i class="icon-check"></i> Part Master</span>
                     </a>
                 </li>
                 <li>
-                    <a ui-sref="uiselect">
+                    <a ui-sref="app.masterProcess">
                         <i class="icon-check"></i> Process Master</span>
                     </a>
                 </li>
                 <li>
-                    <a ui-sref="uiselect">
+                    <a ui-sref="app.masterAddon">
                         <i class="icon-check"></i> Addon Master</span>
                     </a>
                 </li>
                 <li>
-                    <a ui-sref="uiselect">
+                    <a ui-sref="app.baseMatser">
                         <i class="icon-check"></i> BaseMaster Master</span>
                     </a>
                 </li>
                 <li>
-                    <a ui-sref="uiselect">
+                    <a ui-sref="app.masterExtra">
                         <i class="icon-check"></i> Extra Master</span>
                     </a>
                 </li>

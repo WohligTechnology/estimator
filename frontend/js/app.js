@@ -280,7 +280,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         })
 
         // ********************************** user module ********************************* //
-        .state('app.user', {
+        .state('app.users', {
             url: "/user",
             views: {
                 "sidebar": {
@@ -403,7 +403,20 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
 
-
+        // ******************************** settings module ******************************** // 
+        .state('app.settings', {
+            url: "/settings",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "",
+                    controller: ""
+                }
+            }
+        })
 
 
 
