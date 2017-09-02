@@ -1,13 +1,13 @@
 var schema = new Schema({
-    name: {
+    materialCatName: {
         type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
-    }
+        required: true
+    },
+    subCat: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MMaterialSubCat',
+        index:true
+    }],
 });
 
 schema.plugin(deepPopulate, {});

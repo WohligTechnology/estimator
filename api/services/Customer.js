@@ -1,12 +1,14 @@
 var schema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
+    customerName:{
+        type:String,
+        required:true
+    },
+    location:String,
+    paymentTerms:String,
+    margins: {
+        negotiation: Number,
+        commission: Number,
+        other: Number
     }
 });
 

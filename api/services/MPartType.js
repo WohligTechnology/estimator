@@ -1,13 +1,17 @@
 var schema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
-    }
+    partTypeName: {
+        Type: String
+    },
+    partTypeCode: {
+        Type: String
+    },
+    icon: {
+        Type: String
+    },
+    material: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MMaterial'
+    }],
 });
 
 schema.plugin(deepPopulate, {});

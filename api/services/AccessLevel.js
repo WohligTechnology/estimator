@@ -1,13 +1,15 @@
 var schema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
-    }
+    role_id:{
+        type:String,
+        required:true
+    },
+    accessLevel:[{
+        module:"String",
+        create: Boolean,
+        read: Boolean,
+        update: Boolean,
+        delete: Boolean
+    }]
 });
 
 schema.plugin(deepPopulate, {});

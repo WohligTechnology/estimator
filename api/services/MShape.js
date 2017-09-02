@@ -1,13 +1,24 @@
 var schema = new Schema({
-    name: {
+    shapeName: {},
+    type: {
         type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
-    }
+        enum: ["2d", "3d"],
+        default: "2d"
+    },
+    icon: {
+        Type:String
+    },
+    image: {
+        Type:String
+    },
+    variable:[{}],
+    partFormulae: {
+        perimeter: String,
+        sheetMetalArea: String,
+        surfaceArea: String,
+        weight: String,
+    },
+    namingConvenstion: {}
 });
 
 schema.plugin(deepPopulate, {});

@@ -1,12 +1,29 @@
 var schema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
+    addonTypeName: {
+        type:String,
+        required:true
+    },
+    materialCat:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MProcessCat'
+    },
+    materialSubCat:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MProcessCat'
+    },
+    rate: {
+        mulFact: String,
+        uom: String
+    },
+    quantity:{
+        supportingVariable: String,
+        linkedKey: String,
+        percentageUse: Number,
+        percentageExtra: String,
+        mulFact: String
+    },
+    remarks:{
+        type:String
     }
 });
 

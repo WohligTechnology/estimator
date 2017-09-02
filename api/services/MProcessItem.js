@@ -1,13 +1,14 @@
 var schema = new Schema({
-    name: {
-        type: String,
+    processItemName: {
+        type:String
+    },
+    processCat: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MProcessCat',
         required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
-    }
+        key:"processItems"
+    },
+    rate: Number
 });
 
 schema.plugin(deepPopulate, {});

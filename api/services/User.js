@@ -19,6 +19,10 @@ var schema = new Schema({
             }
         }
     },
+    mobile: {
+        type: String,
+        default: ""
+    },
     photo: {
         type: String,
         default: "",
@@ -41,10 +45,6 @@ var schema = new Schema({
         default: ""
     },
     forgotPassword: {
-        type: String,
-        default: ""
-    },
-    mobile: {
         type: String,
         default: ""
     },

@@ -1,12 +1,8 @@
 var schema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
+    extraName:String,
+    rate: {
+        name: String,
+        uom: String
     }
 });
 

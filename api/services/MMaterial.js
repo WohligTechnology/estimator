@@ -1,13 +1,47 @@
 var schema = new Schema({
-    name: {
+    materialName: {
         type: String,
+        required:true
+    },
+    materialSubCategory: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MMaterialSubCat',
         required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
-    }
+        key: "materials"
+    },
+    datasheet:{
+        type:String
+    },
+    density:{
+        type: Number
+    },
+    typicalRatePerKg:{
+        type: Number
+    },
+    rollingIndex:{
+        type: Number
+    },
+    bendingIndex:{
+        type: Number
+    },
+    fabrictionIndex:{
+        type: Number
+    },
+    cuttingIndex:{
+        type: Number
+    },
+    Type: {
+        type: String,
+        enum: ["standard", "custom"],
+        default: "standard"
+    },
+    estimateId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Estimate'
+    },
+    contingencyOrWastage:{
+        type:Number
+    },
 });
 
 schema.plugin(deepPopulate, {});

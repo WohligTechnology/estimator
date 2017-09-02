@@ -1,12 +1,43 @@
 var schema = new Schema({
-    name: {
+    presetName: {
         type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
+        required:true
+    },
+    shape: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MShape'
+    },
+    partType: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MPartType'
+    },
+    sizes: {
+        type: String
+    },
+    variable: [{
+        type: String
+    }],
+    proccessing: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MProcessType'
+    }],
+    addons: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MAddonType'
+    }],
+    extras: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MExtra'
+    }],
+    material: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MMaterial'
+    }],
+    partFormulae: {
+        perimeter: String,
+        sheetMetalArea: String,
+        surfaceArea: String,
+        weight: String
     }
 });
 

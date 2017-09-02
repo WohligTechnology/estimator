@@ -1,12 +1,35 @@
 var schema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
+    material: {
+        overhead: Number,
+        minProfit: Number,
+        negotiation: Number,
+        commission: Number,
+        other: Number,
+        totalValue: Number
+    },
+    process: {
+        overhead: Number,
+        minProfit: Number,
+        negotiation: Number,
+        commission: Number,
+        other: Number,
+        totalValue: Number
+    },
+    addon: {
+        overhead: Number,
+        minProfit: Number,
+        negotiation: Number,
+        commission: Number,
+        other: Number,
+        totalValue: Number
+    },
+    extras: {
+        overhead: Number,
+        minProfit: Number,
+        negotiation: Number,
+        commission: Number,
+        other: Number,
+        totalValue: Number
     }
 });
 

@@ -1,12 +1,24 @@
 var schema = new Schema({
-    name: {
-        type: String,
+    processTypeName: {
+        type:String, 
+        required:true
+    },
+    processCat: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MProcessCat',
         required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
+    },
+    rate: {
+        mulFact: String,
+        uom: String
+    },
+    quantity: {
+        linkedKeyValue: String,
+        uom: String,
+        mulfact: String,
+        finalUom: String,
+        utilization: Number,
+        contengncyOrWastage: Number
     }
 });
 
