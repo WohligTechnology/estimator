@@ -513,6 +513,36 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                 }
             }
         })
+        //addore
+ .state('app.addons', {
+            url: "/addons",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl:  "views/content/insideestimate/addons.html",
+                    controller: ""
+                }
+            }
+        })
+        //extras
+         .state('app.extras', {
+            url: "/extras",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl:  "views/content/insideestimate/extras.html",
+                    controller: ""
+                }
+            }
+        })
+
+
         .state('enquiries', {
             url: "/enquiries",
             templateUrl: "views/enquiries.html",

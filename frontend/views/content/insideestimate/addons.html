@@ -7,7 +7,7 @@
                     <div class="col-md-6">
                         <div class="caption">
                             <i class="icon-settings font-red"></i>
-                            <span class="caption-subject font-red sbold uppercase">Process Type</span>
+                            <span class="caption-subject font-red sbold uppercase">Addon</span>
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-           </div>
+            </div>
             <div class="portlet-body">
                 <div class="table-toolbar">
                     <div class="row">
@@ -71,65 +71,30 @@
                     </div>
                 </div>
                 <!-- BEGIN BORDERED TABLE PORTLET-->
-                <div class="portlet-body">
+              
+                    <div class="portlet-body">
                         <div class="">
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                         <th rowspan="2">
-                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
-                                        <th> Process type  </th>
-                                        <th rowspan="2" class="align-top"> ProcessCat</th>
-                                        <th colspan="2" class="text-center"> Rate </th>
-                                        <th colspan="4" class="text-center"> Quentity</th>
-                                      
+                                        <th rowspan="2" class="align-top"> Addon Type </th>
+                                        <th rowspan="2" class="align-top"> Material Type</th>
+                                        <th rowspan="2" class="align-top"> Rate </th>
+                                        <th colspan="5" class="text-center"> Quentity </th>
+                                        <th> Total Cost</th>
+                                        <th rowspan="2" class="align-top">Remark </th>
                                     </tr>
                                     <tr>
-                                  <th>Name</th>
-                                        <th>Weight</th>
-                                        <th>Material Cost</th>
-                                        <th>Key Value </th>
-                                        <th>Address Cost</th>
-                                        <th>Extra Cost</th>
-                                         <th>Total Cost</th>
-                                           
+                                        <th>Item</th>
+                                        <th>Linked Key Value</th>
+                                        <th>Utilization </th>
+                                        <th>Wastage Contingency</th>
+                                        <th>Total</th>
+                                        <th>Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                         <th>
-                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
-                                        <td> 1 </td>
-                                        <td>   
-                                          
-                                            <select id="single" class="form-control select2">
-                                                <option>Selected</option>
-                                               <optgroup>
-                                                    <option value="CT">Connecticut</option>
-                                                    <option value="DE">Delaware</option>
-                                                    <option value="FL">Florida</option>
-                                                    <option value="GA">Georgia</option>
-                                                    <option value="IN">Indiana</option>
-                                                    <option value="ME">Maine</option>
-                                                   
-                                                </optgroup>
-                                            </select>
-                                         </td>
-                                        <td>5 </td>
-                                        <td>24 </td>
-                                        <td>400 </td>
-                                        <td>500 </td>
-                                        <td> 600 </td>
-                                        <td> 900</td>
-                                     
-                                       
-                                    </tr>
-                                    <tr>
-                                         <th>
-                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
                                         <td> 1 </td>
                                         <td> Mark </td>
                                         <td>5 </td>
@@ -138,12 +103,10 @@
                                         <td>500 </td>
                                         <td> 600 </td>
                                         <td> 900</td>
-                                        
+                                        <td> 300</td>
+                                        <td> Approved</td>
                                     </tr>
                                     <tr>
-                                         <th>
-                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
                                         <td> 1 </td>
                                         <td> Mark </td>
                                         <td>5 </td>
@@ -152,14 +115,21 @@
                                         <td>500 </td>
                                         <td> 600 </td>
                                         <td> 900</td>
-                                       
+                                        <td> 300</td>
+                                        <td> Approved</td>
                                     </tr>
-                                    <!--<tr>
-                                        <td colspan="10"> </td>
-                                        <td>Total </td>
+                                    <tr>
+                                        <td> 1 </td>
+                                        <td> Mark </td>
                                         <td>5 </td>
                                         <td>24 </td>
-                                    </tr>-->
+                                        <td>400 </td>
+                                        <td>500 </td>
+                                        <td> 600 </td>
+                                        <td> 900</td>
+                                        <td> 300</td>
+                                        <td> Approved</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

@@ -1,0 +1,135 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="caption">
+                            <i class="icon-settings font-red"></i>
+                            <span class="caption-subject font-red sbold uppercase">Extras</span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="btn-group pull-right">
+                            <button id="sample_editable_1_new" class="btn green"> <i class="fa fa-plus"></i> </button>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="btn-group pull-right">
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;"> Save as PDF </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Export to Excel </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Delete </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">Show Records</button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
+                                    data-close-others="true">
+                                     <i class="fa fa-angle-down"></i></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a> 5</a>
+                                    </li>
+                                    <li>
+                                        <a> 10 </a>
+                                    </li>
+                                    <li>
+                                        <a> 15 </a>
+                                    </li>
+                                    <li class="divider"> </li>
+                                    <li>
+                                        <a> 50 </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="inputs search pull-right">
+                                <div class="portlet-input input-small input-inline">
+                                    <div class="input-icon right">
+                                        <i class="icon-magnifier"></i>
+                                        <input type="text" class="form-control form-control-solid" placeholder="search...">                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BEGIN BORDERED TABLE PORTLET-->
+                <div class="portlet-body">
+                    <div class="">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" class="align-top"> Item</th>
+                                    <th rowspan="2" class="align-top"> Rate</th>
+                                    <th colspan="2" class="text-center"> Quentity </th>
+                                    <th> Total Cost</th>
+                                    <th rowspan="2" class="align-top">Remark </th>
+                                </tr>
+                                <tr>
+                                    <th>Value</th>
+                                    <th>Volume</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> Mark </td>
+                                    <td>5 </td>
+                                    <td>24 </td>
+                                    <td>400 </td>
+                                    <td>500 </td>
+                                </tr>
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> Mark </td>
+                                    <td>5 </td>
+                                    <td>24 </td>
+                                    <td>400 </td>
+                                    <td>500 </td>
+                                </tr>
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> Mark </td>
+                                    <td>5 </td>
+                                    <td>24 </td>
+                                    <td>400 </td>
+                                    <td>500 </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END BORDERED TABLE PORTLET-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
+                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

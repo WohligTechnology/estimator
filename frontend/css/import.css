@@ -9169,7 +9169,7 @@ img.loading {
   height: auto; }
 
 img {
-  opacity: 0;
+  opacity: 1;
   transition: all 300ms ease; }
 
 img.doneLoading {
