@@ -73,18 +73,13 @@ module.exports = [
 
   'frontend/js/controllers/appCtrl.js',
   'frontend/js/controllers/dashboardCtrl.js',
-
   'frontend/js/controllers/customer/customerCtrl.js',
-
   'frontend/js/controllers/enquiry/createOrEditEnquiryCtrl.js',
   'frontend/js/controllers/enquiry/enquiryCtrl.js',
-  
   'frontend/js/controllers/estimate/createOrEditEstimateCtrl.js',
   'frontend/js/controllers/estimate/createOrEditEstimatePartCtrl.js',
   'frontend/js/controllers/estimate/estimateCtrl.js',
-  
   'frontend/js/controllers/login/loginCtrl.js',
-  
   'frontend/js/controllers/master/baseMatserCtrl.js',
   'frontend/js/controllers/master/masterAddonCtrl.js',
   'frontend/js/controllers/master/masterExtraCtrl.js',
@@ -92,7 +87,21 @@ module.exports = [
   'frontend/js/controllers/master/masterPartCtrl.js',
   'frontend/js/controllers/master/masterProcessCtrl.js',
   'frontend/js/controllers/master/masterShapeCtrl.js',
-  
   'frontend/js/controllers/user/userCtrl.js',
 
+  'frontend/js/services/customer/customerService.js',
+  'frontend/js/services/enquiry/createOrEditEnquiryService.js',
+  'frontend/js/services/enquiry/enquiryService.js',
+  'frontend/js/services/estimate/createOrEditEstimateService.js',
+  'frontend/js/services/estimate/createOrEditEstimatePartService.js',
+  'frontend/js/services/estimate/estimateService.js',
+  'frontend/js/services/login/loginService.js',
+  'frontend/js/services/master/baseMatserService.js',
+  'frontend/js/services/master/masterAddonService.js',
+  'frontend/js/services/master/masterExtraService.js',
+  'frontend/js/services/master/masterMaterialService.js',
+  'frontend/js/services/master/masterPartService.js',
+  'frontend/js/services/master/masterProcessService.js',
+  'frontend/js/services/master/masterShapeService.js',
+  'frontend/js/services/user/userService.js'
 ];
