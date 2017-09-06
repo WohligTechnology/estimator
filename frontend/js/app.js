@@ -350,7 +350,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             url: "/masterMaterial",
             views: {
                 "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
+                    // templateUrl: "views/tpl/sidebar.html",
                     controller: "SidebarController"
                 },
                 "mainView": {
