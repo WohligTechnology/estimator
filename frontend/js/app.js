@@ -126,7 +126,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
     // for http request with session
     $httpProvider.defaults.withCredentials = true;
     $stateProvider
-        
+
         .state('app', {
             abstract: true,
             url: "/app",
@@ -196,12 +196,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         })
         .state('app.createEnquiry', {
             url: "/enquiry/create",
-            data:{
-                isSidebarActive:'active'
-            },
             views: {
                 "mainView": {
-                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html", 
+                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
                     controller: "createOrEditEnquiryCtrl"
                 }
             }
@@ -210,7 +207,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             url: "/enquiry/edit/:enquiryId",
             views: {
                 "mainView": {
-                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html", 
+                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
                     controller: "createOrEditEnquiryCtrl"
                 }
             }
@@ -232,15 +229,13 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         })
         .state('app.createEstimate', {
             url: "/estimate/create/:enquiryId",
-            data:{
-                isSidebActive:true
-            },
             views: {
                 "mainView": {
                     templateUrl: "views/content/estimate/createOrEditEstimate.html",
                     controller: "createOrEditEstimateCtrl"
                 }
-            }, resolve: {
+            },
+            resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'myApp',
@@ -256,15 +251,16 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         })
         .state('app.editEstimate', {
             url: "/estimate/edit/:estimateId",
-            data:{
-                isSidebActive:true
+            data: {
+                isSidebActive: true
             },
             views: {
                 "mainView": {
                     templateUrl: "views/createOrEditEstimate.html",
                     controller: "createOrEditEstimateCtrl"
                 }
-            }, resolve: {
+            },
+            resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'myApp',
@@ -293,7 +289,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                 }
             }
         })
-        
+
         // ******************************** customer module ******************************* //
         .state('app.customer', {
             url: "/customer",
@@ -310,7 +306,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         })
 
         // ******************************** master module ******************************** // 
-        
+
         .state('app.baseMatser', {
             url: "/baseMatser",
             views: {
@@ -457,7 +453,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
         //estimate assembly
-    .state('app.assembly', {
+        .state('app.assembly', {
             url: "/assembly",
             views: {
                 "sidebar": {
@@ -465,13 +461,13 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl:  "views/content/insideestimate/assembly.html",
+                    templateUrl: "views/content/insideestimate/assembly.html",
                     controller: ""
                 }
             }
         })
-//subasembly
- .state('app.subassembly', {
+        //subasembly
+        .state('app.subassembly', {
             url: "/subassembly",
             views: {
                 "sidebar": {
@@ -479,7 +475,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl:  "views/content/insideestimate/subassembly.html",
+                    templateUrl: "views/content/insideestimate/subassembly.html",
                     controller: ""
                 }
             }
@@ -493,14 +489,14 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl:  "views/content/insideestimate/processing.html",
+                    templateUrl: "views/content/insideestimate/processing.html",
                     controller: ""
                 }
             }
         })
-//part
+        //part
 
- .state('app.part', {
+        .state('app.part', {
             url: "/part",
             views: {
                 "sidebar": {
@@ -508,13 +504,13 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl:  "views/content/insideestimate/part.html",
+                    templateUrl: "views/content/insideestimate/part.html",
                     controller: ""
                 }
             }
         })
         //addore
- .state('app.addons', {
+        .state('app.addons', {
             url: "/addons",
             views: {
                 "sidebar": {
@@ -522,13 +518,13 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl:  "views/content/insideestimate/addons.html",
+                    templateUrl: "views/content/insideestimate/addons.html",
                     controller: ""
                 }
             }
         })
         //extras
-         .state('app.extras', {
+        .state('app.extras', {
             url: "/extras",
             views: {
                 "sidebar": {
@@ -536,7 +532,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl:  "views/content/insideestimate/extras.html",
+                    templateUrl: "views/content/insideestimate/extras.html",
                     controller: ""
                 }
             }

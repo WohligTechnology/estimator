@@ -1,4 +1,5 @@
 myApp.controller('DashboardController', function($rootScope, $scope, $http, $timeout) {
+    $scope.$parent.isSidebarActive = true;
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components
         App.initAjax();

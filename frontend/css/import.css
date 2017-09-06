@@ -21,7 +21,8 @@
 @import url(../../frontend/themeassets/layouts/layout/css/layout.min.css);
 @import url(../../frontend/themeassets/layouts/layout/css/themes/darkblue.min.css);
 @import url(../../frontend/themeassets/layouts/layout/css/custom.min.css);
-@import url(../../frontend/css/mycss.css);
+@import url(../../frontend/scss/mycss.css);
+@import url(../../frontend/sass/myTreeCss.css);
 @font-face {
   font-family: 'flexslider-icon';
   src: url("fonts/flexslider-icon.eot");
@@ -7057,7 +7058,6 @@ tbody.collapse.in {
     overflow-y: auto; }
   @media (min-width: 768px) {
     .navbar-collapse {
-      width: auto;
       border-top: 0;
       box-shadow: none; }
       .navbar-collapse.collapse {

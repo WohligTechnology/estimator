@@ -3,15 +3,15 @@
 </div>
 <!-- END SIDEBAR -->
 <!-- BEGIN CONTENT -->
-<div class="page-content-wrapper"  ng-class="{hideSideBar: isSidebarActive == 'active'}">
-    <div class="page-content" ng-class="{hideSideBar: isSidebarActive == 'active'}">
+<div class="page-content-wrapper" ng-class="{hideSideBar: isSidebarActive == false}">
+    <div class="page-content" ng-class="{hideSideBar: isSidebarActive == false}">
         <!-- BEGIN STYLE CUSTOMIZER(optional) -->
         <div data-ng-include="'../frontend/views/tpl/theme-panel.html'" data-ng-controller="ThemePanelController" class="theme-panel hidden-xs hidden-sm">
         </div>
         <!-- END STYLE CUSTOMIZER -->
         <!-- BEGIN ACTUAL CONTENT -->
         <div ui-view="mainView" class="fade-in-up">
-             </div>
+        </div>
         <!-- END ACTUAL CONTENT -->
     </div>
 </div>

@@ -1,0 +1,289 @@
+body {
+  font-family: sans-serif;
+}
+
+label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: -3px !important;
+  font-weight: normal !important;
+}
+
+.tree {
+  font-size: 0.8em;
+}
+
+.mainLi::before {
+  margin-top: 2px !important;
+}
+
+.ol,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+#fontSizeWrapper {
+  font-size: 16px;
+}
+
+#fontSize {
+  width: 100px;
+  font-size: 1em;
+}
+
+
+/* ————————————————————–
+        Tree core styles
+      */
+
+.tree {
+  margin: 1em;
+}
+
+.tree input {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+}
+
+.tree input~ul {
+  display: none;
+}
+
+.tree input:checked~ul {
+  display: block;
+}
+
+
+/* ————————————————————–
+        Tree rows
+      */
+
+.tree li {
+  line-height: 0.8;
+  position: relative;
+  padding: 0 0 0.4em 1em;
+}
+
+.tree ul li {
+  padding: 0.8em 0 0 1em;
+  margin: 4px 0px;
+}
+
+.tree>li:last-child {
+  padding-bottom: 0;
+}
+
+
+/* ————————————————————–
+      Tree labels
+      */
+
+.tree_label {
+  position: relative;
+  display: inline-block;
+  background: #fff;
+}
+
+label.tree_label {
+  cursor: pointer;
+}
+
+label.tree_label:hover {
+  color: #666;
+}
+
+
+/* ————————————————————–
+      Tree expanded icon
+      */
+
+label.tree_label:before {
+  background: #fff;
+  color: #000;
+  position: relative;
+  border: 1px solid #000;
+  z-index: 1;
+  float: left;
+  margin: 0 1em 0 -2em;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 0em;
+  content: '+';
+  text-align: center;
+  line-height: 1em;
+  font-weight: normal;
+  font-family: initial;
+  font-family: monospace;
+}
+
+ :checked~label.tree_label:before {
+  content: '–';
+  line-height: 0.85em;
+  font-weight: bold;
+  font-family: inherit;
+}
+
+
+/* ————————————————————–
+        Tree branches
+      */
+
+.tree li:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -.43em;
+  display: block;
+  width: 0;
+  /* border-left: 1px solid #777; */
+  border-left: 1px dotted #312c2c;
+  content: "";
+  margin-top: -3px;
+}
+
+.tree_label:after {
+  position: absolute;
+  top: 0;
+  left: -1.14em;
+  display: block;
+  height: 0.55em;
+  width: 0.8em;
+  border-bottom: 1px dotted #000000;
+  /* border-left: 1px dotted #000000; */
+  border-radius: 0 0 0 0;
+  content: '';
+}
+
+span.tree_label :after {
+  position: absolute;
+  top: 0;
+  left: -1.5em;
+  display: block;
+  height: 0.55em;
+  width: 1.15em;
+  border-bottom: 1px dotted #000000;
+  /* border-left: 1px dotted #000000; */
+  border-radius: 0 0 0 0;
+  content: '';
+}
+
+label.tree_label:after {
+  border-bottom: 0;
+}
+
+ :checked~label.tree_label:after {
+  border-radius: 0 0 0 0;
+  border-top: 1px dotted #000000;
+  border-right: 1px dotted #000000;
+  border-bottom: 0;
+  border-left: 0;
+  bottom: 0;
+  top: 0.5em;
+  height: 58%;
+}
+
+.tree li:last-child:before {
+  height: 1.9em;
+  margin-top: -3%;
+}
+
+.tree>li:last-child:before {
+  display: none;
+}
+
+.tree_custom {
+  display: block;
+  background: #eee;
+  padding: 1em;
+  border-radius: 0.3em;
+}
+
+.assebmlyName {}
+
+.editAssembly {}
+
+.subssemblyName {
+  font-weight: bold;
+}
+
+.createSubAssembly {
+  right: 14%;
+  position: absolute;
+}
+
+.editSubAssembly {}
+
+.deleteSubAssembly {}
+
+.partName {}
+
+.createPart {
+  right: 0;
+  position: absolute;
+}
+
+.editPart {
+  right: 0;
+  position: absolute;
+}
+
+.deletePart {}
+
+.assemblyEditIcon {
+  right: 25.5%;
+  position: absolute;
+}
+
+.assemblyCreateIcon {
+  right: 32.5%;
+  position: absolute;
+}
+
+.subAssemblyCreateIcon {
+  right: 34.2%;
+  position: absolute;
+}
+
+.subAssemblyEditIcon {
+  right: 26.5%;
+  position: absolute;
+}
+
+.subAssemblyDeleteIcon {
+  right: 18.5%;
+  position: absolute;
+}
+
+.partEditIcon {
+  right: 27.8%;
+  position: absolute;
+}
+
+.partDeleteIcon {
+  right: 19.5%;
+  position: absolute;
+}
+
+.processingIcon{
+  right: 19.5%;
+  position: absolute;
+}
+.addonsIcon{
+  right: 19.5%;
+  position: absolute;
+}
+.extrasIcon{
+  right: 19.5%;
+  position: absolute;
+}

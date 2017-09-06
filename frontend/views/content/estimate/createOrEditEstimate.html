@@ -72,102 +72,85 @@
                     <!-- Estimate TAB -->
                     <div class="tab-pane" id="tab_1_2">
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="portlet light bordered">
-                                    <div class="portlet-body">
-                                        <div id="tree_1" class="tree-demo">
-                                            <ul>
-                                                <li class="sub-assembly-icon"> Assembly Name
-                                                    <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                    <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                    <ul>
-                                                        <li class="sub-assembly-icon" ng-repeat="subAss in subAssembly">
-                                                            {{subAss.name}}
-                                                            <!--Sub-Assembly 1-->
-                                                            <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                            <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                            <ul>
-                                                                <li class="sub-assembly-icon" data-jstree='{ "disabled" : false }' ng-repeat="subAssPart in subAss.part">
-                                                                    {{subAssPart.name}}
-                                                                    <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                                    <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>
-                                                                <!--<li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'> Part 2
-                                                                     <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>
-                                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'> Part 3 
-                                                                     <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>-->
-                                                            </ul>
-                                                        </li>
-                                                        <!--<li class="sub-assembly-icon" data-jstree='{ "icon" : "fa fa-briefcase icon-state-success " }'> Sub-Assembly 2
-                                                            <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                            <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                            <ul>
-                                                                <li class="sub-assembly-icon" data-jstree='{ "disabled" : flase }'> Part 1
-                                                                    <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>
-                                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'> Part 2 
-                                                                    <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>
-                                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'> Part 3 
-                                                                    <span class="label label-sm label-success"><i class="fa fa-pencil"></i></span>
-                                                            <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span>
-                                                                </li>
-                                                            </ul>
-                                                        </li>-->
-                                                        <li class="sub-assembly-icon" data-jstree='{ "selected" : false }'> Processing
-                                                            <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                        </li>
-                                                        <li class="sub-assembly-icon" data-jstree='{ "selected" : false }'> Address
-                                                            <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                        </li>
-                                                        <li class="sub-assembly-icon" data-jstree='{ "selected" : false }'> Extras
-                                                            <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'>
-                                                    Processing
-                                                    <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                </li>
-                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'>
-                                                    Address
-                                                    <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                </li>
-                                                <li class="sub-assembly-icon" data-jstree='{ "type" : "file" }'>
-                                                    Extras
-                                                    <span class="label label-sm label-info"><i class="fa fa-plus"></i></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-md-3">
+                                <ul class="tree">
+                                    <li class="mainLi">
+                                        <input type="checkbox" id="c5" />
+                                        <label class="tree_label" for="c5"></label>
+                                        <span ng-click="getAssemblyView()" class="assebmlyName">Assembly Name</span>
+                                        <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
+                                        <span ng-click="editAssembly()" class="assemblyEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                        <ul>
+                                            <li ng-repeat="sa in subAssembly">
+                                                <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                                                <input type="checkbox" id="{{sa.name+$index}}" />
+                                                <label for="{{sa.name+$index}}" class="tree_label"></label>
+                                                <span ng-click="getSubAssemblyView()" class="subssemblyName">{{sa.name}}</span>
+                                                <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
+                                                <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                                                <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
+                                                <ul class="">
+                                                    <li ng-repeat="p in sa.part">
+                                                        <input type="checkbox" id="{{p.name+$index}}" />
+                                                        <label for="{{p.name+$index}}" class="tree_label"></label>
+                                                        <span class="tree_label" class="partName">{{p.name}}</span>
+                                                        <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                                        <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                                        <ul>
+                                                            <li>
+                                                                <span ng-click="getSubAssemblyView()" class="tree_label">Part Detail</span>
+                                                             </li>
+                                                            <li>
+                                                                <span ng-click="getSubAssemblyView()" class="tree_label">Processing</span>
+                                                                <span ng-click="createEstimatePart()" class="processingIcon"><i class="fa fa-plus btn-info"></i></span>
+                                                            </li>
+                                                            <li>
+                                                                <span ng-click="getSubAssemblyView()" class="tree_label">Addons</span>
+                                                                <span ng-click="createEstimatePart()" class="addonsIcon"><i class="fa fa-plus btn-info"></i></span>
+                                                            </li>
+                                                            <li>
+                                                                <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
+                                                                <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <span ng-click="getSubAssemblyView()" class="tree_label">Processing</span>
+                                                        <span ng-click="createEstimatePart()" class="processingIcon"><i class="fa fa-plus btn-info"></i></span>
+                                                    </li>
+                                                    <li>
+                                                        <span ng-click="getSubAssemblyView()" class="tree_label">Addons</span>
+                                                        <span ng-click="createEstimatePart()" class="addonsIcon"><i class="fa fa-plus btn-info"></i></span>
+                                                    </li>
+                                                    <li>
+                                                        <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
+                                                        <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
+                                                   </li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <span ng-click="getSubAssemblyView()" class="tree_label">Processing</span>
+                                                <span ng-click="createEstimatePart()" class="processingIcon"><i class="fa fa-plus btn-info"></i></span>
+                                            </li>
+                                            <li>
+                                                <span ng-click="getSubAssemblyView()" class="tree_label">Addons</span>
+                                                <span ng-click="createEstimatePart()" class="addonsIcon"><i class="fa fa-plus btn-info"></i></span>
+                                            </li>
+                                            <li>
+                                                <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
+                                                <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
+                                          </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="cm" />
+                                        <label class="tree_label" for="cm"></label><span>Custom Material</span>
+                                    </li>
+                                </ul>
+
                             </div>
-                            <div class="col-md-8">
-                                <div>
-                                    <form action="#">
-                                        <div class="form-group">
-                                            <label class="control-label">Current Password</label>
-                                            <input type="password" class="form-control" /> </div>
-                                        <div class="form-group">
-                                            <label class="control-label">New Password</label>
-                                            <input type="password" class="form-control" /> </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Re-type New Password</label>
-                                            <input type="password" class="form-control" /> </div>
-                                        <div class="margin-top-10">
-                                            <a href="#" class="btn green-haze"> Change Password </a>
-                                            <a href="#" class="btn default"> Cancel </a>
-                                        </div>
-                                    </form>
-                                </div>
+                            <div class="col-md-9">
+                                <div ng-include="getEstimateView"></div>
                             </div>
                         </div>
                     </div>
@@ -236,7 +219,7 @@
                     <!-- END PRIVACY SETTINGS TAB -->
                 </div>
             </div>
-           <div class="portlet-body">
+            <div class="portlet-body">
                 <div class="table-scrollable">
                     <table class="table table-bordered ">
                         <tr>
@@ -246,7 +229,7 @@
                             <th>Extra Cost </th>
                             <th> Total Cost </th>
                             <th class="align-middle text-center"> Total Weight </th>
-                         </tr>
+                        </tr>
                         <tr>
                             <td> 1 </td>
                             <td> 200 </td>
@@ -275,5 +258,5 @@
         </div>
     </div>
     <script>
-    UITree.init(); // init todo page
-</script>
+        UITree.init(); // init todo page
+    </script>
