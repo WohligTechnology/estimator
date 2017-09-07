@@ -2,10 +2,10 @@ myApp.controller('masterProcessCtrl', function ($rootScope, $scope, $http, $time
     $scope.$parent.isSidebarActive = true;
    
     //modal start
-  $scope.createorEditUom = function () {
+  $scope.createOrEditUom = function () {
             $scope.loginModal = $uibModal.open({
                 animation: true,
-                templateUrl: 'views/modal/createorEditUom.html',
+                templateUrl: 'views/modal/createOrEditUom.html',
                 scope: $scope,
                 size: 'lg',
                 windowClass: "bael-modal"

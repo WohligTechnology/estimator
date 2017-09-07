@@ -321,7 +321,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
         .state('app.masterAddon', {
-            url: "/master/masterAddon",
+            url: "/master/addon",
             views: {
                 "sidebar": {
                     templateUrl: "views/tpl/sidebar.html",
@@ -334,7 +334,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
         .state('app.masterExtra', {
-            url: "/master/masterExtra",
+            url: "/master/extra",
             views: {
                 "sidebar": {
                     templateUrl: "views/tpl/sidebar.html",
@@ -347,7 +347,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
         .state('app.masterMaterial', {
-            url: "/master/masterMaterial",
+            url: "/master/material",
             views: {
                 "mainView": {
                     templateUrl: "views/content/master/masterMaterial.html",
@@ -356,12 +356,12 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
         .state('app.masterPart', {
-            url: "/master/masterPart",
+            url: "/master/part",
             views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
+                // "sidebar": {
+                //     templateUrl: "views/tpl/sidebar.html",
+                //     controller: "SidebarController"
+                // },
                 "mainView": {
                     templateUrl: "views/content/master/masterPart.html",
                     controller: "masterPartCtrl"
@@ -369,7 +369,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
         .state('app.masterProcess', {
-            url: "/master/masterProcess",
+            url: "/master/process",
             views: {
                 "sidebar": {
                     templateUrl: "views/tpl/sidebar.html",
@@ -382,12 +382,8 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
         .state('app.masterShape', {
-            url: "/master/masterShape",
+            url: "/master/shape",
             views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
                 "mainView": {
                     templateUrl: "views/content/master/masterShape.html",
                     controller: "masterShapeCtrl"
