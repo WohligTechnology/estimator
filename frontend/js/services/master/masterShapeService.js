@@ -1,3 +1,3 @@
-myApp.controller('masterShapeCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
+myApp.controller('masterShapeService', function ($rootScope, $scope, $http, $timeout, $uibModal) {
     $scope.$parent.isSidebarActive = true;
 });

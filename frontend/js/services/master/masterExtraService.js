@@ -1,3 +1,3 @@
-myApp.controller('masterExtraCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
+myApp.controller('masterExtraService', function ($rootScope, $scope, $http, $timeout, $uibModal) {
     $scope.$parent.isSidebarActive = true;
 });
