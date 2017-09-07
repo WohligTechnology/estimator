@@ -3,7 +3,7 @@ var schema = new Schema({
     enquiryId: {
         type: Schema.Types.ObjectId,
         ref: "Enquiry",
-        index: true,
+        index: true
     },
     assemblyName: {
         type: String,
@@ -32,16 +32,18 @@ var schema = new Schema({
     },
     estimateCreatedUser: {
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        index: true
     },
     estimateUpdatedUser: {
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        index: true
     },
     estimateDetails: {}, // not defined yet
     estimateBoq: {},
     estimateAttachment: [{
-        file:String
+        file: String
     }],
 
     subAssemblies: [{
@@ -93,194 +95,53 @@ var schema = new Schema({
             variable: [{}], // Structure not defined yet    
 
             proccessing: [{
-                processType: {
-                    type: Schema.Types.ObjectId,
-                    ref: "MProcessType",
-                    index: true,
-                },
-                processItem: {
-                    type: Schema.Types.ObjectId,
-                    ref: "MProcessItem",
-                    index: true,
-                },
-                rate: Number,
-                quantity: {
-                    keyValue: {
-                        keyVariable: String,
-                        keyValue: String
-                    },
-                    utilization: Number,
-                    contengncyOrWastage: Number,
-                    total: Number
-                },
-                totalCost: Number,
-                remarks: String
+                type: Schema.Types.ObjectId,
+                ref: "EstimateProcessing",
+                index: true
             }],
             addons: [{
-                addonType: {
-                    type: Schema.Types.ObjectId,
-                    ref: "MAddonType",
-                    index: true,
-                },
-                addonItem: {
-                    type: Schema.Types.ObjectId,
-                    ref: "MMaterial",
-                    index: true,
-                },
-                rate: Number,
-                quantity: {
-                    supportingVariable: {
-                        supportingVariable: String,
-                        value: Number
-                    },
-                    keyValue: {
-                        keyVariable: String,
-                        keyValue: String
-                    },
-                    utilization: Number,
-                    contengncyOrWastage: Number,
-                    total: Number
-                },
-                totalCost: Number,
-                remarks: String
+                type: Schema.Types.ObjectId,
+                ref: "EstimateAddons",
+                index: true
             }],
             extras: [{
-                extraItem: {
-                    type: Schema.Types.ObjectId,
-                    ref: "MExtra",
-                    index: true,
-                },
-                quantity: Number,
-                totalCost: Number,
-                remarks: String
-            }],
+                type: Schema.Types.ObjectId,
+                ref: "EstimateExtras",
+                index: true
+            }]
         }],
 
         proccessing: [{
-            processType: {
-                type: Schema.Types.ObjectId,
-                ref: "MProcessType",
-                index: true,
-            },
-            processItem: {
-                type: Schema.Types.ObjectId,
-                ref: "MProcessItem",
-                index: true,
-            },
-            rate: Number,
-            quantity: {
-                keyValue: {
-                    keyVariable: String,
-                    keyValue: String
-                },
-                utilization: Number,
-                contengncyOrWastage: Number,
-                total: Number
-            },
-            totalCost: Number,
-            remarks: String
+            type: Schema.Types.ObjectId,
+            ref: "EstimateProcessing",
+            index: true
         }],
         addons: [{
-            addonType: {
-                type: Schema.Types.ObjectId,
-                ref: "MAddonType",
-                index: true,
-            },
-            addonItem: {
-                type: Schema.Types.ObjectId,
-                ref: "MMaterial",
-                index: true,
-            },
-            rate: Number,
-            quantity: {
-                supportingVariable: {
-                    supportingVariable: String,
-                    value: Number
-                },
-                keyValue: {
-                    keyVariable: String,
-                    keyValue: String
-                },
-                utilization: Number,
-                contengncyOrWastage: Number,
-                total: Number
-            },
-            totalCost: Number,
-            remarks: String
+            type: Schema.Types.ObjectId,
+            ref: "EstimateAddons",
+            index: true
         }],
         extras: [{
-            extraItem: {
-                type: Schema.Types.ObjectId,
-                ref: "MExtra",
-                index: true,
-            },
-            quantity: Number,
-            totalCost: Number,
-            remarks: String
-        }],
+            type: Schema.Types.ObjectId,
+            ref: "EstimateExtras",
+            index: true
+        }]
     }],
 
     proccessing: [{
-        processType: {
-            type: Schema.Types.ObjectId,
-            ref: "MProcessType",
-            index: true,
-        },
-        processItem: {
-            type: Schema.Types.ObjectId,
-            ref: "MProcessItem",
-            index: true,
-        },
-        rate: Number,
-        quantity: {
-            keyValue: {
-                keyVariable: String,
-                keyValue: String
-            },
-            utilization: Number,
-            contengncyOrWastage: Number,
-            total: Number
-        },
-        totalCost: Number,
-        remarks: String
+        type: Schema.Types.ObjectId,
+        ref: "EstimateProcessing",
+        index: true
     }],
     addons: [{
-        addonType: {
-            type: Schema.Types.ObjectId,
-            ref: "MAddonType",
-            index: true,
-        },
-        addonItem: {
-            type: Schema.Types.ObjectId,
-            ref: "MMaterial",
-            index: true,
-        },
-        rate: Number,
-        quantity: {
-            supportingVariable: {
-                supportingVariable: String,
-                value: Number
-            },
-            keyValue: {
-                keyVariable: String,
-                keyValue: String
-            },
-            utilization: Number,
-            contengncyOrWastage: Number,
-            total: Number
-        },
-        totalCost: Number,
-        remarks: String
+        type: Schema.Types.ObjectId,
+        ref: "EstimateAddons",
+        index: true
     }],
     extras: [{
-        extraItem: {
-            type: Schema.Types.ObjectId,
-            ref: "MExtra",
-            index: true,
-        },
-        quantity: Number,
-        totalCost: Number,
-        remarks: String
+        type: Schema.Types.ObjectId,
+        ref: "EstimateExtras",
+        index: true
     }]
 
 });
