@@ -6,13 +6,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="caption">
-                            <i class="icon-settings font-red"></i>
-                            <span class="caption-subject font-red sbold uppercase">Process Type</span>
+                            <i class="icon-settings font-green"></i>
+                            <span class="caption-subject font-green sbold uppercase">Process Type</span>
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green"> <i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ng-click="createorEditUom();"> <i class="fa fa-plus"></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-           </div>
+            </div>
             <div class="portlet-body">
                 <div class="table-toolbar">
                     <div class="row">
@@ -41,21 +41,14 @@
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
                                     data-close-others="true">
-                                     <i class="fa fa-angle-down"></i></button>
+                                     <i class="fa fa-angle-down"></i>
+                                </button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a> 5</a>
-                                    </li>
-                                    <li>
-                                        <a> 10 </a>
-                                    </li>
-                                    <li>
-                                        <a> 15 </a>
-                                    </li>
+                                    <li> <a> 5</a></li>
+                                    <li> <a> 10 </a></li>
+                                    <li><a> 15 </a> </li>
                                     <li class="divider"> </li>
-                                    <li>
-                                        <a> 50 </a>
-                                    </li>
+                                    <li> <a> 50 </a> </li>
                                 </ul>
                             </div>
                         </div>
@@ -64,7 +57,8 @@
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
                                         <i class="icon-magnifier"></i>
-                                        <input type="text" class="form-control form-control-solid" placeholder="search...">                                        </div>
+                                        <input type="text" class="form-control form-control-solid" placeholder="search...">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -72,99 +66,81 @@
                 </div>
                 <!-- BEGIN BORDERED TABLE PORTLET-->
                 <div class="portlet-body">
-                        <div class="">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                         <th rowspan="2">
-                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
-                                        <th> Process type  </th>
-                                        <th rowspan="2" class="align-top"> ProcessCat</th>
-                                        <th colspan="2" class="text-center"> Rate </th>
-                                        <th colspan="4" class="text-center"> Quentity</th>
-                                      
-                                    </tr>
-                                    <tr>
-                                  <th>Name</th>
-                                        <th>Weight</th>
-                                        <th>Material Cost</th>
-                                        <th>Key Value </th>
-                                        <th>Address Cost</th>
-                                        <th>Extra Cost</th>
-                                         <th>Total Cost</th>
-                                           
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                         <th>
-                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
-                                        <td> 1 </td>
-                                        <td>   
-                                          
-                                            <select id="single" class="form-control select2">
-                                                <option>Selected</option>
-                                               <optgroup>
-                                                    <option value="CT">Connecticut</option>
-                                                    <option value="DE">Delaware</option>
-                                                    <option value="FL">Florida</option>
-                                                    <option value="GA">Georgia</option>
-                                                    <option value="IN">Indiana</option>
-                                                    <option value="ME">Maine</option>
-                                                   
-                                                </optgroup>
-                                            </select>
-                                         </td>
-                                        <td>5 </td>
-                                        <td>24 </td>
-                                        <td>400 </td>
-                                        <td>500 </td>
-                                        <td> 600 </td>
-                                        <td> 900</td>
-                                     
-                                       
-                                    </tr>
-                                    <tr>
-                                         <th>
-                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
-                                        <td> 1 </td>
-                                        <td> Mark </td>
-                                        <td>5 </td>
-                                        <td>24 </td>
-                                        <td>400 </td>
-                                        <td>500 </td>
-                                        <td> 600 </td>
-                                        <td> 900</td>
-                                        
-                                    </tr>
-                                    <tr>
-                                         <th>
-                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
-                                        <td> 1 </td>
-                                        <td> Mark </td>
-                                        <td>5 </td>
-                                        <td>24 </td>
-                                        <td>400 </td>
-                                        <td>500 </td>
-                                        <td> 600 </td>
-                                        <td> 900</td>
-                                       
-                                    </tr>
-                                    <!--<tr>
-                                        <td colspan="10"> </td>
-                                        <td>Total </td>
-                                        <td>5 </td>
-                                        <td>24 </td>
-                                    </tr>-->
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label>
+                                    </th>
+                                    <th> Process type </th>
+                                    <th rowspan="2" class="align-top"> ProcessCat</th>
+                                    <th colspan="2" class="text-center"> Rate </th>
+                                    <th colspan="4" class="text-center"> Quentity</th>
+                                </tr>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Weight</th>
+                                    <th>Material Cost</th>
+                                    <th>Key Value </th>
+                                    <th>Address Cost</th>
+                                    <th>Extra Cost</th>
+                                    <th>Total Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                          <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
+                                          <span></span>
+                                        </label>
+                                    </th>
+                                    <td> 1 </td>
+                                    <td>Mark</td>
+                                    <td>5 </td>
+                                    <td>24 </td>
+                                    <td>400 </td>
+                                    <td>500 </td>
+                                    <td> 600 </td>
+                                    <td> 900</td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span>
+                                        </label>
+                                    </th>
+                                    <td> 1 </td>
+                                    <td> Mark </td>
+                                    <td>5 </td>
+                                    <td>24 </td>
+                                    <td>400 </td>
+                                    <td>500 </td>
+                                    <td> 600 </td>
+                                    <td> 900</td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
+                                           <span></span>
+                                     </label>
+                                    </th>
+                                    <td> 1 </td>
+                                    <td> Mark </td>
+                                    <td>5 </td>
+                                    <td>24 </td>
+                                    <td>400 </td>
+                                    <td>500 </td>
+                                    <td> 600 </td>
+                                    <td> 900</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-              
+                </div>
                 <!-- END BORDERED TABLE PORTLET-->
                 <div class="row">
                     <div class="col-md-6">
