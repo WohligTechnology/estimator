@@ -81,7 +81,7 @@
                                         <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
                                         <span ng-click="editAssembly()" class="assemblyEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
                                         <ul>
-                                            <li ng-repeat="sa in estimteData">
+                                            <li ng-repeat="sa in estimteData.subAssemblies">
                                                 <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
                                                 <input type="checkbox" id="{{sa.name+$index}}" />
                                                 <label for="{{sa.name+$index}}" class="tree_label"></label>
@@ -91,55 +91,55 @@
                                                 <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
                                                 <ul class="">
                                                     <li ng-repeat="p in sa.part">
-                                                        <input type="checkbox" id="{{p.name+$index}}" />
-                                                        <label for="{{p.name+$index}}" class="tree_label"></label>
-                                                        <span ng-click="getEstimateView('estimatePart')" class="tree_label partName">{{p.name}}</span>
+                                                        <input type="checkbox" id="{{p.name+$index+$parent.$index}}" />
+                                                        <label for="{{p.name+$index+$parent.$index}}" class="tree_label"></label>
+                                                        <span ng-click="getEstimateView('estimatePartDetail')" class="tree_label partName">{{p.name}}</span>
                                                         <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
                                                         <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                                         <ul>
                                                             <li>
-                                                                <span ng-click="getEstimateView('estimatePartDetail')" class="tree_label">Part Detail</span>
-                                                             </li>
+                                                                <span ng-click="getEstimateView('estimatePartItemDetail')" class="tree_label">Part Detail</span>
+                                                            </li>
                                                             <li>
-                                                                <span ng-click="getEstimateView('estimateProcessing')" class="tree_label">Processing</span>
+                                                                <span ng-click="getEstimateView('estimateProcessing','part',p._id)" class="tree_label">Processing</span>
                                                                 <span ng-click="createEstimatePart()" class="processingIcon"><i class="fa fa-plus btn-info"></i></span>
                                                             </li>
                                                             <li>
-                                                                <span ng-click="getEstimateView('estimateAddons')" class="tree_label">Addons</span>
+                                                                <span ng-click="getEstimateView('estimateAddons','part',p._id)" class="tree_label">Addons</span>
                                                                 <span ng-click="createEstimatePart()" class="addonsIcon"><i class="fa fa-plus btn-info"></i></span>
                                                             </li>
                                                             <li>
-                                                                <span ng-click="getEstimateView('estimateExtras')" class="tree_label">Extras</span>
+                                                                <span ng-click="getEstimateView('estimateExtras','part',p._id)" class="tree_label">Extras</span>
                                                                 <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
                                                             </li>
                                                         </ul>
                                                     </li>
                                                     <li>
-                                                        <span ng-click="getEstimateView('estimateProcessing')" class="tree_label">Processing</span>
+                                                        <span ng-click="getEstimateView('estimateProcessing','subAssembly',sa._id)" class="tree_label">Processing</span>
                                                         <span ng-click="createEstimatePart()" class="processingIcon"><i class="fa fa-plus btn-info"></i></span>
                                                     </li>
                                                     <li>
-                                                        <span ng-click="getEstimateView('estimateAddons')" class="tree_label">Addons</span>
+                                                        <span ng-click="getEstimateView('estimateAddons','subAssembly',sa._id)" class="tree_label">Addons</span>
                                                         <span ng-click="createEstimatePart()" class="addonsIcon"><i class="fa fa-plus btn-info"></i></span>
                                                     </li>
                                                     <li>
-                                                        <span ng-click="getEstimateView('estimateExtras')" class="tree_label">Extras</span>
+                                                        <span ng-click="getEstimateView('estimateExtras','subAssembly',sa._id)" class="tree_label">Extras</span>
                                                         <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
-                                                   </li>
+                                                    </li>
                                                 </ul>
                                             </li>
                                             <li>
-                                                <span ng-click="getEstimateView('estimateProcessing')" class="tree_label">Processing</span>
+                                                <span ng-click="getEstimateView('estimateProcessing', 'assembly',estimteData._id)" class="tree_label">Processing</span>
                                                 <span ng-click="createEstimatePart()" class="processingIcon"><i class="fa fa-plus btn-info"></i></span>
                                             </li>
                                             <li>
-                                                <span ng-click="getEstimateView('estimateAddons')" class="tree_label">Addons</span>
+                                                <span ng-click="getEstimateView('estimateAddons', 'assembly',estimteData._id)" class="tree_label">Addons</span>
                                                 <span ng-click="createEstimatePart()" class="addonsIcon"><i class="fa fa-plus btn-info"></i></span>
                                             </li>
                                             <li>
-                                                <span ng-click="getEstimateView('estimateExtras')" class="tree_label">Extras</span>
+                                                <span ng-click="getEstimateView('estimateExtras', 'assembly',estimteData._id)" class="tree_label">Extras</span>
                                                 <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
-                                          </li>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li>
