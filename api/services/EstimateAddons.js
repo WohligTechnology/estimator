@@ -1,14 +1,14 @@
 var schema = new Schema({
-    estimateId: {
-        type: Schema.Types.ObjectId,
-        ref: "Estimate",
-        index: true
-    },
-    addonLevel: {
+    processingLevel: {
         type: String,
-        enum: ['assembly', 'subAssembly', 'part'],
-        default: 'assembly'
+        enum: ['estimate', 'subAssembly', 'part'],
+        default: 'estimate'
     },
+    processingLevelId: {
+        type: String,
+        required: true
+    },
+    
     addonType: {
         type: Schema.Types.ObjectId,
         ref: "MAddonType",

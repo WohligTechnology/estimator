@@ -47,85 +47,9 @@ var schema = new Schema({
     }],
 
     subAssemblies: [{
-        subAssemblyName: String,
-        subAssemblyNumber: { //  a1sX where a1 --> assembly name, sX --> X is auto increasing number
-            type: String
-        },
-        quantity: Number,
-        totalValue: Number,
-        keyValueCalculations: {
-            perimeter: Number,
-            sheetMetalArea: Number,
-            surfaceArea: Number,
-            weight: Number,
-            numbers: Number,
-            hours: Number
-        },
-
-        subAssemblyParts: [{
-            partName: String,
-            partNumber: { // a1s1pX where a1 --> assembly name, s1 --> subAssemblyName, X is auto increasing number
-                type: String
-            },
-            shortcut: String,
-            scaleFactor: Number, // it is %
-            finalCalculation: {
-                materialPrice: Number,
-                itemUnitPrice: Number,
-                totalCostForQuantity: Number
-            },
-            keyValueCalculations: {
-                perimeter: Number,
-                sheetMetalArea: Number,
-                surfaceArea: Number,
-                weight: Number
-            },
-            sectionCode: {
-                type: Schema.Types.ObjectId,
-                ref: "MPartPresets",
-                index: true,
-            },
-            material: {
-                type: Schema.Types.ObjectId,
-                ref: "MMaterial",
-                index: true,
-            },
-            size: String,
-            quantity: Number,
-            variable: [{}], // Structure not defined yet    
-
-            proccessing: [{
-                type: Schema.Types.ObjectId,
-                ref: "EstimateProcessing",
-                index: true
-            }],
-            addons: [{
-                type: Schema.Types.ObjectId,
-                ref: "EstimateAddons",
-                index: true
-            }],
-            extras: [{
-                type: Schema.Types.ObjectId,
-                ref: "EstimateExtras",
-                index: true
-            }]
-        }],
-
-        proccessing: [{
-            type: Schema.Types.ObjectId,
-            ref: "EstimateProcessing",
-            index: true
-        }],
-        addons: [{
-            type: Schema.Types.ObjectId,
-            ref: "EstimateAddons",
-            index: true
-        }],
-        extras: [{
-            type: Schema.Types.ObjectId,
-            ref: "EstimateExtras",
-            index: true
-        }]
+        type: Schema.Types.ObjectId,
+        ref: "EstimateSubAssembly",
+        index: true
     }],
 
     proccessing: [{
