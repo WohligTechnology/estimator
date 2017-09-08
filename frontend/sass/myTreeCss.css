@@ -287,3 +287,11 @@ label.tree_label:after {
   right: 19.5%;
   position: absolute;
 }
+.materialSubCreateIcon{
+  right: 36%;
+  position: absolute;
+}
+.materialSubEditIcon{
+   right: 29%;
+  position: absolute;
+}
