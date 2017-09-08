@@ -4,74 +4,36 @@
             <li class="mainLi">
                 <input type="checkbox" id="c5" />
                 <label class="tree_label" for="c5"></label>
-                <span ng-click="getAssemblyView()" class="assebmlyName">Assembly Name</span>
+                <span ng-click="getAssemblyView()" class="assebmlyName">Material Master</span>
                 <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                <span ng-click="editAssembly()" class="assemblyEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
                 <ul>
-                    <li ng-repeat="sa in subAssembly">
+                    <li ng-repeat="mc in materialCat">
                         <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
-                        <input type="checkbox" id="{{sa.name+$index}}" />
-                        <label for="{{sa.name+$index}}" class="tree_label"></label>
-                        <span ng-click="getSubAssemblyView()" class="subssemblyName">{{sa.name}}</span>
+                        <input type="checkbox" id="{{mc.name+$index}}" />
+                        <label for="{{mc.name+$index}}" class="tree_label"></label>
+                        <span ng-click="getSubAssemblyView()" class="subssemblyName">{{mc.name}}</span>
                         <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
                         <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
                         <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
                         <ul class="">
-                            <li ng-repeat="p in sa.part">
-                                <input type="checkbox" id="{{p.name+$index}}" />
-                                <label for="{{p.name+$index}}" class="tree_label"></label>
-                                <span class="tree_label" class="partName">{{p.name}}</span>
+                            <li ng-repeat="sc in mc.materialSub">
+                                <input type="checkbox" id="{{sc.name+$index+$parent.$index}}" />
+                                <label for="{{sc.name+$index+$parent.$index}}" class="tree_label"></label>
+                                <span class="tree_label" class="partName">{{sc.name}}</span>
+                                  <span ng-click="createEstimatePart()" class="materialSubCreateIcon"><i class="fa fa-plus btn-info"></i></span>
                                 <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
                                 <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                 <ul>
-                                    <li>
-                                        <span ng-click="getSubAssemblyView()" class="tree_label">Part Detail</span>
-                                    </li>
-                                    <li>
-                                        <span ng-click="getSubAssemblyView()" class="tree_label">Processing</span>
-                                        <span ng-click="createEstimatePart()" class="processingIcon"><i class="fa fa-plus btn-info"></i></span>
-                                    </li>
-                                    <li>
-                                        <span ng-click="getSubAssemblyView()" class="tree_label">Addons</span>
-                                        <span ng-click="createEstimatePart()" class="addonsIcon"><i class="fa fa-plus btn-info"></i></span>
-                                    </li>
-                                    <li>
-                                        <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
-                                        <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
+                                    <li ng-repeat="m in sc.material">
+                                        <span class="tree_label" class="partName">{{m.name}}</span>
+                                        <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                        <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                     </li>
                                 </ul>
                             </li>
-                            <li>
-                                <span ng-click="getSubAssemblyView()" class="tree_label">Processing</span>
-                                <span ng-click="createEstimatePart()" class="processingIcon"><i class="fa fa-plus btn-info"></i></span>
-                            </li>
-                            <li>
-                                <span ng-click="getSubAssemblyView()" class="tree_label">Addons</span>
-                                <span ng-click="createEstimatePart()" class="addonsIcon"><i class="fa fa-plus btn-info"></i></span>
-                            </li>
-                            <li>
-                                <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
-                                <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
-                            </li>
                         </ul>
                     </li>
-                    <li>
-                        <span ng-click="getSubAssemblyView()" class="tree_label">Processing</span>
-                        <span ng-click="createEstimatePart()" class="processingIcon"><i class="fa fa-plus btn-info"></i></span>
-                    </li>
-                    <li>
-                        <span ng-click="getSubAssemblyView()" class="tree_label">Addons</span>
-                        <span ng-click="createEstimatePart()" class="addonsIcon"><i class="fa fa-plus btn-info"></i></span>
-                    </li>
-                    <li>
-                        <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
-                        <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
-                    </li>
                 </ul>
-            </li>
-            <li>
-                <input type="checkbox" id="cm" />
-                <label class="tree_label" for="cm"></label><span>Custom Material</span>
             </li>
         </ul>
     </div>
@@ -88,7 +50,7 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green"> <i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ng-click="material();"> <i class="fa fa-plus"></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -167,10 +129,10 @@
                                     <td> Mark </td>
                                     <td>5 </td>
                                     <td>24 </td>
-                                    <td><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <td class="text-center"><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="1" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty" data-set="#sample_1 .checkboxes" ><span></span></label>
                                     </td>
-                                    <td><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <td class="text-center"><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="2" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty" data-set="#sample_1 .checkboxes" ><span></span></label>
                                     </td>
                                 </tr>
@@ -179,10 +141,10 @@
                                     <td> Mark </td>
                                     <td>5 </td>
                                     <td>24 </td>
-                                    <td><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <td class="text-center"><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="3" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty" data-set="#sample_1 .checkboxes" ><span></span></label>
                                     </td>
-                                    <td><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <td class="text-center"><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="4" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty" data-set="#sample_1 .checkboxes" ><span></span></label>
                                     </td>
                                 </tr>
@@ -191,10 +153,10 @@
                                     <td> Mark </td>
                                     <td>5 </td>
                                     <td>24 </td>
-                                    <td><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <td class="text-center"><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="5" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty" data-set="#sample_1 .checkboxes"  ><span></span></label>
                                     </td>
-                                    <td><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <td class="text-center"><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="6" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty" data-set="#sample_1 .checkboxes" ><span></span></label>
                                     </td>
                             </tbody>

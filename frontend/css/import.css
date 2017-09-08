@@ -21,7 +21,6 @@
 @import url(../../frontend/themeassets/layouts/layout/css/layout.min.css);
 @import url(../../frontend/themeassets/layouts/layout/css/themes/darkblue.min.css);
 @import url(../../frontend/themeassets/layouts/layout/css/custom.min.css);
-@import url(../../frontend/scss/mycss.css);
 @import url(../../frontend/sass/myTreeCss.css);
 @font-face {
   font-family: 'flexslider-icon';
@@ -7175,6 +7174,7 @@ tbody.collapse.in {
     overflow-y: auto; }
   @media (min-width: 768px) {
     .navbar-collapse {
+      width: auto;
       border-top: 0;
       box-shadow: none; }
       .navbar-collapse.collapse {
@@ -9434,6 +9434,45 @@ header {
   padding: 20px;
   margin: 0;
   border-top: 1px solid #e7ecf1; }
+
+@media (min-width: 992px) {
+  .hideSideBar {
+    margin-left: 0px !important; } }
+
+/**********************************css given by kishori************************/
+/***masters ***/
+/*base master css*/
+/*
+tree css*/
+.uomCreateIcon {
+  right: 23.5% !important;
+  position: absolute; }
+
+.uomEditIcon {
+  right: 15.5%;
+  position: absolute; }
+
+/*master base*/
+.mar-b .portlet {
+  margin-bottom: 0px !important; }
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px; }
+
+.modal-dialog {
+  display: inline-block;
+  vertical-align: middle; }
+
+.modal {
+  text-align: center;
+  padding: 0 !important; }
+
+.mar-bottom {
+  margin-bottom: 20px; }
 
 #fancybox-loading,
 .fancybox-close,
