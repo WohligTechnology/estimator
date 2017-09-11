@@ -41,12 +41,39 @@ myApp.controller('baseMatserCtrl', function ($rootScope, $scope, $http, $timeout
     };
     //end of modal
     //UOM tree
-    $scope.shapes = [{
-        "name": "Shapes 1",
+    $scope.uom = [{
+        "name": "UOM 1",
     }, {
-        "name": "Shapes 2",
+        "name": "UOM 2",
 
     }, {
-        "name": "Shapes 3",
+        "name": "UOM 3",
+    }];
+    //Variable tree
+    $scope.variables = [{
+        "name": "Variable 1",
+    }, {
+        "name": "Variable 2",
+
+    }, {
+        "name": "Variable 3",
+    }];
+    //Formulas tree
+    $scope.Formula = [{
+        "name": "Name 1",
+    }, {
+        "name": "Name 2",
+
+    }, {
+        "name": "Name 3",
+    }];
+    //Markups tree
+    $scope.Markup = [{
+        "name": "Markups Name",
+    }, {
+        "name": "Markups Name",
+
+    }, {
+        "name": "Markups Name",
     }];
 });
