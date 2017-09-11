@@ -1,10 +1,37 @@
 <div class="row">
-    <div class="col-md-3"></div>
+    <div class="col-md-3">
+        <ul class="tree">
+            <li class="mainLi">
+                <input type="checkbox" id="c5" />
+                <label class="tree_label" for="c5"></label>
+                <span ng-click="getAssemblyView()" class="assebmlyName">Part Master</span>
+                <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="partTypeCat();"></i></span>
+                <ul>
+                    <li ng-repeat="pm in partCat">
+                        <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                        <input type="checkbox" id="{{pm.name+$index}}" />
+                        <label for="{{pm.name+$index}}" class="tree_label"></label>
+                        <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pm.name}}</span>
+                        <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="partType();"></i></span>
+                        <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                        <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
+                        <ul class="">
+                            <li ng-repeat="pt in pm.partType">
+                                <span class="tree_label" class="partName">{{pt.name}}</span>
+                                <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
     <div class="col-md-9">
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Master Shape
+                    <i class="fa fa-gift"></i>Master Part
                 </div>
                 <div class="tools">
                 </div>
@@ -102,7 +129,7 @@
                         </div>
                         <hr>
                         <div class="form-group">
-                            <label class="col-md-3 control-label"><b>Formulas:</b></label>
+                            <label class="col-md-2 control-label"><b>Formulas:</b></label>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Perimeter (p)</label>
@@ -133,8 +160,8 @@
                     </div>
                     <div class="">
                         <div class="row">
-                            <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn btn-circle green pull-right">Save</button>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-circle green pull-right mar-rb">Save</button>
                             </div>
                         </div>
                     </div>
@@ -153,7 +180,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="btn-group pull-right">
-                                        <button id="sample_editable_1_new" class="btn green"> <i class="fa fa-plus"></i> </button>
+                                        <button id="sample_editable_1_new" class="btn green" ng-click="processing();"> <i class="fa fa-plus" ></i> </button>
                                     </div>
                                 </div>
                             </div>
@@ -450,17 +477,13 @@
                 </div>
                 <!--END OF DEAFULT EXTRAS TABLE -->
                 <div class="row">
-                    <div class="col-md-2">
-                       <div class="display-inline"> <button type="submit" class="btn btn-circle green">Save as New</button></div>
-                    </div>
-                    <div class="col-md-2">
-                       <div class="display-inline"> <button type="submit" class="btn btn-circle green">Update</button></div>
-                    </div>
-                    <div class="col-md-2">
-                       <div class="display-inline"> <button type="submit" class="btn btn-circle green">Add New</button></div>
-                    </div>
-                    <div class="col-md-2">
-                      <div class="display-inline">  <button type="submit" class="btn btn-circle green">Save</button></div>
+                    <div class=" col-md-12">
+                        <div class="mar-bottom text-center">
+                            <a class="btn green">Save as New</a>
+                            <a class="btn green">Update</a>
+                            <a class="btn green">Save</a>
+                            <a class="btn green">Add New</a>
+                        </div>
                     </div>
                 </div>
             </div>

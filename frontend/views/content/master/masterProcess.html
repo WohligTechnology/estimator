@@ -1,5 +1,33 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-3">
+        <ul class="tree">
+            <li class="mainLi">
+                <input type="checkbox" id="c5" />
+                <label class="tree_label" for="c5"></label>
+                <span ng-click="getAssemblyView()" class="assebmlyName">Process Categories</span>
+                <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="processingCat();"></i></span>
+                <ul>
+                    <li ng-repeat="pc in processCat">
+                        <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                        <input type="checkbox" id="{{pc.name+$index}}" />
+                        <label for="{{pc.name+$index}}" class="tree_label"></label>
+                        <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pc.name}}</span>
+                        <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="processingItem();"></i></span>
+                        <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ng-click="processingCat();"></i></span>
+                        <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
+                        <ul class="">
+                            <li ng-repeat="pi in pc.processItems">
+                                <span class="tree_label" class="partName">{{pi.name}}</span>
+                                <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning " ng-click="processingItem();"></i></span>
+                                <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-9">
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="portlet light portlet-fit bordered">
             <div class="portlet-title">

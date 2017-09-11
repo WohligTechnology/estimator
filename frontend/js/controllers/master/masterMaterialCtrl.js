@@ -9,8 +9,26 @@ myApp.controller('masterMaterialCtrl', function ($rootScope, $scope, $http, $tim
             size: 'md',
         });
     };
+    // category modal start
+    $scope.category = function () {
+        $scope.loginModal = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/modal/createOrEditMaterialCat.html',
+            scope: $scope,
+            size: 'md',
+        });
+    };
+    // subCategory modal start
+    $scope.subCategory = function () {
+        $scope.loginModal = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/modal/createOrEditmaterialSubCat.html',
+            scope: $scope,
+            size: 'md',
+        });
+    };
     //end of modal
-
+    //start of tree
     $scope.materialCat = [{
         "name": "materialCat 1",
         "materialSub": [{

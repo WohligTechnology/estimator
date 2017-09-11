@@ -10,7 +10,7 @@ myApp.controller('baseMatserCtrl', function ($rootScope, $scope, $http, $timeout
         });
     };
     //end of modal
-      //Variable modal start
+    //Variable modal start
     $scope.variable = function () {
         $scope.loginModal = $uibModal.open({
             animation: true,
@@ -30,7 +30,7 @@ myApp.controller('baseMatserCtrl', function ($rootScope, $scope, $http, $timeout
         });
     };
     //end of modal
-        //Markups modal start
+    //Markups modal start
     $scope.markups = function () {
         $scope.loginModal = $uibModal.open({
             animation: true,
@@ -40,4 +40,13 @@ myApp.controller('baseMatserCtrl', function ($rootScope, $scope, $http, $timeout
         });
     };
     //end of modal
+    //UOM tree
+    $scope.shapes = [{
+        "name": "Shapes 1",
+    }, {
+        "name": "Shapes 2",
+
+    }, {
+        "name": "Shapes 3",
+    }];
 });

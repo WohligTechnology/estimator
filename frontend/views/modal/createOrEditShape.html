@@ -1,25 +1,4 @@
-<div class="row">
-    <div class="col-md-3">
-        <ul class="tree">
-            <li class="mainLi">
-                <input type="checkbox" id="c5" />
-                <label class="tree_label" for="c5"></label>
-                <span ng-click="getAssemblyView()" class="assebmlyName">Shapes</span>
-                <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="shape();"></i></span>
-                <ul>
-                    <li ng-repeat="sh in shapes">
-                        <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
-                        <input type="checkbox" id="{{sh.name+$index}}" />
-                        <label for="{{pc.name+$index}}" class="tree_label"></label>
-                        <span ng-click="getSubAssemblyView()" class="subssemblyName">{{sh.name}}</span>
-                        <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ng-click="shape();"></i></span>
-                        <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-9">
+ <div class="col-md-12">
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
@@ -157,7 +136,7 @@
                     </div>
                     <div class="form-actions">
                         <div class="row">
-                            <div class="col-md-offset-3 col-md-9">
+                            <div class=" col-md-12">
                                 <button type="submit" class="btn btn-circle green">Save</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                             </div>
@@ -168,4 +147,3 @@
             </div>
         </div>
     </div>
-</div>

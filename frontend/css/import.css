@@ -9474,6 +9474,10 @@ tree css*/
 .mar-bottom {
   margin-bottom: 20px; }
 
+.mar-rb {
+  margin-bottom: 20px;
+  margin-right: 20px; }
+
 #fancybox-loading,
 .fancybox-close,
 .fancybox-next span,

@@ -5,29 +5,29 @@
                 <input type="checkbox" id="c5" />
                 <label class="tree_label" for="c5"></label>
                 <span ng-click="getAssemblyView()" class="assebmlyName">Material Master</span>
-                <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
+                <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="category();"></i></span>
                 <ul>
                     <li ng-repeat="mc in materialCat">
                         <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
                         <input type="checkbox" id="{{mc.name+$index}}" />
                         <label for="{{mc.name+$index}}" class="tree_label"></label>
                         <span ng-click="getSubAssemblyView()" class="subssemblyName">{{mc.name}}</span>
-                        <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                        <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                        <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="subCategory();"></i></span>
+                        <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ng-click="category();"></i></span>
                         <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
                         <ul class="">
                             <li ng-repeat="sc in mc.materialSub">
                                 <input type="checkbox" id="{{sc.name+$index+$parent.$index}}" />
                                 <label for="{{sc.name+$index+$parent.$index}}" class="tree_label"></label>
                                 <span class="tree_label" class="partName">{{sc.name}}</span>
-                                  <span ng-click="createEstimatePart()" class="materialSubCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                                <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                <span ng-click="createEstimatePart()" class="materialSubCreateIcon"><i class="fa fa-plus btn-info" ng-click="material();" ></i></span>
+                                <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning " ng-click="subCategory();"></i></span>
                                 <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                 <ul>
                                     <li ng-repeat="m in sc.material">
                                         <span class="tree_label" class="partName">{{m.name}}</span>
-                                        <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
-                                        <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                        <span ng-click="editEstimatePart()" class="materialEditIcon"><i class="fa fa-pencil btn-warning " ng-click="material();"></i></span>
+                                        <span ng-click="deleteEstimatePart()" class="materialDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                     </li>
                                 </ul>
                             </li>

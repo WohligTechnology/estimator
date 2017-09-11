@@ -288,10 +288,28 @@ label.tree_label:after {
   position: absolute;
 }
 .materialSubCreateIcon{
-  right: 36%;
+  right: 35.7%;
   position: absolute;
 }
 .materialSubEditIcon{
    right: 29%;
   position: absolute;
+}
+.materialEditIcon{
+  right:29%;
+  position: absolute;
+  
+}
+.materialDeleteIcon{
+  right:20%;
+  position: absolute;
+  
+}
+.baseMasterEditIcon{
+      right: 30.5%;
+    position: absolute;
+}
+.baseMasterDeleteIcon{
+   right: 30.5%;
+    position: absolute;
 }
