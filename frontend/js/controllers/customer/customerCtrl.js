@@ -1,4 +1,4 @@
-myApp.controller('customerCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
+myApp.controller('customerCtrl', function ($scope, $http, $uibModal) {
   $scope.$parent.isSidebarActive = true;
   $scope.$on('$viewContentLoaded', function () {
     // initialize core components
@@ -14,8 +14,7 @@ myApp.controller('customerCtrl', function ($rootScope, $scope, $http, $timeout, 
       "cid": "1",
       "pname": "kishori",
       "did": "1",
-      "bname": "kishori",
-
+      "bname": "kishori"
     },
     {
       "id": "1",
@@ -32,19 +31,52 @@ myApp.controller('customerCtrl', function ($rootScope, $scope, $http, $timeout, 
       "dname": "kishori",
       "cid": "1",
     }
-  ]
+  ];
 
-  //modal start
-  $scope.edit = function () {
-    $scope.editModal = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/modal/edit.html',
-      scope: $scope,
-      size: 'md',
+  $scope.tempvar = [{
+      "id": "1",
+      "name": "kishori",
+      "cname": "1",
+      "dname": "kishori",
+      "cid": "1",
+      "pname": "kishori",
+      "did": "1",
+      "bname": "kishori"
+    },
+    {
+      "id": "1",
+      "name": "kishori",
+      "cname": "1",
+      "dname": "kishori",
+      "cid": "1",
 
-
-    });
-  };
+    },
+    {
+      "id": "1",
+      "name": "kishori",
+      "cname": "1",
+      "dname": "kishori",
+      "cid": "1",
+    }];
+  //customer modal start
+   $scope.customer = function () {
+    $scope.customerModal = $uibModal.open({
+            animation: true,
+           templateUrl: 'views/content/customer/modal/createOrEditCustomer.html',
+            scope: $scope,
+            size: 'md',
+        });
+    };
+  //end of modal
+  //view modal start
+   $scope.view = function () {
+    $scope.customerModal = $uibModal.open({
+            animation: true,
+           templateUrl: 'views/content/customer/modal/viewCustomer.html',
+            scope: $scope,
+            size: 'lg',
+        });
+    };
   //end of modal
   //start of pagination 
   $scope.totalItems = 64;
@@ -64,9 +96,9 @@ myApp.controller('customerCtrl', function ($rootScope, $scope, $http, $timeout, 
 
   //end of pagination
   //start of checkbox
-  $("#checkAll").click(function () {
-    $('input:checkbox').not(this).prop('checked', this.checked);
-  });
+  // $("#checkAll").click(function () {
+  //   $('input:checkbox').not(this).prop('checked', this.checked);
+  // });
 
 
 });

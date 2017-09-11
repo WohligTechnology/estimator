@@ -5,6 +5,15 @@ myApp.controller('userCtrl', function ($rootScope, $scope, $http, $timeout, $uib
     // initialize core components
     App.initAjax();
   });
+  //modal
+   $scope.user = function () {
+        $scope.userModal = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/modal/user.html',
+            scope: $scope,
+            size: 'md',
+        });
+    };
 
   //table data
   $scope.tableData = [{
@@ -35,18 +44,7 @@ myApp.controller('userCtrl', function ($rootScope, $scope, $http, $timeout, $uib
     }
   ]
 
-  //modal start
-  $scope.edit = function () {
-    $scope.editModal = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/modal/edit.html',
-      scope: $scope,
-      size: 'md',
-
-
-    });
-  };
-  //end of modal
+  
   //start of pagination 
   $scope.totalItems = 64;
   $scope.currentPage = 4;

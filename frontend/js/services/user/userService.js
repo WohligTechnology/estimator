@@ -1,4 +1,4 @@
-myApp.controller('userCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
+myApp.service('userService', function ($rootScope, $scope, $http, $timeout, $uibModal) {
   $scope.$parent.isSidebarActive = true;
 
   $scope.$on('$viewContentLoaded', function () {
