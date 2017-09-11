@@ -27,13 +27,19 @@
                         </div>
                         <div class="portlet-body">
                             <ul class="tree">
-                                <li ng-repeat="sh in shapes">
-                                    <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
-                                    <input type="checkbox" id="{{sh.name+$index}}" />
-                                    <label for="{{pc.name+$index}}" class="tree_label"></label>
-                                    <span ng-click="getSubAssemblyView()" class="subssemblyName">{{sh.name}}</span>
-                                    <span ng-click="editSubAssembly()" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning" ng-click="createOrEditUom();"></i></span>
-                                    <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
+                                <li class="mainLi">
+                                    <input type="checkbox" id="c5" />
+                                    <label class="tree_label" for="c5"></label>
+                                    <span ng-click="getAssemblyView()" class="assebmlyName">UOM</span>
+                                    <!--<span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditUom();"></i></span>-->
+                                    <ul>
+                                        <li ng-repeat="uo in uom">
+                                            <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                                            <span class="tree_label" class="partName">{{uo.name}}</span>
+                                            <span ng-click="editEstimatePart()" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning "  ng-click="createOrEditUom();"></i></span>
+                                            <span ng-click="deleteEstimatePart()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </div>
@@ -57,42 +63,18 @@
                         <div class="portlet-body">
                             <ul class="tree">
                                 <li class="mainLi">
-                                    <input type="checkbox" id="4" />
-                                    <label class="tree_label" for="c5"></label>
-                                    <span ng-click="getAssemblyView()" class="assebmlyName">Assembly Name</span>
-                                    <span ng-click="createSubAssemblyModal()" class="uomCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                                    <span ng-click="editAssembly()" class="uomEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                    <input type="checkbox" id="c6" />
+                                    <label class="tree_label" for="c6"></label>
+                                    <span ng-click="getAssemblyView()" class="assebmlyName">Variable</span>
+                                    <!--<span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditUom();"></i></span>-->
                                     <ul>
-                                        <li ng-repeat="sa in subAssembly">
-                                            <input type="checkbox" id="{{sa.name+$index}}" />
-                                            <label for="{{sa.name+$index}}" class="tree_label"></label>
-                                            <span ng-click="getSubAssemblyView()" class="subssemblyName">{{sa.name}}</span>
-                                            <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                                            <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
-                                            <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
-                                            <ul class="">
-                                                <li ng-repeat="p in sa.part">
-                                                    <input type="checkbox" id="{{p.name+$index}}" />
-                                                    <label for="{{p.name+$index}}" class="tree_label"></label>
-                                                    <span class="tree_label" class="partName">{{p.name}}</span>
-                                                    <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
-                                                    <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
-                                                </li>
-                                                <li>
-                                                    <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
-                                                    <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
-                                            <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
+                                        <li ng-repeat="va in variables">
+                                            <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                                            <span class="tree_label" class="partName">{{va.name}}</span>
+                                            <span ng-click="editEstimatePart()" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning" ng-click="variable();"></i></span>
+                                            <span ng-click="deleteEstimatePart()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                         </li>
                                     </ul>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="cm" />
-                                    <label class="tree_label" for="cm"></label><span>Custom Material</span>
                                 </li>
                             </ul>
                         </div>
@@ -103,7 +85,7 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="icon-bubble font-green-sharp"></i>
-                                <span class="caption-subject font-green-sharp sbold">Formula</span>
+                                <span class="caption-subject font-green-sharp sbold">Formulas</span>
                             </div>
                             <div class="actions">
                                 <div class="btn-group">
@@ -114,44 +96,20 @@
                             </div>
                         </div>
                         <div class="portlet-body">
-                            <ul class="tree">
+                             <ul class="tree">
                                 <li class="mainLi">
-                                    <input type="checkbox" id="c5" />
-                                    <label class="tree_label" for="c5"></label>
-                                    <span ng-click="getAssemblyView()" class="assebmlyName">Assembly Name</span>
-                                    <span ng-click="createSubAssemblyModal()" class="uomCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                                    <span ng-click="editAssembly()" class="uomEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                    <input type="checkbox" id="c7" />
+                                    <label class="tree_label" for="c7"></label>
+                                    <span ng-click="getAssemblyView()" class="assebmlyName">Formulas</span>
+                                    <!--<span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditUom();"></i></span>-->
                                     <ul>
-                                        <li ng-repeat="sa in subAssembly">
-                                            <input type="checkbox" id="{{sa.name+$index}}" />
-                                            <label for="{{sa.name+$index}}" class="tree_label"></label>
-                                            <span ng-click="getSubAssemblyView()" class="subssemblyName">{{sa.name}}</span>
-                                            <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                                            <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
-                                            <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
-                                            <ul class="">
-                                                <li ng-repeat="p in sa.part">
-                                                    <input type="checkbox" id="{{p.name+$index}}" />
-                                                    <label for="{{p.name+$index}}" class="tree_label"></label>
-                                                    <span class="tree_label" class="partName">{{p.name}}</span>
-                                                    <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
-                                                    <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
-                                                </li>
-                                                <li>
-                                                    <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
-                                                    <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
-                                            <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
+                                        <li ng-repeat="fa in Formula">
+                                            <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                                            <span class="tree_label" class="partName">{{fa.name}}</span>
+                                            <span ng-click="editEstimatePart()" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"  ng-click="formulas();"></i></span>
+                                            <span ng-click="deleteEstimatePart()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                         </li>
                                     </ul>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="cm" />
-                                    <label class="tree_label" for="cm"></label><span>Custom Material</span>
                                 </li>
                             </ul>
                         </div>
@@ -173,44 +131,20 @@
                             </div>
                         </div>
                         <div class="portlet-body">
-                            <ul class="tree">
+                             <ul class="tree">
                                 <li class="mainLi">
-                                    <input type="checkbox" id="c5" />
-                                    <label class="tree_label" for="c5"></label>
-                                    <span ng-click="getAssemblyView()" class="assebmlyName">Assembly Name</span>
-                                    <span ng-click="createSubAssemblyModal()" class="uomCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                                    <span ng-click="editAssembly()" class="uomEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                    <input type="checkbox" id="c8" />
+                                    <label class="tree_label" for="c8"></label>
+                                    <span ng-click="getAssemblyView()" class="assebmlyName">Markups</span>
+                                    <!--<span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditUom();"></i></span>-->
                                     <ul>
-                                        <li ng-repeat="sa in subAssembly">
-                                            <input type="checkbox" id="{{sa.name+$index}}" />
-                                            <label for="{{sa.name+$index}}" class="tree_label"></label>
-                                            <span ng-click="getSubAssemblyView()" class="subssemblyName">{{sa.name}}</span>
-                                            <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                                            <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
-                                            <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
-                                            <ul class="">
-                                                <li ng-repeat="p in sa.part">
-                                                    <input type="checkbox" id="{{p.name+$index}}" />
-                                                    <label for="{{p.name+$index}}" class="tree_label"></label>
-                                                    <span class="tree_label" class="partName">{{p.name}}</span>
-                                                    <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
-                                                    <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
-                                                </li>
-                                                <li>
-                                                    <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
-                                                    <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <span ng-click="getSubAssemblyView()" class="tree_label">Extras</span>
-                                            <span ng-click="createEstimatePart()" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
+                                        <li ng-repeat="ma in Markup">
+                                            <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                                            <span class="tree_label" class="partName">{{ma.name}}</span>
+                                            <span ng-click="editEstimatePart()" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning" ng-click="markups();"></i></span>
+                                            <span ng-click="deleteEstimatePart()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                         </li>
                                     </ul>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="cm" />
-                                    <label class="tree_label" for="cm"></label><span>Custom Material</span>
                                 </li>
                             </ul>
                         </div>
