@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green"> <i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ng-click="user();"> <i class="fa fa-plus" ></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -32,14 +32,6 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="actions">
-                    <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <label class="btn btn-transparent red btn-outline btn-circle btn-sm active">
-                                                    <input type="radio" name="options" class="toggle" id="option1">Actions</label>
-                        <label class="btn btn-transparent red btn-outline btn-circle btn-sm">
-                                                    <input type="radio" name="options" class="toggle" id="option2">Settings</label>
-                    </div>
-                </div>-->
             </div>
             <div class="portlet-body">
                 <div class="table-toolbar">
@@ -109,8 +101,8 @@
                             </td>
                             <td>
                                 <a class="" ng-click="edit();"> <span class="label label-sm label-info"><i class="fa fa-eye"></i></span></a>
-                               <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                 <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
                                 <a class="" ui-sref="app.estimate"> <span class="label label-sm label-warning"> Estimate </span></a>
                             </td>
                         </tr>
@@ -122,10 +114,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="pull-right">
-                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
-                    next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
+                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                         </div>
-                </div>
+                    </div>
                 </div>
             </div>
         </div>

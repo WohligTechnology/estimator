@@ -1,4 +1,4 @@
-myApp.controller('customerCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
+myApp.service('customerService', function ($rootScope, $scope, $http, $timeout, $uibModal) {
   $scope.$parent.isSidebarActive = true;
   $scope.$on('$viewContentLoaded', function () {
     // initialize core components
