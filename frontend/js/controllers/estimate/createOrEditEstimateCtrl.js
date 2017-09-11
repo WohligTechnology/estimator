@@ -1,4 +1,4 @@
-myApp.controller('createOrEditEstimateCtrl', function ($scope, $http, createOrEditEstimateService) {
+myApp.controller('createOrEditEstimateCtrl', function ($scope,createOrEditEstimateService) {
 
 
     // *************************** default variables/tasks begin here ***************** //
@@ -10,23 +10,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $http, createOrEd
     // *************************** default functions begin here  ********************** //
     //- to get all views of createOrEdit estimate screen dynamically 
     $scope.getEstimateView = function (getViewName,getId,getLevelName) {
-        console.log('**** inside getViewName of createOrEditEstimateCtrl.js ****',getViewName);
-        console.log('**** inside getLevelName of createOrEditEstimateCtrl.js ****',getLevelName);
-        console.log('**** inside getLevelId of createOrEditEstimateCtrl.js ****',getLevelId);
         createOrEditEstimateService.estimateView(getViewName, function(data){
             $scope.estimateView = data;
         });
         createOrEditEstimateService.estimateViewData(getViewName,getId,getLevelName, function(data){
             $scope.estimateViewData = data;
         });
-        // $scope.allSubAssemblies = "";
-        // $scope.allParts = "";
-        // $scope.partData = "";
-        // $scope.partItemData = "";
-        // $scope.processingData = "";
-        // $scope.addonsData = "";
-        // $scope.extrasData = "";
-        // $scope.customMaterialData = "";
     }
     //- get data to generate tree structure dynamically i.e. get assembly stucture
     $scope.getEstimateData = function () {
@@ -146,7 +135,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $http, createOrEd
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
     $scope.init = function () {
-        $scope.getEstimateView('estimateAssembly');
+        // to get default view
+        $scope.getEstimateView('assembly');
+        //to get estimate tree structure data 
         $scope.getEstimateData();
     }
 
