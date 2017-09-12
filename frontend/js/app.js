@@ -315,7 +315,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl: "views/content/master/baseMatser.html",
+                    templateUrl: "views/content/master/base/baseMatser.html",
                     controller: "baseMatserCtrl"
                 }
             }
@@ -328,7 +328,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl: "views/content/master/masterAddon.html",
+                    templateUrl: "views/content/master/addon/masterAddon.html",
                     controller: "masterAddonCtrl"
                 }
             }
@@ -341,7 +341,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl: "views/content/master/masterExtra.html",
+                    templateUrl: "views/content/master/extra/masterExtra.html",
                     controller: "masterExtraCtrl"
                 }
             }
@@ -350,7 +350,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             url: "/master/material",
             views: {
                 "mainView": {
-                    templateUrl: "views/content/master/masterMaterial.html",
+                    templateUrl: "views/content/master/material/masterMaterial.html",
                     controller: "masterMaterialCtrl"
                 }
             }
@@ -372,7 +372,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             url: "/master/process",
             views: {
                 "mainView": {
-                    templateUrl: "views/content/master/masterProcess.html",
+                    templateUrl: "views/content/master/process/masterProcess.html",
                     controller: "masterProcessCtrl"
                 }
             }
@@ -381,7 +381,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             url: "/master/shape",
             views: {
                 "mainView": {
-                    templateUrl: "views/content/master/masterShape.html",
+                    templateUrl: "views/content/master/shape/masterShape.html",
                     controller: "masterShapeCtrl"
                 }
             }

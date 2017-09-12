@@ -36,16 +36,16 @@ myApp.controller('masterPartCtrl', function ($rootScope, $scope, $http, $timeout
         //start of part type modal
 
     $scope.partType = function () {
-            $scope.loginModal = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/modal/createPartType.html',
-                scope: $scope,
-                size: 'md',
+        $scope.loginModal = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/modal/createPartType.html',
+            scope: $scope,
+            size: 'md',
 
-            })
-        }
+        })
+    }
 
-        //start of processing type modal
+    //start of processing type modal
 
     $scope.processing = function () {
         $scope.loginModal = $uibModal.open({
@@ -56,4 +56,37 @@ myApp.controller('masterPartCtrl', function ($rootScope, $scope, $http, $timeout
 
         })
     }
+
+
+    //veriables 
+      $scope.checkBox = [
+     
+        {
+        "name": "a",
+    }, {
+        "name": "b",
+    }, {
+        "name": "c",
+    }, {
+        "name": "d"
+    }, {
+        "name": "e"
+    }, {
+        "name": "f"
+    }, {
+        "name": "g"
+    }, {
+        "name": "q1"
+    }, {
+        "name": "q2"
+    },
+        {
+        "name": "Thikness(t)"
+    }, {
+        "name": "Length(l)"
+    }, {
+        "name": "Wastage(w)"
+    },]
+
+      $scope.checkBox = _.chunk($scope.checkBox, 2);
 });

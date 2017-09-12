@@ -3,9 +3,9 @@ myApp.controller('masterProcessCtrl', function ($rootScope, $scope, $http, $time
 
     //modal start
     $scope.createOrEditProcessType = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.createOrEditModal = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createOrEditProcessType.html',
+            templateUrl: 'views/content/master/process/createOrEditProcessType.html',
             scope: $scope,
             size: 'md',
         });
@@ -14,9 +14,9 @@ myApp.controller('masterProcessCtrl', function ($rootScope, $scope, $http, $time
           //start of processing cat modal
 
     $scope.processingCat = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.createOrEditModal = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createOrEditProcessCat.html',
+            templateUrl: 'views/content/master/process/createOrEditProcessCat.html',
             scope: $scope,
             size: 'md',
 
@@ -25,9 +25,9 @@ myApp.controller('masterProcessCtrl', function ($rootScope, $scope, $http, $time
       //start of processing item modal
 
     $scope.processingItem = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.createOrEditModal = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createOrEditProcessItem.html',
+            templateUrl: 'views/content/master/process/createOrEditProcessItem.html',
             scope: $scope,
             size: 'md',
 

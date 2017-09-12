@@ -2,27 +2,27 @@ myApp.controller('masterMaterialCtrl', function ($rootScope, $scope, $http, $tim
     $scope.$parent.isSidebarActive = false;
     //modal start
     $scope.material = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.createOrEditModal = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createOrEditMaterial.html',
+            templateUrl: 'views/content/master/material/createOrEditMaterial.html',
             scope: $scope,
             size: 'md',
         });
     };
     // category modal start
     $scope.category = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.createOrEditModal = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createOrEditMaterialCat.html',
+            templateUrl: 'views/content/master/material/createOrEditMaterialCat.html',
             scope: $scope,
             size: 'md',
         });
     };
     // subCategory modal start
     $scope.subCategory = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.createOrEditModal = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createOrEditmaterialSubCat.html',
+            templateUrl: 'views/content/master/material/createOrEditmaterialSubCat.html',
             scope: $scope,
             size: 'md',
         });

@@ -2,9 +2,9 @@ myApp.controller('baseMatserCtrl', function ($rootScope, $scope, $http, $timeout
     $scope.$parent.isSidebarActive = true;
     // Uom modal start
     $scope.createOrEditUom = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.createOrEditModal = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createOrEditUom.html',
+            templateUrl: 'views/content/master/base/createOrEditUom.html',
             scope: $scope,
             size: 'md',
         });
@@ -12,9 +12,9 @@ myApp.controller('baseMatserCtrl', function ($rootScope, $scope, $http, $timeout
     //end of modal
     //Variable modal start
     $scope.variable = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.createOrEditModal = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createOrEditVariable.html',
+            templateUrl: 'views/content/master/base/createOrEditVariable.html',
             scope: $scope,
             size: 'md',
         });
@@ -22,9 +22,9 @@ myApp.controller('baseMatserCtrl', function ($rootScope, $scope, $http, $timeout
     //end of modal
     //Formulas modal start
     $scope.formulas = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.createOrEditModal = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createOrEditFormulas.html',
+            templateUrl: 'views/content/master/base/createOrEditDFact.html',
             scope: $scope,
             size: 'md',
         });
@@ -32,9 +32,9 @@ myApp.controller('baseMatserCtrl', function ($rootScope, $scope, $http, $timeout
     //end of modal
     //Markups modal start
     $scope.markups = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.createOrEditModal = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createOrEditMarkups.html',
+            templateUrl: 'views/content/master/base/createOrEditMarkups.html',
             scope: $scope,
             size: 'md',
         });

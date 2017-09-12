@@ -2,9 +2,9 @@ myApp.controller('masterAddonCtrl', function ($rootScope, $scope, $http, $timeou
     $scope.$parent.isSidebarActive = true;
      //modal start
     $scope.addon = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.createOrEditModal = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createOrEditAddonType.html',
+            templateUrl: 'views/content/master/addon/createOrEditAddonType.html',
             scope: $scope,
             size: 'lg',
         });

@@ -8,10 +8,7 @@
                 <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ></i></span>
                 <ul>
                     <li ng-repeat="sh in shapes">
-                        <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
-                        <input type="checkbox" id="{{sh.name+$index}}" />
-                        <label for="{{pc.name+$index}}" class="tree_label"></label>
-                        <span ng-click="getSubAssemblyView()" class="subssemblyName">{{sh.name}}</span>
+                        <span class="tree_label" class="partName">{{sh.name}}</span>
                         <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ng-click="shape();"></i></span>
                         <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
                     </li>
@@ -49,104 +46,70 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <div class="form-group form-md-line-input">
-                                    <label class="col-md-2 control-label" for="form_control_1">Inline Checkboxes</label>
-                                    <div class="col-md-10">
-                                        <div class="md-checkbox-inline">
-                                            <div class="md-checkbox" ng-repeat="opt in checkBox">
-                                                <input type="checkbox" id="checkbox33" class="md-check">
-                                                <label for="checkbox33">
+                                <div class="form-group">
+                                    <label><b>Variables:</b></label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="shapes-checkbox">
+                                        <div class="md-checkbox-inline" ng-repeat="opt in checkBox">
+                                            <div class="md-checkbox" ng-repeat="opt in opt">
+                                                <input type="checkbox" id="{{opt.name+$index}}" class="md-check">
+                                                <label for="{{opt.name+$index}}">
                                                   <span></span>
                                                   <span class="check"></span>
-                                                  <span class="box"></span> {{opt.name}} 
+                                                  <span class="box"></span>{{opt.name}} 
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Size Factor</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control " placeholder="">
+                                    </div>
+                                    <label class="col-md-3 control-label">Form Factor</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control " placeholder="">
+                                    </div>
+                                </div>
                             </div>
-                            <!--<div class="col-md-2">
-                                <div class="mt-checkbox-list">
-                                    <label class="mt-checkbox">g
-                                         <input type="checkbox" value="1" name="test" />
-                                          <span></span>
-                                      </label>
-                                    <label class="mt-checkbox">Q1
-                                 <input type="checkbox" value="1" name="test" />
-                                  <span></span>
-                                   </label>
-                                    <label class="mt-checkbox">Q2
-                               <input type="checkbox" value="1" name="test" />
-                                   <span></span>
-                                   </label>
-                                    <label class="mt-checkbox">Thikness(t)
-                               <input type="checkbox" value="1" name="test" />
-                                   <span></span>
-                                   </label>
-                                    <label class="mt-checkbox">Length(l)
-                               <input type="checkbox" value="1" name="test" />
-                                   <span></span>
-                                   </label>
-                                    <label class="mt-checkbox">Wastage(w)
-                               <input type="checkbox" value="1" name="test" />
-                                   <span></span>
-                                   </label>
-                                </div>
-                            </div>-->
-                            <!--<div class="col-md-5">
-                                <div class="form-group">
-                                    <label class="col-md-4">Size Factor:</label>
-                                    <div class="col-md-3">
-                                        <input type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4">Form Factor: </label>
-                                    <div class="col-md-3">
-                                        <input type="text">
-                                    </div>
-                                </div>
-                            </div>-->
                         </div>
                         <hr>
                         <div class="form-group">
-                            <label class="col-md-3 control-label"><b>Formulas:</b></label>
+                            <label class="col-md-2 control-label"><b>Formulas:</b></label>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Perimeter (p)</label>
-                            <div class="col-md-4">
+                            <label class="col-md-2 control-label">Perimeter (p)</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control " placeholder="">
+                            </div>
+                            <label class="col-md-2 control-label">Sheet Metal Area</label>
+                            <div class="col-md-3">
                                 <input type="text" class="form-control " placeholder="">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Metal Area</label>
-                            <div class="col-md-4">
+                            <label class="col-md-2 control-label">Surface Area</label>
+                            <div class="col-md-3">
                                 <input type="text" class="form-control " placeholder="">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Surface Area</label>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control " placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Weight</label>
-                            <div class="col-md-4">
+                            <label class="col-md-2 control-label">Weight</label>
+                            <div class="col-md-3">
                                 <input type="text" class="form-control " placeholder="">
                             </div>
                         </div>
                         <hr>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Naming Convention</label>
-                            <div class="col-md-4">
+                            <label class="col-md-2 control-label">Naming Convention</label>
+                            <div class="col-md-3">
                                 <input type="text" class="form-control " placeholder="">
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
-                            <div class="col-md-offset-3 col-md-9">
+                            <div class="col-md-13 text-center">
                                 <button type="submit" class="btn btn-circle green">Save</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                             </div>

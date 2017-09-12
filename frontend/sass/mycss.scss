@@ -35,6 +35,7 @@ tree css*/
     margin-bottom: 0px !important;
   }
 }
+
 //modal css
 .modal:before {
   content: '';
@@ -53,13 +54,23 @@ tree css*/
   text-align: center;
   padding: 0!important;
 }
-.mar-bottom{
+
+.mar-bottom {
   margin-bottom: 20px;
 }
-.mar-rb{
+
+.mar-rb {
   margin-bottom: 20px;
   margin-right: 20px;
 }
+
 // .glyphicon-chevron-right:before {
 //     content: "\e080";
 // }
+//master shape
+.shapes-checkbox {
+  margin-left: 30px;
+  .md-checkbox-inline .md-checkbox {
+    min-width: 30% !important;
+  }
+}

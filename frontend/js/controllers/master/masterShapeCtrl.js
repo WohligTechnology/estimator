@@ -10,7 +10,9 @@ myApp.controller('masterShapeCtrl', function ($rootScope, $scope, $http, $timeou
         "name": "Shapes 3",
     }];
 
-    $scope.checkBox = [{
+    $scope.checkBox = [
+     
+        {
         "name": "a",
     }, {
         "name": "b",
@@ -25,23 +27,20 @@ myApp.controller('masterShapeCtrl', function ($rootScope, $scope, $http, $timeou
     }, {
         "name": "g"
     }, {
-        "name": "Q1"
+        "name": "q1"
     }, {
-        "name": "Q2"
+        "name": "q2"
+    },
+        {
+        "name": "Thikness(t)"
     }, {
-        "name": "d"
+        "name": "Length(l)"
     }, {
-        "name": "d"
-    }, {
-        "name": "d"
-    }, {
-        "name": "d"
-    }]
+        "name": "Wastage(w)"
+    },]
 
 
-    // $scope.checkBox = _.chunk($scope.checkBox, 2);
-    // for (var i = 0; i < $scope.checkBox.length; i++) {
-    //     $scope.checkBox[i] = _.chunk($scope.checkBox[i], 1);
-    //     console.log($scope.checkBox);
-    // }
+    $scope.checkBox = _.chunk($scope.checkBox, 3);
+  
+  
 });
