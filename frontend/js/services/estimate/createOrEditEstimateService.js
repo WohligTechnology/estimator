@@ -42,10 +42,10 @@ myApp
         }
 
         this.estimateView = function (estimateView, callback) {
-            getEstimateView = "../frontend/views/content/estimate/estimateViews/"+estimateView+".html";
+            getEstimateView = "../frontend/views/content/estimate/estimateViews/" + estimateView + ".html";
             callback(getEstimateView);
         }
-        this.estimateViewData = function (estimateView, getId, getLevelName, callback) {
+        this.estimateViewData = function (estimateView, getLevelName, getId, callback) {
 
             if (estimateView == 'assembly') {
                 // get all subAssemblies from API

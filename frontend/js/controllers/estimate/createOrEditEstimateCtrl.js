@@ -13,7 +13,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope,createOrEditEstima
         createOrEditEstimateService.estimateView(getViewName, function(data){
             $scope.estimateView = data;
         });
-        createOrEditEstimateService.estimateViewData(getViewName,getId,getLevelName, function(data){
+        createOrEditEstimateService.estimateViewData(getViewName,getLevelName,getId, function(data){
             $scope.estimateViewData = data;
         });
     }
