@@ -74,3 +74,32 @@ tree css*/
     min-width: 30% !important;
   }
 }
+//master part
+.mar-l{
+  margin-left: 30px;
+}
+.bor-r{
+  border-right: 1px solid gray;
+  min-height: 500px;
+}
+.bor-t{
+   border-top: 1px solid gray;
+ 
+}
+//estimate assembly
+.scroll-x{
+  overflow-x: scroll !important;
+}
+.pagination {
+  margin: 0 0;
+}
+//estimate part
+.form-horizontal .form-group.form-md-line-input>label {
+    padding-top: 0px !important; 
+}
+.part-detail-form{
+  .form-horizontal .form-group.form-md-line-input {
+    padding-top: 0px !important;
+    margin: 0 -16px 17px !important;
+}
+}
