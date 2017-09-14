@@ -9252,9 +9252,6 @@ header {
 .search .input-small {
   width: 200px !important; }
 
-.showing-records {
-  margin: 20px 0px; }
-
 .tabs-left .nav-tabs {
   float: left !important; }
 
@@ -9354,6 +9351,29 @@ tree css*/
   margin-left: 30px; }
   .shapes-checkbox .md-checkbox-inline .md-checkbox {
     min-width: 30% !important; }
+
+.mar-l {
+  margin-left: 30px; }
+
+.bor-r {
+  border-right: 1px solid gray;
+  min-height: 500px; }
+
+.bor-t {
+  border-top: 1px solid gray; }
+
+.scroll-x {
+  overflow-x: scroll !important; }
+
+.pagination {
+  margin: 0 0; }
+
+.form-horizontal .form-group.form-md-line-input > label {
+  padding-top: 0px !important; }
+
+.part-detail-form .form-horizontal .form-group.form-md-line-input {
+  padding-top: 0px !important;
+  margin: 0 -16px 17px !important; }
 
 #fancybox-loading,
 .fancybox-close,

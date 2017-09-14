@@ -1,11 +1,7 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 ">
         <div class="portlet light">
             <div class="portlet-title tabbable-line tabs-left">
-                <!--<div class="caption caption-md">
-                    <i class="icon-globe theme-font hide"></i>
-                    <span class="caption-subject font-blue-madison bold uppercase">Profile Account</span>
-                </div>-->
                 <ul class="nav nav-tabs">
                     <li class="active">
                         <a href="#" data-target="#tab_1_1" data-toggle="tab">Details</a>
@@ -23,7 +19,7 @@
             </div>
             <div class="portlet-body">
                 <div class="tab-content">
-                    <!-- PERSONAL INFO TAB -->
+                    <!-- DETAILS TAB -->
                     <div class="tab-pane active" id="tab_1_1">
                         <!--<div class="row">
                             <div class="col-md-6">
@@ -68,7 +64,7 @@
                             </div>
                         </div>-->
                     </div>
-                    <!-- END PERSONAL INFO TAB -->
+                    <!-- END DETAIL TAB -->
                     <!-- Estimate TAB -->
                     <div class="tab-pane" id="tab_1_2">
                         <div class="row">
@@ -221,21 +217,23 @@
             <div class="portlet-body">
                 <div class="table-scrollable">
                     <table class="table table-bordered ">
-                        <tr>
+                        <tr>   
+                            <th class="align-middle text-center"> Total Weight </th>
                             <th> Material Cost</th>
                             <th> Process Cost </th>
                             <th> Addon Cost </th>
                             <th>Extra Cost </th>
                             <th> Total Cost </th>
-                            <th class="align-middle text-center"> Total Weight </th>
+                         
                         </tr>
                         <tr>
+                             <td rowspan="3" class="align-middle text-center">1000</td>
                             <td> 1 </td>
                             <td> 200 </td>
                             <td> 300 </td>
                             <td> 500 </td>
                             <td>300 </td>
-                            <td rowspan="3" class="align-middle text-center">1000</td>
+                           
                         </tr>
                         <tr>
                             <th> Material Cost</th>
@@ -256,6 +254,4 @@
             </div>
         </div>
     </div>
-    <script>
-        UITree.init(); // init todo page
-    </script>
+   
