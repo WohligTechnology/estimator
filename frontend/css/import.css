@@ -7057,7 +7057,6 @@ tbody.collapse.in {
     overflow-y: auto; }
   @media (min-width: 768px) {
     .navbar-collapse {
-      width: auto;
       border-top: 0;
       box-shadow: none; }
       .navbar-collapse.collapse {
@@ -9297,6 +9296,33 @@ tree css*/
 .uomEditIcon {
   right: 15.5%;
   position: absolute; }
+
+.tree_animation {
+  -webkit-animation: fadein 1s;
+  /* Safari, Chrome and Opera > 12.1 */
+  /* Firefox < 16 */
+  /* Internet Explorer */
+  /* Opera < 12.1 */
+  animation: fadein 1s; }
+
+@keyframes fadein {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+/* Firefox < 16 */
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+/* Internet Explorer */
+
+/* Opera < 12.1 */
 
 /*master base*/
 .mar-b .portlet {
