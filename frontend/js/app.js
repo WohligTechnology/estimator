@@ -62,7 +62,6 @@ myApp.factory('settings', ['$rootScope', function ($rootScope) {
 
 /* Setup App Main Controller */
 myApp.controller('AppController', ['$scope', '$rootScope', function ($scope, $rootScope) {
-    // $scope.isSidebActive = "active";
     $scope.$on('$viewContentLoaded', function () {
         App.initComponents(); // init core components
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 

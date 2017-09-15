@@ -29,6 +29,7 @@ var Layout = function () {
                 available_height = sidebar_height + $('.page-footer').outerHeight();
             }
             if (content.height() < available_height) {
+                available_height = available_height + 32;
                 content.css('min-height', available_height);
             }
         } else {
@@ -51,6 +52,9 @@ var Layout = function () {
                     height = App.getViewPort().height - headerHeight - footerHeight;
                 }
             }
+            
+            height = height + 32;
+            console.log("height", height);
             content.css('min-height', height);
         }
     };
