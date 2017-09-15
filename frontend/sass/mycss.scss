@@ -74,32 +74,56 @@ tree css*/
     min-width: 30% !important;
   }
 }
+
 //master part
-.mar-l{
+.mar-l {
   margin-left: 30px;
 }
-.bor-r{
+
+.bor-r {
   border-right: 1px solid gray;
   min-height: 500px;
 }
-.bor-t{
-   border-top: 1px solid gray;
- 
+
+.bor-t {
+  border-top: 1px solid gray;
 }
+
 //estimate assembly
-.scroll-x{
+.scroll-x {
   overflow-x: scroll !important;
 }
+
 .pagination {
   margin: 0 0;
 }
+
 //estimate part
 .form-horizontal .form-group.form-md-line-input>label {
-    padding-top: 0px !important; 
+  padding-top: 0px !important;
 }
-.part-detail-form{
+
+.part-detail-form {
   .form-horizontal .form-group.form-md-line-input {
     padding-top: 0px !important;
     margin: 0 -16px 17px !important;
+  }
+}
+
+.img-border {
+  border: 1px solid rgba(128, 128, 128, 0.23);
+}
+
+.mar-t {
+  margin-top: 30px;
+}
+
+.part-details {
+  border-right: 1px solid #e7ecf1!important;
+}
+.edit-icon{
+  .label.label-sm {
+    font-size: 12px ;
+    padding: 2px 3px ;
 }
 }
