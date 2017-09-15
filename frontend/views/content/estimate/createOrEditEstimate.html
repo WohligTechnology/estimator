@@ -74,9 +74,9 @@
                                         <input type="checkbox" id="c5" />
                                         <label class="tree_label" for="c5"></label>
                                         <span ng-click="getEstimateView('assembly')" class="assebmlyName">Assembly Name</span>
-                                        <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditSubAssembly();" ></i></span>
-                                        <span ng-click="editAssembly()" class="assemblyEditIcon"><i class="fa fa-pencil btn-warning " ng-click="editAssembly();"></i></span>
-                                        <ul>
+                                        <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
+                                        <span ng-click="editAssembly()" class="assemblyEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                        <ul class="tree_animation">
                                             <li ng-repeat="sa in estimteData.subAssemblies">
                                                 <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
                                                 <input type="checkbox" id="{{sa.name+$index}}" />
@@ -85,7 +85,7 @@
                                                 <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditPart();"></i></span>
                                                 <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ng-click="createOrEditSubAssembly();"></i></span>
                                                 <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
-                                                <ul class="">
+                                                <ul class="tree_animation">
                                                     <li ng-repeat="p in sa.part">
                                                         <input type="checkbox" id="{{p.name+$index+$parent.$index}}" />
                                                         <label for="{{p.name+$index+$parent.$index}}" class="tree_label"></label>
