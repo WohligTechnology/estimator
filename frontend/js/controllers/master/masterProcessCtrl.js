@@ -33,7 +33,17 @@ myApp.controller('masterProcessCtrl', function ($rootScope, $scope, $http, $time
 
         });
     };
-    
+    //end of modal
+         // Delete modal start
+    $scope.deleteItem = function () {
+        $scope.deleteModal = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/modal/delete.html',
+            scope: $scope,
+            size: 'sm',
+        });
+    };
+    //end of modal
     //start of tree
     $scope.processCat = [{
         "name": "processCat 1",

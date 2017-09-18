@@ -14,7 +14,7 @@
                         <span ng-click="getSubAssemblyView()" class="subssemblyName">{{mc.name}}</span>
                         <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="subCategory();"></i></span>
                         <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ng-click="category();"></i></span>
-                        <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
+                        <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" ng-click="deleteItem()"></i></span>
                         <ul class="">
                             <li ng-repeat="sc in mc.materialSub">
                                 <input type="checkbox" id="{{sc.name+$index+$parent.$index}}" />
@@ -22,12 +22,12 @@
                                 <span class="tree_label" class="partName">{{sc.name}}</span>
                                 <span ng-click="createEstimatePart()" class="materialSubCreateIcon"><i class="fa fa-plus btn-info" ng-click="material();" ></i></span>
                                 <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning " ng-click="subCategory();"></i></span>
-                                <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger " ng-click="deleteItem()"></i></span>
                                 <ul>
                                     <li ng-repeat="m in sc.material">
                                         <span class="tree_label" class="partName">{{m.name}}</span>
-                                        <span ng-click="editEstimatePart()" class="materialEditIcon"><i class="fa fa-pencil btn-warning " ng-click="material();"></i></span>
-                                        <span ng-click="deleteEstimatePart()" class="materialDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                        <span ng-click="editEstimatePart()" class="materialEditIcon"><i class="fa fa-pencil btn-warning" ng-click="material();"></i></span>
+                                        <span ng-click="deleteEstimatePart()" class="materialDeleteIcon"><i class="fa fa-trash-o btn-danger" ng-click="deleteItem()"></i></span>
                                     </li>
                                 </ul>
                             </li>
@@ -115,16 +115,23 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
                                     <th> Id </th>
                                     <th> Name</th>
                                     <th> Available Master Material</th>
                                     <th> other </th>
                                     <th> Custom Base Material </th>
                                     <th> Custom Overlay</th>
+                                    <th> Action </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
+                                    <span></span></label></td>
                                     <td> 1 </td>
                                     <td> Mark </td>
                                     <td>5 </td>
@@ -135,8 +142,14 @@
                                     <td class="text-center"><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="2" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty" data-set="#sample_1 .checkboxes" ><span></span></label>
                                     </td>
+                                    <td>
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
+                                    </td>
                                 </tr>
                                 <tr>
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></td>
                                     <td> 1 </td>
                                     <td> Mark </td>
                                     <td>5 </td>
@@ -147,8 +160,14 @@
                                     <td class="text-center"><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="4" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty" data-set="#sample_1 .checkboxes" ><span></span></label>
                                     </td>
+                                    <td>
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
                                 </tr>
                                 <tr>
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></td>
                                     <td> 1 </td>
                                     <td> Mark </td>
                                     <td>5 </td>
@@ -159,6 +178,11 @@
                                     <td class="text-center"><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="6" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty" data-set="#sample_1 .checkboxes" ><span></span></label>
                                     </td>
+                                    <td>
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

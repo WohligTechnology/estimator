@@ -7,77 +7,81 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal) {
 
   //table data
   $scope.tableData = [{
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-      "pname": "kishori",
-      "did": "1",
-      "bname": "kishori"
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
+    "id": "1",
+    "name": "kishori",
+    "cname": "1",
+    "dname": "kishori",
+    "cid": "1",
+    "pname": "kishori",
+    "did": "1",
+    "bname": "kishori"
+  }, {
+    "id": "1",
+    "name": "kishori",
+    "cname": "1",
+    "dname": "kishori",
+    "cid": "1",
 
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-    }
-  ];
+  }, {
+    "id": "1",
+    "name": "kishori",
+    "cname": "1",
+    "dname": "kishori",
+    "cid": "1",
+  }];
 
   $scope.tempvar = [{
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-      "pname": "kishori",
-      "did": "1",
-      "bname": "kishori"
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
+    "id": "1",
+    "name": "kishori",
+    "cname": "1",
+    "dname": "kishori",
+    "cid": "1",
+    "pname": "kishori",
+    "did": "1",
+    "bname": "kishori"
+  }, {
+    "id": "1",
+    "name": "kishori",
+    "cname": "1",
+    "dname": "kishori",
+    "cid": "1",
 
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-    }];
+  }, {
+    "id": "1",
+    "name": "kishori",
+    "cname": "1",
+    "dname": "kishori",
+    "cid": "1",
+  }];
   //customer modal start
-   $scope.customer = function () {
+  $scope.customer = function () {
     $scope.customerModal = $uibModal.open({
-            animation: true,
-           templateUrl: 'views/content/customer/modal/createOrEditCustomer.html',
-            scope: $scope,
-            size: 'md',
-        });
-    };
+      animation: true,
+      templateUrl: 'views/content/customer/modal/createOrEditCustomer.html',
+      scope: $scope,
+      size: 'md',
+    });
+  };
   //end of modal
   //view modal start
-   $scope.view = function () {
+  $scope.view = function () {
     $scope.customerModal = $uibModal.open({
-            animation: true,
-           templateUrl: 'views/content/customer/modal/viewCustomer.html',
-            scope: $scope,
-            size: 'lg',
-        });
-    };
+      animation: true,
+      templateUrl: 'views/content/customer/modal/viewCustomer.html',
+      scope: $scope,
+      size: 'lg',
+    });
+  };
   //end of modal
+  // Delete modal start
+  $scope.deleteItem = function () {
+    $scope.deleteModal = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/modal/delete.html',
+      scope: $scope,
+      size: 'sm',
+    });
+  };
   //start of pagination 
   $scope.totalItems = 64;
   $scope.currentPage = 4;

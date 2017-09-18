@@ -14,12 +14,12 @@
                         <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pc.name}}</span>
                         <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="processingItem();"></i></span>
                         <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ng-click="processingCat();"></i></span>
-                        <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
+                        <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" ng-click="deleteItem()"></i></span>
                         <ul class="">
                             <li ng-repeat="pi in pc.processItems">
                                 <span class="tree_label" class="partName">{{pi.name}}</span>
                                 <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning " ng-click="processingItem();"></i></span>
-                                <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger" ng-click="deleteItem()"></i></span>
                             </li>
                         </ul>
                     </li>
@@ -102,28 +102,30 @@
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label>
                                     </th>
-                                    <th rowspan="2"> Process type </th>
+                                    <th rowspan="2" class="align-top"> Process type Name </th>
                                     <th rowspan="2" class="align-top"> ProcessCat</th>
                                     <th colspan="2" class="text-center"> Rate </th>
-                                    <th colspan="4" class="text-center"> Quantity</th>
+                                    <th colspan="5" class="text-center"> Quantity</th>
+                                    <th rowspan="2" class="align-top"> Action </th>
                                 </tr>
                                 <tr>
-                                    <th>Weight</th>
-                                    <th>Material Cost</th>
+                                    <th>Multiplication Factor</th>
+                                    <th>UOM</th>
                                     <th>Key Value </th>
-                                    <th>Address Cost</th>
-                                    <th>Extra Cost</th>
-                                    <th>Total Cost</th>
+                                    <th>UOM</th>
+                                    <th>Multiplication Factor</th>
+                                    <th>Utilization</th>
+                                    <th>Contegency or Wastage</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th>
+                                    <td>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
                                           <span></span>
                                         </label>
-                                    </th>
+                                    </td>
                                     <td> 1 </td>
                                     <td>Mark</td>
                                     <td>5 </td>
@@ -132,13 +134,18 @@
                                     <td>500 </td>
                                     <td> 600 </td>
                                     <td> 900</td>
+                                    <td> 900</td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger" > <i class="fa fa-trash-o" ></i></span></a>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <th>
+                                    <td>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span>
                                         </label>
-                                    </th>
+                                    </td>
                                     <td> 1 </td>
                                     <td> Mark </td>
                                     <td>5 </td>
@@ -147,14 +154,19 @@
                                     <td>500 </td>
                                     <td> 600 </td>
                                     <td> 900</td>
+                                    <td> 900</td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger" ng-click="deleteItem()"> <i class="fa fa-trash-o" ></i></span></a>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <th>
+                                    <td>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
                                            <span></span>
                                      </label>
-                                    </th>
+                                    </td>
                                     <td> 1 </td>
                                     <td> Mark </td>
                                     <td>5 </td>
@@ -163,6 +175,11 @@
                                     <td>500 </td>
                                     <td> 600 </td>
                                     <td> 900</td>
+                                    <td> 900</td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger" > <i class="fa fa-trash-o" ></i></span></a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
