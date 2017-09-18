@@ -9,4 +9,14 @@ myApp.controller('masterExtraCtrl', function ($rootScope, $scope, $http, $timeou
             size: 'md',
         });
     };
+          // Delete modal start
+    $scope.deleteItem = function () {
+        $scope.deleteModal = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/modal/delete.html',
+            scope: $scope,
+            size: 'sm',
+        });
+    };
+    //end of modal
 });

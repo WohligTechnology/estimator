@@ -64,7 +64,8 @@
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
                                         <i class="icon-magnifier"></i>
-                                        <input type="text" class="form-control form-control-solid" placeholder="search...">                                        </div>
+                                        <input type="text" class="form-control form-control-solid" placeholder="search...">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -76,11 +77,16 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th rowspan="2">
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label>
+                                    </th>
                                     <th rowspan="2" class="align-top"> Id </th>
                                     <th rowspan="2" class="align-top">Addon Type Name</th>
                                     <th rowspan="2" class="align-top"> Available Master Material</th>
                                     <th colspan="2" class="text-center"> Rate </th>
                                     <th colspan="6" class="align-top text-center"> Quantity </th>
+                                    <th rowspan="2" class="align-top"> % Use</th>
                                     <th rowspan="2" class="align-top"> Action</th>
                                 </tr>
                                 <tr>
@@ -96,6 +102,12 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
+                                           <span></span>
+                                     </label>
+                                    </td>
                                     <td> 1 </td>
                                     <td> Mark </td>
                                     <td>5 </td>
@@ -105,11 +117,21 @@
                                     <td> 600 </td>
                                     <td> 900</td>
                                     <td> 300</td>
+                                    <td> 300</td>
                                     <td> Approved</td>
-                                    <td> Approved </td>
-                                    <td> Approved </td>
+                                    <td>  </td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
+                                    </td>
                                 </tr>
                                 <tr>
+                                    <td>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
+                                           <span></span>
+                                     </label>
+                                    </td>
                                     <td> 1 </td>
                                     <td> Mark </td>
                                     <td>5 </td>
@@ -119,11 +141,21 @@
                                     <td> 600 </td>
                                     <td> 900</td>
                                     <td> 300</td>
+                                    <td> 300</td>
                                     <td> Approved</td>
-                                    <td> Approved </td>
-                                    <td> Approved </td>
+                                    <td>  </td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger" ng-click="deleteItem()"> <i class="fa fa-trash-o" ></i></span></a>
+                                    </td>
                                 </tr>
                                 <tr>
+                                    <td>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
+                                           <span></span>
+                                     </label>
+                                    </td>
                                     <td> 1 </td>
                                     <td> Mark </td>
                                     <td>5 </td>
@@ -133,9 +165,13 @@
                                     <td> 600 </td>
                                     <td> 900</td>
                                     <td> 300</td>
+                                    <td> 300</td>
                                     <td> Approved</td>
-                                    <td> Approved </td>
-                                    <td> Approved </td>
+                                    <td>  </td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger" ng-click="deleteItem()"> <i class="fa fa-trash-o" ></i></span></a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
