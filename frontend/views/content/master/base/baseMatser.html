@@ -20,7 +20,7 @@
                             <div class="actions">
                                 <div class="btn-group">
                                     <a class="btn green-haze btn-outline btn-circle btn-sm" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"
-                                        ng-click="createOrEditUom();"> <i class="fa fa-plus"></i>
+                                        ng-click="addOrEditUomModal()"> <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
                             </div>
@@ -30,14 +30,12 @@
                                 <li class="mainLi">
                                     <input type="checkbox" id="c5" />
                                     <label class="tree_label" for="c5"></label>
-                                    <span ng-click="getAssemblyView()" class="assebmlyName">UOM</span>
-                                    <!--<span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditUom();"></i></span>-->
+                                    <span class="assebmlyName">UOM</span>
                                     <ul>
-                                        <li ng-repeat="uo in uom">
-                                            <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
-                                            <span class="tree_label" class="partName">{{uo.name}}</span>
-                                            <span ng-click="editEstimatePart()" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning "  ng-click="createOrEditUom();"></i></span>
-                                            <span ng-click="deleteEstimatePart()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                        <li ng-repeat="u in getUomData">
+                                            <span class="tree_label" class="partName">{{u.name}}</span>
+                                            <span ng-click="addOrEditUomModal(u._id)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                            <span ng-click="deleteUomModal(u._id)" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                         </li>
                                     </ul>
                                 </li>
@@ -55,7 +53,7 @@
                             <div class="actions">
                                 <div class="btn-group">
                                     <a class="btn green-haze btn-outline btn-circle btn-sm" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"
-                                        ng-click="variable();"> <i class="fa fa-plus"></i>
+                                        ng-click="addOrEditVariableModal()"> <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
                             </div>
@@ -65,14 +63,12 @@
                                 <li class="mainLi">
                                     <input type="checkbox" id="c6" />
                                     <label class="tree_label" for="c6"></label>
-                                    <span ng-click="getAssemblyView()" class="assebmlyName">Variable</span>
-                                    <!--<span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditUom();"></i></span>-->
+                                    <span class="assebmlyName">Variable</span>
                                     <ul>
-                                        <li ng-repeat="va in variables">
-                                            <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                                        <li ng-repeat="va in getVariableData">
                                             <span class="tree_label" class="partName">{{va.name}}</span>
-                                            <span ng-click="editEstimatePart()" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning" ng-click="variable();"></i></span>
-                                            <span ng-click="deleteEstimatePart()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                            <span ng-click="addOrEditVariableModal(va._id)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                                            <span ng-click="deleteVariableModal(va._id)" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                         </li>
                                     </ul>
                                 </li>
@@ -90,7 +86,7 @@
                             <div class="actions">
                                 <div class="btn-group">
                                     <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown"
-                                        data-close-others="true" ng-click="formulas();"> <i class="fa fa-plus"></i>
+                                        data-close-others="true" ng-click="addOrEditDfModal()"> <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
                             </div>
@@ -100,14 +96,12 @@
                                 <li class="mainLi">
                                     <input type="checkbox" id="c7" />
                                     <label class="tree_label" for="c7"></label>
-                                    <span ng-click="getAssemblyView()" class="assebmlyName">Difficulty Factor</span>
-                                    <!--<span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditUom();"></i></span>-->
+                                    <span class="assebmlyName">Difficulty Factor</span>
                                     <ul>
-                                        <li ng-repeat="fa in Formula">
-                                            <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                                        <li ng-repeat="fa in getDfData">
                                             <span class="tree_label" class="partName">{{fa.name}}</span>
-                                            <span ng-click="editEstimatePart()" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"  ng-click="formulas();"></i></span>
-                                            <span ng-click="deleteEstimatePart()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                            <span ng-click="addOrEditDfModal(fa._id)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                                            <span ng-click="deleteDfModal(fa._id)" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                         </li>
                                     </ul>
                                 </li>
@@ -125,7 +119,7 @@
                             <div class="actions">
                                 <div class="btn-group">
                                     <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown"
-                                        data-close-others="true" ng-click="markups();"> <i class="fa fa-plus"></i>
+                                        data-close-others="true" ng-click="addOrEditMarkupsModal()"> <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
                             </div>
@@ -138,11 +132,11 @@
                                     <span ng-click="getAssemblyView()" class="assebmlyName">Markups</span>
                                     <!--<span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditUom();"></i></span>-->
                                     <ul>
-                                        <li ng-repeat="ma in Markup">
+                                        <li ng-repeat="ma in getMarkupData">
                                             <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
                                             <span class="tree_label" class="partName">{{ma.name}}</span>
-                                            <span ng-click="editEstimatePart()" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning" ng-click="markups();"></i></span>
-                                            <span ng-click="deleteEstimatePart()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                            <span ng-click="addOrEditMarkupsModal(ma._id)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                                            <span ng-click="deleteMarkupsModal(ma._id)" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                         </li>
                                     </ul>
                                 </li>
@@ -153,5 +147,4 @@
             </div>
         </div>
     </div>
-    <!-- END CONTENT BODY -->
 </div>
