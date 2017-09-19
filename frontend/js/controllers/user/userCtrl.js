@@ -5,16 +5,33 @@ myApp.controller('userCtrl', function ($rootScope, $scope, $http, $timeout, $uib
     // initialize core components
     App.initAjax();
   });
-  //modal
-   $scope.user = function () {
-        $scope.userModal = $uibModal.open({
+  //modal Create or Edit user
+   $scope.createOrEdit = function () {
+        $scope.modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/user.html',
+            templateUrl: 'views/content/user/modal/createOrEditUser.html',
             scope: $scope,
             size: 'md',
         });
     };
-
+     //modal view user
+   $scope.viewUser = function () {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/user/modal/viewUser.html',
+            scope: $scope,
+            size: 'md',
+        });
+    };
+  // Delete modal start
+  $scope.deleteItem = function () {
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/modal/delete.html',
+      scope: $scope,
+      size: 'sm',
+    });
+  };
   //table data
   $scope.tableData = [{
       "id": "1",
