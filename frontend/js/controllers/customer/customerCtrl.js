@@ -69,13 +69,13 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal) {
       animation: true,
       templateUrl: 'views/content/customer/modal/viewCustomer.html',
       scope: $scope,
-      size: 'lg',
+      size: 'md',
     });
   };
   //end of modal
   // Delete modal start
   $scope.deleteItem = function () {
-    $scope.deleteModal = $uibModal.open({
+    $scope.modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'views/modal/delete.html',
       scope: $scope,
