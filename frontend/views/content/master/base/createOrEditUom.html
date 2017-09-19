@@ -10,20 +10,20 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
+                <form class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-4 control-label">UOM:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control">
+                                <input type="text" ng-model="formData.uomName" class="form-control" required>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green">Save</button>
-                                  <button type="submit" class="btn btn-circle green">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditUom(formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditUom(formData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </form>-->
-                   <!--<form action="#" class="form-horizontal">
+                <!--<form action="#" class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Enter Id:</label>

@@ -6,6 +6,7 @@
                 <span class="caption-subject font-green bold uppercase">Base Master</span>
             </div>
             <div class="actions">
+                <p>{{operationStatus}}</p>
             </div>
         </div>
         <div class="portlet-body">
@@ -19,8 +20,7 @@
                             </div>
                             <div class="actions">
                                 <div class="btn-group">
-                                    <a class="btn green-haze btn-outline btn-circle btn-sm" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"
-                                        ng-click="addOrEditUomModal()"> <i class="fa fa-plus"></i>
+                                    <a class="btn green-haze btn-outline btn-circle btn-sm" ng-click="addOrEditUomModal('save')"> <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
                             </div>
@@ -32,9 +32,9 @@
                                     <label class="tree_label" for="c5"></label>
                                     <span class="assebmlyName">UOM</span>
                                     <ul>
-                                        <li ng-repeat="u in getUomData">
-                                            <span class="tree_label" class="partName">{{u.name}}</span>
-                                            <span ng-click="addOrEditUomModal(u._id)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                        <li ng-repeat="u in uomData">
+                                            <span class="tree_label" class="partName">{{u.uomName}}</span>
+                                            <span ng-click="addOrEditUomModal('update',u)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
                                             <span ng-click="deleteUomModal(u._id)" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                         </li>
                                     </ul>
@@ -65,7 +65,7 @@
                                     <label class="tree_label" for="c6"></label>
                                     <span class="assebmlyName">Variable</span>
                                     <ul>
-                                        <li ng-repeat="va in getVariableData">
+                                        <li ng-repeat="va in variableData">
                                             <span class="tree_label" class="partName">{{va.name}}</span>
                                             <span ng-click="addOrEditVariableModal(va._id)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
                                             <span ng-click="deleteVariableModal(va._id)" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
@@ -92,13 +92,13 @@
                             </div>
                         </div>
                         <div class="portlet-body">
-                             <ul class="tree">
+                            <ul class="tree">
                                 <li class="mainLi">
                                     <input type="checkbox" id="c7" />
                                     <label class="tree_label" for="c7"></label>
                                     <span class="assebmlyName">Difficulty Factor</span>
                                     <ul>
-                                        <li ng-repeat="fa in getDfData">
+                                        <li ng-repeat="fa in dfData">
                                             <span class="tree_label" class="partName">{{fa.name}}</span>
                                             <span ng-click="addOrEditDfModal(fa._id)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
                                             <span ng-click="deleteDfModal(fa._id)" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
@@ -125,14 +125,14 @@
                             </div>
                         </div>
                         <div class="portlet-body">
-                             <ul class="tree">
+                            <ul class="tree">
                                 <li class="mainLi">
                                     <input type="checkbox" id="c8" />
                                     <label class="tree_label" for="c8"></label>
                                     <span ng-click="getAssemblyView()" class="assebmlyName">Markups</span>
                                     <!--<span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditUom();"></i></span>-->
                                     <ul>
-                                        <li ng-repeat="ma in getMarkupData">
+                                        <li ng-repeat="ma in markupData">
                                             <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
                                             <span class="tree_label" class="partName">{{ma.name}}</span>
                                             <span ng-click="addOrEditMarkupsModal(ma._id)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
