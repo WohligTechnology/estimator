@@ -1,17 +1,18 @@
 <div class="row">
+
     <div class="col-md-12">
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="portlet light portlet-fit bordered">
             <div class="portlet-title">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         <div class="caption">
                             <i class="icon-settings font-red"></i>
                             <span class="caption-subject font-red sbold uppercase">SubAssembly</span>
                         </div>
                     </div>
-                       <div class="col-md-4">
-                        <select class="bs-select form-control input-small pull-right" data-style="btn-info">
+                       <div class="col-md-2">
+                         <select class="bs-select form-control input-small pull-right" data-style="btn-info">
                              <option>Show Records</option>
                               <option>2</option>
                               <option>5</option>
@@ -20,7 +21,7 @@
                                <option>25</option>
                          </select>
                     </div>
-                       <div class="col-md-3">
+                     <div class="col-md-3">
                         <div class="inputs search pull-right">
                             <div class="portlet-input input-small input-inline">
                                 <div class="input-icon right">
@@ -54,9 +55,8 @@
                 </div>
             </div>
             <div class="portlet-body">
-             
-                <!-- BEGIN BORDERED TABLE PORTLET-->
-                <div class="portlet light portlet-fit bordered">
+              <!-- BEGIN BORDERED TABLE PORTLET-->
+                <div class="">
                     <div class="portlet-title">
                         <div class="row">
                             <div class="col-md-4">
@@ -78,12 +78,16 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
+                                       <th rowspan="2" class="align-top"> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                       <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                    </th>
                                         <th rowspan="2" class="align-top"> Id </th>
                                         <th rowspan="2" class="align-top"> Icon</th>
                                         <th rowspan="2" class="align-top"> Part Name </th>
-                                        <th rowspan="2" class="align-top">quentity(Nos) </th>
+                                        <th rowspan="2" class="align-top">Quantity </th>
                                         <th colspan="6" class="text-center" class="align-top"> Per item detail </th>
                                         <th colspan="2" class="align-top text-center"> Total</th>
+                                        <th rowspan="2" class="align-top"> Action </th>
                                     </tr>
                                     <tr>
                                         <th>Weight</th>
@@ -98,6 +102,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+                                         <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                         <td> 1 </td>
                                         <td> Mark </td>
                                         <td>5 </td>
@@ -107,11 +113,17 @@
                                         <td> 600 </td>
                                         <td> 900</td>
                                         <td> 300</td>
-                                        <td> Approved</td>
+                                        <td> </td>
                                         <td> 30 </td>
                                         <td> 50 </td>
+                                         <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
                                     </tr>
                                     <tr>
+                                        <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                         <td> 1 </td>
                                         <td> Mark </td>
                                         <td>5 </td>
@@ -121,11 +133,17 @@
                                         <td> 600 </td>
                                         <td> 900</td>
                                         <td> 300</td>
-                                        <td> Approved</td>
+                                        <td> </td>
                                         <td> 50 </td>
                                         <td> 40 </td>
+                                         <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
                                     </tr>
                                     <tr>
+                                          <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                         <td> 1 </td>
                                         <td> Mark </td>
                                         <td>5 </td>
@@ -135,14 +153,22 @@
                                         <td> 600 </td>
                                         <td> 900</td>
                                         <td> 300</td>
-                                        <td> Approved</td>
+                                        <td> </td>
                                         <td> 40 </td>
                                         <td> 50 </td>
+                                         <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
                                     </tr>
                                     <tr>
-                                        <td class="align-right" colspan="10">Total </td>
+                                        <td class="align-right" colspan="11">Total </td>
                                         <td>5 </td>
                                         <td>24 </td>
+                                         <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -165,4 +191,5 @@
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
+
 </div>

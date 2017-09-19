@@ -191,7 +191,48 @@ tree css*/
 }
 .edit-icon{
   .label.label-sm {
-    font-size: 12px ;
-    padding: 2px 3px ;
+    font-size: 10px ;
+    padding: 1px 2px ;
 }
+}
+.padd-t{
+  padding-top: 10px;
+}
+.display-inline{
+  display: inline-block;
+}
+//custom table css
+body{
+  font-size: 12px;
+}
+.table thead tr th {
+    font-size: 12px !important;
+   
+}
+.table td, .table th {
+    font-size: 12px !important;
+}
+.form-control {
+      height: 27px ;
+    padding: 4px 10px ;
+    font-size: 12px ;
+}
+.input-icon>i {
+      margin: 8px 2px 4px 10px;
+    z-index: 3;
+    width: 14px;
+    font-size: 12px;
+}
+.btn {
+  padding: 3px 8px;
+    font-size: 12px;
+}
+.portlet.light.portlet-fit>.portlet-body {
+    padding: 5px 15px 15px;
+}
+.portlet.light {
+    padding: 0px 20px 15px;
+}
+.page-content-wrapper .page-content {
+      padding: 17px 20px 10px;
 }

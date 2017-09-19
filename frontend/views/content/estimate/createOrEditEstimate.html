@@ -1,5 +1,7 @@
 <div class="row">
+  
     <div class="col-md-12 ">
+          <div class="img-border">
         <div class="portlet light">
             <div class="portlet-title tabbable-line tabs-left">
                 <ul class="nav nav-tabs">
@@ -33,7 +35,7 @@
                                         <input type="checkbox" id="c5" />
                                         <label class="tree_label" for="c5"></label>
                                         <span ng-click="getEstimateView('assembly')" class="assebmlyName">Assembly Name</span>
-                                        <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
+                                        <span ng-click="createOrEditSubAssembly();" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
                                         <span ng-click="editAssembly()" class="assemblyEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
                                         <ul class="tree_animation">
                                             <li ng-repeat="sa in estimteData.subAssemblies">
@@ -41,8 +43,8 @@
                                                 <input type="checkbox" id="{{sa.name+$index}}" />
                                                 <label for="{{sa.name+$index}}" class="tree_label"></label>
                                                 <span ng-click="getEstimateView('subAssembly')" class="subssemblyName">{{sa.name}}</span>
-                                                <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditPart();"></i></span>
-                                                <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ng-click="createOrEditSubAssembly();"></i></span>
+                                                <span ng-click="createOrEditPart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ></i></span>
+                                                <span ng-click="createOrEditSubAssembly();" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
                                                 <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
                                                 <ul class="tree_animation">
                                                     <li ng-repeat="p in sa.part">
@@ -210,4 +212,5 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>

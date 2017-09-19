@@ -10,12 +10,7 @@
                             <span class="caption-subject font-red sbold uppercase">Extras</span>
                         </div>
                     </div>
-                    <div class="col-md-5">
-                        <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green"> <i class="fa fa-plus"></i> </button>
-                        </div>
-                    </div>
-                    <div class="col-md-1">
+                     <div class="col-md-6">
                         <div class="btn-group pull-right">
                             <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
                             <ul class="dropdown-menu pull-right">
@@ -64,7 +59,8 @@
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
                                         <i class="icon-magnifier"></i>
-                                        <input type="text" class="form-control form-control-solid" placeholder="search...">                                        </div>
+                                        <input type="text" class="form-control form-control-solid" placeholder="search...">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -76,41 +72,63 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th rowspan="2" class="align-top"> Item</th>
-                                    <th rowspan="2" class="align-top"> Rate</th>
-                                    <th colspan="2" class="text-center"> Quentity </th>
+                                    <th rowspan="2" class="align-top"> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                       <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                    </th>
+                                    <th rowspan="2" class="align-top">Item</th>
+                                    <th rowspan="2" class="align-top">Rate</th>
+                                    <th colspan="2" class="text-center">Quantity</th>
                                     <th> Total Cost</th>
-                                    <th rowspan="2" class="align-top">Remark </th>
+                                    <th rowspan="2" class="align-top">Remark</th>
+                                    <th rowspan="2" class="align-top">Action</th>
                                 </tr>
                                 <tr>
                                     <th>Value</th>
-                                    <th>Volume</th>
+                                    <th>UOM</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td> 1 </td>
                                     <td> Mark </td>
                                     <td>5 </td>
                                     <td>24 </td>
                                     <td>400 </td>
                                     <td>500 </td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
                                 </tr>
                                 <tr>
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td> 1 </td>
                                     <td> Mark </td>
                                     <td>5 </td>
                                     <td>24 </td>
                                     <td>400 </td>
                                     <td>500 </td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
                                 </tr>
                                 <tr>
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td> 1 </td>
                                     <td> Mark </td>
                                     <td>5 </td>
                                     <td>24 </td>
                                     <td>400 </td>
                                     <td>500 </td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
