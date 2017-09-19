@@ -3,34 +3,65 @@ myApp.controller('baseMatserCtrl', function ($scope, $http, $uibModal, baseMatse
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = true;
+    $scope.showSaveBtn = true;
+    $scope.showEditBtn = false;
 
 
     // *************************** default functions begin here  ********************** //
     $scope.getBaseMasterData = function () {
-        baseMatserService.getBaseMasterData(function (data) {
-            var baseMasterData = data;
-            console.log('**** inside getBaseMasterData of baseMatserCtrl.js ****',baseMasterData);
-            $scope.getUomData = baseMasterData.uoms;
-            $scope.getVariableData = baseMasterData.variables;
-            $scope.getDfData = baseMasterData.dfs;
-            $scope.getMarkupData = baseMasterData.markups;
+        $scope.getUomData();
+        $scope.getVariableData();
+        $scope.getDfData();
+        $scope.getMarkupData();
+    }
+    $scope.getUomData = function () {
+        baseMatserService.getUomData(function (data) {
+            $scope.uomData = data;
+        });
+    }
+    $scope.getVariableData = function () {
+        baseMatserService.getVariableData(function (data) {
+            $scope.variableData = data;
+        });
+    }
+    $scope.getDfData = function () {
+        baseMatserService.getDfData(function (data) {
+            $scope.dfData = data;
+        });
+
+    }
+    $scope.getMarkupData = function () {
+        baseMatserService.getMarkupData(function (data) {
+            $scope.markupData = data;
         });
     }
 
 
     // *************************** functions to be triggered form view begin here ***** //
     //- to add or edit UOM name
-    $scope.addOrEditUomModal = function (uomId) {
-        console.log('**** inside addOrEditUomModal of baseMatserCtrl.js ****', uomId);
-        $scope.createOrEditModal = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/base/createOrEditUom.html',
-            scope: $scope,
-            size: 'md',
+    $scope.addOrEditUomModal = function (operation, uom) {
+
+        baseMatserService.getUomModalData(operation, uom, function (data) {
+            $scope.formData = data.uom;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
+
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/master/base/createOrEditUom.html',
+                scope: $scope,
+                size: 'md'
+            });
+
         });
     }
-    $scope.addOrEditUom = function () {
-        console.log('**** inside addOrEditUom of baseMatserCtrl.js ****');
+
+    $scope.addOrEditUom = function (uomData) {
+        baseMatserService.addOrEditUom(uomData, function (data) {
+            $scope.operationStatus = "Added Successfully";
+            $scope.getUomData();
+            $scope.cancelModal();
+        });
     }
     //- modal to confirm UOM deletion
     $scope.deleteUomModal = function (uomId) {
@@ -44,7 +75,7 @@ myApp.controller('baseMatserCtrl', function ($scope, $http, $uibModal, baseMatse
     //- to add or edit Variable name
     $scope.addOrEditVariableModal = function (variableId) {
         console.log('**** inside addOrEditVariableModal of baseMatserCtrl.js ****', variableId);
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/base/createOrEditVariable.html',
             scope: $scope,
@@ -66,7 +97,7 @@ myApp.controller('baseMatserCtrl', function ($scope, $http, $uibModal, baseMatse
     //- to add or edit DF i.e. Difficulty factor
     $scope.addOrEditDfModal = function (dfId) {
         console.log('**** inside addOrEditDfModal of baseMatserCtrl.js ****', dfId);
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/base/createOrEditDFact.html',
             scope: $scope,
@@ -88,7 +119,7 @@ myApp.controller('baseMatserCtrl', function ($scope, $http, $uibModal, baseMatse
     //- to add or edit Markups name
     $scope.addOrEditMarkupsModal = function (markupId) {
         console.log('**** inside addOrEditMarkupsModal of baseMatserCtrl.js ****', markupId);
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/base/createOrEditMarkups.html',
             scope: $scope,
@@ -105,6 +136,11 @@ myApp.controller('baseMatserCtrl', function ($scope, $http, $uibModal, baseMatse
     $scope.deleteMarkups = function () {
         console.log('**** inside deleteMarkups of baseMatserCtrl.js ****');
     }
+
+
+    $scope.cancelModal = function () {
+        $scope.modalInstance.dismiss();
+    };
 
 
     // *************************** init all default functions begin here ************** //
