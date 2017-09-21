@@ -2,7 +2,7 @@ myApp.controller('masterMaterialCtrl', function ($rootScope, $scope, $http, $tim
     $scope.$parent.isSidebarActive = false;
     //modal start
     $scope.material = function () {
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/material/createOrEditMaterial.html',
             scope: $scope,
@@ -11,7 +11,7 @@ myApp.controller('masterMaterialCtrl', function ($rootScope, $scope, $http, $tim
     };
     // category modal start
     $scope.category = function () {
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/material/createOrEditMaterialCat.html',
             scope: $scope,
@@ -20,7 +20,7 @@ myApp.controller('masterMaterialCtrl', function ($rootScope, $scope, $http, $tim
     };
     // subCategory modal start
     $scope.subCategory = function () {
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/material/createOrEditmaterialSubCat.html',
             scope: $scope,
@@ -30,7 +30,7 @@ myApp.controller('masterMaterialCtrl', function ($rootScope, $scope, $http, $tim
     //end of modal
        // Delete modal start
     $scope.deleteItem = function () {
-        $scope.deleteModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/modal/delete.html',
             scope: $scope,

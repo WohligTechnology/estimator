@@ -3,7 +3,7 @@ myApp.controller('masterProcessCtrl', function ($rootScope, $scope, $http, $time
 
     //modal start
     $scope.createOrEditProcessType = function () {
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/process/createOrEditProcessType.html',
             scope: $scope,
@@ -14,7 +14,7 @@ myApp.controller('masterProcessCtrl', function ($rootScope, $scope, $http, $time
           //start of processing cat modal
 
     $scope.processingCat = function () {
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/process/createOrEditProcessCat.html',
             scope: $scope,
@@ -25,7 +25,7 @@ myApp.controller('masterProcessCtrl', function ($rootScope, $scope, $http, $time
       //start of processing item modal
 
     $scope.processingItem = function () {
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/process/createOrEditProcessItem.html',
             scope: $scope,
@@ -36,7 +36,7 @@ myApp.controller('masterProcessCtrl', function ($rootScope, $scope, $http, $time
     //end of modal
          // Delete modal start
     $scope.deleteItem = function () {
-        $scope.deleteModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/modal/delete.html',
             scope: $scope,

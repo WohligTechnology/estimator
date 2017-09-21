@@ -1,4 +1,4 @@
-myApp.controller('enquiryCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
+myApp.service('enquiryCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
 
   $scope.$parent.isSidebarActive = true;
 

@@ -133,9 +133,6 @@ tree css*/
   margin-right: 20px;
 }
 
-// .glyphicon-chevron-right:before {
-//     content: "\e080";
-// }
 //master shape
 .shapes-checkbox {
   margin-left: 30px;
@@ -258,13 +255,83 @@ body {
   font-size: 10px;
 }
 
+.portlet.light>.portlet-title>.actions {
+  padding: 0px 0 11px !important;
+}
 
-  .portlet.light>.portlet-title>.actions {
-    padding: 0px 0 11px !important;
+.portlet.light>.portlet-title>.caption {
+  padding: 0px 0 !important;
+}
+
+.portlet.light.portlet-fit>.portlet-title {
+  padding: 15px 20px 0px !important;
+}
+
+//custom form css
+.form-horizontal .form-group.form-md-line-input>label {
+  font-size: 12px;
+}
+
+.padd-t {
+  padding-top: 16px;
+}
+
+//createOREdit Estimate table
+.bordered-table {
+  width: 100%;
+  th {
+    padding-top: 15px;
+    border-right: 1px solid #e7ecf1;
+    text-align: center;
   }
-  .portlet.light>.portlet-title>.caption {
-    padding: 0px 0 !important;
+  td {
+    padding: 10px 0px;
+    border-right: 1px solid #e7ecf1;
+    text-align: center;
   }
-  .portlet.light.portlet-fit>.portlet-title {
-    padding: 15px 20px 0px !important;
+}
+
+.border-bott {
+  border-bottom: 1px solid #e7ecf1;
+}
+
+.part-table {
+  margin-top: 6px;
+  width: 100%;
+  border: 1px solid #e7ecf1;
+  th {
+    padding: 8px;
+    border-right: 1px solid #e7ecf1;
+    border-bottom: 1px solid #e7ecf1;
+    text-align: center;
   }
+  td {
+    padding: 10px 0px;
+    border-right: 1px solid #e7ecf1;
+    border-bottom: 1px solid #e7ecf1;
+    text-align: center;
+  }
+}
+
+.font-size {
+  font-size: 10px;
+}
+
+.plus-padd {
+  font-size: 10px;
+  padding: 1px 5px;
+}
+
+.overflow-scroll {
+  overflow-y: scroll;
+  height: 130px;
+}
+
+.material-plus {
+  right: 11%;
+  position: absolute;
+}
+.tree-overflow{
+   overflow-y: scroll;
+ max-height:200px;
+}

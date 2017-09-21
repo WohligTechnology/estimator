@@ -10,8 +10,12 @@
                             <span class="caption-subject font-red sbold uppercase">Addon</span>
                         </div>
                     </div>
-                   
-                    <div class="col-md-6">
+                    <div class="col-md-5">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-circle blue" ng-click="importSubAssembly()">Import From</button>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
                         <div class="btn-group pull-right">
                             <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
                             <ul class="dropdown-menu pull-right">
@@ -109,7 +113,7 @@
                                     <td> Approved</td>
                                     <td class="edit-icon">
                                         <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -127,7 +131,7 @@
                                     <td> Approved</td>
                                     <td class="edit-icon">
                                         <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -145,7 +149,7 @@
                                     <td> Approved</td>
                                     <td class="edit-icon">
                                         <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
                                     </td>
                                 </tr>
                             </tbody>

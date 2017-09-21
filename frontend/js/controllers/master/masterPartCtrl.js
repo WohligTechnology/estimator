@@ -23,70 +23,114 @@ myApp.controller('masterPartCtrl', function ($rootScope, $scope, $http, $timeout
     }];
 
     //start of part type category modal
-
-    $scope.partTypeCat = function () {
-            $scope.loginModal = $uibModal.open({
+     $scope.partTypeCat = function () {
+            $scope.modalInstance  = $uibModal.open({
                 animation: true,
-                templateUrl: 'views/modal/createOrEditPartType.html',
+                templateUrl: 'views/content/master/part/createOrEditPartType.html',
                 scope: $scope,
                 size: 'md',
 
             })
         }
         //start of part type modal
-
     $scope.partType = function () {
-        $scope.loginModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/createPartType.html',
+            templateUrl: 'views/content/master/part/createPartType.html',
             scope: $scope,
             size: 'md',
 
         })
     }
+// //start of processing type modal
+//     $scope.processing = function () {
+//             $scope.modalInstance  = $uibModal.open({
+//                 animation: true,
+//                 templateUrl: 'views/content/master/part/addProcessingToPreset.html',
+//                 scope: $scope,
+//                 size: 'lg',
 
-    //start of processing type modal
-
-    $scope.processing = function () {
-        $scope.loginModal = $uibModal.open({
+//             })
+//         }
+        // Delete modal start
+    $scope.deleteItem = function () {
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
-            templateUrl: 'views/modal/addProcessingToPreset.html',
+            templateUrl: 'views/modal/delete.html',
             scope: $scope,
-            size: 'lg',
-
-        })
-    }
-
-
+            size: 'sm',
+        });
+    };
+    //end of modal
+     //AddAddon modal start
+    $scope.deleteItem = function () {
+        $scope.modalInstance  = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/part/addAddonToPreset.html',
+            scope: $scope,
+            size: 'sm',
+        });
+    };
+    //end of modal
+     //AddProcessing modal start
+    $scope.addProcessing = function () {
+        $scope.modalInstance  = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/part/addProcessingToPreset.html',
+            scope: $scope,
+            size: 'md',
+        });
+    };
+    //end of modal
+     //AddExtra modal start
+    $scope.deleteItem = function () {
+        $scope.modalInstance  = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/part/addExtraToPreset.html',
+            scope: $scope,
+            size: 'sm',
+        });
+    };
+    //end of modal
+     //AddMaterial modal start
+    $scope.deleteItem = function () {
+        $scope.modalInstance  = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/part/addMaterialToPartType.html',
+            scope: $scope,
+            size: 'sm',
+        });
+    };
+    //end of modal
     //veriables 
-      $scope.checkBox = [
-     
-        {
-        "name": "a",
-    }, {
-        "name": "b",
-    }, {
-        "name": "c",
-    }, {
-        "name": "d"
-    }, {
-        "name": "e"
-    }, {
-        "name": "f"
-    }, {
-        "name": "g"
-    }, {
-        "name": "q1"
-    }, {
-        "name": "q2"
-    },
-        {
-        "name": "Thikness(t)"
-    }, {
-        "name": "Length(l)"
-    }, {
-        "name": "Wastage(w)"
-    },]
+    $scope.checkBox = [
 
-      $scope.checkBox = _.chunk($scope.checkBox, 2);
+        {
+            "name": "a",
+        }, {
+            "name": "b",
+        }, {
+            "name": "c",
+        }, {
+            "name": "d"
+        }, {
+            "name": "e"
+        }, {
+            "name": "f"
+        }, {
+            "name": "g"
+        }, {
+            "name": "q1"
+        }, {
+            "name": "q2"
+        }, {
+            "name": "Thikness(t)"
+        }, {
+            "name": "Length(l)"
+        }, {
+            "name": "Wastage(w)"
+        },
+    ]
+
+    $scope.checkBox = _.chunk($scope.checkBox, 2);
 });
