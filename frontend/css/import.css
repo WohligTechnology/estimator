@@ -9356,6 +9356,9 @@ tree css*/
 .mar-l {
   margin-left: 30px; }
 
+.mar-t {
+  margin-top: 30px; }
+
 .bor-r {
   border-right: 1px solid gray;
   min-height: 500px; }
@@ -9401,7 +9404,8 @@ body {
 .table thead tr th {
   font-size: 12px !important; }
 
-.table td, .table th {
+.table td,
+.table th {
   font-size: 12px !important; }
 
 .form-control {
@@ -9427,6 +9431,18 @@ body {
 
 .page-content-wrapper .page-content {
   padding: 17px 20px 10px; }
+
+.portlet.light > .portlet-title > .caption > .caption-subject {
+  font-size: 10px; }
+
+.portlet.light > .portlet-title > .actions {
+  padding: 0px 0 11px !important; }
+
+.portlet.light > .portlet-title > .caption {
+  padding: 0px 0 !important; }
+
+.portlet.light.portlet-fit > .portlet-title {
+  padding: 15px 20px 0px !important; }
 
 #fancybox-loading,
 .fancybox-close,
