@@ -1,13 +1,6 @@
 var schema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        excel: {
-            name: "Name"
-        }
-    }
+    difficultyFactor:String,
+    mulfact:String
 });
 
 schema.plugin(deepPopulate, {});
