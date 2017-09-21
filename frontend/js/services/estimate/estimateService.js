@@ -1,4 +1,4 @@
-myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
+myApp.service('estimateCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
   $scope.$parent.isSidebarActive = true;
   //table data
   $scope.tableData = [{

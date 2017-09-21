@@ -7,7 +7,7 @@ myApp.controller('enquiryCtrl', function ($rootScope, $scope, $http, $timeout, $
     App.initAjax();
   });
 
-  //table data
+  // table data
   $scope.tableData = [{
       "id": "1",
       "name": "kishori",
@@ -48,6 +48,16 @@ myApp.controller('enquiryCtrl', function ($rootScope, $scope, $http, $timeout, $
     });
   };
   //end of modal
+   // Delete modal start
+    $scope.deleteItem = function () {
+        $scope.modalInstance  = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/modal/delete.html',
+            scope: $scope,
+            size: 'sm',
+        });
+    };
+    //end of modal
   //start of pagination 
   $scope.totalItems = 64;
   $scope.currentPage = 4;

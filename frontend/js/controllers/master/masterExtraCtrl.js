@@ -2,7 +2,7 @@ myApp.controller('masterExtraCtrl', function ($rootScope, $scope, $http, $timeou
     $scope.$parent.isSidebarActive = true;
       //Extra modal start
     $scope.extra = function () {
-        $scope.extraModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/extra/createOrEditExtra.html',
             scope: $scope,
@@ -11,7 +11,7 @@ myApp.controller('masterExtraCtrl', function ($rootScope, $scope, $http, $timeou
     };
           // Delete modal start
     $scope.deleteItem = function () {
-        $scope.deleteModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/modal/delete.html',
             scope: $scope,

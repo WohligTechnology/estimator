@@ -29,5 +29,15 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, $timeout, 
     }
   ]
 
+// Delete modal start
+    $scope.deleteItem = function () {
+        $scope.modalInstance  = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/modal/delete.html',
+            scope: $scope,
+            size: 'sm',
+        });
+    };
+    //end of modal
 
 });

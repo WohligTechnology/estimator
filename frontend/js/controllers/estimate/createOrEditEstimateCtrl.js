@@ -143,14 +143,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
 
     $scope.init();
 
-
-
-
-
-
-
-
-    //custom material 
+  //custom material 
     $scope.customMaterial = [{
             "id": "1",
             "baseMaterial": {
@@ -189,7 +182,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
 
     //Edit Assembly Name modal start
     $scope.editAssembly = function () {
-        $scope.editModal = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/estimate/estimateModal/editAssemblyName.html',
             scope: $scope,
@@ -199,7 +192,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     //end of modal
     //Create or Edit Sub Assembly Name modal start
     $scope.createOrEditSubAssembly = function () {
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/estimate/estimateModal/createOrEditSubAssemblyName.html',
             scope: $scope,
@@ -209,7 +202,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     //end of modal
     //Create or Edit Sub Assembly Name modal start
     $scope.createOrEditPart = function () {
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/estimate/estimateModal/createOrEditPartName.html',
             scope: $scope,
@@ -219,7 +212,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     //end of modal
     //Create or Edit Processing modal start
     $scope.processing = function () {
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/estimate/estimateModal/createOrEditProcessing.html',
             scope: $scope,
@@ -229,7 +222,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     //end of modal
     //Create or Edit Addon modal start
     $scope.addon = function () {
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/estimate/estimateModal/createOrEditAddon.html',
             scope: $scope,
@@ -239,7 +232,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     //end of modal
     //Create or Edit Extra modal start
     $scope.extra = function () {
-        $scope.createOrEditModal = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/estimate/estimateModal/createOrEditExtra.html',
             scope: $scope,
@@ -249,7 +242,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     //end of modal
     //Import SubAssembly modal start
     $scope.importSubAssembly = function () {
-        $scope.importModal = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/estimate/estimateModal/importSubAssembly.html',
             scope: $scope,
@@ -259,7 +252,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     //end of modal
     //Import Part modal start
     $scope.importPart = function () {
-        $scope.importModal = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/estimate/estimateModal/importPart.html',
             scope: $scope,
@@ -267,6 +260,15 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
         });
     };
     //end of modal
-
+// Delete modal start
+    $scope.deleteItem = function () {
+        $scope.modalInstance  = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/modal/delete.html',
+            scope: $scope,
+            size: 'sm',
+        });
+    };
+    //end of modal
 
 });

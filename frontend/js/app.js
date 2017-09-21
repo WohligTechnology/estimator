@@ -362,7 +362,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                 //     controller: "SidebarController"
                 // },
                 "mainView": {
-                    templateUrl: "views/content/master/masterPart.html",
+                    templateUrl: "views/content/master/part/masterPart.html",
                     controller: "masterPartCtrl"
                 }
             }

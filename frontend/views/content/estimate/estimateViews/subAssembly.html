@@ -1,5 +1,4 @@
 <div class="row">
-
     <div class="col-md-12">
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="portlet light portlet-fit bordered">
@@ -11,8 +10,8 @@
                             <span class="caption-subject font-red sbold uppercase">SubAssembly</span>
                         </div>
                     </div>
-                       <div class="col-md-2">
-                         <select class="bs-select form-control input-small pull-right" data-style="btn-info">
+                    <div class="col-md-2">
+                        <select class="bs-select form-control input-small pull-right" data-style="btn-info">
                              <option>Show Records</option>
                               <option>2</option>
                               <option>5</option>
@@ -21,7 +20,7 @@
                                <option>25</option>
                          </select>
                     </div>
-                     <div class="col-md-3">
+                    <div class="col-md-3">
                         <div class="inputs search pull-right">
                             <div class="portlet-input input-small input-inline">
                                 <div class="input-icon right">
@@ -55,7 +54,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-              <!-- BEGIN BORDERED TABLE PORTLET-->
+                <!-- BEGIN BORDERED TABLE PORTLET-->
                 <div class="">
                     <div class="portlet-title">
                         <div class="row">
@@ -78,9 +77,9 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                       <th rowspan="2" class="align-top"> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <th rowspan="2" class="align-top"> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                        <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
-                                    </th>
+                                        </th>
                                         <th rowspan="2" class="align-top"> Id </th>
                                         <th rowspan="2" class="align-top"> Icon</th>
                                         <th rowspan="2" class="align-top"> Part Name </th>
@@ -102,7 +101,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                         <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                         <td> 1 </td>
                                         <td> Mark </td>
@@ -116,10 +115,10 @@
                                         <td> </td>
                                         <td> 30 </td>
                                         <td> 50 </td>
-                                         <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
-                                    </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                            <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
@@ -136,13 +135,13 @@
                                         <td> </td>
                                         <td> 50 </td>
                                         <td> 40 </td>
-                                         <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
-                                    </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                            <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                        </td>
                                     </tr>
                                     <tr>
-                                          <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                         <td> 1 </td>
                                         <td> Mark </td>
@@ -156,19 +155,15 @@
                                         <td> </td>
                                         <td> 40 </td>
                                         <td> 50 </td>
-                                         <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
-                                    </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                            <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="align-right" colspan="11">Total </td>
                                         <td>5 </td>
-                                        <td>24 </td>
-                                         <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
-                                    </td>
+                                        <td colspan="2">24 </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -191,5 +186,4 @@
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
-
 </div>

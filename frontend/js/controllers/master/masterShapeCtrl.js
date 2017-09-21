@@ -3,7 +3,7 @@ myApp.controller('masterShapeCtrl', function ($rootScope, $scope, $http, $timeou
 
     // Delete modal start
     $scope.deleteItem = function () {
-        $scope.deleteModal = $uibModal.open({
+        $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/modal/delete.html',
             scope: $scope,
