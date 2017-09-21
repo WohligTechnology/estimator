@@ -52,7 +52,6 @@ myApp.controller('baseMatserCtrl', function ($scope, $http, $uibModal, baseMatse
                 scope: $scope,
                 size: 'md'
             });
-
         });
     }
 
