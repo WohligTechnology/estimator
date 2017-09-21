@@ -26,9 +26,70 @@
                 </ul>
             </li>
         </ul>
+        <div class="mar-t">
+            <label><b>Sizes</b></label>
+            <p>20*30*50</p>
+            <p>20*30*50</p>
+            <p>20*30*50</p>
+        </div>
+        <div class="mar-t">
+            <div class="portlet light portlet-fit bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-bubble font-dark"></i>
+                        <span class="caption-subject font-dark bold uppercase"> Materials </span>
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group">
+                            <div class="btn-group">
+                                <button id="sample_editable_1_new" class="btn green" ng-click="extra();"> <i class="fa fa-plus"></i> </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-scrollable">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                     <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                    </th>
+                                    <th> # </th>
+                                    <th> Action </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                     <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                    </td>
+                                    <td> 1 </td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                     <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                    </td>
+                                    <td> Jacob </td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-9">
-        <div class="portlet box green">
+    <div class="col-md-9 ">
+        <div class="part-tables">
+        <!--<div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-gift"></i> Part Master
@@ -40,33 +101,43 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="bor-r">
-                        <form action="#" class="form-horizontal">
-                            <div class="form-body">
-                                <div class="form-group">
-                                    <label class="col-md-5 control-label">Shape :</label>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control input-circle" placeholder="Enter text">
+                            <form action="#" class="form-horizontal">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="col-md-5 control-label">Shape :</label>
+                                        <div class="col-md-7">
+                                            <input type="text" class="form-control input-circle" placeholder="Enter text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-5 control-label">Part Type Code :</label>
+                                        <div class="col-md-7">
+                                            <input type="text" class="form-control input-circle" placeholder="Enter text">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-5 control-label">Part Type Code :</label>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control input-circle" placeholder="Enter text">
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <div class="mar-l">
-                            <label><b>Sizes</b></label>
-                            <p>20*30*50</p>
-                              <p>20*30*50</p>
+                            </form>
+                            <div class="mar-l">
+                                <label><b>Sizes</b></label>
                                 <p>20*30*50</p>
-                        </div>
+                                <p>20*30*50</p>
+                                <p>20*30*50</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-9">
-                        <form action="#" class="form-horizontal">
+                    <div class="col-md-12">
+                        <form class="form-horizontal">
                             <div class="form-body">
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">Shape :</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control input-circle" placeholder="Enter text">
+                                    </div>
+                                    <label class="col-md-2 control-label">Part Type Code :</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control input-circle" placeholder="Enter text">
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <div class="col-md-4">
                                         <div><img src="img/Doraemon.png" alt="" class="img-responsive">
@@ -76,7 +147,6 @@
                                         <div class="form-group">
                                             <label><b>Variables:</b></label>
                                         </div>
-                                    
                                         <div class="form-group">
                                             <label class="col-md-3 control-label">a</label>
                                             <div class="col-md-3">
@@ -87,7 +157,7 @@
                                                 <input type="text" class="form-control " placeholder="">
                                             </div>
                                         </div>
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <label class="col-md-3 control-label">Thickness</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control " placeholder="">
@@ -97,7 +167,7 @@
                                                 <input type="text" class="form-control " placeholder="">
                                             </div>
                                         </div>
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <label class="col-md-3 control-label">Wastage</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control " placeholder="">
@@ -107,7 +177,7 @@
                                                 <input type="text" class="form-control " placeholder="">
                                             </div>
                                         </div>
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <label class="col-md-3 control-label">Size Factor</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control " placeholder="">
@@ -157,133 +227,298 @@
             <div class="portlet-body form">
                 <div class="bor-t">
                 </div>
-                <div class="row ">
-                    <div class="col-md-4">
-                        <!-- BEGIN BORDERED TABLE PORTLET-->
-                        <div class="portlet light portlet-fit bordered">
-                            <div class="portlet-title">
-                                <div class="caption">
-                                    <i class="icon-bubble font-dark"></i>
-                                    <span class="caption-subject font-dark bold uppercase"> Processing </span>
-                                </div>
-                                <div class="actions">
-                                    <div class="btn-group">
-                                        <div class="btn-group">
-                                            <button id="sample_editable_1_new" class="btn green" ng-click="extra();"> <i class="fa fa-plus"></i> </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portlet-body">
-                                <div class="table-scrollable">
-                                    <table class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th> # </th>
-                                                <th> First Name </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td> 1 </td>
-                                                <td> Mark </td>
-                                            </tr>
-                                            <tr>
-                                                <td> Jacob </td>
-                                                <td> Nilson </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+            </div>
+        </div>-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="caption">
+                            <i class="icon-settings font-green"></i>
+                            <span class="caption-subject font-green sbold uppercase">Part Type</span>
                         </div>
-                        <!-- END BORDERED TABLE PORTLET-->
-                    </div>
-                    <div class="col-md-4">
-                        <!-- BEGIN BORDERED TABLE PORTLET-->
-                        <div class="portlet light portlet-fit bordered">
-                            <div class="portlet-title">
-                                <div class="caption">
-                                    <i class="icon-bubble font-dark"></i>
-                                    <span class="caption-subject font-dark bold uppercase">Addons </span>
-                                </div>
-                                <div class="actions">
-                                    <div class="btn-group">
-                                        <div class="btn-group">
-                                            <button id="sample_editable_1_new" class="btn green" ng-click="extra();"> <i class="fa fa-plus"></i> </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portlet-body">
-                                <div class="table-scrollable">
-                                    <table class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th> # </th>
-                                                <th> First Name </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td> 1 </td>
-                                                <td> Mark </td>
-                                            </tr>
-                                            <tr>
-                                                <td> Jacob </td>
-                                                <td> Nilson </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- END BORDERED TABLE PORTLET-->
-                    </div>
-                    <div class="col-md-4">
-                        <!-- BEGIN BORDERED TABLE PORTLET-->
-                        <div class="portlet light portlet-fit bordered">
-                            <div class="portlet-title">
-                                <div class="caption">
-                                    <i class="icon-bubble font-dark"></i>
-                                    <span class="caption-subject font-dark bold uppercase">Extras </span>
-                                </div>
-                                <div class="actions">
-                                    <div class="btn-group">
-                                        <div class="btn-group">
-                                            <button id="sample_editable_1_new" class="btn green" ng-click="extra();"> <i class="fa fa-plus"></i> </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portlet-body">
-                                <div class="table-scrollable">
-                                    <table class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th> # </th>
-                                                <th> First Name </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td> 1 </td>
-                                                <td> Mark </td>
-                                            </tr>
-                                            <tr>
-                                                <td> Jacob </td>
-                                                <td> Nilson </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- END BORDERED TABLE PORTLET-->
                     </div>
                 </div>
-                
+            </div>
+            <div class="portlet-body">
+                <div class="portlet-body">
+                    <form class="form-horizontal">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">Shape :</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" >
+                                </div>
+                                <label class="col-md-2 control-label">Part Type Code :</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <div><img src="img/Doraemon.png" alt="" class="img-responsive">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label><b>Variables:</b></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">a</label>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control " placeholder="">
+                                        </div>
+                                        <label class="col-md-3 control-label">b</label>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control " placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Thickness</label>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control " placeholder="">
+                                        </div>
+                                        <label class="col-md-3 control-label">Length</label>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control " placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Wastage</label>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control " placeholder="">
+                                        </div>
+                                        <label class="col-md-3 control-label">Form Factor</label>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control " placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Size Factor</label>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control " placeholder="">
+                                        </div>
+                                        <label class="col-md-3 control-label">Preset Name</label>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control " placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                           
+                            <div class="form-group">
+                                <label class="col-md-2"><b>Perimeter (p):</b></label>
+                                <div class="col-md-2">
+                                   <div>57976</div>
+                                </div>
+                                <label class="col-md-2"><b>Sheet Metal Area:</b></label>
+                                <div class="col-md-2">
+                            <div>89768</div>
+                                </div>
+                                   <label class="col-md-2"><b>Surface Area:</b></label>
+                                <div class="col-md-2">
+                                   <div>8769</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                             
+                                <label class="col-md-2"><b>Weight:</b></label>
+                                <div class="col-md-2">
+                                   <div>874769</div>
+                                </div>
+                                  <label class="col-md-2"><b>Cost Price:</b></label>
+                                <div class="col-md-2">
+                                   <div>676</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+    </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+    <div class="col-md-4">
+        <!-- BEGIN BORDERED TABLE PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bubble font-dark"></i>
+                    <span class="caption-subject font-dark bold uppercase"> Processing </span>
+                </div>
+                <div class="actions">
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <button id="sample_editable_1_new" class="btn green" ng-click="extra();"> <i class="fa fa-plus"></i> </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-scrollable">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                     <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                </th>
+                                <th> # </th>
+                                <th> First Name </th>
+                                <th> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                     <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                </td>
+                                <td> 1 </td>
+                                <td> Mark </td>
+                                <td class="edit-icon">
+                                    <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                    <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                     <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                </td>
+                                <td> Jacob </td>
+                                <td> Nilson </td>
+                                <td class="edit-icon">
+                                    <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                    <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END BORDERED TABLE PORTLET-->
+    </div>
+    <div class="col-md-4">
+        <!-- BEGIN BORDERED TABLE PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bubble font-dark"></i>
+                    <span class="caption-subject font-dark bold uppercase">Addons </span>
+                </div>
+                <div class="actions">
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <button id="sample_editable_1_new" class="btn green" ng-click="extra();"> <i class="fa fa-plus"></i> </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-scrollable">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                </th>
+                                <th> # </th>
+                                <th> First Name </th>
+                                <th class="align-top"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                     <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                </td>
+                                <td> 1 </td>
+                                <td> Mark </td>
+                                <td class="edit-icon">
+                                    <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                    <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                                <td> Jacob </td>
+                                <td> Nilson </td>
+                                <td class="edit-icon">
+                                    <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                    <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END BORDERED TABLE PORTLET-->
+    </div>
+    <div class="col-md-4">
+        <!-- BEGIN BORDERED TABLE PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bubble font-dark"></i>
+                    <span class="caption-subject font-dark bold uppercase">Extras </span>
+                </div>
+                <div class="actions">
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <button id="sample_editable_1_new" class="btn green" ng-click="extra();"> <i class="fa fa-plus"></i> </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-scrollable">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                </th>
+                                <th> # </th>
+                                <th> First Name </th>
+                                <th class="align-top"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                                <td> 1 </td>
+                                <td> Mark </td>
+                                <td class="edit-icon">
+                                    <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                    <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                                <td> Jacob </td>
+                                <td> Nilson </td>
+                                <td class="edit-icon">
+                                    <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                    <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END BORDERED TABLE PORTLET-->
+    </div>
+    </div>
     </div>
 </div>
