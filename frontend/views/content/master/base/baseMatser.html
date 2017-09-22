@@ -35,7 +35,7 @@
                                         <li ng-repeat="u in uomData">
                                             <span class="tree_label" class="partName">{{u.uomName}}</span>
                                             <span ng-click="addOrEditUomModal('update',u)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
-                                            <span ng-click="deleteUomModal(u._id)" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                            <span ng-click="deleteUomModal(u._id,'deleteUom')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                         </li>
                                     </ul>
                                 </li>
@@ -53,7 +53,7 @@
                             <div class="actions">
                                 <div class="btn-group">
                                     <a class="btn green-haze btn-outline btn-circle btn-sm" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"
-                                        ng-click="addOrEditVariableModal()"> <i class="fa fa-plus"></i>
+                                        ng-click="addOrEditVariableModal('save')"> <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
                             </div>
@@ -66,9 +66,9 @@
                                     <span class="assebmlyName">Variable</span>
                                     <ul>
                                         <li ng-repeat="va in variableData">
-                                            <span class="tree_label" class="partName">{{va.name}}</span>
-                                            <span ng-click="addOrEditVariableModal(va._id)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
-                                            <span ng-click="deleteVariableModal(va._id)" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                            <span class="tree_label" class="partName">{{va.variableName}}</span>
+                                            <span ng-click="addOrEditVariableModal('update',va)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                                            <span ng-click="deleteVariableModal(va._id,'deleteVariable')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                         </li>
                                     </ul>
                                 </li>
@@ -86,7 +86,7 @@
                             <div class="actions">
                                 <div class="btn-group">
                                     <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown"
-                                        data-close-others="true" ng-click="addOrEditDfModal()"> <i class="fa fa-plus"></i>
+                                        data-close-others="true" ng-click="addOrEditDfModal('save')"> <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
                             </div>
@@ -99,9 +99,9 @@
                                     <span class="assebmlyName">Difficulty Factor</span>
                                     <ul>
                                         <li ng-repeat="fa in dfData">
-                                            <span class="tree_label" class="partName">{{fa.name}}</span>
-                                            <span ng-click="addOrEditDfModal(fa._id)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
-                                            <span ng-click="deleteDfModal(fa._id)" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                            <span class="tree_label" class="partName">{{fa.difficultyFactor}} ({{fa.mulfact}})</span>
+                                            <span ng-click="addOrEditDfModal('update',fa)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                                            <span ng-click="deleteDfModal(fa._id,'deleteDf')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                         </li>
                                     </ul>
                                 </li>
@@ -119,7 +119,7 @@
                             <div class="actions">
                                 <div class="btn-group">
                                     <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown"
-                                        data-close-others="true" ng-click="addOrEditMarkupsModal()"> <i class="fa fa-plus"></i>
+                                        data-close-others="true" ng-click="addOrEditMarkupModal('save')"> <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
                             </div>
@@ -134,9 +134,31 @@
                                     <ul>
                                         <li ng-repeat="ma in markupData">
                                             <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
-                                            <span class="tree_label" class="partName">{{ma.name}}</span>
-                                            <span ng-click="addOrEditMarkupsModal(ma._id)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
-                                            <span ng-click="deleteMarkupsModal(ma._id)" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                            <input type="checkbox" id="{{ma.markupType+$index}}" />
+                                            <label class="tree_label" for="{{ma.markupType+$index}}"></label>
+                                            <span class="tree_label" class="partName">{{ma.markupType}}</span>
+                                            <span ng-click="addOrEditMarkupModal('update',ma)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                                            <span ng-click="deleteMarkupModal(ma._id,'deleteMarkup')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                            <ul>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Overhead: {{ma.overhead}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Min Profit: {{ma.minProfit}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Negotiation: {{ma.negotiation}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Commission: {{ma.commission}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Other: {{ma.other}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Total Value: {{ma.totalValue}}</span>
+                                                </li>
+                                            </ul>
                                         </li>
                                     </ul>
                                 </li>

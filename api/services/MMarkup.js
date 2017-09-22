@@ -1,36 +1,15 @@
 var schema = new Schema({
-    material: {
-        overhead: Number,
-        minProfit: Number,
-        negotiation: Number,
-        commission: Number,
-        other: Number,
-        totalValue: Number
+    markupType: {
+        type: String,
+        enum: ['material', 'process', 'addon', 'extra'],
+        required: true
     },
-    process: {
-        overhead: Number,
-        minProfit: Number,
-        negotiation: Number,
-        commission: Number,
-        other: Number,
-        totalValue: Number
-    },
-    addon: {
-        overhead: Number,
-        minProfit: Number,
-        negotiation: Number,
-        commission: Number,
-        other: Number,
-        totalValue: Number
-    },
-    extras: {
-        overhead: Number,
-        minProfit: Number,
-        negotiation: Number,
-        commission: Number,
-        other: Number,
-        totalValue: Number
-    }
+    overhead: Number,
+    minProfit: Number,
+    negotiation: Number,
+    commission: Number,
+    other: Number,
+    totalValue: Number
 });
 
 schema.plugin(deepPopulate, {});

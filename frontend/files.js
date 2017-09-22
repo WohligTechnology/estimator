@@ -79,7 +79,7 @@ module.exports = [
   'frontend/js/controllers/estimate/createOrEditEstimateCtrl.js',
   'frontend/js/controllers/estimate/estimateCtrl.js',
   'frontend/js/controllers/login/loginCtrl.js',
-  'frontend/js/controllers/master/baseMatserCtrl.js',
+  'frontend/js/controllers/master/baseMasterCtrl.js',
   'frontend/js/controllers/master/masterAddonCtrl.js',
   'frontend/js/controllers/master/masterExtraCtrl.js',
   'frontend/js/controllers/master/masterMaterialCtrl.js',

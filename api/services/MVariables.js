@@ -2,6 +2,10 @@ var schema = new Schema({
     variableName:{
         type:String,
         required: true
+    },
+    description:{
+        type:String,
+        default:""
     }
 });
 
