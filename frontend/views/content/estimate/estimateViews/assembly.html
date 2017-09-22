@@ -4,13 +4,13 @@
         <div class="portlet light portlet-fit bordered">
             <div class="portlet-title">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="caption">
                             <i class="icon-settings font-red"></i>
                             <span class="caption-subject font-red sbold uppercase">Assembly</span>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <select class="bs-select form-control input-small pull-right" data-style="btn-info">
                              <option>Show Records</option>
                               <option>2</option>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-md-1">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green"> <i class="fa fa-plus"></i> </button>
+                            <button type="button" class="btn btn-circle blue" ng-click="importSubAssembly()">Import </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -57,17 +57,11 @@
                 <!-- BEGIN  TABLE -->
                 <div class="portlet-title">
                     <div class="row">
-                        <div class="col-md-4">
-                            <label>Assembly Name:</label> assembly
+                        <div class="col-md-3">
+                            <label> Name:</label> assembly
                         </div>
-                        <div class="col-md-4">
-                            <label>Assembly Id:</label> 5790
-                        </div>
-                        <div class="col-md-4">
-                            <!--<label>Import From:</label>-->
-                            <div class="pull-right">
-                                <button type="button" class="btn btn-circle blue" ng-click="importSubAssembly()">Import From</button>
-                            </div>
+                        <div class="col-md-3">
+                            <label> Id:</label> 5790
                         </div>
                     </div>
                 </div>
@@ -78,20 +72,19 @@
                                 <tr>
                                     <th rowspan="2"> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                        <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
-                                        </th>
-                                        <th rowspan="2" class="align-top"> Id </th>
-                                        <th rowspan="2" class="align-top"> sub Assembly name</th>
-                                        <th rowspan="2" class="align-top"> Quantity
-                                            (Nos) </th>
-                                        <th colspan="6" class="text-center"> Per item detail </th>
-                                        <th colspan="2" class="align-top text-center"> Total</th>
-                                        <th rowspan="2" class="align-top"> Action </th>
+                                    </th>
+                                    <th rowspan="2" class="align-top"> Id </th>
+                                    <th rowspan="2" class="align-top"> sub Assembly name</th>
+                                    <th rowspan="2" class="align-top"> Quantity (Nos) </th>
+                                    <th colspan="6" class="text-center"> Per item detail </th>
+                                    <th colspan="2" class="align-top text-center"> Total</th>
+                                    <th rowspan="2" class="align-top"> Action </th>
                                 </tr>
                                 <tr>
                                     <th>Weight</th>
                                     <th>Material Cost</th>
                                     <th>Processing Cost</th>
-                                    <th>Address Cost</th>
+                                    <th>Addon Cost</th>
                                     <th>Extra Cost</th>
                                     <th>Total Cost</th>
                                     <th>Weight</th>
@@ -100,7 +93,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                     <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td> 1 </td>
                                     <td> Mark </td>
@@ -119,7 +112,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                     <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td> 1 </td>
                                     <td> Mark </td>
@@ -138,7 +131,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                     <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td> 1 </td>
                                     <td> Mark </td>
@@ -160,7 +153,6 @@
                                     <td class="align-right" colspan="10">Total </td>
                                     <td>5 </td>
                                     <td colspan="2">24 </td>
-                                   
                                 </tr>
                             </tbody>
                         </table>

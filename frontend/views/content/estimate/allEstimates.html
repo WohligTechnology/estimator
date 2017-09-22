@@ -10,10 +10,8 @@
                             <span class="caption-subject font-red sbold uppercase">Estimate</span>
                         </div>
                     </div>
-                    <div class="col-md-5">
-                      
-                    </div>
-                    <div class="col-md-1">
+                    
+                    <div class="col-md-6">
                         <div class="btn-group pull-right">
                             <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
                             <ul class="dropdown-menu pull-right">
@@ -77,10 +75,11 @@
                                <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
                             <th> Id </th>
                             <th> Name </th>
-                            <th> C_Name </th>
-                            <th> Notes </th>
-                            <th> Notes </th>
-                            <th> Notes </th>
+                            <th>SubAssembly Count </th>
+                            <th> Part Count </th>
+                            <th> Total Cost </th>
+                            <th> Created by user </th>
+                             <th> Updated by user </th>
                             <th> Action </th>
                         </tr>
                     </thead>
@@ -98,8 +97,11 @@
                             <td>
                                 <a class="delete" href=":;"> Delete </a>
                             </td>
+                              <td>
+                                <a class="delete" href=":;"> Delete </a>
+                            </td>
                             <td>
-                                <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                <a class="action" ng-click="allEstimateEdit()"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
                                 <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
                             </td>
                         </tr>

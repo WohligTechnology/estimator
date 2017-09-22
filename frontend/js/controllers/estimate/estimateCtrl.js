@@ -40,4 +40,15 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, $timeout, 
     };
     //end of modal
 
+//Edit Estimate modal start
+    $scope.allEstimateEdit = function () {
+        $scope.modalInstance  = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/estimate/estimateModal/allEstimateEdit.html',
+            scope: $scope,
+            size: 'md',
+        });
+    };
+    //end of modal
+
 });

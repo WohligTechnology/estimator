@@ -36,15 +36,13 @@ myApp.controller('enquiryCtrl', function ($rootScope, $scope, $http, $timeout, $
     }
   ]
 
-  //modal start
-  $scope.edit = function () {
+  //Edit Enquries Modal start
+  $scope.editEnqury = function () {
     $scope.editModal = $uibModal.open({
       animation: true,
-      templateUrl: 'views/modal/edit.html',
+      templateUrl: 'views/content/enquiry/allEnquriesEdit.html',
       scope: $scope,
       size: 'md',
-
-
     });
   };
   //end of modal

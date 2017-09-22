@@ -9498,6 +9498,13 @@ body {
   overflow-y: scroll;
   max-height: 200px; }
 
+.inside-custom-table td {
+  padding: 6px 0px; }
+
+.edit-btn .label.label-sm {
+  font-size: 11px;
+  padding: 1px 2px; }
+
 #fancybox-loading,
 .fancybox-close,
 .fancybox-next span,

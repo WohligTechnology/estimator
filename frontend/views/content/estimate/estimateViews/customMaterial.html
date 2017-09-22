@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-md-1">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green"> <i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ng-click="estimateCustomMaterial()"> <i class="fa fa-plus"></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -65,18 +65,17 @@
                                         <th rowspan="2" class="align-top"> Id </th>
                                         <th colspan="2" class="align-top"> Base Material</th>
                                         <th colspan="2" class="align-top text-center"> Hardfacing </th>
-                                        <th rowspan="2" class="align-top text-center"> Customization </th>
-                                        <th colspan="2" class="align-top text-center"> Price</th>
-                                        <th rowspan="2" class="align-top text-center"> Efficiency wt/kg,wt/m<sup>2</sup> </th>
+                                        <th rowspan="2" class="align-top text-center"> MulFact </th>
+                                        <th rowspan="2" class="align-top text-center"> Total Cost Rs/kg</th>
+                                        <th rowspan="2" class="align-top text-center"> Total Cost Rs/m<sup>2</sup> </th>
+                                        <th rowspan="2" class="align-top text-center"> Detail </th>
                                         <th rowspan="2" class="align-top"> Action </th>
                                 </tr>
                                 <tr>
                                     <th>Thickness</th>
-                                    <th>Grades</th>
+                                    <th>Base Metal</th>
                                     <th>Thickness</th>
-                                    <th>Deposite Grades</th>
-                                    <th>Rs/kg</th>
-                                    <th>Rs/m<sup>2</sup></th>
+                                    <th>Alloy</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -86,8 +85,32 @@
                                     <td>{{custom.id}} </td>
                                     <td> {{custom.baseMaterial.thickness}} </td>
                                     <td>{{custom.baseMaterial.grade}} </td>
-                                    <td>{{custom.hardfacing.thickness}} </td>
-                                    <td>{{custom.hardfacing.depositeGrade}} </td>
+                                    <td>{{custom.hardfacing.thickness}}
+                                        <table class="inside-custom-table">
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td>{{custom.hardfacing.depositeGrade}}
+                                        <table class="inside-custom-table">
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                        </table>
+                                    </td>
                                     <td>{{custom.customization}} </td>
                                     <td> {{custom.price.kg}} </td>
                                     <td> {{custom.price.m}}</td>
@@ -99,11 +122,7 @@
                                 </tr>
                                 <tr>
                                     <td class="align-right" colspan="9">Total </td>
-                                    <td>5 </td>
-                                    <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
-                                    </td>
+                                    <td colspan="2">5 </td>
                                 </tr>
                             </tbody>
                         </table>

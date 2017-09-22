@@ -58,17 +58,17 @@ myApp.controller('masterPartCtrl', function ($rootScope, $scope, $http, $timeout
             animation: true,
             templateUrl: 'views/modal/delete.html',
             scope: $scope,
-            size: 'sm',
+            size: 'md',
         });
     };
     //end of modal
      //AddAddon modal start
-    $scope.deleteItem = function () {
+    $scope.addAddon = function () {
         $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/part/addAddonToPreset.html',
             scope: $scope,
-            size: 'sm',
+            size: 'md',
         });
     };
     //end of modal
@@ -83,22 +83,22 @@ myApp.controller('masterPartCtrl', function ($rootScope, $scope, $http, $timeout
     };
     //end of modal
      //AddExtra modal start
-    $scope.deleteItem = function () {
+    $scope.addExtra = function () {
         $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/part/addExtraToPreset.html',
             scope: $scope,
-            size: 'sm',
+            size: 'md',
         });
     };
     //end of modal
      //AddMaterial modal start
-    $scope.deleteItem = function () {
+    $scope.addMaterial = function () {
         $scope.modalInstance  = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/master/part/addMaterialToPartType.html',
             scope: $scope,
-            size: 'sm',
+            size: 'md',
         });
     };
     //end of modal
