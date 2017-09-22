@@ -260,6 +260,16 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
         });
     };
     //end of modal
+       //create Or Edit CustomMaterial modal start
+    $scope.estimateCustomMaterial = function () {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/estimate/estimateModal/createOrEditCustomMaterial.html',
+            scope: $scope,
+            size: 'md',
+        });
+    };
+    //end of modal
 // Delete modal start
     $scope.deleteItem = function () {
         $scope.modalInstance  = $uibModal.open({

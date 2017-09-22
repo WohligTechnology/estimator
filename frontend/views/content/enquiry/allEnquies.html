@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-             </div>
+            </div>
             <div class="portlet-body">
                 <div class="table-toolbar">
                     <div class="row">
@@ -65,24 +65,28 @@
                                     <div class="input-icon right">
                                         <i class="icon-magnifier"></i>
                                         <input type="text" class="form-control form-control-solid" placeholder="search...">                                        </div>
-                                   </div>
-                               </div>
-                          </div>
-                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
                     <thead>
                         <tr>
                             <th>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
+                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label>
+                            </th>
                             <th> Id </th>
                             <th> Name </th>
-                            <th> C_Name </th>
-                            <th> Notes </th>
-                            <th> Notes </th>
-                            <th> Notes </th>
-                            <th> Action </th>
+                            <th> Details </th>
+                            <th> Info </th>
+                            <th> Key Requirements </th>
+                            <th> Technical Requirements </th>
+                            <th> Commercial Requirements </th>
+                            <th> Pre Qualification Criteria </th>
+                            <th> Markup </th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -100,9 +104,18 @@
                                 <a class="delete" href=":;"> Delete </a>
                             </td>
                             <td>
+                                <a class="delete" href=":;"> Delete </a>
+                            </td>
+                            <td>
+                                <a class="delete" href=":;"> Delete </a>
+                            </td>
+                            <td>
+                                <a class="delete" href=":;"> Delete </a>
+                            </td>
+                            <td>
                                 <!--<a class="" ng-click="edit();"> <span class="label label-sm label-info"><i class="fa fa-eye"></i></span></a>-->
-                               <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                 <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                <a class="action edit-btn" ng-click="editEnqury()"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                <a class="edit-btn" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
                                 <!--<a class="" ui-sref="app.estimate"> <span class="label label-sm label-warning"> Estimate </span></a>-->
                             </td>
                         </tr>
@@ -114,10 +127,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="pull-right">
-                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
-                    next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
+                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                         </div>
-                </div>
+                    </div>
                 </div>
             </div>
         </div>
