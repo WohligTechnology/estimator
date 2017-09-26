@@ -1,72 +1,41 @@
-myApp.service('customerService', function ($rootScope, $scope, $http, $timeout, $uibModal) {
-  $scope.$parent.isSidebarActive = true;
-  $scope.$on('$viewContentLoaded', function () {
-    // initialize core components
-    App.initAjax();
-  });
+myApp.service('customerService', function ($http, NavigationService, $uibModal) {
 
-  //table data
-  $scope.tableData = [{
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-      "pname": "kishori",
-      "did": "1",
-      "bname": "kishori",
-
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-    }
-  ]
-
-  //modal start
-  $scope.edit = function () {
-    $scope.editModal = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/modal/edit.html',
-      scope: $scope,
-      size: 'md',
-
-
+  this.getCustomerData = function (callback) {
+    NavigationService.boxCall('Customer/search', function (data) {
+      var customers = data.data.results;
+      callback(customers);
     });
-  };
-  //end of modal
-  //start of pagination 
-  $scope.totalItems = 64;
-  $scope.currentPage = 4;
 
-  $scope.setPage = function (pageNo) {
-    $scope.currentPage = pageNo;
-  };
+    this.getCustomerModalData = function (operation, customer, callback) {
+      var customerDataObj = {};
 
-  $scope.pageChanged = function () {
-    $log.log('Page changed to: ' + $scope.currentPage);
-  };
+      if (angular.isDefined(customer)) {
+        customerDataObj.customer = customer;
+      }
+      if (operation == "save") {
+        customerDataObj.saveBtn = true;
+        customerDataObj.editBtn = false;
+      } else if (operation == "update") {
+        customerDataObj.saveBtn = false;
+        customerDataObj.editBtn = true;
+      }
+      callback(customerDataObj);
+    }
+    this.addOrEditCustomer = function (customerData, callback) {
+      NavigationService.apiCall('Customer/save', customerData, function (data) {
+        var customer = data.data.results;
+        callback(customer);
+      });
+    }
 
-  $scope.maxSize = 5;
-  $scope.bigTotalItems = 175;
-  $scope.bigCurrentPage = 1;
+      this.deleteCustomer = function(customerId,callback){
+        var deleteCustomerObj = {
+            _id:customerId
+        };
+        NavigationService.delete('Customer/delete',deleteCustomerObj, function(data){
+            callback(data);
+        });
+    }
 
-  //end of pagination
-  //start of checkbox
-  $("#checkAll").click(function () {
-    $('input:checkbox').not(this).prop('checked', this.checked);
-  });
-
-
+ }
 });
