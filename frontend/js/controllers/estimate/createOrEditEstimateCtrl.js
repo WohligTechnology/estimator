@@ -143,7 +143,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
 
     $scope.init();
 
-  //custom material 
+    //custom material 
     $scope.customMaterial = [{
             "id": "1",
             "baseMaterial": {
@@ -260,7 +260,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
         });
     };
     //end of modal
-       //create Or Edit CustomMaterial modal start
+    //create Or Edit CustomMaterial modal start
     $scope.estimateCustomMaterial = function () {
         $scope.modalInstance = $uibModal.open({
             animation: true,
@@ -270,9 +270,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
         });
     };
     //end of modal
-// Delete modal start
+    // Delete modal start
     $scope.deleteItem = function () {
-        $scope.modalInstance  = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/modal/delete.html',
             scope: $scope,
