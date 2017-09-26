@@ -3,6 +3,7 @@ myApp.controller('baseMasterCtrl', function ($scope, $http, $uibModal, baseMatse
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = true;
+    //- to show/hide save & update button on pop-up according to operation
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
 

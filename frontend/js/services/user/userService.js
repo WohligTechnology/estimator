@@ -5,30 +5,30 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
       var users = data.data.results;
       callback(users);
     });
+  }
 
-    this.getUserModalData = function (operation, user, callback) {
-      var userDataObj = {};
+  this.getUserModalData = function (operation, user, callback) {
+    var userDataObj = {};
 
-      if (angular.isDefined(user)) {
-        userDataObj.user = user;
-      }
-      if (operation == "save") {
-        userDataObj.saveBtn = true;
-        userDataObj.editBtn = false;
-      } else if (operation == "update") {
-        userDataObj.saveBtn = false;
-        userDataObj.editBtn = true;
-      }
-      callback(userDataObj);
+    if (angular.isDefined(user)) {
+      userDataObj.user = user;
     }
-
-    this.addOrEditUser = function (userData, callback) {
-      NavigationService.apiCall('User/save', userData, function (data) {
-        var user = data.data.results;
-        user.dob = new Date(user.dob);
-        callback(user);
-      });
+    if (operation == "save") {
+      userDataObj.saveBtn = true;
+      userDataObj.editBtn = false;
+    } else if (operation == "update") {
+      userDataObj.saveBtn = false;
+      userDataObj.editBtn = true;
     }
+    callback(userDataObj);
+  }
+
+  this.addOrEditUser = function (userData, callback) {
+    NavigationService.apiCall('User/save', userData, function (data) {
+      var user = data.data.results;
+      user.dob = new Date(user.dob);
+      callback(user);
+    });
   }
 
 });

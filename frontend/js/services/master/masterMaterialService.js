@@ -39,6 +39,6 @@ myApp.service('masterMaterialService', function ($http) {
 
         callback(materialCat);
     }
-    //- modal to add or edit material category
+   
 
 });
