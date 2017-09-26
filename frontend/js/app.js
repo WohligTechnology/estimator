@@ -900,3 +900,28 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
     $urlRouterProvider.otherwise("/app");
     $locationProvider.html5Mode(isproduction);
 });
+
+
+myApp.directive('inputDate', function ($compile, $parse) {
+    return {
+        restrict: 'E',
+        replace: false,
+        scope: {
+            value: "=ngModel",
+        },
+        templateUrl: 'frontend/views/directive/date.html',
+        link: function ($scope, element, attrs) {
+            $scope.data = {};
+            $scope.dateOptions = {
+                dateFormat: "dd/mm/yy"
+            };
+            if (!_.isEmpty($scope.value)) {
+                $scope.data.model = moment($scope.value).toDate();
+            }
+            $scope.changeDate = function (data) {
+                // $scope.value = $scope.data.model;
+                $scope.value = data;
+            };
+        }
+    };
+});

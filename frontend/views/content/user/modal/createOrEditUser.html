@@ -10,38 +10,38 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
+                <form class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Name :</label>
+                            <label class="col-md-4 control-label" >Name :</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" ng-model="formData.name">
                             </div>
                         </div>
                           <div class="form-group">
-                            <label class="col-md-4 control-label">Email Id :</label>
+                            <label class="col-md-4 control-label" >Email Id :</label>
                             <div class="col-md-5">
-                                <input type="email" class="form-control">
+                                <input type="email" class="form-control" ng-model="formData.email">
                             </div>
                         </div>
                          <div class="form-group">
-                            <label class="col-md-4 control-label">DOB :</label>
+                            <label class="col-md-4 control-label" >DOB :</label>
                             <div class="col-md-5">
-                                <input type="date" class="form-control">
+                                <input-date ng-model="formData.dob"></input-date>
                             </div>
                         </div>
                          <div class="form-group">
                             <label class="col-md-4 control-label">Mobile :</label>
                             <div class="col-md-5">
-                                <input type="tel" class="form-control">
+                                <input type="tel" minlength="10" maxlength="10" class="form-control" ng-model="formData.mobile">
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green">Save</button>
-                                 <button type="submit" class="btn btn-circle green">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditUser(formData)">Save</button>
+                                 <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditUser(formData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                             </div>
                         </div>
