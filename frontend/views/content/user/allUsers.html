@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ng-click="createOrEdit()"> <i class="fa fa-plus" ></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditUserModal('save')"> <i class="fa fa-plus" ></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -86,19 +86,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="table in tableData">
+                        <tr ng-repeat="user in userData">
                             <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
-                            <td>{{table.id}} </td>
-                            <td>{{table.name}} </td>
-                            <td>{{table.dname}} </td>
-                            <td class="center"> {{table.dname}} </td>
-                            <td>
-                                <a class="edit" href="javascript:;"> Edit </a>
-                            </td>
+                            <td>{{user.id}} </td>
+                            <td>{{user.name}} </td>
+                            <td>{{user.email}} </td>
+                            <td class="center"> {{user.dname}} </td>
+                            <td>{{user.mobile }}</td>
                             <td>
                                 <a class="" ng-click="viewUser()"> <span class="label label-sm label-info"><i class="fa fa-eye"></i></span></a>
-                                <a class="action" ng-click="createOrEdit()" ng-click="createOrEdit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                <a class="action" ng-click="addOrEditUserModal('update',user)"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
                                 <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
                             </td>
                         </tr>
