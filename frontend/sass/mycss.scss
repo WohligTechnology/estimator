@@ -331,20 +331,35 @@ body {
   right: 11%;
   position: absolute;
 }
-.tree-overflow{
-   overflow-y: scroll;
- max-height:200px;
+
+.tree-overflow {
+  overflow-y: scroll;
+  max-height: 200px;
 }
+
 //custom material 
-.inside-custom-table{
-  td{
-        padding: 6px 0px;
+.inside-custom-table {
+  td {
+    padding: 6px 0px;
   }
 }
+
 //enquiry
-.edit-btn{
+.edit-btn {
   .label.label-sm {
     font-size: 11px;
     padding: 1px 2px;
+  }
 }
+
+//base master
+.padd-caption {
+  padding-top: 20px;
+  display: inline-block;
+}
+
+.padd-action {
+  padding: 16px 0 11px !important;
+  float: right;
+  display: inline-block;
 }
