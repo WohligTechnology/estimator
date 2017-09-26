@@ -44,7 +44,6 @@ myApp.service('baseMatserService', function ($http, NavigationService) {
         NavigationService.apiCall('MUom/save', uomData, function (data) {
             callback(data);
         });
-
     }
     this.deleteUom = function(uomId,callback){
         var deleteUomObj = {
