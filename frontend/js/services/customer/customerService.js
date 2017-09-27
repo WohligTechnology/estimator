@@ -5,7 +5,7 @@ myApp.service('customerService', function ($http, NavigationService, $uibModal) 
       var customers = data.data.results;
       callback(customers);
     });
-
+  }
     this.getCustomerModalData = function (operation, customer, callback) {
       var customerDataObj = {};
 
@@ -37,5 +37,5 @@ myApp.service('customerService', function ($http, NavigationService, $uibModal) 
         });
     }
 
- }
+
 });
