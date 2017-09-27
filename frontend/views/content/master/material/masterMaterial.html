@@ -7,35 +7,35 @@
                 <span class="assebmlyName">Material Master</span>
                 <span ng-click="addOrEditMaterialCatModal('save')" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ></i></span>
                 <ul>
-                    <li ng-repeat="mc in materialData">
+                    <li ng-repeat="mc in materialStructureData">
                         <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
-                        <input type="checkbox" id="{{mc.name+$index}}" />
-                        <label for="{{mc.name+$index}}" class="tree_label"></label>
+                        <input type="checkbox" id="{{mc.materialCatName+$index}}" />
+                        <label for="{{mc.materialCatName+$index}}" class="tree_label"></label>
                         <!-- material cat name -->
-                        <span ng-click="" class="subssemblyName">{{mc.name}}</span>
+                        <span ng-click="" class="subssemblyName">{{mc.materialCatName}}</span>
                         <!-- create sub material category -->
-                        <span ng-click="addOrEditMaterialSubCatModal('save')" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ></i></span>
+                        <span ng-click="addOrEditMaterialSubCatModal('save',mc._id)" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ></i></span>
                         <!-- edit material category -->
                         <span ng-click="addOrEditMaterialCatModal('update',mc)" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
                         <!-- delete material category -->
                         <span ng-click="deleteMaterialCatModal(mc._id,'deleteMaterialCat')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" ></i></span>
                         <ul>
-                            <li ng-repeat="msc in mc.materialSub">
-                                <input type="checkbox" id="{{msc.name+$index+$parent.$index}}" />
-                                <label for="{{msc.name+$index+$parent.$index}}" class="tree_label"></label>
+                            <li ng-repeat="msc in mc.subCat">
+                                <input type="checkbox" id="{{msc.materialSubCatName+$index+$parent.$index}}" />
+                                <label for="{{msc.materialSubCatName+$index+$parent.$index}}" class="tree_label"></label>
                                 <!-- material sub category name -->
-                                <span class="tree_label" class="partName">{{msc.name}}</span>
+                                <span class="tree_label" class="partName">{{msc.materialSubCatName}}</span>
                                 <!-- create material -->
-                                <span ng-click="addOrEditMaterialModal('save')" class="materialSubCreateIcon"><i class="fa fa-plus btn-info"  ></i></span>
+                                <span ng-click="addOrEditMaterialModal('save',msc._id)" class="materialSubCreateIcon"><i class="fa fa-plus btn-info"  ></i></span>
                                 <!-- edit material sub category name -->
-                                <span ng-click="addOrEditMaterialSubCatModal('update',msc)" class="partEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
+                                <span ng-click="addOrEditMaterialSubCatModal('update',mc._id,msc)" class="partEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
                                 <!-- delete material sub category -->
                                 <span ng-click="deleteMaterialSubCatModal(msc._id,'deleteMaterialSubCat')" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger" ></i></span>
                                 <ul>
-                                    <li ng-repeat="m in msc.material">
-                                        <span class="tree_label" class="partName">{{m.name}}</span>
+                                    <li ng-repeat="m in msc.materials">
+                                        <span class="tree_label" class="partName">{{m.materialName}}</span>
                                         <!-- edit material -->
-                                        <span ng-click="addOrEditMaterialModal('update',m)" class="materialEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
+                                        <span ng-click="addOrEditMaterialModal('update',msc._id,m)" class="materialEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
                                         <!-- delete material -->
                                         <span ng-click="deleteMaterialModal(m._id,'deleteMaterial')" class="materialDeleteIcon"><i class="fa fa-trash-o btn-danger" ></i></span>
                                     </li>

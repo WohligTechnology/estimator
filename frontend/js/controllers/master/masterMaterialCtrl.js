@@ -7,60 +7,164 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
 
+
     // *************************** default functions begin here  ********************** //
     $scope.getMaterialData = function () {
         masterMaterialService.getMaterialData(function (data) {
-            $scope.materialData = data;
+            $scope.materialStructureData = data;
         });
     }
 
     // *************************** functions to be triggered form view begin here ***** //
 
     $scope.addOrEditMaterialCatModal = function (operation, materialCat) {
-        console.log('**** inside addOrEditMaterialCatModal of createOrEditMaterialCtrl.js ****',operation);
+        console.log('**** inside addOrEditMaterialCatModal of createOrEditMaterialCtrl.js ****', operation);
+        masterMaterialService.getMaterialCatModalData(operation, materialCat, function (data) {
+            $scope.formData = data.materialCat;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
+
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/master/material/createOrEditMaterialCat.html',
+                scope: $scope,
+                size: 'md'
+            });
+        });
     }
     $scope.addOrEditMaterialCat = function (materialCatData) {
         console.log('**** inside addOrEditMaterialCat of createOrEditMaterialCtrl.js ****');
+        masterMaterialService.addOrEditMaterialCat(materialCatData, function (data) {
+            $scope.operationStatus = "Record added successfully";
+            $scope.getMaterialData();
+            $scope.cancelModal();
+        });
     }
     //- modal to confirm material cat deletion
     $scope.deleteMaterialCatModal = function (materialCatId, getFunction) {
-        console.log('**** inside deleteMaterialCatModal of createOrEditMaterialCtrl.js ****',getFunction);
+        console.log('**** inside deleteMaterialCatModal of createOrEditMaterialCtrl.js ****', getFunction);
+        $scope.idToDelete = materialCatId;
+        $scope.functionToCall = getFunction;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+            scope: $scope,
+            size: 'md'
+        });
     }
     $scope.deleteMaterialCat = function (materialCatId) {
         console.log('**** inside deleteMaterialCat of createOrEditMaterialCtrl.js ****');
+        masterMaterialService.deleteMaterialCat(materialCatId, function (data) {
+            $scope.operationStatus = "Record deleted successfully";
+            $scope.cancelModal();
+            $scope.getMaterialData();
+        });
     }
 
 
+    $scope.addOrEditMaterialSubCatModal = function (operation, materialCatId, materialSubCat) {
+        console.log('**** inside addOrEditMaterialSubCatModal of createOrEditMaterialCtrl.js ****', materialSubCat);
+        masterMaterialService.getMaterialSubCatModalData(operation, materialCatId, materialSubCat, function (data) {
+            $scope.formData = data.materialSubCat;
+            $scope.catId = data.catId;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
 
-    $scope.addOrEditMaterialSubCatModal = function (operation, materialSubCat) {
-        console.log('**** inside addOrEditMaterialSubCatModal of createOrEditMaterialCtrl.js ****',operation);
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/master/material/createOrEditMaterialSubCat.html',
+                scope: $scope,
+                size: 'md'
+            });
+        });
     }
-    $scope.addOrEditMaterialSubCat = function (materialSubCatData) {
-        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****');
+    $scope.addOrEditMaterialSubCat = function (materialSubCatData, materialCatId) {
+        // materialSubCatData.catId = materialCatId;
+        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', materialSubCatData);
+        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', materialCatId);
+        masterMaterialService.addOrEditMaterialSubCat(materialSubCatData, materialCatId, function (data) {
+            $scope.operationStatus = "Record added successfully";
+            $scope.getMaterialData();
+            $scope.cancelModal();
+        });
     }
     //- modal to confirm material sub deletion
     $scope.deleteMaterialSubCatModal = function (materialSubCatId, getFunction) {
-        console.log('**** inside deleteMaterialSubCatModal of createOrEditMaterialCtrl.js ****',getFunction);
+        console.log('**** inside deleteMaterialSubCatModal of createOrEditMaterialCtrl.js ****', getFunction);
+        $scope.idToDelete = materialSubCatId;
+        $scope.functionToCall = getFunction;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+            scope: $scope,
+            size: 'md'
+        });
     }
     $scope.deleteMaterialSubCat = function (materialSubCatId) {
         console.log('**** inside deleteMaterialSubCat of createOrEditMaterialCtrl.js ****');
+        masterMaterialService.deleteMaterialSubCat(materialSubCatId, function (data) {
+            $scope.operationStatus = "Record deleted successfully";
+            $scope.cancelModal();
+            $scope.getMaterialData();
+        });
     }
 
 
+    $scope.addOrEditMaterialModal = function (operation, materialSubCatId, material) {
+        console.log('**** inside addOrEditMaterialModal of createOrEditMaterialCtrl.js ****', materialSubCatId);
+        masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {
+            $scope.formData = data.material;
+            console.log('**** inside function_name of masterMaterialCtrl.js ****',data );
+            $scope.subCatId = data.materialSubCategory; // pass it to parameter of addOrEditMaterial
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
 
-    $scope.addOrEditMaterialModal = function (operation, material) {
-        console.log('**** inside addOrEditMaterialModal of createOrEditMaterialCtrl.js ****',operation);
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/master/material/createOrEditMaterial.html',
+                scope: $scope,
+                size: 'md'
+            });
+        });
     }
-    $scope.addOrEditMaterial = function (materialData) {
-        console.log('**** inside addOrEditMaterial of createOrEditMaterialCtrl.js ****');
+    $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
+        console.log('**** inside addOrEditMaterial of createOrEditMaterialCtrl.js ****', materialSubCatId);
+        masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {
+            $scope.operationStatus = "Record added successfully";
+            $scope.getMaterialData();
+            $scope.cancelModal();
+        });
     }
     //- modal to confirm material deletion
     $scope.deleteMaterialModal = function (materialId, getFunction) {
-        console.log('**** inside deleteMaterialModal of createOrEditMaterialCtrl.js ****',getFunction);
+        console.log('**** inside deleteMaterialModal of createOrEditMaterialCtrl.js ****', getFunction);
+        $scope.idToDelete = materialId;
+        $scope.functionToCall = getFunction;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+            scope: $scope,
+            size: 'md'
+        });
     }
     $scope.deleteMaterial = function (materialId) {
         console.log('**** inside deleteMaterial of createOrEditMaterialCtrl.js ****');
+        masterMaterialService.deleteMaterial(materialId, function (data) {
+            $scope.operationStatus = "Record deleted successfully";
+            $scope.cancelModal();
+            $scope.getMaterialData();
+        });
     }
+
+
+
+    //- to dismiss modal instance
+    $scope.cancelModal = function () {
+        $scope.modalInstance.dismiss();
+    };
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
