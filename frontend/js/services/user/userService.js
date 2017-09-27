@@ -26,9 +26,18 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   this.addOrEditUser = function (userData, callback) {
     NavigationService.apiCall('User/save', userData, function (data) {
       var user = data.data.results;
-      user.dob = new Date(user.dob);
+      // user.dob = new Date(user.dob);
       callback(user);
     });
   }
+
+    this.deleteUser= function(userId,callback){
+        var deleteUserObj = {
+            _id:userId
+        };
+        NavigationService.delete('User/delete',deleteUserObj, function(data){
+            callback(data);
+        });
+    }
 
 });
