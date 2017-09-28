@@ -166,6 +166,59 @@ var model = {
     },
     getAllMedia: function (data, callback) {
 
-    }
+    },
+
+    // what this function will do ?
+    // req data --> ?
+    getAllDashboardData: function (data, callback) {
+
+        // Example -
+        async.parallel({
+            userCount: function (callback) {
+                //operation to be performed
+                User.count().exec(function (err, count) {
+                    console.log("Number of users are:", count);
+                    callback(null, count);
+                });
+
+            },
+            customerCount: function (callback) {
+                //operation to be performed
+                Customer.count().exec(function (err, count) {
+                    console.log("Number of customers are : ", count);
+                    callback(null, count);
+                });
+
+            },
+            enquiryCount: function (callback) {
+                //operation to be performed
+                Enquiry.count().exec(function (err, count) {
+                    console.log("Total number of enqueries : ", count);
+                    callback(null, count);
+                });
+
+            },
+            estimateCount: function (callback) {
+                //operation to be performed
+                Estimate.count().exec(function (err, count) {
+                    console.log("Total no. of estimates :", count);
+                    callback(null, count);
+                });
+
+            },
+
+        }, function (err, finalResults) {
+            if (err) {
+                console.log('********** error at final response of async.parallel  User.js ************', err);
+                callback(err, null);
+            } else if (_.isEmpty(finalResults)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, finalResults);
+            }
+        });
+    },
+
+
 };
 module.exports = _.assign(module.exports, exports, model);
