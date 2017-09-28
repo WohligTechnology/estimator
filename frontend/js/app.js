@@ -151,22 +151,6 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         // ******************************** dashboard module ******************************** //
         .state('app.dashboard', {
             url: "/dashboard",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            './themeassets/global/plugins/morris/morris.css',
-                            './themeassets/global/plugins/morris/morris.min.js',
-                            './themeassets/global/plugins/morris/raphael-min.js',
-                            './themeassets/global/plugins/jquery.sparkline.min.js',
-                            './themeassets/pages/scripts/dashboard.min.js',
-                            // 'controllers/DashboardController.js',
-                        ]
-                    });
-                }]
-            },
             views: {
                 "sidebar": {
                     templateUrl: "views/tpl/sidebar.html",
