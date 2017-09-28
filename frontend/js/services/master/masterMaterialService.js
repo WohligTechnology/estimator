@@ -108,7 +108,11 @@ myApp.service('masterMaterialService', function ($http, NavigationService) {
         });
     }
 
-
+    this.getSubCatMaterials = function(materialSubCatId){
+        NavigationService.apiCall('MMaterial/getSubCatMaterials', materialSubCatId, function (data) {
+            callback(data);
+        });
+    }
 
     
 

@@ -116,7 +116,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
         console.log('**** inside addOrEditMaterialModal of createOrEditMaterialCtrl.js ****', materialSubCatId);
         masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {
             $scope.formData = data.material;
-            console.log('**** inside function_name of masterMaterialCtrl.js ****',data );
+            console.log('**** inside function_name of masterMaterialCtrl.js ****', data);
             $scope.subCatId = data.materialSubCategory; // pass it to parameter of addOrEditMaterial
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
@@ -156,6 +156,13 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
             $scope.operationStatus = "Record deleted successfully";
             $scope.cancelModal();
             $scope.getMaterialData();
+        });
+    }
+
+    $scope.getSubCatMaterials = function (materialSubCatId) {
+        console.log('**** inside getSubCatMaterials of masterMaterialCtrl.js & data is ****', materialSubCatId);
+        masterMaterialService.getSubCatMaterials(materialSubCatId, function (data) {
+          $scope.materialData = data;
         });
     }
 
