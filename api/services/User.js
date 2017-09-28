@@ -167,9 +167,6 @@ var model = {
     getAllMedia: function (data, callback) {
 
     },
-
-    // what this function will do ?
-    // req data --> ?
     getAllDashboardData: function (data, callback) {
 
         // Example -
@@ -219,6 +216,63 @@ var model = {
         });
     },
 
+    loginUser: function (data, callback) {
+        console.log('**** inside loginUser of User.js & data is ****', data);
+        User.findOne({
+            email: data.username,
+            password: data.password
+        }).exec(function (err, found) {
+            console.log('**** inside res object of User.js & data is ****', found);
+            if (err) {
+                console.log('**** error at loginUser of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 
+    resetPassword: function (data, callback) {
+        console.log('**** inside resetPassword of User.js & data is ****', data);
+        User.findOne({
+            _id: data.id
+        }).exec(function (err, found) {
+            console.log('**** inside res object of User.js & data is ****', found);
+            if (err) {
+                console.log('**** error at resetPassword of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+
+                if(found.password == data.password){
+
+                    var saveDataObj = {
+                        password : data.newPassword
+                    };
+    
+                    if (!_.isEmpty(found._id)) {                       
+                        saveDataObj._id = found._id;
+
+                    }
+    
+                    User.saveData(saveDataObj, function (err, savedData) {
+                        if (err) {
+                            console.log('**** error at resetPassword of User.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(savedData)) {
+                            callback(null, 'noDataFound');
+                        } else {
+                            callback(null, savedData);
+                        }
+                    });
+                }else{
+                    callback(null,"password not matching");
+                }
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);
