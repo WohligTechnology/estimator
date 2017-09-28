@@ -1,5 +1,22 @@
 myApp.controller('masterProcessCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
+
+   // *************************** default variables/tasks begin here ***************** //
+    //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = false;
+     //- to show/hide save & update button on pop-up according to operation
+     $scope.showSaveBtn = true;
+     $scope.showEditBtn = false;
+    
+    // *************************** default functions begin here  ********************** //
+
+    $scope.getProcessData = function(){
+          masterProcessService.getProcessData(function (data) {
+            $scope.processData = data;
+        });
+    }
+
+
+
 
     //modal start
     $scope.createOrEditProcessType = function () {

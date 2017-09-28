@@ -29,4 +29,6 @@ module.exports = mongoose.model('MProcessType', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {};
+
+
 module.exports = _.assign(module.exports, exports, model);
