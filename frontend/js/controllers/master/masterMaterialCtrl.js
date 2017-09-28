@@ -160,9 +160,9 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
     }
 
     $scope.getSubCatMaterials = function (materialSubCatId) {
-        console.log('**** inside getSubCatMaterials of masterMaterialCtrl.js & data is ****', materialSubCatId);
         masterMaterialService.getSubCatMaterials(materialSubCatId, function (data) {
-          $scope.materialData = data;
+            console.log('**** inside getSubCatMaterials of masterMaterialCtrl.js & data is ****', data);
+            $scope.subCatMaterials = data;
         });
     }
 

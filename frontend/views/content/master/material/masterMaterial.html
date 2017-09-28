@@ -24,7 +24,7 @@
                                 <input type="checkbox" id="{{msc.materialSubCatName+$index+$parent.$index}}" />
                                 <label for="{{msc.materialSubCatName+$index+$parent.$index}}" class="tree_label"></label>
                                 <!-- material sub category name -->
-                                <span class="tree_label partName" ng-click="getSubCatMaterials()">{{msc.materialSubCatName}}</span>
+                                <span class="tree_label partName" ng-click="getSubCatMaterials(msc._id)">{{msc.materialSubCatName}}</span>
                                 <!-- create material -->
                                 <span ng-click="addOrEditMaterialModal('save',msc._id)" class="materialSubCreateIcon"><i class="fa fa-plus btn-info"  ></i></span>
                                 <!-- edit material sub category name -->
@@ -122,25 +122,27 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th> Id </th>
-                                    <th> Name</th>
-                                    <th> Available Master Material</th>
-                                    <th> other </th>
-                                    <th> Custom Base Material </th>
-                                    <th> Custom Overlay</th>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Rate</th>
+                                    <th>Density</th>
+                                    <th>Weight</th>
+                                    <th>Custom Base Material</th>
+                                    <th>Custom Overlay</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td> 1 </td>
-                                    <td> Mark </td>
-                                    <td>5 </td>
-                                    <td>24 </td>
+                                <tr ng-repeat="m in subCatMaterials">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{m.materialName}}</td>
+                                    <td>{{m.typicalRatePerKg}}</td>
+                                    <td>{{m.density}}</td>
+                                    <td>{{m.weightPerUnit}}</td>
                                     <td class="text-center"><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                        <input type="checkbox" id="1" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty" data-set="#sample_1 .checkboxes" ><span></span></label>
+                                        <input type="checkbox" id="{{$index+1}}" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty"><span></span></label>
                                     </td>
                                     <td class="text-center"><label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                        <input type="checkbox" id="2" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty" data-set="#sample_1 .checkboxes" ><span></span></label>
+                                        <input type="checkbox" id="{{$index+2}}" class="group-checkable ng-pristine ng-untouched ng-valid ng-empty"><span></span></label>
                                     </td>
                                 </tr>
                             </tbody>

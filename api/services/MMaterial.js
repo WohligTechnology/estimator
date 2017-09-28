@@ -58,14 +58,15 @@ var model = {
     // what this function will do ?
     // req data --> ?
     getSubCatMaterials: function (data, callback) {
+        console.log('**** inside getSubCatMaterials of MMaterial.js ****',data);
         MMaterial.find({
-            materialSubCategoryid: data.subCatId
+            materialSubCategory: data.subCatId
         }).exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of MMaterial.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
-                callback(null, 'noDataFound');
+                callback(null, []);
             } else {
                 callback(null, found);
             }
