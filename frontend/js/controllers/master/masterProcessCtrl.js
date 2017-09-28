@@ -1,8 +1,8 @@
-myApp.controller('masterProcessCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
-
+myApp.controller('masterProcessCtrl', function ( $scope, $http,  $uibModal, masterProcessService) {
+  $scope.$parent.isSidebarActive = false;
    // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
-    $scope.$parent.isSidebarActive = false;
+  
      //- to show/hide save & update button on pop-up according to operation
      $scope.showSaveBtn = true;
      $scope.showEditBtn = false;

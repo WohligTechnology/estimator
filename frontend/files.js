@@ -101,5 +101,6 @@ module.exports = [
   'frontend/js/services/master/masterPartService.js',
   'frontend/js/services/master/masterProcessService.js',
   'frontend/js/services/master/masterShapeService.js',
-  'frontend/js/services/user/userService.js'
+  'frontend/js/services/user/userService.js',
+  'frontend/js/services/dashboardService.js'
 ];
