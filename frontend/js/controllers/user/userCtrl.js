@@ -34,30 +34,35 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
 
     });
   }
-
   $scope.addOrEditUser = function (userData) {
-    userService.addOrEditUser(userData, function (data) {
-      $scope.operationStatus = "Record added successfully";
-      $scope.getUserData();
-      $scope.cancelModal();  
-    });
-  }
-  //- modal to confirm UOM deletion
-  $scope.deleteUomModal = function (uomId, getFunction) {
-    $scope.idToDelete = uomId;
-    $scope.functionToCall = getFunction;
+      userService.addOrEditUser(userData, function (data) {
+        $scope.operationStatus = "Record added successfully";
+        $scope.getUserData();
+        $scope.cancelModal();
+      });
+    }
+    
+     //- modal to confirm customer deletion
+     $scope.deleteUserModal = function (userId, getFunction) {
+      $scope.idToDelete = userId;
+      $scope.functionToCall = getFunction;
 
-  }
-  $scope.deleteUom = function (uomId) {
-    baseMatserService.deleteUom(uomId, function (data) {
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+        scope: $scope,
+        size: 'md'
+      });
+    }
+    $scope.deleteUser = function (userId) {
+    userService.deleteUser(userId, function (data) {
+        $scope.operationStatus = "Record deleted successfully";
+        $scope.cancelModal();
+        $scope.getUserData();
+      });
+    }
 
-    });
-  }
-
-
-
-
-  //- to dismiss modal instance
+//- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
   };
@@ -69,7 +74,5 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
     // to get BaseMaster Data
     $scope.getUserData();
   }
-
-  $scope.init();
-
+    $scope.init();
 });

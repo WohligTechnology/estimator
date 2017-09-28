@@ -1,108 +1,78 @@
-myApp.controller('customerCtrl', function ($scope, $http, $uibModal) {
+myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerService) {
+
+
+  // *************************** default variables/tasks begin here ***************** //
+  //- to show/hide sidebar of dashboard 
+
   $scope.$parent.isSidebarActive = true;
-  $scope.$on('$viewContentLoaded', function () {
-    // initialize core components
-    App.initAjax();
-  });
+  $scope.showSaveBtn = true;
+  $scope.showEditBtn = false;
 
-  //table data
-  $scope.tableData = [{
-    "id": "1",
-    "name": "kishori",
-    "cname": "1",
-    "dname": "kishori",
-    "cid": "1",
-    "pname": "kishori",
-    "did": "1",
-    "bname": "kishori"
-  }, {
-    "id": "1",
-    "name": "kishori",
-    "cname": "1",
-    "dname": "kishori",
-    "cid": "1",
-
-  }, {
-    "id": "1",
-    "name": "kishori",
-    "cname": "1",
-    "dname": "kishori",
-    "cid": "1",
-  }];
-
-  $scope.tempvar = [{
-    "id": "1",
-    "name": "kishori",
-    "cname": "1",
-    "dname": "kishori",
-    "cid": "1",
-    "pname": "kishori",
-    "did": "1",
-    "bname": "kishori"
-  }, {
-    "id": "1",
-    "name": "kishori",
-    "cname": "1",
-    "dname": "kishori",
-    "cid": "1",
-
-  }, {
-    "id": "1",
-    "name": "kishori",
-    "cname": "1",
-    "dname": "kishori",
-    "cid": "1",
-  }];
-  //customer modal start
-  $scope.customer = function () {
-    $scope.customerModal = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/customer/modal/createOrEditCustomer.html',
-      scope: $scope,
-      size: 'md',
+  // *************************** default functions begin here  ********************** //
+  $scope.getCustomerData = function () {
+    customerService.getCustomerData(function (data) {
+      $scope.customerData = data;
     });
+  }
+    // *************************** functions to be triggered form view begin here ***** // 
+    $scope.addOrEditCustomerModal = function (operation, customer) {
+      customerService.getCustomerModalData(operation, customer, function (data) {
+        $scope.formData = data.customer;
+        $scope.showSaveBtn = data.saveBtn;
+        $scope.showEditBtn = data.editBtn;
+
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/customer/modal/createOrEditCustomer.html',
+          scope: $scope,
+          size: 'md'
+        });
+
+      });
+    }
+    $scope.addOrEditCustomer = function (customerData) {
+      console.log("asdsfdgd", customerData);
+      customerService.addOrEditCustomer(customerData, function (data) {
+
+        $scope.operationStatus = "Record added successfully";
+        $scope.getCustomerData();
+        $scope.cancelModal();
+      });
+    }
+
+    //- modal to confirm customer deletion
+    $scope.deleteCustomerModal = function (customerId, getFunction) {
+      $scope.idToDelete = customerId;
+      $scope.functionToCall = getFunction;
+
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+        scope: $scope,
+        size: 'md'
+      });
+    }
+    $scope.deleteCustomer = function (customerId) {
+      customerService.deleteCustomer(customerId, function (data) {
+        $scope.operationStatus = "Record deleted successfully";
+        $scope.cancelModal();
+        $scope.getCustomerData();
+      });
+    }
+
+
+
+  //- to dismiss modal instance
+  $scope.cancelModal = function () {
+    $scope.modalInstance.dismiss();
   };
-  //end of modal
-  //view modal start
-  $scope.view = function () {
-    $scope.customerModal = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/customer/modal/viewCustomer.html',
-      scope: $scope,
-      size: 'md',
-    });
-  };
-  //end of modal
-  // Delete modal start
-  $scope.deleteItem = function () {
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/modal/delete.html',
-      scope: $scope,
-      size: 'sm',
-    });
-  };
-  //start of pagination 
-  $scope.totalItems = 64;
-  $scope.currentPage = 4;
 
-  $scope.setPage = function (pageNo) {
-    $scope.currentPage = pageNo;
-  };
+ // *************************** init all default functions begin here ************** //
+  //- to initilize the default function 
+  $scope.init = function () {
+    // to get BaseMaster Data
+    $scope.getCustomerData();
+  }
 
-  $scope.pageChanged = function () {
-    $log.log('Page changed to: ' + $scope.currentPage);
-  };
-
-  $scope.maxSize = 5;
-  $scope.bigTotalItems = 175;
-  $scope.bigCurrentPage = 1;
-
-  //end of pagination
-  //start of checkbox
-  // $("#checkAll").click(function () {
-  //   $('input:checkbox').not(this).prop('checked', this.checked);
-  // });
-
-
+  $scope.init();
 });

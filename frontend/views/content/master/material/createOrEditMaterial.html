@@ -10,75 +10,85 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
+                <form class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material Name:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control " required>
+                                <input type="text" class="form-control" required ng-model="formData.materialName">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">DataSheet:</label>
                             <div class="col-md-5">
-                                <input type="file"  required>
+                                <input type="file" required ng-model="formData.datasheet">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Dencity:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control " required>
+                                <input type="number" class="form-control " required ng-model="formData.density">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Typical Rate per kg:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control " required>
+                                <input type="number" class="form-control " required ng-model="formData.typicalRatePerKg">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Rolling Index:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control " required>
+                                <input type="number" class="form-control " required ng-model="formData.rollingIndex">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Cutting Index:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control " required>
+                                <input type="number" class="form-control " required ng-model="formData.cuttingIndex">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Bending Index:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control " required>
+                                <input type="number" class="form-control " required ng-model="formData.bendingIndex">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Fabrication Index:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control " required>
+                                <input type="number" class="form-control " required ng-model="formData.fabrictionIndex">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-4 control-label">Material type:</label>
+                            <div class="col-md-5">
+                               <select class="form-control" ng-model="formData.type">
+                                   <option value="standard">Standard</option>
+                                   <option value="customBase">Custom Base</option>
+                                   <option value="customOverlay">Custom Overlay</option>
+                               </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Contigency or Wastage:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control " required>
+                                <input type="number" class="form-control " required ng-model="formData.contingencyOrWastage">
                             </div>
                         </div>
-                              <div class="form-group">
-                            <label class="col-md-4 control-label">Final Unit:</label>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Weight per Unit:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control " required>
+                                <input type="number" class="form-control " required ng-model="formData.weightPerUnit">
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green">Save</button>
-                                  <button type="submit" class="btn btn-circle green">Update</button>
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditMaterial(formData,subCatId)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditMaterial(formData)">Update</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
                     </div>

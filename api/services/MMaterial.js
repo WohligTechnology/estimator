@@ -30,9 +30,9 @@ var schema = new Schema({
     cuttingIndex:{
         type: Number
     },
-    Type: {
+    type: {
         type: String,
-        enum: ["standard", "custom"],
+        enum: ["standard", "customBase","customOverlay"],
         default: "standard"
     },
     estimateId: {
@@ -42,6 +42,9 @@ var schema = new Schema({
     contingencyOrWastage:{
         type:Number
     },
+    weightPerUnit:{
+        type:Number
+    }
 });
 
 schema.plugin(deepPopulate, {});
