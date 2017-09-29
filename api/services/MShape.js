@@ -1,5 +1,8 @@
 var schema = new Schema({
-    shapeName: {},
+    shapeName: {
+        type:String,
+        required:true
+    },
     type: {
         type: String,
         enum: ["2d", "3d"],
@@ -12,13 +15,21 @@ var schema = new Schema({
         Type:String
     },
     variable:[{}],
+    sizeFactor:{
+        type:String
+    },
+    formFactor:{
+        type:String
+    },
     partFormulae: {
         perimeter: String,
         sheetMetalArea: String,
         surfaceArea: String,
         weight: String,
     },
-    namingConvenstion: {}
+    namingConvenstion: {
+        type:String
+    }
 });
 
 schema.plugin(deepPopulate, {});
