@@ -71,7 +71,6 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 
   $scope.init = function () {
-    // to get BaseMaster Data
     $scope.getUserData();
   }
     $scope.init();

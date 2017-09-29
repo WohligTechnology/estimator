@@ -105,7 +105,7 @@
                                     <th rowspan="2" class="align-top"> Process type Name </th>
                                     <th rowspan="2" class="align-top"> ProcessCat</th>
                                     <th colspan="2" class="text-center"> Rate </th>
-                                    <th colspan="5" class="text-center"> Quantity</th>
+                                    <th colspan="6" class="text-center"> Quantity</th>
                                     <th rowspan="2" class="align-top"> Action </th>
                                 </tr>
                                 <tr>
@@ -114,71 +114,32 @@
                                     <th>Key Value </th>
                                     <th>UOM</th>
                                     <th>Multiplication Factor</th>
+                                    <th>Final UOM</th>
                                     <th>Utilization</th>
                                     <th>Contegency or Wastage</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr ng-repeat="process in processData">
                                     <td>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
                                           <span></span>
                                         </label>
                                     </td>
-                                    <td> 1 </td>
-                                    <td>Mark</td>
-                                    <td>5 </td>
-                                    <td>24 </td>
-                                    <td>400 </td>
-                                    <td>500 </td>
-                                    <td> 600 </td>
-                                    <td> 900</td>
-                                    <td> 900</td>
+                                    <td> {{process.processTypeName}} </td>
+                                    <td>{{process.processCat}}</td>
+                                    <td>{{process.rate.mulFact}} </td>
+                                    <td>{{process.rate.uom}} </td>
+                                    <td>{{process.quantity.linkedKeyValue}} </td>
+                                    <td>{{process.quantity.uom}} </td>
+                                    <td> {{process.quantity.mulfact}} </td>
+                                    <td> {{process.quantity.finalUom}}</td>
+                                    <td> {{process.quantity.utilization}}</td>
+                                    <td> {{process.quantity.contengncyOrWastage}}</td>
                                     <td class="edit-icon">
                                         <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger" > <i class="fa fa-trash-o" ></i></span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                        <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span>
-                                        </label>
-                                    </td>
-                                    <td> 1 </td>
-                                    <td> Mark </td>
-                                    <td>5 </td>
-                                    <td>24 </td>
-                                    <td>400 </td>
-                                    <td>500 </td>
-                                    <td> 600 </td>
-                                    <td> 900</td>
-                                    <td> 900</td>
-                                    <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger" ng-click="deleteItem()"> <i class="fa fa-trash-o" ></i></span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
-                                           <span></span>
-                                     </label>
-                                    </td>
-                                    <td> 1 </td>
-                                    <td> Mark </td>
-                                    <td>5 </td>
-                                    <td>24 </td>
-                                    <td>400 </td>
-                                    <td>500 </td>
-                                    <td> 600 </td>
-                                    <td> 900</td>
-                                    <td> 900</td>
-                                    <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger" > <i class="fa fa-trash-o" ></i></span></a>
+                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
                                     </td>
                                 </tr>
                             </tbody>

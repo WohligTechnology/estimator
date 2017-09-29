@@ -1,10 +1,9 @@
-myApp.service('masterProcessService', function ($http, $timeout, $uibModal) {
+myApp.service('masterProcessService', function ($http, $uibModal, NavigationService) {
     
   //- get master process view
   this.getProcessData = function(callback){
         NavigationService.boxCall('MProcessType/search', function (data) {
-      var processes = data.data.results;
-      callback(processes);
+        callback(data.data.results);
     });
   }
 
