@@ -5,9 +5,9 @@
                 <input type="checkbox" id="c5" />
                 <label class="tree_label" for="c5"></label>
                 <span ng-click="getAssemblyView()" class="assebmlyName">Process Categories</span>
-                <span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="processingCat();"></i></span>
+                <span ng-click="addOrEditProcessCatModal('save')" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
                 <ul>
-                    <li ng-repeat="pc in processCat">
+                    <li ng-repeat="pc in processStructureData">
                         <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
                         <input type="checkbox" id="{{pc.name+$index}}" />
                         <label for="{{pc.name+$index}}" class="tree_label"></label>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ng-click="createOrEditProcessType();"> <i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditProcessModal('save');"> <i class="fa fa-plus"></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -138,8 +138,8 @@
                                     <td> {{process.quantity.utilization}}</td>
                                     <td> {{process.quantity.contengncyOrWastage}}</td>
                                     <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
+                                        <a class="action" ng-click="addOrEditProcessModal('update',process)"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="deleteProcessModal(process._id,'deleteProcess')"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
                                     </td>
                                 </tr>
                             </tbody>

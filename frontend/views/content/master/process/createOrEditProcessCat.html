@@ -10,7 +10,7 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
+                <form  class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-5 control-label">Process Category Name:</label>
@@ -21,7 +21,7 @@
                         <div class="form-group">
                             <label class="col-md-5 control-label"> UOM:</label>
                             <div class="col-md-5">
-                                <select class="form-control " required>
+                                <select class="form-control">
                                     <option></option>
                                     <option></option>
                                  </select>
@@ -31,8 +31,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green">Save</button>
-                                  <button type="submit" class="btn btn-circle green">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn">Save</button>
+                                  <button type="submit" class="btn btn-circle green" ng-if="showEditBtn">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                             </div>
                         </div>

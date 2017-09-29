@@ -1,5 +1,5 @@
 myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
-  $scope.$parent.isSidebarActive = true;
+  
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -34,6 +34,7 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
 
     });
   }
+  
   $scope.addOrEditUser = function (userData) {
       userService.addOrEditUser(userData, function (data) {
         $scope.operationStatus = "Record added successfully";
