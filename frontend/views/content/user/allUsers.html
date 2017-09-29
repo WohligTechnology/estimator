@@ -89,10 +89,10 @@
                         <tr ng-repeat="user in userData">
                             <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
-                            <td>{{user.id}} </td>
+                            <td>{{$index+1}} </td>
                             <td>{{user.name}} </td>
                             <td>{{user.email}} </td>
-                            <td class="center"> {{user.dname}} </td>
+                            <td class="center"> {{user.dob}} </td>
                             <td>{{user.mobile }}</td>
                             <td>
                                 <a  ng-click="viewUser()"> <span class="label label-sm label-info"><i class="fa fa-eye"></i></span></a>
