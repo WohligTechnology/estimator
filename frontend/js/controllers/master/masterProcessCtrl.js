@@ -82,4 +82,13 @@ myApp.controller('masterProcessCtrl', function ( $scope, $http,  $uibModal, mast
             "name": "process Items 1"
         }]
     }];
+
+  // *************************** init all default functions begin here ************** //
+  //- to initilize the default function 
+   
+      $scope.init = function (){
+          $scope.getProcessData();
+      }
+      $scope.init();
+
 });
