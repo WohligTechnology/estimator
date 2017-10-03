@@ -14,7 +14,9 @@ var schema = new Schema({
     image: {
         Type:String
     },
-    variable:[{}],
+    variable:[{
+        
+    }],
     sizeFactor:{
         type:String
     },

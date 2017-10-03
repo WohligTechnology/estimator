@@ -113,8 +113,18 @@ myApp.service('masterMaterialService', function ($http, NavigationService) {
             subCatId:materialSubCatId
         };
         NavigationService.apiCall('MMaterial/getSubCatMaterials', matSubCatObj, function (data) {
-            callback(data.data);
+            callback(data.data.results);
         });
     } 
+
+    this.changeMaterialType = function(materialId, type, callback){
+        matDataObj = {
+            _id:materialId,
+            type:type
+        };
+        NavigationService.apiCall('MMaterial/save', matDataObj, function (data) {
+            callback(data);
+        });
+    }
 
 });
