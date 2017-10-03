@@ -41,7 +41,7 @@ var schema = new Schema({
     estimateDetails: {}, // not defined yet
     estimateBoq: {},
     estimateAttachment: [{
-        file:String
+        file: String
     }],
 
     subAssemblies: [{
@@ -291,5 +291,35 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Estimate', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
-var model = {};
+var model = {
+    // what this function will do ?
+    // req data --> ?
+    addSubasspartname: function (data, callback) {
+        var saveDataObj = {
+            subAssemblies: {
+                subAssemblyName: data.subAssemblyName
+            },
+            $push:{
+                    "subAssemblies":{
+                        subAssemblyName:subAssemblyName  
+                    }
+                }
+            
+        };
+
+        // please remove .js from following line & this comment as well
+        Estimate.saveData(saveDataObj, function (err, savedData) {
+            // err will have the data given by mongoDB if there is some error & query is not executed successfully
+            // found will have the data given by mongoDB if query is executed successfully
+            if (err) {
+                console.log('**** error at addSubasspartname of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(savedData)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, savedData);
+            }
+        });
+    },
+};
 module.exports = _.assign(module.exports, exports, model);
