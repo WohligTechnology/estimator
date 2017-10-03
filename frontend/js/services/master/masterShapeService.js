@@ -38,5 +38,11 @@ myApp.service('masterShapeService', function ($http, $timeout, $uibModal, Naviga
         });
     }
 
-    
+    this.getVariablesData = function(callback){
+        NavigationService.boxCall('MVariables/search', function (data) {
+            var variableData = _.chunk(data.data.results, 3);
+            console.log('**** inside this.getVariablesData of masterShapeService.js ****',variableData);
+            callback(variableData);
+        });
+    }
 });

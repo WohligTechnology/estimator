@@ -51,14 +51,18 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="shapes-checkbox">
-                                        <div class="md-checkbox-inline" ng-repeat="opt in checkBox">
-                                            <div class="md-checkbox" ng-repeat="opt in opt">
-                                                <input type="checkbox" id="{{opt.name+$index}}" class="md-check">
-                                                <label for="{{opt.name+$index}}">
+                                        <div class="md-checkbox-inline" ng-repeat="varChunk in variablesData">
+                                            <div class="md-checkbox" ng-repeat="var in varChunk">
+                                                <input type="checkbox" ng-click="checkedVariable ? addVariableToShape(var._id) : addVariableToShape(var._id)" ng-checked="getStatus(var._id)"
+                                                    ng-model="checkedVariable" class="md-check">
+                                                <label for="{{var.variableName+$index}}">
                                                   <span></span>
                                                   <span class="check"></span>
-                                                  <span class="box"></span>{{opt.name}} 
+                                                  <span class="box"></span>{{var.variableName}} 
                                                 </label>
+                                                <!-- {{var.variableName}} 
+                                                <input type="checkbox" ng-click="checkedVariable ? addVariableToShape(var._id) : addVariableToShape(var._id)"
+                                                    ng-checked="getValue(var._id)" ng-model="checkedVariable"> -->
                                             </div>
                                         </div>
                                     </div>
