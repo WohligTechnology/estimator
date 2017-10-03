@@ -6,8 +6,8 @@ var schema = new Schema({
     catId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MMaterialCat',
-        required: true,
-        key:"subCat"
+        key:"subCat",
+        required: true
     },
     materials: [{
         type: mongoose.Schema.Types.ObjectId,

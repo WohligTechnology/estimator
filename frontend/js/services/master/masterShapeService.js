@@ -23,14 +23,12 @@ myApp.service('masterShapeService', function ($http, $timeout, $uibModal, Naviga
         }
         callback(shapeDataObj);
     }
-
     this.createOrEditShape = function (shape, callback) {
         console.log('**** inside createOrEditShape of masterShapeService.js ****');
         NavigationService.apiCall('MShape/save', shape, function (data) {
             callback(data);
         });
     }
-
     this.deleteShape = function(shapeId,callback){
         var deleteShapeObj = {
             _id:shapeId
@@ -39,4 +37,6 @@ myApp.service('masterShapeService', function ($http, $timeout, $uibModal, Naviga
             callback(data);
         });
     }
+
+    
 });

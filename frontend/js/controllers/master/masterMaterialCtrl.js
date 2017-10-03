@@ -166,6 +166,14 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
         });
     }
 
+    $scope.changeMaterialType = function (materialId, type, materialSubCatId) {
+        masterMaterialService.changeMaterialType(materialId, type, function (data) {
+            $scope.getSubCatMaterials(materialSubCatId);
+        });
+
+
+    }
+
 
 
     //- to dismiss modal instance
