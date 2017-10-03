@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <label class="col-md-5 control-label">Process Category Name:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" ng-model="formData.processCatName">
                             </div>
                         </div>
                         <div class="form-group">
@@ -31,8 +31,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn">Save</button>
-                                  <button type="submit" class="btn btn-circle green" ng-if="showEditBtn">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessCat(formData)">Save</button>
+                                  <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditProcessCat(formData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                             </div>
                         </div>

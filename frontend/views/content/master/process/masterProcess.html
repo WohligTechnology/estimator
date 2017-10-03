@@ -8,16 +8,18 @@
                 <span ng-click="addOrEditProcessCatModal('save')" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
                 <ul>
                     <li ng-repeat="pc in processStructureData">
-                        <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
-                        <input type="checkbox" id="{{pc.name+$index}}" />
-                        <label for="{{pc.name+$index}}" class="tree_label"></label>
-                        <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pc.name}}</span>
-                        <span ng-click="createEstimatePart()" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="processingItem();"></i></span>
+                          <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                        <input type="checkbox" id="{{pc.processCatName+$index}}" />
+                        <label for="{{pc.processCatName+$index}}" class="tree_label"></label>
+                            <!-- process cat name -->
+                        <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pc.processCatName}}</span>
+                           <!-- create sub process category -->
+                        <span ng-click="addOrEditProcessItemModal('save',pc._id)" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
                         <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ng-click="processingCat();"></i></span>
                         <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" ng-click="deleteItem()"></i></span>
                         <ul class="">
                             <li ng-repeat="pi in pc.processItems">
-                                <span class="tree_label" class="partName">{{pi.name}}</span>
+                                <span class="tree_label" class="partName">{{pi.processItemName}}</span>
                                 <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning " ng-click="processingItem();"></i></span>
                                 <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger" ng-click="deleteItem()"></i></span>
                             </li>

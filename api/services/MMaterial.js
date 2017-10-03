@@ -58,20 +58,62 @@ var model = {
     // what this function will do ?
     // req data --> ?
     getSubCatMaterials: function (data, callback) {
-        console.log('**** inside getSubCatMaterials of MMaterial.js ****',data);
+        console.log('**** inside getSubCatMaterials of MMaterial.js ****', data);
+        // MMaterial.find({
+        //     materialSubCategory: data.subCatId
+        // }).exec(function (err, found) {
+        //     if (err) {
+        //         console.log('**** error at function_name of MMaterial.js ****', err);
+        //         callback(err, null);
+        //     } else if (_.isEmpty(found)) {
+        //         callback(null, []);
+        //     } else {
+        //         callback(null, found);
+        //     }
+        // });
+
+
+        var maxRow = Config.maxRow;
+        var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                }
+            },
+            sort: {
+                desc: 'createdAt'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
         MMaterial.find({
             materialSubCategory: data.subCatId
-        }).exec(function (err, found) {
-            if (err) {
-                console.log('**** error at function_name of MMaterial.js ****', err);
-                callback(err, null);
-            } else if (_.isEmpty(found)) {
-                callback(null, []);
-            } else {
-                callback(null, found);
-            }
-        });
+        }).sort({
+                createdAt: -1
+            })
+            .order(options)
+            .keyword(options)
+            .page(options,
+                function (err, found) {
+                    if (err) {
+                        console.log('**** error at getSubCatMaterials of MMaterial.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(found)) {
+                        callback(null, []);
+                    } else {
+                        callback(null, found);
+                    }
+                });
     },
+
+
 
 };
 module.exports = _.assign(module.exports, exports, model);

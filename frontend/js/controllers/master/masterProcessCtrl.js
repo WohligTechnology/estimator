@@ -16,8 +16,9 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         });
     }
 
-  $scope.getProcessCatData = function () {
-        masterProcessService.getProcessCatData(function (data) {
+   $scope.getProcessTreeData = function () {
+           console.log('****hi****');
+         masterProcessService.getProcessTreeData(function (data) {
             $scope.processStructureData = data;
         });
     }
@@ -69,10 +70,11 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         $scope.getProcessData();
       });
     }
+
 //modal to confirm process cat creationOredit
 
  $scope.addOrEditProcessCatModal = function (operation, processCat) {
-        console.log('**** inside addOrEditMaterialCatModal of createOrEditMaterialCtrl.js ****', operation);
+        console.log('**** inside addOrEditProcessCatModal of createOrEditProcessCtrl.js ****', operation);
         masterProcessService.getProcessCatModalData(operation, processCat, function (data) {
             $scope.formData = data.processCat;
             $scope.showSaveBtn = data.saveBtn;
@@ -88,18 +90,42 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
 
   $scope.addOrEditProcessCat = function (processCatData) {
-        console.log('**** inside addOrEditMaterialCat of createOrEditMaterialCtrl.js ****');
+        console.log('**** inside addOrEditProcessCat of createOrEditProcessCtrl.js ****');
         masterProcessService.addOrEditProcessCat(processCatData, function (data) {
             $scope.operationStatus = "Record added successfully";
-            $scope.getProcessData();
+            $scope.getProcessTreeData();
             $scope.cancelModal();
         });
     }
 
+//modal to confirm process processItems creationOredit
+  $scope.addOrEditProcessItemModal = function (operation, processCatId, processItem) {
+        console.log('**** inside addOrEditProcessSubCatModal of createOrEditProcessCtrl.js ****', processItem);
+        masterProcessService.getProcessItemModalData(operation,processCatId, processItem, function (data) {
+            $scope.formData = data.processItem;
+            $scope.catId = data.catId;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
 
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/master/process/createOrEditProcessItem.html',
+                scope: $scope,
+                size: 'md'
+            });
+        });
+    }
 
-
-
+  $scope.addOrEditProcessItem = function (processItemData, processCatId) {
+    //  processItemData.catId = materialCatId;
+        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', processItemData);
+        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', processCatId);
+        masterProcessService.addOrEditProcessItem(processItemData, processCatId, function (data) {
+            $scope.operationStatus = "Record added successfully";
+            $scope.getProcessTreeData();
+            $scope.cancelModal();
+        });
+    }
 
 
 
@@ -109,56 +135,12 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     };
 
 
-   
-
-    // $scope.processingCat = function () {
-    //     $scope.modalInstance = $uibModal.open({
-    //         animation: true,
-    //         templateUrl: 'views/content/master/process/createOrEditProcessCat.html',
-    //         scope: $scope,
-    //         size: 'md',
-
-    //     });
-    // };
-    //start of processing item modal
-
-    $scope.processingItem = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/process/createOrEditProcessItem.html',
-            scope: $scope,
-            size: 'md',
-
-        });
-    };
-   
-    //start of tree
-    $scope.processCat = [{
-        "name": "processCat 1",
-        "processItems": [{
-            "name": "process Items 1",
-        }, ]
-    }, {
-        "name": "processCat 2",
-        "processItems": [{
-            "name": "process Items 1",
-        }, {
-            "name": "process Items 2"
-        }, {
-            "name": "process Items 3"
-        }]
-    }, {
-        "name": "processCat 3",
-        "materialSub": [{
-            "name": "process Items 1"
-        }]
-    }];
-
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
 
     $scope.init = function () {
         $scope.getProcessData();
+        $scope.getProcessTreeData();
     }
     $scope.init();
 

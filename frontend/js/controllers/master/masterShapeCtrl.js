@@ -6,7 +6,7 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
     //- to show/hide save & update button on pop-up according to operation
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
-
+    $scope.shapeVariables = [];
 
     // *************************** default functions begin here  ********************** //
     $scope.getShapeData = function () {
@@ -15,6 +15,13 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
             $scope.shapeData = data;
         });
     }
+    $scope.getVariablesData = function(){
+        masterShapeService.geShapeData(function (data) {
+            console.log('**** inside function_name of masterShapeCtrl.js ****',data);
+            $scope.shapeData = data;
+        });
+    }
+
     $scope.createOrEditShapeData = function (operation, shape) {
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
             $scope.formData = data.shape;
@@ -22,14 +29,12 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
             $scope.showEditBtn = data.editBtn;
         });
     }
-
     $scope.createOrEditShape = function (shape) {
         masterShapeService.createOrEditShape(shape, function (data) {
             $scope.operationStatus = "Shape added successfully";
             $scope.getShapeData();
         });
     }
-
     $scope.deleteShapeModal = function (shapeId, getFunction) {
         console.log('**** inside deleteShapeModal of masterShapeCtrl.js & data is ****', getFunction);
         $scope.idToDelete = shapeId;
@@ -69,27 +74,6 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
     $scope.init();
 
 
-
-    // Delete modal start
-    $scope.deleteItem = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/modal/delete.html',
-            scope: $scope,
-            size: 'sm',
-        });
-    };
-    //end of modal
-    //start of tree
-    $scope.shapes = [{
-        "name": "Shapes 1",
-    }, {
-        "name": "Shapes 2",
-
-    }, {
-        "name": "Shapes 3",
-    }];
-
     $scope.checkBox = [
 
         {
@@ -118,8 +102,6 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
             "name": "Wastage(w)"
         },
     ]
-
-
     $scope.checkBox = _.chunk($scope.checkBox, 3);
 
 
