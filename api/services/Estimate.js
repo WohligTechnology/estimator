@@ -292,34 +292,96 @@ module.exports = mongoose.model('Estimate', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
-    // what this function will do ?
-    // req data --> ?
-    addSubasspartname: function (data, callback) {
-        var saveDataObj = {
-            subAssemblies: {
-                subAssemblyName: data.subAssemblyName
-            },
-            $push:{
-                    "subAssemblies":{
-                        subAssemblyName:subAssemblyName  
-                    }
-                }
-            
+
+    //- to add sub part name
+    //- req data --> _id (document id) subAssemblyName 
+    addSubAssembly: function (data, callback) {
+
+        var addSubAssObj = {
+            subAssemblyName: data.subAssemblyName
         };
 
-        // please remove .js from following line & this comment as well
-        Estimate.saveData(saveDataObj, function (err, savedData) {
-            // err will have the data given by mongoDB if there is some error & query is not executed successfully
-            // found will have the data given by mongoDB if query is executed successfully
+        if (data.proccessing) {
+            addSubAssObj.processing = data.processing;
+        }
+
+        Estimate.findOneAndUpdate({
+            _id: data.id
+        }, {
+            $push: {
+                subAssemblies: addSubAssObj
+            },
+        }).exec(function (err, updatedData) {
             if (err) {
-                console.log('**** error at addSubasspartname of Estimate.js ****', err);
+                console.log('**** error at addSubAssPartName of Estimate.js ****', err);
                 callback(err, null);
-            } else if (_.isEmpty(savedData)) {
+            } else if (_.isEmpty(updatedData)) {
                 callback(null, 'noDataFound');
             } else {
-                callback(null, savedData);
+                callback(null, updatedData);
             }
         });
+    },
+
+    // what this function will do ?
+    // req data --> ?
+    updateSubAssembly: function (data, callback) {
+        Estimate.update({
+            _id: data.id, // document/record _id
+            'subAssemblies._id': data.subAssembliesId // element _id of array
+        }, {
+            $set: {
+                'subAssemblies.$.subAssemblyName': data.subAssemblyName,
+                'subAssemblies.$.quantity': data.quantity
+            }
+        }).exec(function (err, updatedData) {
+            if (err) {
+                console.log('**** error at function_name of Estimate.js ****', err);
+                callback(err, null);
+            } else {
+                if (_.isEmpty(updatedData)) {
+                    callback(null, 'noDataFound');
+                } else {
+                    callback(null, updatedData);
+                }
+            }
+        });
+    },
+    // what this function will do ?
+    // req data --> ?
+    addSubAssemblyPart: function (data, callback) {
+        var addSubAssPartObj = {
+            partName: data.partName
+        };
+
+        if (data.proccessing) {
+            addSubAssPartObj.processing = data.processing;
+        }
+
+        Estimate.findOneAndUpdate({
+            _id: data.id,
+            'subAssemblies._id': data.subAssembliesId
+        }, {
+            $push: {
+                subAssemblyParts: subAssemblies.addSubAssPartObj
+            },
+        }).exec(function (err, updatedData) {
+            if (err) {
+                console.log('**** error at addSubAssPartName of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(updatedData)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, updatedData);
+            }
+        });
+
+    },
+
+    // what this function will do ?
+    // req data --> ?
+    updateSubAssemblyPart: function (data, callback) {
+
     },
 };
 module.exports = _.assign(module.exports, exports, model);
