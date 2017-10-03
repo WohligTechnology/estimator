@@ -9,16 +9,19 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
     $scope.shapeVariables = [];
 
     // *************************** default functions begin here  ********************** //
+    //- get data to generate material tree structure dynamically 
     $scope.getShapeData = function () {
         masterShapeService.geShapeData(function (data) {
-            console.log('**** inside function_name of masterShapeCtrl.js ****',data);
+            console.log('**** inside *** of masterShapeCtrl.js ****',data);
             $scope.shapeData = data;
         });
     }
+    //- get all variables to add in shape 
     $scope.getVariablesData = function(){
-        masterShapeService.geShapeData(function (data) {
-            console.log('**** inside function_name of masterShapeCtrl.js ****',data);
-            $scope.shapeData = data;
+        console.log('**** inside getVariablesData of masterShapeCtrl.js ****');
+        masterShapeService.getVariablesData(function (data) {
+            $scope.variablesData = data;
+            console.log('**** inside $scope.variablesData of masterShapeCtrl.js ****',$scope.variablesData);
         });
     }
 
@@ -69,6 +72,7 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
     $scope.init = function () {
         // to get Shape Data
         $scope.getShapeData();
+        $scope.getVariablesData();
     }
 
     $scope.init();

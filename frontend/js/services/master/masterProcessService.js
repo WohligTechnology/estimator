@@ -1,7 +1,7 @@
 myApp.service('masterProcessService', function ($http, $uibModal, NavigationService) {
 
   //- get master process view
-  this.getProcessData = function (callback) {
+  this.getProcessTypeData = function (callback) {
     NavigationService.boxCall('MProcessType/search', function (data) {
       callback(data.data.results);
     });
@@ -42,10 +42,10 @@ myApp.service('masterProcessService', function ($http, $uibModal, NavigationServ
 
   //- get master process tree structure data
 
-  this.getProcessTreeData = function (callback) {
+  this.getProcessData = function (callback) {
     
       NavigationService.boxCall('MProcessCat/search', function (data) {
-      callback(data.data);
+      callback(data.data.results);
     });
   }
 
@@ -66,10 +66,21 @@ myApp.service('masterProcessService', function ($http, $uibModal, NavigationServ
   }
 
   this.addOrEditProcessCat = function (processCatData, callback) {
+
     NavigationService.apiCall('MProcessCat/save', processCatData, function (data) {
       callback(data);
     });
   }
+
+  this.deleteProcessCat = function (processCatId, callback) {
+        var deleteProCat = {
+            _id: processCatId
+        };
+
+        NavigationService.apiCall('MProcessCat/delete', deleteProCat, function (data) {
+            callback(data);
+        });
+    }
 
 //process Items
  this.getProcessItemModalData = function (operation, processCatId, processItem, callback) {

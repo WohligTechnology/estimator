@@ -15,8 +15,8 @@
                         <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pc.processCatName}}</span>
                            <!-- create sub process category -->
                         <span ng-click="addOrEditProcessItemModal('save',pc._id)" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                        <span ng-click="editSubAssembly()" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ng-click="processingCat();"></i></span>
-                        <span ng-click="deleteSubAssembly()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" ng-click="deleteItem()"></i></span>
+                        <span  ng-click="addOrEditProcessCatModal('update')" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                        <span ng-click="deleteProcessCatModal(pc._id,'deleteProcessCat')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" ng-click="deleteItem()"></i></span>
                         <ul class="">
                             <li ng-repeat="pi in pc.processItems">
                                 <span class="tree_label" class="partName">{{pi.processItemName}}</span>
