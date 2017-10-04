@@ -12,16 +12,14 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
     //- get data to generate material tree structure dynamically 
     $scope.getShapeData = function () {
         masterShapeService.geShapeData(function (data) {
-            console.log('**** inside *** of masterShapeCtrl.js ****',data);
+            console.log('**** inside *** of masterShapeCtrl.js ****', data);
             $scope.shapeData = data;
         });
     }
     //- get all variables to add in shape 
-    $scope.getVariablesData = function(){
-        console.log('**** inside getVariablesData of masterShapeCtrl.js ****');
+    $scope.getVariablesData = function () {
         masterShapeService.getVariablesData(function (data) {
             $scope.variablesData = data;
-            console.log('**** inside $scope.variablesData of masterShapeCtrl.js ****',$scope.variablesData);
         });
     }
 
@@ -57,6 +55,37 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
             $scope.cancelModal();
             $scope.getShapeData();
         });
+    }
+
+    //- to get the variable Id is aready available in shape's-->variable or not 
+    $scope.getCheckboxStatus = function () {
+        console.log('**** inside getCheckboxStatus of masterShapeCtrl.js ****');
+        $scope.checkboxStatus = true;
+    }
+
+    //- to add/remove seleted variables in the shape's-->variable array 
+    $scope.addVariableToShape = function (checkboxStatus, variableId) {
+        console.log('**** inside addVariableToShape of masterShapeCtrl.js ****', checkboxStatus);
+        console.log('**** inside addVariableToShape of masterShapeCtrl.js ****', variableId);
+        $scope.shapeVariables.push(variableId);
+
+        if (checkboxStatus == '') {
+            var index = $scope.shapeVariables.indexOf(variableId);
+            $scope.shapeVariables.splice(index, 1);
+        }else{
+            
+        }
+
+
+        // _.remove($scope.shapeVariables,  function (n)  {  
+        //     if (n == variableId) {
+        //         return n;
+        //     } else {
+        //         return null;
+        //     }
+        // });
+
+        console.log('**** inside function_name of masterShapeCtrl.js & data is ****', variableId);
     }
 
     // *************************** functions to be triggered form view begin here ***** //
