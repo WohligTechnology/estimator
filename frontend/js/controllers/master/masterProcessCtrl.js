@@ -14,6 +14,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         console.log('****inside processData****');
         masterProcessService.getProcessData(function (data) {
             $scope.processStructureData = data;
+
         });
     }
 
@@ -74,9 +75,10 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     //modal to confirm process cat creationOredit
 
     $scope.addOrEditProcessCatModal = function (operation, processCat) {
-        console.log('**** inside addOrEditProcessCatModal of createOrEditProcessCtrl.js ****', operation);
+           console.log('**** inside addOrEditProcessCatModal of createOrEditProcessCtrl.js ****', operation);
         masterProcessService.getProcessCatModalData(operation, processCat, function (data) {
             $scope.formData = data.processCat;
+         
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
 
@@ -98,7 +100,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         });
     }
 
-    //- modal to confirm material cat deletion
+    //- modal to confirm process cat deletion
     $scope.deleteProcessCatModal = function (processCatId, getFunction) {
         console.log('**** inside deleteProcessCatModal of createOrEditMaterialCtrl.js ****', getFunction);
         $scope.idToDelete = processCatId;
@@ -121,11 +123,11 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
 
     //modal to confirm process processItems creationOredit
-    $scope.addOrEditProcessItemModal = function (operation, processCatId, processItem) {
-        console.log('**** inside addOrEditProcessSubCatModal of createOrEditProcessCtrl.js ****', processItem);
+   $scope.addOrEditProcessItemModal = function (operation, processCatId, processItem) {
+        console.log('**** inside addOrEditMaterialSubCatModal of createOrEditMaterialCtrl.js ****', processItem);
         masterProcessService.getProcessItemModalData(operation, processCatId, processItem, function (data) {
             $scope.formData = data.processItem;
-            $scope.catId = data.catId;
+            $scope.processCat = data.processCat;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
 
@@ -138,10 +140,10 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         });
     }
 
-    $scope.addOrEditProcessItem = function (processItemData, processCatId) {
-        //  processItemData.catId = materialCatId;
-        console.log('**** inside addOrEditProcessSubCat of createOrEditProcessCtrl.js ****', processItemData);
-        console.log('**** inside addOrEditProcessSubCat of createOrEditProcessCtrl.js ****', processCatId);
+      $scope.addOrEditProcessItem = function (processItemData, processCatId) {
+        // materialSubCatData.catId = materialCatId;
+        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', processItemData);
+        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', processCatId);
         masterProcessService.addOrEditProcessItem(processItemData, processCatId, function (data) {
             $scope.operationStatus = "Record added successfully";
             $scope.getProcessData();
@@ -149,6 +151,28 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         });
     }
 
+  //- modal to confirm item deletion
+    $scope.deleteProcessItemModal = function (processItemId, getFunction) {
+        console.log('**** inside deleteMaterialSubCatModal of createOrEditMaterialCtrl.js ****', getFunction);
+        $scope.idToDelete = processItemId;
+        $scope.functionToCall = getFunction;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
+
+ $scope.deleteProcessItem = function (processItemId) {
+        console.log('**** inside deleteMaterialSubCat of createOrEditMaterialCtrl.js ****');
+        masterProcessService.deleteProcessItem(processItemId, function (data) {
+            $scope.operationStatus = "Record deleted successfully";
+            $scope.cancelModal();
+            $scope.getMaterialData();
+        });
+    }
 
 
     //- to dismiss modal instance

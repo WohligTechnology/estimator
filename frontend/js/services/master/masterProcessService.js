@@ -86,25 +86,36 @@ myApp.service('masterProcessService', function ($http, $uibModal, NavigationServ
  this.getProcessItemModalData = function (operation, processCatId, processItem, callback) {
         var processItemObj = {};
         if (angular.isDefined(processItem)) {
-          processItemObj.processItem = processItem;
+            processItemObj.processItem = processItem;
         }
         if (operation == "save") {
-          processItemObj.saveBtn = true;
-        processItemObj.editBtn = false;
-          processItemObj.catId = processCatId;
+            processItemObj.saveBtn = true;
+            processItemObj.editBtn = false;
+            processItemObj.processCat = processCatId;
         } else if (operation == "update") {
-          processItemObj.saveBtn = false;
-           processItemObj.editBtn = true;
+            processItemObj.saveBtn = false;
+            processItemObj.editBtn = true;
         }
         callback(processItemObj);
     }
-    this.addOrEditProcessItem = function (processItemData, processCatId, callback) {
+     this.addOrEditProcessItem = function (processItemData, processCatId, callback) {
         if (angular.isDefined(processCatId)) {
-            processItemData.catId = processCatId;
+            processItemData.processCat = processCatId;
         }
         NavigationService.apiCall('MProcessItem/save', processItemData, function (data) {
             callback(data);
         });
     }
+    //delete process items
+   this.deleteProcessItem = function (processItemId, callback) {
+        var deleteProItem = {
+            _id: processItemId
+        };
+
+        NavigationService.apiCall('MProcessItem/delete', deleteProItem, function (data) {
+            callback(data);
+        });
+    }
+
 
 });
