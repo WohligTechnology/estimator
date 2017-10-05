@@ -1,28 +1,32 @@
 myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, masterProcessService) {
 
-    $scope.$parent.isSidebarActive = false;
+
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
+    $scope.$parent.isSidebarActive = false;
 
     //- to show/hide save & update button on pop-up according to operation
+
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
 
     // *************************** default functions begin here  ********************** //
 
     $scope.getProcessData = function () {
-        console.log('****inside processData****');
         masterProcessService.getProcessData(function (data) {
             $scope.processStructureData = data;
-
         });
     }
 
     $scope.getProcessTypeData = function () {
+   
         masterProcessService.getProcessTypeData(function (data) {
+                
             $scope.processData = data;
+             console.log("lnvlk", $scope.processData );
         });
     }
+
 
     // *************************** functions to be triggered form view begin here ***** //
 
@@ -42,10 +46,8 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
 
         });
     }
-
     $scope.addOrEditProcess = function (processData) {
         masterProcessService.addOrEditProcess(processData, function (data) {
-
             $scope.operationStatus = "Record added successfully";
             $scope.getProcessTypeData();
             $scope.cancelModal();
@@ -73,12 +75,9 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
 
     //modal to confirm process cat creationOredit
-
     $scope.addOrEditProcessCatModal = function (operation, processCat) {
-           console.log('**** inside addOrEditProcessCatModal of createOrEditProcessCtrl.js ****', operation);
         masterProcessService.getProcessCatModalData(operation, processCat, function (data) {
             $scope.formData = data.processCat;
-         
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
 
@@ -92,7 +91,6 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
 
     $scope.addOrEditProcessCat = function (processCatData) {
-        console.log('**** inside addOrEditProcessCat of createOrEditProcessCtrl.js ****');
         masterProcessService.addOrEditProcessCat(processCatData, function (data) {
             $scope.operationStatus = "Record added successfully";
             $scope.getProcessData();
@@ -102,7 +100,6 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
 
     //- modal to confirm process cat deletion
     $scope.deleteProcessCatModal = function (processCatId, getFunction) {
-        console.log('**** inside deleteProcessCatModal of createOrEditMaterialCtrl.js ****', getFunction);
         $scope.idToDelete = processCatId;
         $scope.functionToCall = getFunction;
 
@@ -113,8 +110,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
             size: 'md'
         });
     }
-       $scope.deleteProcessCat = function (processCatId) {
-        console.log('**** inside deleteMaterialCat of createOrEditMaterialCtrl.js ****');
+    $scope.deleteProcessCat = function (processCatId) {
         masterProcessService.deleteProcessCat(processCatId, function (data) {
             $scope.operationStatus = "Record deleted successfully";
             $scope.cancelModal();
@@ -123,8 +119,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
 
     //modal to confirm process processItems creationOredit
-   $scope.addOrEditProcessItemModal = function (operation, processCatId, processItem) {
-        console.log('**** inside addOrEditMaterialSubCatModal of createOrEditMaterialCtrl.js ****', processItem);
+    $scope.addOrEditProcessItemModal = function (operation, processCatId, processItem) {
         masterProcessService.getProcessItemModalData(operation, processCatId, processItem, function (data) {
             $scope.formData = data.processItem;
             $scope.processCat = data.processCat;
@@ -139,11 +134,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
             });
         });
     }
-
-      $scope.addOrEditProcessItem = function (processItemData, processCatId) {
-        // materialSubCatData.catId = materialCatId;
-        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', processItemData);
-        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', processCatId);
+    $scope.addOrEditProcessItem = function (processItemData, processCatId) {
         masterProcessService.addOrEditProcessItem(processItemData, processCatId, function (data) {
             $scope.operationStatus = "Record added successfully";
             $scope.getProcessData();
@@ -151,9 +142,8 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         });
     }
 
-  //- modal to confirm item deletion
+    //- modal to confirm item deletion
     $scope.deleteProcessItemModal = function (processItemId, getFunction) {
-        console.log('**** inside deleteMaterialSubCatModal of createOrEditMaterialCtrl.js ****', getFunction);
         $scope.idToDelete = processItemId;
         $scope.functionToCall = getFunction;
 
@@ -164,22 +154,18 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
             size: 'md'
         });
     }
-
- $scope.deleteProcessItem = function (processItemId) {
-        console.log('**** inside deleteMaterialSubCat of createOrEditMaterialCtrl.js ****');
+    $scope.deleteProcessItem = function (processItemId) {
         masterProcessService.deleteProcessItem(processItemId, function (data) {
             $scope.operationStatus = "Record deleted successfully";
             $scope.cancelModal();
-            $scope.getMaterialData();
+            $scope.getProcessData();
         });
     }
-
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
     };
-
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 

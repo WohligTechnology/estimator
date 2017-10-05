@@ -21,10 +21,11 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Process Category:</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-model="formData.processCat" required>
-                                    <option>59cc969925f6f1193497005a</option>
-                                    <option>fdgdf</option>
-                                </select>
+                                <!--<select class="form-control"  required>
+                                  
+                                    <option ng-model="formData.processCat.processCatName">{{processData[0].processCat.processCatName}}</option>
+                                </select>-->
+                                <select class="form-control" ng-options="processDatas as processDatas.processCat.processCatName for processDatas in processData track by processDatas.id" ng-model="formData.processCat"></select>
                              </div>
                         </div>
                         <div class="form-group">

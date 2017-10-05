@@ -45,6 +45,7 @@ myApp.service('masterProcessService', function ($http, $uibModal, NavigationServ
   this.getProcessData = function (callback) {
     
       NavigationService.boxCall('MProcessCat/search', function (data) {
+        console.log('kdshsbfvld;j');
       callback(data.data.results);
     });
   }
@@ -99,6 +100,7 @@ myApp.service('masterProcessService', function ($http, $uibModal, NavigationServ
         callback(processItemObj);
     }
      this.addOrEditProcessItem = function (processItemData, processCatId, callback) {
+        
         if (angular.isDefined(processCatId)) {
             processItemData.processCat = processCatId;
         }
