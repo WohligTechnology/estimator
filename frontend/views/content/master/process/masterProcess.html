@@ -13,15 +13,17 @@
                         <label for="{{pc.processCatName+$index}}" class="tree_label"></label>
                             <!-- process cat name -->
                         <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pc.processCatName}}</span>
-                           <!-- create sub process category -->
+                           <!-- create  process items  -->
                         <span ng-click="addOrEditProcessItemModal('save',pc._id)" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                        <span  ng-click="addOrEditProcessCatModal('update')" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
-                        <span ng-click="deleteProcessCatModal(pc._id,'deleteProcessCat')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" ng-click="deleteItem()"></i></span>
+                            <!-- edit process category -->
+                        <span  ng-click="addOrEditProcessCatModal('update', pc)" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                             <!-- delete process category -->
+                        <span ng-click="deleteProcessCatModal(pc._id,'deleteProcessCat')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" ></i></span>
                         <ul class="">
                             <li ng-repeat="pi in pc.processItems">
                                 <span class="tree_label" class="partName">{{pi.processItemName}}</span>
-                                <span ng-click="editEstimatePart()" class="partEditIcon"><i class="fa fa-pencil btn-warning " ng-click="processingItem();"></i></span>
-                                <span ng-click="deleteEstimatePart()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger" ng-click="deleteItem()"></i></span>
+                                <span ng-click="addOrEditProcessItemModal('update',pc._id,pi)" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                <span ng-click="deleteProcessItemModal(pi._id,'deleteProcessItem')" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
                             </li>
                         </ul>
                     </li>
@@ -130,7 +132,7 @@
                                         </label>
                                     </td>
                                     <td> {{process.processTypeName}} </td>
-                                    <td>{{process.processCat}}</td>
+                                    <td>{{process.processCat.processCatName}}</td>
                                     <td>{{process.rate.mulFact}} </td>
                                     <td>{{process.rate.uom}} </td>
                                     <td>{{process.quantity.linkedKeyValue}} </td>

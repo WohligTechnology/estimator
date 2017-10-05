@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ng-click="extra();"> <i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditExtraModal('save');"> <i class="fa fa-plus"></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -74,62 +74,35 @@
                 <!-- BEGIN BORDERED TABLE PORTLET-->
                 <div class="portlet-body">
                     <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                        <tr>
+                            <th rowspan="2">
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label>
-                                </th>
-                                <th class="align-top"> Id </th>
-                                <th class="align-top">Extra Name</th>
-                                <th class="text-center"> Rate </th>
-                                <th> Action</th>
-                            </tr>
-                        </thead>
+                            </th>
+                            <th rowspan="2" class="align-top text-center"> Id </th>
+                            <th rowspan="2" class="align-top text-center">Extra Name</th>
+                            <th colspan="2" class="text-center text-center"> Rate </th>
+                            <th rowspan="2" class="text-center"> Action</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">UOM</th>
+                        </tr>
                         <tbody>
-                            <tr>
+                            <tr ng-repeat="extra in extraData">
                                 <td>
                                     <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
                                            <span></span>
                                      </label>
                                 </td>
-                                <td> 1 </td>
-                                <td> Mark </td>
-                                <td>5 </td>
-                                    <td class="edit-icon">
-                                    <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                    <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
-                                           <span></span>
-                                     </label>
-                                </td>
-                                <td> 1 </td>
-                                <td> Mark </td>
-                                <td>5 </td>
+                                <td>{{$index}}</td>
+                                <td> {{extra.extraName}}</td>
+                                <td> {{extra.rate.name}}</td>
+                                <td>{{extra.rate.uom}} </td>
                                 <td class="edit-icon">
-                                    <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                    <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
-                                           <span></span>
-                                     </label>
-                                </td>
-                                <td> 1 </td>
-                                <td> Mark </td>
-                                <td>5 </td>
-                                <td class="edit-icon">
-                                    <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                    <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
+                                    <a class="action" ng-click="addOrEditExtraModal('update', extra);"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                    <a class="" ng-click="deleteExtraModal(extra._id,'deleteExtra')"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
                                 </td>
                             </tr>
                         </tbody>

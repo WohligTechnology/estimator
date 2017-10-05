@@ -21,16 +21,16 @@
                         <div class="form-group">
                             <label class="col-md-5 control-label">Rate:</label>
                             <div class="col-md-5">
-                                <input type="tel" class="form-control" ng-model="formData.processCat">
+                                <input type="tel" class="form-control" ng-model="formData.rate">
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessItem(formData,catId)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessItem(formData,processCat)">Save</button>
                                  <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditProcessItem(formData)">Update</button>
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div> 
                         </div>
                     </div>
