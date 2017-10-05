@@ -62,7 +62,7 @@
                                                 </label> -->
                                                  {{var.variableName}} 
                                                 <input type="checkbox" ng-click="checkedVariable ? addVariableToShape('checked',var._id) : addVariableToShape('unchecked',var._id)"
-                                                    ng-init="getCheckboxStatus(var._id)" ng-checked="checkboxStatus" ng-model="checkedVariable"> 
+                                                    ng-checked="getCheckboxStatus(var._id, formData.variable)" ng-model="checkedVariable"> 
                                             </div>
                                         </div>
                                     </div>
