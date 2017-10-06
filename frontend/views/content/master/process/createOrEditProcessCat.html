@@ -21,18 +21,17 @@
                         <div class="form-group">
                             <label class="col-md-5 control-label"> UOM:</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-model="formData.uom">
-                                    <option></option>
-                                    <option></option>
-                                 </select>
+                                  <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
+                                    ng-model="selectedUom">
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessCat(formData)">Save</button>
-                                  <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditProcessCat(formData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessCat(formData,selectedUom._id)">Save</button>
+                                  <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditProcessCat(formData,selectedUom._id)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                             </div>
                         </div>

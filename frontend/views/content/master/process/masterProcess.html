@@ -44,7 +44,7 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditProcessModal('save');"> <i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditProcessTypeModal('save');"> <i class="fa fa-plus"></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -134,16 +134,16 @@
                                     <td> {{process.processTypeName}} </td>
                                     <td>{{process.processCat.processCatName}}</td>
                                     <td>{{process.rate.mulFact}} </td>
-                                    <td>{{process.rate.uom}} </td>
+                                    <td>{{process.rate.uom.uomName}} </td>
                                     <td>{{process.quantity.linkedKeyValue}} </td>
-                                    <td>{{process.quantity.uom}} </td>
+                                    <td>{{process.quantity.uom.uomName}} </td>
                                     <td> {{process.quantity.mulfact}} </td>
-                                    <td> {{process.quantity.finalUom}}</td>
+                                    <td> {{process.quantity.finalUom.uomName}}</td>
                                     <td> {{process.quantity.utilization}}</td>
                                     <td> {{process.quantity.contengncyOrWastage}}</td>
                                     <td class="edit-icon">
-                                        <a class="action" ng-click="addOrEditProcessModal('update',process)"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="deleteProcessModal(process._id,'deleteProcess')"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
+                                        <a class="action" ng-click="addOrEditProcessTypeModal('update',process)"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="deleteProcessTypeModal(process._id,'deleteProcessType')"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
                                     </td>
                                 </tr>
                             </tbody>

@@ -1,6 +1,5 @@
 myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerService) {
 
-
   // *************************** default variables/tasks begin here ***************** //
   //- to show/hide sidebar of dashboard 
 
@@ -14,63 +13,64 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
       $scope.customerData = data;
     });
   }
-    // *************************** functions to be triggered form view begin here ***** // 
-    $scope.addOrEditCustomerModal = function (operation, customer) {
-      customerService.getCustomerModalData(operation, customer, function (data) {
-        $scope.formData = data.customer;
-        $scope.showSaveBtn = data.saveBtn;
-        $scope.showEditBtn = data.editBtn;
 
-        $scope.modalInstance = $uibModal.open({
-          animation: true,
-          templateUrl: 'views/content/customer/modal/createOrEditCustomer.html',
-          scope: $scope,
-          size: 'md'
-        });
+  // *************************** functions to be triggered form view begin here ***** // 
 
-      });
-    }
-    $scope.addOrEditCustomer = function (customerData) {
-      console.log("asdsfdgd", customerData);
-      customerService.addOrEditCustomer(customerData, function (data) {
-
-        $scope.operationStatus = "Record added successfully";
-        $scope.getCustomerData();
-        $scope.cancelModal();
-      });
-    }
-
-    //- modal to confirm customer deletion
-    $scope.deleteCustomerModal = function (customerId, getFunction) {
-      $scope.idToDelete = customerId;
-      $scope.functionToCall = getFunction;
+  $scope.addOrEditCustomerModal = function (operation, customer) {
+    customerService.getCustomerModalData(operation, customer, function (data) {
+      $scope.formData = data.customer;
+      $scope.showSaveBtn = data.saveBtn;
+      $scope.showEditBtn = data.editBtn;
 
       $scope.modalInstance = $uibModal.open({
         animation: true,
-        templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+        templateUrl: 'views/content/customer/modal/createOrEditCustomer.html',
         scope: $scope,
         size: 'md'
       });
-    }
-    $scope.deleteCustomer = function (customerId) {
-      customerService.deleteCustomer(customerId, function (data) {
-        $scope.operationStatus = "Record deleted successfully";
-        $scope.cancelModal();
-        $scope.getCustomerData();
-      });
-    }
 
+    });
+  }
 
+  $scope.addOrEditCustomer = function (customerData) {
+    console.log("asdsfdgd", customerData);
+    customerService.addOrEditCustomer(customerData, function (data) {
+
+      $scope.operationStatus = "Record added successfully";
+      $scope.getCustomerData();
+      $scope.cancelModal();
+    });
+  }
+
+  //- modal to confirm customer deletion
+  $scope.deleteCustomerModal = function (customerId, getFunction) {
+    $scope.idToDelete = customerId;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  $scope.deleteCustomer = function (customerId) {
+    customerService.deleteCustomer(customerId, function (data) {
+      $scope.operationStatus = "Record deleted successfully";
+      $scope.cancelModal();
+      $scope.getCustomerData();
+    });
+  }
 
   //- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
   };
 
- // *************************** init all default functions begin here ************** //
+  // *************************** init all default functions begin here ************** //
   //- to initilize the default function 
   $scope.init = function () {
-    // to get BaseMaster Data
+    // to get customer Data
     $scope.getCustomerData();
   }
 

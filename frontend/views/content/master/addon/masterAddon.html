@@ -101,76 +101,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr ng-repeat="addon in addonData">
                                     <td>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
                                            <span></span>
                                      </label>
                                     </td>
-                                    <td> 1 </td>
-                                    <td> Mark </td>
-                                    <td>5 </td>
-                                    <td>24 </td>
-                                    <td>400 </td>
-                                    <td>500 </td>
-                                    <td> 600 </td>
-                                    <td> 900</td>
-                                    <td> 300</td>
-                                    <td> 300</td>
-                                    <td> Approved</td>
-                                    <td>  </td>
+                                    <td>{{$index}} </td>
+                                    <td>{{addon.addonTypeName}}</td>
+                                    <td> {{addon.materialCat}} </td>
+                                    <td>{{addon.materialSubCat}}</td>
+                                    <td>{{addon.rate.mulFact}}</td>
+                                    <td>{{addon.rate.uom}} </td>
+                                    <td>{{addon.quantity.supportingVariable}} </td>
+                                    <td>{{addon.quantity.linkedKey}} </td>
+                                    <td>{{addon.quantity.percentageUse}}</td>
+                                    <td>{{addon.quantity.percentageExtra}}</td>
+                                    <td>{{addon.quantity.mulFact}}</td>
+                                    <td>{{addon.remarks}}</td>
                                     <td class="edit-icon">
                                         <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
                                         <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
-                                           <span></span>
-                                     </label>
-                                    </td>
-                                    <td> 1 </td>
-                                    <td> Mark </td>
-                                    <td>5 </td>
-                                    <td>24 </td>
-                                    <td>400 </td>
-                                    <td>500 </td>
-                                    <td> 600 </td>
-                                    <td> 900</td>
-                                    <td> 300</td>
-                                    <td> 300</td>
-                                    <td> Approved</td>
-                                    <td>  </td>
-                                    <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger" ng-click="deleteItem()"> <i class="fa fa-trash-o" ></i></span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
-                                           <span></span>
-                                     </label>
-                                    </td>
-                                    <td> 1 </td>
-                                    <td> Mark </td>
-                                    <td>5 </td>
-                                    <td>24 </td>
-                                    <td>400 </td>
-                                    <td>500 </td>
-                                    <td> 600 </td>
-                                    <td> 900</td>
-                                    <td> 300</td>
-                                    <td> 300</td>
-                                    <td> Approved</td>
-                                    <td>  </td>
-                                    <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger" ng-click="deleteItem()"> <i class="fa fa-trash-o" ></i></span></a>
                                     </td>
                                 </tr>
                             </tbody>

@@ -1,12 +1,28 @@
-myApp.controller('masterAddonCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
-    $scope.$parent.isSidebarActive = true;
+myApp.controller('masterAddonCtrl', function ( $scope, $http, $uibModal, masterAddonService) {
+  
+ // *************************** default variables/tasks begin here ***************** //
+  //- to show/hide sidebar of dashboard 
 
+   $scope.$parent.isSidebarActive = true;
+   $scope.showSaveBtn = true;
+   $scope.showEditBtn = false;
+ 
+  // *************************** default functions begin here  ********************** //
+  
+  $scope.getAddonData = function(){
+        masterAddonService.getAddonData(function (data) {
+        $scope.addonData = data;
+    });
+  }
 
+  // *************************** init all default functions begin here ************** //
+  //- to initilize the default function 
+  $scope.init = function () {
+    // to get addon Data
+    $scope.getAddonData();
+  }
 
-
-
-
-
+  $scope.init();
 
 
 

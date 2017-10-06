@@ -31,7 +31,9 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Uom:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.rate.uom" required>
+                                   <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
+                                    ng-model="selectedRateMUlFactUom">
+                                </select>
                             </div>
                         </div>
                     </div>
