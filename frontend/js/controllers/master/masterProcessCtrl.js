@@ -2,82 +2,36 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
 
 
     // *************************** default variables/tasks begin here ***************** //
-    //- to show/hide sidebar of dashboard 
-    $scope.$parent.isSidebarActive = false;
-
-    //- to show/hide save & update button on pop-up according to operation
-
-    $scope.showSaveBtn = true;
+    $scope.$parent.isSidebarActive = false;    //- to show/hide sidebar of dashboard 
+    $scope.showSaveBtn = true;                 //- to show/hide save & update button on pop-up according to operation
     $scope.showEditBtn = false;
+    $scope.selectedProcessCat = {};
+
 
     // *************************** default functions begin here  ********************** //
-
     $scope.getProcessData = function () {
         masterProcessService.getProcessData(function (data) {
             $scope.processStructureData = data;
         });
     }
-
     $scope.getProcessTypeData = function () {
-   
         masterProcessService.getProcessTypeData(function (data) {
-                
             $scope.processData = data;
-             console.log("lnvlk", $scope.processData );
         });
     }
 
 
     // *************************** functions to be triggered form view begin here ***** //
-
-
-    $scope.addOrEditProcessModal = function (operation, process) {
-        masterProcessService.getProcessModalData(operation, process, function (data) {
-            $scope.formData = data.process;
-            $scope.showSaveBtn = data.saveBtn;
-            $scope.showEditBtn = data.editBtn;
-
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/content/master/process/createOrEditProcessType.html',
-                scope: $scope,
-                size: 'md'
-            });
-
-        });
-    }
-    $scope.addOrEditProcess = function (processData) {
-        masterProcessService.addOrEditProcess(processData, function (data) {
-            $scope.operationStatus = "Record added successfully";
-            $scope.getProcessTypeData();
-            $scope.cancelModal();
-        });
-    }
-
-    //- modal to confirm processTYpe deletion
-    $scope.deleteProcessModal = function (processId, getFunction) {
-        $scope.idToDelete = processId;
-        $scope.functionToCall = getFunction;
-
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
-            scope: $scope,
-            size: 'md'
-        });
-    }
-    $scope.deleteProcess = function (processId) {
-        masterProcessService.deleteProcess(processId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
-            $scope.cancelModal();
-            $scope.getProcessTypeData();
-        });
-    }
-
-    //modal to confirm process cat creationOredit
     $scope.addOrEditProcessCatModal = function (operation, processCat) {
         masterProcessService.getProcessCatModalData(operation, processCat, function (data) {
+            $scope.selectedUom = {};
+            $scope.uoms = data.uoms;
             $scope.formData = data.processCat;
+
+            if (angular.isDefined(data.processCat)) {
+                $scope.selectedUom = data.processCat.uom;
+            }
+
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
 
@@ -89,16 +43,14 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
             });
         });
     }
-
-    $scope.addOrEditProcessCat = function (processCatData) {
+    $scope.addOrEditProcessCat = function (processCatData, selectedUomId) {
+        processCatData.uom = selectedUomId;
         masterProcessService.addOrEditProcessCat(processCatData, function (data) {
             $scope.operationStatus = "Record added successfully";
             $scope.getProcessData();
             $scope.cancelModal();
         });
     }
-
-    //- modal to confirm process cat deletion
     $scope.deleteProcessCatModal = function (processCatId, getFunction) {
         $scope.idToDelete = processCatId;
         $scope.functionToCall = getFunction;
@@ -118,7 +70,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         });
     }
 
-    //modal to confirm process processItems creationOredit
+
     $scope.addOrEditProcessItemModal = function (operation, processCatId, processItem) {
         masterProcessService.getProcessItemModalData(operation, processCatId, processItem, function (data) {
             $scope.formData = data.processItem;
@@ -141,8 +93,6 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
             $scope.cancelModal();
         });
     }
-
-    //- modal to confirm item deletion
     $scope.deleteProcessItemModal = function (processItemId, getFunction) {
         $scope.idToDelete = processItemId;
         $scope.functionToCall = getFunction;
@@ -162,14 +112,73 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         });
     }
 
+
+    $scope.addOrEditProcessTypeModal = function (operation, process) {
+        masterProcessService.getProcessTypeModalData(operation, process, function (data) {
+
+            $scope.selectedProcessCat = {};
+            $scope.formData = data.process;
+            $scope.processCats = data.processCats;
+            $scope.uoms = data.uoms;
+
+            if (angular.isDefined(data.process)) {
+                $scope.selectedProcessCat = data.process.processCat;
+                $scope.selectedRateMUlFactUom = data.process.rate.uom;
+                $scope.selectedQuaLinkedKeyUom = data.process.quantity.uom;
+                $scope.selectedQuaFinalUom = data.process.quantity.finalUom;
+
+            }
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
+
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/master/process/createOrEditProcessType.html',
+                scope: $scope,
+                size: 'md'
+            });
+
+        });
+    }
+    $scope.addOrEditProcessType = function (processData, selectedProcessCatId, selectedRateMUlFactUom, selectedQuaLinkedKeyUom, selectedQuaFinalUom) {
+        processData.processCat = selectedProcessCatId;
+        processData.rate.uom = selectedRateMUlFactUom;
+        processData.quantity.uom = selectedQuaLinkedKeyUom;
+        processData.quantity.finalUom = selectedQuaFinalUom;
+        masterProcessService.addOrEditProcessType(processData, function (data) {
+            $scope.operationStatus = "Record added successfully";
+            $scope.getProcessTypeData();
+            $scope.cancelModal();
+        });
+    }
+    $scope.deleteProcessTypeModal = function (processId, getFunction) {
+        $scope.idToDelete = processId;
+        $scope.functionToCall = getFunction;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
+    $scope.deleteProcessType = function (processId) {
+        masterProcessService.deleteProcessType(processId, function (data) {
+            $scope.operationStatus = "Record deleted successfully";
+            $scope.cancelModal();
+            $scope.getProcessTypeData();
+        });
+    }
+
+
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
     };
 
+
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
-
     $scope.init = function () {
         $scope.getProcessTypeData();
         $scope.getProcessData();
