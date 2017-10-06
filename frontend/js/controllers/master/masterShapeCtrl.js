@@ -31,7 +31,7 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn; 
         });
-    }
+    } 
     $scope.createOrEditShape = function (shape, shapeVariables) {
         shape.variable = shapeVariables;
         masterShapeService.createOrEditShape(shape, function (data) {

@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="shapes-checkbox">
-                                        <div class="" ng-repeat="varChunk in formData.variable">
+                                        <div class="" ng-repeat="varChunk in formData.variableChunks">
                                             <div class="" ng-repeat="var in varChunk track by $index">
                                                  {{var.variableName}}
                                                 <input type="checkbox" ng-click="checkedVariable ? addVariableToShape('checked',var._id) : addVariableToShape('unchecked',var._id)"

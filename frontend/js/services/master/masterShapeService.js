@@ -16,7 +16,6 @@ myApp.service('masterShapeService', function ($http, $timeout, $uibModal, Naviga
     }
 
     this.createOrEditShapeData = function (operation, shape, callback) {
-        console.log('**** inside createOrEditShapeData of masterShapeService.js ****', operation);
         var shapeDataObj = {};
         shapeDataObj.shapeVariables = [];
         // shapeDataObj.shape = {};
@@ -46,7 +45,7 @@ myApp.service('masterShapeService', function ($http, $timeout, $uibModal, Naviga
             shapeDataObj.editBtn = true;
             NavigationService.boxCall('MVariables/getAllVarId', function (data) {
                 var variableData = data.data;
-                _.map(variableData, function (n) {
+                _.map(variableData, function (n) {                    
                     if (shapeDataObj.shape.variable.indexOf(n._id) == -1) {
                         n.checkboxStatus = false;
                     } else {
@@ -54,8 +53,7 @@ myApp.service('masterShapeService', function ($http, $timeout, $uibModal, Naviga
                         shapeDataObj.shapeVariables.push(n._id);
                     }
                 });
-                shapeDataObj.shape.variable = _.chunk(variableData, 3);
-                console.log('**** inside ############3 of masterShapeService.js & data is ****',shapeDataObj);
+                shapeDataObj.shape.variableChunks = _.chunk(variableData, 3);
                 callback(shapeDataObj);
             });
 
