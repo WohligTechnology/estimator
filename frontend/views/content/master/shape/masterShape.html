@@ -51,18 +51,11 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="shapes-checkbox">
-                                        <div class="" ng-repeat="varChunk in variablesData">
-                                            <div class="" ng-repeat="var in varChunk">
-                                                <!-- <input type="checkbox" ng-click="checkedVariable ? addVariableToShape(var._id) : addVariableToShape(var._id)" ng-checked="getStatus(var._id)"
-                                                    ng-model="checkedVariable" class="md-check">
-                                                <label for="{{var.variableName+$index}}">
-                                                  <span></span>
-                                                  <span class="check"></span>
-                                                  <span class="box"></span>{{var.variableName}} 
-                                                </label> -->
-                                                 {{var.variableName}} 
+                                        <div class="" ng-repeat="varChunk in formData.variable">
+                                            <div class="" ng-repeat="var in varChunk track by $index">
+                                                 {{var.variableName}}
                                                 <input type="checkbox" ng-click="checkedVariable ? addVariableToShape('checked',var._id) : addVariableToShape('unchecked',var._id)"
-                                                    ng-checked="getCheckboxStatus(var._id, formData.variable)" ng-model="checkedVariable"> 
+                                                   ng-checked="var.checkboxStatus" ng-model="checkedVariable">
                                             </div>
                                         </div>
                                     </div>
@@ -114,8 +107,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-13 text-center">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="createOrEditShape(formData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="createOrEditShape(formData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="createOrEditShape(formData,shapeVariables)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="createOrEditShape(formData,shapeVariables)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                             </div>
                         </div>

@@ -15,7 +15,9 @@ var schema = new Schema({
         Type:String
     },
     variable:[{
-        
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MVariables',
+        required: true
     }],
     sizeFactor:{
         type:String

@@ -7,6 +7,7 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
     $scope.shapeVariables = [];
+    $scope.formData = {};
 
     // *************************** default functions begin here  ********************** //
     //- get data to generate material tree structure dynamically 
@@ -25,16 +26,14 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
 
     $scope.createOrEditShapeData = function (operation, shape) {
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
-            $scope.formData = data.shape;
-            $scope.formData.variable = data.shape.variable;
-
-            
-
+            $scope.formData = data.shape;   
+            $scope.shapeVariables = data.shapeVariables;         
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn; 
         });
     }
-    $scope.createOrEditShape = function (shape) {
+    $scope.createOrEditShape = function (shape, shapeVariables) {
+        shape.variable = shapeVariables;
         masterShapeService.createOrEditShape(shape, function (data) {
             $scope.operationStatus = "Shape added successfully";
             $scope.getShapeData();
@@ -61,44 +60,14 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
         });
     }
 
-    //- to get the variable Id is aready available in shape's-->variable or not 
-    $scope.getCheckboxStatus = function (variableId, shapeVariables) {
-       
-        if(_.indexOf(shapeVariables, variableId) == -1){
-            console.log('**** not found ****');
-            $scope.checkboxStatus = false;
-        }else{
-            console.log('**** found ****');
-            $scope.checkboxStatus = true;
-            $scope.shapeVariables.push(variableId);
-        }
-
-        return $scope.checkboxStatus;
-     
-    }
-
     //- to add/remove seleted variables in the shape's-->variable array 
     $scope.addVariableToShape = function (checkboxStatus, variableId) {
-        console.log('**** inside addVariableToShape of masterShapeCtrl.js ****', checkboxStatus);
-        console.log('**** inside addVariableToShape of masterShapeCtrl.js ****', variableId);
-        
         if (checkboxStatus == 'unchecked') {
             var index = $scope.shapeVariables.indexOf(variableId);
             $scope.shapeVariables.splice(index, 1);
         }else if(checkboxStatus == 'checked'){
              $scope.shapeVariables.push(variableId);
         }
-
-
-        // _.remove($scope.shapeVariables,  function (n)  {  
-        //     if (n == variableId) {
-        //         return n;
-        //     } else {
-        //         return null;
-        //     }
-        // });
-
-        console.log('**** inside function_name of masterShapeCtrl.js & data is ****', $scope.shapeVariables);
     }
 
     // *************************** functions to be triggered form view begin here ***** //
