@@ -33,8 +33,7 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
   }
 
   $scope.addOrEditCustomer = function (customerData) {
-    console.log("asdsfdgd", customerData);
-    customerService.addOrEditCustomer(customerData, function (data) {
+     customerService.addOrEditCustomer(customerData, function (data) {
 
       $scope.operationStatus = "Record added successfully";
       $scope.getCustomerData();

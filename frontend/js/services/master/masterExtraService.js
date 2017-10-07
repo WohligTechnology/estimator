@@ -20,11 +20,24 @@ myApp.service('masterExtraService', function (  $http, NavigationService, $uibMo
       if (operation == "save") {
         extraDataObj.saveBtn = true;
         extraDataObj.editBtn = false;
-      } else if (operation == "update") {
+
+       NavigationService.boxCall('MUom/search', function (data) {
+         extraDataObj.uoms = data.data.results;
+          callback(extraDataObj);
+        });
+
+     } else if (operation == "update") {
         extraDataObj.saveBtn = false;
         extraDataObj.editBtn = true;
+
+          NavigationService.boxCall('MUom/search', function (data) {
+         extraDataObj.uoms = data.data.results;
+          callback(extraDataObj);
+          callback(extraDataObj);
+
+        });
       }
-      callback(extraDataObj);
+      
     }
 
  this.addOrEditExtra = function (extraData, callback) {

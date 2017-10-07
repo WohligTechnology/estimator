@@ -6,6 +6,7 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
     $scope.$parent.isSidebarActive = true;
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
+  
 
     // *************************** default functions begin here  ********************** //
     $scope.getMasterExtraData = function () {
@@ -14,11 +15,18 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
         });
     }
 
-
     // *************************** functions to be triggered form view begin here ***** // 
     $scope.addOrEditExtraModal = function (operation, extra) {
+
         masterExtraService.getExtraModalData(operation, extra, function (data) {
+
             $scope.formData = data.extra;
+            $scope.uoms = data.uoms;
+            
+               if (angular.isDefined(data.extra)) {
+               $scope.selectedRateUom = data.extra.rate.uom;
+            }
+
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
             $scope.modalInstance = $uibModal.open({
@@ -30,8 +38,10 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
         });
     }
 
-    $scope.addOrEditExtra = function (extraData) {
-      masterExtraService.addOrEditExtra(extraData, function (data) {
+    $scope.addOrEditExtra = function (extraData, selectedRateUom) {
+        extraData.rate.uom = selectedRateUom;
+
+         masterExtraService.addOrEditExtra(extraData, function (data) {
 
             $scope.operationStatus = "Record added successfully";
             $scope.getMasterExtraData();
@@ -52,15 +62,16 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
       });
     }
 
- $scope.deleteExtra = function (extraId) {
+    $scope.deleteExtra = function (extraId) {
        masterExtraService.deleteExtra(extraId, function (data) {
         $scope.operationStatus = "Record deleted successfully";
         $scope.cancelModal();
         $scope.getMasterExtraData();
       });
     }
-  //- to dismiss modal instance
-  $scope.cancelModal = function () {
+
+   //- to dismiss modal instance
+    $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
   };
 
