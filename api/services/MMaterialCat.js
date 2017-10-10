@@ -9,7 +9,7 @@ var schema = new Schema({
         index: true
     }],
 });
-
+    
 schema.plugin(deepPopulate, {});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
