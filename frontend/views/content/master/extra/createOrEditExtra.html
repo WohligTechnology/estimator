@@ -31,8 +31,8 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Uom:</label>
                             <div class="col-md-5">
-                                   <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
-                                    ng-model="selectedRateMUlFactUom">
+                                     <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
+                                    ng-model="selectedRateUom">
                                 </select>
                             </div>
                         </div>
@@ -40,8 +40,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class=" col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditExtra(formData)">Save</button>
-                                 <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditExtra(formData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditExtra(formData, selectedRateUom._id)">Save</button>
+                                 <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditExtra(formData, selectedRateUom._id)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
