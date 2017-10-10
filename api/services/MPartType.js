@@ -12,6 +12,12 @@ var schema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MMaterial'
     }],
+    partTypeCat: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MPartTypeCat',
+        key: "partTypes",
+        required: true
+    }
 });
 
 schema.plugin(deepPopulate, {});

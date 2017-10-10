@@ -19,20 +19,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                                <label class="col-md-2 control-label"> Material Category:</label>
+                            <label class="col-md-2 control-label"> Material Category:</label>
                             <div class="col-md-3">
-                                <select class="form-control">
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
+                                <select ng-model="selectedMatCat" class="form-control select_tag_dashboard" ng-options="x.name for x in AllStates track by x._id "
+                                    ng-change="selectedMatCat===null ? '' : getAllDashboardData(selectedMatCat, $event)">
                                 </select>
                             </div>
                             <label class="col-md-2 control-label"> Material SubCategory:</label>
                             <div class="col-md-3">
-                                <select class="form-control">
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
+                                <select ng-model="selectedMatSubCat" class="form-control select_tag_dashboard" ng-options="x.name for x in AllStates track by x._id "
+                                    ng-change="selectedMatSubCat===null ? '' : getAllDashboardData(selectedMatSubCat, $event)">
                                 </select>
                             </div>
                         </div>
@@ -63,7 +59,7 @@
                             </div>
                             <label class="col-md-2 control-label">UOM</label>
                             <div class="col-md-3">
-                              <select class="form-control">
+                                <select class="form-control">
                                     <option></option>
                                     <option></option>
                                     <option></option>

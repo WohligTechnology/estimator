@@ -1,7 +1,13 @@
 var schema = new Schema({
     partTypeCatName:{
         Type:String
-    }
+    },
+    partTypes:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MPartType',
+        index: true
+    }]
+
 });
 
 schema.plugin(deepPopulate, {});

@@ -16,7 +16,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
     }
 
     // *************************** functions to be triggered form view begin here ***** //
-
     $scope.addOrEditMaterialCatModal = function (operation, materialCat) {
         console.log('**** inside addOrEditMaterialCatModal of createOrEditMaterialCtrl.js ****', operation);
         masterMaterialService.getMaterialCatModalData(operation, materialCat, function (data) {
