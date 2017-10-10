@@ -8,7 +8,7 @@
                     <span ng-click="getAssemblyView()" class="assebmlyName">Part Master</span>
                     <span ng-click="partTypeCat();" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
                     <ul>
-                        <li ng-repeat="pm in partCat">
+                        <li ng-repeat="pm in partStructureData">
                             <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
                             <input type="checkbox" id="{{pm.name+$index}}" />
                             <label for="{{pm.name+$index}}" class="tree_label"></label>

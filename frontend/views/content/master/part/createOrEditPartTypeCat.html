@@ -3,7 +3,7 @@
         <div class="portlet box green ">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Part Type 
+                    <i class="fa fa-gift"></i>Part Type Category
                 </div>
                 <div class="tools">
                 </div>
@@ -13,18 +13,18 @@
                 <form action="#" class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Enter Part Type :</label>
+                            <label class="col-md-5 control-label">Enter Part Type Category:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" ng-model="formData.">
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green">Save</button>
-                                <button type="submit" class="btn btn-circle green">Update</button>
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                               <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartTypeCat(formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartTypeCat(formData)">Update</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
                     </div>
