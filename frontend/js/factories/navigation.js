@@ -1,4 +1,6 @@
 myApp.factory('NavigationService', function ($http) {
+
+    // var adminurl ="http://wohlig.io:1337/api/"
     var navigation = [{
             name: "Home",
             classis: "active",
@@ -21,7 +23,7 @@ myApp.factory('NavigationService', function ($http) {
             subnav: []
         }
     ];
-
+    
     return {
         getNavigation: function () {
             return navigation;

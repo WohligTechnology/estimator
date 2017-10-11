@@ -4,6 +4,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = false;
+    $scope.showSaveBtn = true;
+    $scope.showEditBtn = false;
+
 
 
 
@@ -20,7 +23,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     //- get data to generate tree structure dynamically i.e. get assembly stucture
     $scope.getEstimateData = function () {
         createOrEditEstimateService.getEstimateData(function (data) {
-            $scope.estimteData = data;
+            $scope.estimteData = data.assembly;
+            console.log('**** inside estimate data of createOrEditEstimateCtrl.js & data is ****', $scope.estimteData);
         });
     }
 
@@ -35,13 +39,32 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
         console.log('**** inside editAssemblyName of createOrEditEstimateCtrl.js ****');
     }
 
-    //- to add or edit subAssembly name
-    $scope.addOrEditSubAssemblyModal = function () {
-        console.log('**** inside addOrEditSubAssemblyModal of createOrEditEstimateCtrl.js ****');
+    //- to add or edit subAssembly data
+    $scope.addOrEditSubAssemblyModal = function (operation, subAssembly) {
+        console.log('**** inside controller of createOrEditEstimateCtrl.js ****', subAssembly);
+        createOrEditEstimateService.getAllSubAssModalData(operation, subAssembly, function (data) {
+
+            $scope.formData = data.subAssObj;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
+
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/estimate/estimateModal/createOrEditSubAssemblyName.html',
+                scope: $scope,
+                size: 'md',
+            });
+        });
     }
-    $scope.addOrEditSubAssembly = function (subAssemblyId) {
-        console.log('**** inside addOrEditSubAssembly of createOrEditEstimateCtrl.js ****');
+    $scope.addOrEditSubAssembly = function (subAssemblyData) {
+        console.log('**** check subassembly object****', subAssemblyData);
+
+        createOrEditEstimateService.createOrEditSubAssembly(subAssemblyData, function () {
+            $scope.getEstimateData();
+            $scope.cancelModal();
+        });
     }
+
     //- modal to confirm subssembly deletion
     $scope.deleteSubAssemblyModal = function (subAssemblyId) {
         console.log('**** inside deleteSubAssemblyModal of createOrEditEstimateCtrl.js ****');
@@ -51,12 +74,31 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     }
 
     //- to add or edit part name
-    $scope.addOrEditPartNameModal = function (subAssemblyId, partId) {
-        console.log('**** inside addOrEditPartNameModal of createOrEditEstimateCtrl.js ****');
+    $scope.addOrEditPartModal = function (operation, subAssId, part) {
+        createOrEditEstimateService.getAllPartModalData(operation, subAssId, part, function (data) {
+
+            $scope.formData = data.partObj;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
+            $scope.subAssId = data.subAssId;
+
+
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/estimate/estimateModal/createOrEditPartName.html',
+                scope: $scope,
+                size: 'md',
+            });
+
+        });
     }
-    $scope.addOrEditPartName = function (subAssemblyId, partId) {
-        console.log('**** inside addOrEditPartName of createOrEditEstimateCtrl.js ****');
+    $scope.addOrEditPart = function (partData, subAssId) {
+        createOrEditEstimateService.createOrEditPart(partData, subAssId, function () {
+            $scope.getEstimateData();
+            $scope.cancelModal();
+        });
     }
+
     //- to add or edit part detail
     $scope.editPartItemDetails = function (subAssemblyId, partId) {
         console.log('**** inside editPartItemDetails of createOrEditEstimateCtrl.js ****');
@@ -130,6 +172,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
         console.log('**** inside deleteCustomMaterial of createOrEditEstimateCtrl.js ****');
     }
 
+    $scope.cancelModal = function () {
+        $scope.modalInstance.dismiss();
+    }
+
 
 
     // *************************** init all default functions begin here ************** //
@@ -199,13 +245,17 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     };
     //end of modal
     //Create or Edit Sub Assembly Name modal start
-    $scope.createOrEditSubAssembly = function () {
+    $scope.createOrEditSubAssemblyModal = function () {
         $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/content/estimate/estimateModal/createOrEditSubAssemblyName.html',
             scope: $scope,
             size: 'md',
         });
+    };
+
+    $scope.createOrEditSubAssembly = function () {
+
     };
     //end of modal
     //Create or Edit Sub Assembly Name modal start

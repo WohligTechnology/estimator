@@ -15,15 +15,15 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Enter Part Name:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" placeholder="Enter Part Name">
+                                <input type="text" class="form-control" ng-model="formData.partName" placeholder="Enter Part Name">
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green">Update</button>
-                                <button type="submit" class="btn btn-circle green">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPart(formData,subAssId)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPart(formData,subAssId)">Save</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                             </div>
                         </div>
