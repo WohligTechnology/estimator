@@ -13,13 +13,13 @@
                             <input type="checkbox" id="{{ptCat.name+$index}}" />
                             <label for="{{ptCat.name+$index}}" class="tree_label"></label>
                             <span ng-click="getSubAssemblyView()" class="subssemblyName">{{ptCat.partTypeCatName}}</span>
-                            <span ng-click="partType();" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ></i></span>
+                            <span ng-click="addOrEditPartTypeModal('save',ptCat._id)" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ></i></span>
                             <span ng-click="addOrEditPartTypeCatModal('update',ptCat)" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
                             <span ng-click="deletePartTypeCatModal(ptCat._id,'deletePartTypeCat')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
                             <ul class="">
                                 <li ng-repeat="pt in ptCat.partType">
                                     <span class="tree_label" class="partName">{{pt.name}}</span>
-                                    <span ng-click="partType()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                    <span ng-click="addOrEditPartTypeModal('save',ptCat._id,pt)" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
                                     <span ng-click="deleteItem()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                 </li>
                             </ul>
