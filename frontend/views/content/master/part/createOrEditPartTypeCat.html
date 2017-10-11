@@ -3,26 +3,24 @@
         <div class="portlet box green ">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Part Type Category
-                </div>
-                <div class="tools">
+                    <i class="fa fa-gift"></i>Category
                 </div>
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
+                <form class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-5 control-label">Enter Part Type Category:</label>
+                            <label class="col-md-4 control-label">Enter Category Name:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.">
+                                <input type="text" class="form-control" ng-model="formData.partTypeCatName" autofocus  required>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                               <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartTypeCat(formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartTypeCat(formData)">Save</button>
                                 <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartTypeCat(formData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>

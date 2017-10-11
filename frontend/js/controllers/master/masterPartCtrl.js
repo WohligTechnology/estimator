@@ -1,4 +1,4 @@
-myApp.controller('masterPartCtrl', function ($scope,$uibModal,masterPartService) {
+myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -42,7 +42,7 @@ myApp.controller('masterPartCtrl', function ($scope,$uibModal,masterPartService)
     //- modal to confirm material cat deletion
     $scope.deletePartTypeCatModal = function (partTypeCatId, getFunction) {
         console.log('**** inside deleteMaterialCatModal of createOrEditMaterialCtrl.js ****', getFunction);
-        $scope.idToDelete = materialCatId;
+        $scope.idToDelete = partTypeCatId;
         $scope.functionToCall = getFunction;
 
         $scope.modalInstance = $uibModal.open({
@@ -53,44 +53,37 @@ myApp.controller('masterPartCtrl', function ($scope,$uibModal,masterPartService)
         });
     }
     $scope.deletePartTypeCat = function (partTypeCatId) {
-        console.log('**** inside deleteMaterialCat of createOrEditMaterialCtrl.js ****');
-        masterPartService.deleteMaterialCat(materialCatId, function (data) {
+        masterPartService.deletePartTypeCat(partTypeCatId, function (data) {
             $scope.operationStatus = "Record deleted successfully";
+            $scope.getPartData();
             $scope.cancelModal();
-            $scope.getMaterialData();
         });
     }
 
 
-    $scope.addOrEditPartTypeModal = function (operation, materialCatId, materialSubCat) {
-        console.log('**** inside addOrEditMaterialSubCatModal of createOrEditMaterialCtrl.js ****', materialSubCat);
-        masterPartService.getMaterialSubCatModalData(operation, materialCatId, materialSubCat, function (data) {
-            $scope.formData = data.materialSubCat;
-            $scope.catId = data.catId;
+    $scope.addOrEditPartTypeModal = function (operation, partTypeCatId, partType) {
+        masterPartService.getPartTypeModalData(operation, partTypeCatId, partType, function (data) {
+            $scope.formData = data.partType;
+            $scope.partTypeCatId = data.partTypeCatId;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: 'views/content/master/material/createOrEditMaterialSubCat.html',
+                templateUrl: 'views/content/master/material/createOrEditPartType.html',
                 scope: $scope,
                 size: 'md'
             });
         });
     }
-    $scope.addOrEditPartType = function (materialSubCatData, materialCatId) {
-        // materialSubCatData.catId = materialCatId;
-        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', materialSubCatData);
-        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', materialCatId);
-        masterPartService.addOrEditMaterialSubCat(materialSubCatData, materialCatId, function (data) {
+    $scope.addOrEditPartType = function (partTypeData, partTypeCatId) {
+        masterPartService.addOrEditMaterialSubCat(partTypeData, partTypeCatId, function (data) {
             $scope.operationStatus = "Record added successfully";
-            $scope.getMaterialData();
+            $scope.getPartData();
             $scope.cancelModal();
         });
     }
-    //- modal to confirm material sub deletion
     $scope.deletePartTypeModal = function (materialSubCatId, getFunction) {
-        console.log('**** inside deleteMaterialSubCatModal of createOrEditMaterialCtrl.js ****', getFunction);
         $scope.idToDelete = materialSubCatId;
         $scope.functionToCall = getFunction;
 
@@ -102,8 +95,49 @@ myApp.controller('masterPartCtrl', function ($scope,$uibModal,masterPartService)
         });
     }
     $scope.deletePartType = function (materialSubCatId) {
-        console.log('**** inside deleteMaterialSubCat of createOrEditMaterialCtrl.js ****');
         masterPartService.deleteMaterialSubCat(materialSubCatId, function (data) {
+            $scope.operationStatus = "Record deleted successfully";
+            $scope.cancelModal();
+            $scope.getMaterialData();
+        });
+    }
+
+
+    $scope.addOrEditPartTypeModal = function (operation, partTypeId, partType) {
+        masterPartService.getPartTypeModalData(operation, partTypeId, partType, function (data) {
+            $scope.formData = data.partType;
+            $scope.catId = data.catId;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
+
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/master/material/createOrEditpartType.html',
+                scope: $scope,
+                size: 'md'
+            });
+        });
+    }
+    $scope.addOrEditpartType = function (partTypeData, partTypeId) {
+        masterPartService.addOrEditpartType(partTypeData, partTypeId, function (data) {
+            $scope.operationStatus = "Record added successfully";
+            $scope.getMaterialData();
+            $scope.cancelModal();
+        });
+    }
+    $scope.deletepartTypeModal = function (partTypeId, getFunction) {
+        $scope.idToDelete = partTypeId;
+        $scope.functionToCall = getFunction;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
+    $scope.deletepartType = function (partTypeId) {
+        masterPartService.deletepartType(partTypeId, function (data) {
             $scope.operationStatus = "Record deleted successfully";
             $scope.cancelModal();
             $scope.getMaterialData();
@@ -174,7 +208,7 @@ myApp.controller('masterPartCtrl', function ($scope,$uibModal,masterPartService)
 
 
     //start of tree
-    
+
 
     //start of part type category modal
     $scope.partTypeCat = function () {
