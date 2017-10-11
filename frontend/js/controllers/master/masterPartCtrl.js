@@ -1,4 +1,4 @@
-myApp.controller('masterPartCtrl', function ($scope,$uibModal,masterPartService) {
+myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -42,7 +42,7 @@ myApp.controller('masterPartCtrl', function ($scope,$uibModal,masterPartService)
     //- modal to confirm material cat deletion
     $scope.deletePartTypeCatModal = function (partTypeCatId, getFunction) {
         console.log('**** inside deleteMaterialCatModal of createOrEditMaterialCtrl.js ****', getFunction);
-        $scope.idToDelete = materialCatId;
+        $scope.idToDelete = partTypeCatId;
         $scope.functionToCall = getFunction;
 
         $scope.modalInstance = $uibModal.open({
@@ -54,10 +54,10 @@ myApp.controller('masterPartCtrl', function ($scope,$uibModal,masterPartService)
     }
     $scope.deletePartTypeCat = function (partTypeCatId) {
         console.log('**** inside deleteMaterialCat of createOrEditMaterialCtrl.js ****');
-        masterPartService.deleteMaterialCat(materialCatId, function (data) {
+        masterPartService.deletePartTypeCat(partTypeCatId, function (data) {
             $scope.operationStatus = "Record deleted successfully";
+            $scope.getPartData();
             $scope.cancelModal();
-            $scope.getMaterialData();
         });
     }
 
@@ -104,6 +104,53 @@ myApp.controller('masterPartCtrl', function ($scope,$uibModal,masterPartService)
     $scope.deletePartType = function (materialSubCatId) {
         console.log('**** inside deleteMaterialSubCat of createOrEditMaterialCtrl.js ****');
         masterPartService.deleteMaterialSubCat(materialSubCatId, function (data) {
+            $scope.operationStatus = "Record deleted successfully";
+            $scope.cancelModal();
+            $scope.getMaterialData();
+        });
+    }
+
+
+    $scope.addOrEditPartTypeModal = function (operation, partTypeId, partType) {
+        masterPartService.getPartTypeModalData(operation, partTypeId, partType, function (data) {
+            $scope.formData = data.partType;
+            $scope.catId = data.catId;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
+
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/master/material/createOrEditpartType.html',
+                scope: $scope,
+                size: 'md'
+            });
+        });
+    }
+    $scope.addOrEditpartType = function (partTypeData, partTypeId) {
+        // partTypeData.catId = partTypeId;
+        console.log('**** inside addOrEditpartType of createOrEditMaterialCtrl.js ****', partTypeData);
+        console.log('**** inside addOrEditpartType of createOrEditMaterialCtrl.js ****', partTypeId);
+        masterPartService.addOrEditpartType(partTypeData, partTypeId, function (data) {
+            $scope.operationStatus = "Record added successfully";
+            $scope.getMaterialData();
+            $scope.cancelModal();
+        });
+    }
+    $scope.deletepartTypeModal = function (partTypeId, getFunction) {
+        console.log('**** inside deletepartTypeModal of createOrEditMaterialCtrl.js ****', getFunction);
+        $scope.idToDelete = partTypeId;
+        $scope.functionToCall = getFunction;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
+    $scope.deletepartType = function (partTypeId) {
+        console.log('**** inside deletepartType of createOrEditMaterialCtrl.js ****');
+        masterPartService.deletepartType(partTypeId, function (data) {
             $scope.operationStatus = "Record deleted successfully";
             $scope.cancelModal();
             $scope.getMaterialData();
@@ -174,7 +221,7 @@ myApp.controller('masterPartCtrl', function ($scope,$uibModal,masterPartService)
 
 
     //start of tree
-    
+
 
     //start of part type category modal
     $scope.partTypeCat = function () {

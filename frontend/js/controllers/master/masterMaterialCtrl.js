@@ -41,7 +41,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
     }
     //- modal to confirm material cat deletion
     $scope.deleteMaterialCatModal = function (materialCatId, getFunction) {
-        console.log('**** inside deleteMaterialCatModal of createOrEditMaterialCtrl.js ****', getFunction);
         $scope.idToDelete = materialCatId;
         $scope.functionToCall = getFunction;
 

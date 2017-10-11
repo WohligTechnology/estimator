@@ -6,7 +6,6 @@ myApp.service('masterMaterialService', function ($http, NavigationService) {
 
     //- get master material tree structure data
     this.getMaterialData = function (callback) {
-
         NavigationService.boxCall('MMaterialCat/getMaterialStructure', function (data) {
             callback(data.data);
         });
@@ -75,7 +74,6 @@ myApp.service('masterMaterialService', function ($http, NavigationService) {
     }
 
     this.getMaterialModalData = function (operation, materialSubCatId, material, callback) {
-        console.log('**** inside function_name --------------- of masterMaterialService.js ****',material);
         var materialObj = {};
         if (angular.isDefined(material)) {
             materialObj.material = material;

@@ -6,18 +6,18 @@
                     <input type="checkbox" id="c5" />
                     <label class="tree_label" for="c5"></label>
                     <span ng-click="getAssemblyView()" class="assebmlyName">Part Master</span>
-                    <span ng-click="partTypeCat();" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
+                    <span ng-click="addOrEditPartTypeCatModal('save')" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
                     <ul>
-                        <li ng-repeat="pm in partStructureData">
+                        <li ng-repeat="ptCat in partStructureData">
                             <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
-                            <input type="checkbox" id="{{pm.name+$index}}" />
-                            <label for="{{pm.name+$index}}" class="tree_label"></label>
-                            <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pm.name}}</span>
+                            <input type="checkbox" id="{{ptCat.name+$index}}" />
+                            <label for="{{ptCat.name+$index}}" class="tree_label"></label>
+                            <span ng-click="getSubAssemblyView()" class="subssemblyName">{{ptCat.partTypeCatName}}</span>
                             <span ng-click="partType();" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ></i></span>
-                            <span ng-click="partTypeCat();" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
-                            <span ng-click="deleteItem()" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
+                            <span ng-click="addOrEditPartTypeCatModal('update',ptCat)" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                            <span ng-click="deletePartTypeCatModal(ptCat._id,'deletePartTypeCat')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
                             <ul class="">
-                                <li ng-repeat="pt in pm.partType">
+                                <li ng-repeat="pt in ptCat.partType">
                                     <span class="tree_label" class="partName">{{pt.name}}</span>
                                     <span ng-click="partType()" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
                                     <span ng-click="deleteItem()" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>

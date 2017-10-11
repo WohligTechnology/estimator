@@ -1,6 +1,6 @@
 var schema = new Schema({
     partTypeCatName:{
-        Type:String
+        type:String
     },
     partTypes:[{
         type: mongoose.Schema.Types.ObjectId,
