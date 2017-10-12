@@ -169,36 +169,27 @@ var model = {
     },
     getAllDashboardData: function (data, callback) {
 
-        // Example -
         async.parallel({
             userCount: function (callback) {
-                //operation to be performed
                 User.count().exec(function (err, count) {
-                    console.log("Number of users are:", count);
                     callback(null, count);
                 });
 
             },
             customerCount: function (callback) {
-                //operation to be performed
                 Customer.count().exec(function (err, count) {
-                    console.log("Number of customers are : ", count);
                     callback(null, count);
                 });
 
             },
             enquiryCount: function (callback) {
-                //operation to be performed
                 Enquiry.count().exec(function (err, count) {
-                    console.log("Total number of enqueries : ", count);
                     callback(null, count);
                 });
 
             },
             estimateCount: function (callback) {
-                //operation to be performed
                 Estimate.count().exec(function (err, count) {
-                    console.log("Total no. of estimates :", count);
                     callback(null, count);
                 });
 

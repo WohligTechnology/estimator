@@ -54,7 +54,6 @@ var Layout = function () {
             }
             
             height = height + 32;
-            console.log("height", height);
             content.css('min-height', height);
         }
     };

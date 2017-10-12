@@ -1,46 +1,48 @@
 var schema = new Schema({
     presetName: { // preset name will be used in dropdown at add Part To Estimate 
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     presetId: { // manual unique ID for preset because mongo will create a different _id for each document
-        type: String, // So, we will not able to identify same presets with different sizes 
-        required: true
+        type: String // So, we will not able to identify same presets with different sizes 
     },
     shape: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'MShape'
+        ref: 'MShape',
+        index:true
     },
     partType: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'MPartType'
+        ref: 'MPartType',
+        index:true
     },
-    sizes: {
-        type: String, // sizes will be used in the dropdown of sizes field 
-        required: true, // when we select partType name at-->add Part To Estimate
-        unique: true
+    size: {
+        type: String, // sizes will be used in the dropdown of sizes field
+        required: true // when we select partType name at-->add Part To Estimate
     },
     variable: [{
         type: String
     }],
-    proccessing: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'MProcessType'
-    }],
-    addons: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'MAddonType'
-    }],
-    extras: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'MExtra'
-    }],
-    material: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'MMaterial',
-        unique:true
-    }],
+    // proccessing: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'MProcessType',
+    //     index:true
+    // }],
+    // addons: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'MAddonType',
+    //     index:true
+    // }],
+    // extras: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'MExtra',
+    //     index:true
+    // }],
+    // material: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'MMaterial',
+    //     index:true
+    // }],
     partFormulae: {
         perimeter: String,
         sheetMetalArea: String,
@@ -65,10 +67,8 @@ var model = {
 
     getPresetSizes: function (data, callback) {
         MPartPresets.find({
-            presetId: data.presetId
-        }, {
-            "sizes": 1
-        }).exec(function (err, found) {
+            partType: data.partType
+        }).populate('partType').exec(function (err, found) {
             if (err) {
                 console.log('**** error at MPartPresets of MPartPresets.js ****', err);
                 callback(err, null);

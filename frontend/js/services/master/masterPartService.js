@@ -58,39 +58,69 @@ myApp.service('masterPartService', function (NavigationService) {
         });
     }
 
-    
-    this.getPartTypeModalData = function (operation, materialCatId, materialSubCat, callback) {
-        var materialSubCatObj = {};
-        if (angular.isDefined(materialSubCat)) {
-            materialSubCatObj.materialSubCat = materialSubCat;
+
+    this.getPartTypeModalData = function (operation, partTypeCatId, partType, callback) {
+        var partTypeObj = {};
+        if (angular.isDefined(partType)) {
+            partTypeObj.partType = partType;
         }
         if (operation == "save") {
-            materialSubCatObj.saveBtn = true;
-            materialSubCatObj.editBtn = false;
-            materialSubCatObj.catId = materialCatId;
+            partTypeObj.saveBtn = true;
+            partTypeObj.editBtn = false;
+            partTypeObj.partTypeCatId = partTypeCatId;
         } else if (operation == "update") {
-            materialSubCatObj.saveBtn = false;
-            materialSubCatObj.editBtn = true;
+            partTypeObj.saveBtn = false;
+            partTypeObj.editBtn = true;
         }
-        callback(materialSubCatObj);
+        callback(partTypeObj);
     }
-    this.addOrEditPartType = function (materialSubCatData, materialCatId, callback) {
-        if (angular.isDefined(materialCatId)) {
-            materialSubCatData.catId = materialCatId;
+    this.addOrEditPartType = function (partTypeData, partTypeId, callback) {
+        if (angular.isDefined(partTypeId)) {
+            partTypeData.partTypeCat = partTypeId;
         }
-        NavigationService.apiCall('MMaterialSubCat/save', materialSubCatData, function (data) {
+        NavigationService.apiCall('MPartType/save', partTypeData, function (data) {
             callback(data);
         });
     }
-    this.deletePartType = function (materialSubCatId, callback) {
+    this.deletePartType = function (partTypeId, callback) {
         var deleteMatCat = {
-            _id: materialSubCatId
+            _id: partTypeId
         };
 
-        NavigationService.apiCall('MMaterialSubCat/delete', deleteMatCat, function (data) {
+        NavigationService.apiCall('MpartType/delete', deleteMatCat, function (data) {
             callback(data);
         });
     }
 
+
+    this.getPartTypeSizes = function (partTypeId, callback) {
+        var partTypeObj = {
+            partType: partTypeId
+        }
+
+        NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
+            callback(data.data);
+        });
+    }
+
+    this.getPresetViewWithData = function (operation, presetData, callback) {
+        console.log('**** inside getPresetViewWithData of masterPartService.js ****');
+        var partPresetObj = {};
+        if (angular.isDefined(presetData)) {
+            partPresetObj.presetData = presetData;
+        }
+        if (operation == "save") {
+            partPresetObj.saveBtn = true;
+            partPresetObj.editBtn = false;
+        } else if (operation == "update") {
+            partPresetObj.saveBtn = false;
+            partPresetObj.editBtn = true;
+        }
+
+        NavigationService.boxCall('MShape/search', function (data) {
+            partPresetObj.shapeData = data.data.results;
+            callback(partPresetObj);
+        });       
+    }
 
 });
