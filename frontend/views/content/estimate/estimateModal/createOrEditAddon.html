@@ -10,23 +10,27 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
+                <form class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-4 control-label"> Addon Type:</label>
                             <div class="col-md-5">
-                                <select class="form-control " required>
-                                    <option></option>
-                                    <option></option>
+                                <select class="form-control" ng-model="addonType" autofocus required>
+                                    <option>Type1</option>
+                                    <option>Type2</option>
+                                    <option>Type3</option>
+                                    <option>Type4</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label"> Material:</label>
                             <div class="col-md-5">
-                                <select class="form-control" required>
-                                    <option></option>
-                                    <option></option>
+                                <select class="form-control" ng-model="addonItem" required>
+                                    <option>Item1</option>
+                                    <option>Item2</option>
+                                    <option>Item3</option>
+                                    <option>Item4</option>
                                 </select>
                             </div>
                         </div>
@@ -42,7 +46,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Supporting Variables:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control"  ng-model="quantity.supportingVariable" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -66,21 +70,21 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">% Use:</label>
                             <div class="col-md-5">
-                                <div class="display-inline"> <input type="text" class="form-control" placeholder="100" required></div>
+                                <div class="display-inline"> <input type="text" class="form-control" placeholder="100" ng-model="quantity.utilization" required></div>
                                 <div class="display-inline"><span>%</span></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Contegency or Wastage:</label>
                             <div class="col-md-5">
-                                <div class="display-inline"> <input type="text" class="form-control" placeholder="10" required></div>
+                                <div class="display-inline"> <input type="text" class="form-control" placeholder="10" ng-model="quantity.contengncyOrWastage" required></div>
                                 <div class="display-inline"><span>%</span></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Total Quantity:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control" ng-model="quantity.total" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -99,8 +103,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green">Save</button>
-                                <button type="submit" class="btn btn-circle green">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditAddon(formData,level)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditAddon(formData,level)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                             </div>
                         </div>

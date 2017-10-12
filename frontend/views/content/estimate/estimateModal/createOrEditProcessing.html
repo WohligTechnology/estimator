@@ -8,23 +8,23 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
+                <form class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Process Type:</label>
                             <div class="col-md-5">
-                                <select class="form-control " required>
-                                    <option></option>
-                                    <option></option>
+                                <select class="form-control " ng-model="formData.processType" autofocus required>
+                                    <option>Type1</option>
+                                    <option>Type2</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Process Item:</label>
                             <div class="col-md-5">
-                                <select class="form-control" required>
-                                    <option></option>
-                                    <option></option>
+                                <select class="form-control" ng-model="processItem" required>
+                                    <option>Item1</option>
+                                    <option>Item2</option>
                                 </select>
                             </div>
                         </div>
@@ -52,27 +52,27 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Utilization:</label>
                             <div class="col-md-5">
-                                <div class="display-inline"> <input type="text" class="form-control" placeholder="100" required></div>
+                                <div class="display-inline"> <input type="text" class="form-control" ng-model="formData.quantity.utilization" placeholder="100" required></div>
                                 <div class="display-inline"><span>%</span></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Contigency or Wastage:</label>
                             <div class="col-md-5">
-                                <div class="display-inline"> <input type="text" class="form-control" placeholder="10" required></div>
+                                <div class="display-inline"> <input type="text" class="form-control" ng-model="formData.quantity.contigencyorwastage" placeholder="10" required></div>
                                 <div class="display-inline"><span>%</span></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Total Quantity:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control" ng-model="formData.quantity.total" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Remark:</label>
                             <div class="col-md-5">
-                                <textarea class="form-control" required>
+                                <textarea class="form-control" ng-model="formData.remarks" required>
                                 </textarea>
                             </div>
                         </div>
@@ -86,9 +86,9 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green">Save</button>
-                                <button type="submit" class="btn btn-circle green">Update</button>
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessing(formData,level)">Save</button>
+                                <button type="submit" class="btn btn-circle green"ng-if="showEditBtn" ng-click="addOrEditProcessing(formData,level)">Update</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
                     </div>
