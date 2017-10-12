@@ -119,7 +119,6 @@
     <div class="col-md-9 ">
         <div ng-if="showPartView" class="part-tables">
             <div class="portlet light portlet-fit bordered">
-                <form class="form-horizontal">
                 <div class="portlet-title">
                     <div class="row">
                         <div class="col-md-6">
@@ -129,10 +128,10 @@
                             </div>
                         </div>
                         <div class="col-md-6 text-right">
-                            <div class="caption">{{formData}}
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartPreset(formData,selectedShape)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(formData,selectedShape)">Save as new</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(formData,selectedShape)">Update</button>
+                            <div class="caption">
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Save as new</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="hidePartPresetView()">Cancel</button>
                             </div>
                         </div>
@@ -140,18 +139,19 @@
                 </div>
                 <div class="portlet-body">
                     <div class="portlet-body">
-                        
+                        <form class="form-horizontal">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <!-- {{selectedShape}} -->
+                                    <!-- <pre>{{presetFormData | json}}</pre> -->
+                                    <pre>{{selectedShape | json}}</pre>
                                     <label class="col-md-1 control-label">Shape :</label>
-                                    <div class="col-md-3">                                     
-                                        <select class="form-control" ng-options="s.shapeName for s in shapeData track by s._id" ng-model="selectedShape">
+                                    <div class="col-md-3">
+                                        <select class="form-control" ng-options="s.shapeName for s in shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)">
                                         </select>
                                     </div>
                                     <label class="col-md-2 control-label">Part Type Code :</label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control" ng-model="formData.partType.partTypeCode" required>
+                                        <input type="text" class="form-control" ng-model="presetFormData.partType.partTypeCode" required>
                                     </div>
                                 </div>
                                 <hr>
@@ -167,14 +167,10 @@
                                                 <b>Variables:</b>
                                             </label>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">a</label>
+                                        <div class="form-group" ng-repeat="v in selectedShapeData.variable track by $index">
+                                            <label class="col-md-3 control-label">{{v.variableName}}</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control" required>
-                                            </div>
-                                            <label class="col-md-3 control-label">b</label>
-                                            <div class="col-md-3">
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" ng-model="v.variableValue" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -244,13 +240,16 @@
                                         <div>676</div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                </div>
+                                <!-- <div class="form-group">
+                                    <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Save</button>
+                                    <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Save as new</button>
+                                    <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Update</button>
+                                    <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="hidePartPresetView()">Cancel</button>
+                                </div> -->
                             </div>
-                        
+                        </form>
                     </div>
                 </div>
-                </form>
             </div>
         </div>
     </div>

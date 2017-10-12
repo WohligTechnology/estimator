@@ -21,7 +21,8 @@ var schema = new Schema({
         required: true // when we select partType name at-->add Part To Estimate
     },
     variable: [{
-        type: String
+        variableName:String,
+        variableValue:Number
     }],
     // proccessing: [{
     //     type: mongoose.Schema.Types.ObjectId,
