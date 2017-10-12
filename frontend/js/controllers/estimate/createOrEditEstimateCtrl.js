@@ -12,7 +12,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
 
     // *************************** default functions begin here  ********************** //
     //- to get all views of createOrEdit estimate screen dynamically 
-    $scope.getEstimateView = function (getViewName, getId, getLevelName) {
+    $scope.getEstimateView = function (getViewName,getLevelName, getId ) {
         createOrEditEstimateService.estimateView(getViewName, function (data) {
             $scope.estimateView = data;
         });
@@ -41,7 +41,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
 
     //- to add or edit subAssembly data
     $scope.addOrEditSubAssemblyModal = function (operation, subAssembly) {
-        console.log('**** inside controller of createOrEditEstimateCtrl.js ****', subAssembly);
+
         createOrEditEstimateService.getAllSubAssModalData(operation, subAssembly, function (data) {
 
             $scope.formData = data.subAssObj;
@@ -57,8 +57,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
         });
     }
     $scope.addOrEditSubAssembly = function (subAssemblyData) {
-        console.log('**** check subassembly object****', subAssemblyData);
-
+    
         createOrEditEstimateService.createOrEditSubAssembly(subAssemblyData, function () {
             $scope.getEstimateData();
             $scope.cancelModal();
@@ -113,26 +112,60 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     }
 
     //- to add or edit Proccessing at assembly or subssembly or at partLevel
-    $scope.addOrEditProceesingModal = function () {
-        console.log('**** inside addOrEditProceesingModal of createOrEditEstimateCtrl.js ****');
+    $scope.addOrEditProcessingModal = function (operation, type, level,processingObj) {
+        createOrEditEstimateService.getProcessingModalData(operation, type, level, processingObj, function (data) {
+            
+            $scope.formData = data.processingObj;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
+            $scope.level = data.level;
+
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/estimate/estimateModal/createOrEditProcessing.html',
+                scope: $scope,
+                size: 'md',
+            });
+        });
     }
-    $scope.addOrEditProceesing = function () {
-        console.log('**** inside addOrEditProceesing of createOrEditEstimateCtrl.js ****');
+    $scope.addOrEditProcessing = function (processingData,level) {        
+        createOrEditEstimateService.createOrEditProcessing(processingData, level, function () {
+            $scope.getEstimateData();
+            $scope.cancelModal();
+        });
     }
     //- modal to confirm delete Processings
     $scope.deleteProccesingModal = function () {
         console.log('**** inside deleteProccesingModal of createOrEditEstimateCtrl.js ****');
     }
     $scope.deleteProccesing = function () {
+        createOrEditEstimateService.deleteProccesing();
         console.log('**** inside deleteProccesing of createOrEditEstimateCtrl.js ****');
     }
 
     //- to add or edit Addons at assembly or subssembly or at partLevel
-    $scope.addOrEditAddonModal = function () {
-        console.log('**** inside addOrEditAddonModal of createOrEditEstimateCtrl.js ****');
+    $scope.addOrEditAddonModal = function (operation, type, level,addonObj) {
+        createOrEditEstimateService.getAddonModalData(operation, type, level, addonObj, function (data) {
+            
+            $scope.formData = data.addonObj;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
+            $scope.level = data.level;
+
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/estimate/estimateModal/createOrEditAddon.html',
+                scope: $scope,
+                size: 'md',
+            });
+        });
     }
-    $scope.addOrEditAddon = function () {
-        console.log('**** inside addOrEditAddon of createOrEditEstimateCtrl.js ****');
+    $scope.addOrEditAddon = function (addonData, level) {
+        console.log('**** addon saved object****', addonData);
+        createOrEditEstimateService.createOrEditAddon(addonData, level, function () {
+            $scope.getEstimateData();
+            $scope.cancelModal();
+        });
     }
     //- modal to confirm delete Addons
     $scope.deleteAddonModal = function () {
@@ -270,12 +303,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     //end of modal
     //Create or Edit Processing modal start
     $scope.processing = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/estimate/estimateModal/createOrEditProcessing.html',
-            scope: $scope,
-            size: 'md',
-        });
+        
     };
     //end of modal
     //Create or Edit Addon modal start
