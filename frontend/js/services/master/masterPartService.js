@@ -118,7 +118,20 @@ myApp.service('masterPartService', function (NavigationService) {
         }
 
         NavigationService.boxCall('MShape/search', function (data) {
+
             partPresetObj.shapeData = data.data.results;
+            // var finalShapeData = [];
+            // var obj = {};
+
+            // _.map(partPresetObj.shapeData.variable, function(n){
+            //     obj.variableName = n.variableName;
+            //     obj._id = n._id;
+            //     obj.variableValue = 0;
+            //     finalShapeData.push(obj);
+            // });
+            
+            // partPresetObj.shapeData.variable = [];
+            // partPresetObj.shapeData.variable = finalShapeData;
             callback(partPresetObj);
         });       
     }

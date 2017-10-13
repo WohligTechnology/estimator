@@ -13,6 +13,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
     $scope.showPartTypeSize = false;
     $scope.showPartTypeMaterial = false;
     $scope.selectedShape = {};
+    // $scope.formData = {};
 
 
     // *************************** default functions begin here  ********************** //
@@ -112,9 +113,13 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
 
 
     $scope.addOrEditPartPreset = function (presetData,selectedShape) {
-        presetData.shape = selectedShape;
-        console.log('**** inside $scope.selectedShape of masterPartCtrl.js ****',$scope.selectedShape);
-        console.log('**** inside presetData of masterPartCtrl.js ****',$scope.selectedShape);
+        presetData.shape = selectedShape; 
+        console.log('**** inside $scope.selectedShape of masterPartCtrl.js ****',selectedShape);
+        console.log('**** inside presetData of masterPartCtrl.js ****',presetData);
+
+        // we have all the thing reqiured to save preset excepting size
+        // once we get the size then make a proper preset object & save it directly 
+        
     }
     $scope.getPartTypeSizes = function (partTypeId) {
         masterPartService.getPartTypeSizes(partTypeId, function (data) {
@@ -128,12 +133,30 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         // console.log('**** inside presetData of masterPartCtrl.js ****', presetData);
         $scope.showPartView = true;
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
-            $scope.formData = data.presetData;
+            $scope.presetFormData = data.presetData;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
             $scope.shapeData = data.shapeData;
             console.log('**** inside ^^^^^^^^^^ of masterPartCtrl.js & data is ****', $scope.formData);
         });
+    }
+
+    $scope.showSelectedShapeData = function(shapeData){
+        
+        var finalShapeData = [];
+        var obj = {};
+
+        _.map(shapeData.variable, function(n){
+            obj.variableName = n.variableName;
+            // obj._id = n._id;
+            obj.variableValue = 0;
+            finalShapeData.push(obj);
+        });
+        
+        shapeData.variable = [];
+        shapeData.variable = finalShapeData;
+        $scope.selectedShapeData = shapeData;
+        console.log('**** inside &&&&&&&&&&&&&&&&&&& of masterPartCtrl.js ****',$scope.selectedShapeData);
     }
 
 
