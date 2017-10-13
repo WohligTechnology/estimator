@@ -111,8 +111,8 @@
                                     <td> 300</td>
                                     <td> Approved</td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" ng-click="addOrEditProcessingModal('save', 'processing', 'assembly', p)"><i class="fa fa-pencil"></i> </span>
-                                        <span class="label label-sm label-danger" ng-cllick="deleteProccesing()"><i class="fa fa-trash-o"></i></span>
+                                        <span class="label label-sm label-success" ng-click="addOrEditProcessingModal('save', 'processing', level, p)"><i class="fa fa-pencil"></i> </span>
+                                        <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteProccesing', p.processingNumber, level, p.subAssemblyId, p.partId)"><i class="fa fa-trash-o"></i></span>
                                     </td>
                                 </tr>
                                 <!-- <tr>
