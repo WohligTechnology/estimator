@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">  Extra Item:</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-model="extraItem" autofocus required>
+                                <select class="form-control" ng-model="formData.extraItem" autofocus required>
                                         <option>Item1</option>
                                         <option>Item2</option>
                                         <option>Item3</option>
@@ -26,13 +26,13 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label"><b>Quantity:</b></label>
                             <div class="col-md-5">
-                                    <input type="text" class="form-control" ng-model="quantity">
+                                    <input type="text" class="form-control" ng-model="formData.quantity">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Remarks:</label>
                             <div class="col-md-5">
-                                <textarea class="form-control" ng-model="remarks" required>
+                                <textarea class="form-control" ng-model="formData.remarks" required>
                                 </textarea>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditExtra(formData,level)">Save</button>
                                 <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditExtra(formData,level)">Update</button>
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
                     </div>

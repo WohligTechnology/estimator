@@ -93,21 +93,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr ng-repeat="p in estimateViewData">
                                     <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
-                                    <td> 1 </td>
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                                    <td> {{p.extraItem}} </td>
                                     <td> Mark </td>
                                     <td>5 </td>
                                     <td>24 </td>
                                     <td>400 </td>
-                                    <td>500 </td>
+                                    <td>{{p.remarks}} </td>
                                     <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                        <span class="label label-sm label-success" ng-click="addOrEditExtraModal('save', 'extras', 'assembly', p)"><i class="fa fa-pencil"></i> </span>
+                                        <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteExtra',p.extraNumber,'assembly')"><i class="fa fa-trash-o"></i></span>
                                     </td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td> 1 </td>
@@ -134,7 +134,7 @@
                                         <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
                                         <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>

@@ -510,8 +510,11 @@ myApp.service('createOrEditEstimateService', function ($http) {
                 getViewData = this.formData.assembly.processing;
             }else if(getLevelName == "subAssembly"){
                 getViewData = this.formData.assembly.subAssemblies[0].processing;
+                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[0].subAssemblyNumber;
             }else if(getLevelName == "part"){ 
                 getViewData = this.formData.assembly.subAssemblies[0].parts[0].processing;
+                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[0].subAssemblyNumber;
+                getViewData.partId = this.formData.assembly.subAssemblies[0].parts[0].partNumber;
             }
             callback(getViewData);
         } else if (estimateView == 'addons') {
@@ -523,7 +526,6 @@ myApp.service('createOrEditEstimateService', function ($http) {
                 getViewData = this.formData.assembly.subAssemblies[0].parts[0].addons;
             }
             callback(getViewData);
-            callback();
         } else if (estimateView == 'extras') {
             if(getLevelName == "assembly"){
                 getViewData = this.formData.assembly.extras;
@@ -533,8 +535,8 @@ myApp.service('createOrEditEstimateService', function ($http) {
                 getViewData = this.formData.assembly.subAssemblies[0].parts[0].extras;
             }
             callback(getViewData);
-            callback();        
         } else if (estimateView == 'customMaterial') {
+        
             // get all custome materials of estimate from API
             var getAllCustomMaterial = [{}];
             callback();
@@ -567,6 +569,10 @@ myApp.service('createOrEditEstimateService', function ($http) {
         var getLength = this.formData.assembly.subAssemblies.length;
 
         callback();
+    }
+    this.deleteSubAssembly = function (subAssemblyId, callback) {
+         _.dropWhile(this.assembly.subAssemblies, { 'subAssemblyNumber': subAssemblyId });
+         callback();   
     }
 
 
@@ -604,6 +610,12 @@ myApp.service('createOrEditEstimateService', function ($http) {
         this.formData.assembly.subAssemblies[0].parts.push(partObj);
         callback();
     }
+    this.deletePart = function (subAssemblyId, partId, callback) { 
+        subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);        
+        _.dropWhile(this.assembly.subAssemblies[subAssIndex].parts, { 'partNumber': partId });
+        callback();
+    }
+
 
     this.getProcessingModalData = function (operation, type, level, processingObj, callback) {
         var processingDataObj = {}
@@ -637,7 +649,20 @@ myApp.service('createOrEditEstimateService', function ($http) {
             callback();
         }
     }
-    this.deleteProccesing = function () {}
+    this.deleteProcessing = function (processingId, level, subAssemblyId, partId, callback) {
+        console.log('**** IDs inside deleteService of Processing****', processingId, level, subAssemblyId, partId);
+        if (level == 'assembly') {
+            _.dropWhile(this.assembly.processing, { 'processingNumber':processingId });
+        } else if (level == 'subAssembly') {
+            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
+            _.dropWhile(this.assembly.subAssemblies[subAssIndex].processing, { 'processingNumber':processingId });
+        } else if (level == 'part') {
+            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
+            partIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].parts, ['partNumber', partId]);
+            _.dropWhile(this.assembly.subAssemblies[subAssIndex].parts[partIndex].processing, { 'processingNumber':processingId });
+        }
+        callback();      
+    }
 
 
     this.getAddonModalData = function (operation, type, level, addonObj, callback) {
@@ -672,7 +697,21 @@ myApp.service('createOrEditEstimateService', function ($http) {
             callback();
         }
     }
-    this.deleteProccesing = function () {}
+    this.deleteAddon = function (addonId, level, subAssemblyId, partId,  callback) {
+        
+        console.log('**** IDs inside deleteService of Addon ****', addonId, level, subAssemblyId, partId);        
+        if (level == 'assembly') {
+            _.dropWhile(this.assembly.addons, { 'addonNumber':addonId });
+        } else if (level == 'subAssembly') {
+            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
+            _.dropWhile(this.assembly.subAssemblies[subAssIndex].addons, { 'addonNumber':addonId });
+        } else if (level == 'part') {
+            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
+            partIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].parts, ['partNumber', partId]);
+            _.dropWhile(this.assembly.subAssemblies[subAssIndex].parts[partIndex].addons, { 'addonNumber':addonId });
+        }
+        callback();
+    }
 
 
     this.getExtraModalData = function (operation, type, level, extraObj, callback) {
@@ -692,7 +731,7 @@ myApp.service('createOrEditEstimateService', function ($http) {
             extraDataObj.editBtn = true;
         }
 
-        callback(addonDataObj)
+        callback(extraDataObj)
     }
     this.createOrEditExtra = function (extraObj, level, callback) {
 
@@ -707,7 +746,21 @@ myApp.service('createOrEditEstimateService', function ($http) {
             callback();
         }
     }
-    this.deleteExtra = function () {}
+    this.deleteExtra = function (extraId, level, subAssemblyId, partId, callback) {
+        
+        console.log('**** IDs inside deleteService of Extra****', extraId, level, subAssemblyId, partId);
+        if (level == 'assembly') {
+            _.dropWhile(this.assembly.extras, { 'extraNumber':extraId });
+        } else if (level == 'subAssembly') {
+            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
+            _.dropWhile(this.assembly.subAssemblies[subAssIndex].extras, { 'extraNumber':extraId });
+        } else if (level == 'part') {
+            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
+            partIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].parts, ['partNumber', partId]);
+            _.dropWhile(this.assembly.subAssemblies[subAssIndex].parts[partIndex].extras, { 'extraNumber':extraId });
+        }
+        callback();
+    }
  
     
 });
