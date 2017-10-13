@@ -106,9 +106,13 @@ myApp.service('masterPartService', function (NavigationService) {
     this.getPresetViewWithData = function (operation, presetData, callback) {
         console.log('**** inside getPresetViewWithData of masterPartService.js ****');
         var partPresetObj = {};
+
         if (angular.isDefined(presetData)) {
             partPresetObj.presetData = presetData;
+            partPresetObj.presetData.partTypeCode = presetData.partType.partTypeCode;
+            partPresetObj.presetData.partType = presetData.partType._id;
         }
+
         if (operation == "save") {
             partPresetObj.saveBtn = true;
             partPresetObj.editBtn = false;

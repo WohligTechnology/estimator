@@ -26,10 +26,10 @@
                             </span>
                             <ul>
                                 <li ng-repeat="pt in ptCat.partTypes">
+                                    <span class="tree_label partName" ng-click="getPartTypeSizes(pt._id)">{{pt.partTypeName}}</span>
                                     <span ng-click="getPresetViewWithData('save',s)" class="subAssemblyCreateIcon">
                                         <i class="fa fa-plus btn-info"></i>
                                     </span>
-                                    <span class="tree_label partName" ng-click="getPartTypeSizes(pt._id)">{{pt.partTypeName}}</span>
                                     <span ng-click="addOrEditPartTypeModal('save',ptCat._id,pt)" class="partEditIcon">
                                         <i class="fa fa-pencil btn-warning "></i>
                                     </span>
@@ -142,8 +142,6 @@
                         <form class="form-horizontal">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <!-- <pre>{{presetFormData | json}}</pre> -->
-                                    <pre>{{selectedShape | json}}</pre>
                                     <label class="col-md-1 control-label">Shape :</label>
                                     <div class="col-md-3">
                                         <select class="form-control" ng-options="s.shapeName for s in shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)">
@@ -151,7 +149,7 @@
                                     </div>
                                     <label class="col-md-2 control-label">Part Type Code :</label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control" ng-model="presetFormData.partType.partTypeCode" required>
+                                        <input type="text" class="form-control" ng-model="presetFormData.partTypeCode" required>
                                     </div>
                                 </div>
                                 <hr>
