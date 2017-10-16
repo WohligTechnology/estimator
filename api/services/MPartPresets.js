@@ -21,9 +21,24 @@ var schema = new Schema({
         required: true // when we select partType name at-->add Part To Estimate
     },
     variable: [{
-        variableName:String,
-        variableValue:Number
+        varName:String,
+        varValue:Number
     }],
+    sizeFactor:{
+        type:String
+    },
+    formFactor:{
+        type:String
+    },
+    thickness:{
+        type:String
+    },
+    length:{
+        type:String
+    },
+    wastage:{
+        type:String
+    },
     // proccessing: [{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'MProcessType',

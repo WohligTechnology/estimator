@@ -23,8 +23,8 @@ myApp.service('masterShapeService', function ($http, $timeout, $uibModal, Naviga
     }, {
         'varName': 'k'
     }];
+    
     this.geShapeData = function (callback) {
-        console.log('**** inside geShapeData of masterShapeService.js ****');
         NavigationService.boxCall('MShape/search', function (data) {
             callback(data.data.results);
         });
@@ -43,7 +43,6 @@ myApp.service('masterShapeService', function ($http, $timeout, $uibModal, Naviga
             shapeDataObj.shape = shape;
         } else {
             shapeDataObj.shape = {};
-            // shapeDataObj.shapeVariables = _.chunk(this.variableData, 3);
         }
 
         if (operation == "save") {

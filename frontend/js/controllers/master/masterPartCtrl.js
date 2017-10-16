@@ -51,7 +51,6 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
             $scope.cancelModal();
         });
     }
-    //- modal to confirm material cat deletion
     $scope.deletePartTypeCatModal = function (partTypeCatId, getFunction) {
         $scope.idToDelete = partTypeCatId;
         $scope.functionToCall = getFunction;
@@ -128,102 +127,70 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
     //- called when click on + icon at partType (i.e. to add new preset ) &
     //- click on the preset size to edit preset 
     $scope.getPresetViewWithData = function (operation, presetData) {
-        // console.log('**** inside operation of masterPartCtrl.js ****', operation);
-        // console.log('**** inside presetData of masterPartCtrl.js ****', presetData);
         $scope.showPartView = true;
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
             $scope.presetFormData = data.presetData;
+            $scope.shapeData = data.shapeData;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
-            $scope.shapeData = data.shapeData;
-
-            console.log('**** getPresetViewWithData  ****', $scope.shapeData);
         });
     }
 
     //- to show all variable when shape will be selecetd by user
     $scope.showSelectedShapeData = function (shapeData) {
-        console.log('**** ********* ****', shapeData);
-        var finalShapeData = [];
-        var obj = {};
-
         _.map(shapeData.variable, function (n) {
-            obj.variableName = n.variableName;
-            obj.variableValue = 0;
-            finalShapeData.push(obj);
-            obj = {};
+            n.varValue = 0;
         });
-
-        // shapeData.variable = [];
-        shapeData.variable = finalShapeData;
-        $scope.selectedShapeData = shapeData;
+        $scope.selectedShape = shapeData;
     }
 
     //- to add or edir part presets 
     //- called when click on --> save/update/save as new  button 
-    $scope.addOrEditPartPreset = function (presetData, selectedShape) {
-        // we have all the thing reqiured to save preset excepting size
-        // once we get the size then make a proper preset object & save it directly 
+    $scope.getPresetFinalData = function (presetData, selectedShape) {
+
         presetData.shape = selectedShape._id;
         presetData.variable = selectedShape.variable;
-        // presetData.partType = presetData.partTypeId;
-        // console.log('**** &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ****', selectedShape);
+        presetData.partFormulae = {
+            perimeter: "",
+            sheetMetalArea: "",
+            surfaceArea: "",
+            weight: ""
+        };
 
-        // calculate all data using formulae 
-        // get formulae from shape --> partFormulae & store result in partPreset --> partFormulae
-
-        _.map(selectedShape.variable, function(n){
-            console.log('**** &&&&&_________________&&&&& ****',n);
-            varName = n.variableName;
-            varValue = n.variableValue;
+        _.map(selectedShape.variable, function (n) {
+            varName = n.varName;
+            varValue = n.varValue;
             perimeter = selectedShape.partFormulae.perimeter;
             sheetMetalArea = selectedShape.partFormulae.sheetMetalArea;
             surfaceArea = selectedShape.partFormulae.surfaceArea;
             weight = selectedShape.partFormulae.weight;
 
-            if(perimeter.search(varName) != -1){
-                // console.log('**** inside perimeter ****');
-                tempVar = varName;
-                window[tempVar] = varValue;
-            }
-            if(sheetMetalArea.search(varName) != -1){
-                // console.log('**** inside sma ****');
-                tempVar = varName;
-                window[tempVar] = varValue;
-            }
-            if(surfaceArea.search(varName) != -1){
-                // console.log('**** inside sa ****');
-                tempVar = varName;
-                window[tempVar] = varValue;
-            }
-            if(weight.search(varName) != -1){
-                // console.log('**** inside wt ****');
-                tempVar = varName;
-                window[tempVar] = varValue;
-            }            
-
-
-            console.log('**** inside a of masterPartCtrl.js ****',a);
-            console.log('**** inside b of masterPartCtrl.js ****',b);
-            presetData.partFormulae.perimeter = eval(selectedShape.partFormulae.perimeter);
-            presetData.partFormulae.sheetMetalArea = eval(selectedShape.partFormulae.sheetMetalArea);
-            presetData.partFormulae.surfaceArea = eval(selectedShape.partFormulae.surfaceArea);
-            presetData.partFormulae.weight = eval(selectedShape.partFormulae.weight);
+            tempVar = varName;
+            window[tempVar] = varValue;
 
         });
 
-        console.log('**** &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ****',presetData);
+        presetData.partFormulae.perimeter = eval(selectedShape.partFormulae.perimeter);
+        presetData.partFormulae.sheetMetalArea = eval(selectedShape.partFormulae.sheetMetalArea);
+        presetData.partFormulae.surfaceArea = eval(selectedShape.partFormulae.surfaceArea);
+        presetData.partFormulae.weight = eval(selectedShape.partFormulae.weight);
+        $scope.presetFinalData = presetData;
+
+        console.log('**** &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ****', presetData);
 
     }
 
-
+    $scope.addOrEditPartPreset = function (presetData) {
+        masterPartService.addOrEditPartPreset(presetData, function(data){
+            $scope.operationStatus = "Record added successfully";
+        });
+    }
 
     //- to hide preset view
     //- called when click on cancel button on preset view
     $scope.hidePartPresetView = function () {
         $scope.showPartView = false;
     }
-
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {

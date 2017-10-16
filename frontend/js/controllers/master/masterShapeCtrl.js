@@ -6,7 +6,6 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
     $scope.shapeVariables = [];
-    $scope.formData = {};
 
     // *************************** default functions begin here  ********************** //
     //- get data to generate material tree structure dynamically 
@@ -21,6 +20,9 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
             $scope.variablesData = data;
         });
     }
+
+
+    // *************************** functions to be triggered form view begin here ***** //
 
     $scope.createOrEditShapeData = function (operation, shape) {
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
@@ -70,9 +72,6 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
         }
     }
 
-    // *************************** functions to be triggered form view begin here ***** //
-
-
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
@@ -85,38 +84,4 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
         $scope.getVariablesData();
     }
     $scope.init();
-
-
-
-    $scope.checkBox = [
-
-        {
-            "name": "a",
-        }, {
-            "name": "b",
-        }, {
-            "name": "c",
-        }, {
-            "name": "d"
-        }, {
-            "name": "e"
-        }, {
-            "name": "f"
-        }, {
-            "name": "g"
-        }, {
-            "name": "q1"
-        }, {
-            "name": "q2"
-        }, {
-            "name": "Thikness(t)"
-        }, {
-            "name": "Length(l)"
-        }, {
-            "name": "Wastage(w)"
-        },
-    ]
-    $scope.checkBox = _.chunk($scope.checkBox, 3);
-
-
 });
