@@ -9,20 +9,27 @@ var schema = new Schema({
         default: "2d"
     },
     icon: {
-        Type:String
+        type:String
     },
     image: {
-        Type:String
+        type:String
     },
     variable:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'MVariables',
-        required: true
+       varName: String
     }],
     sizeFactor:{
         type:String
     },
     formFactor:{
+        type:String
+    },
+    thickness:{
+        type:String
+    },
+    length:{
+        type:String
+    },
+    wastage:{
         type:String
     },
     partFormulae: {
