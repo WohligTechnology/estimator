@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-md-12 mar-b">
+        <div class="portlet box green ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Customer Details
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form  class="form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Customer Name:</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" ng-model="formData.customerName" autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Location:</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" ng-model="formData.location">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Payment Terms:</label>
+                            <div class="col-md-5">
+                                <textarea class="form-control" ng-model="formData.paymentTerms">
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"><b>Margins:</b></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Negotiation:</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" ng-model="formData.margins.negotiation">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Commission:</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" ng-model="formData.margins.commission">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Others:</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" ng-model="formData.margins.other">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditCustomer(formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditCustomer(formData)">Update</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>

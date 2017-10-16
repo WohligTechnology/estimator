@@ -1,12 +1,25 @@
-myApp.controller('DashboardController', function($rootScope, $scope, $http, $timeout) {
-    $scope.$on('$viewContentLoaded', function() {   
-        // initialize core components
-        App.initAjax();
-    });
+myApp.controller('DashboardController', function ($scope, $http, dashboardService) {
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageContentWhite = true;
-    $rootScope.settings.layout.pageBodySolid = false;
-    $rootScope.settings.layout.pageSidebarClosed = false;
-    
+  // *************************** default variables/tasks begin here ***************** //
+  //- to show/hide sidebar of dashboard 
+  $scope.$parent.isSidebarActive = true;
+
+  // *************************** default functions begin here  ********************** //
+  $scope.getDashboardData = function () {
+    dashboardService.getDashboardData(function (data) {
+      $scope.dashboardData = data;
+    });
+  }
+
+
+  // *************************** functions to be triggered form view begin here ***** //
+
+
+  // *************************** init all default functions begin here ************** //
+  //- to initilize the default function 
+  $scope.init = function () {
+    $scope.getDashboardData();
+  }
+  $scope.init();
+
 });

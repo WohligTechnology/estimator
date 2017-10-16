@@ -1,0 +1,365 @@
+@media (min-width: 992px) {
+  .hideSideBar {
+    margin-left: 0px !important;
+  }
+}
+
+
+/**********************************css given by kishori************************/
+
+
+/***masters ***/
+
+
+/*base master css*/
+
+
+/*
+tree css*/
+
+.uomCreateIcon {
+  right: 23.5% !important;
+  position: absolute;
+}
+
+.uomEditIcon {
+  right: 15.5%;
+  position: absolute;
+}
+
+.tree_animation {
+  -webkit-animation: fadein 1s;
+  /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1s;
+  /* Firefox < 16 */
+  -ms-animation: fadein 1s;
+  /* Internet Explorer */
+  -o-animation: fadein 1s;
+  /* Opera < 12.1 */
+  animation: fadein 1s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Firefox < 16 */
+
+@-moz-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Safari, Chrome and Opera > 12.1 */
+
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Internet Explorer */
+
+@-ms-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Opera < 12.1 */
+
+@-o-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/*master base*/
+
+.mar-b {
+  .portlet {
+    margin-bottom: 0px !important;
+  }
+}
+
+//modal css
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
+.modal-dialog {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.mar-bottom {
+  margin-bottom: 20px;
+}
+
+.mar-rb {
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+
+//master shape
+.shapes-checkbox {
+  margin-left: 30px;
+  .md-checkbox-inline .md-checkbox {
+    min-width: 30% !important;
+  }
+}
+
+//master part
+.mar-l {
+  margin-left: 30px;
+}
+
+.mar-t {
+  margin-top: 30px;
+}
+
+.bor-r {
+  border-right: 1px solid gray;
+  min-height: 500px;
+}
+
+.bor-t {
+  border-top: 1px solid gray;
+}
+
+//estimate assembly
+.scroll-x {
+  overflow-x: scroll !important;
+}
+
+.pagination {
+  margin: 0 0;
+}
+
+//estimate part
+.form-horizontal .form-group.form-md-line-input>label {
+  padding-top: 0px !important;
+}
+
+.part-detail-form {
+  .form-horizontal .form-group.form-md-line-input {
+    padding-top: 0px !important;
+    margin: 0 -16px 17px !important;
+  }
+}
+
+.img-border {
+  border: 1px solid rgba(128, 128, 128, 0.23);
+}
+
+.mar-t {
+  margin-top: 30px;
+}
+
+.part-details {
+  border-right: 1px solid #e7ecf1!important;
+}
+
+.edit-icon {
+  .label.label-sm {
+    font-size: 10px;
+    padding: 1px 2px;
+  }
+}
+
+.padd-t {
+  padding-top: 10px;
+}
+
+.display-inline {
+  display: inline-block;
+}
+
+//custom table css
+body {
+  font-size: 12px;
+}
+
+.table thead tr th {
+  font-size: 12px !important;
+}
+
+.table td,
+.table th {
+  font-size: 12px !important;
+}
+
+.form-control {
+  height: 27px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.input-icon>i {
+  margin: 8px 2px 4px 10px;
+  z-index: 3;
+  width: 14px;
+  font-size: 12px;
+}
+
+.btn {
+  padding: 3px 8px;
+  font-size: 12px;
+}
+
+.portlet.light.portlet-fit>.portlet-body {
+  padding: 5px 15px 15px;
+}
+
+.portlet.light {
+  padding: 0px 20px 15px;
+}
+
+.page-content-wrapper .page-content {
+  padding: 17px 20px 10px;
+}
+
+.portlet.light>.portlet-title>.caption>.caption-subject {
+  font-size: 10px;
+}
+
+.portlet.light>.portlet-title>.actions {
+  padding: 0px 0 11px !important;
+}
+
+.portlet.light>.portlet-title>.caption {
+  padding: 0px 0 !important;
+}
+
+.portlet.light.portlet-fit>.portlet-title {
+  padding: 15px 20px 0px !important;
+}
+
+//custom form css
+.form-horizontal .form-group.form-md-line-input>label {
+  font-size: 12px;
+}
+
+.padd-t {
+  padding-top: 16px;
+}
+
+//createOREdit Estimate table
+.bordered-table {
+  width: 100%;
+  th {
+    padding-top: 15px;
+    border-right: 1px solid #e7ecf1;
+    text-align: center;
+  }
+  td {
+    padding: 10px 0px;
+    border-right: 1px solid #e7ecf1;
+    text-align: center;
+  }
+}
+
+.border-bott {
+  border-bottom: 1px solid #e7ecf1;
+}
+
+.part-table {
+  margin-top: 6px;
+  width: 100%;
+  border: 1px solid #e7ecf1;
+  th {
+    padding: 8px;
+    border-right: 1px solid #e7ecf1;
+    border-bottom: 1px solid #e7ecf1;
+    text-align: center;
+  }
+  td {
+    padding: 10px 0px;
+    border-right: 1px solid #e7ecf1;
+    border-bottom: 1px solid #e7ecf1;
+    text-align: center;
+  }
+}
+
+.font-size {
+  font-size: 10px;
+}
+
+.plus-padd {
+  font-size: 10px;
+  padding: 1px 5px;
+}
+
+.overflow-scroll {
+  overflow-y: scroll;
+  height: 130px;
+}
+
+.material-plus {
+  right: 11%;
+  position: absolute;
+}
+
+.tree-overflow {
+  overflow-y: scroll;
+  max-height: 200px;
+}
+
+//custom material 
+.inside-custom-table {
+  td {
+    padding: 6px 0px;
+  }
+}
+
+//enquiry
+.edit-btn {
+  .label.label-sm {
+    font-size: 11px;
+    padding: 1px 2px;
+  }
+}
+
+//base master
+.padd-caption {
+  padding-top: 20px;
+  display: inline-block;
+}
+
+.padd-action {
+  padding: 16px 0 11px !important;
+  float: right;
+  display: inline-block;
+}

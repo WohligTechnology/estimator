@@ -6,7 +6,7 @@ module.exports = [
   'bower_components/fancybox/dist/jquery.fancybox.js',
   'bower_components/smart-app-banner/smart-app-banner.js',
   "bower_components/moment/min/moment.min.js",
-  
+
   //Angular Libs   
   'bower_components/angular/angular.js',
   'bower_components/angular-sanitize/angular-sanitize.js',
@@ -23,7 +23,7 @@ module.exports = [
   "bower_components/angular-toastr/dist/angular-toastr.js",
   "bower_components/angular-toastr/dist/angular-toastr.tpls.js",
   "bower_components/angular-promise-buttons/dist/angular-promise-buttons.js",
-  
+
   // "frontend/themeassets/global/plugins/jquery.min.js",
   // "frontend/themeassets/global/plugins/bootstrap/js/bootstrap.min.js",
   "frontend/themeassets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js",
@@ -69,4 +69,38 @@ module.exports = [
   'frontend/js/controllers/TodoController.js',
   'frontend/js/controllers/UserProfileController.js',
   'frontend/js/controllers/UISelectController.js',
+
+
+  'frontend/js/controllers/appCtrl.js',
+  'frontend/js/controllers/dashboardCtrl.js',
+  'frontend/js/controllers/customer/customerCtrl.js',
+  'frontend/js/controllers/enquiry/createOrEditEnquiryCtrl.js',
+  'frontend/js/controllers/enquiry/enquiryCtrl.js',
+  'frontend/js/controllers/estimate/createOrEditEstimateCtrl.js',
+  'frontend/js/controllers/estimate/estimateCtrl.js',
+  'frontend/js/controllers/login/loginCtrl.js',
+  'frontend/js/controllers/master/baseMasterCtrl.js',
+  'frontend/js/controllers/master/masterAddonCtrl.js',
+  'frontend/js/controllers/master/masterExtraCtrl.js',
+  'frontend/js/controllers/master/masterMaterialCtrl.js',
+  'frontend/js/controllers/master/masterPartCtrl.js',
+  'frontend/js/controllers/master/masterProcessCtrl.js',
+  'frontend/js/controllers/master/masterShapeCtrl.js',
+  'frontend/js/controllers/user/userCtrl.js',
+
+  'frontend/js/services/customer/customerService.js',
+  'frontend/js/services/enquiry/createOrEditEnquiryService.js',
+  'frontend/js/services/enquiry/enquiryService.js',
+  'frontend/js/services/estimate/createOrEditEstimateService.js',
+  'frontend/js/services/estimate/estimateService.js',
+  'frontend/js/services/login/loginService.js',
+  'frontend/js/services/master/baseMatserService.js',
+  'frontend/js/services/master/masterAddonService.js',
+  'frontend/js/services/master/masterExtraService.js',
+  'frontend/js/services/master/masterMaterialService.js',
+  'frontend/js/services/master/masterPartService.js',
+  'frontend/js/services/master/masterProcessService.js',
+  'frontend/js/services/master/masterShapeService.js',
+  'frontend/js/services/user/userService.js',
+  'frontend/js/services/dashboardService.js'
 ];

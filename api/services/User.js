@@ -19,6 +19,10 @@ var schema = new Schema({
             }
         }
     },
+    mobile: {
+        type: String,
+        default: ""
+    },
     photo: {
         type: String,
         default: "",
@@ -41,10 +45,6 @@ var schema = new Schema({
         default: ""
     },
     forgotPassword: {
-        type: String,
-        default: ""
-    },
-    mobile: {
         type: String,
         default: ""
     },
@@ -166,6 +166,104 @@ var model = {
     },
     getAllMedia: function (data, callback) {
 
-    }
+    },
+    getAllDashboardData: function (data, callback) {
+
+        async.parallel({
+            userCount: function (callback) {
+                User.count().exec(function (err, count) {
+                    callback(null, count);
+                });
+
+            },
+            customerCount: function (callback) {
+                Customer.count().exec(function (err, count) {
+                    callback(null, count);
+                });
+
+            },
+            enquiryCount: function (callback) {
+                Enquiry.count().exec(function (err, count) {
+                    callback(null, count);
+                });
+
+            },
+            estimateCount: function (callback) {
+                Estimate.count().exec(function (err, count) {
+                    callback(null, count);
+                });
+
+            },
+
+        }, function (err, finalResults) {
+            if (err) {
+                console.log('********** error at final response of async.parallel  User.js ************', err);
+                callback(err, null);
+            } else if (_.isEmpty(finalResults)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, finalResults);
+            }
+        });
+    },
+
+    loginUser: function (data, callback) {
+        console.log('**** inside loginUser of User.js & data is ****', data);
+        User.findOne({
+            email: data.username,
+            password: data.password
+        }).exec(function (err, found) {
+            console.log('**** inside res object of User.js & data is ****', found);
+            if (err) {
+                console.log('**** error at loginUser of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+
+    resetPassword: function (data, callback) {
+        console.log('**** inside resetPassword of User.js & data is ****', data);
+        User.findOne({
+            _id: data.id
+        }).exec(function (err, found) {
+            console.log('**** inside res object of User.js & data is ****', found);
+            if (err) {
+                console.log('**** error at resetPassword of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+
+                if(found.password == data.password){
+
+                    var saveDataObj = {
+                        password : data.newPassword
+                    };
+    
+                    if (!_.isEmpty(found._id)) {                       
+                        saveDataObj._id = found._id;
+
+                    }
+    
+                    User.saveData(saveDataObj, function (err, savedData) {
+                        if (err) {
+                            console.log('**** error at resetPassword of User.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(savedData)) {
+                            callback(null, 'noDataFound');
+                        } else {
+                            callback(null, savedData);
+                        }
+                    });
+                }else{
+                    callback(null,"password not matching");
+                }
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);

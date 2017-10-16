@@ -1,0 +1,147 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="caption">
+                            <i class="icon-settings font-red"></i>
+                            <span class="caption-subject font-red sbold uppercase">Custom Material</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="bs-select form-control input-small pull-right" data-style="btn-info">
+                             <option>Show Records</option>
+                              <option>2</option>
+                              <option>5</option>
+                              <option>15</option>
+                               <option>20</option>
+                               <option>25</option>
+                         </select>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="inputs search pull-right">
+                            <div class="portlet-input input-small input-inline">
+                                <div class="input-icon right">
+                                    <i class="icon-magnifier"></i>
+                                    <input type="text" class="form-control form-control-solid" placeholder="search...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="btn-group pull-right">
+                            <button id="sample_editable_1_new" class="btn green" ng-click="estimateCustomMaterial()"> <i class="fa fa-plus"></i> </button>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="btn-group pull-right">
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;"> Save as PDF </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Export to Excel </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Delete </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <!-- BEGIN custom material TABLE PORTLET-->
+                <div class="portlet-body">
+                    <div class="">
+                        <table class="table table-bordered table-hover scroll-x">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2"> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                       <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></hd>
+                                        <th rowspan="2" class="align-top"> Id </th>
+                                        <th colspan="2" class="align-top"> Base Material</th>
+                                        <th colspan="2" class="align-top text-center"> Hardfacing </th>
+                                        <th rowspan="2" class="align-top text-center"> MulFact </th>
+                                        <th rowspan="2" class="align-top text-center"> Total Cost Rs/kg</th>
+                                        <th rowspan="2" class="align-top text-center"> Total Cost Rs/m<sup>2</sup> </th>
+                                        <th rowspan="2" class="align-top text-center"> Detail </th>
+                                        <th rowspan="2" class="align-top"> Action </th>
+                                </tr>
+                                <tr>
+                                    <th>Thickness</th>
+                                    <th>Base Metal</th>
+                                    <th>Thickness</th>
+                                    <th>Alloy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="custom in customMaterial">
+                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                                    <td>{{custom.id}} </td>
+                                    <td> {{custom.baseMaterial.thickness}} </td>
+                                    <td>{{custom.baseMaterial.grade}} </td>
+                                    <td>{{custom.hardfacing.thickness}}
+                                        <table class="inside-custom-table">
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td>{{custom.hardfacing.depositeGrade}}
+                                        <table class="inside-custom-table">
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                            <tr>
+                                                <td>23</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td>{{custom.customization}} </td>
+                                    <td> {{custom.price.kg}} </td>
+                                    <td> {{custom.price.m}}</td>
+                                    <td> {{custom.efficiency}}</td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="align-right" colspan="9">Total </td>
+                                    <td colspan="2">5 </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END custom material TABLE PORTLET-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
+                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

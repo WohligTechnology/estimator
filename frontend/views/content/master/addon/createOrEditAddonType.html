@@ -1,0 +1,122 @@
+<div class="row">
+    <div class="col-md-12 mar-b">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Addon Type
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form action="#" class="form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Addon Type Name:</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control " placeholder="" autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"> Material Category:</label>
+                            <div class="col-md-3">
+                                <select ng-model="selectedMatCat" class="form-control select_tag_dashboard" ng-options="x.name for x in AllStates track by x._id "
+                                    ng-change="selectedMatCat===null ? '' : getAllDashboardData(selectedMatCat, $event)">
+                                </select>
+                            </div>
+                            <label class="col-md-2 control-label"> Material SubCategory:</label>
+                            <div class="col-md-3">
+                                <select ng-model="selectedMatSubCat" class="form-control select_tag_dashboard" ng-options="x.name for x in AllStates track by x._id "
+                                    ng-change="selectedMatSubCat===null ? '' : getAllDashboardData(selectedMatSubCat, $event)">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><b>Rate -</b></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Multiplication Factor</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control " placeholder="">
+                            </div>
+                            <label class="col-md-2 control-label"> UOM</label>
+                            <div class="col-md-3">
+                                <select class="form-control">
+                                    <option></option>
+                                    <option></option>
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><b>Quantity -</b></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"> Additional Input</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control">
+                            </div>
+                            <label class="col-md-2 control-label">UOM</label>
+                            <div class="col-md-3">
+                                <select class="form-control">
+                                    <option></option>
+                                    <option></option>
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Linked Key Value</label>
+                            <div class="col-md-3">
+                                <select class="form-control">
+                                    <option></option>
+                                    <option></option>
+                                    <option></option>
+                                </select>
+                            </div>
+                            <label class="col-md-2 control-label">UOM</label>
+                            <div class="col-md-3">
+                                <select class="form-control">
+                                    <option></option>
+                                    <option></option>
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Multiplication Factor</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control " placeholder="">
+                            </div>
+                            <label class="col-md-2 control-label">Final UOM</label>
+                            <div class="col-md-3">
+                                <select class="form-control">
+                                    <option></option>
+                                    <option></option>
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">% use</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control " placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--END OF DEAFULT EXTRAS TABLE -->
+                <div class="row">
+                    <div class=" col-md-12">
+                        <div class="mar-bottom">
+                            <a href="javascript:;" class="btn green">Save</a>
+                            <a href="javascript:;" class="btn green">Update</a>
+                            <a href="javascript:;" class="btn default">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

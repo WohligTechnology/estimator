@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-md-12 mar-b">
+        <div class="portlet box green ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Process Category
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form  class="form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Process Category Name:</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" ng-model="formData.processCatName" autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label"> UOM:</label>
+                            <div class="col-md-5">
+                                  <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
+                                    ng-model="selectedUom">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessCat(formData,selectedUom._id)">Save</button>
+                                  <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditProcessCat(formData,selectedUom._id)">Update</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>

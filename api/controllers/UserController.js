@@ -52,7 +52,7 @@ var controller = {
         if (q >= 0) {
             _.times(20, function (n) {
                 var name = moment().subtract(5 + n, "days").format("ddd-Do-MMM-YYYY");
-                exec("cd backup && rm -rf " + name + "*", function (err, stdout, stderr) { });
+                exec("cd backup && rm -rf " + name + "*", function (err, stdout, stderr) {});
             });
             var jagz = _.map(mongoose.models, function (Model, key) {
                 var name = Model.collection.collectionName;
@@ -66,9 +66,9 @@ var controller = {
                 "key": "fs.chunks",
                 "name": "fs.chunks"
             }, {
-                    "key": "fs.files",
-                    "name": "fs.files"
-                });
+                "key": "fs.files",
+                "name": "fs.files"
+            });
             var isBackup = fs.existsSync("./backup");
             if (!isBackup) {
                 fs.mkdirSync("./backup");
@@ -94,7 +94,47 @@ var controller = {
     },
     sendmail: function (req, res) {
         Config.sendEmail("chintan@wohlig.com", "jagruti@wohlig.com", "first email from endgrid", "", "<html><body>dome content</body></html>");
-    }
+    },
 
+    getAllDashboardData: function (req, res) {
+        if (req.body) {
+            // please remove Controller.js from below line
+            User.getAllDashboardData(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+
+    loginUser: function (req, res) {
+        if (req.body) {
+            // please remove Controller.js from below line
+            User.loginUser(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    resetPassword: function (req, res) {
+        if (req.body) {
+            // please remove Controller.js from below line
+            User.resetPassword(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
 };
 module.exports = _.assign(module.exports, controller);

@@ -1,0 +1,183 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="caption">
+                            <i class="icon-settings font-red"></i>
+                            <span class="caption-subject font-red sbold uppercase">SubAssembly</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="bs-select form-control input-small pull-right" data-style="btn-info">
+                             <option>Show Records</option>
+                              <option>2</option>
+                              <option>5</option>
+                              <option>15</option>
+                               <option>20</option>
+                               <option>25</option>
+                         </select>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="inputs search  pull-right">
+                            <div class="portlet-input input-small input-inline">
+                                <div class="input-icon right ">
+                                    <i class="icon-magnifier"></i>
+                                    <input type="text" class="form-control form-control-solid" placeholder="search...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-circle blue" ng-click="importPart()">Import </button>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="btn-group pull-right">
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;"> Save as PDF </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Export to Excel </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Delete </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <!-- BEGIN BORDERED TABLE PORTLET-->
+                <div class="">
+                    <div class="portlet-title">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label> Name:</label> assembly
+                            </div>
+                            <div class="col-md-3">
+                                <label> Id:</label> 5790
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" class="align-top"> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                       <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                        </th>
+                                        <th rowspan="2" class="align-top"> Id </th>
+                                        <th rowspan="2" class="align-top"> Icon</th>
+                                        <th rowspan="2" class="align-top"> Part Name </th>
+                                        <th rowspan="2" class="align-top">Quantity </th>
+                                        <th colspan="6" class="text-center" class="align-top"> Per item detail </th>
+                                        <th colspan="2" class="align-top text-center"> Total</th>
+                                        <th rowspan="2" class="align-top"> Action </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Weight</th>
+                                        <th>Material Cost</th>
+                                        <th>Processing Cost</th>
+                                        <th>Address Cost</th>
+                                        <th>Extra Cost</th>
+                                        <th>Total Cost</th>
+                                        <th>Weight</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                                        <td> 1 </td>
+                                        <td> Mark </td>
+                                        <td>5 </td>
+                                        <td>24 </td>
+                                        <td>400 </td>
+                                        <td>500 </td>
+                                        <td> 600 </td>
+                                        <td> 900</td>
+                                        <td> 300</td>
+                                        <td> </td>
+                                        <td> 30 </td>
+                                        <td> 50 </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                            <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                                        <td> 1 </td>
+                                        <td> Mark </td>
+                                        <td>5 </td>
+                                        <td>24 </td>
+                                        <td>400 </td>
+                                        <td>500 </td>
+                                        <td> 600 </td>
+                                        <td> 900</td>
+                                        <td> 300</td>
+                                        <td> </td>
+                                        <td> 50 </td>
+                                        <td> 40 </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                            <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                                        <td> 1 </td>
+                                        <td> Mark </td>
+                                        <td>5 </td>
+                                        <td>24 </td>
+                                        <td>400 </td>
+                                        <td>500 </td>
+                                        <td> 600 </td>
+                                        <td> 900</td>
+                                        <td> 300</td>
+                                        <td> </td>
+                                        <td> 40 </td>
+                                        <td> 50 </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                            <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-right" colspan="11">Total </td>
+                                        <td>5 </td>
+                                        <td colspan="2">24 </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END BORDERED TABLE PORTLET-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
+                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

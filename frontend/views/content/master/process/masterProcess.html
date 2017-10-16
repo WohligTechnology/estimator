@@ -1,0 +1,169 @@
+<div class="row">
+    <div class="col-md-3">
+        <ul class="tree">
+            <li class="mainLi">
+                <input type="checkbox" id="c5" />
+                <label class="tree_label" for="c5"></label>
+                <span ng-click="getAssemblyView()" class="assebmlyName">Process Categories</span>
+                <span ng-click="addOrEditProcessCatModal('save')" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
+                <ul>
+                    <li ng-repeat="pc in processStructureData">
+                          <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                        <input type="checkbox" id="{{pc.processCatName+$index}}" />
+                        <label for="{{pc.processCatName+$index}}" class="tree_label"></label>
+                            <!-- process cat name -->
+                        <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pc.processCatName}}</span>
+                           <!-- create  process items  -->
+                        <span ng-click="addOrEditProcessItemModal('save',pc._id)" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
+                            <!-- edit process category -->
+                        <span  ng-click="addOrEditProcessCatModal('update', pc)" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning"></i></span>
+                             <!-- delete process category -->
+                        <span ng-click="deleteProcessCatModal(pc._id,'deleteProcessCat')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" ></i></span>
+                        <ul class="">
+                            <li ng-repeat="pi in pc.processItems">
+                                <span class="tree_label" class="partName">{{pi.processItemName}}</span>
+                                <span ng-click="addOrEditProcessItemModal('update',pc._id,pi)" class="partEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                <span ng-click="deleteProcessItemModal(pi._id,'deleteProcessItem')" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="caption">
+                            <i class="icon-settings font-green"></i>
+                            <span class="caption-subject font-green sbold uppercase">Process Type</span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="btn-group pull-right">
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditProcessTypeModal('save');"> <i class="fa fa-plus"></i> </button>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="btn-group pull-right">
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;"> Save as PDF </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Export to Excel </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Delete </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">Show Records</button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
+                                    data-close-others="true">
+                                     <i class="fa fa-angle-down"></i>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li> <a> 5</a></li>
+                                    <li> <a> 10 </a></li>
+                                    <li><a> 15 </a> </li>
+                                    <li class="divider"> </li>
+                                    <li> <a> 50 </a> </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="inputs search pull-right">
+                                <div class="portlet-input input-small input-inline">
+                                    <div class="input-icon right">
+                                        <i class="icon-magnifier"></i>
+                                        <input type="text" class="form-control form-control-solid" placeholder="search...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BEGIN BORDERED TABLE PORTLET-->
+                <div class="portlet-body">
+                    <div class="">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label>
+                                    </th>
+                                    <th rowspan="2" class="align-top"> Process type Name </th>
+                                    <th rowspan="2" class="align-top"> ProcessCat</th>
+                                    <th colspan="2" class="text-center"> Rate </th>
+                                    <th colspan="6" class="text-center"> Quantity</th>
+                                    <th rowspan="2" class="align-top"> Action </th>
+                                </tr>
+                                <tr>
+                                    <th>Multiplication Factor</th>
+                                    <th>UOM</th>
+                                    <th>Key Value </th>
+                                    <th>UOM</th>
+                                    <th>Multiplication Factor</th>
+                                    <th>Final UOM</th>
+                                    <th>Utilization</th>
+                                    <th>Contegency or Wastage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="process in processData">
+                                    <td>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                          <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
+                                          <span></span>
+                                        </label>
+                                    </td>
+                                    <td> {{process.processTypeName}} </td>
+                                    <td>{{process.processCat.processCatName}}</td>
+                                    <td>{{process.rate.mulFact}} </td>
+                                    <td>{{process.rate.uom.uomName}} </td>
+                                    <td>{{process.quantity.linkedKeyValue}} </td>
+                                    <td>{{process.quantity.uom.uomName}} </td>
+                                    <td> {{process.quantity.mulfact}} </td>
+                                    <td> {{process.quantity.finalUom.uomName}}</td>
+                                    <td> {{process.quantity.utilization}}</td>
+                                    <td> {{process.quantity.contengncyOrWastage}}</td>
+                                    <td class="edit-icon">
+                                        <a class="action" ng-click="addOrEditProcessTypeModal('update',process)"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="" ng-click="deleteProcessTypeModal(process._id,'deleteProcessType')"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END BORDERED TABLE PORTLET-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
+                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

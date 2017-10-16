@@ -246,7 +246,7 @@ Page Header
             color: #555; }
       .page-header.navbar .top-menu .navbar-nav > li.dropdown-extended .dropdown-menu {
         min-width: 160px;
-        max-width: 275px;
+        max-width: 275px;   
         width: 275px;
         z-index: 9995;
         /* header notifications dropdowns */ }
