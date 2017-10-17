@@ -16,7 +16,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
         createOrEditEstimateService.estimateView(getViewName, function (data) {
             $scope.estimateView = data;
         });
-        createOrEditEstimateService.estimateViewData(getViewName, getLevelName, getId, function (data) {
+        createOrEditEstimateService.estimateViewData(getViewName, getLevelName, function (data) {
             $scope.level = getLevelName;
             $scope.estimateViewData = data;
         });
@@ -87,8 +87,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     $scope.deleteSubAssembly = function (subAssemblyId) {
         createOrEditEstimateService.deleteSubAssembly(subAssemblyId, function () {
             $scope.operationStatus = "Record deleted successfully";
+            $scope.getEstimateView('assembly');
             $scope.cancelModal();
-            $scope.getEstimateData();
         });
     }
 
@@ -137,13 +137,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     $scope.deletePart = function (subAssemblyId, partId) {  
         createOrEditEstimateService.deletePart(subAssemblyId, partId, function () {
             $scope.operationStatus = "Record deleted successfully";
+            $scope.getEstimateView('subAssembly');            
             $scope.cancelModal();
-            $scope.getEstimateData();
         });
     }
 
     //- to add or edit Proccessing at assembly or subssembly or at partLevel
-    $scope.addOrEditProcessingModal = function (operation, type, level,processingObj) {
+    $scope.addOrEditProcessingModal = function (operation, type, level, processingObj) {
         createOrEditEstimateService.getProcessingModalData(operation, type, level, processingObj, function (data) {
             
             $scope.formData = data.processingObj;
@@ -159,7 +159,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
             });
         });
     }
-    $scope.addOrEditProcessing = function (processingData,level) {        
+    $scope.addOrEditProcessing = function (processingData,level, id) { 
+        console.log('**** SubAssemblyId ****',id);       
         createOrEditEstimateService.createOrEditProcessing(processingData, level, function () {
             $scope.getEstimateData();
             $scope.cancelModal();
@@ -169,8 +170,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     $scope.deleteProcessing = function (processingId, level, subAssemblyId, partId) {
         createOrEditEstimateService.deleteProcessing(processingId, level, subAssemblyId, partId, function (data) {            
             $scope.operationStatus = "Record deleted successfully";
+            $scope.getEstimateView('processing', level);
             $scope.cancelModal();
-            $scope.getEstimateData();
         });
     }
 
@@ -203,8 +204,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     $scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {        
         createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function (data) {
             $scope.operationStatus = "Record deleted successfully";
+            $scope.getEstimateView('addons', level);
             $scope.cancelModal();
-            $scope.getEstimateData();
           });
     }
 
@@ -236,8 +237,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     $scope.deleteExtra = function (extraId, level, subAssemblyId, partId) {
         createOrEditEstimateService.deleteExtra(extraId, level, subAssemblyId, partId, function (data) {
             $scope.operationStatus = "Record deleted successfully";
+            $scope.getEstimateView('addons', level);
             $scope.cancelModal();
-            $scope.getEstimateData();
           });    
     }
 
