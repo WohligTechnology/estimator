@@ -129,9 +129,9 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="caption">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Save as new</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartPreset(presetFormData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData)">Save as new</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="hidePartPresetView()">Cancel</button>
                             </div>
                         </div>
@@ -165,40 +165,40 @@
                                                 <b>Variables:</b>
                                             </label>
                                         </div>
-                                        <div class="form-group" ng-repeat="v in selectedShapeData.variable track by $index">
-                                            <label class="col-md-3 control-label">{{v.variableName}}</label>
+                                        <div class="form-group" ng-repeat="v in selectedShape.variable track by $index">
+                                            <label class="col-md-3 control-label">{{v.varName}}</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control" ng-model="v.variableValue" required>
+                                                <input type="text" class="form-control" ng-change="getPresetFinalData(presetFormData,selectedShape)" ng-model="v.varValue" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-3 control-label">Thickness</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" ng-model="presetFormData.thickness">
                                             </div>
                                             <label class="col-md-3 control-label">Length</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " placeholder="">
+                                                <input type="text" class="form-control " ng-model="presetFormData.length">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-3 control-label">Wastage</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " placeholder="">
+                                                <input type="text" class="form-control " ng-model="presetFormData.wastage">
                                             </div>
                                             <label class="col-md-3 control-label">Form Factor</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " placeholder="">
+                                                <input type="text" class="form-control " ng-model="presetFormData.formFactor">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-3 control-label">Size Factor</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " placeholder="">
+                                                <input type="text" class="form-control " ng-model="presetFormData.sizeFactor">
                                             </div>
                                             <label class="col-md-3 control-label">Preset Name</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " placeholder="">
+                                                <input type="text" class="form-control " ng-model="presetFormData.presetName">
                                             </div>
                                         </div>
                                     </div>
@@ -209,19 +209,19 @@
                                         <b>Perimeter (p):</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>57976</div>
+                                        <div>{{presetFinalData.partFormulae.perimeter}}</div>
                                     </div>
                                     <label class="col-md-2">
                                         <b>Sheet Metal Area:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>89768</div>
+                                        <div>{{presetFinalData.partFormulae.sheetMetalArea}}</div>
                                     </div>
                                     <label class="col-md-2">
                                         <b>Surface Area:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>8769</div>
+                                        <div>{{presetFinalData.partFormulae.surfaceArea}}</div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -229,21 +229,15 @@
                                         <b>Weight:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>874769</div>
+                                        <div>{{presetFinalData.partFormulae.weight}}</div>
                                     </div>
                                     <label class="col-md-2">
                                         <b>Cost Price:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>676</div>
+                                        <div>{{presetFinalData.partFormulae.perimeter}}</div>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Save</button>
-                                    <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Save as new</button>
-                                    <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData,selectedShape)">Update</button>
-                                    <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="hidePartPresetView()">Cancel</button>
-                                </div> -->
                             </div>
                         </form>
                     </div>

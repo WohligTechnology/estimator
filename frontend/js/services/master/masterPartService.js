@@ -1,5 +1,29 @@
 myApp.service('masterPartService', function (NavigationService) {
 
+    this.variableData = [{
+        'varName': 'a'
+    }, {
+        'varName': 'b'
+    }, {
+        'varName': 'c'
+    }, {
+        'varName': 'd'
+    }, {
+        'varName': 'e'
+    }, {
+        'varName': 'f'
+    }, {
+        'varName': 'g'
+    }, {
+        'varName': 'h'
+    }, {
+        'varName': 'i'
+    }, {
+        'varName': 'j'
+    }, {
+        'varName': 'k'
+    }];
+
     this.getPartData = function (callback) {
         var partData = [{
             "name": "partCat 1",
@@ -102,7 +126,6 @@ myApp.service('masterPartService', function (NavigationService) {
             callback(data.data);
         });
     }
-
     this.getPresetViewWithData = function (operation, presetData, callback) {
         console.log('**** inside getPresetViewWithData of masterPartService.js ****');
         var partPresetObj = {};
@@ -124,6 +147,9 @@ myApp.service('masterPartService', function (NavigationService) {
         NavigationService.boxCall('MShape/search', function (data) {
 
             partPresetObj.shapeData = data.data.results;
+            callback(partPresetObj);
+
+
             // var finalShapeData = [];
             // var obj = {};
 
@@ -136,8 +162,13 @@ myApp.service('masterPartService', function (NavigationService) {
             
             // partPresetObj.shapeData.variable = [];
             // partPresetObj.shapeData.variable = finalShapeData;
-            callback(partPresetObj);
         });       
+    }
+
+    this.addOrEditPartPreset = function(presetData){
+        NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
+            callback(data);
+        });
     }
 
 });

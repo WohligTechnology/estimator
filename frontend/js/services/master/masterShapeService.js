@@ -1,67 +1,80 @@
 myApp.service('masterShapeService', function ($http, $timeout, $uibModal, NavigationService) {
 
+    this.variableData = [{
+        'varName': 'a'
+    }, {
+        'varName': 'b'
+    }, {
+        'varName': 'c'
+    }, {
+        'varName': 'd'
+    }, {
+        'varName': 'e'
+    }, {
+        'varName': 'f'
+    }, {
+        'varName': 'g'
+    }, {
+        'varName': 'h'
+    }, {
+        'varName': 'i'
+    }, {
+        'varName': 'j'
+    }, {
+        'varName': 'k'
+    }];
+    
     this.geShapeData = function (callback) {
-        console.log('**** inside geShapeData of masterShapeService.js ****');
         NavigationService.boxCall('MShape/search', function (data) {
             callback(data.data.results);
         });
     }
 
     this.getVariablesData = function (callback) {
-        NavigationService.boxCall('MVariables/search', function (data) {
-            var variableData = _.chunk(data.data.results, 3);
-            console.log('**** inside this.getVariablesData of masterShapeService.js ****', variableData);
-            callback(variableData);
-        });
+        var tempObj = _.chunk(this.variableData, 3);
+        callback(tempObj);
     }
 
     this.createOrEditShapeData = function (operation, shape, callback) {
+        
         var shapeDataObj = {};
-        shapeDataObj.shapeVariables = [];
-        // shapeDataObj.shape = {};
-
-        var array = [];
 
         if (angular.isDefined(shape)) {
             shapeDataObj.shape = shape;
-        }else{
+        } else {
             shapeDataObj.shape = {};
         }
-        
+
         if (operation == "save") {
             shapeDataObj.saveBtn = true;
             shapeDataObj.editBtn = false;
-            NavigationService.boxCall('MVariables/getAllVarId', function (data) {
-                var dataObj = data.data;
-                _.map(dataObj, function (n) {
-                    n.checkboxStatus = false;
-                    array.push({_id:n._id, variableName:n.variableName, checkboxStatus:n.checkboxStatus});
-                });
-                shapeDataObj.shape.variable = _.chunk(array, 3);
-                callback(shapeDataObj);
+            shapeDataObj.shapeVariables = _.cloneDeep(this.variableData);
+
+            _.map(shapeDataObj.shapeVariables, function (n) {                
+                n.checkboxStatus = false;
             });
+
+            shapeDataObj.shapeVariables = _.chunk(shapeDataObj.shapeVariables, 3);
+            callback(shapeDataObj);
+
         } else if (operation == "update") {
             shapeDataObj.saveBtn = false;
             shapeDataObj.editBtn = true;
-            NavigationService.boxCall('MVariables/getAllVarId', function (data) {
-                var variableData = data.data;
-                _.map(variableData, function (n) {                    
-                    if (shapeDataObj.shape.variable.indexOf(n._id) == -1) {
-                        n.checkboxStatus = false;
-                    } else {
-                        n.checkboxStatus = true;
-                        shapeDataObj.shapeVariables.push(n._id);
-                    }
-                });
-                shapeDataObj.shape.variableChunks = _.chunk(variableData, 3);
-                callback(shapeDataObj);
-            });
+            var tempArray = _.cloneDeep(this.variableData)
 
+            _.map(tempArray, function (n) {                
+                if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
+                    n.checkboxStatus = false;
+                } else {
+                    n.checkboxStatus = true;
+                }
+            });
+            shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
+            callback(shapeDataObj);
         }
 
     }
     this.createOrEditShape = function (shape, callback) {
-        console.log('**** inside createOrEditShape of masterShapeService.js ****');
         NavigationService.apiCall('MShape/save', shape, function (data) {
             callback(data);
         });

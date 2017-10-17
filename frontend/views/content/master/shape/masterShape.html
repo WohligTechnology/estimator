@@ -49,10 +49,10 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="shapes-checkbox">
-                                        <div class="" ng-repeat="varChunk in formData.variableChunks">
+                                        <div class="" ng-repeat="varChunk in variablesData">
                                             <div class="" ng-repeat="var in varChunk track by $index">
-                                                 {{var.variableName}}
-                                                <input type="checkbox" ng-click="checkedVariable ? addVariableToShape('checked',var._id) : addVariableToShape('unchecked',var._id)"
+                                                 {{var.varName}}
+                                                <input type="checkbox" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
                                                    ng-checked="var.checkboxStatus" ng-model="checkedVariable">
                                             </div>
                                         </div>
@@ -67,6 +67,22 @@
                                     <div class="col-md-3">
                                         <input type="text" class="form-control " ng-model="formData.formFactor" placeholder="">
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Thickness</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control " ng-model="formData.thickness" placeholder="">
+                                    </div>
+                                    <label class="col-md-3 control-label">Length</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control " ng-model="formData.length" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Wastage</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control " ng-model="formData.wastage" placeholder="">
+                                    </div>   
                                 </div>
                             </div>
                         </div>
