@@ -99,7 +99,7 @@
                             <tbody>
                                 <tr ng-repeat="p in estimateViewData">
                                     <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                           <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td> 1 </td>
                                     <td> {{p.processType}} </td>
                                     <td>{{p.processItem}}</td>
@@ -112,7 +112,7 @@
                                     <td> Approved</td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" ng-click="addOrEditProcessingModal('save', 'processing', level, p)"><i class="fa fa-pencil"></i> </span>
-                                        <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteProccesing', p.processingNumber, level, p.subAssemblyId, p.partId)"><i class="fa fa-trash-o"></i></span>
+                                        <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteProcessing', p.processingNumber, level, estimateViewData.subAssemblyId, estimateViewData.partId)"><i class="fa fa-trash-o"></i></span>
                                     </td>
                                 </tr>
                                 <!-- <tr>

@@ -103,8 +103,8 @@
                                     <td>400 </td>
                                     <td>{{p.remarks}} </td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" ng-click="addOrEditExtraModal('save', 'extras', 'assembly', p)"><i class="fa fa-pencil"></i> </span>
-                                        <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteExtra',p.extraNumber,'assembly')"><i class="fa fa-trash-o"></i></span>
+                                        <span class="label label-sm label-success" ng-click="addOrEditExtraModal('save', 'extras', level, p)"><i class="fa fa-pencil"></i> </span>
+                                        <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteExtra', p.extraNumber, level, estimateViewData.subAssemblyId, estimateViewData.partId)"><i class="fa fa-trash-o"></i></span>
                                     </td>
                                 </tr>
                                 <!-- <tr>

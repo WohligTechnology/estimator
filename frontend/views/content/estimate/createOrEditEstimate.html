@@ -32,9 +32,9 @@
                                     <li class="mainLi">
                                         <input type="checkbox" id="c5" />
                                         <label class="tree_label" for="c5"></label>
-                                        <span ng-click="getEstimateView('assembly')" class="assebmlyName">Assembly Name</span>
+                                        <span ng-click="getEstimateView('assembly')" class="assebmlyName">{{estimteData.assemblyName}}</span>
                                         <span ng-click="addOrEditSubAssemblyModal('save')" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
-                                        <span ng-click="editAssemblyNameModal('update', estimteData)" class="assemblyEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
+                                        <span ng-click="editAssemblyNameModal(estimteData)" class="assemblyEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
                                        
                                         <ul class="tree_animation">
                                             <li ng-repeat="sa in estimteData.subAssemblies">
@@ -100,7 +100,9 @@
                                     </li>
                                     <li>
                                         <input type="checkbox" id="cm" />
-                                        <label class="tree_label" for="cm"></label><span ng-click="getEstimateView('customMaterial')">Custom Material</span>
+                                        <label class="tree_label" for="cm"></label><span ng-click="getEstimateView('customMaterial')" class="customMaterialName">Custom Material</span>
+                                        <span ng-click="addOrEditCustomMaterialModal('save')" class="customerMaterialCreateIcon"><i class="fa fa-plus btn-info"></i></span>
+                                        <span ng-click="editCustomMaterialNameModal('update', estimteData)" class="customerMaterialEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
                                     </li>
                                 </ul>
                             </div>
