@@ -93,7 +93,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="p in estimateViewData">
+                                <tr ng-repeat="p in estimateViewData track by $index">
                                     <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                     <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td> {{p.extraItem}} </td>
@@ -103,7 +103,7 @@
                                     <td>400 </td>
                                     <td>{{p.remarks}} </td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" ng-click="addOrEditExtraModal('save', 'extras', level, p)"><i class="fa fa-pencil"></i> </span>
+                                        <span class="label label-sm label-success" ng-click="editExtraModal('extras', level, p, estimateViewData.subAssemblyId, estimateViewData.partId)"><i class="fa fa-pencil"></i> </span>
                                         <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteExtra', p.extraNumber, level, estimateViewData.subAssemblyId, estimateViewData.partId)"><i class="fa fa-trash-o"></i></span>
                                     </td>
                                 </tr>
