@@ -76,5 +76,65 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Estimate', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
-var model = {};
+var model = {
+
+    removeUnwantedField:function(data,callback){
+        delete data._id;
+        delete data.createdAt;
+        delete data.updatedAt;
+        delete data.__v;
+        callback(data)
+    },
+
+    removePAEFields: function (data, callback) {
+        removeUnwantedField(data);
+        async.eachSeries(data.proccessing, function (pro, callback) {
+            removeUnwantedField(pro);
+            callback();
+        }, function (err) {
+            if (err) {
+                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+            } else {
+                async.eachSeries(data.addons, function (add, callback) {
+                    removeUnwantedField(add);
+                    callback();
+                }, function (err) {
+                    if (err) {
+                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                    } else {
+                        async.eachSeries(data.extras, function (ext, callback) {
+                            removeUnwantedField(ext);
+                            callback();
+                        }, function (err) {
+                            if (err) {
+                                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                            } else {
+                                callback(data);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    },
+
+    // import assembly by passing assembly number
+    importAssembly: function (data, callback) {
+        Estimate.find({
+                assemplyNumber: data.assemplyNumber
+            }).deepPopulate('subAssemblies proccessing addons extras subAssemblies.subAssemblyParts subAssemblies.extras subAssemblies.addons subAssemblies.proccessing subAssemblies.subAssemblyParts.proccessing subAssemblies.subAssemblyParts.addons subAssemblies.subAssemblyParts.extras')
+            .lean().exec(function (err, found) {
+                if (err) {
+                    console.log('**** error at importAssembly of Estimate.js ****', err);
+                    callback(err, null);
+                } else if (_.isEmpty(found)) {
+                    callback(null, 'noDataFound');
+                } else {
+                    callback(null, found);
+                }
+            });
+    },
+
+
+};
 module.exports = _.assign(module.exports, exports, model);
