@@ -42,16 +42,16 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Enquiry Id:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryId">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Status:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control">
-                                                        <option></option>
+                                                        <select class="form-control" ng-model="formData.enquiryDetails.enquiryStatus">
+                                                        <option></option>                                                            
                                                         <option>Open</option>
                                                         <option>Close</option>
-                                                         <option>Hold</option>
+                                                        <option>Hold</option>
                                                     </select>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
@@ -59,53 +59,55 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Name:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control">
-                                                        <option></option>
-                                                        <option></option>
+                                                        <select class="form-control" ng-model="formData.">
+                                                        <option></option>                                                            
+                                                        <option>John</option>
+                                                        <option>Smith</option>
                                                     </select>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Contact:</label>
                                                     <div class="col-md-3">
-                                                        <input type="tel" class="form-control" id="form_control_1">
+                                                        <input type="tel" class="form-control" id="form_control_1" ng-model="formData.">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Location:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Currency:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control">
-                                                        <option></option>
-                                                        <option></option>
+                                                        <select class="form-control" ng-model="formData.enquiryDetails.currency">
+                                                            <option></option>                                                            
+                                                            <option>abc</option>
+                                                        <option>efg</option>
                                                     </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Delivery Location:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.deliveryLocation">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Delivery Distant:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.deliveryDistance">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Project:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.project">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Application Category:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control">
+                                                        <select class="form-control" ng-model="formData.enquiryDetails.applicationCategory">
                                                              <option></option>
                                                         <option>Extraction</option>
                                                         <option>Crushing</option>
@@ -120,48 +122,48 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">OEM Equipment Name:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.oemEquipmentName">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ Description:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqDescription">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ No:</label>
                                                     <div class="col-md-3">
-                                                        <input type="tel" class="form-control" id="form_control_1">
+                                                        <input type="tel" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqNo">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ Received Date:</label>
                                                     <div class="col-md-3">
-                                                        <input type="date" class="form-control" id="form_control_1">
+                                                        <input type="date" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqReceiveddDate">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ Due Date:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqDueDate">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Saleman:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.salesman">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Estimator:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.estimator">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Enquiry Type:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control">
+                                                        <select class="form-control" ng-model="formData.enquiryDetails.enquiryType">
                                                        <option></option>
                                                         <option> FirmRfq</option>
                                                         <option>Budgetary</option>
@@ -200,37 +202,37 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ copy:</label>
                                                     <div class="col-md-3">
-                                                        <input type="file" id="form_control_1">
+                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.rfqCopy">
                                                         <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Drawings / Rev:</label>
                                                     <div class="col-md-3">
-                                                        <input type="file" id="form_control_1">
+                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.drawings">
                                                         <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Photos:</label>
                                                     <div class="col-md-3">
-                                                        <input type="file" id="form_control_1">
+                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.photos">
                                                         <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Others docs:</label>
                                                     <div class="col-md-3">
-                                                        <input type="file" id="form_control_1">
+                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.otherDocs">
                                                         <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Technical Feedback:</label>
                                                     <div class="col-md-3">
-                                                        <textarea class="form-control" name="" rows="2"></textarea>
+                                                        <textarea class="form-control" name="" rows="2" ng-model="formData.enquiryInfo.technicalFeedback"></textarea>
                                                         <div class="form-control-focus"> </div>
                                                         <span class="help-block">Some help goes here...</span>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Commercial Feedback:</label>
                                                     <div class="col-md-3">
-                                                        <textarea class="form-control" name="" rows="2"></textarea>
+                                                        <textarea class="form-control" name="" rows="2" ng-model="formData.enquiryInfo.commercialFeedback"></textarea>
                                                         <div class="form-control-focus"> </div>
                                                         <span class="help-block">Some help goes here...</span>
                                                     </div>
@@ -238,7 +240,7 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Remarks:</label>
                                                     <div class="col-md-3">
-                                                        <textarea class="form-control" name="" rows="2"></textarea>
+                                                        <textarea class="form-control" name="" rows="2" ng-model="formData.enquiryInfo.remarks"></textarea>
                                                         <div class="form-control-focus"> </div>
                                                         <span class="help-block">Some help goes here...</span>
                                                     </div>
@@ -273,7 +275,7 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-3 control-label" for="form_control_1">NDA agreement:</label>
                                                     <div class="col-md-6">
-                                                        <input type="file" id="form_control_1">
+                                                        <input type="file" id="form_control_1" ng-model="formData.keyRequirement.ndaAgreement">
                                                         <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
@@ -307,24 +309,24 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Design:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.technicalRequirement.design">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Fabrication:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.technicalRequirement.fabrication">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Preparation:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.technicalRequirement.preparation">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">  Site services:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.technicalRequirement.siteServices">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
@@ -358,7 +360,7 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Warranty required:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.warrantyRequired">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Payment terms:</label>
@@ -370,43 +372,43 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Retention terms:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.retentionTerms">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1"> LD/Penalties:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.ldOrPenalties">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1"> Security deposit:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.securityDeposit">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1"> EMD:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.emd">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1"> Other:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.other1">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1"> Other:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.other2">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1"> Other:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.other3">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
@@ -440,36 +442,36 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Detail:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.preQualificationCriteria.detail">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Paint specs:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.preQualificationCriteria.paintSpecs">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Freight:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.preQualificationCriteria.freight">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1"> Other:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.preQualificationCriteria.other1">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1"> Other:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" placeholder="Sales Zone">
+                                                        <input type="text" class="form-control" id="form_control_1" placeholder="Sales Zone" ng-model="formData.preQualificationCriteria.other2">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1"> Other:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" placeholder="Sales Zone">
+                                                        <input type="text" class="form-control" id="form_control_1" placeholder="Sales Zone" ng-model="formData.preQualificationCriteria.other3">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
