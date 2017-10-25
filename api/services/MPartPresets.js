@@ -78,13 +78,13 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('MPartPresets', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'shape partType','shape partType'));
 var model = {
 
     getPresetSizes: function (data, callback) {
         MPartPresets.find({
             partType: data.partType
-        }).populate('partType').exec(function (err, found) {
+        }).populate('partType shape').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at MPartPresets of MPartPresets.js ****', err);
                 callback(err, null);

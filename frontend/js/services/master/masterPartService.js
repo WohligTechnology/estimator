@@ -117,55 +117,73 @@ myApp.service('masterPartService', function (NavigationService) {
     }
 
 
+    this.addNewPreset = function (operation, partTypeId, callback) {
+        var obj = {
+            _id: partTypeId
+        }
+        var presetData = {}
+        // get shape data
+        // get part type data
+        NavigationService.boxCall('MShape/search', function (sapeData) {
+            presetData.shapeData = sapeData.data.results;
+            NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
+                presetData.partTypeData = partTypeData.data;
+                callback(presetData);
+            });
+
+        });
+
+    }
     this.getPartTypeSizes = function (partTypeId, callback) {
         var partTypeObj = {
             partType: partTypeId
         }
-
         NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
             callback(data.data);
         });
+
     }
     this.getPresetViewWithData = function (operation, presetData, callback) {
-        console.log('**** inside getPresetViewWithData of masterPartService.js ****');
-        var partPresetObj = {};
-
-        if (angular.isDefined(presetData)) {
-            partPresetObj.presetData = presetData;
-            partPresetObj.presetData.partTypeCode = presetData.partType.partTypeCode;
-            partPresetObj.presetData.partType = presetData.partType._id;
-        }
+        debugger;
+        var partPresetObj = {
+            presetData: {}
+        };
 
         if (operation == "save") {
             partPresetObj.saveBtn = true;
             partPresetObj.editBtn = false;
+            partPresetObj.presetData.partType = presetData;
         } else if (operation == "update") {
+            if (angular.isDefined(presetData)) {
+                partPresetObj.presetData = presetData;
+                partPresetObj.presetData.partTypeData = {};
+                partPresetObj.presetData.partTypeData.partTypeCode = presetData.partType.partTypeCode;
+                partPresetObj.presetData.partTypeData.partTypeId = presetData.partType._id;
+                // partPresetObj.presetData.partTypeCode = presetData.partType.partTypeCode;
+                // partPresetObj.presetData.partType = presetData.partType._id;
+            }
             partPresetObj.saveBtn = false;
             partPresetObj.editBtn = true;
         }
 
         NavigationService.boxCall('MShape/search', function (data) {
-
-            partPresetObj.shapeData = data.data.results;
+            partPresetObj.presetData.shapeData = data.data.results;
             callback(partPresetObj);
+        });
 
-
-            // var finalShapeData = [];
-            // var obj = {};
-
-            // _.map(partPresetObj.shapeData.variable, function(n){
-            //     obj.variableName = n.variableName;
-            //     obj._id = n._id;
-            //     obj.variableValue = 0;
-            //     finalShapeData.push(obj);
-            // });
-            
-            // partPresetObj.shapeData.variable = [];
-            // partPresetObj.shapeData.variable = finalShapeData;
-        });       
     }
+    this.addOrEditPartPreset = function (presetData, action, callback) {
 
-    this.addOrEditPartPreset = function(presetData){
+        if (action == "saveAsNew") {
+            // _.findKey(presetData,   ['_id', '__v', 'createdAt', 'updatedAt', '$$hashKey']);
+            delete presetData._id;
+            delete presetData.__v;
+            delete presetData.createdAt;
+            delete presetData.updatedAt;
+            delete presetData.$$hashKey;
+            console.log('**** inside -------------------------- of masterPartService.js ****',presetData);
+        }
+        presetData.partType = presetData.partTypeData.partTypeId;
         NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
             callback(data);
         });

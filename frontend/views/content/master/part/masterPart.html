@@ -1,5 +1,6 @@
 <div class="row">
     <div class="col-md-3">
+        <!-- tree structure -->
         <div class="tree-overflow">
             <ul class="tree">
                 <li class="mainLi">
@@ -27,11 +28,11 @@
                             <ul>
                                 <li ng-repeat="pt in ptCat.partTypes">
                                     <span class="tree_label partName" ng-click="getPartTypeSizes(pt._id)">{{pt.partTypeName}}</span>
-                                    <span ng-click="getPresetViewWithData('save',s)" class="subAssemblyCreateIcon">
+                                    <span ng-click="addNewPreset('save',pt._id)" class="subAssemblyCreateIcon">
                                         <i class="fa fa-plus btn-info"></i>
                                     </span>
                                     <span ng-click="addOrEditPartTypeModal('save',ptCat._id,pt)" class="partEditIcon">
-                                        <i class="fa fa-pencil btn-warning "></i>
+                                        <i class="fa fa-pencil btn-warning"></i>
                                     </span>
                                     <span ng-click="deleteItem()" class="partDeleteIcon">
                                         <i class="fa fa-trash-o btn-danger "></i>
@@ -43,12 +44,14 @@
                 </li>
             </ul>
         </div>
+        <!-- paty type sizes -->
         <div class="mar-t" ng-if="showPartTypeSize">
             <label>
                 <b>Sizes</b>
             </label>
             <p ng-repeat="s in partTypeSizes" ng-click="getPresetViewWithData('update',s)">{{s.size}}</p>
         </div>
+        <!-- paty type materials -->
         <div class="mar-t" ng-if="showPartTypeMaterial">
             <div class="portlet-title">
                 <div class="caption">
@@ -116,6 +119,8 @@
             </div>
         </div>
     </div>
+
+    <!-- preset add or edit form -->
     <div class="col-md-9 ">
         <div ng-if="showPartView" class="part-tables">
             <div class="portlet light portlet-fit bordered">
@@ -124,13 +129,13 @@
                         <div class="col-md-6">
                             <div class="caption">
                                 <i class="icon-settings font-green"></i>
-                                <span class="caption-subject font-green sbold uppercase">Part Type</span>
+                                <span class="caption-subject font-green sbold uppercase">Part Presets</span>
                             </div>
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="caption">
                                 <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartPreset(presetFormData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData)">Save as new</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData, 'saveAsNew')">Save as new</button>
                                 <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="hidePartPresetView()">Cancel</button>
                             </div>
@@ -142,14 +147,18 @@
                         <form class="form-horizontal">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="col-md-1 control-label">Shape :</label>
-                                    <div class="col-md-3">
-                                        <select class="form-control" ng-options="s.shapeName for s in shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)">
+                                    <label class="col-md-2 control-label">Shape :</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)" ng-disabled="selectedShape">
                                         </select>
                                     </div>
                                     <label class="col-md-2 control-label">Part Type Code :</label>
-                                    <div class="col-md-3">
-                                        <input type="text" class="form-control" ng-model="presetFormData.partTypeCode" required>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" ng-disabled="presetFormData.partTypeData.partTypeCode" ng-model="presetFormData.partTypeData.partTypeCode" required>
+                                    </div>
+                                    <label class="col-md-2 control-label">Preset Size :</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" ng-model="presetFormData.size" required>
                                     </div>
                                 </div>
                                 <hr>
@@ -172,31 +181,31 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">Thickness</label>
+                                            <label class="col-md-3 control-label">Thickness (t)</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control" ng-model="presetFormData.thickness">
                                             </div>
-                                            <label class="col-md-3 control-label">Length</label>
+                                            <label class="col-md-3 control-label">Length (L)</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control " ng-model="presetFormData.length">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">Wastage</label>
+                                            <label class="col-md-3 control-label">Wastage (wtg)</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control " ng-model="presetFormData.wastage">
                                             </div>
-                                            <label class="col-md-3 control-label">Form Factor</label>
+                                            <label class="col-md-3 control-label">Form Factor (ff)</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control " ng-model="presetFormData.formFactor">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">Size Factor</label>
+                                            <label class="col-md-3 control-label">Size Factor (sf)</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control " ng-model="presetFormData.sizeFactor">
                                             </div>
-                                            <label class="col-md-3 control-label">Preset Name</label>
+                                            <label class="col-md-3 control-label">Preset Shortcut</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control " ng-model="presetFormData.presetName">
                                             </div>
@@ -209,19 +218,19 @@
                                         <b>Perimeter (p):</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFinalData.partFormulae.perimeter}}</div>
+                                        <div>{{presetFormData.partFormulae.perimeter}}</div>
                                     </div>
                                     <label class="col-md-2">
                                         <b>Sheet Metal Area:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFinalData.partFormulae.sheetMetalArea}}</div>
+                                        <div>{{presetFormData.partFormulae.sheetMetalArea}}</div>
                                     </div>
                                     <label class="col-md-2">
                                         <b>Surface Area:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFinalData.partFormulae.surfaceArea}}</div>
+                                        <div>{{presetFormData.partFormulae.surfaceArea}}</div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -229,13 +238,13 @@
                                         <b>Weight:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFinalData.partFormulae.weight}}</div>
+                                        <div>{{presetFormData.partFormulae.weight}}</div>
                                     </div>
                                     <label class="col-md-2">
                                         <b>Cost Price:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFinalData.partFormulae.perimeter}}</div>
+                                        <div>{{presetFormData.partFormulae.perimeter}}</div>
                                     </div>
                                 </div>
                             </div>
