@@ -120,7 +120,7 @@ var model = {
 
     // import assembly by passing assembly number
     importAssembly: function (data, callback) {
-        Estimate.find({
+        Estimate.findOne({
                 assemplyNumber: data.assemplyNumber
             }).deepPopulate('subAssemblies proccessing addons extras subAssemblies.subAssemblyParts subAssemblies.extras subAssemblies.addons subAssemblies.proccessing subAssemblies.subAssemblyParts.proccessing subAssemblies.subAssemblyParts.addons subAssemblies.subAssemblyParts.extras')
             .lean().exec(function (err, found) {
@@ -135,6 +135,8 @@ var model = {
                     delete found.createdAt;
                     delete found.updatedAt;
                     delete found.__v;
+
+                    console.log('**** inside success of find of Estimate.js ****',found);
 
                     async.eachSeries(found.subAssemblies, function (subAss, callback) {
                         delete subAss._id;
@@ -176,7 +178,6 @@ var model = {
                                         callback();
                                     }
                                 });
-                                callback();
                             },
                             function (callback) {
                                 async.eachSeries(subAss.extras, function (subAssExt, callback) {
@@ -240,7 +241,6 @@ var model = {
                                                     callback();
                                                 }
                                             });
-                                            callback();
                                         },
                                         function (callback) {
                                             async.eachSeries(part.extras, function (partExt, callback) {
@@ -264,7 +264,7 @@ var model = {
                                         if (err) {
                                             console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
                                         } else {
-                                            callback(null, finalResult);
+                                            callback();
                                         }
                                     });
         
@@ -341,7 +341,7 @@ var model = {
                                 if (err) {
                                     console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
                                 } else {
-                                    callback(null, finalResult);
+                                    callback(null, found);
                                 }
                             });
                         }
@@ -350,7 +350,6 @@ var model = {
                 }
             });
     },
-
 
 };
 module.exports = _.assign(module.exports, exports, model);

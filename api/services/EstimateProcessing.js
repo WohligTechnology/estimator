@@ -10,7 +10,7 @@ var schema = new Schema({
     },
     processingNumber: {
         type: String,
-        unique: true,        
+        unique: true,
         required: true
     },
     estimateCreatedUser: {
@@ -48,5 +48,22 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('EstimateProcessing', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
-var model = {};
+var model = {
+    importProcessing: function (data, callback) {
+        EstimateProcessing.find(
+            {
+                processingNumber:data.processingNumber
+            }
+        ).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at importProcessing of EstimateProcessing.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+};
 module.exports = _.assign(module.exports, exports, model);
