@@ -98,22 +98,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="p in estimateViewData">
+                                <tr ng-repeat="p in estimateViewData track by $index">
                                     <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td> 1 </td>
-                                    <td> p.addonType </td>
+                                    <td> {{p.addonType}} </td>
                                     <td>5 </td>
                                     <td>24 </td>
                                     <td>400 </td>
-                                    <td>p.quantity.utilization </td>
+                                    <td> {{p.quantity.utilization}} </td>
                                     <td> 600 </td>
                                     <td> 900</td>
                                     <td> 300</td>
                                     <td> Approved</td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" ng-click="addOrEditAddonModal('save','addons','assembly',p)"><i class="fa fa-pencil"></i> </span>
-                                        <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteAddon',p.addonNumber,'assembly' )"><i class="fa fa-trash-o"></i></span>
+                                        <span class="label label-sm label-success" ng-click="editAddonModal('addons', level, p, estimateViewData.subAssemblyId, estimateViewData.partId)"><i class="fa fa-pencil"></i> </span>
+                                        <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteAddon', p.addonNumber, level, estimateViewData.subAssemblyId, estimateViewData.partId)"><i class="fa fa-trash-o"></i></span>
                                     </td>
                                 </tr>
                                 <!-- <tr>

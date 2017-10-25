@@ -25,8 +25,10 @@
                             <label class="col-md-4 control-label">Base Metal:</label>
                             <div class="col-md-5">
                                 <select class="form-control">
-                                    <option></option>
-                                    <option></option>
+                                    <option>BM1</option>
+                                    <option>BM2</option>
+                                    <option>BM3</option>
+                                    <option>BM4</option>
                                 </select>
                             </div>
                         </div>
@@ -43,8 +45,10 @@
                             <label class="col-md-4 control-label">Alloy :</label>
                             <div class="col-md-5">
                                 <select class="form-control">
-                                    <option></option>
-                                    <option></option>
+                                    <option>A1</option>
+                                    <option>A2</option>
+                                    <option>A3</option>
+                                    <option>A4</option>
                                 </select>
                             </div>
                         </div>
@@ -69,8 +73,10 @@
                             <label class="col-md-4 control-label">MulFact:</label>
                             <div class="col-md-5">
                                 <select class="form-control">
-                                    <option></option>
-                                    <option></option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
                                 </select>
                             </div>
                         </div>
@@ -90,9 +96,9 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green">Save</button>
-                                <button type="submit" class="btn btn-circle green">Update</button>
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditCustomerMaterial(formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditCustomerMaterial(formData)">Update</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
                     </div>

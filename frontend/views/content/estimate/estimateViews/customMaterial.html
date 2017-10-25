@@ -116,8 +116,8 @@
                                     <td> {{custom.price.m}}</td>
                                     <td> {{custom.efficiency}}</td>
                                     <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="edit();"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                        <span class="label label-sm label-success" ng-click="addOrEditCustomMaterialModal('update','cust_object')"><i class="fa fa-pencil"></i> </span>
+                                        <span class="label label-sm label-danger" ng-click="deleteCustomMaterialModal('id','deleteCustomMaterial')"> <i class="fa fa-trash-o"></i></span>
                                     </td>
                                 </tr>
                                 <tr>
