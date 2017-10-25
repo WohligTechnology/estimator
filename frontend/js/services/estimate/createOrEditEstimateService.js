@@ -1,5 +1,96 @@
 myApp.service('createOrEditEstimateService', function ($http, NavigationService) {
     
+    this.processing = {
+        processType: "",
+        processItem: "",
+        rate: "",
+        quantity: {
+            keyValue: {
+                keyVariable: "",
+                keyValue: ""
+            },
+            utilization: "",
+            contengncyOrWastage: "",
+            total: ""
+        },
+        totalCost: "",
+        remarks: ""
+    };
+
+    this.addon = {
+        addonType: "",
+        addonItem: "",
+        rate: "",
+        quantity: {
+            supportingVariable: {
+                supportingVariable: "",
+                value: ""
+            },
+            keyValue: {
+                keyVariable: "",
+                keyValue: ""
+            },
+            utilization: "",
+            contengncyOrWastage: "",
+            total: ""
+        },
+        totalCost: "",
+        remarks: ""
+    };
+
+    this.extra = {
+        extraItem: "",
+        extraNumber: "",
+        quantity: "",
+        totalCost: "",
+        remarks: ""
+    };
+
+    this.part = {
+        partName: "Part1",
+        partNumber: "",
+        shortcut: "",
+        scaleFactor: "",
+        finalCalculation: {
+            materialPrice: "",
+            itemUnitPrice: "",
+            totalCostForQuantity: ""
+        },
+        keyValueCalculations: {
+            perimeter: "",
+            sheetMetalArea: "",
+            surfaceArea: "",
+            weight: ""
+        },
+        sectionCode: "",
+        material: "",
+        size: "",
+        quantity: "",
+        variable: [{}],
+        processing: [_.cloneDeep(this.processing)],
+        addons: [_.cloneDeep(this.addon)],
+        extras: [_.cloneDeep(this.extra)]
+    };
+
+    this.subAssembly = {
+        subAssemblyName: "nhjjhgjhggjgjg",
+        subAssemblyNumber: "",
+        quantity: "",
+        totalValue: "",
+        keyValueCalculations: {
+            perimeter: "",
+            sheetMetalArea: "",
+            surfaceArea: "",
+            weight: "",
+            numbers: "",
+            hours: ""
+        },
+        parts: [_.cloneDeep(this.part)],
+        processing: [_.cloneDeep(this.processing)],
+        addons: [_.cloneDeep(this.addon)],
+        extras: [_.cloneDeep(this.extra)]
+    };
+
     this.assembly = {
         enquiryId: "",
         assemblyName: "Assembly 1",
@@ -26,279 +117,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         estimateAttachment: [{
             file: ""
         }],
-        subAssemblies: [{
-            subAssemblyName: "sub assembly 1",
-            subAssemblyNumber: "AS1SA1",
-            parts: [{
-                partName: "part 111",
-                partNumber: "AS1SA1PT1",
-                shortcut: "",
-                scaleFactor: "",
-                finalCalculation: {
-                    materialPrice: "",
-                    itemUnitPrice: "",
-                    totalCostForQuantity: ""
-                },
-                keyValueCalculations: {
-                    perimeter: "",
-                    sheetMetalArea: "",
-                    surfaceArea: "",
-                    weight: ""
-                },
-                sectionCode: "",
-                material: "",
-                size: "",
-                quantity: "",
-                variable: [{}],
-                processing: [{
-                    processType: "Type AS1SA1PT1PR1",
-                    processItem: "",
-                    processingNumber: "AS1SA1PT1PR1",
-                    rate: "",
-                    quantity: {
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }],
-                addons: [{
-                    addonType: "AddonPart1",
-                    addonItem: "",
-                    addonNumber: "AS1SA1PT1AD1",
-                    rate: "",
-                    quantity: {
-                        supportingVariable: {
-                            supportingVariable: "",
-                            value: ""
-                        },
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }],
-                extras: [{
-                    extraItem: "extra AS1SA1PT1EX1",
-                    extraNumber: "AS1SA1PT1EX1",
-                    quantity: 3,
-                    totalCost: "",
-                    remarks: ""
-                }]
-            }, {
-                partName: "part 1",
-                partNumber: "AS1SA1PT2",
-                shortcut: "",
-                scaleFactor: "",
-                finalCalculation: {
-                    materialPrice: "",
-                    itemUnitPrice: "",
-                    totalCostForQuantity: ""
-                },
-                keyValueCalculations: {
-                    perimeter: "",
-                    sheetMetalArea: "",
-                    surfaceArea: "",
-                    weight: ""
-                },
-                sectionCode: "",
-                material: "",
-                size: "",
-                quantity: "",
-                variable: [{}],
-                processing: [{
-                    processType: "proType AS1SA1PT2PR1",
-                    processItem: "proItem AS1SA1PT2PR1",
-                    processingNumber: "AS1SA1PT2PR1",
-                    rate: "",
-                    quantity: {
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }, {
-                    processType: "proType AS1SA1PT2PR2",
-                    processItem: "proItem AS1SA1PT2PR2",
-                    processingNumber: "AS1SA1PT2PR2",
-                    rate: "",
-                    quantity: {
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }],
-                addons: [{
-                    addonType: "AddonType AS1SA1PT2AD1",
-                    addonItem: "addonItem AS1SA1PT2AD1",
-                    addonNumber: "AS1SA1PT2AD1",
-                    rate: "",
-                    quantity: {
-                        supportingVariable: {
-                            supportingVariable: "",
-                            value: ""
-                        },
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }, {
-                    addonType: "addonPart AS1SA1PT2AD2",
-                    addonItem: "addonItem AS1SA1PT2AD2",
-                    addonNumber: "AS1SA1PT2AD2",
-                    rate: "",
-                    quantity: {
-                        supportingVariable: {
-                            supportingVariable: "",
-                            value: ""
-                        },
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }],
-                extras: [{
-                    extraItem: "extraItem AS1SA1PT2EX1",
-                    extraNumber: "AS1SA1PT2EX1",
-                    quantity: "",
-                    totalCost: "",
-                    remarks: ""
-                }, {
-                    extraItem: "extraItem AS1SA1PT2EX2",
-                    extraNumber: "AS1SA1PT2EX2",
-                    quantity: "",
-                    totalCost: "",
-                    remarks: ""
-                }]
-            }],
-            processing: [{
-                processType: "proSub AS1SA1PR1",
-                processItem: "proItem AS1SA1PR1",
-                processingNumber: "AS1SA1PR1",
-                rate: "",
-                quantity: {
-                    keyValue: {
-                        keyVariable: "",
-                        keyValue: ""
-                    },
-                    utilization: "",
-                    contengncyOrWastage: "",
-                    total: ""
-                },
-                totalCost: "",
-                remarks: ""
-            }, {
-                processType: "proType AS1SA1PR2",
-                processItem: "proItem AS1SA1PR2",
-                processingNumber: "AS1SA1PR2",
-                rate: "",
-                quantity: {
-                    keyValue: {
-                        keyVariable: "",
-                        keyValue: ""
-                    },
-                    utilization: "",
-                    contengncyOrWastage: "",
-                    total: ""
-                },
-                totalCost: "",
-                remarks: ""
-            }],
-            addons: [{
-                addonType: "addonSub AS1SA1AD1",
-                addonItem: "addonItem AS1SA1AD1",
-                addonNumber: "AS1SA1AD1",
-                rate: "",
-                quantity: {
-                    supportingVariable: {
-                        supportingVariable: "",
-                        value: ""
-                    },
-                    keyValue: {
-                        keyVariable: "",
-                        keyValue: ""
-                    },
-                    utilization: "",
-                    contengncyOrWastage: "",
-                    total: ""
-                },
-                totalCost: "",
-                remarks: ""
-            }, {
-                addonType: "addonSub AS1SA1AD2",
-                addonItem: "addonItem AS1SA1AD2",
-                addonNumber: "AS1SA1AD2",
-                rate: "",
-                quantity: {
-                    supportingVariable: {
-                        supportingVariable: "",
-                        value: ""
-                    },
-                    keyValue: {
-                        keyVariable: "",
-                        keyValue: ""
-                    },
-                    utilization: "",
-                    contengncyOrWastage: "",
-                    total: ""
-                },
-                totalCost: "",
-                remarks: ""
-            }],
-            extras: [{
-                extraItem: "extraItem AS1SA1EX1",
-                extraNumber: "AS1SA1EX1",
-                quantity: "",
-                totalCost: "",
-                remarks: ""
-            }, {
-                extraItem: "extraItem AS1SA1EX2",
-                extraNumber: "AS1SA1EX2",
-                quantity: "",
-                totalCost: "",
-                remarks: ""
-            }]
-        }, {
-            subAssemblyName: "sub assembly ",
-            subAssemblyNumber: "AS1SA2",
-            parts: [],
-            processing: [],
-            addons: [],
-            extras: []
-        }],
+        subAssemblies: [_.cloneDeep(this.subAssembly)],
         processing: [{
             processType: "proAss AS1PR1",
             processItem: "proItem AS1PR1",
@@ -386,97 +205,6 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             totalCost: "",
             remarks: ""
         }]
-    };
-
-    this.subAssembly = {
-        subAssemblyName: "",
-        subAssemblyNumber: "",
-        quantity: "",
-        totalValue: "",
-        keyValueCalculations: {
-            perimeter: "",
-            sheetMetalArea: "",
-            surfaceArea: "",
-            weight: "",
-            numbers: "",
-            hours: ""
-        },
-        parts: [_.cloneDeep(this.part)],
-        processing: [_.cloneDeep(this.processing)],
-        addons: [_.cloneDeep(this.addon)],
-        extras: [_.cloneDeep(this.extra)]
-    };
-
-    this.part = {
-        partName: "Part1",
-        partNumber: "",
-        shortcut: "",
-        scaleFactor: "",
-        finalCalculation: {
-            materialPrice: "",
-            itemUnitPrice: "",
-            totalCostForQuantity: ""
-        },
-        keyValueCalculations: {
-            perimeter: "",
-            sheetMetalArea: "",
-            surfaceArea: "",
-            weight: ""
-        },
-        sectionCode: "",
-        material: "",
-        size: "",
-        quantity: "",
-        variable: [{}],
-        processing: [_.cloneDeep(this.processing)],
-        addons: [_.cloneDeep(this.addon)],
-        extras: [_.cloneDeep(this.extra)]
-    };
-
-    this.processing = {
-        processType: "",
-        processItem: "",
-        rate: "",
-        quantity: {
-            keyValue: {
-                keyVariable: "",
-                keyValue: ""
-            },
-            utilization: "",
-            contengncyOrWastage: "",
-            total: ""
-        },
-        totalCost: "",
-        remarks: ""
-    };
-
-    this.addon = {
-        addonType: "",
-        addonItem: "",
-        rate: "",
-        quantity: {
-            supportingVariable: {
-                supportingVariable: "",
-                value: ""
-            },
-            keyValue: {
-                keyVariable: "",
-                keyValue: ""
-            },
-            utilization: "",
-            contengncyOrWastage: "",
-            total: ""
-        },
-        totalCost: "",
-        remarks: ""
-    };
-
-    this.extra = {
-        extraItem: "",
-        extraNumber: "",
-        quantity: "",
-        totalCost: "",
-        remarks: ""
     };
 
     this.formData = {
