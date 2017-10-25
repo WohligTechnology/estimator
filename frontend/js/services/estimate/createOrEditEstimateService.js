@@ -576,7 +576,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         this.formData.assembly.subAssemblies.push(subAssObj);
         callback();
     }
-    this.deleteSubAssembly = function (callback) {        
+    this.deleteSubAssembly = function (subAssemblyId, callback) {        
         _.remove(this.assembly.subAssemblies, function(obj){
             return obj.subAssemblyNumber ==  subAssemblyId; 
         });
