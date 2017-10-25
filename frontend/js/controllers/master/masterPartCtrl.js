@@ -124,23 +124,26 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
     }
 
     //-
-    $scope.addNewPreset = function(operation, partTypeId){
+    $scope.addNewPreset = function (operation, partTypeId) {
+        debugger;
+        $scope.presetFormData = {};
+        $scope.selectedShape = {};
         masterPartService.addNewPreset(operation, partTypeId, function (data) {
             $scope.showPartView = true;
             $scope.presetFormData = data;
-            console.log('**** inside $scope.presetFormData of masterPartCtrl.js & data is ****',$scope.presetFormData);
+            console.log('**** inside $scope.presetFormData of masterPartCtrl.js & data is ****', $scope.presetFormData);
         });
     }
     //- to get/show preset view (with data in case of edit)
     //- called when click on + icon at partType (i.e. to add new preset )    &
     //- click on the preset size to edit preset 
     $scope.getPresetViewWithData = function (operation, presetData) {
-        
         $scope.showPartView = true;
-
+        presetData.shape.variable = presetData.variable;
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
+            debugger;
             $scope.presetFormData = data.presetData;
-            $scope.shapeData = data.shapeData;
+            $scope.selectedShape = data.presetData.shape;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
         });
@@ -185,26 +188,26 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         $scope.presetFormData.partFormulae = presetData.partFormulae;
 
     }
-    $scope.addOrEditPartPreset = function (presetData,partTypeId) {
+    $scope.addOrEditPartPreset = function (presetData,action) {
         // console.log('**** inside addOrEditPartPreset of masterPartCtrl.js ****',partTypeId);
-        masterPartService.addOrEditPartPreset(presetData, function(data){
+        masterPartService.addOrEditPartPreset(presetData,action, function (data) {
             $scope.operationStatus = "Record added successfully";
         });
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
     //- to hide preset view
     //- called when click on cancel button on preset view
     $scope.hidePartPresetView = function () {
         $scope.showPartView = false;
     }
-    
+
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {

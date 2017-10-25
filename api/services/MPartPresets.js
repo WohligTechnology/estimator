@@ -84,7 +84,7 @@ var model = {
     getPresetSizes: function (data, callback) {
         MPartPresets.find({
             partType: data.partType
-        }).populate('partType shape').exec(function (err, found) {
+        }).populate('partType shape').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at MPartPresets of MPartPresets.js ****', err);
                 callback(err, null);

@@ -1,5 +1,6 @@
 <div class="row">
     <div class="col-md-3">
+        <!-- tree structure -->
         <div class="tree-overflow">
             <ul class="tree">
                 <li class="mainLi">
@@ -43,12 +44,14 @@
                 </li>
             </ul>
         </div>
+        <!-- paty type sizes -->
         <div class="mar-t" ng-if="showPartTypeSize">
             <label>
                 <b>Sizes</b>
             </label>
             <p ng-repeat="s in partTypeSizes" ng-click="getPresetViewWithData('update',s)">{{s.size}}</p>
         </div>
+        <!-- paty type materials -->
         <div class="mar-t" ng-if="showPartTypeMaterial">
             <div class="portlet-title">
                 <div class="caption">
@@ -116,6 +119,8 @@
             </div>
         </div>
     </div>
+
+    <!-- preset add or edit form -->
     <div class="col-md-9 ">
         <div ng-if="showPartView" class="part-tables">
             <div class="portlet light portlet-fit bordered">
@@ -130,7 +135,7 @@
                         <div class="col-md-6 text-right">
                             <div class="caption">
                                 <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartPreset(presetFormData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData)">Save as new</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData, 'saveAsNew')">Save as new</button>
                                 <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="hidePartPresetView()">Cancel</button>
                             </div>
@@ -144,12 +149,12 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Shape :</label>
                                     <div class="col-md-2">
-                                        <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)">
+                                        <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)" ng-disabled="selectedShape">
                                         </select>
                                     </div>
                                     <label class="col-md-2 control-label">Part Type Code :</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" ng-model="presetFormData.partTypeData.partTypeCode" required>
+                                        <input type="text" class="form-control" ng-disabled="presetFormData.partTypeData.partTypeCode" ng-model="presetFormData.partTypeData.partTypeCode" required>
                                     </div>
                                     <label class="col-md-2 control-label">Preset Size :</label>
                                     <div class="col-md-2">
