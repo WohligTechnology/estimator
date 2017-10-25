@@ -8,7 +8,11 @@ var schema = new Schema({
         type: String,
         required: true
     },
-    
+    extraNumber: {
+        type: String,
+        unique: true,        
+        required: true
+    },
     extraItem: {
         type: Schema.Types.ObjectId,
         ref: "MExtra",

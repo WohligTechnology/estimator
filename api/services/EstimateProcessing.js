@@ -8,7 +8,11 @@ var schema = new Schema({
         type: String,
         required: true
     },
-    
+    processingNumber: {
+        type: String,
+        unique: true,        
+        required: true
+    },
     estimateCreatedUser: {
         type: Schema.Types.ObjectId,
         ref: "User",

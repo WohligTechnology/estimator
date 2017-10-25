@@ -8,6 +8,12 @@ var schema = new Schema({
         type: String,
         required: true
     },
+    addonNumber: {
+        type: String,
+        unique: true,        
+        required: true
+    },
+
     
     addonType: {
         type: Schema.Types.ObjectId,
