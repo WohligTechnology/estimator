@@ -1,8 +1,8 @@
 var schema = new Schema({
-    // enquiryName: {
-    //     type: String,
-    //     required: true
-    // },
+    enquiryName: {
+        type: String,
+        required: true
+    },
     enquiryId: {
         type: String, // auto geneatated with suffix
         required: true
@@ -13,11 +13,11 @@ var schema = new Schema({
         required: true
     },
     enquiryDetails: {
-        // enquiryStatus: {
-        //     type: String,
-        //     enum: ['open', 'close', 'hold'],
-        //     default: "open"
-        // },
+        enquiryStatus: {
+            type: String,
+            enum: ['open', 'close', 'hold'],
+            default: "open"
+        },
         // customerName:String                 // get it from customer collection
         // customerLocation:String             // get it from customer collection
 

@@ -12,11 +12,9 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
           callback(customers);
         });
       }
-    this.createDetail = function (detailData) {    
-        NavigationService.apiCall('Enquiry/save', detailData, function (data) {
-            var enquiryData = data.data.results;
-            console.log('**** enquiryData ****',enquiryData);
-            
+    this.createEnquiry = function (enquiryData, callback) {    
+        NavigationService.apiCall('Enquiry/save', enquiryData, function (data) {
+          callback(data.data);
         });
       }
 });    

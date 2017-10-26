@@ -1,32 +1,23 @@
 
-myApp.controller('createOrEditEnquiryCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal, createOrEditEnquiryService) {
+myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $scope, $http,createOrEditEnquiryService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
-    $scope.$parent.isSidebarActive = false;
-    $scope.formData; 
 
     // *************************** default functions begin here  ********************** //
-    $scope.getCustomerData = function () {
-        createOrEditEnquiryService.getCustomerData(function (data) {
-          $scope.customerData = data;
-        });
-      }
     
-    
-
-
-
     // *************************** functions to be triggered form view begin here ***** //    
-    $scope.addDetails = function(formData,selectedCustomer){
-        console.log('**** formData ****',formData);
-        formData.customerId = selectedCustomer._id;
-        createOrEditEnquiryService.createDetail(formData);
+ 
+    $scope.$parent.isSidebarActive = false;
+    if(angular.isDefined($stateParams.enquiryId)){
     }
 
-    $scope.init = function () {
-        $scope.getCustomerData();
-      }
-        $scope.init();
+   $scope.addEnquiryData = function(formData){
+      console.log('**** inside function_name of createOrEditEnquiry00000000000000000Ctrl.js ****', formData);  
+      createOrEditEnquiryService.createEnquiry(formData, function(data){
+
+        });
+    }
+
 
 });

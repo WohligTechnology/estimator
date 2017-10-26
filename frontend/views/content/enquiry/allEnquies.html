@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ui-sref="app.createEnquiry"> <i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green"  ng-click="addEnquiryModal()"><i class="fa fa-plus"></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -90,31 +90,35 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="table in tableData">
+                        <tr ng-repeat="t in tableData">
                             <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
-                            <td>{{table.id}} </td>
-                            <td>{{table.name}} </td>
-                            <td>{{table.dname}} </td>
-                            <td class="center"> {{table.dname}} </td>
+                            <td>{{t._id}} </td>
+                            <td>{{t.customerId}} </td>
                             <td>
-                                <a class="edit" href="javascript:;"> Edit </a>
+                                <input type="checkbox" id="c1" value=""/>                                    
                             </td>
                             <td>
-                                <a class="delete" href=":;"> Delete </a>
+                                <input type="checkbox" id="c2" value="" />                                    
                             </td>
                             <td>
-                                <a class="delete" href=":;"> Delete </a>
+                                <input type="checkbox" id="c3" value="" />                                    
                             </td>
                             <td>
-                                <a class="delete" href=":;"> Delete </a>
+                                <input type="checkbox" id="c4" value="" />                                    
                             </td>
                             <td>
-                                <a class="delete" href=":;"> Delete </a>
+                                <input type="checkbox" id="c5" value="" />                                    
+                            </td>
+                            <td>
+                                <input type="checkbox" id="c6" value=""/>                                    
+                            </td>
+                            <td>
+                                <input type="checkbox" id="c7" value="" />                                    
                             </td>
                             <td>
                                 <!--<a class="" ng-click="edit();"> <span class="label label-sm label-info"><i class="fa fa-eye"></i></span></a>-->
-                                <a class="action edit-btn" ng-click="editEnqury()"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                <a class="action edit-btn" ui-sref="app.editEnquiry({enquiryId:t._id})"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
                                 <a class="edit-btn" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
                                 <!--<a class="" ui-sref="app.estimate"> <span class="label label-sm label-warning"> Estimate </span></a>-->
                             </td>
