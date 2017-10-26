@@ -115,10 +115,14 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
 
 
     //- to show preset sizes after click on partType name
+    //- to show partTYpe materials click on partType name
     $scope.getPartTypeSizes = function (partTypeId) {
+        $scope.partTypeId = partTypeId;
         masterPartService.getPartTypeSizes(partTypeId, function (data) {
-            $scope.partTypeSizes = data;
+            $scope.partTypeSizes = data.partSizes;
+            $scope.partTypeMaterials = data.materials;
             $scope.showPartTypeSize = true;
+            $scope.showPartTypeMaterial = true;
         });
 
     }
@@ -188,11 +192,36 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         $scope.presetFormData.partFormulae = presetData.partFormulae;
 
     }
-    $scope.addOrEditPartPreset = function (presetData,action) {
+    $scope.addOrEditPartPreset = function (presetData, action) {
         // console.log('**** inside addOrEditPartPreset of masterPartCtrl.js ****',partTypeId);
-        masterPartService.addOrEditPartPreset(presetData,action, function (data) {
+        masterPartService.addOrEditPartPreset(presetData, action, function (data) {
             $scope.operationStatus = "Record added successfully";
         });
+    }
+
+    //- to add material to partType 
+    $scope.getMaterialData = function (partTypeId) {
+        $scope.partTypeId = partTypeId;
+        masterPartService.getMaterialData(function (data) {
+            // $scope.matCatData = data.materialCats;
+            // $scope.matSubCatData = data.materialSubCats;
+            $scope.matData = data.materials;
+
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/master/part/addMaterialToPartType.html',
+                scope: $scope,
+                size: 'md',
+            });
+        });
+    };
+
+    $scope.addMaterialToPartType = function (selectedMatId,partTypeId) {
+        masterPartService.addMaterialToPartType(selectedMatId,partTypeId, function (data) {
+            $scope.successMessage = "material added to the partType successfully...";
+            $scope.getPartTypeSizes(data._id);
+        });
+
     }
 
 
@@ -335,16 +364,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         });
     };
     //end of modal
-    //AddMaterial modal start
-    $scope.addMaterial = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/part/addMaterialToPartType.html',
-            scope: $scope,
-            size: 'md',
-        });
-    };
-    //end of modal
+
     //veriables 
     $scope.checkBox = [
 

@@ -39,26 +39,6 @@ var schema = new Schema({
     wastage:{
         type:String
     },
-    // proccessing: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'MProcessType',
-    //     index:true
-    // }],
-    // addons: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'MAddonType',
-    //     index:true
-    // }],
-    // extras: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'MExtra',
-    //     index:true
-    // }],
-    // material: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'MMaterial',
-    //     index:true
-    // }],
     partFormulae: {
         perimeter: String,
         sheetMetalArea: String,

@@ -30,21 +30,20 @@ module.exports = mongoose.model('EstimateExtras', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
-    // what this function will do ?
-    // req data --> ?
     importExtra: function (data, callback) {
-        EstimateExtras.find(
-            {
-                extraNumber:data.extraNumber
-            }
-        ).exec(function (err, found) {
+        EstimateExtras.findOne({
+            extraNumber: data.extraNumber
+        }).lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of EstimateExtras.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
-                callback(null, found);
+                Estimate.removeUnwantedField(found, function (finalData) {
+                    callback(null, found);
+
+                })
             }
         });
     },

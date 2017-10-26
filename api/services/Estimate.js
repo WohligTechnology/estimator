@@ -86,38 +86,6 @@ var model = {
         callback(data)
     },
 
-    removePAEFields: function (data, callback) {
-        removeUnwantedField(data);
-        async.eachSeries(data.proccessing, function (pro, callback) {
-            removeUnwantedField(pro);
-            callback();
-        }, function (err) {
-            if (err) {
-                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-            } else {
-                async.eachSeries(data.addons, function (add, callback) {
-                    removeUnwantedField(add);
-                    callback();
-                }, function (err) {
-                    if (err) {
-                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                    } else {
-                        async.eachSeries(data.extras, function (ext, callback) {
-                            removeUnwantedField(ext);
-                            callback();
-                        }, function (err) {
-                            if (err) {
-                                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                            } else {
-                                callback(data);
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    },
-
     // import assembly by passing assembly number
     importAssembly: function (data, callback) {
         Estimate.findOne({
@@ -130,21 +98,21 @@ var model = {
                 } else if (_.isEmpty(found)) {
                     callback(null, 'noDataFound');
                 } else {
-
                     delete found._id;
                     delete found.createdAt;
                     delete found.updatedAt;
                     delete found.__v;
 
-                    console.log('**** inside success of find of Estimate.js ****',found);
+                    console.log('**** inside success of find of Estimate.js ****', found);
 
                     async.eachSeries(found.subAssemblies, function (subAss, callback) {
                         delete subAss._id;
                         delete subAss.createdAt;
                         delete subAss.updatedAt;
                         delete subAss.__v;
+                        console.log('**** inside success of subAss of Estimate.js ****', subAss);
 
-                        async.waterfall([
+                        async.parallel([
                             function (callback) {
                                 async.eachSeries(subAss.proccessing, function (subAssPro, callback) {
                                     delete subAssPro._id;
@@ -196,27 +164,27 @@ var model = {
                                     }
                                 });
                             },
-                          
+
                         ], function () {
                             if (err) {
-                                console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
+                                console.log('***** error at final response of async.parallel in function_name of Components.js *****', err);
                             } else {
                                 async.eachSeries(subAss.subAssemblyParts, function (part, callback) {
                                     delete part._id;
                                     delete part.createdAt;
                                     delete part.updatedAt;
                                     delete part.__v;
-        
-                                    async.waterfall([
+
+                                    async.parallel([
                                         function (callback) {
                                             async.eachSeries(part.proccessing, function (partPro, callback) {
                                                 delete partPro._id;
                                                 delete partPro.createdAt;
                                                 delete partPro.updatedAt;
                                                 delete partPro.__v;
-        
+
                                                 callback();
-        
+
                                             }, function (err) {
                                                 if (err) {
                                                     console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -231,9 +199,9 @@ var model = {
                                                 delete partAdd.createdAt;
                                                 delete partAdd.updatedAt;
                                                 delete partAdd.__v;
-        
+
                                                 callback();
-        
+
                                             }, function (err) {
                                                 if (err) {
                                                     console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -248,9 +216,9 @@ var model = {
                                                 delete partExt.createdAt;
                                                 delete partExt.updatedAt;
                                                 delete partExt.__v;
-        
+
                                                 callback();
-        
+
                                             }, function (err) {
                                                 if (err) {
                                                     console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -259,15 +227,15 @@ var model = {
                                                 }
                                             });
                                         },
-                                      
+
                                     ], function () {
                                         if (err) {
-                                            console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
+                                            console.log('***** error at final response of async.parallel all in function_name of Components.js *****', err);
                                         } else {
                                             callback();
                                         }
                                     });
-        
+
                                 }, function (err) {
                                     if (err) {
                                         console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -277,23 +245,21 @@ var model = {
                                 });
                             }
                         });
-
-
-
+                        
                     }, function (err) {
                         if (err) {
                             console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
                         } else {
-                            async.waterfall([
+                            async.parallel([
                                 function (callback) {
                                     async.eachSeries(found.proccessing, function (assPro, callback) {
                                         delete assPro._id;
                                         delete assPro.createdAt;
                                         delete assPro.updatedAt;
                                         delete assPro.__v;
-        
+
                                         callback();
-        
+
                                     }, function (err) {
                                         if (err) {
                                             console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -308,9 +274,9 @@ var model = {
                                         delete assAdd.createdAt;
                                         delete assAdd.updatedAt;
                                         delete assAdd.__v;
-        
+
                                         callback();
-        
+
                                     }, function (err) {
                                         if (err) {
                                             console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -325,9 +291,9 @@ var model = {
                                         delete assExt.createdAt;
                                         delete assExt.updatedAt;
                                         delete assExt.__v;
-        
+
                                         callback();
-        
+
                                     }, function (err) {
                                         if (err) {
                                             console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -336,10 +302,10 @@ var model = {
                                         }
                                     });
                                 },
-                              
+
                             ], function () {
                                 if (err) {
-                                    console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
+                                    console.log('***** error at final response of async.parallel in function_name of Components.js *****', err);
                                 } else {
                                     callback(null, found);
                                 }
