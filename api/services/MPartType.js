@@ -17,22 +17,22 @@ var schema = new Schema({
     proccessing: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MProcessType',
-        index:true
+        index: true
     }],
     addons: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MAddonType',
-        index:true
+        index: true
     }],
     extras: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MExtra',
-        index:true
+        index: true
     }],
     material: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MMaterial',
-        index:true
+        index: true
     }],
 });
 
@@ -42,5 +42,26 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('MPartType', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'partTypeCat material', 'partTypeCat material'));
-var model = {};
+var model = {
+
+    addMaterialToPartType: function (data, callback) {
+        MPartType.findOneAndUpdate({
+            _id: data._id,
+        }, {
+            $push: {
+                material: data.materialId
+            },
+        }).exec(function (err, updatedData) {
+            if (err) {
+                console.log('**** error at function_name of MPartType.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(updatedData)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, updatedData);
+            }
+        });
+
+    },
+};
 module.exports = _.assign(module.exports, exports, model);
