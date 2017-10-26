@@ -18,8 +18,9 @@ myApp.controller('createOrEditEnquiryCtrl', function ($rootScope, $scope, $http,
 
 
     // *************************** functions to be triggered form view begin here ***** //    
-    $scope.addDetails = function(formData){
+    $scope.addDetails = function(formData,selectedCustomer){
         console.log('**** formData ****',formData);
+        formData.customerId = selectedCustomer._id;
         createOrEditEnquiryService.createDetail(formData);
     }
 

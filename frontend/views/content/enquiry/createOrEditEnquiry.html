@@ -59,14 +59,14 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Name:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control" ng-model="formData.customerName">
-                                                            <option ng-repeat="c in customerData">{{c.customerName}}</option> 
+                                                        <select class="form-control" ng-options="c.customerName for c in customerData track by c._id" ng-model="selectedCustomer">
+                                                           
                                                         </select>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Contact:</label>
                                                     <div class="col-md-3">
-                                                        <input type="tel" class="form-control" id="form_control_1" ng-model="">
+                                                        <input type="number" class="form-control" id="form_control_1">
                                                         <div class="form-control-focus"></div>
                                                     </div>
                                                 </div>
@@ -168,7 +168,7 @@
                                                         <option> FirmRfq</option>
                                                         <option>Budgetary</option>
                                                         <option>Verbal</option>
-                                                        <option>Other</option>
+                                                        <option >Other</option>
                                                      </select>
                                                     </div>
                                                 </div>
@@ -176,7 +176,7 @@
                                             <div class="form-actions">
                                                 <div class="row">
                                                     <div class=" col-md-12 text-center">
-                                                        <button type="button" class="btn blue"  ng-click="addDetails(formData)">Submit</button>
+                                                        <button type="button" class="btn blue"  ng-click="addDetails(formData,selectedCustomer)">Submit1</button>
                                                     </div>
                                                 </div>
                                             </div>
