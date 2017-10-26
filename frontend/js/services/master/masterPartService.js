@@ -138,8 +138,17 @@ myApp.service('masterPartService', function (NavigationService) {
         var partTypeObj = {
             partType: partTypeId
         }
+        var partTypeDataObj = {};
+
         NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
-            callback(data.data);
+            partTypeDataObj.partSizes = data.data;
+            NavigationService.apiCall('MPartType/getOne', {
+                _id: partTypeId
+            }, function (matData) {
+                partTypeDataObj.materials = matData.data.material;
+                console.log('**** 222222222222222222 ****', partTypeDataObj.materials);
+                callback(partTypeDataObj);
+            });
         });
 
     }
@@ -181,12 +190,31 @@ myApp.service('masterPartService', function (NavigationService) {
             delete presetData.createdAt;
             delete presetData.updatedAt;
             delete presetData.$$hashKey;
-            console.log('**** inside -------------------------- of masterPartService.js ****',presetData);
+            console.log('**** inside -------------------------- of masterPartService.js ****', presetData);
         }
         presetData.partType = presetData.partTypeData.partTypeId;
         NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
             callback(data);
         });
     }
+
+    this.getMaterialData = function (callback) {
+        var getMatData = {};
+        NavigationService.boxCall('MMaterial/getAllMaterials', function (data) {
+            getMatData.materials = data.data;
+            callback(getMatData);
+        })
+    }
+    this.addMaterialToPartType = function (selectedMatId, partTypeId, callback) {
+        var tempObj = {
+            materialId:selectedMatId,
+            _id:partTypeId
+        }
+
+        NavigationService.apiCall('MPartType/addMaterialToPartType', tempObj, function (data) {
+            callback(data.data);
+        });
+    }
+
 
 });
