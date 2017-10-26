@@ -51,16 +51,18 @@ module.exports = mongoose.model('EstimateAddons', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
     importAddon: function (data, callback) {
-        EstimateAddons.find({
-            addonNumber:data.addonNumber
-        }).exec(function (err, found) {
+        EstimateAddons.findOne({
+            addonNumber: data.addonNumber
+        }).lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at importAddon of EstimateAddons.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
-                callback(null, found);
+                Estimate.removeUnwantedField(found, function (finalData) {
+                    callback(null, finalData);
+                });
             }
         });
     },
