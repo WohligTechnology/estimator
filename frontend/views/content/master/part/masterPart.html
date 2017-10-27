@@ -111,7 +111,7 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Shape :</label>
                                     <div class="col-md-2">
-                                        <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)" ng-disabled="selectedShape">
+                                        <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)" ng-disabled="disableShape">
                                         </select>
                                     </div>
                                     <label class="col-md-2 control-label">Part Type Code :</label>

@@ -15,42 +15,41 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Addon Type Name:</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " placeholder="" autofocus>
+                                <input type="text" class="form-control" ng-model="formData.addonTypeName" placeholder="" autofocus>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label"> Material Category:</label>
                             <div class="col-md-3">
-                                <select ng-model="selectedMatCat" class="form-control select_tag_dashboard" ng-options="x.name for x in AllStates track by x._id "
-                                    ng-change="selectedMatCat===null ? '' : getAllDashboardData(selectedMatCat, $event)">
+                                <select class="form-control select_tag_dashboard" ng-model="selectedMatCat" ng-options="mc.materialCatName for mc in mMatCatData track by mc._id " ng-change="getMatSubCat(selectedMatCat._id)">
                                 </select>
                             </div>
                             <label class="col-md-2 control-label"> Material SubCategory:</label>
                             <div class="col-md-3">
-                                <select ng-model="selectedMatSubCat" class="form-control select_tag_dashboard" ng-options="x.name for x in AllStates track by x._id "
-                                    ng-change="selectedMatSubCat===null ? '' : getAllDashboardData(selectedMatSubCat, $event)">
+                                <select ng-model="selectedMatSubCat" class="form-control select_tag_dashboard" ng-options="msc.materialSubCatName for msc in selectedMatCat.subCat track by msc._id ">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label"><b>Rate -</b></label>
+                            <label class="col-md-2 control-label">
+                                <b>Rate -</b>
+                            </label>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Multiplication Factor</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " placeholder="">
+                                <input type="text" class="form-control" ng-model="formData.rate.mulFact" placeholder="">
                             </div>
                             <label class="col-md-2 control-label"> UOM</label>
                             <div class="col-md-3">
-                                <select class="form-control">
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
+                                <select ng-model="selectedRateUom" class="form-control select_tag_dashboard" ng-options="u.uomName for u in mUomData track by u._id">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label"><b>Quantity -</b></label>
+                            <label class="col-md-2 control-label">
+                                <b>Quantity -</b>
+                            </label>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label"> Additional Input</label>
@@ -59,10 +58,7 @@
                             </div>
                             <label class="col-md-2 control-label">UOM</label>
                             <div class="col-md-3">
-                                <select class="form-control">
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
+                                <select ng-model="selectedAdditionalUom" class="form-control select_tag_dashboard" ng-options="u.uomName for u in mUomData track by u._id">
                                 </select>
                             </div>
                         </div>
@@ -77,10 +73,7 @@
                             </div>
                             <label class="col-md-2 control-label">UOM</label>
                             <div class="col-md-3">
-                                <select class="form-control">
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
+                                <select ng-model="selectedKinkedKeyUom" class="form-control select_tag_dashboard" ng-options="u.uomName for u in mUomData track by u._id">
                                 </select>
                             </div>
                         </div>
@@ -91,10 +84,7 @@
                             </div>
                             <label class="col-md-2 control-label">Final UOM</label>
                             <div class="col-md-3">
-                                <select class="form-control">
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
+                                <select ng-model="selectedFinalUom" class="form-control select_tag_dashboard" ng-options="u.uomName for u in mUomData track by u._id">
                                 </select>
                             </div>
                         </div>
@@ -110,9 +100,9 @@
                 <div class="row">
                     <div class=" col-md-12">
                         <div class="mar-bottom">
-                            <a href="javascript:;" class="btn green">Save</a>
-                            <a href="javascript:;" class="btn green">Update</a>
-                            <a href="javascript:;" class="btn default">Cancel</a>
+                            <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditAddonType(formData,selectedMatCat._id,selectedMatSubCat._id,selectedRateUom,selectedAdditionalUom._id,selectedKinkedKeyUom._id,selectedFinalUom._id)">Save</button>
+                            <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditAddonType(formData,selectedMatCat._id,selectedMatSubCat._id,selectedRateUom,selectedAdditionalUom._id,selectedKinkedKeyUom._id,selectedFinalUom._id)">Update</button>
+                            <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                         </div>
                     </div>
                 </div>

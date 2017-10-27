@@ -5,13 +5,14 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
     $scope.$parent.isSidebarActive = true;
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
+    $scope.mMatSubCatData = [];
     var addonTypeSelectedData = {
-        addonTypeCat:"",
-        addonTypeSubCat:"",
-        addonTypeRateMulUom:"",
-        addonTypeQualAddInputUom:"",
-        addonTypeQualKeyValueUom:"",
-        addonTypeQualFinalUom:""
+        addonTypeCat: "",
+        addonTypeSubCat: "",
+        addonTypeRateMulUom: "",
+        addonTypeQualAddInputUom: "",
+        addonTypeQualKeyValueUom: "",
+        addonTypeQualFinalUom: ""
     };
 
     // *************************** default functions begin here  ********************** //
@@ -22,47 +23,88 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
     }
 
     // *************************** functions to be triggered form view begin here ***** //
-    $scope.addOrEditAddonTypeModal = function (operation, addonType) {
-        masterAddonService.getAddonTypeModalData(function (data) {
-            $scope.formData = data.addonTypes;
+    $scope.addOrEditAddonTypeModal = function (operation, addonType,) {
+        console.log('**** inside function_name of masterAddonCtrl.js ****',addonType);
+        masterAddonService.getAddonTypeModalData(operation, addonType, function (data) {
+            $scope.formData = data.addonTypeData;
+            $scope.mMatCatData = data.mMatData;
+            $scope.mUomData = data.mUomData;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: 'views/content/master/material/createOrEditMaterialCat.html',
+                templateUrl: 'views/content/master/addon/createOrEditAddonType.html',
                 scope: $scope,
-                size: 'md'
+                size: 'lg',
             });
         });
     }
-    $scope.addOrEditMaterialCat = function (addonTypeData,) {
 
+    $scope.addOrEditAddonType = function (addonTypeData,selectedMatCatId,selectedMatSubCatId,selectedRateUomId,selectedAdditionalUomId,selectedKinkedKeyUomId,selectedFinalUomId) {
+        console.log('**** inside addonTypeData of masterAddonCtrl.js ****',addonTypeData);
+        console.log('**** inside selectedMatCatId of masterAddonCtrl.js ****',selectedMatCatId);
+        console.log('**** inside selectedMatSubCatId of masterAddonCtrl.js ****',selectedMatSubCatId);
+        console.log('**** inside selectedRateUomId of masterAddonCtrl.js ****',selectedRateUomId);
+        console.log('**** inside selectedAdditionalUomId of masterAddonCtrl.js ****',selectedAdditionalUomId);
+        console.log('**** inside selectedKinkedKeyUomId of masterAddonCtrl.js ****',selectedKinkedKeyUomId);
+        console.log('**** inside selectedFinalUomId of masterAddonCtrl.js ****',selectedFinalUomId);
+        
+        // masterAddonService.addOrEditAddonType(addonTypeData,);
     }
-    $scope.deleteMaterialCatModal = function (addonId,getFunction) {
+    $scope.deleteAddonTypeModal = function (addonId, getFunction) { }
+    $scope.deleteAddonType = function (addonId) {}
 
-    }
-    $scope.deleteMaterialCat = function (addonId) {
 
-    }
 
     //- to push changed value in 
-    $scope.valueChanged = function(){
-        
+    $scope.valueChanged = function () {
+
     }
-
-
-
 
 
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
     $scope.init = function () {
-        // to get addon Data
         $scope.getAddonData();
     }
     $scope.init();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

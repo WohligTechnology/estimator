@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ng-click="addon();"> <i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditAddonTypeModal('save',undefined)"> <i class="fa fa-plus"></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -121,7 +121,7 @@
                                     <td>{{addon.quantity.mulFact}}</td>
                                     <td>{{addon.remarks}}</td>
                                     <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
+                                        <a class="action" ng-click="addOrEditAddonTypeModal('update',addon)"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
                                         <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
                                     </td>
                                 </tr>
