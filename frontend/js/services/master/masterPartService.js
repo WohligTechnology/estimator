@@ -141,19 +141,20 @@ myApp.service('masterPartService', function (NavigationService) {
         var partTypeDataObj = {};
 
         NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
-            partTypeDataObj.partSizes = data.data;
+            if(data.data){
+                partTypeDataObj.partSizes = data.data;
+            }
+            
             NavigationService.apiCall('MPartType/getOne', {
                 _id: partTypeId
             }, function (matData) {
                 partTypeDataObj.materials = matData.data.material;
-                console.log('**** 222222222222222222 ****', partTypeDataObj.materials);
                 callback(partTypeDataObj);
             });
         });
 
     }
     this.getPresetViewWithData = function (operation, presetData, callback) {
-        debugger;
         var partPresetObj = {
             presetData: {}
         };
@@ -207,14 +208,24 @@ myApp.service('masterPartService', function (NavigationService) {
     }
     this.addMaterialToPartType = function (selectedMatId, partTypeId, callback) {
         var tempObj = {
-            materialId:selectedMatId,
-            _id:partTypeId
+            materialId: selectedMatId,
+            _id: partTypeId
         }
 
-        NavigationService.apiCall('MPartType/addMaterialToPartType', tempObj, function (data) {
+        NavigationService.apiCall('MPartType/addPartTypeMaterial', tempObj, function (data) {
             callback(data.data);
+        });
+    }
+    this.deletePartTypeMaterial = function (materialId, partTypeId, callback) {
+        NavigationService.apiCall('MPartType/deletePartTypeMaterial', {
+            materialId: materialId,
+            _id: partTypeId
+        }, function (data) {
+            callback(data);
         });
     }
 
 
+
+    
 });

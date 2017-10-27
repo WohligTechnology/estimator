@@ -69,7 +69,7 @@ var model = {
                 console.log('**** error at MPartPresets of MPartPresets.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
-                callback(null, 'noDataFound');
+                callback(null, []);
             } else {
                 callback(null, found);
             }
@@ -86,7 +86,7 @@ var model = {
                     console.log('**** error at function_name of MPartPresets.js ****', err);
                     callback(err, null);
                 } else if (_.isEmpty(found)) {
-                    callback(null, 'noDataFound');
+                    callback(null, []);
                 } else {
                     callback(null, found);
                 }
