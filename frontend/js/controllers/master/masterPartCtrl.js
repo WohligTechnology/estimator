@@ -221,12 +221,29 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
             $scope.successMessage = "material added to the partType successfully...";
             $scope.getPartTypeSizes(data._id);
         });
-
     }
 
+    $scope.deletePartTypeMaterialModal = function (partTypeId, materialId, getFunction) {
+        $scope.idToDelete = materialId;
+        $scope.functionToCall = getFunction;
+        $scope.partTypeId = partTypeId;
 
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/deleteItem.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
 
-
+    $scope.deletePartTypeMaterial = function (materialId,partTypeId) {
+        console.log('**** inside materialId of masterPartCtrl.js ****',materialId);
+        console.log('**** inside partTypeId of masterPartCtrl.js ****',partTypeId);
+        masterMaterialService.deletePartTypeMaterial(materialId,partTypeId, function (data) {
+            $scope.operationStatus = "Record deleted successfully";
+            $scope.cancelModal();
+        });
+    }
 
 
 

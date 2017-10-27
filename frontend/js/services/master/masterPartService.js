@@ -207,14 +207,22 @@ myApp.service('masterPartService', function (NavigationService) {
     }
     this.addMaterialToPartType = function (selectedMatId, partTypeId, callback) {
         var tempObj = {
-            materialId:selectedMatId,
-            _id:partTypeId
+            materialId: selectedMatId,
+            _id: partTypeId
         }
 
         NavigationService.apiCall('MPartType/addMaterialToPartType', tempObj, function (data) {
             callback(data.data);
         });
     }
+    this.deletePartTypeMaterial = function (materialId, partTypeId, callback) {
+        NavigationService.apiCall('MPartType/deletePartTypeMaterial', {
+            materialId: materialId,
+            _id: partTypeId
+        }, function (data) {
+            callback(data);
+        });
+    }
 
-
+    
 });
