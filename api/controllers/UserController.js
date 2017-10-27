@@ -123,9 +123,45 @@ var controller = {
             })
         }
     },
-    resetPassword: function (req, res) {
+    changePassword: function (req, res) {
         if (req.body) {
             // please remove Controller.js from below line
+            User.resetPassword(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    sendForgetPasswordOtp: function (req, res) {
+        if (req.body) {
+            User.sendForgetPasswordOtp(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    confirmForgotPasswordOtp: function (req, res) {
+        if (req.body) {
+            User.confirmForgotPasswordOtp(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    resetPassword: function (req, res) {
+        if (req.body) {
             User.resetPassword(req.body, res.callback);
         } else {
             res.json({
