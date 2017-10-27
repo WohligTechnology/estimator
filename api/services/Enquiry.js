@@ -1,16 +1,16 @@
 var schema = new Schema({
     enquiryName: {
         type: String,
-        required: true
+       // required: true
     },
     enquiryId: {
         type: String, // auto geneatated with suffix
-        required: true
+        //required: true
     },
     customerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'customer',
-        required: true
+        //required: true
     },
     enquiryDetails: {
         enquiryStatus: {

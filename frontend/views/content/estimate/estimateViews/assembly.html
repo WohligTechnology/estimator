@@ -25,7 +25,7 @@
                             <div class="portlet-input input-small input-inline">
                                 <div class="input-icon right">
                                     <i class="icon-magnifier"></i>
-                                    <input type="text" class="form-control form-control-solid" placeholder="search...">
+                                    <input type="text" class="form-control form-control-solid" ng-model="search" placeholder="search...">
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="p in estimteData.subAssemblies">
+                                <tr ng-repeat="p in estimteData.subAssemblies | filter : search">
                                     <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td> 1 </td>
