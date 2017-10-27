@@ -64,7 +64,7 @@
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
                                         <i class="icon-magnifier"></i>
-                                        <input type="text" class="form-control form-control-solid" placeholder="search...">
+                                        <input type="text" class="form-control form-control-solid" ng-model="search.name" placeholder="search...">
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="user in userData">
+                        <tr ng-repeat="user in userData | filter : search">
                             <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                             <td>{{$index+1}} </td>

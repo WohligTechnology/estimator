@@ -12,12 +12,12 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green"  ng-click="addEnquiryModal()"><i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ui-sref="app.createEnquiry"><i class="fa fa-plus"></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
                         <div class="btn-group pull-right">
-                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools<i class="fa fa-angle-down"></i></button>
                             <ul class="dropdown-menu pull-right">
                                 <li>
                                     <a href="javascript:;"> Save as PDF </a>
@@ -64,7 +64,8 @@
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
                                         <i class="icon-magnifier"></i>
-                                        <input type="text" class="form-control form-control-solid" placeholder="search...">                                        </div>
+                                        <input type="text" class="form-control form-control-solid" ng-model="search._id" placeholder="search...">                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +79,7 @@
                                <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label>
                             </th>
                             <th> Id </th>
-                            <th> Name </th>
+                            <th> Customer ID </th>
                             <th> Details </th>
                             <th> Info </th>
                             <th> Key Requirements </th>
@@ -86,40 +87,40 @@
                             <th> Commercial Requirements </th>
                             <th> Pre Qualification Criteria </th>
                             <th> Markup </th>
-                            <th>Action</th>
+                            <th> Action </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="t in tableData">
+                        <tr ng-repeat="t in tableData | filter : search">
                             <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                           <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                             <td>{{t._id}} </td>
                             <td>{{t.customerId}} </td>
                             <td>
-                                <input type="checkbox" id="c1" value=""/>                                    
+                                <input type="checkbox" id="c1" value="" ng-checked="detailsActive"/>                                    
                             </td>
                             <td>
-                                <input type="checkbox" id="c2" value="" />                                    
+                                <input type="checkbox" id="c2" value="" ng-checked="infoActive" />                                    
                             </td>
                             <td>
-                                <input type="checkbox" id="c3" value="" />                                    
+                                <input type="checkbox" id="c3" value="" ng-checked="keyReqActive" />                                    
                             </td>
                             <td>
-                                <input type="checkbox" id="c4" value="" />                                    
+                                <input type="checkbox" id="c4" value="" ng-checked="techReqsActive" />                                    
                             </td>
                             <td>
-                                <input type="checkbox" id="c5" value="" />                                    
+                                <input type="checkbox" id="c5" value="" ng-checked="CommReqActive" />                                    
                             </td>
                             <td>
-                                <input type="checkbox" id="c6" value=""/>                                    
+                                <input type="checkbox" id="c6" value="" ng-checked="PreQuaCriteriaActive" />                                    
                             </td>
                             <td>
-                                <input type="checkbox" id="c7" value="" />                                    
+                                <input type="checkbox" id="c7" value="" ng-checked="" />                                    
                             </td>
                             <td>
                                 <!--<a class="" ng-click="edit();"> <span class="label label-sm label-info"><i class="fa fa-eye"></i></span></a>-->
                                 <a class="action edit-btn" ui-sref="app.editEnquiry({enquiryId:t._id})"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                <a class="edit-btn" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                <a class="edit-btn" ng-click="deleteEnquiryModal(t._id, 'deleteEnquiry')"> <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span></a>
                                 <!--<a class="" ui-sref="app.estimate"> <span class="label label-sm label-warning"> Estimate </span></a>-->
                             </td>
                         </tr>
