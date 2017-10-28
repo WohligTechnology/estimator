@@ -879,8 +879,10 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         });
 
-    $urlRouterProvider.otherwise("/app");
-    $locationProvider.html5Mode(isproduction);
+    // $urlRouterProvider.otherwise("/app");
+    // $locationProvider.html5Mode(isproduction);
+    $urlRouterProvider.otherwise("/app/dashboard");
+    $locationProvider.html5Mode(false);
 });
 
 

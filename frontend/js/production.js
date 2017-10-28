@@ -65779,7 +65779,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
     var tempateURL = "views/template/template.html"; //Default Template URL
 
     // for http request with session
-    $httpProvider.defaults.withCredentials = true;
+    $httpProvider.defaults.withCredentials = false;
     $stateProvider
 
         .state('app', {
@@ -66537,8 +66537,8 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         });
 
-    $urlRouterProvider.otherwise("/app");
-    $locationProvider.html5Mode(isproduction);
+    $urlRouterProvider.otherwise("/app/dashboard");
+    $locationProvider.html5Mode(false);
 });
 
 
