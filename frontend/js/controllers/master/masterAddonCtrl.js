@@ -23,7 +23,7 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
     }
 
     // *************************** functions to be triggered form view begin here ***** //
-    $scope.addOrEditAddonTypeModal = function (operation, addonType,) {
+    $scope.addOrEditAddonTypeModal = function (operation, addonType) {
         console.log('**** inside function_name of masterAddonCtrl.js ****',addonType);
         masterAddonService.getAddonTypeModalData(operation, addonType, function (data) {
             $scope.formData = data.addonTypeData;
