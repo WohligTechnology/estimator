@@ -39,26 +39,6 @@ var schema = new Schema({
     wastage:{
         type:String
     },
-    // proccessing: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'MProcessType',
-    //     index:true
-    // }],
-    // addons: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'MAddonType',
-    //     index:true
-    // }],
-    // extras: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'MExtra',
-    //     index:true
-    // }],
-    // material: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'MMaterial',
-    //     index:true
-    // }],
     partFormulae: {
         perimeter: String,
         sheetMetalArea: String,
@@ -78,18 +58,18 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('MPartPresets', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'shape partType','shape partType'));
 var model = {
 
     getPresetSizes: function (data, callback) {
         MPartPresets.find({
             partType: data.partType
-        }).populate('partType').exec(function (err, found) {
+        }).populate('partType shape').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at MPartPresets of MPartPresets.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
-                callback(null, 'noDataFound');
+                callback(null, []);
             } else {
                 callback(null, found);
             }
@@ -106,7 +86,7 @@ var model = {
                     console.log('**** error at function_name of MPartPresets.js ****', err);
                     callback(err, null);
                 } else if (_.isEmpty(found)) {
-                    callback(null, 'noDataFound');
+                    callback(null, []);
                 } else {
                     callback(null, found);
                 }

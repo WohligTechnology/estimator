@@ -58,21 +58,6 @@ var model = {
     // what this function will do ?
     // req data --> ?
     getSubCatMaterials: function (data, callback) {
-        console.log('**** inside getSubCatMaterials of MMaterial.js ****', data);
-        // MMaterial.find({
-        //     materialSubCategory: data.subCatId
-        // }).exec(function (err, found) {
-        //     if (err) {
-        //         console.log('**** error at function_name of MMaterial.js ****', err);
-        //         callback(err, null);
-        //     } else if (_.isEmpty(found)) {
-        //         callback(null, []);
-        //     } else {
-        //         callback(null, found);
-        //     }
-        // });
-
-
         var maxRow = Config.maxRow;
         var page = 1;
         if (data.page) {
@@ -94,8 +79,8 @@ var model = {
             count: maxRow
         };
         MMaterial.find({
-            materialSubCategory: data.subCatId
-        }).sort({
+                materialSubCategory: data.subCatId
+            }).sort({
                 createdAt: -1
             })
             .order(options)
@@ -113,6 +98,20 @@ var model = {
                 });
     },
 
+    // what this function will do ?
+    // req data --> ?
+    getAllMaterials: function (data, callback) {
+        MMaterial.find().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of MMaterial.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 
 
 };

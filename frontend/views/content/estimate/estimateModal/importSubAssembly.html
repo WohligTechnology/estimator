@@ -3,28 +3,27 @@
         <div class="portlet box green ">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Assembly Name
+                    <i class="fa fa-gift"></i>SubAssembly Name
                 </div>
                 <div class="tools">
                 </div>
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
+                <form class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-5 control-label">Enter Assembly Id :</label>
+                            <label class="col-md-5 control-label">Enter SubAssembly Id :</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control input-circle" placeholder="Enter Assembly id" autofocus>
+                                <input type="text" class="form-control input-circle" ng-model="subAssId" placeholder="Enter SubAssembly Id" autofocus required>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                          
-                                <button type="submit" class="btn btn-circle green">Save</button>
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                                <button type="submit" class="btn btn-circle green" ng-click="importSubAssembly(subAssId)">Save</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
                     </div>

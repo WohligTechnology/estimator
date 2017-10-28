@@ -1,16 +1,16 @@
 var schema = new Schema({
     enquiryName: {
         type: String,
-        required: true
+       // required: true
     },
     enquiryId: {
         type: String, // auto geneatated with suffix
-        required: true
+        //required: true
     },
     customerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'customer',
-        required: true
+        //required: true
     },
     enquiryDetails: {
         enquiryStatus: {
@@ -55,18 +55,18 @@ var schema = new Schema({
         customerContacts: {
             type: String
         },
-        salesman: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'MMaterialCat'
-        },
-        estimator: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'MMaterialCat'
-        },
-        enquiryType: {
-            type: String,
-            enum: ['firmRfq', 'budgetary', 'verbal', 'other']
-        }
+        // salesman: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: 'MMaterialCat'
+        // },
+        // estimator: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: 'MMaterialCat'
+        // },
+        // enquiryType: {
+        //     type: String,
+        //     enum: ['firmRfq', 'budgetary', 'verbal', 'other']
+        // }
     },
     enquiryInfo: {
         rfqCopy: [{
@@ -130,5 +130,96 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Enquiry', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
-var model = {};
+var model = {
+    totalHoldsEnquiries: function (data, callback) {
+        Enquiry.find({
+            enquiryDetails: {
+                enquiryStatus: "hold"
+            }
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                found = found.length;
+                callback(null, found);
+            }
+        });
+    },
+
+    totalOpenEnuieries: function (data, callback) {
+        Enquiry.find({
+            enquiryDetails: {
+                enquiryStatus: "open"
+            }
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                found = found.length;
+                callback(null, found);
+            }
+        });
+
+    },
+
+    totalCloseEnquiries: function (data, callback) {
+        Enquiry.find({
+            enquiryDetails: {
+                enquiryStatus: "close"
+            }
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                found = found.length;
+                callback(null, found);
+            }
+        });
+
+    },
+
+    getStatusCount: function (data, callback) {
+        Enquiry.find({
+            enquiryDetails: {
+                enquiryStatus: data.status
+            }
+
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getStatusCount of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                found = found.length;
+                callback(null, found);
+            }
+        });
+    },
+
+    getStatusCountInBulk: function (data, callback) {
+        Enquiry.find({}).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getStatusCountInBulk of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                found = _.countBy(found, 'enquiryDetails.enquiryStatus');
+                callback(null, found);
+            }
+        });
+    },
+
+
+};
 module.exports = _.assign(module.exports, exports, model);

@@ -13,7 +13,11 @@ var schema = new Schema({
     },
     rate: {
         mulFact: String,
-        uom: String
+        uom: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'MUom',
+            required: true
+        }
     },
     quantity:{
         supportingVariable: String,

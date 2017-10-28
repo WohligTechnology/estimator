@@ -12,6 +12,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
     $scope.showPartTypeExtras = false;
     $scope.showPartTypeSize = false;
     $scope.showPartTypeMaterial = false;
+    $scope.disableShape = false;
     $scope.selectedShape = {};
     var varName = "";
     var varValue = "";
@@ -115,27 +116,43 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
 
 
     //- to show preset sizes after click on partType name
+    //- to show partTYpe materials click on partType name
     $scope.getPartTypeSizes = function (partTypeId) {
+        $scope.partTypeId = partTypeId;
         masterPartService.getPartTypeSizes(partTypeId, function (data) {
-            $scope.partTypeSizes = data;
+            $scope.partTypeSizes = data.partSizes;
+            $scope.partTypeMaterials = data.materials;
             $scope.showPartTypeSize = true;
+            $scope.showPartTypeMaterial = true;
+            $scope.disableShape = true;
         });
 
     }
 
+    //-
+    $scope.addNewPreset = function (operation, partTypeId) {
+        $scope.presetFormData = {};
+        $scope.selectedShape = {};
+        $scope.disableShape = false;
+        masterPartService.addNewPreset(operation, partTypeId, function (data) {
+            $scope.showPartView = true;
+            $scope.presetFormData = data;
+            console.log('**** inside $scope.presetFormData of masterPartCtrl.js & data is ****', $scope.presetFormData);
+        });
+    }
     //- to get/show preset view (with data in case of edit)
-    //- called when click on + icon at partType (i.e. to add new preset ) &
+    //- called when click on + icon at partType (i.e. to add new preset )    &
     //- click on the preset size to edit preset 
     $scope.getPresetViewWithData = function (operation, presetData) {
         $scope.showPartView = true;
+        presetData.shape.variable = presetData.variable;
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
             $scope.presetFormData = data.presetData;
-            $scope.shapeData = data.shapeData;
+            $scope.selectedShape = data.presetData.shape;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
         });
     }
-
     //- to show all variable when shape will be selecetd by user
     $scope.showSelectedShapeData = function (shapeData) {
         _.map(shapeData.variable, function (n) {
@@ -143,7 +160,6 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         });
         $scope.selectedShape = shapeData;
     }
-
     //- to add or edir part presets 
     //- called when click on --> save/update/save as new  button 
     $scope.getPresetFinalData = function (presetData, selectedShape) {
@@ -174,23 +190,73 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         presetData.partFormulae.sheetMetalArea = eval(selectedShape.partFormulae.sheetMetalArea);
         presetData.partFormulae.surfaceArea = eval(selectedShape.partFormulae.surfaceArea);
         presetData.partFormulae.weight = eval(selectedShape.partFormulae.weight);
-        $scope.presetFinalData = presetData;
-
-        console.log('**** &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ****', presetData);
+        $scope.presetFormData.partFormulae = presetData.partFormulae;
 
     }
-
-    $scope.addOrEditPartPreset = function (presetData) {
-        masterPartService.addOrEditPartPreset(presetData, function(data){
+    $scope.addOrEditPartPreset = function (presetData, action) {
+        // console.log('**** inside addOrEditPartPreset of masterPartCtrl.js ****',partTypeId);
+        masterPartService.addOrEditPartPreset(presetData, action, function (data) {
             $scope.operationStatus = "Record added successfully";
         });
     }
+
+    //- to add material to partType 
+    $scope.getMaterialData = function (partTypeId) {
+        $scope.partTypeId = partTypeId;
+        masterPartService.getMaterialData(function (data) {
+            // $scope.matCatData = data.materialCats;
+            // $scope.matSubCatData = data.materialSubCats;
+            $scope.matData = data.materials;
+
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/master/part/addMaterialToPartType.html',
+                scope: $scope,
+                size: 'md',
+            });
+
+            
+        });
+    };
+
+    $scope.addMaterialToPartType = function (selectedMatId,partTypeId) {
+        masterPartService.addMaterialToPartType(selectedMatId,partTypeId, function (data) {
+            $scope.successMessage = "material added to the partType successfully...";
+            $scope.cancelModal();
+            $scope.getPartTypeSizes(data._id);
+        });
+    }
+
+    $scope.deletePartTypeMaterialModal = function (partTypeId, materialId, getFunction) {
+        $scope.idToDelete = materialId;
+        $scope.functionToCall = getFunction;
+        $scope.partTypeId = partTypeId;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/deleteItem.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
+
+    $scope.deletePartTypeMaterial = function (materialId,partTypeId) {
+        masterPartService.deletePartTypeMaterial(materialId,partTypeId, function (data) {
+            $scope.operationStatus = "Record deleted successfully";
+            $scope.cancelModal();
+            $scope.getPartTypeSizes(partTypeId);
+        });
+    }
+
+
+
 
     //- to hide preset view
     //- called when click on cancel button on preset view
     $scope.hidePartPresetView = function () {
         $scope.showPartView = false;
     }
+
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {
@@ -318,16 +384,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         });
     };
     //end of modal
-    //AddMaterial modal start
-    $scope.addMaterial = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/part/addMaterialToPartType.html',
-            scope: $scope,
-            size: 'md',
-        });
-    };
-    //end of modal
+
     //veriables 
     $scope.checkBox = [
 

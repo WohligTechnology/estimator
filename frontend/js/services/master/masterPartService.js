@@ -117,58 +117,115 @@ myApp.service('masterPartService', function (NavigationService) {
     }
 
 
+    this.addNewPreset = function (operation, partTypeId, callback) {
+        var obj = {
+            _id: partTypeId
+        }
+        var presetData = {}
+        // get shape data
+        // get part type data
+        NavigationService.boxCall('MShape/search', function (sapeData) {
+            presetData.shapeData = sapeData.data.results;
+            NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
+                presetData.partTypeData = partTypeData.data;
+                callback(presetData);
+            });
+
+        });
+
+    }
     this.getPartTypeSizes = function (partTypeId, callback) {
         var partTypeObj = {
             partType: partTypeId
         }
+        var partTypeDataObj = {};
 
         NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
-            callback(data.data);
+            if(data.data){
+                partTypeDataObj.partSizes = data.data;
+            }
+            
+            NavigationService.apiCall('MPartType/getOne', {
+                _id: partTypeId
+            }, function (matData) {
+                partTypeDataObj.materials = matData.data.material;
+                callback(partTypeDataObj);
+            });
         });
+
     }
     this.getPresetViewWithData = function (operation, presetData, callback) {
-        console.log('**** inside getPresetViewWithData of masterPartService.js ****');
-        var partPresetObj = {};
-
-        if (angular.isDefined(presetData)) {
-            partPresetObj.presetData = presetData;
-            partPresetObj.presetData.partTypeCode = presetData.partType.partTypeCode;
-            partPresetObj.presetData.partType = presetData.partType._id;
-        }
+        var partPresetObj = {
+            presetData: {}
+        };
 
         if (operation == "save") {
             partPresetObj.saveBtn = true;
             partPresetObj.editBtn = false;
+            partPresetObj.presetData.partType = presetData;
         } else if (operation == "update") {
+            if (angular.isDefined(presetData)) {
+                partPresetObj.presetData = presetData;
+                partPresetObj.presetData.partTypeData = {};
+                partPresetObj.presetData.partTypeData.partTypeCode = presetData.partType.partTypeCode;
+                partPresetObj.presetData.partTypeData.partTypeId = presetData.partType._id;
+                // partPresetObj.presetData.partTypeCode = presetData.partType.partTypeCode;
+                // partPresetObj.presetData.partType = presetData.partType._id;
+            }
             partPresetObj.saveBtn = false;
             partPresetObj.editBtn = true;
         }
 
         NavigationService.boxCall('MShape/search', function (data) {
-
-            partPresetObj.shapeData = data.data.results;
+            partPresetObj.presetData.shapeData = data.data.results;
             callback(partPresetObj);
+        });
 
-
-            // var finalShapeData = [];
-            // var obj = {};
-
-            // _.map(partPresetObj.shapeData.variable, function(n){
-            //     obj.variableName = n.variableName;
-            //     obj._id = n._id;
-            //     obj.variableValue = 0;
-            //     finalShapeData.push(obj);
-            // });
-            
-            // partPresetObj.shapeData.variable = [];
-            // partPresetObj.shapeData.variable = finalShapeData;
-        });       
     }
+    this.addOrEditPartPreset = function (presetData, action, callback) {
 
-    this.addOrEditPartPreset = function(presetData){
+        if (action == "saveAsNew") {
+            // _.findKey(presetData,   ['_id', '__v', 'createdAt', 'updatedAt', '$$hashKey']);
+            delete presetData._id;
+            delete presetData.__v;
+            delete presetData.createdAt;
+            delete presetData.updatedAt;
+            delete presetData.$$hashKey;
+            console.log('**** inside -------------------------- of masterPartService.js ****', presetData);
+        }
+        presetData.partType = presetData.partTypeData.partTypeId;
         NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
             callback(data);
         });
     }
 
+    this.getMaterialData = function (callback) {
+        var getMatData = {};
+        NavigationService.boxCall('MMaterial/getAllMaterials', function (data) {
+            getMatData.materials = data.data;
+            callback(getMatData);
+        })
+    }
+    this.addMaterialToPartType = function (selectedMatId, partTypeId, callback) {
+        var tempObj = {
+            materialId: selectedMatId,
+            _id: partTypeId
+        }
+
+        NavigationService.apiCall('MPartType/addPartTypeMaterial', tempObj, function (data) {
+            callback(data.data);
+        });
+    }
+    this.deletePartTypeMaterial = function (materialId, partTypeId, callback) {
+        NavigationService.apiCall('MPartType/deletePartTypeMaterial', {
+            materialId: materialId,
+            _id: partTypeId
+        }, function (data) {
+            callback(data);
+        });
+    }
+
+
+
+    
 });

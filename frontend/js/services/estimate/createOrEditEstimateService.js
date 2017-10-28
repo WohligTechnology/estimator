@@ -1,434 +1,5 @@
-myApp.service('createOrEditEstimateService', function ($http) {
-
-    this.assembly = {
-        enquiryId: "",
-        assemblyName: "Assembly 1",
-        assemplyNumber: "A1",
-        keyValueCalculations: {
-            perimeter: "",
-            sheetMetalArea: "",
-            surfaceArea: "",
-            weight: "",
-            numbers: "",
-            hours: ""
-        },
-        totalWeight: "",
-        materialCost: "",
-        processingCost: "",
-        addonCost: "",
-        extrasCost: "",
-        totalCost: "",
-        estimateId: "",
-        estimateCreatedUser: "",
-        estimateUpdatedUser: "",
-        estimateDetails: {},
-        estimateBoq: {},
-        estimateAttachment: [{
-            file: ""
-        }],
-        subAssemblies: [{
-            subAssemblyName: "sub assembly 1",
-            subAssemblyNumber: "sa1",
-            parts: [{
-                partName: "part 1",
-                partNumber: "A1SA1P1",
-                shortcut: "",
-                scaleFactor: "",
-                finalCalculation: {
-                    materialPrice: "",
-                    itemUnitPrice: "",
-                    totalCostForQuantity: ""
-                },
-                keyValueCalculations: {
-                    perimeter: "",
-                    sheetMetalArea: "",
-                    surfaceArea: "",
-                    weight: ""
-                },
-                sectionCode: "",
-                material: "",
-                size: "",
-                quantity: "",
-                variable: [{}],
-                processing: [{
-                    processType: "",
-                    processItem: "",
-                    processingNumber: "",
-                    rate: "",
-                    quantity: {
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }],
-                addons: [{
-                    addonType: "",
-                    addonItem: "",
-                    addonNumber: "",
-                    rate: "",
-                    quantity: {
-                        supportingVariable: {
-                            supportingVariable: "",
-                            value: ""
-                        },
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }],
-                extras: [{
-                    extraItem: "extra 1",
-                    extraNumber: "",
-                    quantity: 3,
-                    totalCost: "",
-                    remarks: ""
-                }]
-            }, {
-                partName: "part 2",
-                partNumber: "A1SA1P2",
-                shortcut: "",
-                scaleFactor: "",
-                finalCalculation: {
-                    materialPrice: "",
-                    itemUnitPrice: "",
-                    totalCostForQuantity: ""
-                },
-                keyValueCalculations: {
-                    perimeter: "",
-                    sheetMetalArea: "",
-                    surfaceArea: "",
-                    weight: ""
-                },
-                sectionCode: "",
-                material: "",
-                size: "",
-                quantity: "",
-                variable: [{}],
-                processing: [{
-                    processType: "proType1",
-                    processItem: "proItem1",
-                    processingNumber: "p1",
-                    rate: "",
-                    quantity: {
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }, {
-                    processType: "proType2",
-                    processItem: "proItem2",
-                    processingNumber: "p2",
-                    rate: "",
-                    quantity: {
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }],
-                addons: [{
-                    addonType: "addonType1",
-                    addonItem: "addonItem1",
-                    addonNumber: "a1",
-                    rate: "",
-                    quantity: {
-                        supportingVariable: {
-                            supportingVariable: "",
-                            value: ""
-                        },
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }, {
-                    addonType: "addonType2",
-                    addonItem: "addonItem2",
-                    addonNumber: "a2",
-                    rate: "",
-                    quantity: {
-                        supportingVariable: {
-                            supportingVariable: "",
-                            value: ""
-                        },
-                        keyValue: {
-                            keyVariable: "",
-                            keyValue: ""
-                        },
-                        utilization: "",
-                        contengncyOrWastage: "",
-                        total: ""
-                    },
-                    totalCost: "",
-                    remarks: ""
-                }],
-                extras: [{
-                    extraItem: "extraItem1",
-                    extraNumber: "e1",
-                    quantity: "",
-                    totalCost: "",
-                    remarks: ""
-                }, {
-                    extraItem: "extraItem1",
-                    extraNumber: "e1",
-                    quantity: "",
-                    totalCost: "",
-                    remarks: ""
-                }]
-            }],
-            processing: [{
-                processType: "proType1",
-                processItem: "proItem1",
-                processingNumber: "p1",
-                rate: "",
-                quantity: {
-                    keyValue: {
-                        keyVariable: "",
-                        keyValue: ""
-                    },
-                    utilization: "",
-                    contengncyOrWastage: "",
-                    total: ""
-                },
-                totalCost: "",
-                remarks: ""
-            }, {
-                processType: "proType2",
-                processItem: "proItem2",
-                processingNumber: "p2",
-                rate: "",
-                quantity: {
-                    keyValue: {
-                        keyVariable: "",
-                        keyValue: ""
-                    },
-                    utilization: "",
-                    contengncyOrWastage: "",
-                    total: ""
-                },
-                totalCost: "",
-                remarks: ""
-            }],
-            addons: [{
-                addonType: "addonType1",
-                addonItem: "addonItem1",
-                addonNumber: "a1",
-                rate: "",
-                quantity: {
-                    supportingVariable: {
-                        supportingVariable: "",
-                        value: ""
-                    },
-                    keyValue: {
-                        keyVariable: "",
-                        keyValue: ""
-                    },
-                    utilization: "",
-                    contengncyOrWastage: "",
-                    total: ""
-                },
-                totalCost: "",
-                remarks: ""
-            }, {
-                addonType: "addonType2",
-                addonItem: "addonItem2",
-                addonNumber: "a2",
-                rate: "",
-                quantity: {
-                    supportingVariable: {
-                        supportingVariable: "",
-                        value: ""
-                    },
-                    keyValue: {
-                        keyVariable: "",
-                        keyValue: ""
-                    },
-                    utilization: "",
-                    contengncyOrWastage: "",
-                    total: ""
-                },
-                totalCost: "",
-                remarks: ""
-            }],
-            extras: [{
-                extraItem: "extraItem1",
-                extraNumber: "e1",
-                quantity: "",
-                totalCost: "",
-                remarks: ""
-            }, {
-                extraItem: "extraItem1",
-                extraNumber: "e1",
-                quantity: "",
-                totalCost: "",
-                remarks: ""
-            }]
-        }, {
-            subAssemblyName: "sub assembly 2",
-            subAssemblyNumber: "SA2"
-        }],
-        processing: [{
-            processType: "proType1",
-            processItem: "proItem1",
-            processingNumber: "p1",
-            rate: "",
-            quantity: {
-                keyValue: {
-                    keyVariable: "",
-                    keyValue: ""
-                },
-                utilization: "",
-                contengncyOrWastage: "",
-                total: ""
-            },
-            totalCost: "",
-            remarks: ""
-        }, {
-            processType: "proType2",
-            processItem: "proItem2",
-            processingNumber: "p2",
-            rate: "",
-            quantity: {
-                keyValue: {
-                    keyVariable: "",
-                    keyValue: ""
-                },
-                utilization: "",
-                contengncyOrWastage: "",
-                total: ""
-            },
-            totalCost: "",
-            remarks: ""
-        }],
-        addons: [{
-            addonType: "addonType1",
-            addonItem: "addonItem1",
-            addonNumber: "a1",
-            rate: "",
-            quantity: {
-                supportingVariable: {
-                    supportingVariable: "",
-                    value: ""
-                },
-                keyValue: {
-                    keyVariable: "",
-                    keyValue: ""
-                },
-                utilization: "",
-                contengncyOrWastage: "",
-                total: ""
-            },
-            totalCost: "",
-            remarks: ""
-        }, {
-            addonType: "addonType2",
-            addonItem: "addonItem2",
-            addonNumber: "a2",
-            rate: "",
-            quantity: {
-                supportingVariable: {
-                    supportingVariable: "",
-                    value: ""
-                },
-                keyValue: {
-                    keyVariable: "",
-                    keyValue: ""
-                },
-                utilization: "",
-                contengncyOrWastage: "",
-                total: ""
-            },
-            totalCost: "",
-            remarks: ""
-        }],
-        extras: [{
-            extraItem: "extraItem1",
-            extraNumber: "e1",
-            quantity: "",
-            totalCost: "",
-            remarks: ""
-        }, {
-            extraItem: "extraItem1",
-            extraNumber: "e1",
-            quantity: "",
-            totalCost: "",
-            remarks: ""
-        }]
-    };
-
-    this.subAssembly = {
-        subAssemblyName: "",
-        subAssemblyNumber: "",
-        quantity: "",
-        totalValue: "",
-        keyValueCalculations: {
-            perimeter: "",
-            sheetMetalArea: "",
-            surfaceArea: "",
-            weight: "",
-            numbers: "",
-            hours: ""
-        },
-        parts: [],
-        processing: [],
-        addons: [],
-        extras: []
-    };
-
-    this.part = {
-        partName: "",
-        partNumber: "",
-        shortcut: "",
-        scaleFactor: "",
-        finalCalculation: {
-            materialPrice: "",
-            itemUnitPrice: "",
-            totalCostForQuantity: ""
-        },
-        keyValueCalculations: {
-            perimeter: "",
-            sheetMetalArea: "",
-            surfaceArea: "",
-            weight: ""
-        },
-        sectionCode: "",
-        material: "",
-        size: "",
-        quantity: "",
-        variable: [{}],
-        processing: [],
-        addons: [],
-        extras: []
-    };
-
+myApp.service('createOrEditEstimateService', function ($http, NavigationService) {
+    
     this.processing = {
         processType: "",
         processItem: "",
@@ -469,14 +40,176 @@ myApp.service('createOrEditEstimateService', function ($http) {
 
     this.extra = {
         extraItem: "",
+        extraNumber: "",
         quantity: "",
         totalCost: "",
         remarks: ""
     };
 
+    this.part = {
+        partName: "Part1",
+        partNumber: "",
+        shortcut: "",
+        scaleFactor: "",
+        finalCalculation: {
+            materialPrice: "",
+            itemUnitPrice: "",
+            totalCostForQuantity: ""
+        },
+        keyValueCalculations: {
+            perimeter: "",
+            sheetMetalArea: "",
+            surfaceArea: "",
+            weight: ""
+        },
+        sectionCode: "",
+        material: "",
+        size: "",
+        quantity: "",
+        variable: [{}],
+        processing: [_.cloneDeep(this.processing)],
+        addons: [_.cloneDeep(this.addon)],
+        extras: [_.cloneDeep(this.extra)]
+    };
+
+    this.subAssembly = {
+        subAssemblyName: "nhjjhgjhggjgjg",
+        subAssemblyNumber: "",
+        quantity: "",
+        totalValue: "",
+        keyValueCalculations: {
+            perimeter: "",
+            sheetMetalArea: "",
+            surfaceArea: "",
+            weight: "",
+            numbers: "",
+            hours: ""
+        },
+        parts: [_.cloneDeep(this.part)],
+        processing: [_.cloneDeep(this.processing)],
+        addons: [_.cloneDeep(this.addon)],
+        extras: [_.cloneDeep(this.extra)]
+    };
+
+    this.assembly = {
+        enquiryId: "",
+        assemblyName: "Assembly 1",
+        assemplyNumber: "AS1",
+        keyValueCalculations: {
+            perimeter: "",
+            sheetMetalArea: "",
+            surfaceArea: "",
+            weight: "",
+            numbers: "",
+            hours: ""
+        },
+        totalWeight: "",
+        materialCost: "",
+        processingCost: "",
+        addonCost: "",
+        extrasCost: "",
+        totalCost: "",
+        estimateId: "",
+        estimateCreatedUser: "",
+        estimateUpdatedUser: "",
+        estimateDetails: {},
+        estimateBoq: {},
+        estimateAttachment: [{
+            file: ""
+        }],
+        subAssemblies: [_.cloneDeep(this.subAssembly)],
+        processing: [{
+            processType: "proAss AS1PR1",
+            processItem: "proItem AS1PR1",
+            processingNumber: "AS1PR1",
+            rate: "",
+            quantity: {
+                keyValue: {
+                    keyVariable: "",
+                    keyValue: ""
+                },
+                utilization: "",
+                contengncyOrWastage: "",
+                total: ""
+            },
+            totalCost: "",
+            remarks: ""
+        }, {
+            processType: "proType AS1PR2",
+            processItem: "proItem AS1PR2",
+            processingNumber: "AS1PR2",
+            rate: "",
+            quantity: {
+                keyValue: {
+                    keyVariable: "",
+                    keyValue: ""
+                },
+                utilization: "",
+                contengncyOrWastage: "",
+                total: ""
+            },
+            totalCost: "",
+            remarks: ""
+        }],
+        addons: [{
+            addonType: "addonAss AS1AD1",
+            addonItem: "addonItem AS1AD1",
+            addonNumber: "AS1AD1",
+            rate: "",
+            quantity: {
+                supportingVariable: {
+                    supportingVariable: "",
+                    value: ""
+                },
+                keyValue: {
+                    keyVariable: "",
+                    keyValue: ""
+                },
+                utilization: "",
+                contengncyOrWastage: "",
+                total: ""
+            },
+            totalCost: "",
+            remarks: ""
+        }, {
+            addonType: "addonAss AS1AD2",
+            addonItem: "addonItem AS1AD2",
+            addonNumber: "AS1AD2",
+            rate: "",
+            quantity: {
+                supportingVariable: {
+                    supportingVariable: "",
+                    value: ""
+                },
+                keyValue: {
+                    keyVariable: "",
+                    keyValue: ""
+                },
+                utilization: "",
+                contengncyOrWastage: "",
+                total: ""
+            },
+            totalCost: "",
+            remarks: ""
+        }],
+        extras: [{
+            extraItem: "extraItem1",
+            extraNumber: "AS1EX1",
+            quantity: "",
+            totalCost: "",
+            remarks: ""
+        }, {
+            extraItem: "extraItem1",
+            extraNumber: "AS1EX2",
+            quantity: "",
+            totalCost: "",
+            remarks: ""
+        }]
+    };
+
     this.formData = {
         assembly: this.assembly
-    }
+    };
 
     this.getEstimateData = function (callback) {
         callback(this.formData);
@@ -485,63 +218,66 @@ myApp.service('createOrEditEstimateService', function ($http) {
         getEstimateView = "../frontend/views/content/estimate/estimateViews/" + estimateView + ".html";
         callback(getEstimateView);
     }
-    this.estimateViewData = function (estimateView, getLevelName, getId, callback) {
+    this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
 
         var getViewData = [];
 
         if (estimateView == 'assembly') {
-            // get all subAssemblies from API
-            var getAllSubAssemblies = [{}];
-            callback();
+            getViewData = this.formData.assembly;            
         } else if (estimateView == 'subAssembly') {
-            // get all parts from API
-            var getAllParts = [{}];
-            callback();
+            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);                             
+            getViewData = this.formData.assembly.subAssemblies[subAssIndex];
         } else if (estimateView == 'partDetail') {
-            // get part all detail (with processing count, addons count & extras count) from API
-            var getPartDetail = {};
-            callback();
+            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
+            var partIndex = this.getPartIndex(subAssIndex, partId);
+            getViewData = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex];
         } else if (estimateView == 'editPartItemDetail') {
-            // get part Item detail only from API
-            var getPartItemDetail = {};
-            callback();
+            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
+            var partIndex = this.getPartIndex(subAssIndex, partId);
         } else if (estimateView == 'processing') {
             if(getLevelName == "assembly"){
                 getViewData = this.formData.assembly.processing;
             }else if(getLevelName == "subAssembly"){
-                getViewData = this.formData.assembly.subAssemblies[0].processing;
-                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[0].subAssemblyNumber;
+                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);                 
+                getViewData = this.formData.assembly.subAssemblies[subAssIndex].processing;
+                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
             }else if(getLevelName == "part"){ 
-                getViewData = this.formData.assembly.subAssemblies[0].parts[0].processing;
-                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[0].subAssemblyNumber;
-                getViewData.partId = this.formData.assembly.subAssemblies[0].parts[0].partNumber;
+                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
+                var partIndex = this.getPartIndex(subAssIndex, partId);
+                getViewData = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing;
+                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
+                getViewData.partId = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].partNumber;
             }
-            callback(getViewData);
         } else if (estimateView == 'addons') {
             if(getLevelName == "assembly"){
                 getViewData = this.formData.assembly.addons;
             }else if(getLevelName == "subAssembly"){
-                getViewData = this.formData.assembly.subAssemblies[0].addons;
+                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);                                 
+                getViewData = this.formData.assembly.subAssemblies[subAssIndex].addons;
+                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;                
             }else if(getLevelName == "part"){ 
-                getViewData = this.formData.assembly.subAssemblies[0].parts[0].addons;
-            }
-            callback(getViewData);
+                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
+                var partIndex = this.getPartIndex(subAssIndex, partId);                
+                getViewData = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons;
+                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
+                getViewData.partId = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].partNumber;
+            }            
         } else if (estimateView == 'extras') {
             if(getLevelName == "assembly"){
                 getViewData = this.formData.assembly.extras;
             }else if(getLevelName == "subAssembly"){
-                getViewData = this.formData.assembly.subAssemblies[0].extras;
+                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);                                 
+                getViewData = this.formData.assembly.subAssemblies[subAssIndex].extras;
+                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;                
             }else if(getLevelName == "part"){ 
-                getViewData = this.formData.assembly.subAssemblies[0].parts[0].extras;
+                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);             
+                var partIndex = this.getPartIndex(subAssIndex, partId);                                    
+                getViewData = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras;
+                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
+                getViewData.partId = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].partNumber;           
             }
-            callback(getViewData);
-        } else if (estimateView == 'customMaterial') {
-        
-            // get all custome materials of estimate from API
-            var getAllCustomMaterial = [{}];
-            callback();
-        }
-
+        } 
+        callback(getViewData);
     }
 
 
@@ -559,208 +295,432 @@ myApp.service('createOrEditEstimateService', function ($http) {
             subAssDataObj.editBtn = true;
         }
 
-        callback(subAssDataObj)
+        callback(subAssDataObj);
 
     }
-    this.createOrEditSubAssembly = function (subAssObj, callback) {
-        subAssObj.subAssemblyNumber = "SA" + this.formData.assembly.subAssemblies.length;
-
+    this.createSubAssembly = function (subAssObj, callback) {
+        var id = this.getSubAssemblyNumber();
+        subAssObj.subAssemblyNumber = "AS1SA" + id;
         this.formData.assembly.subAssemblies.push(subAssObj);
-        var getLength = this.formData.assembly.subAssemblies.length;
-
         callback();
     }
-    this.deleteSubAssembly = function (subAssemblyId, callback) {
-         _.dropWhile(this.assembly.subAssemblies, { 'subAssemblyNumber': subAssemblyId });
+    this.deleteSubAssembly = function (subAssemblyId, callback) {        
+        _.remove(this.assembly.subAssemblies, function(obj){
+            return obj.subAssemblyNumber ==  subAssemblyId; 
+        });
          callback();   
     }
 
 
     this.getAllPartModalData = function (operation, subAssId, part, callback) {
         var partDataObj = {}
-
+        
         if (angular.isDefined(part)) {
             partDataObj.partObj = part;
         }
         if (operation == "save") {
             partDataObj.saveBtn = true;
             partDataObj.editBtn = false;
-            partDataObj.subAssId = subAssId;
+            partDataObj.subAssId = subAssId;            
         } else if (operation == "update") {
             partDataObj.saveBtn = false;
             partDataObj.editBtn = true;
-        }
-
+        }        
 
         callback(partDataObj)
 
     }
-    this.createOrEditPart = function (partObj, subAssId, callback) {
-
-        // var subAssIndex = _.find(this.formData.assembly.subAssemblies, {
-        //     subAssemblyNumber: subAssId
-        // });
-
-        // var getLastObj = _.last(this.formData.assembly.subAssemblies).subAssemblyNumber;
-        // var temp = subAssIndex.subAssemblyNumber +  + 1;
-        // partObj.partNumber = subAssId + "P"+ getLength + temp;
-
-        // console.log('**** inside subAssIndex of createOrEditEstimateService.js & data is ****', subAssIndex);
-
-        this.formData.assembly.subAssemblies[0].parts.push(partObj);
+    this.createPart = function (partObj, subAssId, callback) {
+        var subAssIndex = this.getSubAssemblyIndex(subAssId);
+        var id = this.getPartNumber(subAssIndex);
+        
+        partObj.partNumber = subAssId + 'PT' + id;
+        this.formData.assembly.subAssemblies[subAssIndex].parts.push(partObj);
         callback();
     }
     this.deletePart = function (subAssemblyId, partId, callback) { 
-        subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);        
-        _.dropWhile(this.assembly.subAssemblies[subAssIndex].parts, { 'partNumber': partId });
+        var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+        _.remove(this.assembly.subAssemblies[subAssIndex].parts, function(obj){
+             return obj.partNumber == partId 
+        });        
         callback();
     }
 
+    this.createProcessing = function (processingObj, level, subAssemblyId, partId, callback) {
 
-    this.getProcessingModalData = function (operation, type, level, processingObj, callback) {
-        var processingDataObj = {}
-
-        if (angular.isDefined(processingObj)) {            
-            processingDataObj.processingObj = processingObj;
-        }
-
-        if (operation == "save") {
-            processingDataObj.saveBtn = true;
-            processingDataObj.editBtn = false;
-            processingDataObj.type = type;
-            processingDataObj.level = level;
-        } else if (operation == "update") {
-            processingDataObj.saveBtn = false;
-            processingDataObj.editBtn = true;
-        }
-
-        callback(processingDataObj)
-    }
-    this.createOrEditProcessing = function (processingObj, level, callback) {
-
+        var id;
         if (level == 'assembly') {
+            id = this.getProcessingNumber(level);
+            processingObj.processingNumber = 'AS1' + 'PR' + id;
             this.formData.assembly.processing.push(processingObj);
-            callback();
         } else if (level == 'subAssembly') {
-            this.formData.assembly.subAssemblies[0].processing.push(processingObj);
-            callback();
+            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
+            id = this.getProcessingNumber(level, subAssIndex);
+            processingObj.processingNumber = subAssemblyId + 'PR' + id;
+            this.formData.assembly.subAssemblies[subAssIndex].processing.push(processingObj);
         } else if (level == 'part') {
-            this.formData.assembly.subAssemblies[0].parts[0].processing.push(processingObj);
-            callback();
+            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
+            var partIndex = this.getPartIndex(subAssIndex, partId);  
+            id = this.getProcessingNumber(level, subAssIndex, partIndex);
+            processingObj.processingNumber = partId + 'PR' + id;
+            this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing.push(processingObj)
         }
+        callback();
     }
     this.deleteProcessing = function (processingId, level, subAssemblyId, partId, callback) {
-        console.log('**** IDs inside deleteService of Processing****', processingId, level, subAssemblyId, partId);
         if (level == 'assembly') {
-            _.dropWhile(this.assembly.processing, { 'processingNumber':processingId });
+            _.remove(this.assembly.processing, function(obj){
+                 return obj.processingNumber == processingId 
+                });            
         } else if (level == 'subAssembly') {
-            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
-            _.dropWhile(this.assembly.subAssemblies[subAssIndex].processing, { 'processingNumber':processingId });
+            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+            _.remove(this.assembly.subAssemblies[subAssIndex].processing, function(obj){
+                return obj.processingNumber == processingId 
+               });            
         } else if (level == 'part') {
-            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
-            partIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].parts, ['partNumber', partId]);
-            _.dropWhile(this.assembly.subAssemblies[subAssIndex].parts[partIndex].processing, { 'processingNumber':processingId });
+            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+            partIndex = this.getPartIndex(subAssIndex, partId);
+            _.remove(this.assembly.subAssemblies[subAssIndex].parts[partIndex].processing, function(obj){
+                return obj.processingNumber == processingId 
+               });            
         }
         callback();      
     }
 
 
-    this.getAddonModalData = function (operation, type, level, addonObj, callback) {
-        var addonDataObj = {}
-
-        if (angular.isDefined(addonObj)) {            
-            addonDataObj.addonObj = addonObj;
-        }
-
-        if (operation == "save") {
-            addonDataObj.saveBtn = true;
-            addonDataObj.editBtn = false;
-            addonDataObj.type = type;
-            addonDataObj.level = level;
-        } else if (operation == "update") {
-            addonDataObj.saveBtn = false;
-            addonDataObj.editBtn = true;
-        }
-
-        callback(addonDataObj)
-    }
-    this.createOrEditAddon = function (addonObj, level, callback) {
-
+    this.createAddon = function (addonObj, level, subAssemblyId, partId, callback) {
+        
+        var id;
         if (level == 'assembly') {
+            id = this.getAddonNumber(level);
+            addonObj.addonNumber = 'AS1' + 'AD' + id;
             this.formData.assembly.addons.push(addonObj);
-            callback();
         } else if (level == 'subAssembly') {
-            this.formData.assembly.subAssemblies[0].addons.push(addonObj);
-            callback();
+            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
+            id = this.getAddonNumber(level, subAssIndex);
+            addonObj.addonNumber = subAssemblyId + 'AD' + id;
+            this.formData.assembly.subAssemblies[subAssIndex].addons.push(addonObj);
         } else if (level == 'part') {
-            this.formData.assembly.subAssemblies[0].parts[0].addons.push(addonObj);
-            callback();
+            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
+            var partIndex = this.getPartIndex(subAssIndex, partId);  
+            id = this.getAddonNumber(level, subAssIndex, partIndex);
+            addonObj.addonNumber = partId + 'AD' + id;
+            this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons.push(addonObj)
         }
+        callback();
     }
     this.deleteAddon = function (addonId, level, subAssemblyId, partId,  callback) {
         
-        console.log('**** IDs inside deleteService of Addon ****', addonId, level, subAssemblyId, partId);        
         if (level == 'assembly') {
-            _.dropWhile(this.assembly.addons, { 'addonNumber':addonId });
+            _.remove(this.assembly.addons, function(obj){
+                 return obj.addonNumber == addonId 
+                });
         } else if (level == 'subAssembly') {
-            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
-            _.dropWhile(this.assembly.subAssemblies[subAssIndex].addons, { 'addonNumber':addonId });
+            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+            _.remove(this.assembly.subAssemblies[subAssIndex].addons, function(obj){
+                return obj.addonNumber == addonId 
+               });
         } else if (level == 'part') {
-            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
-            partIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].parts, ['partNumber', partId]);
-            _.dropWhile(this.assembly.subAssemblies[subAssIndex].parts[partIndex].addons, { 'addonNumber':addonId });
+            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+            partIndex = this.getPartIndex(subAssIndex, partId);
+            _.remove(this.assembly.subAssemblies[subAssIndex].parts[partIndex].addons, function(obj){
+                return obj.addonNumber == addonId 
+               });
         }
         callback();
     }
 
 
-    this.getExtraModalData = function (operation, type, level, extraObj, callback) {
-        var extraDataObj = {}
-
-        if (angular.isDefined(extraObj)) {            
-            extraDataObj.extraObj = extraObj;
-        }
-
-        if (operation == "save") {
-            extraDataObj.saveBtn = true;
-            extraDataObj.editBtn = false;
-            extraDataObj.type = type;
-            extraDataObj.level = level;
-        } else if (operation == "update") {
-            extraDataObj.saveBtn = false;
-            extraDataObj.editBtn = true;
-        }
-
-        callback(extraDataObj)
-    }
-    this.createOrEditExtra = function (extraObj, level, callback) {
-
+    this.createExtra = function (extraObj, level, subAssemblyId, partId, callback) {
+        var id;
         if (level == 'assembly') {
+            id = this.getExtraNumber(level);
+            extraObj.extraNumber = 'AS1' + 'EX' + id;
             this.formData.assembly.extras.push(extraObj);
-            callback();
         } else if (level == 'subAssembly') {
-            this.formData.assembly.subAssemblies[0].extras.push(addonObj);
-            callback();
+            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
+            id = this.getExtraNumber(level, subAssIndex);
+            extraObj.extraNumber = subAssemblyId + 'EX' + id;
+            this.formData.assembly.subAssemblies[subAssIndex].extras.push(extraObj);
         } else if (level == 'part') {
-            this.formData.assembly.subAssemblies[0].parts[0].extras.push(extraObj);
-            callback();
+            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
+            var partIndex = this.getPartIndex(subAssIndex, partId);  
+            id = this.getExtraNumber(level, subAssIndex, partIndex);
+            extraObj.extraNumber = partId + 'EX' + id;
+            this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras.push(extraObj)
         }
+        callback();
     }
     this.deleteExtra = function (extraId, level, subAssemblyId, partId, callback) {
-        
-        console.log('**** IDs inside deleteService of Extra****', extraId, level, subAssemblyId, partId);
         if (level == 'assembly') {
-            _.dropWhile(this.assembly.extras, { 'extraNumber':extraId });
+            _.remove(this.assembly.extras, function(obj){
+                return obj.extraNumber == extraId 
+            });
         } else if (level == 'subAssembly') {
-            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
-            _.dropWhile(this.assembly.subAssemblies[subAssIndex].extras, { 'extraNumber':extraId });
+            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+            _.remove(this.assembly.subAssemblies[subAssIndex].extras, function(obj){
+                return obj.extraNumber == extraId 
+            });
         } else if (level == 'part') {
-            subAssIndex = _.findIndex(this.assembly.subAssemblies, ['subAssemblyNumber', subAssemblyId]);
-            partIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].parts, ['partNumber', partId]);
-            _.dropWhile(this.assembly.subAssemblies[subAssIndex].parts[partIndex].extras, { 'extraNumber':extraId });
+            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+            partIndex = this.getPartIndex(subAssIndex, partId);
+            _.remove(this.assembly.subAssemblies[subAssIndex].parts[partIndex].extras, function(obj){
+                return obj.extraNumber == extraId 
+            });
         }
         callback();
     }
  
     
+    this.getCustomMaterialModalData = function (operation, customMaterial, callback) {
+        var custMaterialDataObj = {}
+
+        if (angular.isDefined(customMaterial)) {
+            custMaterialDataObj.custMaterialObj = customMaterial;
+        }
+        if (operation == "save") {
+            custMaterialDataObj.saveBtn = true;
+            custMaterialDataObj.editBtn = false;
+        } else if (operation == "update") {
+            custMaterialDataObj.saveBtn = false;
+            custMaterialDataObj.editBtn = true;
+        }
+
+        callback(custMaterialDataObj)
+
+    }
+
+
+    this.getSubAssemblyIndex = function(subAssId){
+        var subAssIndex = _.findIndex(this.formData.assembly.subAssemblies, {
+            subAssemblyNumber: subAssId
+        });
+
+        return subAssIndex;
+    }
+    this.getPartIndex = function(subAssIndex, partId){
+        var partIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].parts, ['partNumber', partId]);
+        return partIndex;
+    }
+    this.getAddonIndex = function(addonId, subAssIndex, partIndex){
+        var addonIndex; 
+        if (angular.isDefined(subAssIndex)) {
+            if (angular.isDefined(partIndex)) {
+                addonIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].parts[partIndex].addons, ['addonNumber', addonId]);                
+            } else {
+                addonIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].addons, ['addonNumber', addonId]);
+            }
+        } else {
+            addonIndex = _.findIndex(this.assembly.addons, ['addonNumber', addonId]);            
+        }
+        return addonIndex;
+    }
+
+    this.getSubAssemblyNumber = function(){
+        var id;
+        if(this.formData.assembly.subAssemblies.length == 0) {
+            id = 1;            
+        }
+        else {
+            temp = _.last(this.formData.assembly.subAssemblies).subAssemblyNumber; 
+            temp = _.split(temp, 'SA');            
+            id = _.toNumber(temp[1]) + 1;
+        }
+
+        return id;
+    }
+    this.getPartNumber = function(subAssIndex){
+      var id;
+        if(this.formData.assembly.subAssemblies[subAssIndex].parts.length == 0) {
+            id = 1;            
+        }
+        else {
+            temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].parts).partNumber; 
+            temp = _.split(temp, 'PT');            
+            id = _.toNumber(temp[1]) + 1;
+        }
+
+        return id;
+    }
+    this.getProcessingNumber = function(level, subAssIndex, partIndex){
+        var id;
+        if(level == 'assembly'){
+            if(this.formData.assembly.processing.length == 0) {
+                id = 1;            
+                return id;
+            }
+            else {
+                temp = _.last(this.formData.assembly.processing).processingNumber; 
+            }
+    
+        } else if(level == 'subAssembly') {
+            if(this.formData.assembly.subAssemblies[subAssIndex].processing.length == 0) {
+                id = 1;            
+                return id;
+            }
+            else {
+                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].processing).processingNumber; 
+            }
+    
+        } else if(level == 'part') {
+            if(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing.length == 0) {
+                id = 1;            
+                return id;
+            }
+            else {
+                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing).processingNumber; 
+            }
+        }
+        
+        temp = _.split(temp, 'PR');            
+        id = _.toNumber(temp[1]) + 1;
+
+        return id;
+    }
+    this.getAddonNumber = function(level, subAssIndex, partIndex){
+        var id;
+        if(level == 'assembly'){
+            if(this.formData.assembly.addons.length == 0) {
+                id = 1;            
+                return id;
+            }
+            else {
+                temp = _.last(this.formData.assembly.addons).addonNumber; 
+            }
+    
+        } else if(level == 'subAssembly') {
+            if(this.formData.assembly.subAssemblies[subAssIndex].addons.length == 0) {
+                id = 1;            
+                return id;
+            }
+            else {
+                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].addons).addonNumber; 
+            }
+    
+        } else if(level == 'part') {
+            if(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons.length == 0) {
+                id = 1;            
+                return id;
+            }
+            else {
+                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons).addonNumber; 
+            }
+        }
+        
+        temp = _.split(temp, 'AD');            
+        id = _.toNumber(temp[1]) + 1;
+
+        return id;
+    }
+    this.getExtraNumber = function(level, subAssIndex, partIndex){
+        var id;
+        if(level == 'assembly'){
+            if(this.formData.assembly.extras.length == 0) {
+                id = 1;            
+                return id;
+            }
+            else {
+                temp = _.last(this.formData.assembly.extras).extraNumber; 
+            }
+    
+        } else if(level == 'subAssembly') {
+            if(this.formData.assembly.subAssemblies[subAssIndex].extras.length == 0) {
+                id = 1;            
+                return id;
+            }
+            else {
+                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].extras).extraNumber;             }
+                
+        } else if(level == 'part') {
+            if(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras.length == 0) {
+                id = 1;            
+                return id;
+            }
+            else {
+                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras).extraNumber;          
+            }
+        }
+        
+        temp = _.split(temp, 'EX');            
+        id = _.toNumber(temp[1]) + 1;
+
+        return id;
+    }
+
+
+    this.getSubAssemblyData = function (subAssId, callback){
+        console.log('**** subAssId ****', subAssId);
+        //tempObj = { subAssemblyNumber: subAssId }  
+        // NavigationService.apiCall('subAssemblies/save', tempObj, function (data) {
+        //     var subAssObj = data.data.results;
+        //     this.formData.assembly.subAssemblies.push(subAssObj);        
+             callback();
+        // });
+    }
+    this.getPartData = function (partId, callback){
+        //tempObj = { partNumber: partId }  
+        // NavigationService.apiCall('parts/save', tempObj, function (data) {
+        //     var partObj = data.data.results;
+            temp = _.split(partId, 'PT');            
+        //     this.formData.assembly.subAssemblies[temp[0]].parts.push(partObj);        
+            console.log('****subAssemblyId, partId ****', temp[0], partId);
+        
+            callback();
+        // });
+    }
+    this.getProcessingData = function (processingId, level, subAssemblyId, partId, callback){
+        console.log('**** inside service ... , processingId, level, subAssemblyId, partId****', processingId, level, subAssemblyId, partId);
+        //tempObj = { processingNumber: processingId }  
+        // NavigationService.apiCall('processing/save', tempObj, function (data) {
+        //     var processingObj = data.data.results;
+            // if (level == 'assembly') {
+            //     this.formData.assembly.processing.push(processingObj);
+            // } else if (level == 'subAssembly') {
+            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
+            //     this.formData.assembly.subAssemblies[subAssIndex].processing.push(processingObj);
+            // } else if (level == 'part') {
+            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
+            //     var partIndex = this.getPartIndex(subAssIndex, partId);  
+            //     this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing.push(processingObj)
+            // }
+        //     callback();
+        // });
+    }
+    this.getAddonData = function (addonId, level, subAssemblyId, partId, callback){
+        console.log('**** addonId, level, subAssemblyId, partId ****', addonId, level, subAssemblyId, partId);
+        //tempObj = { addonNumber: addonId }  
+        // NavigationService.apiCall('addons/save', tempObj, function (data) {
+        //     var addonObj = data.data.results;
+            // if (level == 'assembly') {
+            //     this.formData.assembly.addons.push(addonObj);
+            // } else if (level == 'subAssembly') {
+            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
+            //     this.formData.assembly.subAssemblies[subAssIndex].addons.push(addonObj);
+            // } else if (level == 'part') {
+            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
+            //     var partIndex = this.getPartIndex(subAssIndex, partId);  
+            //     this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons.push(addonObj)
+            // }
+        //     callback();
+        // });
+    }
+    this.getExtraData = function (extraId, level, subAssemblyId, partId, callback){
+        console.log('**** extraId, level, subAssemblyId, partId ****', extraId, level, subAssemblyId, partId);
+        //tempObj = { extraNumber: extraId }
+        // NavigationService.apiCall('extras/save', tempObj, function (data) {
+        //     var extraObj = data.data.results;
+            // if (level == 'assembly') {
+            //     this.formData.assembly.extras.push(extraObj);
+            // } else if (level == 'subAssembly') {
+            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
+            //     this.formData.assembly.subAssemblies[subAssIndex].extras.push(extraObj);
+            // } else if (level == 'part') {
+            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
+            //     var partIndex = this.getPartIndex(subAssIndex, partId);  
+            //     this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras.push(extraObj)
+            // }
+        //     callback();
+        // });
+    }
+
 });

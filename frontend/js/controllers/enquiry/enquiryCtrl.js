@@ -1,82 +1,57 @@
-myApp.controller('enquiryCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
+myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryService) {
 
+
+    // *************************** default variables/tasks begin here ***************** //
+  
+    //- to show/hide sidebar of dashboard   
   $scope.$parent.isSidebarActive = true;
 
-  $scope.$on('$viewContentLoaded', function () {
-    // initialize core components
-    App.initAjax();
-  });
-
-  // table data
-  $scope.tableData = [{
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-      "pname": "kishori",
-      "did": "1",
-      "bname": "kishori",
-
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-    }
-  ]
-
-  //Edit Enquries Modal start
-  $scope.editEnqury = function () {
-    $scope.editModal = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/enquiry/allEnquriesEdit.html',
-      scope: $scope,
-      size: 'md',
+    // *************************** default functions begin here  ********************** //
+  
+    //to get all enquiries 
+  $scope.getEnquiryData = function () {
+    enquiryService.getEnquiryData(function (data, obj) {
+      $scope.detailsActive = obj.detailsActive;
+      $scope.infoActive = obj.infoActive;
+      $scope.keyReqActive = obj.keyReqActive;
+      $scope.techReqsActive = obj.techReqsActive;
+      $scope.CommReqActive = obj.CommReqActive;
+      $scope.PreQuaCriteriaActive = obj.PreQuaCriteriaActive;
+      
+      $scope.tableData = data; 
     });
-  };
-  //end of modal
-   // Delete modal start
-    $scope.deleteItem = function () {
-        $scope.modalInstance  = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/modal/delete.html',
-            scope: $scope,
-            size: 'sm',
-        });
-    };
-    //end of modal
-  //start of pagination 
-  $scope.totalItems = 64;
-  $scope.currentPage = 4;
+  }
 
-  $scope.setPage = function (pageNo) {
-    $scope.currentPage = pageNo;
-  };
+    // *************************** functions to be triggered form view begin here ***** //      
+  
+    //- modal to confirm Enquiry deletion
+  $scope.deleteEnquiryModal = function (enquiryId, getFunction) {
+    $scope.idToDelete = enquiryId;
+    $scope.functionToCall = getFunction;
 
-  $scope.pageChanged = function () {
-    $log.log('Page changed to: ' + $scope.currentPage);
-  };
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  $scope.deleteEnquiry = function (enquiryId) {
+    enquiryService.deleteEnquiry(enquiryId, function (data) {
+      $scope.operationStatus = "Record deleted successfully";
+      $scope.cancelModal();
+      $scope.getEnquiryData();
+    });
+  }
 
-  $scope.maxSize = 5;
-  $scope.bigTotalItems = 175;
-  $scope.bigCurrentPage = 1;
-
-  //end of pagination
-  //start of checkbox
-  $("#checkAll").click(function () {
-    $('input:checkbox').not(this).prop('checked', this.checked);
-  });
-
+  //cancel modal
+  $scope.cancelModal = function () {
+      $scope.modalInstance.dismiss();
+  }
+  
+  $scope.init = function () {
+    $scope.getEnquiryData();   
+  }
+  $scope.init();
 
 });

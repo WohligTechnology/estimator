@@ -18,8 +18,6 @@ module.exports = mongoose.model('MMaterialCat', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
-    // what this function will do ?
-    // req data --> ?
     getMaterialStructure: function (data, callback) {
         // please remove .js from following line & this comment as well
         MMaterialCat.find()
