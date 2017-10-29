@@ -118,7 +118,6 @@ myApp.run(["$rootScope", "settings", "$state", function ($rootScope, settings, $
 
 // Define all the routes below
 myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
-    var tempateURL = "views/template/template.html"; //Default Template URL
 
     // for http request with session
     $httpProvider.defaults.withCredentials = true;
@@ -882,7 +881,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
     // $urlRouterProvider.otherwise("/app");
     // $locationProvider.html5Mode(isproduction);
     $urlRouterProvider.otherwise("/app/dashboard");
-    $locationProvider.html5Mode(false);
+    $locationProvider.html5Mode(true);
 });
 
 
