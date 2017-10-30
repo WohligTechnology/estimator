@@ -27,7 +27,9 @@ var model = {
     // what this function will do ?
     // req data --> ?
     getCatsOfSubCat: function (data, callback) {
-        MMaterialSubCat.find({catId:data.matCatId}).exec(function (err, found) {
+        MMaterialSubCat.find({
+            catId: data.matCatId
+        }).exec(function (err, found) {
             if (err) {
                 console.log('**** error at getMaterialsCats of MMaterialSubCat.js ****', err);
                 callback(err, null);

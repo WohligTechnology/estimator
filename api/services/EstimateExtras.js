@@ -1,10 +1,10 @@
 var schema = new Schema({
-    processingLevel: {
+    extraLevel: {
         type: String,
         enum: ['estimate', 'subAssembly', 'part'],
         default: 'estimate'
     },
-    processingLevelId: {
+    extraLevelId: {
         type: String,
         required: true
     },
@@ -41,7 +41,7 @@ var model = {
                 callback(null, 'noDataFound');
             } else {
                 Estimate.removeUnwantedField(found, function (finalData) {
-                    callback(null, found);
+                    callback(null, finalData);
 
                 })
             }
