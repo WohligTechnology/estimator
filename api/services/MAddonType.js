@@ -1,15 +1,15 @@
 var schema = new Schema({
     addonTypeName: {
-        type:String,
-        required:true
+        type: String,
+        required: true
     },
-    materialCat:{
+    materialCat: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'MProcessCat'
+        ref: 'MMaterialCat'
     },
-    materialSubCat:{
+    materialSubCat: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'MProcessCat'
+        ref: 'MMaterialSubCat'
     },
     rate: {
         mulFact: String,
@@ -19,15 +19,30 @@ var schema = new Schema({
             required: true
         }
     },
-    quantity:{
-        supportingVariable: String,
+    quantity: {
+        additionalInput: String, // additional input
+        additionalInputUom: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'MUom',
+            required: true
+        },
         linkedKey: String,
+        linkedKeyUom: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'MUom',
+            required: true
+        },
+        mulFact: String,
         percentageUse: Number,
-        percentageExtra: String,
-        mulFact: String
+        finalUom: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'MUom',
+            required: true
+        }
+
     },
-    remarks:{
-        type:String
+    remarks: {
+        type: String
     }
 });
 
@@ -36,6 +51,6 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('MAddonType', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom','materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom'));
 var model = {};
 module.exports = _.assign(module.exports, exports, model);

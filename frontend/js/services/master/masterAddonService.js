@@ -30,8 +30,16 @@ myApp.service('masterAddonService', function ($http, NavigationService) {
       });
     });
   }
-  this.addOrEditAddonType = function(){
-    
+  this.addOrEditAddonType = function (addonData, callback) {
+    NavigationService.apiCall('MAddonType/save', addonData, function (data) {
+      callback(data.data);
+    });
+  }
+
+  this.deleteAddonType = function (addonId,callback) {
+    NavigationService.apiCall('MAddonType/delete', {_id:addonId}, function (data) {
+      callback(data);
+    });
   }
 
 
