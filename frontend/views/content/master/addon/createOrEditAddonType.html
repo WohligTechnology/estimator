@@ -21,7 +21,8 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label"> Material Category:</label>
                             <div class="col-md-3">
-                                <select class="form-control select_tag_dashboard" ng-model="selectedMatCat" ng-options="mc.materialCatName for mc in mMatCatData track by mc._id " ng-change="getMatSubCat(selectedMatCat._id)">
+                                <select class="form-control select_tag_dashboard" ng-model="selectedMatCat" ng-options="mc.materialCatName for mc in mMatCatData track by mc._id "
+                                    ng-change="getMatSubCat(selectedMatCat._id)">
                                 </select>
                             </div>
                             <label class="col-md-2 control-label"> Material SubCategory:</label>
@@ -54,7 +55,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label"> Additional Input</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" ng-model="formData.quantity.additionalInput">
                             </div>
                             <label class="col-md-2 control-label">UOM</label>
                             <div class="col-md-3">
@@ -63,12 +64,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Linked Key Value</label>
+                            <label class="col-md-2 control-label">Linkedkey Value:</label>
                             <div class="col-md-3">
-                                <select class="form-control">
+                                <select class="form-control" ng-model="formData.quantity.linkedKey">
                                     <option></option>
-                                    <option></option>
-                                    <option></option>
+                                    <option>Perimeter</option>
+                                    <option>SMA</option>
+                                    <option>SA</option>
+                                    <option>Wt</option>
+                                    <option>Nos</option>
+                                    <option>Hrs</option>
                                 </select>
                             </div>
                             <label class="col-md-2 control-label">UOM</label>
@@ -80,7 +85,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Multiplication Factor</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " placeholder="">
+                                <input type="text" class="form-control " ng-model="formData.quantity.mulFact">
                             </div>
                             <label class="col-md-2 control-label">Final UOM</label>
                             <div class="col-md-3">
@@ -91,17 +96,23 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">% use</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " placeholder="">
+                                <input type="text" class="form-control" ng-model="formData.quantity.percentageUse">
                             </div>
                         </div>
+                        <div class="form-group">
+                                <label class="col-md-2 control-label">Remarks</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="formData.remarks">
+                                </div>
+                            </div>
                     </div>
                 </form>
                 <!--END OF DEAFULT EXTRAS TABLE -->
                 <div class="row">
                     <div class=" col-md-12">
                         <div class="mar-bottom">
-                            <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditAddonType(formData,selectedMatCat._id,selectedMatSubCat._id,selectedRateUom,selectedAdditionalUom._id,selectedKinkedKeyUom._id,selectedFinalUom._id)">Save</button>
-                            <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditAddonType(formData,selectedMatCat._id,selectedMatSubCat._id,selectedRateUom,selectedAdditionalUom._id,selectedKinkedKeyUom._id,selectedFinalUom._id)">Update</button>
+                            <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditAddonType(formData,selectedMatCat._id,selectedMatSubCat._id,selectedRateUom._id,selectedAdditionalUom._id,selectedKinkedKeyUom._id,selectedFinalUom._id)">Save</button>
+                            <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditAddonType(formData,selectedMatCat._id,selectedMatSubCat._id,selectedRateUom._id,selectedAdditionalUom._id,selectedKinkedKeyUom._id,selectedFinalUom._id)">Update</button>
                             <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                         </div>
                     </div>
