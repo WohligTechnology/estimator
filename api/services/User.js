@@ -25,7 +25,7 @@ var schema = new Schema({
         default: ""
     },
     photo: {
-        type: String,
+        file: String,
         default: "",
         excel: [{
             name: "Photo Val"

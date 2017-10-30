@@ -12,12 +12,16 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditAddonTypeModal('save',undefined)"> <i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditAddonTypeModal('save',undefined)">
+                                <i class="fa fa-plus"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="col-md-1">
                         <div class="btn-group pull-right">
-                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                <i class="fa fa-angle-down"></i>
+                            </button>
                             <ul class="dropdown-menu pull-right">
                                 <li>
                                     <a href="javascript:;"> Save as PDF </a>
@@ -41,7 +45,8 @@
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
                                     data-close-others="true">
-                                     <i class="fa fa-angle-down"></i></button>
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a> 5</a>
@@ -79,22 +84,26 @@
                                 <tr>
                                     <th rowspan="2">
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                        <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label>
+                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="selectAll" ng-click="checkAll()"
+                                            />
+                                            <span></span>
+                                        </label>
                                     </th>
-                                    <th rowspan="2" class="align-top"> Id </th>
+                                    <th rowspan="2" class="align-top">Id</th>
                                     <th rowspan="2" class="align-top">Addon Type Name</th>
-                                    <th rowspan="2" class="align-top"> Available Master Material</th>
-                                    <th colspan="2" class="text-center"> Rate </th>
-                                    <th colspan="6" class="align-top text-center"> Quantity </th>
-                                    <th rowspan="2" class="align-top"> % Use</th>
-                                    <th rowspan="2" class="align-top"> Action</th>
+                                    <th rowspan="2" class="align-top">Mat Cat</th>
+                                    <th rowspan="2" class="align-top">Mat Sub Cat</th>
+                                    <th colspan="2" class="text-center">Rate</th>
+                                    <th colspan="6" class="align-top text-center">Quantity</th>
+                                    <th rowspan="2" class="align-top">% Use</th>
+                                    <th rowspan="2" class="align-top">Action</th>
                                 </tr>
                                 <tr>
-                                    <th>Multiplication Factor </th>
+                                    <th>Multiplication Factor</th>
                                     <th>UOM</th>
                                     <th>Input</th>
                                     <th>UOM</th>
-                                    <th>Linked Key Value Field</th>
+                                    <th>Linked Key Value</th>
                                     <th>UOM</th>
                                     <th>Mulfact</th>
                                     <th>Final UOM</th>
@@ -104,25 +113,47 @@
                                 <tr ng-repeat="addon in addonData">
                                     <td>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                           <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/>
-                                           <span></span>
-                                     </label>
+                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="selectAll" ng-click="checkAll()"
+                                            />
+                                            <span></span>
+                                        </label>
                                     </td>
+                                    <!-- <td>aa</td>
+                                    <td>bb</td>
+                                    <td>cc</td>
+                                    <td>dd</td>
+                                    <td>ee</td>
+                                    <td>ff</td>
+                                    <td>gg</td>
+                                    <td>hh</td>
+                                    <td>ii</td>
+                                    <td>jj</td>
+                                    <td>kk</td>
+                                    <td>ll</td> -->
                                     <td>{{$index}} </td>
                                     <td>{{addon.addonTypeName}}</td>
-                                    <td> {{addon.materialCat}} </td>
-                                    <td>{{addon.materialSubCat}}</td>
+                                    <td>{{addon.materialCat.materialCatName}} </td>
+                                    <td>{{addon.materialSubCat.materialSubCatName}}</td>
                                     <td>{{addon.rate.mulFact}}</td>
-                                    <td>{{addon.rate.uom}} </td>
-                                    <td>{{addon.quantity.supportingVariable}} </td>
+                                    <td>{{addon.rate.uom.uomName}} </td>
+                                    <td>{{addon.quantity.additionalInput}} </td>
+                                    <td>{{addon.quantity.additionalInputUom.uomName}} </td>
                                     <td>{{addon.quantity.linkedKey}} </td>
-                                    <td>{{addon.quantity.percentageUse}}</td>
-                                    <td>{{addon.quantity.percentageExtra}}</td>
+                                    <td>{{addon.quantity.linkedKeyUom.uomName}} </td>
                                     <td>{{addon.quantity.mulFact}}</td>
-                                    <td>{{addon.remarks}}</td>
+                                    <td>{{addon.quantity.finalUom.uomName}} </td>
+                                    <td>{{addon.quantity.percentageUse}}</td>
                                     <td class="edit-icon">
-                                        <a class="action" ng-click="addOrEditAddonTypeModal('update',addon)"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o" ></i></span></a>
+                                        <a class="action" ng-click="addOrEditAddonTypeModal('update',addon)">
+                                            <span class="label label-sm label-success">
+                                                <i class="fa fa-pencil"></i>
+                                            </span>
+                                        </a>
+                                        <a class="" ng-click="deleteAddonTypeModal(addon._id,'deleteAddonType')">
+                                            <span class="label label-sm label-danger">
+                                                <i class="fa fa-trash-o"></i>
+                                            </span>
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>

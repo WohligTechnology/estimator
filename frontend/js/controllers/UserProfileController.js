@@ -1,10 +1,53 @@
-myApp.controller('UserProfileController', function($rootScope, $scope, $http, $timeout, $state) {
-    $scope.$on('$viewContentLoaded', function() {   
-        App.initAjax(); // initialize core components
-        Layout.setAngularJsSidebarMenuActiveLink('set', $('#sidebar_menu_link_profile'), $state); // set profile link active in sidebar menu 
-    });
+myApp.controller('userProfileController', function($stateParams, $scope, $http, userProfileService) {
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageBodySolid = true;
-    $rootScope.settings.layout.pageSidebarClosed = true;
+
+    $scope.getUserObj = function(){
+        userProfileService.getUserObj($stateParams.profileId, function(data){
+            $scope.formData = data;
+        });
+    }
+
+    $scope.uploadProfile = function (userData) {
+        userProfileService.uploadProfile(userData);
+      }
+
+    $scope.cancelChanges = function(){
+        userProfileService.getUserObj($stateParams.profileId, function(data){
+            $scope.formData = data;
+        });
+    }  
+
+    // $scope.changeProfilePhoto = function(ProfilePhoto){
+    //     console.log('**** ProfilePhoto ****', ProfilePhoto);
+    //     userProfileService.uploadProfile($stateParams.profileId, ProfilePhoto, function(data){
+    //         $scope.formData = data;
+    //     });
+    // }
+   $scope.init = function() {
+        $scope.getUserObj();
+    }    
+    
+    $scope.init();
+
+//     var compareTo = function() {
+//     return {
+//         require: "ngModel",
+//         scope: {
+//             otherModelValue: "=compareTo"
+//         },
+//         link: function(scope, element, attributes, ngModel) {
+             
+//             ngModel.$validators.compareTo = function(modelValue) {
+//                 return modelValue == scope.otherModelValue;
+//             };
+ 
+//             scope.$watch("otherModelValue", function() {
+//                 ngModel.$validate();
+//             });
+//         }
+//     };
+// };
+ 
+// module.directive("compareTo", compareTo);
+
 }); 
