@@ -7,6 +7,7 @@ var schema = new Schema({
         type: String,
         validate: validators.isEmail(),
         excel: "User Email",
+        required: true,
         unique: true
     },
     dob: {
@@ -23,7 +24,7 @@ var schema = new Schema({
         default: ""
     },
     photo: {
-        type: String,
+        file: String,
         default: "",
         excel: [{
             name: "Photo Val"
@@ -224,7 +225,17 @@ var model = {
         });
     },
 
-    resetPassword: function (data, callback) {
+    generateRandomString: function (number) {
+        var text = "";
+        var possible = "$#@%&ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (var i = 0; i < number; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    },
+
+    changePassword: function (data, callback) {
         console.log('**** inside resetPassword of User.js & data is ****', data);
         User.findOne({
             _id: data.id
@@ -237,17 +248,17 @@ var model = {
                 callback(null, 'noDataFound');
             } else {
 
-                if(found.password == data.password){
+                if (found.password == data.password) {
 
                     var saveDataObj = {
-                        password : data.newPassword
+                        password: data.newPassword
                     };
-    
-                    if (!_.isEmpty(found._id)) {                       
+
+                    if (!_.isEmpty(found._id)) {
                         saveDataObj._id = found._id;
 
                     }
-    
+
                     User.saveData(saveDataObj, function (err, savedData) {
                         if (err) {
                             console.log('**** error at resetPassword of User.js ****', err);
@@ -258,11 +269,106 @@ var model = {
                             callback(null, savedData);
                         }
                     });
-                }else{
-                    callback(null,"password not matching");
+                } else {
+                    callback(null, "password not matching");
                 }
             }
         });
     },
+    sendForgetPasswordOtp: function (data, callback) {
+        console.log(" ***** inside sendForgotPasswordOtp  ***** ", data);
+        var userData = {};
+        // check whether user is available or not ?
+        // if --> yes --> generate OTP & send email to user with otp
+        async.waterfall([
+                // Check whether user is present
+                function (callback) {
+                    User.findOne({
+                        email: data.email
+                    }).lean().exec(callback);
+                },
+                // Change password to random String
+                function (user, callback) {
+                    if (_.isEmpty(user)) {
+                        callback(null, []);
+                    } else {
+                        // Generate random String as a password
+                        var verificationCode = User.generateRandomString(6);
+
+                        user.otp = verificationCode;
+                        User.saveData(user, function (err, result) {
+                            if (err) {
+                                callback(err, null);
+                            } else {
+                                console.log('**** inside function_name of User mai hu& data is ****',user);
+                                User.findOne({
+                                    _id: user._id
+                                }).exec(callback);
+                            }
+                        });
+                    }
+                },
+               // Send forget password email
+                function (user, callback) {
+                    if (_.isEmpty(user)) {
+                        userData.userId = user._id;
+                        callback(null, "userNotFound");
+                    } else {
+                        userData.userId = user._id;
+
+                        var emailData = {};
+                        emailData.otp = user.forgotPassword;
+                        emailData.email = data.email;
+                        emailData.subject = "Forgot Password";
+                        emailData.filename = "forgotPassword.ejs";
+                        // emailData.from = "admin@rusa.com"
+                        emailData.from = "ashish.zanwar@wohlig.com";
+                        emailData.name = user.name;
+
+                        Config.email(emailData, callback);
+                        // callback();
+                    }
+                }
+            ],
+            function (err, result) {
+                console.log(" ***** async.waterfall final response of sendForgotPasswordOtp ***** ", result);
+                callback(err, result);
+            });
+    },
+    confirmForgotPasswordOtp: function (data, callback) {
+        console.log(" **** inside confirmForgotPasswordOtp *** ", data);
+        User.findOne({
+            _id: data._id,
+            forgotPassword: data.verifyOtp
+        }).lean().exec(function (err, found) {
+            if (err) {
+                console.log(" *** inside confirmForgotPasswordOtp err *** ", err);
+                callback(null, err);
+            } else if (_.isEmpty(found)) {
+                callback(null, {});
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+    resetPassword: function (data, callback) {
+        User.findOneAndUpdate({
+            _id: data._id
+        }, {
+            password: data.newPassword,
+            otp:""
+        }).exec(function (err, updatedData) {
+            if (err) {
+                console.log('**** error at resetPassword of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(updatedData)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null,updatedData);
+            }
+        });
+    },
+
+
 };
 module.exports = _.assign(module.exports, exports, model);

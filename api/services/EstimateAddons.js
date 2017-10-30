@@ -1,10 +1,10 @@
 var schema = new Schema({
-    processingLevel: {
+    addonsLevel: {
         type: String,
         enum: ['estimate', 'subAssembly', 'part'],
         default: 'estimate'
     },
-    processingLevelId: {
+    addonsLevelId: {
         type: String,
         required: true
     },

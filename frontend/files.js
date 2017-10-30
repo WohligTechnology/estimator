@@ -74,6 +74,7 @@ module.exports = [
   'frontend/js/controllers/customer/customerCtrl.js',
   'frontend/js/controllers/enquiry/createOrEditEnquiryCtrl.js',
   'frontend/js/controllers/enquiry/enquiryCtrl.js',
+  'frontend/js/controllers/UserProfileController.js',
   'frontend/js/controllers/estimate/createOrEditEstimateCtrl.js',
   'frontend/js/controllers/estimate/estimateCtrl.js',
   'frontend/js/controllers/login/loginCtrl.js',
@@ -87,6 +88,7 @@ module.exports = [
   'frontend/js/controllers/user/userCtrl.js',
 
   'frontend/js/services/customer/customerService.js',
+  'frontend/js/services/user/userProfileService.js',
   'frontend/js/services/enquiry/createOrEditEnquiryService.js',
   'frontend/js/services/enquiry/enquiryService.js',
   'frontend/js/services/estimate/createOrEditEstimateService.js',

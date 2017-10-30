@@ -1,5 +1,5 @@
 
-myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $timeout, $state, $scope, $http, createOrEditEnquiryService) {
+myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $interpolate,  $timeout, $state, $scope, $http, createOrEditEnquiryService) {
 
     // *************************** default variables/tasks begin here ***************** //
  
@@ -31,7 +31,9 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $timeout, $s
       $scope.operationStatus = "Record Added Successfully";
       console.log('**** formData ****',formData); 
       if(angular.isUndefined(formData._id)){
-        $state.go('app.editEnquiry', {enquiryId:data._id});
+        //$state.go('app.editEnquiry', {enquiryId:data._id});
+        var url = $interpolate('/enquiry/edit/:' + data._id)($scope);
+        console.log('**** url ****', url);
       }      
       $timeout(function () {
         $scope.operationStatus="";
