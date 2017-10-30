@@ -1,8 +1,7 @@
 var schema = new Schema({
     name: {
         type: String,
-        required: true,
-        excel: true,
+        required: true
     },
     email: {
         type: String,

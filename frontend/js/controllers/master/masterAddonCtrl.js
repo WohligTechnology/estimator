@@ -6,14 +6,6 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
     $scope.mMatSubCatData = [];
-    var addonTypeSelectedData = {
-        addonTypeCat: "",
-        addonTypeSubCat: "",
-        addonTypeRateMulUom: "",
-        addonTypeQualAddInputUom: "",
-        addonTypeQualKeyValueUom: "",
-        addonTypeQualFinalUom: ""
-    };
 
     // *************************** default functions begin here  ********************** //
     $scope.getAddonData = function () {
@@ -50,7 +42,6 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
             });
         });
     }
-
     $scope.addOrEditAddonType = function (addonTypeData, selectedMatCatId, selectedMatSubCatId, selectedRateUomId, selectedAdditionalUomId, selectedKinkedKeyUomId, selectedFinalUomId) {
         addonTypeData.materialCat = selectedMatCatId;
         addonTypeData.materialSubCat = selectedMatSubCatId;
