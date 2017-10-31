@@ -438,7 +438,6 @@ var models = {
         console.log(' *** inside email of Config.js ***', requrl);
 
         MailKey.find().exec(function (err, getMailKey) {
-            console.log('**** inside aa gya be of getMailKey.js & data is ****',getMailKey);
             if (err) {
                 console.log(err);
                 callback(err, null);

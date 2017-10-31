@@ -25,7 +25,7 @@ var schema = new Schema({
     },
     photo: {
         file: String,
-        default: ""       
+        default: ""
     },
     password: {
         type: String,
@@ -192,6 +192,59 @@ var model = {
                 callback(null, finalResults);
             }
         });
+    },
+
+    createUser: function (data, callback) {
+        var userData = {};
+        async.waterfall([
+                function (callback) {
+                    var saveDataObj = {
+                        email: data.email,
+                        name: data.name
+                    };
+                    User.saveData(saveDataObj, function (err, savedData) {
+                        if (err) {
+                            console.log('**** error at createUser of User.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(savedData)) {
+                            callback(null, []);
+                        } else {
+                            var oneTimePassword = User.generateRandomString(8);
+                            savedData.password = oneTimePassword;
+
+                            User.saveData(savedData, function (err, result) {
+                                if (err) {
+                                    callback(err, null);
+                                } else {
+                                    callback(null,savedData);
+                                }
+                            });
+                        }
+                    });
+                },
+                // Send new password to user's email
+                function (savedData, callback) {
+                    if (_.isEmpty(savedData)) {
+                        callback(null, []);
+                    } else {
+                        var emailData = {};
+                        emailData.otp = savedData.password;
+                        emailData.email = data.email;
+                        emailData.subject = "Estimator User Credential";
+                        emailData.filename = "forgotPassword.ejs";
+                        // emailData.from = "admin@rusa.com"
+                        emailData.from = "ashish.zanwar@wohlig.com";
+                        emailData.name = savedData.name;
+
+                        Config.email(emailData, callback);
+                    }
+                },
+            ],
+            function (err, result) {
+                console.log(" ***** async.waterfall final response of createUser ***** ",result);
+                callback(err, "success");
+            });
+
     },
 
     loginUser: function (data, callback) {
