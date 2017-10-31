@@ -214,7 +214,7 @@ var model = {
 
     generateRandomString: function (number) {
         var text = "";
-        var possible = "$#@%&ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var possible = "$ABCDEFGHIJKLMNOPQRS&TUVWXYZabcd#efghijklmnopqrstuvw@xyz01234%56789";
 
         for (var i = 0; i < number; i++)
             text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -302,9 +302,8 @@ var model = {
                         callback(null, "userNotFound");
                     } else {
                         userData.userId = user._id;
-
                         var emailData = {};
-                        emailData.otp = user.forgotPassword;
+                        emailData.otp = user.otp;
                         emailData.email = data.email;
                         emailData.subject = "Forgot Password";
                         emailData.filename = "forgotPassword.ejs";
@@ -326,7 +325,7 @@ var model = {
         console.log(" **** inside confirmForgotPasswordOtp *** ", data);
         User.findOne({
             _id: data._id,
-            forgotPassword: data.verifyOtp
+            otp: data.verifyOtp
         }).lean().exec(function (err, found) {
             if (err) {
                 console.log(" *** inside confirmForgotPasswordOtp err *** ", err);

@@ -444,7 +444,7 @@ var models = {
                 callback(err, null);
             } else if (getMailKey && getMailKey.length > 0) {
                 if (data.filename && data.filename != "") {
-                    console.log('**** inside function_name of Config.js & data is ****',data);
+                    console.log('**** inside email of Config.js & data is ****',data);
                     request.post({
                         url: requrl + "config/emailReader/",
                         json: data
