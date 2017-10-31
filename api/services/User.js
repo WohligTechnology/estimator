@@ -25,20 +25,7 @@ var schema = new Schema({
     },
     photo: {
         file: String,
-        default: "",
-        excel: [{
-            name: "Photo Val"
-        }, {
-            name: "Photo String",
-            modify: function (val, data) {
-                return "http://abc/" + val;
-            }
-        }, {
-            name: "Photo Kebab",
-            modify: function (val, data) {
-                return data.name + " " + moment(data.dob).format("MMM DD YYYY");
-            }
-        }]
+        default: ""       
     },
     password: {
         type: String,
