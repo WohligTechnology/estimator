@@ -1,11 +1,11 @@
 var schema = new Schema({
     enquiryName: {
         type: String,
-       // required: true
+        // required: true
     },
     enquiryId: {
-        type: String, // auto geneatated with suffix
-        //required: true
+        type: Number, // auto geneatated with suffix
+        required: true
     },
     customerId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -220,6 +220,43 @@ var model = {
         });
     },
 
+    createEnquiry: function (data, callback) {
+
+        Enquiry.findOne().sort({
+            createdAt: -1
+        }).exec(function (err, found) {
+            console.log('**** inside function_name of Enquiry.js ****', found);
+            if (err) {
+                console.log('**** error at function_name of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                data.enquiryId = 1;
+            } else {
+                data.enquiryId = found.enquiryId + 1;
+            }
+
+            console.log('**** inside &&&&&&&&&&&&& of Enquiry.js ****', data);
+
+
+            Enquiry.saveData(data, function (err, savedData) {
+                if (err) {
+                    console.log('**** error at function_name of Enquiry.js ****', err);
+                    callback(err, null);
+                } else if (_.isEmpty(savedData)) {
+                    callback(null, 'noDataFound');
+                } else {
+                    callback(null, savedData);
+                }
+            });
+        });
+    }
+
+
+
+
+
+
 
 };
+
 module.exports = _.assign(module.exports, exports, model);

@@ -200,7 +200,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
     }
 })
 .state('app.createEstimate', {
-    url: "/estimate/create/:enquiryId",
+    url: "/estimate/create/:estimateId",
     views: {
         "mainView": {
             templateUrl: "views/content/estimate/createOrEditEstimate.html",
