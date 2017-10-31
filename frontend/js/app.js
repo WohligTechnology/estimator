@@ -142,7 +142,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "SidebarController"
                 },
                 "mainView": {
-                    templateUrl: "views/login/login.html",
+                    templateUrl: "views/content/login/login.html",
                     controller: "loginCtrl"
                 }
             }
@@ -830,6 +830,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         .state("profile.dashboard", {
             url: "/profileDashboard",
             templateUrl: "views/profile/dashboard.html",
+            controller: "UserProfileController",            
             data: {
                 pageTitle: 'User Profile'
             }
@@ -837,8 +838,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
 
         // User Profile Account
         .state("profile.account", {
-            url: "/account",
+            url: "/account/:profileId",
             templateUrl: "views/profile/account.html",
+            controller: "UserProfileController",            
             data: {
                 pageTitle: 'User Account'
             }

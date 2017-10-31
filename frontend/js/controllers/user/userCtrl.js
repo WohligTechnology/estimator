@@ -56,8 +56,8 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
       });
     }
     $scope.deleteUser = function (userId) {
-    userService.deleteUser(userId, function (data) {
-        $scope.operationStatus = "Record deleted successfully";
+    userService.deleteUser(userId, function (data) {  
+      $scope.operationStatus = "Record deleted successfully";
         $scope.cancelModal();
         $scope.getUserData();
       });

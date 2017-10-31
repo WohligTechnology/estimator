@@ -67,7 +67,6 @@ module.exports = [
   'frontend/js/controllers/DashboardController.js',
   'frontend/js/controllers/GeneralPageController.js',
   'frontend/js/controllers/TodoController.js',
-  'frontend/js/controllers/UserProfileController.js',
   'frontend/js/controllers/UISelectController.js',
 
 
@@ -87,6 +86,8 @@ module.exports = [
   'frontend/js/controllers/master/masterProcessCtrl.js',
   'frontend/js/controllers/master/masterShapeCtrl.js',
   'frontend/js/controllers/user/userCtrl.js',
+  'frontend/js/controllers/UserProfileController.js',
+  
 
   'frontend/js/services/customer/customerService.js',
   'frontend/js/services/enquiry/createOrEditEnquiryService.js',
@@ -102,5 +103,6 @@ module.exports = [
   'frontend/js/services/master/masterProcessService.js',
   'frontend/js/services/master/masterShapeService.js',
   'frontend/js/services/user/userService.js',
+  'frontend/js/services/user/userProfileService.js',
   'frontend/js/services/dashboardService.js'
 ];

@@ -5,7 +5,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $timeout, $s
  
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = false;  
-
+ 
     
     // *************************** default functions begin here  ********************** //
 
