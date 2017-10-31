@@ -61,11 +61,21 @@ myApp.factory('settings', ['$rootScope', function ($rootScope) {
 }]);
 
 /* Setup App Main Controller */
-myApp.controller('AppController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+myApp.controller('AppController', ['$scope', '$rootScope','$state', function ($scope, $rootScope,$state) {
     $scope.$on('$viewContentLoaded', function () {
         App.initComponents(); // init core components
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
+
+    if(true){
+        $scope.loginTemplete =  false;
+    }else{
+        $scope.loginTemplete =  true;
+    }
+
+    // console.log("*********************************************************************",window.location.href );
+    // console.log("*********************************************************************",$state.current);
+
 }]);
 
 /***
@@ -134,18 +144,10 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         })
 
         // ********************************** login module ********************************** //
-        .state('app.login', {
+        .state('login', {
             url: "/login",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/login/login.html",
-                    controller: "loginCtrl"
-                }
-            }
+            templateUrl: "views/content/login/estimatorLogin.html",
+            controller: "loginCtrl"
         })
 
         // ******************************** dashboard module ******************************** //
@@ -830,7 +832,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         .state("profile.dashboard", {
             url: "/profileDashboard",
             templateUrl: "views/profile/dashboard.html",
-            controller: "UserProfileController",            
+            controller: "UserProfileController",
             data: {
                 pageTitle: 'User Profile'
             }
@@ -840,7 +842,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         .state("profile.account", {
             url: "/account/:profileId",
             templateUrl: "views/profile/account.html",
-            controller: "UserProfileController",            
+            controller: "UserProfileController",
             data: {
                 pageTitle: 'User Account'
             }

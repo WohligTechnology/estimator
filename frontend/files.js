@@ -45,6 +45,9 @@ module.exports = [
   "frontend/themeassets/layouts/global/scripts/quick-sidebar.min.js",
   "frontend/themeassets/layouts/global/scripts/quick-nav.min.js",
   "frontend/themeassets/layouts/layout/scripts/demo.min.js",
+  "frontend/themeassets/global/plugins/jquery-validation/js/jquery.validate.min.js",
+  "frontend/themeassets/global/plugins/backstretch/jquery.backstretch.min.js",
+  "frontend/themeassets/pages/scripts/login-4.min.js",
 
   //App.js
   'frontend/js/app.js',
