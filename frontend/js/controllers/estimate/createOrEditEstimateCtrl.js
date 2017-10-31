@@ -1,4 +1,4 @@
-myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstimateService, $uibModal) {
+myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, createOrEditEstimateService, $uibModal) {
 
 
     // *************************** default variables/tasks begin here ***************** //
@@ -7,6 +7,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
 
+    if(angular.isDefined($stateParams.estimateId)){
+        $scope.draftEstimateId = $stateParams.estimateId;
+    }
 
 
     // *************************** default functions begin here  ********************** //
@@ -22,8 +25,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
     }
     //- get data to generate tree structure dynamically i.e. get assembly stucture
     $scope.getEstimateData = function () {
-        createOrEditEstimateService.getEstimateData(function (data) {
-            $scope.estimteData = data.assembly;
+        createOrEditEstimateService.getEstimateData($scope.draftEstimateId, function (data) {
+            $scope.estimteData = data;
         });
     }
 
@@ -422,7 +425,5 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstim
             $scope.cancelModal();   
         });
     };
-
-
 
 });

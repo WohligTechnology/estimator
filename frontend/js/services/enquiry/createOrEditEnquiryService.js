@@ -3,10 +3,14 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
   this.getEnquiryObj = function (id, callback) {
     if(angular.isDefined(id)){
       NavigationService.apiCall('Enquiry/getOne', {_id:id}, function (data) {
-        callback(data.data);
+        if(data.data != "ObjectId Invalid"){
+          callback(data.data);
+        }else{
+          callback({});
+        }        
       });
     }else{
-      callback();
+      callback({});
     }
   }
   this.getCustomerData = function (callback) {
@@ -16,8 +20,18 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       });
  } 
   this.createEnquiry = function (enquiryData, callback) {    
-      NavigationService.apiCall('Enquiry/save', enquiryData, function (data) {
+      NavigationService.apiCall('Enquiry/createEnquiry', enquiryData, function (data) {
         callback(data.data);
       });
+  }
+  this.saveAssemblyName = function(assName, enquiryId,callback){
+    var estimateData = {
+      assemblyName:assName,
+      enquiryId:enquiryId
+    }
+    
+    NavigationService.apiCall('DraftEstimate/save', estimateData, function (data) {
+      callback(data.data);
+    });
   }
 });    

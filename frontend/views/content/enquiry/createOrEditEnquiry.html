@@ -510,7 +510,7 @@
                 </div>
                 <!--Go to Estimate view-->
                 <div class="btn-group pull-right">
-                    <button id="sample_editable_1_new" class="btn green" ui-sref="app.createEstimate"> Estimate </button>
+                    <button id="sample_editable_1_new" class="btn green" ng-click="saveAssemblyNameModal(formData._id,enquiryId)" ng-if="showEstimateBtn"> Estimate </button>
                 </div>
                 <!-- start of table-->
                 <div class="portlet-body">
@@ -579,6 +579,3 @@
     </div>
     <!--end of table-->
 </div>
-<script>
-    // UITree.init(); // init todo page
-</script>
