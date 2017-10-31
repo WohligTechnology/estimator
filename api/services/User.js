@@ -287,7 +287,7 @@ var model = {
                             if (err) {
                                 callback(err, null);
                             } else {
-                                console.log('**** inside function_name of User mai hu& data is ****',user);
+                                console.log('**** inside function_name of User mai hu& data is ****', user);
                                 User.findOne({
                                     _id: user._id
                                 }).exec(callback);
@@ -295,7 +295,7 @@ var model = {
                         });
                     }
                 },
-               // Send forget password email
+                // Send forget password email
                 function (user, callback) {
                     if (_.isEmpty(user)) {
                         userData.userId = user._id;
@@ -310,8 +310,8 @@ var model = {
                         emailData.filename = "forgotPassword.ejs";
                         // emailData.from = "admin@rusa.com"
                         emailData.from = "ashish.zanwar@wohlig.com";
+                        // emailData.from = "vijayvaidya99@gmail.com";
                         emailData.name = user.name;
-
                         Config.email(emailData, callback);
                         // callback();
                     }
@@ -343,7 +343,7 @@ var model = {
             _id: data._id
         }, {
             password: data.newPassword,
-            otp:""
+            otp: ""
         }).exec(function (err, updatedData) {
             if (err) {
                 console.log('**** error at resetPassword of User.js ****', err);
@@ -351,7 +351,7 @@ var model = {
             } else if (_.isEmpty(updatedData)) {
                 callback(null, 'noDataFound');
             } else {
-                callback(null,updatedData);
+                callback(null, updatedData);
             }
         });
     },
