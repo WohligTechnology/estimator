@@ -26,9 +26,10 @@ var schema = new Schema({
     addonCost: Number,
     extrasCost: Number,
     totalCost: Number,
-    estimateId: { // it is a common & unique field to backup estimate document
-        type: String,
-        unique: true
+    draftEstimateId: {                            // corresponding draft estimate --> _id
+        type: Schema.Types.ObjectId,
+        ref: "DraftEstimate",
+        index: true
     },
     estimateCreatedUser: {
         type: Schema.Types.ObjectId,

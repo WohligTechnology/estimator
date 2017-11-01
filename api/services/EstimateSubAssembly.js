@@ -13,7 +13,7 @@ var schema = new Schema({
         numbers: Number,
         hours: Number
     },
-    estimateId: {
+    estimateId: {                            // two way data binding
         type: Schema.Types.ObjectId,
         ref: "Estimate",
         required: true,

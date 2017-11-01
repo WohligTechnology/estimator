@@ -13,11 +13,6 @@ var schema = new Schema({
         unique: true,
         required: true
     },
-    estimateCreatedUser: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        index: true
-    },
     processType: {
         type: Schema.Types.ObjectId,
         ref: "MProcessType",
