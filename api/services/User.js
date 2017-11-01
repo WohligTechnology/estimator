@@ -248,7 +248,6 @@ var model = {
     },
 
     loginUser: function (data, callback) {
-        console.log('**** inside loginUser of User.js & data is ****', data);
         User.findOne({
             email: data.email,
             password: data.password

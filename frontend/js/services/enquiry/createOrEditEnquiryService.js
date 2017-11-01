@@ -30,7 +30,7 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       enquiryId:enquiryId
     }
     
-    NavigationService.apiCall('DraftEstimate/save', estimateData, function (data) {
+    NavigationService.apiCall('DraftEstimate/createDraftEstimate', estimateData, function (data) {
       callback(data.data);
     });
   }

@@ -21,7 +21,7 @@
     <!--[if IE]> <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script> <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script> <![endif]-->
 </head>
 
-<body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-on-load" ng-class="{'page-content-white': settings.layout.pageContentWhite,'page-container-bg-solid': settings.layout.pageBodySolid, 'page-sidebar-closed': settings.layout.pageSidebarClosed}">
+<body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-on-load login" ng-class="{'page-content-white': settings.layout.pageContentWhite,'page-container-bg-solid': settings.layout.pageBodySolid, 'page-sidebar-closed': settings.layout.pageSidebarClosed}">
     <!-- BEGIN PAGE SPINNER -->
     <div ng-spinner-bar class="page-spinner-bar">
         <div class="bounce1"></div>
@@ -30,7 +30,7 @@
     </div>
     <!-- END PAGE SPINNER -->
     <!-- BEGIN HEADER -->
-    <div data-ng-include="'../frontend/views/tpl/header.html'" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top">
+    <div data-ng-include="'../frontend/views/tpl/header.html'" ng-if="loginTemplate" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top">
     </div>
     <!-- END HEADER -->
     <div class="clearfix"> </div>
@@ -38,7 +38,7 @@
     <div ui-view class="page-container"></div>
     <!-- END CONTAINER -->
     <!-- BEGIN FOOTER -->
-    <div data-ng-include="'../frontend/views/tpl/footer.html'" data-ng-controller="FooterController" class="page-footer"> </div>
+    <div data-ng-include="'../frontend/views/tpl/footer.html'" ng-if="loginTemplate" data-ng-controller="FooterController" class="page-footer"> </div>
     <!-- END FOOTER -->
     <!-- BEGIN QUICK NAV -->
     <!-- <nav class="quick-nav">

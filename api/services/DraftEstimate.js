@@ -10,7 +10,8 @@ var schema = new Schema({
         required: true
     },
     assemplyNumber: { //  start with a + X where X is increasing numbers
-        type: String
+        type: String,
+        required: true
     },
     keyValueCalculations: {
         perimeter: Number,
@@ -26,10 +27,6 @@ var schema = new Schema({
     addonCost: Number,
     extrasCost: Number,
     totalCost: Number,
-    estimateId: { // it is a common & unique field to backup estimate document
-        type: String,
-        unique: true
-    },
     estimateCreatedUser: {
         type: Schema.Types.ObjectId,
         ref: "User"
@@ -99,7 +96,7 @@ var model = {
                     addonCost: found.addonCost,
                     extrasCost: found.extrasCost,
                     totalCost: found.totalCost,
-                    estimateId: found.estimateId,
+                    draftEstimateId: found.estimateId,
                     estimateCreatedUser: found.estimateCreatedUser,
                     estimateUpdatedUser: found.estimateUpdatedUser,
                     estimateDetails: found.estimateDetails,
@@ -171,6 +168,7 @@ var model = {
                                             } else {
                                                 partsArray.push(savedPart._id);
                                                 async.parallel({
+
                                                     partProcessing: function (callback) {
                                                         async.eachSeries(part.proccessing, function (proObj, callback) {
                                                             proObj.processingLevel = "part";
@@ -462,9 +460,15 @@ var model = {
                                     if (err) {
                                         console.log('********** error at final response of async.parallel  DraftEstimate.js ************', err);
                                     } else {
+<<<<<<< HEAD
                                         savedAssembly.proccessing = subAssProccessingArray;
                                         savedAssembly.addons = subAssAddonsArray;
                                         savedAssembly.extras = subAssExtrasArray;
+=======
+                                        savedAssembly.proccessing = assProccessingArray;
+                                        savedAssembly.addons = assAddonsArray;
+                                        savedAssembly.extras = assExtrasArray;
+>>>>>>> bef6869541de04dbb585e990521417b3d14de612
 
                                         Estimate.saveData(savedAssembly, function (err, updatedAss) {
                                             if (err) {
@@ -482,6 +486,99 @@ var model = {
                 });
             }
         });
+
+    },
+
+    createDraftEstimate: function (data, callback) {
+
+        var draftEstimateObj = {
+            enquiryId: data.enquiryId,
+            assemblyName: data.assemblyName,
+            keyValueCalculations: {
+                perimeter: null,
+                sheetMetalArea: null,
+                surfaceArea: null,
+                weight: null,
+                numbers: null,
+                hours: null
+            },
+            totalWeight: null,
+            materialCost: null,
+            processingCost: null,
+            addonCost: null,
+            extrasCost: null,
+            totalCost: null,
+            estimateCreatedUser: null,
+            estimateUpdatedUser: null,
+            estimateDetails: {},
+            estimateBoq: {},
+            estimateAttachment: {},
+            subAssemblies: [],
+            proccessing: [],
+            addons: [],
+            extras: []
+        };
+
+
+        var generatedAsssemplyNumber = "";
+        if (data._id) {
+            DraftEstimate.saveData(data, function (err, savedData) {
+                if (err) {
+                    console.log('**** error at function_name of DraftEstimate.js ****', err);
+                    callback(err, null);
+                } else if (_.isEmpty(savedData)) {
+                    callback(null, 'noDataFound');
+                } else {
+                    callback(null, savedData);
+                }
+            });
+        } else {
+            DraftEstimate.count().exec(function (err, found) {
+                if (err) {
+                    console.log('**** error at function_name of DraftEstimate.js ****', err);
+                    callback(err, null);
+                } else if (found == 0) {
+                    draftEstimateObj.assemplyNumber =   'AS1';
+                    console.log('**** if 0 ****',draftEstimateObj.assemplyNumber);
+                    DraftEstimate.saveData(draftEstimateObj, function (err, savedData) {
+                        if (err) {
+                            console.log('**** error at function_name of Enquiry.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(savedData)) {
+                            callback(null, 'noDataFound');
+                        } else {
+                            callback(null, savedData);
+                        }
+                    });
+                } else {
+                    DraftEstimate.findOne().sort({
+                        createdAt: -1
+                    }).exec(function (err, lastDraftEstimate) {
+                        if (err) {
+                            console.log('**** error at function_name of DraftEstimate.js ****', err);
+                            callback(err, null);
+                        } else {
+                            var temp = _.split(lastDraftEstimate.assemplyNumber, 'S');
+                            var tempNUmber = _.toNumber(temp[1]) + 1;
+                            draftEstimateObj.assemplyNumber = 'AS'+tempNUmber;
+                        }
+                        DraftEstimate.saveData(draftEstimateObj, function (err, savedData) {
+                            if (err) {
+                                console.log('**** error at function_name of Enquiry.js ****', err);
+                                callback(err, null);
+                            } else if (_.isEmpty(savedData)) {
+                                callback(null, 'noDataFound');
+                            } else {
+                                callback(null, savedData);
+                            }
+                        });
+                    });
+                }
+            });
+
+           
+        }
+
 
     },
 };

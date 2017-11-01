@@ -5,6 +5,8 @@ var myApp = angular.module('myApp', [
     'angulartics',
     'angulartics.google.analytics',
     'ui.bootstrap',
+    'ngAnimate',
+    'ngSanitize',
     'angular-flexslider',
     'ui.swiper',
     'angularPromiseButtons',
@@ -59,11 +61,17 @@ myApp.factory('settings', ['$rootScope', function ($rootScope) {
 }]);
 
 /* Setup App Main Controller */
-myApp.controller('AppController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+myApp.controller('AppController', ['$scope', '$rootScope','$state', function ($scope, $rootScope,$state) {
     $scope.$on('$viewContentLoaded', function () {
         App.initComponents(); // init core components
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
+    $scope.loginTemplate =  true;
+
+
+    // console.log("*********************************************************************",window.location.href );
+    // console.log("*********************************************************************",$state.current);
+
 }]);
 
 /***
@@ -118,6 +126,7 @@ myApp.run(["$rootScope", "settings", "$state", function ($rootScope, settings, $
 
 // Define all the routes below
 myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
+    var tempateURL = "views/template/template.html"; //Default Template URL
 
     // for http request with session
     $httpProvider.defaults.withCredentials = true;
@@ -132,249 +141,247 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
 
         // ********************************** login module ********************************** //
         .state('login', {
-                url: "/login",
-                templateUrl: "views/content/login/login.html",
-                controller: "loginCtrl"            
+            url: "/login",
+            templateUrl: "views/content/login/estimatorLogin.html",
+            controller: "loginCtrl"
         })
 
-// ******************************** dashboard module ******************************** //
-.state('app.dashboard', {
-    url: "/dashboard",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/dashboard.html",
-            controller: "DashboardController"
-        }
-    }
-})
+        // ******************************** dashboard module ******************************** //
+        .state('app.dashboard', {
+            url: "/dashboard",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "DashboardController"
+                }
+            }
+        })
 
-// ********************************* enquiry module ********************************* //
-.state('app.enquiry', {
-    url: "/enquiry",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/enquiry/allEnquies.html",
-            controller: "enquiryCtrl"
-        }
-    }
-})
-.state('app.createEnquiry', {
-    url: "/enquiry/create",
-    views: {
-        "mainView": {
-            templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
-            controller: "createOrEditEnquiryCtrl"
-        }
-    }
-})
-.state('app.editEnquiry', {
-    url: "/enquiry/edit/:enquiryId",
-    views: {
-        "mainView": {
-            templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
-            controller: "createOrEditEnquiryCtrl"
-        }
-    }
-})
+        // ********************************* enquiry module ********************************* //
+        .state('app.enquiry', {
+            url: "/enquiry",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/enquiry/allEnquies.html",
+                    controller: "enquiryCtrl"
+                }
+            }
+        })
+        .state('app.createEnquiry', {
+            url: "/enquiry/create",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
+                    controller: "createOrEditEnquiryCtrl"
+                }
+            }
+        })
+        .state('app.editEnquiry', {
+            url: "/enquiry/edit/:enquiryId",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
+                    controller: "createOrEditEnquiryCtrl"
+                }
+            }
+        })
 
-// ******************************** estimate module ******************************** //
-.state('app.estimate', {
-    url: "/estimate",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/estimate/allEstimates.html",
-            controller: "estimateCtrl"
-        }
-    }
-})
-.state('app.createEstimate', {
-    url: "/estimate/create/:estimateId",
-    views: {
-        "mainView": {
-            templateUrl: "views/content/estimate/createOrEditEstimate.html",
-            controller: "createOrEditEstimateCtrl"
-        }
-    },
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load({
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                    './themeassets/global/plugins/jstree/dist/jstree.js',
-                    './themeassets/pages/scripts/ui-tree.js'
-                ]
-            });
-        }]
-    }
-})
-.state('app.editEstimate', {
-    url: "/estimate/edit/:estimateId",
-    data: {
-        isSidebActive: true
-    },
-    views: {
-        "mainView": {
-            templateUrl: "views/createOrEditEstimate.html",
-            controller: "createOrEditEstimateCtrl"
-        }
-    },
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load({
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                    './themeassets/global/plugins/jstree/dist/jstree.js',
-                    './themeassets/pages/scripts/ui-tree.js',
-                ]
-            });
-        }]
-    }
-})
+        // ******************************** estimate module ******************************** //
+        .state('app.estimate', {
+            url: "/estimate",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/estimate/allEstimates.html",
+                    controller: "estimateCtrl"
+                }
+            }
+        })
+        .state('app.createEstimate', {
+            url: "/estimate/create/:enquiryId",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/estimate/createOrEditEstimate.html",
+                    controller: "createOrEditEstimateCtrl"
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
+                            './themeassets/global/plugins/jstree/dist/jstree.js',
+                            './themeassets/pages/scripts/ui-tree.js'
+                        ]
+                    });
+                }]
+            }
+        })
+        .state('app.editEstimate', {
+            url: "/estimate/edit/:estimateId",
+            data: {
+                isSidebActive: true
+            },
+            views: {
+                "mainView": {
+                    templateUrl: "views/createOrEditEstimate.html",
+                    controller: "createOrEditEstimateCtrl"
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
+                            './themeassets/global/plugins/jstree/dist/jstree.js',
+                            './themeassets/pages/scripts/ui-tree.js',
+                        ]
+                    });
+                }]
+            }
+        })
 
-// ********************************** user module ********************************* //
-.state('app.users', {
-    url: "/user",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/user/allUsers.html",
-            controller: "userCtrl"
-        }
-    }
-})
+        // ********************************** user module ********************************* //
+        .state('app.users', {
+            url: "/user",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/user/allUsers.html",
+                    controller: "userCtrl"
+                }
+            }
+        })
 
-// ******************************** customer module ******************************* //
-.state('app.customer', {
-    url: "/customer",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/customer/allCustomers.html",
-            controller: "customerCtrl"
-        }
-    }
-})
+        // ******************************** customer module ******************************* //
+        .state('app.customer', {
+            url: "/customer",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/customer/allCustomers.html",
+                    controller: "customerCtrl"
+                }
+            }
+        })
 
-// ******************************** master module ******************************** // 
+        // ******************************** master module ******************************** // 
 
-.state('app.baseMatser', {
-    url: "/master/baseMatser",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/master/base/baseMatser.html",
-            controller: "baseMasterCtrl"
-        }
-    }
-})
-.state('app.masterAddon', {
-    url: "/master/addon",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/master/addon/masterAddon.html",
-            controller: "masterAddonCtrl"
-        }
-    }
-})
-.state('app.masterExtra', {
-    url: "/master/extra",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/master/extra/masterExtra.html",
-            controller: "masterExtraCtrl"
-        }
-    }
-})
-.state('app.masterMaterial', {
-    url: "/master/material",
-    views: {
-        "mainView": {
-            templateUrl: "views/content/master/material/masterMaterial.html",
-            controller: "masterMaterialCtrl"
-        }
-    }
-})
-.state('app.masterPart', {
-    url: "/master/part",
-    views: {
-        // "sidebar": {
-        //     templateUrl: "views/tpl/sidebar.html",
-        //     controller: "SidebarController"
-        // },
-        "mainView": {
-            templateUrl: "views/content/master/part/masterPart.html",
-            controller: "masterPartCtrl"
-        }
-    }
-})
-.state('app.masterProcess', {
-    url: "/master/process",
-    views: {
-        "mainView": {
-            templateUrl: "views/content/master/process/masterProcess.html",
-            controller: "masterProcessCtrl"
-        }
-    }
-})
-.state('app.masterShape', {
-    url: "/master/shape",
-    views: {
-        "mainView": {
-            templateUrl: "views/content/master/shape/masterShape.html",
-            controller: "masterShapeCtrl"
-        }
-    }
-})
+        .state('app.baseMatser', {
+            url: "/master/baseMatser",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/master/base/baseMatser.html",
+                    controller: "baseMasterCtrl"
+                }
+            }
+        })
+        .state('app.masterAddon', {
+            url: "/master/addon",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/master/addon/masterAddon.html",
+                    controller: "masterAddonCtrl"
+                }
+            }
+        })
+        .state('app.masterExtra', {
+            url: "/master/extra",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/master/extra/masterExtra.html",
+                    controller: "masterExtraCtrl"
+                }
+            }
+        })
+        .state('app.masterMaterial', {
+            url: "/master/material",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/master/material/masterMaterial.html",
+                    controller: "masterMaterialCtrl"
+                }
+            }
+        })
+        .state('app.masterPart', {
+            url: "/master/part",
+            views: {
+                // "sidebar": {
+                //     templateUrl: "views/tpl/sidebar.html",
+                //     controller: "SidebarController"
+                // },
+                "mainView": {
+                    templateUrl: "views/content/master/part/masterPart.html",
+                    controller: "masterPartCtrl"
+                }
+            }
+        })
+        .state('app.masterProcess', {
+            url: "/master/process",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/master/process/masterProcess.html",
+                    controller: "masterProcessCtrl"
+                }
+            }
+        })
+        .state('app.masterShape', {
+            url: "/master/shape",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/master/shape/masterShape.html",
+                    controller: "masterShapeCtrl"
+                }
+            }
+        })
 
-// ******************************** settings module ******************************** // 
-.state('app.settings', {
-    url: "/settings",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "",
-            controller: ""
-        }
-    }
-})
-
-
+        // ******************************** settings module ******************************** // 
+        .state('app.settings', {
+            url: "/settings",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "",
+                    controller: ""
+                }
+            }
+        })
 
 
 
@@ -382,498 +389,500 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
 
 
 
-// ******************************** extra unwanted states ************************ // 
-// delete all following states after complete the project
-
-// estimate
-.state("estimate", {
-    url: "/estimate",
-    templateUrl: "views/estimate.html",
-    controller: "GeneralPageController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load({
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                    './themeassets/apps/css/todo-2.css',
-                    './themeassets/global/plugins/select2/css/select2.min.css',
-                    './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
-                    './themeassets/global/plugins/select2/js/select2.full.min.js',
-                    './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                    './themeassets/apps/scripts/todo-2.min.js',
-                    './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                    './themeassets/global/plugins/jstree/dist/jstree.js',
-                    './themeassets/pages/scripts/ui-tree.js',
-                    // 'controllers/TodoController.js'
-                ]
-            });
-        }]
-    }
-})
-//estimate assembly
-.state('app.assembly', {
-    url: "/assembly",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/insideestimate/assembly.html",
-            controller: ""
-        }
-    }
-})
-//subasembly
-.state('app.subassembly', {
-    url: "/subassembly",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/insideestimate/subassembly.html",
-            controller: ""
-        }
-    }
-})
-//processing view
-.state('app.processing', {
-    url: "/processing",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/insideestimate/processing.html",
-            controller: ""
-        }
-    }
-})
-//part
-
-.state('app.part', {
-    url: "/part",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/insideestimate/part.html",
-            controller: ""
-        }
-    }
-})
-//addore
-.state('app.addons', {
-    url: "/addons",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/insideestimate/addons.html",
-            controller: ""
-        }
-    }
-})
-//extras
-.state('app.extras', {
-    url: "/extras",
-    views: {
-        "sidebar": {
-            templateUrl: "views/tpl/sidebar.html",
-            controller: "SidebarController"
-        },
-        "mainView": {
-            templateUrl: "views/content/insideestimate/extras.html",
-            controller: ""
-        }
-    }
-})
 
 
-.state('enquiries', {
-    url: "/enquiries",
-    templateUrl: "views/enquiries.html",
-    controller: "EnquiriesController",
-})
-//  .state('subasembly', {
-//     url: "/subasembly",
-//     templateUrl: "views/content/insideestimate/subasembly.html",
-//     controller: "",
-// })
+        // ******************************** extra unwanted states ************************ // 
+        // delete all following states after complete the project
 
-// Blank Page
-.state('blank', {
-    url: "/blank",
-    templateUrl: "views/blank.html",
-    data: {
-        pageTitle: 'Blank Page Template'
-    },
-    controller: "BlankController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load({
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                files: [
-                    'controllers/BlankController.js'
-                ]
-            });
-        }]
-    }
-})
+        // estimate
+        .state("estimate", {
+            url: "/estimate",
+            templateUrl: "views/estimate.html",
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            './themeassets/apps/css/todo-2.css',
+                            './themeassets/global/plugins/select2/css/select2.min.css',
+                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            './themeassets/global/plugins/select2/js/select2.full.min.js',
+                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            './themeassets/apps/scripts/todo-2.min.js',
+                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
+                            './themeassets/global/plugins/jstree/dist/jstree.js',
+                            './themeassets/pages/scripts/ui-tree.js',
+                            // 'controllers/TodoController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+        //estimate assembly
+        .state('app.assembly', {
+            url: "/assembly",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/assembly.html",
+                    controller: ""
+                }
+            }
+        })
+        //subasembly
+        .state('app.subassembly', {
+            url: "/subassembly",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/subassembly.html",
+                    controller: ""
+                }
+            }
+        })
+        //processing view
+        .state('app.processing', {
+            url: "/processing",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/processing.html",
+                    controller: ""
+                }
+            }
+        })
+        //part
 
-// AngularJS plugins
-.state('fileupload', {
-    url: "/file_upload.html",
-    templateUrl: "views/file_upload.html",
-    data: {
-        pageTitle: 'AngularJS File Upload'
-    },
-    controller: "GeneralPageController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load([{
-                name: 'angularFileUpload',
-                files: [
-                    './themeassets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
-                ]
-            }, {
-                name: 'myApp',
-                files: [
-                    // 'controllers/GeneralPageController.js'
-                ]
-            }]);
-        }]
-    }
-})
+        .state('app.part', {
+            url: "/part",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/part.html",
+                    controller: ""
+                }
+            }
+        })
+        //addore
+        .state('app.addons', {
+            url: "/addons",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/addons.html",
+                    controller: ""
+                }
+            }
+        })
+        //extras
+        .state('app.extras', {
+            url: "/extras",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/extras.html",
+                    controller: ""
+                }
+            }
+        })
 
-// UI Select
-.state('uiselect', {
-    url: "/ui_select",
-    templateUrl: "views/ui_select.html",
-    data: {
-        pageTitle: 'AngularJS Ui Select'
-    },
-    controller: "UISelectController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load([{
-                name: 'ui.select',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/angularjs/plugins/ui-select/select.min.css',
-                    './themeassets/global/plugins/angularjs/plugins/ui-select/select.min.js'
-                ]
-            }, {
-                name: 'myApp',
-                files: [
-                    // 'controllers/UISelectController.js'
-                ]
-            }]);
-        }]
-    }
-})
 
-// UI Bootstrap
-.state('uibootstrap', {
-    url: "/ui_bootstrap.html",
-    templateUrl: "views/ui_bootstrap.html",
-    data: {
-        pageTitle: 'AngularJS UI Bootstrap'
-    },
-    controller: "GeneralPageController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load([{
-                name: 'myApp',
-                files: [
-                    'js/controllers/GeneralPageController.js'
-                ]
-            }]);
-        }]
-    }
-})
+        .state('enquiries', {
+            url: "/enquiries",
+            templateUrl: "views/enquiries.html",
+            controller: "EnquiriesController",
+        })
+        //  .state('subasembly', {
+        //     url: "/subasembly",
+        //     templateUrl: "views/content/insideestimate/subasembly.html",
+        //     controller: "",
+        // })
 
-// Tree View
-.state('tree', {
-    url: "/tree",
-    templateUrl: "views/tree.html",
-    data: {
-        pageTitle: 'jQuery Tree View'
-    },
-    controller: "GeneralPageController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load([{
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                    './themeassets/global/plugins/jstree/dist/jstree.js',
-                    './themeassets/pages/scripts/ui-tree.js',
-                    // 'controllers/GeneralPageController.js'
-                ]
-            }]);
-        }]
-    }
-})
+        // Blank Page
+        .state('blank', {
+            url: "/blank",
+            templateUrl: "views/blank.html",
+            data: {
+                pageTitle: 'Blank Page Template'
+            },
+            controller: "BlankController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'controllers/BlankController.js'
+                        ]
+                    });
+                }]
+            }
+        })
 
-// Form Tools
-.state('formtools', {
-    url: "/form-tools",
-    templateUrl: "views/form_tools.html",
-    data: {
-        pageTitle: 'Form Tools'
-    },
-    controller: "GeneralPageController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load([{
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                    './themeassets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
-                    './themeassets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
-                    './themeassets/global/plugins/typeahead/typeahead.css',
+        // AngularJS plugins
+        .state('fileupload', {
+            url: "/file_upload.html",
+            templateUrl: "views/file_upload.html",
+            data: {
+                pageTitle: 'AngularJS File Upload'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'angularFileUpload',
+                        files: [
+                            './themeassets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
+                        ]
+                    }, {
+                        name: 'myApp',
+                        files: [
+                            // 'controllers/GeneralPageController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
 
-                    './themeassets/global/plugins/fuelux/js/spinner.min.js',
-                    './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-                    './themeassets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
-                    './themeassets/global/plugins/jquery.input-ip-address-control-1.0.min.js',
-                    './themeassets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js',
-                    './themeassets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js',
-                    './themeassets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js',
-                    './themeassets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js',
-                    './themeassets/global/plugins/typeahead/handlebars.min.js',
-                    './themeassets/global/plugins/typeahead/typeahead.bundle.min.js',
-                    './themeassets/pages/scripts/components-form-tools-2.min.js',
+        // UI Select
+        .state('uiselect', {
+            url: "/ui_select",
+            templateUrl: "views/ui_select.html",
+            data: {
+                pageTitle: 'AngularJS Ui Select'
+            },
+            controller: "UISelectController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'ui.select',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/angularjs/plugins/ui-select/select.min.css',
+                            './themeassets/global/plugins/angularjs/plugins/ui-select/select.min.js'
+                        ]
+                    }, {
+                        name: 'myApp',
+                        files: [
+                            // 'controllers/UISelectController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
 
-                    // 'controllers/GeneralPageController.js'
-                ]
-            }]);
-        }]
-    }
-})
+        // UI Bootstrap
+        .state('uibootstrap', {
+            url: "/ui_bootstrap.html",
+            templateUrl: "views/ui_bootstrap.html",
+            data: {
+                pageTitle: 'AngularJS UI Bootstrap'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'myApp',
+                        files: [
+                            'js/controllers/GeneralPageController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
 
-// Date & Time Pickers
-.state('pickers', {
-    url: "/pickers",
-    templateUrl: "views/pickers.html",
-    data: {
-        pageTitle: 'Date & Time Pickers'
-    },
-    controller: "GeneralPageController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load([{
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/clockface/css/clockface.css',
-                    './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                    './themeassets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
-                    './themeassets/global/plugins/bootstrap-colorpicker/css/colorpicker.css',
-                    './themeassets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css',
+        // Tree View
+        .state('tree', {
+            url: "/tree",
+            templateUrl: "views/tree.html",
+            data: {
+                pageTitle: 'jQuery Tree View'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
+                            './themeassets/global/plugins/jstree/dist/jstree.js',
+                            './themeassets/pages/scripts/ui-tree.js',
+                            // 'controllers/GeneralPageController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
 
-                    './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                    './themeassets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
-                    './themeassets/global/plugins/clockface/js/clockface.js',
-                    './themeassets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js',
-                    './themeassets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js',
+        // Form Tools
+        .state('formtools', {
+            url: "/form-tools",
+            templateUrl: "views/form_tools.html",
+            data: {
+                pageTitle: 'Form Tools'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            './themeassets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
+                            './themeassets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
+                            './themeassets/global/plugins/typeahead/typeahead.css',
 
-                    './themeassets/pages/scripts/components-date-time-pickers.min.js',
+                            './themeassets/global/plugins/fuelux/js/spinner.min.js',
+                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+                            './themeassets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
+                            './themeassets/global/plugins/jquery.input-ip-address-control-1.0.min.js',
+                            './themeassets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js',
+                            './themeassets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js',
+                            './themeassets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js',
+                            './themeassets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js',
+                            './themeassets/global/plugins/typeahead/handlebars.min.js',
+                            './themeassets/global/plugins/typeahead/typeahead.bundle.min.js',
+                            './themeassets/pages/scripts/components-form-tools-2.min.js',
 
-                    // 'controllers/GeneralPageController.js'
-                ]
-            }]);
-        }]
-    }
-})
+                            // 'controllers/GeneralPageController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
 
-// Custom Dropdowns
-.state('dropdowns', {
-    url: "/dropdowns",
-    templateUrl: "views/dropdowns.html",
-    data: {
-        pageTitle: 'Custom Dropdowns'
-    },
-    controller: "GeneralPageController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load([{
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                    './themeassets/global/plugins/select2/css/select2.min.css',
-                    './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
+        // Date & Time Pickers
+        .state('pickers', {
+            url: "/pickers",
+            templateUrl: "views/pickers.html",
+            data: {
+                pageTitle: 'Date & Time Pickers'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/clockface/css/clockface.css',
+                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            './themeassets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
+                            './themeassets/global/plugins/bootstrap-colorpicker/css/colorpicker.css',
+                            './themeassets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css',
 
-                    './themeassets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                    './themeassets/global/plugins/select2/js/select2.full.min.js',
+                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            './themeassets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
+                            './themeassets/global/plugins/clockface/js/clockface.js',
+                            './themeassets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js',
+                            './themeassets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js',
 
-                    './themeassets/pages/scripts/components-bootstrap-select.min.js',
-                    './themeassets/pages/scripts/components-select2.min.js',
+                            './themeassets/pages/scripts/components-date-time-pickers.min.js',
 
-                    // 'controllers/GeneralPageController.js'
-                ]
-            }]);
-        }]
-    }
-})
+                            // 'controllers/GeneralPageController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
 
-// Advanced Datatables
-.state('datatablesmanaged', {
-    url: "/datatables",
-    templateUrl: "views/datatables/managed.html",
-    data: {
-        pageTitle: 'Advanced Datatables'
-    },
-    controller: "GeneralPageController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load({
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/datatables/datatables.min.css',
-                    './themeassets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                    './themeassets/global/plugins/datatables/datatables.all.min.js',
-                    './themeassets/pages/scripts/table-datatables-managed.min.js',
-                    // 'controllers/GeneralPageController.js'
-                ]
-            });
-        }]
-    }
-})
+        // Custom Dropdowns
+        .state('dropdowns', {
+            url: "/dropdowns",
+            templateUrl: "views/dropdowns.html",
+            data: {
+                pageTitle: 'Custom Dropdowns'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
+                            './themeassets/global/plugins/select2/css/select2.min.css',
+                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
 
-// Ajax Datetables
-.state('datatablesajax', {
-    url: "/datatables",
-    templateUrl: "views/datatables/ajax.html",
-    data: {
-        pageTitle: 'Ajax Datatables'
-    },
-    controller: "GeneralPageController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load({
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/datatables/datatables.min.css',
-                    './themeassets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                    './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            './themeassets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
+                            './themeassets/global/plugins/select2/js/select2.full.min.js',
 
-                    './themeassets/global/plugins/datatables/datatables.all.min.js',
-                    './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                    './themeassets/global/scripts/datatable.js',
+                            './themeassets/pages/scripts/components-bootstrap-select.min.js',
+                            './themeassets/pages/scripts/components-select2.min.js',
 
-                    'scripts/table-ajax.js',
-                    // 'controllers/GeneralPageController.js'
-                ]
-            });
-        }]
-    }
-})
+                            // 'controllers/GeneralPageController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
 
-// User Profile
-.state("profile", {
-    url: "/profile",
-    templateUrl: "views/profile/main.html",
-    data: {
-        pageTitle: 'User Profile'
-    },
-    controller: 'userProfileController',
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load({
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                    './themeassets/pages/css/profile.css',
+        // Advanced Datatables
+        .state('datatablesmanaged', {
+            url: "/datatables",
+            templateUrl: "views/datatables/managed.html",
+            data: {
+                pageTitle: 'Advanced Datatables'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/datatables/datatables.min.css',
+                            './themeassets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                            './themeassets/global/plugins/datatables/datatables.all.min.js',
+                            './themeassets/pages/scripts/table-datatables-managed.min.js',
+                            // 'controllers/GeneralPageController.js'
+                        ]
+                    });
+                }]
+            }
+        })
 
-                    './themeassets/global/plugins/jquery.sparkline.min.js',
-                    './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+        // Ajax Datetables
+        .state('datatablesajax', {
+            url: "/datatables",
+            templateUrl: "views/datatables/ajax.html",
+            data: {
+                pageTitle: 'Ajax Datatables'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/datatables/datatables.min.css',
+                            './themeassets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
 
-                    './themeassets/pages/scripts/profile.min.js',
+                            './themeassets/global/plugins/datatables/datatables.all.min.js',
+                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            './themeassets/global/scripts/datatable.js',
 
-                    // 'controllers/UserProfileController.js'
-                ]
-            });
-        }]
-    }
-})
+                            'scripts/table-ajax.js',
+                            // 'controllers/GeneralPageController.js'
+                        ]
+                    });
+                }]
+            }
+        })
 
-// User Profile Dashboard
-.state("profile.dashboard", {
-    url: "/profileDashboard",
-    templateUrl: "views/profile/dashboard.html",
-    data: {
-        pageTitle: 'User Profile'
-    }
-})
+        // User Profile
+        .state("profile", {
+            url: "/profile",
+            templateUrl: "views/profile/main.html",
+            data: {
+                pageTitle: 'User Profile'
+            },
+            controller: "UserProfileController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            './themeassets/pages/css/profile.css',
 
-// User Profile Account
-.state("profile.account", {
-    url: "/account/:profileId",
-    templateUrl: "views/profile/account.html",
-    data: {
-        pageTitle: 'User Account'
-    },
-    controller: 'userProfileController',
-})
+                            './themeassets/global/plugins/jquery.sparkline.min.js',
+                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
 
-// User Profile Help
-.state("profile.help", {
-    url: "/help",
-    templateUrl: "views/profile/help.html",
-    data: {
-        pageTitle: 'User Help'
-    }
-})
+                            './themeassets/pages/scripts/profile.min.js',
 
-// Todo
-.state('todo', {
-    url: "/todo",
-    templateUrl: "views/todo.html",
-    data: {
-        pageTitle: 'Todo'
-    },
-    controller: "TodoController",
-    resolve: {
-        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load({
-                name: 'myApp',
-                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                files: [
-                    './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                    './themeassets/apps/css/todo-2.css',
-                    './themeassets/global/plugins/select2/css/select2.min.css',
-                    './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
-                    './themeassets/global/plugins/select2/js/select2.full.min.js',
-                    './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                    './themeassets/apps/scripts/todo-2.min.js',
-                    // 'controllers/TodoController.js'
-                ]
-            });
-        }]
-    }
-});
+                            // 'controllers/UserProfileController.js'
+                        ]
+                    });
+                }]
+            }
+        })
 
-// $urlRouterProvider.otherwise("/app");
-// $locationProvider.html5Mode(isproduction);
-$urlRouterProvider.otherwise("/app/dashboard"); $locationProvider.html5Mode(true);
+        // User Profile Dashboard
+        .state("profile.dashboard", {
+            url: "/profileDashboard",
+            templateUrl: "views/profile/dashboard.html",
+            controller: "UserProfileController",
+            data: {
+                pageTitle: 'User Profile'
+            }
+        })
+
+        // User Profile Account
+        .state("profile.account", {
+            url: "/account/:profileId",
+            templateUrl: "views/profile/account.html",
+            controller: "UserProfileController",
+            data: {
+                pageTitle: 'User Account'
+            }
+        })
+
+        // User Profile Help
+        .state("profile.help", {
+            url: "/help",
+            templateUrl: "views/profile/help.html",
+            data: {
+                pageTitle: 'User Help'
+            }
+        })
+
+        // Todo
+        .state('todo', {
+            url: "/todo",
+            templateUrl: "views/todo.html",
+            data: {
+                pageTitle: 'Todo'
+            },
+            controller: "TodoController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'myApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            './themeassets/apps/css/todo-2.css',
+                            './themeassets/global/plugins/select2/css/select2.min.css',
+                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            './themeassets/global/plugins/select2/js/select2.full.min.js',
+                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            './themeassets/apps/scripts/todo-2.min.js',
+                            // 'controllers/TodoController.js'
+                        ]
+                    });
+                }]
+            }
+        });
+
+    $urlRouterProvider.otherwise("/app");
+    $locationProvider.html5Mode(isproduction);
 });
 
 
