@@ -6,43 +6,49 @@ myApp.service('loginService', function (NavigationService) {
           obj.password=password;
 
           NavigationService.apiCall('User/loginUser',obj,function(data){
-          debugger;
-            console.log('5555555555',data)
-              if(data.data = 'ObjectId Invalid' || 'noDataFound'){
+              if(data.data = 'ObjectId Invalid'){
                   data.data = [];
-              }
-              callback(data.data);
+              }         
+            console.log('inside loginUser',data.data)
+            callback(data.data);
           });
       }
       this.verifyUserId = function(username, callback){
-          NavigationService.apiCall('User/sendForgetPasswordOtp',{email:username},function(data){   
-              console.log('5555555555',data)
-              
-              if(data.data = 'ObjectId Invalid'){
+        var obj=  {};  
+        obj.email = username;
+          NavigationService.apiCall('User/sendForgetPasswordOtp',obj,function(data){   
+            if(data.data = 'userNotFound'){
                   data.data = [];
-              }
+            }
+              console.log('inside verifyUserId() data',data.data)
               callback(data.data);
           });
       }
       this.verifyOtp = function(Id, userOtp, callback){
-          debugger;
-          NavigationService.apiCall('User/confirmForgotPasswordOtp',{_id:Id, otp:userOtp},function(data){
+        var obj=  {};  
+        obj._id = Id;
+        obj.otp=userOtp;
+          NavigationService.apiCall('User/confirmForgotPasswordOtp',obj,function(data){
               console.log('inside verifyOtp service().....data ',data)
               
-              if(data.data = 'ObjectId Invalid'){
-                  data.data = [];
-              }
+            //   if(data.data = 'userNotFound'){
+            //       data.data = [];
+            //   }
               callback(data.data);
           });
       }
   
-      this.confimPassword = function(username, password, callback){
-          NavigationService.apiCall('User/resetPassword',{email:username, forgotPassword:password},function(data){
+      this.confimPassword = function(id, password, callback){
+        var obj=  {};  
+        obj._id = id;
+        obj.password=password;
+
+          NavigationService.apiCall('User/resetPassword',obj,function(data){
               console.log('5555555555',data)
               
-              if(data.data = 'ObjectId Invalid'){
-                  data.data = [];
-              }
+            //   if(data.data = 'ObjectId Invalid'){
+            //       data.data = [];
+            //   }
               callback(data.data);
           });
       }

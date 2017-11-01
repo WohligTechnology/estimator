@@ -5,53 +5,43 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
         $scope.$parent.loginTemplate = false;
         $scope.formData = {};
         $scope.userValidationError="";
+        $scope.error = '';
     
-        console.log($scope.$parent.loginTemplate);
         // *************************** default functions begin here  ********************** //
-    
-    
+        
         // *************************** functions to be triggered form view begin here ***** //
         $scope.verifyUser = function (username, password) {
-            console.log("aa gaye.username, password ",username, password)
             loginService.verifyUser(username, password, function (data) {
                 $scope.userData = data;
-                console.log("aa gaye.username, password ,data, ",username, password, data)
                 
                 // if user is not available --> api will send --> []
                 if (!_.isEmpty($scope.userData)) {
                     console.log('$scope.userData', $scope.userData);
                     $scope.loggedInUser = {};
-                    $scope.loggedInUser._id = $scope.userData.userDetail._id;
-                    $scope.loggedInUser.email = $scope.userData.userDetail.email;
-                    $scope.loggedInUser.name = $scope.userData.userDetail.name;
-                    $scope.loggedInUser.photo = $scope.userData.userDetail.photo;
+                    $scope.loggedInUser._id = $scope.userData._id;
+                    $scope.loggedInUser.email = $scope.userData.email;
+                    $scope.loggedInUser.name = $scope.userData.name;
+                    $scope.loggedInUser.photo = $scope.userData.photo;
                     $.jStorage.set("loggedInUser", $scope.loggedInUser);
+                    console.log('$.jStorage.get("loggedInUser")' ,$.jStorage.get("loggedInUser"));
+                    $state.go('app.dashboard');                    
                 } else {                     
                     $timeout(function () {
-                        $scope.userValidationError = "Invalid username or password !!!";
+                        $scope.error = "Invalid username or password !!!";
                     }, 1000);
                 }
             });
     
            //$scope.userData = $.jStorage.get("loggedInUser"); 
-    
         }
     
         $scope.verifyUserId = function (username) {            
             loginService.verifyUserId(username, function(data){
-                console.log("inside verifyUserId(username), data", username , data)
-                $scope.showForgotPassModal = false;
-                $scope.showOtpModal = true;
-                $scope.userData = data;
-                console.log('$scope.userData',$scope.userData);
-                if (!_.isEmpty($scope.userData)) {
-                    $scope.loggedInUser = {};
-                    $scope.loggedInUser._id = $scope.userData.userDetail._id;
-                    $scope.loggedInUser.email = $scope.userData.userDetail.email;
-                    $scope.loggedInUser.name = $scope.userData.userDetail.name;
-                    $scope.loggedInUser.photo = $scope.userData.userDetail.photo;
-                    $.jStorage.set("loggedInUser", $scope.loggedInUser);
-                    
+                console.log('4441', data);
+                if (!_.isEmpty(data)) {
+                    $scope.showForgotPassModal = false;
+                    $scope.showOtpModal = true;
+                    $scope.id = data._id;
                     $scope.modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: 'views/content/login/loginModal/forgotPasswordModal.html',
@@ -63,17 +53,16 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
                     console.log('$scope.userValidationError',$scope.userValidationError);
                 }
             });
-    
+
         }
     
-        $scope.verifyOtp = function (otp) {
-           // $scope.userData = $.jStorage.get("loggedInUser"); 
-            console.log("verifyOtp(otp)", otp )            
-            loginService.verifyOtp('59f99765168e9849698c9371', otp, function(data){
-                $scope.changePasswordAccess = true;
-                $scope.showOtpModal = false;
+        $scope.verifyOtp = function (id, otp) {
+            loginService.verifyOtp(id, otp, function(data){
                 console.log('verifOtp(), data ', data)
                 if (!_.isEmpty(data)) {
+                    $scope.changePasswordAccess = true;
+                    $scope.showOtpModal = false;
+
                     $scope.modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: 'views/content/login/loginModal/forgotPasswordModal.html',
@@ -88,12 +77,9 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
             });
         }
     
-        $scope.confimPassword = function (password) {
-            //$scope.userData = $.jStorage.get("loggedInUser");         
-            loginService.confimPassword('bhavna8793839160@gmail.com', password, function (data) {
-                console.log('inside confimPassword......password, data ', password, data)
+        $scope.confimPassword = function (id, password) {
+            loginService.confimPassword(id, password, function (data) {
                 $scope.cancelModal();
-                $state.go('app.dashboard');
             });
         }
     
@@ -108,7 +94,7 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
         }
     
         $scope.cancelModal = function () {
-            debugger;
+            console.log('...................................');
             $scope.modalInstance.dismiss();
         };
     

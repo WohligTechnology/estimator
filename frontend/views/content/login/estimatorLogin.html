@@ -34,6 +34,6 @@
                 <button type="button" class="btn green pull-right" ng-click="verifyUser(formData.userId, formData.password)"> Login </button><br>
                 <a ng-click="forgotPasswordModal()">Forgot Password</a> 
             </div>
-            <p>{{userValidationError}}</p>
+            <p ng-if="validationError != ''">{{error}}</p>
    </div>
 
