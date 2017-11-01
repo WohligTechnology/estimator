@@ -248,12 +248,10 @@ var model = {
     },
 
     loginUser: function (data, callback) {
-        console.log('**** inside loginUser of User.js & data is ****', data);
         User.findOne({
-            email: data.username,
+            email: data.email,
             password: data.password
         }).exec(function (err, found) {
-            console.log('**** inside res object of User.js & data is ****', found);
             if (err) {
                 console.log('**** error at loginUser of User.js ****', err);
                 callback(err, null);

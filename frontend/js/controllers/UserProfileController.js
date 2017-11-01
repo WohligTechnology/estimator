@@ -1,53 +1,30 @@
-myApp.controller('userProfileController', function($stateParams, $scope, $http, userProfileService) {
+myApp.controller('UserProfileController', function($stateParams, $scope, userProfileService) {
+
+  // *************************** default variables/tasks begin here ***************** //
 
 
-    $scope.getUserObj = function(){
-        userProfileService.getUserObj($stateParams.profileId, function(data){
+  // *************************** default functions begin here  ********************** //
+    //get respective profile Object
+    $scope.getProfileData = function(){
+        userProfileService.getProfileData($stateParams.profileId, function(data){
             $scope.formData = data;
         });
     }
 
-    $scope.uploadProfile = function (userData) {
-        userProfileService.uploadProfile(userData);
-      }
-
+  // *************************** functions to be triggered form view begin here ***** //
+    // Update Profile based on new data
+    $scope.updateProfile = function(formData){
+        userProfileService.updateProfile(formData);  
+    }
+    // cancel changes 
     $scope.cancelChanges = function(){
-        userProfileService.getUserObj($stateParams.profileId, function(data){
-            $scope.formData = data;
-        });
-    }  
+        $scope.getProfileData();
+    }
 
-    // $scope.changeProfilePhoto = function(ProfilePhoto){
-    //     console.log('**** ProfilePhoto ****', ProfilePhoto);
-    //     userProfileService.uploadProfile($stateParams.profileId, ProfilePhoto, function(data){
-    //         $scope.formData = data;
-    //     });
-    // }
-   $scope.init = function() {
-        $scope.getUserObj();
-    }    
-    
+  // *************************** init all default functions begin here ************** //
+    //- to initilize the default function 
+    $scope.init = function(){
+        $scope.getProfileData();
+    }
     $scope.init();
-
-//     var compareTo = function() {
-//     return {
-//         require: "ngModel",
-//         scope: {
-//             otherModelValue: "=compareTo"
-//         },
-//         link: function(scope, element, attributes, ngModel) {
-             
-//             ngModel.$validators.compareTo = function(modelValue) {
-//                 return modelValue == scope.otherModelValue;
-//             };
- 
-//             scope.$watch("otherModelValue", function() {
-//                 ngModel.$validate();
-//             });
-//         }
-//     };
-// };
- 
-// module.directive("compareTo", compareTo);
-
 }); 
