@@ -16,9 +16,6 @@
                     <li>
                         <a href="#" data-target="#tab_1_3" data-toggle="tab">Change Password</a>
                     </li>
-                    <li>
-                        <a href="#" data-target="#tab_1_4" data-toggle="tab">Privacy Settings</a>
-                    </li>
                 </ul>
             </div>
             <div class="portlet-body">
@@ -30,7 +27,7 @@
                                 <label class="control-label">First Name</label>
                                 <input type="text" class="form-control" ng-model="formData.name" /> </div>
                             <div class="form-group">
-                                <label class="control-label">Last Name</label>
+                                <label class="control-label">Last Name</label><!--use split function -->
                                 <input type="text" class="form-control" ng-model="formData.name" /> </div>
                             <div class="form-group">
                                 <label class="control-label">Mobile Number</label>
@@ -39,20 +36,13 @@
                                 <label class="control-label">Date Of Birth</label>
                                 <input type="date" class="form-control" ng-model="formData.dob" /> </div>
                             <div class="form-group">
-                                <label class="control-label">Email</label>
-                                <input type="text" placeholder="xyz123@gmail.com" class="form-control" ng-model="formData.user.email" /> </div>
-                            <div class="form-group">
-                                <label class="control-label">About</label>
-                                <textarea class="form-control" rows="3" placeholder="We are KeenThemes!!!"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Website Url</label>
-                                <input type="text" placeholder="http://www.mywebsite.com" class="form-control" /> </div>
-                                <div class="margiv-top-10">
-                                    <div class="row">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-circle green" ng-click="uploadProfile(formData)">Save</button>
-                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelChanges()">Cancel</button>
+                                <label class="control-label">email</label>
+                                <input type="email" class="form-control" ng-model="formData.email" /> </div>
+                            <div class="margiv-top-10">
+                                <div class="row">
+                                    <div class=" col-md-12 text-center">
+                                        <button type="button" class="btn blue" ng-click="updateProfileData(formData)">Save Changes</button>
+                                        <button type="button" class="btn blue" ng-click="cancelChanges()">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -82,11 +72,11 @@
                                     <span>Attached image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet Explorer 10 only </span>
                                 </div>
                             </div>
-                            <div class="margiv-top-10">
+                            <div class="margin-top-10">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-circle green" ng-click="uploadProfile(formData)">Save</button>
-                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelChanges()">Cancel</button>
+                                    <div class=" col-md-12 text-center">
+                                        <button type="button" class="btn blue" ng-click="updateProfileData(formData)">Submit</button>
+                                        <button type="button" class="btn blue" ng-click="cancelChanges()">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -98,71 +88,24 @@
                         <form action="#">
                             <div class="form-group">
                                 <label class="control-label">Current Password</label>
-                                <input type="password" class="form-control" name="confirmPassword" ng-model="confirmPassword" required compare-to="formData.password"/> </div>
+                                <input type="password" class="form-control" ng-model="currentPassword"/> </div>
                             <div class="form-group">
                                 <label class="control-label">New Password</label>
-                                <input type="password" class="form-control" /> </div>
+                                <input type="password" class="form-control" ng-model="newPassword"/> </div>
                             <div class="form-group">
                                 <label class="control-label">Re-type New Password</label>
                                 <input type="password" class="form-control" /> </div>
-                            <div class="margiv-top-10">
+                            <div class="margin-top-10">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-circle green" ng-click="uploadProfile(formData)">Save</button>
-                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelChanges()">Cancel</button>
+                                    <div class=" col-md-12 text-center">
+                                        <button type="button" class="btn blue" ng-click="updateProfileData(formData)">Change Password</button>
+                                        <button type="button" class="btn blue" ng-click="cancelChanges()">Cancel</button>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <!-- END CHANGE PASSWORD TAB -->
-                    <!-- PRIVACY SETTINGS TAB -->
-                    <div class="tab-pane" id="tab_1_4">
-                        <form action="#">
-                            <table class="table table-light table-hover">
-                                <tr>
-                                    <td> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus.. </td>
-                                    <td>
-                                        <label class="uniform-inline">
-                                            <input type="radio" name="optionsRadios1" value="option1" /> Yes </label>
-                                        <label class="uniform-inline">
-                                            <input type="radio" name="optionsRadios1" value="option2" checked/> No </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> Enim eiusmod high life accusamus terry richardson ad squid wolf moon </td>
-                                    <td>
-                                        <label class="uniform-inline">
-                                            <input type="checkbox" value="" /> Yes </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> Enim eiusmod high life accusamus terry richardson ad squid wolf moon </td>
-                                    <td>
-                                        <label class="uniform-inline">
-                                            <input type="checkbox" value="" /> Yes </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> Enim eiusmod high life accusamus terry richardson ad squid wolf moon </td>
-                                    <td>
-                                        <label class="uniform-inline">
-                                            <input type="checkbox" value="" /> Yes </label>
-                                    </td>
-                                </tr>
-                            </table>
-                            <!--end profile-settings-->
-                            <div class="margiv-top-10">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-circle green" ng-click="uploadProfile(formData)">Save Changes</button>
-                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelChanges()">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- END PRIVACY SETTINGS TAB -->
                 </div>
             </div>
         </div>
