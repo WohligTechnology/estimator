@@ -21,7 +21,7 @@
     <!--[if IE]> <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script> <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script> <![endif]-->
 </head>
 
-<body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-on-load" ng-class="{'page-content-white': settings.layout.pageContentWhite,'page-container-bg-solid': settings.layout.pageBodySolid, 'page-sidebar-closed': settings.layout.pageSidebarClosed}">
+<body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-on-load login" ng-class="{'page-content-white': settings.layout.pageContentWhite,'page-container-bg-solid': settings.layout.pageBodySolid, 'page-sidebar-closed': settings.layout.pageSidebarClosed}">
     <!-- BEGIN PAGE SPINNER -->
     <div ng-spinner-bar class="page-spinner-bar">
         <div class="bounce1"></div>
@@ -30,7 +30,7 @@
     </div>
     <!-- END PAGE SPINNER -->
     <!-- BEGIN HEADER -->
-    <div data-ng-include="'../frontend/views/tpl/header.html'" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top">
+    <div data-ng-include="'../frontend/views/tpl/header.html'" ng-if="loginTemplete" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top">
     </div>
     <!-- END HEADER -->
     <div class="clearfix"> </div>
@@ -38,42 +38,9 @@
     <div ui-view class="page-container"></div>
     <!-- END CONTAINER -->
     <!-- BEGIN FOOTER -->
-    <div data-ng-include="'../frontend/views/tpl/footer.html'" data-ng-controller="FooterController" class="page-footer"> </div>
+    <div data-ng-include="'../frontend/views/tpl/footer.html'" ng-if="loginTemplete" data-ng-controller="FooterController" class="page-footer"> </div>
     <!-- END FOOTER -->
-    <!-- BEGIN QUICK NAV -->
-    <!-- <nav class="quick-nav">
-        <a class="quick-nav-trigger" href="#">
-                <span aria-hidden="true"></span>
-        </a>
-        <ul>
-            <li>
-                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" target="_blank"
-                    class="active">
-                        <span>Purchase Metronic</span>
-                        <i class="icon-basket"></i>
-                    </a>
-            </li>
-            <li>
-                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/reviews/4021469?ref=keenthemes" target="_blank">
-                        <span>Customer Reviews</span>
-                        <i class="icon-users"></i>
-                    </a>
-            </li>
-            <li>
-                <a href="http://keenthemes.com/showcast/" target="_blank">
-                        <span>Showcase</span>
-                        <i class="icon-user"></i>
-                    </a>
-            </li>
-            <li>
-                <a href="http://keenthemes.com/metronic-theme/changelog/" target="_blank">
-                        <span>Changelog</span>
-                        <i class="icon-graph"></i>
-                    </a>
-            </li>
-        </ul>
-        <span aria-hidden="true" class="quick-nav-bg"></span>
-    </nav> -->
+   
     <div class="quick-nav-overlay"></div>
 
     <!-- <div class="repeated-item" ui-view></div> -->
@@ -155,6 +122,12 @@
         
         <script src="frontend/themeassets/layouts/layout/scripts/demo.min.js"></script>
         
+        <script src="frontend/themeassets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/backstretch/jquery.backstretch.min.js"></script>
+        
+        <script src="frontend/themeassets/pages/scripts/login-4.min.js"></script>
+        
         <script src="frontend/js/app.js"></script>
         
         <script src="frontend/js/languages/language.js"></script>
@@ -182,8 +155,6 @@
         <script src="frontend/js/controllers/GeneralPageController.js"></script>
         
         <script src="frontend/js/controllers/TodoController.js"></script>
-        
-        <script src="frontend/js/controllers/UserProfileController.js"></script>
         
         <script src="frontend/js/controllers/UISelectController.js"></script>
         
@@ -219,6 +190,8 @@
         
         <script src="frontend/js/controllers/user/userCtrl.js"></script>
         
+        <script src="frontend/js/controllers/UserProfileController.js"></script>
+        
         <script src="frontend/js/services/customer/customerService.js"></script>
         
         <script src="frontend/js/services/enquiry/createOrEditEnquiryService.js"></script>
@@ -246,6 +219,8 @@
         <script src="frontend/js/services/master/masterShapeService.js"></script>
         
         <script src="frontend/js/services/user/userService.js"></script>
+        
+        <script src="frontend/js/services/user/userProfileService.js"></script>
         
         <script src="frontend/js/services/dashboardService.js"></script>
         

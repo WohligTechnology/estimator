@@ -24,7 +24,7 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
 
   this.addOrEditUser = function (userData, callback) {
-    NavigationService.apiCall('User/save', userData, function (data) {
+    NavigationService.apiCall('User/createUser', userData, function (data) {
       var user = data.data.results[0];
       user.dob = new Date(user.dob);
       callback(user);
