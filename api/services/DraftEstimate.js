@@ -44,244 +44,10 @@ var schema = new Schema({
         file: String
     }],
 
-    subAssemblies: [{
-        subAssemblyName: String,
-        subAssemblyNumber: { //  a1sX where a1 --> assembly name, sX --> X is auto increasing number
-            type: String
-        },
-        quantity: Number,
-        totalValue: Number,
-        keyValueCalculations: {
-            perimeter: Number,
-            sheetMetalArea: Number,
-            surfaceArea: Number,
-            weight: Number,
-            numbers: Number,
-            hours: Number
-        },
-
-        subAssemblyParts: [{
-            partName: String,
-            partNumber: { // a1s1pX where a1 --> assembly name, s1 --> subAssemblyName, X is auto increasing number
-                type: String
-            },
-            shortcut: String,
-            scaleFactor: Number, // it is %
-            finalCalculation: {
-                materialPrice: Number,
-                itemUnitPrice: Number,
-                totalCostForQuantity: Number
-            },
-            keyValueCalculations: {
-                perimeter: Number,
-                sheetMetalArea: Number,
-                surfaceArea: Number,
-                weight: Number
-            },
-            sectionCode: {
-                type: Schema.Types.ObjectId,
-                ref: "MPartPresets",
-                index: true,
-            },
-            material: {
-                type: Schema.Types.ObjectId,
-                ref: "MMaterial",
-                index: true,
-            },
-            size: String,
-            quantity: Number,
-            variable: [{}], // Structure not defined yet    
-
-            proccessing: [{
-                processType: {
-                    type: Schema.Types.ObjectId,
-                    ref: "MProcessType",
-                    index: true,
-                },
-                processItem: {
-                    type: Schema.Types.ObjectId,
-                    ref: "MProcessItem",
-                    index: true,
-                },
-                rate: Number,
-                quantity: {
-                    keyValue: {
-                        keyVariable: String,
-                        keyValue: String
-                    },
-                    utilization: Number,
-                    contengncyOrWastage: Number,
-                    total: Number
-                },
-                totalCost: Number,
-                remarks: String
-            }],
-            addons: [{
-                addonType: {
-                    type: Schema.Types.ObjectId,
-                    ref: "MAddonType",
-                    index: true,
-                },
-                addonItem: {
-                    type: Schema.Types.ObjectId,
-                    ref: "MMaterial",
-                    index: true,
-                },
-                rate: Number,
-                quantity: {
-                    supportingVariable: {
-                        supportingVariable: String,
-                        value: Number
-                    },
-                    keyValue: {
-                        keyVariable: String,
-                        keyValue: String
-                    },
-                    utilization: Number,
-                    contengncyOrWastage: Number,
-                    total: Number
-                },
-                totalCost: Number,
-                remarks: String
-            }],
-            extras: [{
-                extraItem: {
-                    type: Schema.Types.ObjectId,
-                    ref: "MExtra",
-                    index: true,
-                },
-                quantity: Number,
-                totalCost: Number,
-                remarks: String
-            }],
-        }],
-
-        proccessing: [{
-            processType: {
-                type: Schema.Types.ObjectId,
-                ref: "MProcessType",
-                index: true,
-            },
-            processItem: {
-                type: Schema.Types.ObjectId,
-                ref: "MProcessItem",
-                index: true,
-            },
-            rate: Number,
-            quantity: {
-                keyValue: {
-                    keyVariable: String,
-                    keyValue: String
-                },
-                utilization: Number,
-                contengncyOrWastage: Number,
-                total: Number
-            },
-            totalCost: Number,
-            remarks: String
-        }],
-        addons: [{
-            addonType: {
-                type: Schema.Types.ObjectId,
-                ref: "MAddonType",
-                index: true,
-            },
-            addonItem: {
-                type: Schema.Types.ObjectId,
-                ref: "MMaterial",
-                index: true,
-            },
-            rate: Number,
-            quantity: {
-                supportingVariable: {
-                    supportingVariable: String,
-                    value: Number
-                },
-                keyValue: {
-                    keyVariable: String,
-                    keyValue: String
-                },
-                utilization: Number,
-                contengncyOrWastage: Number,
-                total: Number
-            },
-            totalCost: Number,
-            remarks: String
-        }],
-        extras: [{
-            extraItem: {
-                type: Schema.Types.ObjectId,
-                ref: "MExtra",
-                index: true,
-            },
-            quantity: Number,
-            totalCost: Number,
-            remarks: String
-        }],
-    }],
-
-    proccessing: [{
-        processType: {
-            type: Schema.Types.ObjectId,
-            ref: "MProcessType",
-            index: true,
-        },
-        processItem: {
-            type: Schema.Types.ObjectId,
-            ref: "MProcessItem",
-            index: true,
-        },
-        rate: Number,
-        quantity: {
-            keyValue: {
-                keyVariable: String,
-                keyValue: String
-            },
-            utilization: Number,
-            contengncyOrWastage: Number,
-            total: Number
-        },
-        totalCost: Number,
-        remarks: String
-    }],
-    addons: [{
-        addonType: {
-            type: Schema.Types.ObjectId,
-            ref: "MAddonType",
-            index: true,
-        },
-        addonItem: {
-            type: Schema.Types.ObjectId,
-            ref: "MMaterial",
-            index: true,
-        },
-        rate: Number,
-        quantity: {
-            supportingVariable: {
-                supportingVariable: String,
-                value: Number
-            },
-            keyValue: {
-                keyVariable: String,
-                keyValue: String
-            },
-            utilization: Number,
-            contengncyOrWastage: Number,
-            total: Number
-        },
-        totalCost: Number,
-        remarks: String
-    }],
-    extras: [{
-        extraItem: {
-            type: Schema.Types.ObjectId,
-            ref: "MExtra",
-            index: true,
-        },
-        quantity: Number,
-        totalCost: Number,
-        remarks: String
-    }]
+    subAssemblies: [],
+    proccessing: [],
+    addons: [],
+    extras: []
 
 });
 
@@ -293,11 +59,13 @@ module.exports = mongoose.model('DraftEstimate', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
-    //- compile draft estimate & store it into an 6 coolections
+    //- compile draft estimate & store it into the 6 collections.
     // req data --> _id (i.e. estimate Id)
     compileEstimate: function (data, callback) {
 
-        DraftEstimate.findOne({_id:data._id}).lean().exec(function (err, found) {
+        DraftEstimate.findOne({
+            _id: data._id
+        }).lean().exec(function (err, found) {
 
             console.log(' &&&&&&&&&&&&&&&&&&&&&&&&&&&&& found &&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
 
@@ -307,7 +75,7 @@ var model = {
             } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
-                var subAssembliesArray = [];
+                var subAssembliesArray = [];    
                 var partsArray = [];
                 var partProccessingArray = [];
                 var partAddonsArray = [];
@@ -407,9 +175,10 @@ var model = {
                                                         async.eachSeries(part.proccessing, function (proObj, callback) {
                                                             proObj.processingLevel = "part";
                                                             proObj.processingLevelId = savedPart._id;
+                                                            console.log('**** inside part la processing of DraftEstimate.js & data is ****',proObj);
                                                             EstimateProcessing.saveData(proObj, function (err, savedPartProcess) {
                                                                 if (err) {
-                                                                    console.log('**** error at partProcessing of DraftEstimate.js ****', err);
+                                                                    console.log('**** error at partProcessing@@@@ of DraftEstimate.js ****', err);
                                                                 } else {
                                                                     partProccessingArray.push(savedPartProcess._id);
                                                                     callback();
@@ -419,14 +188,6 @@ var model = {
                                                             if (err) {
                                                                 console.log('***** error at final response of async.eachSeries in partProcessing of DraftEstimate.js*****', err);
                                                             } else {
-                                                                // savedPart.proccessing.push();
-                                                                // EstimatePart.saveData(savedPart, function (err, updatedPartProcess) {
-                                                                //     if (err) {
-                                                                //         console.log('**** error at function_name of DraftEstimate.js ****', err);
-                                                                //     } else {
-                                                                //         callback();
-                                                                //     }
-                                                                // });
                                                                 callback();
                                                             }
                                                         });
@@ -447,14 +208,6 @@ var model = {
                                                             if (err) {
                                                                 console.log('***** error at final response of async.eachSeries in partAddons of DraftEstimate.js*****', err);
                                                             } else {
-                                                                // savedPart.addons.push(partAddonsArray);
-                                                                // EstimatePart.saveData(savedPart, function (err, updatedPartAddons) {
-                                                                //     if (err) {
-                                                                //         console.log('**** error at function_name of DraftEstimate.js ****', err);
-                                                                //     } else {
-                                                                //         callback();
-                                                                //     }
-                                                                // });
                                                                 callback();
                                                             }
                                                         });
@@ -475,14 +228,6 @@ var model = {
                                                             if (err) {
                                                                 console.log('***** error at final response of async.eachSeries in partExtras of DraftEstimate.js*****', err);
                                                             } else {
-                                                                // savedPart.extras.push(partExtrasArray);
-                                                                // EstimatePart.saveData(savedPart, function (err, updatedPartExtras) {
-                                                                //     if (err) {
-                                                                //         console.log('**** error at function_name of DraftEstimate.js ****', err);
-                                                                //     } else {
-                                                                //         callback();
-                                                                //     }
-                                                                // });
                                                                 callback();
                                                             }
                                                         });
@@ -512,16 +257,16 @@ var model = {
                                         if (err) {
                                             console.log('***** error at final response of 1st async.eachSeries in function_name of DraftEstimate.js *****', err);
                                         } else {
-                                            
+
                                             async.parallel({
                                                 subAssProcessing: function (callback) {
 
                                                     async.eachSeries(subAss.proccessing, function (proObj, callback) {
-                                                        proObj.processingLevel = "part";
-                                                        proObj.processingLevelId = savedPart._id;
+                                                        proObj.processingLevel = "subAssembly";
+                                                        proObj.processingLevelId = savedSubAss._id;
                                                         EstimateProcessing.saveData(proObj, function (err, savedSubAssProcess) {
                                                             if (err) {
-                                                                console.log('**** error at partProcessing of DraftEstimate.js ****', err);
+                                                                console.log('**** error at subAssProcessing of DraftEstimate.js ****', err);
                                                             } else {
                                                                 subAssProccessingArray.push(savedSubAssProcess._id);
                                                                 callback();
@@ -545,11 +290,11 @@ var model = {
                                                 },
                                                 subAssAddons: function (callback) {
                                                     async.eachSeries(subAss.addons, function (addonsObj, callback) {
-                                                        addonsObj.addonsLevel = "part";
-                                                        addonsObj.addonsLevelId = savedPart._id;
+                                                        addonsObj.addonsLevel = "subAssembly";
+                                                        addonsObj.addonsLevelId = savedSubAss._id;
                                                         EstimateAddons.saveData(addonsObj, function (err, savedSubAssAddon) {
                                                             if (err) {
-                                                                console.log('**** error at partAddons of DraftEstimate.js ****', err);
+                                                                console.log('**** error at subAssAddons of DraftEstimate.js ****', err);
                                                             } else {
                                                                 subAssAddonsArray.push(savedSubAssAddon._id);
                                                                 callback();
@@ -573,11 +318,11 @@ var model = {
                                                 },
                                                 subAssExtras: function (callback) {
                                                     async.eachSeries(subAss.extras, function (extrasObj, callback) {
-                                                        extrasObj.extraLevel = "part";
-                                                        extrasObj.extraLevelId = savedPart._id;
+                                                        extrasObj.extraLevel = "subAssembly";
+                                                        extrasObj.extraLevelId = savedSubAss._id;
                                                         EstimateExtras.saveData(extrasObj, function (err, savedSubAssExtra) {
                                                             if (err) {
-                                                                console.log('**** error at partExtras of DraftEstimate.js ****', err);
+                                                                console.log('**** error at subAssExtras of DraftEstimate.js ****', err);
                                                             } else {
                                                                 subAssExtrasArray.push(savedSubAssExtra._id);
                                                                 callback();
@@ -611,7 +356,7 @@ var model = {
 
                                                     EstimateSubAssembly.saveData(savedSubAss, function (err, updatedSubAss) {
                                                         if (err) {
-                                                            console.log('**** error at function_name of DraftEstimate.js ****', err);
+                                                            console.log('**** error at EstimateSubAssembly saveData of DraftEstimate.js ****', err);
                                                         } else {
                                                             callback(null, updatedSubAss);
                                                         }
@@ -635,7 +380,7 @@ var model = {
                                             proObj.processingLevelId = savedAssembly._id;
                                             EstimateProcessing.saveData(proObj, function (err, savedSubAssProcess) {
                                                 if (err) {
-                                                    console.log('**** error at partProcessing of DraftEstimate.js ****', err);
+                                                    console.log('**** error at assProcessing of DraftEstimate.js ****', err);
                                                 } else {
                                                     assProccessingArray.push(savedSubAssProcess._id);
                                                     callback();
@@ -663,7 +408,7 @@ var model = {
                                             addonsObj.addonsLevelId = savedAssembly._id;
                                             EstimateAddons.saveData(addonsObj, function (err, savedSubAssAddon) {
                                                 if (err) {
-                                                    console.log('**** error at partAddons of DraftEstimate.js ****', err);
+                                                    console.log('**** error at assAddons of DraftEstimate.js ****', err);
                                                 } else {
                                                     assAddonsArray.push(savedSubAssAddon._id);
                                                     callback();
@@ -691,7 +436,7 @@ var model = {
                                             extrasObj.extraLevelId = savedAssembly._id;
                                             EstimateExtras.saveData(extrasObj, function (err, savedSubAssExtra) {
                                                 if (err) {
-                                                    console.log('**** error at partExtras of DraftEstimate.js ****', err);
+                                                    console.log('**** error at assExtras of DraftEstimate.js ****', err);
                                                 } else {
                                                     assExtrasArray.push(savedSubAssExtra._id);
                                                     callback();
@@ -717,11 +462,11 @@ var model = {
                                     if (err) {
                                         console.log('********** error at final response of async.parallel  DraftEstimate.js ************', err);
                                     } else {
-                                        savedSubAss.proccessing = subAssProccessingArray;
-                                        savedSubAss.addons = subAssAddonsArray;
-                                        savedSubAss.extras = subAssExtrasArray;
+                                        savedAssembly.proccessing = subAssProccessingArray;
+                                        savedAssembly.addons = subAssAddonsArray;
+                                        savedAssembly.extras = subAssExtrasArray;
 
-                                        Estimate.saveData(savedSubAss, function (err, updatedAss) {
+                                        Estimate.saveData(savedAssembly, function (err, updatedAss) {
                                             if (err) {
                                                 console.log('**** error at function_name of DraftEstimate.js ****', err);
                                             } else {

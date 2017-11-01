@@ -51,6 +51,26 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('MAddonType', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom','materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom'));
-var model = {};
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom', 'materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom'));
+var model = {
+    // what this function will do ?
+    // req data --> ?
+    getAddonMaterial: function (data, callback) {
+        MAddonType.findOne({
+            _id: data._id
+        }).deepPopulate('materialSubCat materialSubCat.materials').lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getAddonMaterial of MAddonType.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+
+        });
+    },
+
+
+};
 module.exports = _.assign(module.exports, exports, model);
