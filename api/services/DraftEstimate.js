@@ -464,7 +464,6 @@ var model = {
                                         savedAssembly.addons = assAddonsArray;
                                         savedAssembly.extras = assExtrasArray;
                                         savedAssembly.subAssemblies = subAssembliesArray;
-
                                         Estimate.saveData(savedAssembly, function (err, updatedAss) {
                                             if (err) {
                                                 console.log('**** error at function_name of DraftEstimate.js ****', err);
