@@ -101,14 +101,25 @@ var model = {
     },
 
     getProcessTypeItem: function (data, callback) {
-        MProcessType.findOne().deepPopulate('processCat processCat.processItems').lean().exec(function (err, myData) {
+        MProcessType.findOne().lean().exec(function (err, myData) {
             if (err) {
                 console.log('**** error at function_name of MProcessType.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(myData)) {
-                callback(null, 'noDataFound');
+                callback(null, []);
             } else {
-                callback(null, myData);
+                MProcessCat.findOne({
+                    _id: myData.processCat
+                }).populate('processItems').select('processItems').exec(function (err, itemsData) {
+                    if (err) {
+                        console.log('**** error at function_name of MProcessType.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(itemsData)) {
+                        callback(null, []);
+                    } else {
+                        callback(null, itemsData);
+                    }
+                });
             }
         });
     },

@@ -33,8 +33,8 @@ var schema = new Schema({
     subAssemblyId: {
         type: Schema.Types.ObjectId,
         ref: "EstimateSubAssembly",
-        required: true,
-        key: 'subAssemblyParts'
+        index: true
+        // key: 'subAssemblyParts'
     },
 
     proccessing: [{

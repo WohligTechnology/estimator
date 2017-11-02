@@ -96,7 +96,7 @@ var model = {
                     addonCost: found.addonCost,
                     extrasCost: found.extrasCost,
                     totalCost: found.totalCost,
-                    draftEstimateId: found.estimateId,
+                    draftEstimateId: found._id,
                     estimateCreatedUser: found.estimateCreatedUser,
                     estimateUpdatedUser: found.estimateUpdatedUser,
                     estimateDetails: found.estimateDetails,
@@ -139,7 +139,7 @@ var model = {
                                 } else if (_.isEmpty(savedSubAss)) {
                                     callback(null, 'noDataFound');
                                 } else {
-                                    // subAssembliesArray.push(savedSubAss._id);
+                                    subAssembliesArray.push(savedSubAss._id);
                                     async.eachSeries(subAss.subAssemblyParts, function (part, callback) {
                                         var partObj = {
                                             partName: part.partName,
@@ -167,9 +167,8 @@ var model = {
                                                 callback(null, 'noDataFound');
                                             } else {
                                                 partsArray.push(savedPart._id);
-                                                async.parallel({
-
-                                                    partProcessing: function (callback) {
+                                                async.waterfall([
+                                                    function (callback) {
                                                         async.eachSeries(part.proccessing, function (proObj, callback) {
                                                             proObj.processingLevel = "part";
                                                             proObj.processingLevelId = savedPart._id;
@@ -190,7 +189,7 @@ var model = {
                                                             }
                                                         });
                                                     },
-                                                    partAddons: function (callback) {
+                                                    function (callback) {
                                                         async.eachSeries(part.addons, function (addonsObj, callback) {
                                                             addonsObj.addonsLevel = "part";
                                                             addonsObj.addonsLevelId = savedPart._id;
@@ -210,7 +209,7 @@ var model = {
                                                             }
                                                         });
                                                     },
-                                                    partExtras: function (callback) {
+                                                    function (callback) {
                                                         async.eachSeries(part.extras, function (extrasObj, callback) {
                                                             extrasObj.extraLevel = "part";
                                                             extrasObj.extraLevelId = savedPart._id;
@@ -230,9 +229,9 @@ var model = {
                                                             }
                                                         });
                                                     }
-                                                }, function (err, finalResults) {
+                                                ], function (err, finalResults) {
                                                     if (err) {
-                                                        console.log('********** error at final response of async.parallel  DraftEstimate.js ************', err);
+                                                        console.log('********** error at final response of async.waterfall  DraftEstimate.js ************', err);
                                                         callback(err, null);
                                                     } else {
 
@@ -256,8 +255,8 @@ var model = {
                                             console.log('***** error at final response of 1st async.eachSeries in function_name of DraftEstimate.js *****', err);
                                         } else {
 
-                                            async.parallel({
-                                                subAssProcessing: function (callback) {
+                                            async.waterfall([
+                                                function (callback) {
 
                                                     async.eachSeries(subAss.proccessing, function (proObj, callback) {
                                                         proObj.processingLevel = "subAssembly";
@@ -286,7 +285,7 @@ var model = {
                                                         }
                                                     });
                                                 },
-                                                subAssAddons: function (callback) {
+                                                function (callback) {
                                                     async.eachSeries(subAss.addons, function (addonsObj, callback) {
                                                         addonsObj.addonsLevel = "subAssembly";
                                                         addonsObj.addonsLevelId = savedSubAss._id;
@@ -314,7 +313,7 @@ var model = {
                                                         }
                                                     });
                                                 },
-                                                subAssExtras: function (callback) {
+                                                function (callback) {
                                                     async.eachSeries(subAss.extras, function (extrasObj, callback) {
                                                         extrasObj.extraLevel = "subAssembly";
                                                         extrasObj.extraLevelId = savedSubAss._id;
@@ -342,15 +341,16 @@ var model = {
                                                         }
                                                     });
                                                 }
-                                            }, function (err, finalResults) {
+                                            ], function (err, finalResults) {
                                                 if (err) {
-                                                    console.log('********** error at final response of async.parallel  DraftEstimate.js ************', err);
+                                                    console.log('********** error at final response of async.waterfall  DraftEstimate.js ************', err);
                                                     callback(err, null);
                                                 } else {
 
                                                     savedSubAss.proccessing = subAssProccessingArray;
                                                     savedSubAss.addons = subAssAddonsArray;
                                                     savedSubAss.extras = subAssExtrasArray;
+                                                    savedSubAss.subAssemblyParts = partsArray;
 
                                                     EstimateSubAssembly.saveData(savedSubAss, function (err, updatedSubAss) {
                                                         if (err) {
@@ -371,8 +371,8 @@ var model = {
                                 console.log('***** error at final response of 2nd async.eachSeries in function_name of DraftEstimate.js *****', err);
                             } else {
 
-                                async.parallel({
-                                    assProcessing: function (callback) {
+                                async.waterfall([
+                                    function (callback) {
                                         async.eachSeries(found.proccessing, function (proObj, callback) {
                                             proObj.processingLevel = "estimate";
                                             proObj.processingLevelId = savedAssembly._id;
@@ -400,7 +400,7 @@ var model = {
                                             }
                                         });
                                     },
-                                    assAddons: function (callback) {
+                                    function (callback) {
                                         async.eachSeries(found.addons, function (addonsObj, callback) {
                                             addonsObj.addonsLevel = "estimate";
                                             addonsObj.addonsLevelId = savedAssembly._id;
@@ -428,7 +428,7 @@ var model = {
                                             }
                                         });
                                     },
-                                    assExtras: function (callback) {
+                                   function (callback) {
                                         async.eachSeries(found.extras, function (extrasObj, callback) {
                                             extrasObj.extraLevel = "estimate";
                                             extrasObj.extraLevelId = savedAssembly._id;
@@ -456,19 +456,14 @@ var model = {
                                             }
                                         });
                                     }
-                                }, function (err) {
+                                ], function (err) {
                                     if (err) {
-                                        console.log('********** error at final response of async.parallel  DraftEstimate.js ************', err);
+                                        console.log('********** error at final response of async.waterfall  DraftEstimate.js ************', err);
                                     } else {
-<<<<<<< HEAD
-                                        savedAssembly.proccessing = subAssProccessingArray;
-                                        savedAssembly.addons = subAssAddonsArray;
-                                        savedAssembly.extras = subAssExtrasArray;
-=======
                                         savedAssembly.proccessing = assProccessingArray;
                                         savedAssembly.addons = assAddonsArray;
                                         savedAssembly.extras = assExtrasArray;
->>>>>>> bef6869541de04dbb585e990521417b3d14de612
+                                        savedAssembly.subAssemblies = subAssembliesArray;
 
                                         Estimate.saveData(savedAssembly, function (err, updatedAss) {
                                             if (err) {
@@ -578,8 +573,6 @@ var model = {
 
            
         }
-
-
     },
 };
 module.exports = _.assign(module.exports, exports, model);
