@@ -216,7 +216,7 @@ var model = {
                                 if (err) {
                                     callback(err, null);
                                 } else {
-                                    callback(null,savedData);
+                                    callback(null, savedData);
                                 }
                             });
                         }
@@ -241,7 +241,7 @@ var model = {
                 },
             ],
             function (err, result) {
-                console.log(" ***** async.waterfall final response of createUser ***** ",result);
+                console.log(" ***** async.waterfall final response of createUser ***** ", result);
                 callback(err, "success");
             });
 
@@ -274,7 +274,6 @@ var model = {
     },
 
     changePassword: function (data, callback) {
-        console.log('**** inside resetPassword of User.js & data is ****', data);
         User.findOne({
             _id: data.id
         }).exec(function (err, found) {
@@ -314,7 +313,6 @@ var model = {
         });
     },
     sendForgetPasswordOtp: function (data, callback) {
-        console.log(" ***** inside sendForgotPasswordOtp  ***** ", data);
         var userData = {};
         // check whether user is available or not ?
         // if --> yes --> generate OTP & send email to user with otp
@@ -369,11 +367,10 @@ var model = {
             ],
             function (err, result) {
                 console.log(" ***** async.waterfall final response of sendForgotPasswordOtp ***** ", result);
-                callback(err, result);
+                callback(err, userData);
             });
     },
     confirmForgotPasswordOtp: function (data, callback) {
-        console.log(" **** inside confirmForgotPasswordOtp *** ", data);
         User.findOne({
             _id: data._id,
             otp: data.verifyOtp

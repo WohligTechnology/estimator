@@ -14,7 +14,13 @@ var schema = new Schema({
     }]
 });
 
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+    populate:{
+        'processItems':{
+            select:"processItemName rate"
+        }
+    }
+});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('MProcessCat', schema);

@@ -36,8 +36,8 @@ var schema = new Schema({
 
 schema.plugin(deepPopulate, {
     Populate: {
-        'processCat':{
-            select:""
+        'processCat': {
+            select: ''
         },
         'rate.uom': {
             select: ''
@@ -100,6 +100,29 @@ var model = {
                 });
     },
 
+    getProcessTypeItem: function (data, callback) {
+        MProcessType.findOne().lean().exec(function (err, myData) {
+            if (err) {
+                console.log('**** error at function_name of MProcessType.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(myData)) {
+                callback(null, []);
+            } else {
+                MProcessCat.findOne({
+                    _id: myData.processCat
+                }).populate('processItems').select('processItems').exec(function (err, itemsData) {
+                    if (err) {
+                        console.log('**** error at function_name of MProcessType.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(itemsData)) {
+                        callback(null, []);
+                    } else {
+                        callback(null, itemsData);
+                    }
+                });
+            }
+        });
+    },
 };
 
 

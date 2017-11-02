@@ -16,8 +16,8 @@ var schema = new Schema({
     estimateId: {                            // two way data binding
         type: Schema.Types.ObjectId,
         ref: "Estimate",
-        required: true,
-        key: 'subAssemblies'
+        index: true
+        // key: 'subAssemblies'
     },
 
     subAssemblyParts: [{

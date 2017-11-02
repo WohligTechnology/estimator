@@ -46,9 +46,9 @@ myApp.service('loginService', function (NavigationService) {
           NavigationService.apiCall('User/resetPassword',obj,function(data){
               console.log('5555555555',data)
               
-            //   if(data.data = 'ObjectId Invalid'){
-            //       data.data = [];
-            //   }
+              if(data.data = 'ObjectId Invalid'){
+                  data.data = [];
+              }
               callback(data.data);
           });
       }

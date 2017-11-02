@@ -51,6 +51,38 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('MAddonType', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom','materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom'));
-var model = {};
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom', 'materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom'));
+var model = {
+    // what this function will do ?
+    // req data --> ?
+    getAddonMaterial: function (data, callback) {
+        MAddonType.findOne({
+            _id: data._id
+        }).lean().exec(function (err, myData) {
+            if (err) {
+                console.log('**** error at getAddonMaterial of MAddonType.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(myData)) {
+                callback(null, []);
+            } else {
+                MMaterialSubCat.findOne(
+                    {
+                        _id:myData.materialSubCat
+                    }
+                ).populate('materials').select ('materials').exec(function (err, finalResult) {
+                    if (err) {
+                        console.log('**** error at function_name of MAddonType.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(finalResult)) {
+                        callback(null, []);
+                    } else {
+                        callback(null, finalResult);
+                    }
+                });
+            }
+
+        });
+    },
+
+};
 module.exports = _.assign(module.exports, exports, model);

@@ -128,6 +128,12 @@ myApp.run(["$rootScope", "settings", "$state", function ($rootScope, settings, $
 myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
     var tempateURL = "views/template/template.html"; //Default Template URL
 
+    // var routeResolve = function (accessApp) {
+    //    accessApp.isLoggedIn();
+    // }
+
+
+
     // for http request with session
     $httpProvider.defaults.withCredentials = true;
     $stateProvider
@@ -895,4 +901,17 @@ myApp.directive('inputDate', function ($compile, $parse) {
             };
         }
     };
+
+    // .factory('accessApp', function ($location) {
+    //     //  console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
+    //     return {
+    //       isLoggedIn: function () {
+    //         if ($.jStorage.get("loggedInUser")) {
+    //           return true;
+    //         } else {
+    //           return $location.path('/');
+    //         }
+    //       }
+    //     }
+    //   })
 });
