@@ -7,7 +7,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, cre
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
 
+    console.log("*********** $scope.draftEstimateId *****************",$stateParams.estimateId);
     if (angular.isDefined($stateParams.estimateId)) {
+        console.log("*********** $scope.draftEstimateId *****************",$scope.draftEstimateId);
         $scope.draftEstimateId = $stateParams.estimateId;
     }
 
@@ -306,6 +308,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, cre
         });
     }
 
+
+    $scope.saveCurrentEstimate = function(){
+        createOrEditEstimateService.saveCurrentEstimate(function(data){
+            $scope.getEstimateData();
+        });
+    }
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
