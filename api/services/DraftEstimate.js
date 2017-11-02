@@ -460,15 +460,9 @@ var model = {
                                     if (err) {
                                         console.log('********** error at final response of async.parallel  DraftEstimate.js ************', err);
                                     } else {
-<<<<<<< HEAD
-                                        savedAssembly.proccessing = subAssProccessingArray;
-                                        savedAssembly.addons = subAssAddonsArray;
-                                        savedAssembly.extras = subAssExtrasArray;
-=======
                                         savedAssembly.proccessing = assProccessingArray;
                                         savedAssembly.addons = assAddonsArray;
                                         savedAssembly.extras = assExtrasArray;
->>>>>>> bef6869541de04dbb585e990521417b3d14de612
 
                                         Estimate.saveData(savedAssembly, function (err, updatedAss) {
                                             if (err) {
