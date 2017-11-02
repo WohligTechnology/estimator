@@ -222,25 +222,12 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
         .state('app.createEstimate', {
-            url: "/estimate/create/:enquiryId",
+            url: "/estimate/create/:estimateId",
             views: {
                 "mainView": {
                     templateUrl: "views/content/estimate/createOrEditEstimate.html",
                     controller: "createOrEditEstimateCtrl"
                 }
-            },
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                            './themeassets/global/plugins/jstree/dist/jstree.js',
-                            './themeassets/pages/scripts/ui-tree.js'
-                        ]
-                    });
-                }]
             }
         })
         .state('app.editEstimate', {

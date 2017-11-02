@@ -58,19 +58,31 @@ var model = {
     getAddonMaterial: function (data, callback) {
         MAddonType.findOne({
             _id: data._id
-        }).deepPopulate('materialSubCat materialSubCat.materials').lean().exec(function (err, found) {
+        }).lean().exec(function (err, myData) {
             if (err) {
                 console.log('**** error at getAddonMaterial of MAddonType.js ****', err);
                 callback(err, null);
-            } else if (_.isEmpty(found)) {
-                callback(null, 'noDataFound');
+            } else if (_.isEmpty(myData)) {
+                callback(null, []);
             } else {
-                callback(null, found);
+                MMaterialSubCat.findOne(
+                    {
+                        _id:myData.materialSubCat
+                    }
+                ).populate('materials').select ('materials').exec(function (err, finalResult) {
+                    if (err) {
+                        console.log('**** error at function_name of MAddonType.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(finalResult)) {
+                        callback(null, []);
+                    } else {
+                        callback(null, finalResult);
+                    }
+                });
             }
 
         });
     },
-
 
 };
 module.exports = _.assign(module.exports, exports, model);

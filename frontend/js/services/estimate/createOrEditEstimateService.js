@@ -85,7 +85,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             numbers: "",
             hours: ""
         },
-        parts: [],
+        subAssemblyParts: [],
         processing: [_.cloneDeep(processing)],
         addons: [_.cloneDeep(addon)],
         extras: [_.cloneDeep(extra)]
@@ -94,7 +94,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
     var assembly = {
         enquiryId: "",
         assemblyName: "Assembly 1",
-        assemplyNumber: "AS1",
+        assemblyNumber: "AS1",
         keyValueCalculations: {
             perimeter: "",
             sheetMetalArea: "",
@@ -160,7 +160,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         } else if (estimateView == 'partDetail') {
             var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
             var partIndex = this.getPartIndex(subAssIndex, partId);
-            getViewData = formData.assembly.subAssemblies[subAssIndex].parts[partIndex];
+            getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
         } else if (estimateView == 'editPartItemDetail') {
             var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
             var partIndex = this.getPartIndex(subAssIndex, partId);
@@ -168,29 +168,33 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             if (getLevelName == "assembly") {
                 getViewData = formData.assembly.processing;
             } else if (getLevelName == "subAssembly") {
+
                 var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
                 getViewData = formData.assembly.subAssemblies[subAssIndex].processing;
                 getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
             } else if (getLevelName == "part") {
+
                 var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
                 var partIndex = this.getPartIndex(subAssIndex, partId);
-                getViewData = formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing;
+                getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing;
                 getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
-                getViewData.partId = formData.assembly.subAssemblies[subAssIndex].parts[partIndex].partNumber;
+                getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
             }
         } else if (estimateView == 'addons') {
             if (getLevelName == "assembly") {
                 getViewData = formData.assembly.addons;
             } else if (getLevelName == "subAssembly") {
+
                 var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
                 getViewData = formData.assembly.subAssemblies[subAssIndex].addons;
                 getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
             } else if (getLevelName == "part") {
+
                 var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
                 var partIndex = this.getPartIndex(subAssIndex, partId);
-                getViewData = formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons;
+                getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons;
                 getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
-                getViewData.partId = formData.assembly.subAssemblies[subAssIndex].parts[partIndex].partNumber;
+                getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
             }
         } else if (estimateView == 'extras') {
             if (getLevelName == "assembly") {
@@ -202,12 +206,17 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             } else if (getLevelName == "part") {
                 var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
                 var partIndex = this.getPartIndex(subAssIndex, partId);
-                getViewData = formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras;
+                getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras;
                 getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
-                getViewData.partId = formData.assembly.subAssemblies[subAssIndex].parts[partIndex].partNumber;
+                getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
             }
         }
         callback(getViewData);
+    }
+    this.saveCurrentEstimate = function () {
+        NavigationService.apiCall('DraftEstimate.js/save', data_obj, function (data) {
+            $scope.data = data.data;
+        });
     }
 
 
@@ -231,9 +240,9 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
     this.createSubAssembly = function (subAssObj, callback) {
         var id = this.getSubAssemblyNumber();
         var tempSubAssObj = _.cloneDeep(subAssembly);
-        tempSubAssObj.subAssemblyNumber = formData.assembly.assemplyNumber + "SA" + id;  
+        tempSubAssObj.subAssemblyNumber = formData.assembly.assemblyNumber + "SA" + id;
         tempSubAssObj.subAssemblyName = subAssObj.subAssemblyName;
-        formData.assembly.subAssemblies.push(tempSubAssObj);      
+        formData.assembly.subAssemblies.push(tempSubAssObj);
         callback();
     }
     this.deleteSubAssembly = function (subAssemblyId, callback) {
@@ -268,18 +277,18 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         var tempPartObj = _.cloneDeep(part);
         tempPartObj.partNumber = subAssId + 'PT' + id;
         tempPartObj.partName = partObj.partName;
-       
-        formData.assembly.subAssemblies[subAssIndex].parts.push(tempPartObj);
+
+        formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(tempPartObj);
         callback();
     }
     this.deletePart = function (subAssemblyId, partId, callback) {
-        console.log('**** subAssemblyId &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7 ****',subAssemblyId);
-        console.log('**** partId &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7 ****',partId);
+        console.log('**** subAssemblyId &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7 ****', subAssemblyId);
+        console.log('**** partId &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7 ****', partId);
         var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-        _.remove(formData.assembly.subAssemblies[subAssIndex].parts, function (obj) {
+        _.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (obj) {
             return obj.partNumber == partId
         });
-        console.log(" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ",formData.assembly);
+        console.log(" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ", formData.assembly);
 
         callback();
     }
@@ -301,7 +310,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             var partIndex = this.getPartIndex(subAssIndex, partId);
             id = this.getProcessingNumber(level, subAssIndex, partIndex);
             processingObj.processingNumber = partId + 'PR' + id;
-            formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing.push(processingObj)
+            formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.push(processingObj)
         }
         callback();
     }
@@ -318,7 +327,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         } else if (level == 'part') {
             subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
             partIndex = this.getPartIndex(subAssIndex, partId);
-            _.remove(formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing, function (obj) {
+            _.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing, function (obj) {
                 return obj.processingNumber == processingId
             });
         }
@@ -343,7 +352,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             var partIndex = this.getPartIndex(subAssIndex, partId);
             id = this.getAddonNumber(level, subAssIndex, partIndex);
             addonObj.addonNumber = partId + 'AD' + id;
-            formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons.push(addonObj)
+            formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.push(addonObj)
         }
         callback();
     }
@@ -361,7 +370,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         } else if (level == 'part') {
             subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
             partIndex = this.getPartIndex(subAssIndex, partId);
-            _.remove(formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons, function (obj) {
+            _.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons, function (obj) {
                 return obj.addonNumber == addonId
             });
         }
@@ -385,7 +394,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             var partIndex = this.getPartIndex(subAssIndex, partId);
             id = this.getExtraNumber(level, subAssIndex, partIndex);
             extraObj.extraNumber = partId + 'EX' + id;
-            formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras.push(extraObj)
+            formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.push(extraObj)
         }
         callback();
     }
@@ -402,7 +411,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         } else if (level == 'part') {
             subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
             partIndex = this.getPartIndex(subAssIndex, partId);
-            _.remove(formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras, function (obj) {
+            _.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
                 return obj.extraNumber == extraId
             });
         }
@@ -430,6 +439,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 
 
     this.getSubAssemblyIndex = function (subAssId) {
+
         var subAssIndex = _.findIndex(formData.assembly.subAssemblies, {
             subAssemblyNumber: subAssId
         });
@@ -437,14 +447,15 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         return subAssIndex;
     }
     this.getPartIndex = function (subAssIndex, partId) {
-        var partIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].parts, ['partNumber', partId]);
+
+        var partIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, ['partNumber', partId]);
         return partIndex;
     }
     this.getAddonIndex = function (addonId, subAssIndex, partIndex) {
         var addonIndex;
         if (angular.isDefined(subAssIndex)) {
             if (angular.isDefined(partIndex)) {
-                addonIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons, ['addonNumber', addonId]);
+                addonIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons, ['addonNumber', addonId]);
             } else {
                 addonIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].addons, ['addonNumber', addonId]);
             }
@@ -468,10 +479,10 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
     }
     this.getPartNumber = function (subAssIndex) {
         var id;
-        if (formData.assembly.subAssemblies[subAssIndex].parts.length == 0) {
+        if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.length == 0) {
             id = 1;
         } else {
-            temp = _.last(formData.assembly.subAssemblies[subAssIndex].parts).partNumber;
+            temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts).partNumber;
             temp = _.split(temp, 'PT');
             id = _.toNumber(temp[1]) + 1;
         }
@@ -497,11 +508,11 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             }
 
         } else if (level == 'part') {
-            if (formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing.length == 0) {
+            if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.length == 0) {
                 id = 1;
                 return id;
             } else {
-                temp = _.last(formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing).processingNumber;
+                temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing).processingNumber;
             }
         }
 
@@ -529,11 +540,11 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             }
 
         } else if (level == 'part') {
-            if (formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons.length == 0) {
+            if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.length == 0) {
                 id = 1;
                 return id;
             } else {
-                temp = _.last(formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons).addonNumber;
+                temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons).addonNumber;
             }
         }
 
@@ -561,11 +572,11 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             }
 
         } else if (level == 'part') {
-            if (formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras.length == 0) {
+            if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.length == 0) {
                 id = 1;
                 return id;
             } else {
-                temp = _.last(formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras).extraNumber;
+                temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras).extraNumber;
             }
         }
 
@@ -590,7 +601,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         // NavigationService.apiCall('parts/save', tempObj, function (data) {
         //     var partObj = data.data.results;
         temp = _.split(partId, 'PT');
-        //     formData.assembly.subAssemblies[temp[0]].parts.push(partObj);        
+        //     formData.assembly.subAssemblies[temp[0]].subAssemblyParts.push(partObj);        
         console.log('****subAssemblyId, partId ****', temp[0], partId);
 
         callback();
@@ -609,7 +620,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         // } else if (level == 'part') {
         //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
         //     var partIndex = this.getPartIndex(subAssIndex, partId);  
-        //     formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing.push(processingObj)
+        //     formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.push(processingObj)
         // }
         //     callback();
         // });
@@ -627,7 +638,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         // } else if (level == 'part') {
         //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
         //     var partIndex = this.getPartIndex(subAssIndex, partId);  
-        //     formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons.push(addonObj)
+        //     formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.push(addonObj)
         // }
         //     callback();
         // });
@@ -645,7 +656,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         // } else if (level == 'part') {
         //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
         //     var partIndex = this.getPartIndex(subAssIndex, partId);  
-        //     formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras.push(extraObj)
+        //     formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.push(extraObj)
         // }
         //     callback();
         // });

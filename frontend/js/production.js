@@ -70644,7 +70644,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
     this.assembly = {
         enquiryId: "",
         assemblyName: "Assembly 1",
-        assemplyNumber: "AS1",
+        assemblyNumber: "AS1",
         keyValueCalculations: {
             perimeter: "",
             sheetMetalArea: "",

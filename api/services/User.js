@@ -367,7 +367,7 @@ var model = {
             ],
             function (err, result) {
                 console.log(" ***** async.waterfall final response of sendForgotPasswordOtp ***** ", result);
-                callback(err, result);
+                callback(err, userData);
             });
     },
     confirmForgotPasswordOtp: function (data, callback) {

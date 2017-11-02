@@ -9,7 +9,7 @@ var schema = new Schema({
         type: String,
         required: true
     },
-    assemplyNumber: { //  start with a + X where X is increasing numbers
+    assemblyNumber: { //  start with a + X where X is increasing numbers
         type: String
     },
     keyValueCalculations: {
@@ -90,7 +90,7 @@ var model = {
     // import assembly by passing assembly number
     importAssembly: function (data, callback) {
         Estimate.findOne({
-                assemplyNumber: data.assemplyNumber
+                assemblyNumber: data.assemblyNumber
             }).deepPopulate('subAssemblies proccessing addons extras subAssemblies.subAssemblyParts subAssemblies.extras subAssemblies.addons subAssemblies.proccessing subAssemblies.subAssemblyParts.proccessing subAssemblies.subAssemblyParts.addons subAssemblies.subAssemblyParts.extras')
             .lean().exec(function (err, found) {
                 if (err) {

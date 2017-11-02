@@ -17,6 +17,9 @@
                         <a href="#" data-target="#tab_1_4" data-toggle="tab">Attachments</a>
                     </li>
                 </ul>
+                <div class="text-right saveEstimateBtn">
+                    <button type="Save" class="btn btn-circle green" ng-click="saveCurrentEstimate()">Update</button>
+                </div>
             </div>
             <div class="portlet-body">
                 <div class="tab-content">
@@ -45,7 +48,7 @@
                                                 <span ng-click="addOrEditSubAssemblyModal('update', sa)" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
                                                 <span ng-click="deleteSubAssemblyModal(sa.subAssemblyNumber,'deleteSubAssembly')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
                                                 <ul class="tree_animation">
-                                                    <li ng-repeat="p in sa.parts track by $index">
+                                                    <li ng-repeat="p in sa.subAssemblyParts track by $index">
                                                         <input type="checkbox" id="{{p.partName+$index+$parent.$index}}" />
                                                         <label for="{{p.partName+$index+$parent.$index}}" class="tree_label"></label>
                                                         <span ng-click="getEstimateView('partDetail', 'subAssembly', sa.subAssemblyNumber, p.partNumber)" class="tree_label partName">{{p.partName}}</span>
