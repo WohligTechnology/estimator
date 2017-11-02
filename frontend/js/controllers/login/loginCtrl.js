@@ -1,13 +1,11 @@
 myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, loginService) {
     
         // *************************** default variables/tasks begin here ***************** //
-        //- to show/hide sidebar of dashboard 
         $scope.$parent.loginTemplate = false;
         $scope.formData = {};
         $scope.userValidationError="";
         $scope.error = '';
     
-        // *************************** default functions begin here  ********************** //
         
         // *************************** functions to be triggered form view begin here ***** //
         $scope.verifyUser = function (username, password) {
@@ -16,32 +14,31 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
                 
                 // if user is not available --> api will send --> []
                 if (!_.isEmpty($scope.userData)) {
-                    console.log('$scope.userData', $scope.userData);
                     $scope.loggedInUser = {};
                     $scope.loggedInUser._id = $scope.userData._id;
                     $scope.loggedInUser.email = $scope.userData.email;
                     $scope.loggedInUser.name = $scope.userData.name;
                     $scope.loggedInUser.photo = $scope.userData.photo;
                     $.jStorage.set("loggedInUser", $scope.loggedInUser);
-                    console.log('$.jStorage.get("loggedInUser")' ,$.jStorage.get("loggedInUser"));
-                    $state.go('app.dashboard');                    
+                    $state.go('app.dashboard');   
+                    $scope.$parent.loginTemplate = true;                    
                 } else {                     
                     $timeout(function () {
                         $scope.error = "Invalid username or password !!!";
-                    }, 1000);
+                    }, 100);
                 }
             });
-    
-           //$scope.userData = $.jStorage.get("loggedInUser"); 
+            //$scope.userData = $.jStorage.get("loggedInUser"); 
         }
-    
+
+        //to verify username in case of forgot password
         $scope.verifyUserId = function (username) {            
             loginService.verifyUserId(username, function(data){
-                console.log('4441', data);
                 if (!_.isEmpty(data)) {
+                    $scope.userValidationError="";                    
                     $scope.showForgotPassModal = false;
                     $scope.showOtpModal = true;
-                    $scope.id = data._id;
+                    $scope.formData.id = data.userId;
                     $scope.modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: 'views/content/login/loginModal/forgotPasswordModal.html',
@@ -50,15 +47,14 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
                     });
                 } else {
                     $scope.userValidationError = "Please Enter Correct UserName";
-                    console.log('$scope.userValidationError',$scope.userValidationError);
                 }
             });
 
         }
-    
+        //to verify otp in case of forgot password
         $scope.verifyOtp = function (id, otp) {
             loginService.verifyOtp(id, otp, function(data){
-                console.log('verifOtp(), data ', data)
+                $scope.userValidationError="";                
                 if (!_.isEmpty(data)) {
                     $scope.changePasswordAccess = true;
                     $scope.showOtpModal = false;
@@ -71,18 +67,18 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
                     });
                 } else {
                     $scope.userValidationError = "Please Enter Correct OTP";
-                    console.log('$scope.userValidationError',$scope.userValidationError);
                 }                   
                 
             });
         }
-    
-        $scope.confimPassword = function (id, password) {
-            loginService.confimPassword(id, password, function (data) {
+        //reset password 
+        $scope.setPassword = function (id, password) {
+            loginService.resetPassword(id, password, function (data) {
                 $scope.cancelModal();
             });
         }
-    
+
+        //forgot password modal
         $scope.forgotPasswordModal = function () {
             $scope.showForgotPassModal = true;
             $scope.modalInstance = $uibModal.open({
@@ -92,17 +88,9 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
                 size: 'md'
             });
         }
-    
+        //cancel modal
         $scope.cancelModal = function () {
-            console.log('...................................');
             $scope.modalInstance.dismiss();
-        };
-    
-    
-        // // *************************** init all default functions begin here ************** //
-        // //- to initilize the default function 
-        // $scope.init = function () {}
-        // $scope.init();
-    
-    
+        }
+
     });

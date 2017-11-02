@@ -1,55 +1,41 @@
 myApp.service('loginService', function (NavigationService) {
-    
-      this.verifyUser = function(userId, password, callback){
-        var obj=  {};  
-          obj.email = userId;
-          obj.password=password;
-
-          NavigationService.apiCall('User/loginUser',obj,function(data){
-              if(data.data = 'ObjectId Invalid'){
-                  data.data = [];
-              }         
-            console.log('inside loginUser',data.data)
-            callback(data.data);
-          });
-      }
-      this.verifyUserId = function(username, callback){
-        var obj=  {};  
-        obj.email = username;
-          NavigationService.apiCall('User/sendForgetPasswordOtp',obj,function(data){   
-            if(data.data = 'userNotFound'){
-                  data.data = [];
-            }
-              console.log('inside verifyUserId() data',data.data)
-              callback(data.data);
-          });
-      }
-      this.verifyOtp = function(Id, userOtp, callback){
-        var obj=  {};  
-        obj._id = Id;
-        obj.otp=userOtp;
-          NavigationService.apiCall('User/confirmForgotPasswordOtp',obj,function(data){
-              console.log('inside verifyOtp service().....data ',data)
-              
-            //   if(data.data = 'userNotFound'){
-            //       data.data = [];
-            //   }
-              callback(data.data);
-          });
-      }
   
-      this.confimPassword = function(id, password, callback){
-        var obj=  {};  
-        obj._id = id;
-        obj.password=password;
+  //search a user in database with usename and password
+  this.verifyUser = function(username, password, callback){
+      NavigationService.apiCall('User/loginUser',{email:username, password:password},function(data){
+          if(data.data == 'ObjectId Invalid' || data.data == 'noDataFound'){
+              data.data = [];
+          }         
+        callback(data.data);
+      });
+  }
 
-          NavigationService.apiCall('User/resetPassword',obj,function(data){
-              console.log('5555555555',data)
-              
-              if(data.data = 'ObjectId Invalid'){
-                  data.data = [];
-              }
-              callback(data.data);
-          });
-      }
-  });
+  //seach user with emailId in db
+  this.verifyUserId = function(username, callback){
+      NavigationService.apiCall('User/sendForgetPasswordOtp',{email:username},function(data){   
+        if(data.data == 'userNotFound'){
+              data.data = [];
+        }
+          console.log('inside verifyUserId() data',data.data)
+          callback(data.data);
+      });
+  }
+
+  // verify otp gitven by user
+  this.verifyOtp = function(Id, userOtp, callback){
+      NavigationService.apiCall('User/confirmForgotPasswordOtp',{_id:Id, verifyOtp:userOtp},function(data){              
+          callback(data.data);
+      });
+  }
+
+  // to reset password
+  this.resetPassword = function(id, password, callback){
+      NavigationService.apiCall('User/resetPassword',{_id:id, newPassword:password},function(data){
+          if(data.data == 'ObjectId Invalid'){
+              data.data = [];
+          }
+          callback(data.data);
+      });
+  }
+ 
+});
