@@ -61,12 +61,12 @@ myApp.factory('settings', ['$rootScope', function ($rootScope) {
 }]);
 
 /* Setup App Main Controller */
-myApp.controller('AppController', ['$scope', '$rootScope','$state', function ($scope, $rootScope,$state) {
+myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
     $scope.$on('$viewContentLoaded', function () {
         App.initComponents(); // init core components
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
-    $scope.loginTemplate =  true;
+    $scope.loginTemplate = true;
     $scope.logoutUser = function () {
         $.jStorage.deleteKey("loggedInUser")
         $state.go('login');
@@ -132,7 +132,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
     var tempateURL = "views/template/template.html"; //Default Template URL
 
     var routeResolve = function (accessApp) {
-       accessApp.isLoggedIn();
+        accessApp.isLoggedIn();
     }
 
 
@@ -267,6 +267,31 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/user/allUsers.html",
                     controller: "userCtrl"
                 }
+            }
+        })
+        .state("app.userProfile", {
+            url: "/userProfile",
+            views: {
+                "mainView": {
+                    templateUrl: "views/profile/userProfile.html",
+                    controller: "UserProfileController"
+                }
+            }
+        })
+        .state("profile", {
+            url: "/profile",
+            templateUrl: "views/profile/main.html",
+            data: {
+                pageTitle: 'User Profile'
+            },
+            controller: "UserProfileController"
+        })
+        .state("profile.account", {
+            url: "/account",
+            templateUrl: "views/profile/account.html",
+            controller: "UserProfileController",
+            data: {
+                pageTitle: 'User Account'
             }
         })
 
@@ -794,34 +819,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
 
-        // User Profile
-        .state("profile", {
-            url: "/profile",
-            templateUrl: "views/profile/main.html",
-            data: {
-                pageTitle: 'User Profile'
-            },
-            controller: "UserProfileController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            './themeassets/pages/css/profile.css',
 
-                            './themeassets/global/plugins/jquery.sparkline.min.js',
-                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-
-                            './themeassets/pages/scripts/profile.min.js',
-
-                            // 'controllers/UserProfileController.js'
-                        ]
-                    });
-                }]
-            }
-        })
 
         // User Profile Dashboard
         .state("profile.dashboard", {
@@ -833,15 +831,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
 
-        // User Profile Account
-        .state("profile.account", {
-            url: "/account",
-            templateUrl: "views/profile/account.html",
-            controller: "UserProfileController",
-            data: {
-                pageTitle: 'User Account'
-            }
-        })
+
 
         // User Profile Help
         .state("profile.help", {
@@ -907,17 +897,17 @@ myApp.directive('inputDate', function ($compile, $parse) {
             };
         }
     };
+});
 
-    myApp.factory('accessApp', function ($location) {
-         console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
-        return {
-            isLoggedIn: function () {
-                if ($.jStorage.get("loggedInUser")) {
-                    return true;
-                } else {
-                    return $location.path('/');
-                }
+myApp.factory('accessApp', function ($location) {
+    console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
+    return {
+        isLoggedIn: function () {
+            if ($.jStorage.get("loggedInUser")) {
+                return true;
+            } else {
+                return $location.path('/');
             }
         }
-    })
+    }
 });

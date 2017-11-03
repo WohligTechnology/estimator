@@ -1,6 +1,7 @@
 myApp.controller('UserProfileController', function ($scope, $timeout, userProfileService) {
 
     // *************************** default variables/tasks begin here ***************** //
+    $scope.$parent.isSidebarActive = false;
     $scope.formData = {};
     $scope.statusMessage = "";
     $scope.loggedInUser = $.jStorage.get('loggedInUser');  

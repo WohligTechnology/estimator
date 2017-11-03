@@ -13,6 +13,10 @@
 padding-top: 1%;
 }
 
+.portlet.light {
+  min-height: 450px;
+}
+
 /***masters ***/
 
 
@@ -249,7 +253,7 @@ body {
 }
 
 .portlet.light {
-  padding: 0px 20px 15px;
+  padding: 10px 20px 15px;
 }
 
 .page-content-wrapper .page-content {

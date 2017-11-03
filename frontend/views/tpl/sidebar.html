@@ -103,28 +103,27 @@
     <!-- END SIDEBAR MENU -->
 </div>
 
-<script>    
- var str = window.location.href;
-        var url = str.split('/');
-        var getState = url[url.length - 1];
-        // console.log('**** inside getState of sidebar.html ****',getState);
+<script>
+    var str = window.location.href;
+    var url = str.split('/');
+    var getState = url[url.length - 1];
+    // console.log('**** inside getState of sidebar.html ****',getState);
 
-        if (getState == 'dashboard') {
-            $("#dashboard").addClass("active");
-        } else if (getState == 'enquiry') {
-            $("#enquiry").addClass("active");
-        } else if (getState == 'estimate') {
-            $("#estimate").addClass("active");
-        } else if (getState == 'customer') {
-            $("#customer").addClass("active");
-        } else if (getState == 'user') {
-            $("#user").addClass("active");
-        } else if (getState == 'addon') {
-            $("#masterAdddon").addClass("active");
-        } else if (getState == 'baseMatser') {
-            $("#dashboard").addClass("active");
-        } else if (getState == 'extra') {
-            $("#dashboard").addClass("active");
-        }
-
+    if (getState == 'dashboard') {
+        $("#dashboard").addClass("active");
+    } else if (getState == 'enquiry') {
+        $("#enquiry").addClass("active");
+    } else if (getState == 'estimate') {
+        $("#estimate").addClass("active");
+    } else if (getState == 'customer') {
+        $("#customer").addClass("active");
+    } else if (getState == 'user') {
+        $("#user").addClass("active");
+    } else if (getState == 'addon') {
+        $("#masterAdddon").addClass("active");
+    } else if (getState == 'baseMatser') {
+        $("#dashboard").addClass("active");
+    } else if (getState == 'extra') {
+        $("#dashboard").addClass("active");
+    }
 </script>
