@@ -67,7 +67,10 @@ myApp.controller('AppController', ['$scope', '$rootScope','$state', function ($s
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
     $scope.loginTemplate =  true;
-
+    $scope.logoutUser = function () {
+        $.jStorage.deleteKey("loggedInUser")
+        $state.go('login');
+    }
 
     // console.log("*********************************************************************",window.location.href );
     // console.log("*********************************************************************",$state.current);
@@ -128,9 +131,9 @@ myApp.run(["$rootScope", "settings", "$state", function ($rootScope, settings, $
 myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
     var tempateURL = "views/template/template.html"; //Default Template URL
 
-    // var routeResolve = function (accessApp) {
-    //    accessApp.isLoggedIn();
-    // }
+    var routeResolve = function (accessApp) {
+       accessApp.isLoggedIn();
+    }
 
 
 
@@ -179,6 +182,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/enquiry/allEnquies.html",
                     controller: "enquiryCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state('app.createEnquiry', {
@@ -829,7 +835,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
 
         // User Profile Account
         .state("profile.account", {
-            url: "/account/:profileId",
+            url: "/account",
             templateUrl: "views/profile/account.html",
             controller: "UserProfileController",
             data: {
@@ -874,7 +880,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         });
 
-    $urlRouterProvider.otherwise("/app");
+    $urlRouterProvider.otherwise("/login");
     $locationProvider.html5Mode(isproduction);
 });
 
@@ -902,16 +908,16 @@ myApp.directive('inputDate', function ($compile, $parse) {
         }
     };
 
-    // .factory('accessApp', function ($location) {
-    //     //  console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
-    //     return {
-    //       isLoggedIn: function () {
-    //         if ($.jStorage.get("loggedInUser")) {
-    //           return true;
-    //         } else {
-    //           return $location.path('/');
-    //         }
-    //       }
-    //     }
-    //   })
+    myApp.factory('accessApp', function ($location) {
+         console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
+        return {
+            isLoggedIn: function () {
+                if ($.jStorage.get("loggedInUser")) {
+                    return true;
+                } else {
+                    return $location.path('/');
+                }
+            }
+        }
+    })
 });

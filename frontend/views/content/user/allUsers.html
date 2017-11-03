@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditUserModal('save')"> <i class="fa fa-plus" ></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditUserModal('save')"><i class="fa fa-plus" ></i> </button>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -95,9 +95,9 @@
                             <td class="center"> {{user.dob}} </td>
                             <td>{{user.mobile }}</td>
                             <td>
-                                <a  ng-click="viewUser()"> <span class="label label-sm label-info"><i class="fa fa-eye"></i></span></a>
-                                <a class="action" ng-click="addOrEditUserModal('update',user)"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                <a  ng-click="deleteUserModal(user._id,'deleteUser')"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                <span class="label label-sm label-info" ng-click="viewUser()"><i class="fa fa-eye"></i></span>
+                                <span class="label label-sm label-success" ng-click="addOrEditUserModal('update',user)"><i class="fa fa-pencil"></i> </span>
+                                <span class="label label-sm label-danger" ng-click="deleteUserModal(user._id,'deleteUser')"> <i class="fa fa-trash-o"></i></span>
                             </td>
                         </tr>
                     </tbody>
