@@ -292,6 +292,27 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 
         callback();
     }
+    this.formDuplicatePart = function(subAssId, part, callback){
+        var duplicatePart = _.clone(part);
+        console.log('........................',duplicatePart);
+        // var subAssIndex = this.getSubAssemblyIndex(subAssId);
+        // var id = this.getPartNumber(subAssIndex);
+        // duplicatePart.partNumber = subAssId + 'PT' + id;
+        // var partIndex = this.getPartIndex(subAssIndex, part.partNumber);        
+        // console.log("formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing", formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras);
+        // _.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function(obj) {
+        //     //obj.extraNumber;
+        //     console.log('obj.extraNumber',obj.extraNumber);
+        // });            
+       // formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(duplicatePart);
+        //console.log('..asssssssssssss',formData.assembly.subAssemblies[subAssIndex].subAssemblyParts);
+        callback(duplicatePart);
+    }
+    this.generatePartName = function(subAssIndex, part){
+        //var partIndex = this.getPartIndex(subAssIndex, part.partNumber);        
+        //temp = _.last(formData.assembly.subAssemblies[subAssIndex].parts);
+        //temp.partNumber         
+    }
 
     this.createProcessing = function (processingObj, level, subAssemblyId, partId, callback) {
 
