@@ -11,94 +11,120 @@
         <li class="start nav-item">
             <br>
         </li>
-        <li class="start nav-item">
+        <li class="start nav-item" id="dashboard">
             <a ui-sref="app.dashboard">
                 <i class="icon-home"></i>
                 <span class="title">Dashboard</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="enquiry">
             <a ui-sref="app.enquiry" class="nav-link ">
                 <i class="icon-settings"></i>
                 <span class="title">Enquiries</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="estimate">
             <a ui-sref="app.estimate">
                 <i class="icon-check"></i>
                 <span class="title">Estimates</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="customer">
             <a ui-sref="app.customer" class="nav-link nav-toggle">
                 <i class="icon-refresh"></i>
                 <span class="title">Customers</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="user">
             <a ui-sref="app.users" id="sidebar_menu_link_profile">
                 <i class="icon-user"></i>
                 <span class="title">Users</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="master">
             <a class="nav-link nav-toggle">
                 <i class="icon-settings"></i>
                 <span class="title">Master</span>
                 <span class="arrow"></span>
             </a>
             <ul class="sub-menu">
-                <li>
+                <li id="masterMaterial">
                     <a ui-sref="app.masterMaterial">
                         <i class="icon-puzzle"></i> Material Master </span>
                     </a>
                 </li>
-                <li>
+                <li id="masterShape">
                     <a ui-sref="app.masterShape">
                         <i class="icon-paper-clip"></i> Shape Master</span>
                     </a>
                 </li>
-                <li>
+                <li id="masterPart">
                     <a ui-sref="app.masterPart">
                         <i class="icon-check"></i> Part Master</span>
                     </a>
                 </li>
-                <li>
+                <li id="masterProcess">
                     <a ui-sref="app.masterProcess">
                         <i class="icon-check"></i> Process Master</span>
                     </a>
                 </li>
-                <li>
+                <li id="masterAddon">
                     <a ui-sref="app.masterAddon">
                         <i class="icon-check"></i> Addon Master</span>
                     </a>
                 </li>
-                <li>
+                <li id="masterBaseMaster">
                     <a ui-sref="app.baseMatser">
                         <i class="icon-check"></i> BaseMaster Master</span>
                     </a>
                 </li>
-                <li>
+                <li id="masterExtra">
                     <a ui-sref="app.masterExtra">
                         <i class="icon-check"></i> Extra Master</span>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="setting">
             <a class="nav-link nav-toggle">
                 <i class="icon-wrench"></i>
                 <span class="title">Settings</span>
                 <span class="arrow"></span>
             </a>
-            <ul class="sub-menu">
+            <ul class="sub-menu" id="settingRole">
                 <li>
                     <a ui-sref="app.roles">
                         <i class="icon-puzzle"></i> Roles</span>
                     </a>
-                </li> 
+                </li>
             </ul>
         </li>
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>
+
+<script>    
+ var str = window.location.href;
+        var url = str.split('/');
+        var getState = url[url.length - 1];
+        // console.log('**** inside getState of sidebar.html ****',getState);
+
+        if (getState == 'dashboard') {
+            $("#dashboard").addClass("active");
+        } else if (getState == 'enquiry') {
+            $("#enquiry").addClass("active");
+        } else if (getState == 'estimate') {
+            $("#estimate").addClass("active");
+        } else if (getState == 'customer') {
+            $("#customer").addClass("active");
+        } else if (getState == 'user') {
+            $("#user").addClass("active");
+        } else if (getState == 'addon') {
+            $("#masterAdddon").addClass("active");
+        } else if (getState == 'baseMatser') {
+            $("#dashboard").addClass("active");
+        } else if (getState == 'extra') {
+            $("#dashboard").addClass("active");
+        }
+
+</script>

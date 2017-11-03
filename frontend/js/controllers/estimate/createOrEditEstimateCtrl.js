@@ -1,4 +1,4 @@
-myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, createOrEditEstimateService, $uibModal) {
+myApp.controller('createOrEditEstimateCtrl', function ($scope,$timeout, $stateParams, createOrEditEstimateService, $uibModal) {
 
 
     // *************************** default variables/tasks begin here ***************** //
@@ -6,10 +6,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, cre
     $scope.$parent.isSidebarActive = false;
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
-
-    console.log("*********** $scope.draftEstimateId *****************",$stateParams.estimateId);
+    
     if (angular.isDefined($stateParams.estimateId)) {
-        console.log("*********** $scope.draftEstimateId *****************",$scope.draftEstimateId);
         $scope.draftEstimateId = $stateParams.estimateId;
     }
 
@@ -34,7 +32,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, cre
     $scope.getCurretEstimateObj = function () {
         createOrEditEstimateService.getCurretEstimateObj(function (data) {
             $scope.estimteData = data;
-            console.log('**** inside @@@@@@######$$$$$$$ of createOrEditEstimateCtrl.js ****',$scope.estimteData);
+            console.log('**** inside @@@@@@######$$$$$$$ of createOrEditEstimateCtrl.js ****', $scope.estimteData);
         });
     }
 
@@ -53,9 +51,21 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, cre
             size: 'md'
         });
     }
-    $scope.editAssemblyName = function (obj) {
-        $scope.getEstimateData();
-        $scope.cancelModal();
+    $scope.editAssemblyName = function (assemblyName) {
+        createOrEditEstimateService.editAssemblyName(assemblyName, $scope.draftEstimateId, function (data) {
+            $scope.getEstimateData();
+            $scope.cancelModal();
+        });
+    }
+    //- to update estimate object in draftEstimate table
+    $scope.saveCurrentEstimate = function () {
+        createOrEditEstimateService.saveCurrentEstimate(function (data) {
+            $scope.getEstimateData();
+            $scope.updatedAssembly = "Estimate data updated successfully...";
+            $timeout(function(){
+                $scope.updatedAssembly = "";
+            },3000);
+        });
     }
 
 
@@ -258,12 +268,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, cre
     $scope.deleteCustomMaterial = function () {}
 
 
-    $scope.cancelModal = function () {
-        $scope.modalInstance.dismiss();
-    }
-
-
-    // commmon add modal for processing, addons & extras    
+    //- commmon add modal for processing, addons & extras    
     $scope.addItemModal = function (itemType, level, subAssemblyId, partId) {
         $scope.formData = undefined;
         $scope.showSaveBtn = true;
@@ -279,7 +284,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, cre
             size: 'md',
         });
     }
-    // commmon edit modal for processing, addons & extras
+    //- commmon edit modal for processing, addons & extras
     $scope.editItemModal = function (itemType, extraObj) {
         $scope.formData = extraObj;
         $scope.showSaveBtn = false;
@@ -292,7 +297,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, cre
             size: 'md',
         });
     }
-    // commmon delete modal for processing, addons & extras
+    //- commmon delete modal for processing, addons & extras
     $scope.deleteItemModal = function (getFunction, itemId, level, subAssemblyId, partId) {
         $scope.idToDelete = itemId;
         $scope.functionToCall = getFunction;
@@ -309,11 +314,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, cre
     }
 
 
-    $scope.saveCurrentEstimate = function(){
-        createOrEditEstimateService.saveCurrentEstimate(function(data){
-            $scope.getEstimateData();
-        });
+    //- dismiss current modalInstance
+    $scope.cancelModal = function () {
+        $scope.modalInstance.dismiss();
     }
+
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 

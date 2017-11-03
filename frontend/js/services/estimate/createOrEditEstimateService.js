@@ -214,8 +214,17 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         callback(getViewData);
     }
     this.saveCurrentEstimate = function () {
-        NavigationService.apiCall('DraftEstimate.js/save', data_obj, function (data) {
-            $scope.data = data.data;
+        NavigationService.apiCall('DraftEstimate/save', formData.assembly, function (data) {
+            callback(data.data);
+        });
+    }
+    this.editAssemblyName = function (estimateName,draftEstimateId,callback) {
+        var tempEstimateObj = {
+            _id:draftEstimateId,
+            assemblyName:estimateName
+        }
+        NavigationService.apiCall('DraftEstimate/save', tempEstimateObj, function (data) {
+            callback(data.data);
         });
     }
 
@@ -251,6 +260,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         });
         callback();
     }
+
 
 
     this.getAllPartModalData = function (operation, subAssId, part, callback) {
