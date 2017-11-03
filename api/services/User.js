@@ -275,7 +275,7 @@ var model = {
 
     changePassword: function (data, callback) {
         User.findOne({
-            _id: data.id
+            _id: data._id
         }).exec(function (err, found) {
             console.log('**** inside res object of User.js & data is ****', found);
             if (err) {

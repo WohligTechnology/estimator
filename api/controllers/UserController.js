@@ -138,7 +138,7 @@ var controller = {
     changePassword: function (req, res) {
         if (req.body) {
             // please remove Controller.js from below line
-            User.resetPassword(req.body, res.callback);
+            User.changePassword(req.body, res.callback);
         } else {
             res.json({
                 value: false,
