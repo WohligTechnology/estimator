@@ -53,6 +53,7 @@
                                                         <label for="{{p.partName+$index+$parent.$index}}" class="tree_label"></label>
                                                         <span ng-click="getEstimateView('partDetail', 'subAssembly', sa.subAssemblyNumber, p.partNumber)" class="tree_label partName">{{p.partName}}</span>
                                                         <span ng-click="addOrEditPartModal('update', sa.subAssemblyNumber, p)" class="partEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
+                                                        <span ng-click="duplicatePart(sa.subAssemblyNumber, p)" class="partDuplicateIcon"><i class="fa fa-clone btn-success" ></i></span>                                                        
                                                         <span ng-click="deletePartModal(sa.subAssemblyNumber, p.partNumber)" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
                                                         <ul>
                                                             <li>

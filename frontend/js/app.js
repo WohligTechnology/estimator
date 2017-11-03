@@ -67,7 +67,6 @@ myApp.controller('AppController', ['$scope', '$rootScope','$state', function ($s
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
     $scope.loginTemplate =  true;
-    $scope.loggedInUser = $.jStorage.get('loggedInUser');    
     $scope.logoutUser = function () {
         $.jStorage.deleteKey("loggedInUser")
         $state.go('login');
@@ -169,9 +168,6 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     controller: "DashboardController"
                 }
             }
-            // resolve: {
-            //     "isLoggedIn": routeResolve
-            // }
         })
 
         // ********************************* enquiry module ********************************* //
@@ -186,6 +182,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/enquiry/allEnquies.html",
                     controller: "enquiryCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state('app.createEnquiry', {
@@ -881,7 +880,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         });
 
-    $urlRouterProvider.otherwise("/app");
+    $urlRouterProvider.otherwise("/login");
     $locationProvider.html5Mode(isproduction);
 });
 
@@ -910,7 +909,7 @@ myApp.directive('inputDate', function ($compile, $parse) {
     };
 
     myApp.factory('accessApp', function ($location) {
-        //  console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
+         console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
         return {
             isLoggedIn: function () {
                 if ($.jStorage.get("loggedInUser")) {

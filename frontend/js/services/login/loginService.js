@@ -9,7 +9,6 @@ myApp.service('loginService', function (NavigationService) {
         callback(data.data);
       });
   }
-
   //seach user with emailId in db
   this.verifyUserId = function(username, callback){
       NavigationService.apiCall('User/sendForgetPasswordOtp',{email:username},function(data){   
@@ -20,14 +19,12 @@ myApp.service('loginService', function (NavigationService) {
           callback(data.data);
       });
   }
-
   // verify otp gitven by user
   this.verifyOtp = function(Id, userOtp, callback){
       NavigationService.apiCall('User/confirmForgotPasswordOtp',{_id:Id, verifyOtp:userOtp},function(data){              
           callback(data.data);
       });
   }
-
   // to reset password
   this.resetPassword = function(id, password, callback){
       NavigationService.apiCall('User/resetPassword',{_id:id, newPassword:password},function(data){

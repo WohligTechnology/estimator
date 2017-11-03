@@ -159,6 +159,15 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $stateParams, cre
             $scope.cancelModal();
         });
     }
+    //to duplicate part
+    $scope.duplicatePart = function (subAssId, part) {
+        console.log('subAssId, part',subAssId, part);
+        createOrEditEstimateService.formDuplicatePart(subAssId, part, function (data) {
+
+        $scope.subAssId = data.subAssId;
+
+        });
+    }
 
     //- to add Proccessing at assembly or subssembly or at partLevel
     $scope.addProcessing = function (processingData, level, subAssemblyId, partId) {

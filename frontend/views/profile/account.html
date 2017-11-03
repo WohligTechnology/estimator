@@ -18,23 +18,20 @@
                     </li>
                 </ul>
             </div>
+            <div class="pull-left">
+                <span class="caption-subject bold"> {{statusMessage}}</span>
+            </div>
             <div class="portlet-body">
                 <div class="tab-content">
                     <!-- PERSONAL INFO TAB -->
                     <div class="tab-pane active" id="tab_1_1">
                         <form role="form">
-                            <div class="pull-right">
-                                <span class="caption-subject bold"> {{statusMessage}}</span>
-                            </div>
                             <div class="form-group">
-                                <label class="control-label">First Name</label>
-                                <input type="text" class="form-control" ng-model="formData.name" /> </div>
-                            <div class="form-group">
-                                <label class="control-label">Last Name</label><!--use split function -->
+                                <label class="control-label">Name</label>
                                 <input type="text" class="form-control" ng-model="formData.name" /> </div>
                             <div class="form-group">
                                 <label class="control-label">Mobile Number</label>
-                                <input type="text" class="form-control" ng-model="formData.mobile" /> </div>
+                                <input type="mobile" class="form-control" ng-model="formData.mobile" /> </div>
                             <div class="form-group">
                                 <label class="control-label">Date Of Birth</label>
                                 <input type="date" class="form-control" ng-model="formData.dob" /> </div>
@@ -44,7 +41,7 @@
                             <div class="margiv-top-10">
                                 <div class="row">
                                     <div class=" col-md-12 text-center">
-                                        <button type="button" class="btn btn-circle green" ng-click="updateProfileData(formData)">Save Changes</button>
+                                        <button type="button" class="btn btn-circle green" ng-click="updateProfile(formData)">Save Changes</button>
                                         <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelChanges()">Cancel</button>
                                     </div>
                                 </div>
@@ -54,11 +51,10 @@
                     <!-- END PERSONAL INFO TAB -->
                     <!-- CHANGE AVATAR TAB -->
                     <div class="tab-pane" id="tab_1_2">
-                        <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. </p>
+                        <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
+                            wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+                            eiusmod. </p>
                         <form role="form">
-                            <div class="pull-right">
-                                <span class="caption-subject bold"> {{statusMessage}}</span>
-                            </div>
                             <div class="form-group">
                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                     <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
@@ -74,13 +70,14 @@
                                 </div>
                                 <div class="clearfix margin-top-10">
                                     <span class="label label-danger">NOTE! </span>
-                                    <span>Attached image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet Explorer 10 only </span>
+                                    <span>Attached image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet
+                                        Explorer 10 only </span>
                                 </div>
                             </div>
                             <div class="margin-top-10">
                                 <div class="row">
                                     <div class=" col-md-12 text-center">
-                                        <button type="button" class="btn btn-circle green" ng-click="updateProfileData(formData)">Submit</button>
+                                        <button type="button" class="btn btn-circle green" ng-click="updateProfile(formData)">Submit</button>
                                         <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelChanges()">Cancel</button>
                                     </div>
                                 </div>
@@ -90,13 +87,11 @@
                     <!-- END CHANGE AVATAR TAB -->
                     <!-- CHANGE PASSWORD TAB -->
                     <div class="tab-pane" id="tab_1_3">
+                        <span class="caption-subject bold" ng-show="(newPassword !=  reTypePassword) && ((newPassword != null) && (reTypePassword != null))">Your Password is not matching.</span>
                         <form>
-                            <div class="pull-right">
-                                <span class="caption-subject bold"> {{statusMessage}}</span>
-                            </div>
                             <div class="form-group">
-                                <label class="control-label">Current Password</label> 
-                                <input type="password" class="form-control" ng-model="currentPassword"/ autofocus required> </div>
+                                <label class="control-label">Current Password</label>
+                                <input type="password" class="form-control" ng-model="currentPassword" / autofocus required> </div>
                             <div class="form-group">
                                 <label class="control-label">New Password</label>
                                 <input type="password" class="form-control" ng-model="newPassword" required/> </div>
@@ -106,12 +101,12 @@
                             <div class="margin-top-10">
                                 <div class="row">
                                     <div class=" col-md-12 text-center">
-                                        <button type="button" class="btn btn-circle green" ng-disabled="formData.newPassword != formData.reTypePassword" ng-click="changePassword(currentPassword, newPassword)">Change Password</button>
+                                        <button type="button" class="btn btn-circle green" ng-disabled="(newPassword != reTypePassword) || (newPassword == null) || (reTypePassword == null)"
+                                            ng-click="changePassword(currentPassword, newPassword)">Change Password</button>
                                         <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelChanges()">Cancel</button>
                                     </div>
                                 </div>
                             </div>
-                            <span ng-if = "formData.newPassword != formData.reTypePassword">Your Password is not matching.</span>
                         </form>
                     </div>
                     <!-- END CHANGE PASSWORD TAB -->

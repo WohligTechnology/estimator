@@ -1,6 +1,7 @@
 myApp.factory('NavigationService', function ($http) {
 
-    // var adminurl ="http://wohlig.io:1337/api/"
+    var adminurl ="http://192.168.0.24/api/"
+    //var adminurl ="http://wohlig.io/api/"
     var navigation = [{
             name: "Home",
             classis: "active",
