@@ -145,14 +145,20 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             abstract: true,
             url: "/app",
             templateUrl: "views/tpl/template.html",
-            controller: "appCtrl"
+            controller: "appCtrl",
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
         })
 
         // ********************************** login module ********************************** //
         .state('login', {
             url: "/login",
             templateUrl: "views/content/login/estimatorLogin.html",
-            controller: "loginCtrl"
+            controller: "loginCtrl",
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
         })
 
         // ******************************** dashboard module ******************************** //
@@ -167,6 +173,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/dashboard.html",
                     controller: "DashboardController"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
 
@@ -194,6 +203,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
                     controller: "createOrEditEnquiryCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state('app.editEnquiry', {
@@ -203,6 +215,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
                     controller: "createOrEditEnquiryCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
 
@@ -218,6 +233,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/estimate/allEstimates.html",
                     controller: "estimateCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state('app.createEstimate', {
@@ -227,6 +245,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/estimate/createOrEditEstimate.html",
                     controller: "createOrEditEstimateCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state('app.editEstimate', {
@@ -241,17 +262,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                 }
             },
             resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                            './themeassets/global/plugins/jstree/dist/jstree.js',
-                            './themeassets/pages/scripts/ui-tree.js',
-                        ]
-                    });
-                }]
+                "isLoggedIn": routeResolve
             }
         })
 
@@ -267,6 +278,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/user/allUsers.html",
                     controller: "userCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state("app.userProfile", {
@@ -276,22 +290,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/profile/userProfile.html",
                     controller: "UserProfileController"
                 }
-            }
-        })
-        .state("profile", {
-            url: "/profile",
-            templateUrl: "views/profile/main.html",
-            data: {
-                pageTitle: 'User Profile'
             },
-            controller: "UserProfileController"
-        })
-        .state("profile.account", {
-            url: "/account",
-            templateUrl: "views/profile/account.html",
-            controller: "UserProfileController",
-            data: {
-                pageTitle: 'User Account'
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
 
@@ -307,6 +308,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/customer/allCustomers.html",
                     controller: "customerCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
 
@@ -323,6 +327,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/master/base/baseMatser.html",
                     controller: "baseMasterCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state('app.masterAddon', {
@@ -336,6 +343,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/master/addon/masterAddon.html",
                     controller: "masterAddonCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state('app.masterExtra', {
@@ -349,6 +359,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/master/extra/masterExtra.html",
                     controller: "masterExtraCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state('app.masterMaterial', {
@@ -358,6 +371,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/master/material/masterMaterial.html",
                     controller: "masterMaterialCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state('app.masterPart', {
@@ -371,6 +387,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/master/part/masterPart.html",
                     controller: "masterPartCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state('app.masterProcess', {
@@ -380,6 +399,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/master/process/masterProcess.html",
                     controller: "masterProcessCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
         .state('app.masterShape', {
@@ -389,6 +411,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "views/content/master/shape/masterShape.html",
                     controller: "masterShapeCtrl"
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
 
@@ -404,6 +429,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                     templateUrl: "",
                     controller: ""
                 }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
             }
         })
 
