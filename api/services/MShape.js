@@ -1,7 +1,7 @@
 var schema = new Schema({
     shapeName: {
-        type:String,
-        required:true
+        type: String,
+        required: true
     },
     type: {
         type: String,
@@ -9,28 +9,28 @@ var schema = new Schema({
         default: "2d"
     },
     icon: {
-        type:String
+        type: String
     },
     image: {
-        type:String
+        type: String
     },
-    variable:[{
-       varName: String
+    variable: [{
+        varName: String
     }],
-    sizeFactor:{
-        type:String
+    sizeFactor: {
+        type: String
     },
-    formFactor:{
-        type:String
+    formFactor: {
+        type: String
     },
-    thickness:{
-        type:String
+    thickness: {
+        type: String
     },
-    length:{
-        type:String
+    length: {
+        type: String
     },
-    wastage:{
-        type:String
+    wastage: {
+        type: String
     },
     partFormulae: {
         perimeter: String,
@@ -39,7 +39,7 @@ var schema = new Schema({
         weight: String,
     },
     namingConvenstion: {
-        type:String
+        type: String
     }
 });
 
@@ -48,6 +48,19 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('MShape', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'variable','variable'));
-var model = {};
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'variable', 'variable'));
+var model = {
+    getMShapeData: function (data, callback) {
+        MShape.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getMShapeData of MShape.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+};
 module.exports = _.assign(module.exports, exports, model);

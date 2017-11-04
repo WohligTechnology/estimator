@@ -9,35 +9,35 @@ var schema = new Schema({
     shape: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MShape',
-        index:true
+        index: true
     },
     partType: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MPartType',
-        index:true
+        index: true
     },
     size: {
         type: String, // sizes will be used in the dropdown of sizes field
         required: true // when we select partType name at-->add Part To Estimate
     },
     variable: [{
-        varName:String,
-        varValue:Number
+        varName: String,
+        varValue: Number
     }],
-    sizeFactor:{
-        type:String
+    sizeFactor: {
+        type: String
     },
-    formFactor:{
-        type:String
+    formFactor: {
+        type: String
     },
-    thickness:{
-        type:String
+    thickness: {
+        type: String
     },
-    length:{
-        type:String
+    length: {
+        type: String
     },
-    wastage:{
-        type:String
+    wastage: {
+        type: String
     },
     partFormulae: {
         perimeter: String,
@@ -58,7 +58,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('MPartPresets', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'shape partType','shape partType'));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'shape partType', 'shape partType'));
 var model = {
 
     getPresetSizes: function (data, callback) {
@@ -97,7 +97,7 @@ var model = {
     //- req --> _id (i.e. presets --> _id), materialId
     addMaterial: function (data, callback) {
         MPartPresets.findOneAndUpdate({
-            _id:data.id
+            _id: data.id
         }, {
             // to push multiple objects in an arrayOfObjects_name
             $addToSet: {
@@ -118,6 +118,18 @@ var model = {
     //- to delete materials from material array 
     updateMaterial: function (data, callback) {
 
+    },
+    getMPartPresetData: function (data, callback) {
+        MPartPresets.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of MPartPresets.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
     },
 
 

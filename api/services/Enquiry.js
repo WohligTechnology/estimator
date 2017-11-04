@@ -249,9 +249,19 @@ var model = {
                 }
             });
         });
-    }
-
-
+    },
+    getEnquiryData: function (data, callback) {
+        Enquiry.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getEnquiryData of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 
 
 

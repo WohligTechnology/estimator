@@ -37,7 +37,7 @@ var schema = new Schema({
         // key: 'subAssemblyParts'
     },
 
-    proccessing: [{
+    processing: [{
         type: Schema.Types.ObjectId,
         ref: "EstimateProcessing",
         index: true
@@ -137,6 +137,18 @@ var model = {
                     });
                 }
             });
+    },
+    getEstimatePartData: function (data, callback) {
+        EstimatePart.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getEstimatePartData of EstimatePart.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
     },
 
 };

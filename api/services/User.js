@@ -402,7 +402,18 @@ var model = {
             }
         });
     },
-
+    getUserData: function (data, callback) {
+        User.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getUserData of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 
 };
 module.exports = _.assign(module.exports, exports, model);

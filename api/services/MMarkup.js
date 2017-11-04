@@ -18,5 +18,18 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('MMarkup', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
-var model = {};
+var model = {
+    getMMarkupData: function (data, callback) {
+        MMarkup.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getMMarkupData of MMarkup.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+};
 module.exports = _.assign(module.exports, exports, model);
