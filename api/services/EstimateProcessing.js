@@ -61,5 +61,18 @@ var model = {
             }
         });
     },
+    getEstimateProcessingData: function (data, callback) {
+        EstimateProcessing.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getEstimateProcessingData of EstimateProcessing.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+
+    },
 };
 module.exports = _.assign(module.exports, exports, model);

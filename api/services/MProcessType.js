@@ -123,6 +123,18 @@ var model = {
             }
         });
     },
+    getProcessTypeData: function (data, callback) {
+        MProcessType.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getProcessTypeData of MProcessType.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 };
 
 

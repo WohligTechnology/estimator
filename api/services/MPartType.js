@@ -194,6 +194,18 @@ var model = {
         });
 
     },
+    getPartTypeData: function (data, callback) {
+        MPartType.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getPartTypeData of MPartType.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 
 
 };

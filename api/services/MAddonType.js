@@ -65,11 +65,9 @@ var model = {
             } else if (_.isEmpty(myData)) {
                 callback(null, []);
             } else {
-                MMaterialSubCat.findOne(
-                    {
-                        _id:myData.materialSubCat
-                    }
-                ).populate('materials').select ('materials').exec(function (err, finalResult) {
+                MMaterialSubCat.findOne({
+                    _id: myData.materialSubCat
+                }).populate('materials').select('materials').exec(function (err, finalResult) {
                     if (err) {
                         console.log('**** error at function_name of MAddonType.js ****', err);
                         callback(err, null);
@@ -81,6 +79,18 @@ var model = {
                 });
             }
 
+        });
+    },
+    getMAddonTypeData: function (data, callback) {
+        MAddonType.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getMAddonTypeData of MAddonType.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
         });
     },
 

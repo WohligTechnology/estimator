@@ -41,7 +41,7 @@ var schema = new Schema({
         file: String
     }],
     subAssemblies: [],
-    proccessing: [],
+    processing: [],
     addons: [],
     extras: []
 
@@ -62,14 +62,14 @@ var model = {
         DraftEstimate.findOne({
             _id: data._id
         }).lean().exec(function (err, found) {
-            
+
             if (err) {
                 console.log('**** error at function_name of DraftEstimate.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
-                var subAssembliesArray = [];    
+                var subAssembliesArray = [];
                 var partsArray = [];
                 var partprocessingArray = [];
                 var partAddonsArray = [];
@@ -170,7 +170,7 @@ var model = {
 
                                                             proObj.processingLevel = "part";
                                                             proObj.processingLevelId = savedPart._id;
-                                                            console.log('**** inside part la processing of DraftEstimate.js & data is ****',proObj);
+                                                            console.log('**** inside part la processing of DraftEstimate.js & data is ****', proObj);
                                                             EstimateProcessing.saveData(proObj, function (err, savedPartProcess) {
                                                                 if (err) {
                                                                     console.log('**** error at partProcessing@@@@ of DraftEstimate.js ****', err);
@@ -255,7 +255,7 @@ var model = {
 
                                             async.waterfall([
                                                 function (callback) {
-                                                   async.eachSeries(subAss.proccessing, function (proObj, callback) {
+                                                    async.eachSeries(subAss.proccessing, function (proObj, callback) {
                                                         proObj.processingLevel = "subAssembly";
                                                         proObj.processingLevelId = savedSubAss._id;
 
@@ -427,7 +427,7 @@ var model = {
                                             }
                                         });
                                     },
-                                   function (callback) {
+                                    function (callback) {
                                         async.eachSeries(found.extras, function (extrasObj, callback) {
                                             extrasObj.extraLevel = "estimate";
                                             extrasObj.extraLevelId = savedAssembly._id;
@@ -463,6 +463,7 @@ var model = {
                                         savedAssembly.addons = assAddonsArray;
                                         savedAssembly.extras = assExtrasArray;
                                         savedAssembly.subAssemblies = subAssembliesArray;
+                                        savedAssembly.draftEstimateObject = found;
                                         Estimate.saveData(savedAssembly, function (err, updatedAss) {
                                             if (err) {
                                                 console.log('**** error at function_name of DraftEstimate.js ****', err);
@@ -531,8 +532,8 @@ var model = {
                     console.log('**** error at function_name of DraftEstimate.js ****', err);
                     callback(err, null);
                 } else if (found == 0) {
-                    draftEstimateObj.assemblyNumber =   'AS1';
-                    console.log('**** if 0 ****',draftEstimateObj.assemblyNumber);
+                    draftEstimateObj.assemblyNumber = 'AS1';
+                    console.log('**** if 0 ****', draftEstimateObj.assemblyNumber);
                     DraftEstimate.saveData(draftEstimateObj, function (err, savedData) {
                         if (err) {
                             console.log('**** error at function_name of Enquiry.js ****', err);
@@ -553,7 +554,7 @@ var model = {
                         } else {
                             var temp = _.split(lastDraftEstimate.assemblyNumber, 'S');
                             var tempNUmber = _.toNumber(temp[1]) + 1;
-                            draftEstimateObj.assemblyNumber = 'AS'+tempNUmber;
+                            draftEstimateObj.assemblyNumber = 'AS' + tempNUmber;
                         }
                         DraftEstimate.saveData(draftEstimateObj, function (err, savedData) {
                             if (err) {
@@ -568,9 +569,20 @@ var model = {
                     });
                 }
             });
-
-           
         }
+    },
+    getDraftEstimateData: function (data, callback) {
+        DraftEstimate.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getDraftEstimateData of DraftEstimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+
     },
 };
 module.exports = _.assign(module.exports, exports, model);

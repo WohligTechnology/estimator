@@ -26,7 +26,7 @@ var schema = new Schema({
     addonCost: Number,
     extrasCost: Number,
     totalCost: Number,
-    draftEstimateId: {                            // corresponding draft estimate --> _id
+    draftEstimateId: { // corresponding draft estimate --> _id
         type: Schema.Types.ObjectId,
         ref: "DraftEstimate",
         index: true
@@ -53,7 +53,7 @@ var schema = new Schema({
         index: true
     }],
 
-    proccessing: [{
+    processing: [{
         type: Schema.Types.ObjectId,
         ref: "EstimateProcessing",
         index: true
@@ -67,8 +67,15 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "EstimateExtras",
         index: true
-    }]
-
+    }],
+    draftEstimateObject: {
+        type: Object,
+        index: true
+    },
+    estimateVersion: {
+        type: String,
+        index: true
+    },
 });
 
 schema.plugin(deepPopulate, {});
@@ -246,7 +253,7 @@ var model = {
                                 });
                             }
                         });
-                        
+
                     }, function (err) {
                         if (err) {
                             console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -316,6 +323,18 @@ var model = {
 
                 }
             });
+    },
+    getEstimateData: function (data, callback) {
+        Estimate.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getEstimateData of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
     },
 
 };

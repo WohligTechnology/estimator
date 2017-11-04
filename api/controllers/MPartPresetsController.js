@@ -37,6 +37,18 @@ var controller = {
             })
         }
     },
+    getMPartPresetData: function (req, res) {
+        if (req.body) {
+            MPartPresets.getMPartPresetData(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
 
 };
 module.exports = _.assign(module.exports, controller);

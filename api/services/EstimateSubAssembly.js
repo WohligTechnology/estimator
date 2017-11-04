@@ -13,7 +13,7 @@ var schema = new Schema({
         numbers: Number,
         hours: Number
     },
-    estimateId: {                            // two way data binding
+    estimateId: { // two way data binding
         type: Schema.Types.ObjectId,
         ref: "Estimate",
         index: true
@@ -26,7 +26,7 @@ var schema = new Schema({
         index: true
     }],
 
-    proccessing: [{
+    processing: [{
         type: Schema.Types.ObjectId,
         ref: "EstimateProcessing",
         index: true
@@ -202,6 +202,18 @@ var model = {
 
                 }
             });
+    },
+    getSubAssemblyData: function (data, callback) {
+        EstimateSubAssembly.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getSubAssemblyData of EstimateSubAssembly.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
     },
 };
 module.exports = _.assign(module.exports, exports, model);

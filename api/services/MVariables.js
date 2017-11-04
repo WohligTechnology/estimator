@@ -17,8 +17,6 @@ module.exports = mongoose.model('MVariables', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
-    // what this function will do ?
-    // req data --> ?
     getAllVarId: function (data, callback) {
 
         MVariables.find().select('_id variableName').lean().exec(function (err, found) {
@@ -36,6 +34,18 @@ var model = {
             }
         });
 
+    },
+    getMVariableData: function (data, callback) {
+        MVariables.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getMVariableData of MVariables.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
     },
 };
 module.exports = _.assign(module.exports, exports, model);
