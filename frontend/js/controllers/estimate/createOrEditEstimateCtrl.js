@@ -119,12 +119,16 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope,$timeout, $statePa
     //- to add or edit part name
     $scope.addOrEditPartModal = function (operation, subAssId, part) {
         createOrEditEstimateService.getAllPartModalData(operation, subAssId, part, function (data) {
-
-            $scope.formData = data.partObj;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
             $scope.subAssId = data.subAssId;
-
+            if(operation=='save'){
+                createOrEditEstimateService.generatePartName(subAssId, function(data){
+                    $scope.formData = data;
+                });
+            } else {
+                $scope.formData = data.partObj;
+             }            
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'views/content/estimate/estimateModal/createOrEditPartName.html',
@@ -135,6 +139,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope,$timeout, $statePa
         });
     }
     $scope.addPart = function (partData, subAssId) {
+        console.log('partData, subAssId',partData, subAssId);
         createOrEditEstimateService.createPart(partData, subAssId, function () {
             $scope.getCurretEstimateObj();
             $scope.cancelModal();
@@ -171,6 +176,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope,$timeout, $statePa
     }
     //to duplicate part
     $scope.duplicatePart = function (subAssId, part) {
+        debugger;
         console.log('subAssId, part',subAssId, part);
         createOrEditEstimateService.formDuplicatePart(subAssId, part, function (data) {
 
@@ -178,7 +184,23 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope,$timeout, $statePa
 
         });
     }
+    // $scope.generatePartName = function () {
+    //     createOrEditEstimateService.generatePartName();
+    // }
+    $scope.addPartToDifferentSubAssemblyModal = function (part) {
+        $scope.partData = part;
+        $scope.subAssemblyId = '';
 
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/estimate/estimateModal/addPartToDifferentSubAssemblyModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
+    $scope.addPartToDifferentSubAssembly = function (subAssemblyId, part) {
+        
+    }
     //- to add Proccessing at assembly or subssembly or at partLevel
     $scope.addProcessing = function (processingData, level, subAssemblyId, partId) {
         createOrEditEstimateService.createProcessing(processingData, level, subAssemblyId, partId, function () {

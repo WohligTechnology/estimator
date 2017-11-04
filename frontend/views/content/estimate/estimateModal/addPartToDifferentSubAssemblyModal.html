@@ -3,7 +3,7 @@
         <div class="portlet box green ">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Part Name
+                    <i class="fa fa-gift"></i>SubAssembly Id
                 </div>
                 <div class="tools">
                 </div>
@@ -13,20 +13,16 @@
                 <form  class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Enter Part Name:</label>
-                            <div class="col-md-5" ng-if="showEditBtn">
-                                <input type="text" class="form-control" ng-model="formData.partName" placeholder="Enter Part Name" autofocus required>
-                            </div>
-                            <div ng-if="showSaveBtn">
-                                <label class="col-md-2 control-label">{{formData.partName}}</label>                                
+                            <label class="col-md-4 control-label">Enter SubAssembly ID:</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" ng-model="subAssemblyId" placeholder="Enter SubAssembly Number" autofocus required>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="editPart()">Update</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addPart(formData, subAssId)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-click="duplicatePart(subAssemblyId, partData)">Add</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
