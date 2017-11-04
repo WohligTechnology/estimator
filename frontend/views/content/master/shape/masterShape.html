@@ -5,12 +5,18 @@
                 <input type="checkbox" id="c5" />
                 <label class="tree_label" for="c5"></label>
                 <span class="assebmlyName">Shapes</span>
-                <span ng-click="createOrEditShapeData('save')" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ></i></span>
+                <span ng-click="createOrEditShapeData('save')" class="assemblyCreateIcon">
+                    <i class="fa fa-plus btn-info"></i>
+                </span>
                 <ul>
                     <li ng-repeat="sh in shapeData">
                         <span class="tree_label" class="partName">{{sh.shapeName}}</span>
-                        <span ng-click="createOrEditShapeData('update',sh)" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ng-click="shape();"></i></span>
-                        <span ng-click="deleteShapeModal(sh._id,'deleteShape')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
+                        <span ng-click="createOrEditShapeData('update',sh)" class="subAssemblyEditIcon">
+                            <i class="fa fa-pencil btn-warning" ng-click="shape();"></i>
+                        </span>
+                        <span ng-click="deleteShapeModal(sh._id,'deleteShape')" class="subAssemblyDeleteIcon">
+                            <i class="fa fa-trash-o btn-danger"></i>
+                        </span>
                     </li>
                 </ul>
             </li>
@@ -34,26 +40,30 @@
                             </div>
                             <label class="col-md-2 control-label">Upload Icon:</label>
                             <div class="col-md-4">
-                                <input type="file" placeholder="Enter text" ng-model="formData.icon">
+                                <pre>{{formData.files|json}}</pre>
+                                <upload-image ng-model="formData.files" multiple="false" ng-disabled="type.disabled" no-view></upload-image>
                             </div>
                         </div>
                         <hr>
                         <div class="form-group">
                             <div class="col-md-4">
-                                <div><img src="img/Doraemon.png" alt="" class=" img-responsive">
+                                <div>
+                                    <img src="img/Doraemon.png" alt="" class=" img-responsive">
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label><b>Variables:</b></label>
+                                    <label>
+                                        <b>Variables:</b>
+                                    </label>
                                 </div>
                                 <div class="form-group">
                                     <div class="shapes-checkbox">
                                         <div class="" ng-repeat="varChunk in variablesData">
                                             <div class="" ng-repeat="var in varChunk track by $index">
-                                                 {{var.varName}}
+                                                {{var.varName}}
                                                 <input type="checkbox" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
-                                                   ng-checked="var.checkboxStatus" ng-model="checkedVariable">
+                                                    ng-checked="var.checkboxStatus" ng-model="checkedVariable">
                                             </div>
                                         </div>
                                     </div>
@@ -82,13 +92,15 @@
                                     <label class="col-md-2 control-label">Wastage</label>
                                     <div class="col-md-3">
                                         <input type="text" class="form-control " ng-model="formData.wastage" placeholder="">
-                                    </div>   
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <hr>
                         <div class="form-group">
-                            <label class="col-md-2 control-label"><b>Formulas:</b></label>
+                            <label class="col-md-2 control-label">
+                                <b>Formulas:</b>
+                            </label>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Perimeter (p)</label>
