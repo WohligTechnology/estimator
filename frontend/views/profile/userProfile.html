@@ -82,16 +82,21 @@
                                     <form role="form">
                                         <div class="form-group">
                                             <label class="control-label">Name</label>
-                                            <input type="text" class="form-control" ng-model="formData.name" /> </div>
+                                            <!-- <input type="text" class="form-control" ng-model="formData.name" />  -->
+                                            <input type="text" class="form-control" ng-model="formdata.filedata.file" /> 
+                                        </div>
                                         <div class="form-group">
                                             <label class="control-label">Mobile Number</label>
-                                            <input type="mobile" class="form-control" ng-model="formData.mobile" /> </div>
-                                        <div class="form-group">
+                                            <input type="mobile" class="form-control" ng-model="formData.mobile" /> 
+                                        </div>
+                                        <!-- <div class="form-group">
                                             <label class="control-label">Date Of Birth</label>
-                                            <input type="date" class="form-control" ng-model="formData.dob" /> </div>
+                                            <input type="date" class="form-control" ng-model="formData.dob" /> 
+                                        </div> -->
                                         <div class="form-group">
                                             <label class="control-label">email</label>
-                                            <input type="email" class="form-control" ng-model="formData.email" /> </div>
+                                            <input type="email" class="form-control" ng-model="formData.email" /> 
+                                        </div>
                                         <div class="margiv-top-10">
                                             <div class="row">
                                                 <div class=" col-md-12 text-center">
@@ -108,11 +113,14 @@
 
                                     <form action="#" role="form">
                                         <div class="form-group">
-                                            <!-- <upload-image ng-model="formData.userAvatar"></upload-image> -->
-                                            <upload-image ng-model="formData.files" multiple="true" ng-disabled="type.disabled" no-view></upload-image>
+                                            <pre>{{formdata | json}}</pre>
+                                            <!-- <upload-image ng-model="formdata.userAvatar"></upload-image> -->
+                                            <!-- <upload-image ng-model="formdata.userAvatar" multiple="false"></upload-image>
+                                            <input type="text" ng-model="formdata.name"> -->
+                                            <upload-image ng-model="formdata.file"></upload-image>
                                         </div>
                                         <div class="margin-top-10">
-                                            <p>{{formData.files}}</p>
+                                            <!-- <p>{{formData.files}}</p> -->
                                             <button class="btn green"> Submit </button>
                                             <button class="btn default"> Cancel </button>
                                         </div>

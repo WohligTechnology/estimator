@@ -324,6 +324,7 @@ var model = {
                 }
             });
     },
+
     getEstimateData: function (data, callback) {
         Estimate.find().lean().exec(function (err, found) {
             if (err) {
@@ -336,6 +337,45 @@ var model = {
             }
         });
     },
+
+    search: function (data, callback) {
+        var maxRow = Config.maxRow;
+        var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['assemblyName','assemblyNumber'],
+                    term: data.keyword
+                }
+            },
+            sort: {
+                desc: 'createdAt'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+        Estimate.find({}).sort({
+                createdAt: -1
+            })
+            .order(options)
+            .keyword(options)
+            .page(options,
+                function (err, found) {
+                    if (err) {
+                        console.log('**** error at search of Estimate.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(found)) {
+                        callback(null, 'noDataFound');
+                    } else {
+                        callback(null, found);
+                    }
+                });
+    }
 
 };
 module.exports = _.assign(module.exports, exports, model);
