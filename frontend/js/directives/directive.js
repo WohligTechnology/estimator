@@ -165,23 +165,27 @@ myApp
 
 
     .directive('uploadImage', function ($http, $filter, $timeout) {
-        debugger;
         return {
-            templateUrl: 'frontend/views/directive/uploadFile.html',
+            templateUrl: './frontend/views/directive/uploadFile.html',
             scope: {
                 model: '=ngModel',
                 type: "@type",
                 callback: "&ngCallback"
             },
             link: function ($scope, element, attrs) {
+                debugger;
                 console.log("***************** $scope.model *********************", $scope.model);
                 $scope.showImage = function () {};
                 $scope.check = true;
+                $scope.length = 0;
+                
                 if (!$scope.type) {
                     $scope.type = "image";
                 }
-                $scope.isMultiple = true;
+
+                $scope.isMultiple = false;
                 $scope.inObject = false;
+
                 if (attrs.multiple == "true") {
                     $scope.isMultiple = true;
                     $("#inputImage").attr("multiple", "ADD");
@@ -196,7 +200,6 @@ myApp
                 // }
 
                 $scope.$watch("image", function (newVal, oldVal) {
-                    debugger;
                     console.log("************************* inside watch 1st console *******************", newVal, oldVal);
                     var isArr = _.isArray(newVal);
                     if (!isArr && newVal && newVal.file) {
@@ -205,6 +208,7 @@ myApp
 
                         $timeout(function () {
                             console.log("********** inside watch 2nd console ****************", oldVal, newVal);
+                            $scope.length = newVal.length;
                             //  console.log(newVal.length);
                             _.each(newVal, function (newV, key) {
                                 if (newV && newV.file) {
@@ -212,7 +216,6 @@ myApp
                                 }
                             });
                         }, 100);
-
                     }
                 });
 
@@ -249,7 +252,6 @@ myApp
                 }
                 $scope.uploadNow = function (image) {
 
-
                     console.log("*********** Inside upload now function ************** & image data is:", image);
                     $scope.uploadStatus = "uploading";
 
@@ -276,8 +278,8 @@ myApp
 
                         console.log("################## final fie Object ##################", sendFileObj);
 
-                        $scope.uploadStatus = "uploaded";
                         if ($scope.isMultiple) {
+
                             if ($scope.inObject) {
                                 $scope.model.push({
                                     "image": data[0]
@@ -291,9 +293,17 @@ myApp
 
                                 //  $scope.model.push(data[0]);
                                 $scope.model.push(sendFileObj);
+                                $scope.length--;
+                                console.log("length: ", $scope.length);
+                                if ($scope.length == 0) {
+                                    $scope.uploadStatus = "uploaded";
+                                } else {
+                                    $scope.uploadStatus = 'uploading';
+                                }
                                 console.log("************ $scope.model **************", $scope.model);
                             }
                         } else {
+                            $scope.uploadStatus = 'uploaded';
                             if (_.endsWith(data[0], ".pdf")) {
                                 $scope.type = "pdf";
                             } else {
