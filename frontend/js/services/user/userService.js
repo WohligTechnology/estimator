@@ -2,8 +2,7 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
 
   this.getUserData = function (callback) {
     NavigationService.boxCall('User/search', function (data) {
-      var users = data.data.results;
-      callback(users);
+      callback(data.data);
     });
   }
 
@@ -31,13 +30,18 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
     });
   }
 
-    this.deleteUser= function(userId,callback){
-        var deleteUserObj = {
-            _id:userId
-        };
-        NavigationService.delete('User/delete',deleteUserObj, function(data){
-            callback(data);
-        });
-    }
+  this.deleteUser = function (userId, callback) {
+    var deleteUserObj = {
+      _id: userId
+    };
+    NavigationService.delete('User/delete', deleteUserObj, function (data) {
+      callback(data);
+    });
+  }
+  this.getPaginationData = function(pageNumber){
+    NavigationService.apiCall('User/search', {page:pageNumber}, function (data) {
+      callback(data.data);
+    });
+  }
 
 });

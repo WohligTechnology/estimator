@@ -168,12 +168,10 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             if (getLevelName == "assembly") {
                 getViewData = formData.assembly.processing;
             } else if (getLevelName == "subAssembly") {
-
                 var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
                 getViewData = formData.assembly.subAssemblies[subAssIndex].processing;
                 getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
             } else if (getLevelName == "part") {
-
                 var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
                 var partIndex = this.getPartIndex(subAssIndex, partId);
                 getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing;
@@ -184,12 +182,10 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
             if (getLevelName == "assembly") {
                 getViewData = formData.assembly.addons;
             } else if (getLevelName == "subAssembly") {
-
                 var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
                 getViewData = formData.assembly.subAssemblies[subAssIndex].addons;
                 getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
             } else if (getLevelName == "part") {
-
                 var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
                 var partIndex = this.getPartIndex(subAssIndex, partId);
                 getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons;
@@ -262,7 +258,6 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
     }
 
 
-
     this.getAllPartModalData = function (operation, subAssId, part, callback) {
         var partDataObj = {}
 
@@ -303,56 +298,39 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         callback();
     }
     this.formDuplicatePart = function(subAssId, partData, callback){
-        
-        console.log('partData....',partData);
-        var duplicatePart = _.clone(partData);
-        var tempThis = this;
+        var duplicatePart = _.cloneDeep(partData);
         var subAssIndex = this.getSubAssemblyIndex(subAssId);
         var partCount = this.getPartNumber(subAssIndex);
         duplicatePart.partNumber = subAssId + 'PT' + partCount;
+        duplicatePart.partName = this.generatePartName(subAssId).partName;
         var partIndex = this.getPartIndex(subAssIndex, duplicatePart.partNumber);
+        
         angular.forEach(duplicatePart.processing, function(obj){      
-            console.log('subAssIndex, partIndex..........................',subAssIndex, partIndex);  
             var processingNumber = obj.processingNumber;
-            temp1 = _.split(processingNumber, 'PT');
-            temp2 = _.split(temp1, 'PR');
-            console.log('temp2[1].......',temp2[1]);
+            temp2 = _.split(obj.processingNumber, 'PR');
             obj.processingNumber = duplicatePart.partNumber + 'PR' + temp2[1];
         });
-        angular.forEach(duplicatePart.addons, function(obj){   
-            addonNumber = obj.addonNumber;
-            temp1 = _.split(addonNumber, 'PT');
-            temp2 = _.split(temp1, 'AD');
-            console.log('temp2[1].......',temp2[1]);
-            obj.addonNumber = duplicatePart.partNumber + 'AD' + temp2[1];
+        angular.forEach(duplicatePart.addons, function(obj){
+            temp2 = _.split(obj.addonNumber, 'AD');
+            obj.addonNumber = duplicatePart.partNumber + 'AD' + temp2[1];            
         });
-        angular.forEach(duplicatePart.extras, function(obj){        
-            extraNumber = obj.extraNumber;
-            temp1 = _.split(extraNumber, 'PT');
-            temp2 = _.split(temp1, 'EX');
-            console.log('temp2[1].......',temp2[1]);
+        angular.forEach(duplicatePart.extras, function(obj){
+            temp2 = _.split(obj.extraNumber, 'EX');
             obj.extraNumber = duplicatePart.partNumber + 'EX' + temp2[1];            
         });        
-        formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(duplicatePart);
-        console.log('old Obj...new Object...',partData, duplicatePart);
-        callback(duplicatePart);
-    }
-    this.generatePartName = function(subAssId, callback){
-        var subAssIndex = this.getSubAssemblyIndex(subAssId);
-            var id = this.getPartNumber(subAssIndex);
-            var obj = {partName:(subAssId + 'PT' + id)};
-            callback(obj);
-    }
-    this.addPartToDifferentSubAssembly = function(subAssId, partObj, callback){
-        var subAssIndex = this.getSubAssemblyIndex(subAssId);
-        var id = this.getPartNumber(subAssIndex);
-        var tempPartObj = _.cloneDeep(partObj);
-        tempPartObj.partNumber = subAssId + 'PT' + id;
-        tempPartObj.partName = generatePartName(subAssIndex, partObj);
 
-        formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(tempPartObj);
+        formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(duplicatePart);
+        console.log('all parts : ',formData.assembly.subAssemblies[subAssIndex].subAssemblyParts);
         callback();
     }
+    this.generatePartName = function(subAssId){
+        
+        var subAssIndex = this.getSubAssemblyIndex(subAssId);
+        var id = this.getPartNumber(subAssIndex);
+        var obj = {partName:(subAssId + 'PT' + id)};
+        return obj;
+    }
+
 
     this.createProcessing = function (processingObj, level, subAssemblyId, partId, callback) {
 

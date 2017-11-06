@@ -3,14 +3,14 @@
         <div class="portlet box green ">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>SubAssembly Id
+                    <i class="fa fa-gift"></i>SubAssembly Id                    
                 </div>
                 <div class="tools">
                 </div>
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form  class="form-horizontal">
+                <form class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Enter SubAssembly ID:</label>
@@ -18,11 +18,12 @@
                                 <input type="text" class="form-control" ng-model="subAssemblyId" placeholder="Enter SubAssembly Number" autofocus required>
                             </div>
                         </div>
+                        <span class="caption-subject bold" ng-if="message != ''">{{message}}</span>                                                                            
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-click="duplicatePart(subAssemblyId, partData)">Add</button>
+                                <button type="button" class="btn btn-circle green" ng-click="duplicatePart(subAssemblyId, partData, 'import')">Import</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

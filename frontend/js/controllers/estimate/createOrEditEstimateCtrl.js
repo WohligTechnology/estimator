@@ -123,9 +123,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope,$timeout, $statePa
             $scope.showEditBtn = data.editBtn;
             $scope.subAssId = data.subAssId;
             if(operation=='save'){
-                createOrEditEstimateService.generatePartName(subAssId, function(data){
-                    $scope.formData = data;
-                });
+                $scope.formData = createOrEditEstimateService.generatePartName(subAssId);
             } else {
                 $scope.formData = data.partObj;
              }            
@@ -174,33 +172,32 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope,$timeout, $statePa
             $scope.cancelModal();
         });
     }
-    //to duplicate part
-    $scope.duplicatePart = function (subAssId, part) {
-        debugger;
-        console.log('subAssId, part',subAssId, part);
-        createOrEditEstimateService.formDuplicatePart(subAssId, part, function (data) {
-
-        $scope.subAssId = data.subAssId;
-
-        });
+    //to create a duplicate part for same subAssembly or different subAssembly
+    $scope.duplicatePart = function (subAssId, part, option) {
+        if(createOrEditEstimateService.getSubAssemblyIndex(subAssId) != -1){
+            $scope.message = '';
+            createOrEditEstimateService.formDuplicatePart(subAssId, part, function () {
+                if(option=='import'){
+                    $scope.cancelModal();
+                }
+            });
+        } else {
+            $scope.message = 'Please Enter Valid SubAssembly Number';
+        }
     }
-    // $scope.generatePartName = function () {
-    //     createOrEditEstimateService.generatePartName();
-    // }
-    $scope.addPartToDifferentSubAssemblyModal = function (part) {
+    //to import current part to  different subAssembly modal 
+    $scope.importPartToDifferentSubAssemblyModal = function (part) {
         $scope.partData = part;
-        $scope.subAssemblyId = '';
-
+        $scope.subAssemblyId = '',
         $scope.modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: 'views/content/estimate/estimateModal/addPartToDifferentSubAssemblyModal.html',
+            templateUrl: 'views/content/estimate/estimateModal/importPartToDifferentSubAssemblyModal.html',
             scope: $scope,
             size: 'md'
         });
     }
-    $scope.addPartToDifferentSubAssembly = function (subAssemblyId, part) {
-        
-    }
+
+
     //- to add Proccessing at assembly or subssembly or at partLevel
     $scope.addProcessing = function (processingData, level, subAssemblyId, partId) {
         createOrEditEstimateService.createProcessing(processingData, level, subAssemblyId, partId, function () {
@@ -222,6 +219,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope,$timeout, $statePa
             $scope.cancelModal();
         });
     }
+
 
     //- to add Addon at assembly or subssembly or at partLevel
     $scope.addAddon = function (addonData, level, subAssemblyId, partId) {

@@ -287,6 +287,25 @@ label.tree_label:after {
   right: 19.5%;
   position: absolute;
 }
+
+.partDuplicateIcon{
+  right: 35.5%; 
+  position: absolute;
+}
+.importPartIcon{
+  right: 11.2%; 
+  position: absolute;
+}
+
+.customerMaterialCreateIcon{
+  right: 32.5%;
+  position: absolute;
+}
+.customerMaterialEditIcon{
+  right: 25.5%;
+  position: absolute;
+}
+
 .materialSubCreateIcon{
   right: 35.7%;
   position: absolute;
