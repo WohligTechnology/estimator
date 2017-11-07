@@ -25,6 +25,7 @@ var controller = {
             })
         }
     },
+
     getDraftEstimateData: function (req, res) {
         if (req.body) {
             DraftEstimate.getDraftEstimateData(req.body, res.callback);
@@ -37,5 +38,7 @@ var controller = {
             })
         }
     },
+
+    
 };
 module.exports = _.assign(module.exports, controller);

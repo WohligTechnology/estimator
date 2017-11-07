@@ -40,7 +40,11 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "EstimateExtras",
         index: true
-    }]
+    }],
+    subAssemblyObj: {
+        type: Object,
+        index: true
+    },
 });
 
 schema.plugin(deepPopulate, {});
@@ -53,7 +57,7 @@ var model = {
     importSubAssembly: function (data, callback) {
         EstimateSubAssembly.findOne({
                 subAssemblyNumber: data.subAssemblyNumber
-            }).deepPopulate('proccessing addons extras subAssemblyParts subAssemblyParts.proccessing subAssemblyParts.addons subAssemblyParts.extras')
+            }).deepPopulate('processing addons extras subAssemblyParts subAssemblyParts.processing subAssemblyParts.addons subAssemblyParts.extras')
             .lean().exec(function (err, found) {
                 if (err) {
                     console.log('**** error at importSubAssembly of EstimateSubAssembly.js ****', err);
@@ -74,7 +78,7 @@ var model = {
 
                         async.parallel([
                             function (callback) {
-                                async.eachSeries(subAss.proccessing, function (subAssPro, callback) {
+                                async.eachSeries(subAss.processing, function (subAssPro, callback) {
                                     delete subAssPro._id;
                                     delete subAssPro.createdAt;
                                     delete subAssPro.updatedAt;
@@ -139,7 +143,7 @@ var model = {
                         } else {
                             async.parallel([
                                 function (callback) {
-                                    async.eachSeries(found.proccessing, function (assPro, callback) {
+                                    async.eachSeries(found.processing, function (assPro, callback) {
                                         delete assPro._id;
                                         delete assPro.createdAt;
                                         delete assPro.updatedAt;

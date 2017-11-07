@@ -68,7 +68,7 @@ var schema = new Schema({
         ref: "EstimateExtras",
         index: true
     }],
-    draftEstimateObject: {
+    assemblyObj: {
         type: Object,
         index: true
     },

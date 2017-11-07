@@ -102,7 +102,8 @@ var model = {
                     subAssemblies: [],
                     processing: [],
                     addons: [],
-                    extras: []
+                    extras: [],
+                    assemblyObj:found
                 };
                 console.log(' @@@@@@@@@@@@@@@@@ assemblyObj @@@@@@@@@@@@@@@@@@@', assemblyObj);
 
@@ -126,7 +127,8 @@ var model = {
                                 subAssemblyParts: [],
                                 processing: [],
                                 addons: [],
-                                extras: []
+                                extras: [],
+                                subAssemblyObj:subAss
                             };
 
                             EstimateSubAssembly.saveData(subAssObj, function (err, savedSubAss) {
@@ -153,12 +155,13 @@ var model = {
                                             subAssemblyId: savedSubAss._id,
                                             processing: [],
                                             addons: [],
-                                            extras: []
+                                            extras: [],
+                                            partObj:part
                                         };
 
                                         EstimatePart.saveData(partObj, function (err, savedPart) {
                                             if (err) {
-                                                console.log('**** error at function_name of DraftEstimate.js ****', err);
+                                                console.log('**** error at EstimatePart.saveData of DraftEstimate.js ****', err);
                                                 callback(err, null);
                                             } else if (_.isEmpty(savedPart)) {
                                                 callback(null, 'noDataFound');
@@ -167,11 +170,12 @@ var model = {
                                                 async.waterfall([
                                                     function (callback) {
                                                         async.eachSeries(part.proccessing, function (proObj, callback) {
-
-                                                            proObj.processingLevel = "part";
-                                                            proObj.processingLevelId = savedPart._id;
+                                                            var tempProObj = proObj; 
+                                                            tempProObj.processingLevel = "part";
+                                                            tempProObj.processingLevelId = savedPart._id;
+                                                            tempProObj.processingObj = proObj;
                                                             console.log('**** inside part la processing of DraftEstimate.js & data is ****', proObj);
-                                                            EstimateProcessing.saveData(proObj, function (err, savedPartProcess) {
+                                                            EstimateProcessing.saveData(tempProObj, function (err, savedPartProcess) {
                                                                 if (err) {
                                                                     console.log('**** error at partProcessing@@@@ of DraftEstimate.js ****', err);
                                                                 } else {
@@ -189,9 +193,12 @@ var model = {
                                                     },
                                                     function (callback) {
                                                         async.eachSeries(part.addons, function (addonsObj, callback) {
-                                                            addonsObj.addonsLevel = "part";
-                                                            addonsObj.addonsLevelId = savedPart._id;
-                                                            EstimateAddons.saveData(addonsObj, function (err, savedPartAddon) {
+                                                            var tempAddonObj = addonsObj;
+
+                                                            tempAddonObj.addonsLevel = "part";
+                                                            tempAddonObj.addonsLevelId = savedPart._id;
+                                                            tempAddonObj.addonObj = addonsObj;
+                                                            EstimateAddons.saveData(tempAddonObj, function (err, savedPartAddon) {
                                                                 if (err) {
                                                                     console.log('**** error at partAddons of DraftEstimate.js ****', err);
                                                                 } else {
@@ -209,9 +216,11 @@ var model = {
                                                     },
                                                     function (callback) {
                                                         async.eachSeries(part.extras, function (extrasObj, callback) {
-                                                            extrasObj.extraLevel = "part";
-                                                            extrasObj.extraLevelId = savedPart._id;
-                                                            EstimateExtras.saveData(extrasObj, function (err, savedPartExtra) {
+                                                            var tempExtraObj = extrasObj;
+                                                            tempExtraObj.extraLevel = "part";
+                                                            tempExtraObj.extraLevelId = savedPart._id;
+                                                            tempExtraObj.extraObj = extrasObj;
+                                                            EstimateExtras.saveData(tempExtraObj, function (err, savedPartExtra) {
                                                                 if (err) {
                                                                     console.log('**** error at partExtras of DraftEstimate.js ****', err);
                                                                 } else {
@@ -256,10 +265,13 @@ var model = {
                                             async.waterfall([
                                                 function (callback) {
                                                     async.eachSeries(subAss.proccessing, function (proObj, callback) {
-                                                        proObj.processingLevel = "subAssembly";
-                                                        proObj.processingLevelId = savedSubAss._id;
+                     
+                                                        var tempProObj = proObj; 
+                                                        tempProObj.processingLevel = "subAssembly";
+                                                        tempProObj.processingLevelId = savedSubAss._id;
+                                                        tempProObj.processingObj = proObj;
 
-                                                        EstimateProcessing.saveData(proObj, function (err, savedSubAssProcess) {
+                                                        EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
                                                             if (err) {
                                                                 console.log('**** error at subAssProcessing of DraftEstimate.js ****', err);
                                                             } else {
@@ -285,9 +297,11 @@ var model = {
                                                 },
                                                 function (callback) {
                                                     async.eachSeries(subAss.addons, function (addonsObj, callback) {
-                                                        addonsObj.addonsLevel = "subAssembly";
-                                                        addonsObj.addonsLevelId = savedSubAss._id;
-                                                        EstimateAddons.saveData(addonsObj, function (err, savedSubAssAddon) {
+                                                        var tempAddonObj = addonsObj;
+                                                        tempAddonObj.addonsLevel = "subAssembly";
+                                                        tempAddonObj.addonsLevelId = savedSubAss._id;
+                                                        tempAddonObj.addonObj = addonsObj;
+                                                        EstimateAddons.saveData(tempAddonObj, function (err, savedSubAssAddon) {
                                                             if (err) {
                                                                 console.log('**** error at subAssAddons of DraftEstimate.js ****', err);
                                                             } else {
@@ -313,9 +327,11 @@ var model = {
                                                 },
                                                 function (callback) {
                                                     async.eachSeries(subAss.extras, function (extrasObj, callback) {
-                                                        extrasObj.extraLevel = "subAssembly";
-                                                        extrasObj.extraLevelId = savedSubAss._id;
-                                                        EstimateExtras.saveData(extrasObj, function (err, savedSubAssExtra) {
+                                                        var tempExtraObj = extrasObj;
+                                                        tempExtraObj.extraLevel = "subAssembly";
+                                                        tempExtraObj.extraLevelId = savedSubAss._id;
+                                                        tempExtraObj.extraObj = extrasObj;
+                                                        EstimateExtras.saveData(tempExtraObj, function (err, savedSubAssExtra) {
                                                             if (err) {
                                                                 console.log('**** error at subAssExtras of DraftEstimate.js ****', err);
                                                             } else {
@@ -373,9 +389,11 @@ var model = {
                                 async.waterfall([
                                     function (callback) {
                                         async.eachSeries(found.proccessing, function (proObj, callback) {
-                                            proObj.processingLevel = "estimate";
-                                            proObj.processingLevelId = savedAssembly._id;
-                                            EstimateProcessing.saveData(proObj, function (err, savedSubAssProcess) {
+                                            var tempProObj = proObj;
+                                            tempProObj.processingLevel = "estimate";
+                                            tempProObj.processingLevelId = savedAssembly._id;
+                                            tempProObj.processingObj = proObj;
+                                            EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
                                                 if (err) {
                                                     console.log('**** error at assProcessing of DraftEstimate.js ****', err);
                                                 } else {
@@ -401,9 +419,11 @@ var model = {
                                     },
                                     function (callback) {
                                         async.eachSeries(found.addons, function (addonsObj, callback) {
-                                            addonsObj.addonsLevel = "estimate";
-                                            addonsObj.addonsLevelId = savedAssembly._id;
-                                            EstimateAddons.saveData(addonsObj, function (err, savedSubAssAddon) {
+                                            var tempAddonObj = addonsObj;
+                                            tempAddonObj.addonsLevel = "estimate";
+                                            tempAddonObj.addonsLevelId = savedAssembly._id;
+                                            tempAddonObj.addonObj = addonObj;
+                                            EstimateAddons.saveData(tempAddonObj, function (err, savedSubAssAddon) {
                                                 if (err) {
                                                     console.log('**** error at assAddons of DraftEstimate.js ****', err);
                                                 } else {
@@ -429,9 +449,11 @@ var model = {
                                     },
                                     function (callback) {
                                         async.eachSeries(found.extras, function (extrasObj, callback) {
-                                            extrasObj.extraLevel = "estimate";
-                                            extrasObj.extraLevelId = savedAssembly._id;
-                                            EstimateExtras.saveData(extrasObj, function (err, savedSubAssExtra) {
+                                            var tempExtraObj = extrasObj;
+                                            tempExtraObj.extraLevel = "estimate";
+                                            tempExtraObj.extraLevelId = savedAssembly._id;
+                                            tempExtraObj.extraObj = extrasObj;
+                                            EstimateExtras.saveData(tempExtraObj, function (err, savedSubAssExtra) {
                                                 if (err) {
                                                     console.log('**** error at assExtras of DraftEstimate.js ****', err);
                                                 } else {
