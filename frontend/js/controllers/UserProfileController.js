@@ -4,15 +4,7 @@ myApp.controller('UserProfileController', function ($scope, $timeout, userProfil
     $scope.$parent.isSidebarActive = false;
     $scope.formData = {};
     $scope.statusMessage = "";
-    $scope.loggedInUser = $.jStorage.get('loggedInUser');  
-
-    $scope.userName = "hiiii";
-    $scope.$watch('userName',function(newVal,oldVal){
-        debugger;
-        console.log('**** inside function_name of UserProfileController.js ****',newVal);
-        console.log('**** inside function_name of UserProfileController.js ****',oldVal);
-    });
-    
+    $scope.loggedInUser = $.jStorage.get('loggedInUser');    
 
     // *************************** default functions begin here  ********************** //
     //get respective profile Object

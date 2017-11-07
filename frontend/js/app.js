@@ -90,12 +90,7 @@ myApp.controller('HeaderController', ['$scope', function ($scope) {
     });
 }]);
 
-/* Setup Layout Part - Sidebar */
-myApp.controller('SidebarController', ['$state', '$scope', function ($state, $scope) {
-    $scope.$on('$includeContentLoaded', function () {
-        Layout.initSidebar($state); // init sidebar
-    });
-}]);
+
 
 /* Setup Layout Part - Quick Sidebar */
 myApp.controller('QuickSidebarController', ['$scope', function ($scope) {
@@ -902,6 +897,47 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
     $locationProvider.html5Mode(isproduction);
 });
 
+
+
+/* Setup Layout Part - Sidebar */
+myApp.controller('SidebarController', ['$state', '$scope', function ($state, $scope) {
+    $scope.$on('$includeContentLoaded', function () {
+        Layout.initSidebar($state); // init sidebar
+    });
+    
+    // var str = window.location.href;
+    // var url = str.split('/');
+    // var getState = url[url.length - 1];
+    var getState = $state.current.name;
+   
+    // get current state & set a class to li
+    if (getState == 'app.dashboard') {
+        $scope.currentState = 'dashboard';
+    } else if (getState == 'app.enquiry') {
+        $scope.currentState = 'enquiry';
+    } else if (getState == 'app.estimate') {
+        $scope.currentState = 'estimate';
+    } else if (getState == 'app.customer') {
+        $scope.currentState = 'customer';
+    } else if (getState == 'app.users') {
+        $scope.currentState = 'user';
+    } else if (getState == 'app.masterAddon') {
+        $scope.currentState = 'master';
+        $scope.subMenuState = 'masterAddon';
+    } else if (getState == 'app.baseMatser') {
+        $scope.currentState = 'master';
+        $scope.subMenuState = 'masterBaseMaster';
+    } else if (getState == 'app.masterExtra') {
+        $scope.currentState = 'master';
+        $scope.subMenuState = 'masterExtra';
+    }else if (getState == 'app.settings') {
+        $scope.currentState = 'setting';
+    }
+
+    console.log("****************************");
+    console.log("****************************",$scope.currentState);
+
+}]);
 
 myApp.directive('inputDate', function ($compile, $parse) {
     return {

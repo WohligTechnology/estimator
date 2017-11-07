@@ -11,81 +11,81 @@
         <li class="start nav-item">
             <br>
         </li>
-        <li class="start nav-item" id="dashboard">
+        <li class="start nav-item" id="dashboard" ng-class="{'active': currentState == 'dashboard'}">
             <a ui-sref="app.dashboard">
                 <i class="icon-home"></i>
                 <span class="title">Dashboard</span>
             </a>
         </li>
-        <li class="nav-item" id="enquiry">
+        <li class="nav-item" id="enquiry" ng-class="{'active': currentState == 'enquiry'}">
             <a ui-sref="app.enquiry" class="nav-link ">
                 <i class="icon-settings"></i>
                 <span class="title">Enquiries</span>
             </a>
         </li>
-        <li class="nav-item" id="estimate">
+        <li class="nav-item" id="estimate" ng-class="{'active': currentState == 'estimate'}">
             <a ui-sref="app.estimate">
                 <i class="icon-check"></i>
                 <span class="title">Estimates</span>
             </a>
         </li>
-        <li class="nav-item" id="customer">
+        <li class="nav-item" id="customer" ng-class="{'active': currentState == 'customer'}">
             <a ui-sref="app.customer" class="nav-link nav-toggle">
                 <i class="icon-refresh"></i>
                 <span class="title">Customers</span>
             </a>
         </li>
-        <li class="nav-item" id="user">
+        <li class="nav-item" id="user" ng-class="{'active': currentState == 'user'}">
             <a ui-sref="app.users" id="sidebar_menu_link_profile">
                 <i class="icon-user"></i>
                 <span class="title">Users</span>
             </a>
         </li>
-        <li class="nav-item" id="master">
+        <li class="nav-item" id="master" ng-class="{'active': currentState == 'master'}">
             <a class="nav-link nav-toggle">
                 <i class="icon-settings"></i>
                 <span class="title">Master</span>
                 <span class="arrow"></span>
             </a>
             <ul class="sub-menu">
-                <li id="masterMaterial">
+                <li id="masterMaterial" ng-class="{'activeSubMenu': subMenuState == 'masterMaterial'}">
                     <a ui-sref="app.masterMaterial">
                         <i class="icon-puzzle"></i> Material Master </span>
                     </a>
                 </li>
-                <li id="masterShape">
+                <li id="masterShape" ng-class="{'activeSubMenu': subMenuState == 'masterShape'}">
                     <a ui-sref="app.masterShape">
                         <i class="icon-paper-clip"></i> Shape Master</span>
                     </a>
                 </li>
-                <li id="masterPart">
+                <li id="masterPart" ng-class="{'activeSubMenu': subMenuState == 'masterPart'}">
                     <a ui-sref="app.masterPart">
                         <i class="icon-check"></i> Part Master</span>
                     </a>
                 </li>
-                <li id="masterProcess">
+                <li id="masterProcess" ng-class="{'activeSubMenu': subMenuState == 'masterProcess'}">
                     <a ui-sref="app.masterProcess">
                         <i class="icon-check"></i> Process Master</span>
                     </a>
                 </li>
-                <li id="masterAddon">
+                <li id="masterAddon" ng-class="{'activeSubMenu': subMenuState == 'masterAddon'}">
                     <a ui-sref="app.masterAddon">
                         <i class="icon-check"></i> Addon Master</span>
                     </a>
                 </li>
-                <li id="masterBaseMaster">
+                <li id="masterBaseMaster" ng-class="{'activeSubMenu': subMenuState == 'masterBaseMaster'}">
                     <a ui-sref="app.baseMatser">
                         <i class="icon-check"></i> BaseMaster Master</span>
                     </a>
                 </li>
-                <li id="masterExtra">
+                <li id="masterExtra" ng-class="{'activeSubMenu': subMenuState == 'masterExtra'}">
                     <a ui-sref="app.masterExtra">
                         <i class="icon-check"></i> Extra Master</span>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="nav-item" id="setting">
+        <li class="nav-item" id="setting" ng-class="{'active': currentState == 'setting'}">
             <a class="nav-link nav-toggle">
                 <i class="icon-wrench"></i>
                 <span class="title">Settings</span>
@@ -103,12 +103,10 @@
     <!-- END SIDEBAR MENU -->
 </div>
 
-<script>
+<!-- <script>
     var str = window.location.href;
     var url = str.split('/');
     var getState = url[url.length - 1];
-    // console.log('**** inside getState of sidebar.html ****',getState);
-
     if (getState == 'dashboard') {
         $("#dashboard").addClass("active");
     } else if (getState == 'enquiry') {
@@ -126,4 +124,4 @@
     } else if (getState == 'extra') {
         $("#dashboard").addClass("active");
     }
-</script>
+</script> -->
