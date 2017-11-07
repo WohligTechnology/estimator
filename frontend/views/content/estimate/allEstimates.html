@@ -10,10 +10,12 @@
                             <span class="caption-subject font-red sbold uppercase">Estimate</span>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-6">
                         <div class="btn-group pull-right">
-                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                <i class="fa fa-angle-down"></i>
+                            </button>
                             <ul class="dropdown-menu pull-right">
                                 <li>
                                     <a href="javascript:;"> Save as PDF </a>
@@ -37,7 +39,8 @@
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
                                     data-close-others="true">
-                                     <i class="fa fa-angle-down"></i></button>
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a> 5</a>
@@ -72,21 +75,29 @@
                         <tr>
                             <th>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label></th>
+                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="selectAll" ng-click="checkAll()"
+                                    />
+                                    <span></span>
+                                </label>
+                            </th>
                             <th> Id </th>
                             <th> Name </th>
                             <th>SubAssembly Count </th>
                             <th> Part Count </th>
                             <th> Total Cost </th>
                             <th> Created by user </th>
-                             <th> Updated by user </th>
+                            <th> Updated by user </th>
                             <th> Action </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="table in tableData">
-                            <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                            <td>
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                    <span></span>
+                                </label>
+                            </td>
                             <td>{{table.id}} </td>
                             <td>{{table.name}} </td>
                             <td>{{table.dname}} </td>
@@ -97,24 +108,52 @@
                             <td>
                                 <a class="delete" href=":;"> Delete </a>
                             </td>
-                              <td>
+                            <td>
                                 <a class="delete" href=":;"> Delete </a>
                             </td>
                             <td>
-                                <a class="action" ng-click="allEstimateEdit()"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
+                                <a class="action" ng-click="allEstimateEdit()">
+                                    <span class="label label-sm label-success">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                </a>
+                                <a class="" ng-click="deleteItem()">
+                                    <span class="label label-sm label-danger">
+                                        <i class="fa fa-trash-o"></i>
+                                    </span>
+                                </a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="row">
+
+                <div class="row" ng-if="total>10">
                     <div class="col-md-6">
-                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div>
+                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing {{pageStart}} to {{pageEnd}} of {{total}} records</div>
                     </div>
                     <div class="col-md-6">
                         <div class="pull-right">
-                            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
-                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                            <div class="zui-pager small">
+                                <ol class="btn-group">
+                                    <li class="btn-group__item">
+                                        <i class="i-chevron-left"></i>
+                                    </li>
+                                    <li class="btn-group__item">
+                                        <div class="btn btn--action">
+                                            <span ng-click="getPaginationData(page)">1</span>
+                                            <span>of</span>
+                                            <span>{{numberOfPages}}</span>
+                                            <i class="i-caret-down"></i>
+                                            <select class="select-overlay" ng-options="page for page in pagesArray" ng-model="userData.page" ng-change="getPaginationData(userData.page)">
+                                                <option value="page">{{page}}</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                    <li class="btn-group__item">
+                                        <i class="i-chevron-right"></i>
+                                    </li>
+                                </ol>
+                            </div>
                         </div>
                     </div>
                 </div>

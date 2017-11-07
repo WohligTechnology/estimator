@@ -1,21 +1,32 @@
 myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerService) {
 
   // *************************** default variables/tasks begin here ***************** //
-  //- to show/hide sidebar of dashboard 
 
+  //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = true;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
 
   // *************************** default functions begin here  ********************** //
+
+  //- function to get all customers data
   $scope.getCustomerData = function () {
     customerService.getCustomerData(function (data) {
-      $scope.customerData = data;
+      $scope.customerData = data.results;
+      customerService.getPaginationDetails(1, data, function (obj) {
+        $scope.total = obj.total;
+        $scope.pageStart = obj.pageStart;
+        $scope.pageEnd = obj.pageEnd;
+        $scope.numberOfPages = obj.numberOfPages;
+        $scope.pagesArray = obj.pagesArray;
+      });
     });
   }
 
+
   // *************************** functions to be triggered form view begin here ***** // 
 
+  //- modal to create new customer 
   $scope.addOrEditCustomerModal = function (operation, customer) {
     customerService.getCustomerModalData(operation, customer, function (data) {
       $scope.formData = data.customer;
@@ -31,9 +42,9 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
 
     });
   }
-
+  //- function to  create new customer
   $scope.addOrEditCustomer = function (customerData) {
-     customerService.addOrEditCustomer(customerData, function (data) {
+    customerService.addOrEditCustomer(customerData, function (data) {
 
       $scope.operationStatus = "Record added successfully";
       $scope.getCustomerData();
@@ -53,6 +64,7 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
       size: 'md'
     });
   }
+  //- function to delete user
   $scope.deleteCustomer = function (customerId) {
     customerService.deleteCustomer(customerId, function (data) {
       $scope.operationStatus = "Record deleted successfully";
@@ -61,17 +73,40 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
     });
   }
 
+  //- function for pagination of cusomers' records
+  $scope.getPaginationData = function (page) {
+    customerService.getPaginationData(page, function (data) {
+      $scope.customerData = data.results;
+      customerService.getPaginationDetails(page, data, function (obj) {
+        $scope.total = obj.total;
+        $scope.pageStart = obj.pageStart;
+        $scope.pageEnd = obj.pageEnd;
+        $scope.numberOfPages = obj.numberOfPages;
+        $scope.pagesArray = obj.pagesArray;
+      });
+    });
+  }
+
+  //- function to search the text in table
+  $scope.serachText = function (keyword) {
+    customerService.getSearchResult(keyword, function (data) {
+      $scope.customerData = data;
+    });
+  }
+
   //- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
   };
 
+
   // *************************** init all default functions begin here ************** //
+
   //- to initilize the default function 
   $scope.init = function () {
     // to get customer Data
     $scope.getCustomerData();
   }
-
   $scope.init();
+
 });

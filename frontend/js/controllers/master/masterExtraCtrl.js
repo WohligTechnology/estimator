@@ -2,29 +2,43 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
 
 
     // *************************** default variables/tasks begin here ***************** //
+
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = true;
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
-  
+    
+
 
     // *************************** default functions begin here  ********************** //
+
+    //- function to get all extras data
     $scope.getMasterExtraData = function () {
         masterExtraService.getMasterExtraData(function (data) {
-            $scope.extraData = data;
+            $scope.extraData = data.results;
+            masterExtraService.getPaginationDetails(page, data, function (obj) {
+                $scope.total = obj.total;
+                $scope.pageStart = obj.pageStart;
+                $scope.pageEnd = obj.pageEnd;
+                $scope.numberOfPages = obj.numberOfPages;
+                $scope.pagesArray = obj.pagesArray;
+              });
         });
     }
 
+
     // *************************** functions to be triggered form view begin here ***** // 
+
+    //- modal to create new extra 
     $scope.addOrEditExtraModal = function (operation, extra) {
 
         masterExtraService.getExtraModalData(operation, extra, function (data) {
 
             $scope.formData = data.extra;
             $scope.uoms = data.uoms;
-            
-               if (angular.isDefined(data.extra)) {
-               $scope.selectedRateUom = data.extra.rate.uom;
+
+            if (angular.isDefined(data.extra)) {
+                $scope.selectedRateUom = data.extra.rate.uom;
             }
 
             $scope.showSaveBtn = data.saveBtn;
@@ -37,11 +51,11 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
             });
         });
     }
-
+    //- function to  create new customer
     $scope.addOrEditExtra = function (extraData, selectedRateUom) {
         extraData.rate.uom = selectedRateUom;
 
-         masterExtraService.addOrEditExtra(extraData, function (data) {
+        masterExtraService.addOrEditExtra(extraData, function (data) {
 
             $scope.operationStatus = "Record added successfully";
             $scope.getMasterExtraData();
@@ -49,40 +63,61 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
         });
     }
 
-   //- modal to confirm extra deletion
+    //- modal to confirm extra deletion
     $scope.deleteExtraModal = function (extraId, getFunction) {
-      $scope.idToDelete = extraId;
-      $scope.functionToCall = getFunction;
+        $scope.idToDelete = extraId;
+        $scope.functionToCall = getFunction;
 
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
-        scope: $scope,
-        size: 'md'
-      });
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+            scope: $scope,
+            size: 'md'
+        });
     }
-
+    //- function for  extra deletion
     $scope.deleteExtra = function (extraId) {
-       masterExtraService.deleteExtra(extraId, function (data) {
-        $scope.operationStatus = "Record deleted successfully";
-        $scope.cancelModal();
-        $scope.getMasterExtraData();
-      });
+        masterExtraService.deleteExtra(extraId, function (data) {
+            $scope.operationStatus = "Record deleted successfully";
+            $scope.cancelModal();
+            $scope.getMasterExtraData();
+        });
     }
 
-   //- to dismiss modal instance
+    //- function for pagination of master extras' records
+    $scope.getPaginationData = function (page) {
+        masterExtraService.getPaginationData(page, function (data) {
+            $scope.extraData = data.results;
+            masterExtraService.getPaginationDetails(page, data, function (obj) {
+                $scope.total = obj.total;
+                $scope.pageStart = obj.pageStart;
+                $scope.pageEnd = obj.pageEnd;
+                $scope.numberOfPages = obj.numberOfPages;
+                $scope.pagesArray = obj.pagesArray;
+              });
+        });
+    }
+
+    //- function to search the text in table
+    $scope.serachText = function (keyword) {
+        masterExtraService.getSearchResult(keyword, function (data) {
+            $scope.extraData = data;            
+        });
+    }
+
+    //- to dismiss modal instance
     $scope.cancelModal = function () {
-    $scope.modalInstance.dismiss();
-  };
+        $scope.modalInstance.dismiss();
+    };
 
 
     // *************************** init all default functions begin here ************** //
+
     //- to initilize the default function 
     $scope.init = function () {
 
         $scope.getMasterExtraData();
     }
-
     $scope.init();
 
 });

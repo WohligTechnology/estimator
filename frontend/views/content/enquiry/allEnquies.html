@@ -12,12 +12,16 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ui-sref="app.createEnquiry"><i class="fa fa-plus"></i> </button>
+                            <button id="sample_editable_1_new" class="btn green" ui-sref="app.createEnquiry">
+                                <i class="fa fa-plus"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="col-md-1">
                         <div class="btn-group pull-right">
-                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools<i class="fa fa-angle-down"></i></button>
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                <i class="fa fa-angle-down"></i>
+                            </button>
                             <ul class="dropdown-menu pull-right">
                                 <li>
                                     <a href="javascript:;"> Save as PDF </a>
@@ -41,7 +45,8 @@
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
                                     data-close-others="true">
-                                     <i class="fa fa-angle-down"></i></button>
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a> 5</a>
@@ -64,7 +69,7 @@
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
                                         <i class="icon-magnifier"></i>
-                                        <input type="text" class="form-control form-control-solid" ng-model="search._id" placeholder="search...">                                        
+                                        <input type="text" class="form-control form-control-solid" ng-model="keyword" ng-change="serachText(keyword)" placeholder="search...">
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +81,10 @@
                         <tr>
                             <th>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                               <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-model="selectAll" ng-click="checkAll()"/><span></span></label>
+                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="selectAll" ng-click="checkAll()"
+                                    />
+                                    <span></span>
+                                </label>
                             </th>
                             <th> Id </th>
                             <th> Customer ID </th>
@@ -91,49 +99,80 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="t in tableData | filter : search">
-                            <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                           <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                        <tr ng-repeat="t in tableData | orderBy : 'customerId'">
+                            <td>
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                    <span></span>
+                                </label>
+                            </td>
                             <td>{{t._id}} </td>
                             <td>{{t.customerId}} </td>
                             <td>
-                                <input type="checkbox" id="c1" value="" ng-checked="detailsActive"/>                                    
+                                <input type="checkbox" id="c1" value="" ng-checked="detailsActive" />
                             </td>
                             <td>
-                                <input type="checkbox" id="c2" value="" ng-checked="infoActive" />                                    
+                                <input type="checkbox" id="c2" value="" ng-checked="infoActive" />
                             </td>
                             <td>
-                                <input type="checkbox" id="c3" value="" ng-checked="keyReqActive" />                                    
+                                <input type="checkbox" id="c3" value="" ng-checked="keyReqActive" />
                             </td>
                             <td>
-                                <input type="checkbox" id="c4" value="" ng-checked="techReqsActive" />                                    
+                                <input type="checkbox" id="c4" value="" ng-checked="techReqsActive" />
                             </td>
                             <td>
-                                <input type="checkbox" id="c5" value="" ng-checked="CommReqActive" />                                    
+                                <input type="checkbox" id="c5" value="" ng-checked="CommReqActive" />
                             </td>
                             <td>
-                                <input type="checkbox" id="c6" value="" ng-checked="PreQuaCriteriaActive" />                                    
+                                <input type="checkbox" id="c6" value="" ng-checked="PreQuaCriteriaActive" />
                             </td>
                             <td>
-                                <input type="checkbox" id="c7" value="" ng-checked="" />                                    
+                                <input type="checkbox" id="c7" value="" ng-checked="" />
                             </td>
                             <td>
                                 <!--<a class="" ng-click="edit();"> <span class="label label-sm label-info"><i class="fa fa-eye"></i></span></a>-->
-                                <a class="action edit-btn" ui-sref="app.editEnquiry({enquiryId:t._id})"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                <a class="edit-btn" ng-click="deleteEnquiryModal(t._id, 'deleteEnquiry')"> <span class="label label-sm label-danger"><i class="fa fa-trash-o"></i></span></a>
+                                <a class="action edit-btn" ui-sref="app.editEnquiry({enquiryId:t._id})">
+                                    <span class="label label-sm label-success">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                </a>
+                                <a class="edit-btn" ng-click="deleteEnquiryModal(t._id, 'deleteEnquiry')">
+                                    <span class="label label-sm label-danger">
+                                        <i class="fa fa-trash-o"></i>
+                                    </span>
+                                </a>
                                 <!--<a class="" ui-sref="app.estimate"> <span class="label label-sm label-warning"> Estimate </span></a>-->
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="row">
+                <div class="row" ng-if="total>10">
                     <div class="col-md-6">
-                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div>
+                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing {{pageStart}} to {{pageEnd}} of {{total}} records</div>
                     </div>
                     <div class="col-md-6">
                         <div class="pull-right">
-                            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
-                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                            <div class="zui-pager small">
+                                <ol class="btn-group">
+                                    <li class="btn-group__item">
+                                        <i class="i-chevron-left"></i>
+                                    </li>
+                                    <li class="btn-group__item">
+                                        <div class="btn btn--action">
+                                            <span ng-click="getPaginationData(page)">1</span>
+                                            <span>of</span>
+                                            <span>{{numberOfPages}}</span>
+                                            <i class="i-caret-down"></i>
+                                            <select class="select-overlay" ng-options="page for page in pagesArray" ng-model="userData.page" ng-change="getPaginationData(userData.page)">
+                                                <option value="page">{{page}}</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                    <li class="btn-group__item">
+                                        <i class="i-chevron-right"></i>
+                                    </li>
+                                </ol>
+                            </div>
                         </div>
                     </div>
                 </div>

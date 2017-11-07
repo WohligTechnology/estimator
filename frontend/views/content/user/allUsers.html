@@ -69,7 +69,8 @@
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
                                         <i class="icon-magnifier"></i>
-                                        <input type="text" class="form-control form-control-solid" ng-model="search.name" placeholder="search...">
+                                        <input type="text" class="form-control form-control-solid" ng-model="keyword" ng-change="serachText(keyword)"
+                                            placeholder="search...">
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +96,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="user in userData | filter : search">
+                        <tr ng-repeat="user in userData | orderBy : 'name'">
                             <td>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                     <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
@@ -121,35 +122,34 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="row">
+                <div class="row" ng-if="total>10">
                     <div class="col-md-6">
-                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 10 of {{numberOfPages}} records</div>
+                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing {{pageStart}} to {{pageEnd}} of {{total}} records</div>
                     </div>
-                    <div class="zui-pager small">
-                        <ol class="btn-group">
-                            <li class="btn-group__item">
-                                <i class="i-chevron-left"></i>
-                            </li>
-                            <li class="btn-group__item">
-                                <div class="btn btn--action">
-                                    <span ng-click="getPaginationData(page)">1</span>
-                                    <span>of</span>
-                                    <span>{{numberOfPages}}</span>
-                                    <i class="i-caret-down"></i>
-                                    <!-- <select class="select-overlay" ng-model="page" ng-options="page for page in pagesArray" ng-change="getPaginationData(page)">
-                                   </select> -->
-
-                                    <select class="select-overlay">
-                                            <option ng-repeat="page in pagesArray"  ng-click="getPaginationData(page)">
-                                                {{page}}
-                                            </option>
-                                        </select>
-                                </div>
-                            </li>
-                            <li class="btn-group__item">
-                                <i class="i-chevron-right"></i>
-                            </li>
-                        </ol>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <div class="zui-pager small">
+                                <ol class="btn-group">
+                                    <li class="btn-group__item">
+                                        <i class="i-chevron-left"></i>
+                                    </li>
+                                    <li class="btn-group__item">
+                                        <div class="btn btn--action">
+                                            <span ng-click="getPaginationData(page)">1</span>
+                                            <span>of</span>
+                                            <span>{{numberOfPages}}</span>
+                                            <i class="i-caret-down"></i>
+                                            <select class="select-overlay" ng-options="page for page in pagesArray" ng-model="page" ng-change="getPaginationData(page, keyword)">
+                                                <option value="page">{{page}}</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                    <li class="btn-group__item">
+                                        <i class="i-chevron-right"></i>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
