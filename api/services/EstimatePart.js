@@ -51,7 +51,11 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "EstimateExtras",
         index: true
-    }]
+    }],
+    partObj: {
+        type: Object,
+        index: true
+    },
 });
 
 schema.plugin(deepPopulate, {});
@@ -64,7 +68,7 @@ var model = {
     importPart: function (data, callback) {
         EstimatePart.findOne({
                 partNumber: data.partNumber
-            }).deepPopulate('proccessing addons extras')
+            }).deepPopulate('processing addons extras')
             .lean().exec(function (err, found) {
                 if (err) {
                     console.log('**** error at function_name of EstimatePart.js ****', err);
@@ -95,7 +99,7 @@ var model = {
                             });
                         },
                         function (callback) {
-                            async.eachSeries(found.proccessing, function (proc, callback) {
+                            async.eachSeries(found.processing, function (proc, callback) {
                                 delete proc._id;
                                 delete proc.createdAt;
                                 delete proc.updatedAt;

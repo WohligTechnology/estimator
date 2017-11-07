@@ -20,7 +20,12 @@ var schema = new Schema({
     },
     quantity: Number,
     totalCost: Number,
-    remarks: String
+    remarks: String,
+ 
+    extraObj: {
+        type: Object,
+        index: true
+    },
 });
 
 schema.plugin(deepPopulate, {});
