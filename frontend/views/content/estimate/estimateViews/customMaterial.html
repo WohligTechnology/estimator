@@ -83,9 +83,9 @@
                                     <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
                                     <td>{{custom.id}} </td>
-                                    <td> {{custom.baseMaterial.thickness}} </td>
-                                    <td>{{custom.baseMaterial.grade}} </td>
-                                    <td>{{custom.hardfacing.thickness}}
+                                    <td> {{custom.basePlate.thickness}} </td>
+                                    <td>{{custom.basePlate.grade}} </td>
+                                    <td>{{custom.hardFacingAlloys.thickness}}
                                         <table class="inside-custom-table">
                                             <tr>
                                                 <td>23</td>
@@ -98,7 +98,7 @@
                                             </tr>
                                         </table>
                                     </td>
-                                    <td>{{custom.hardfacing.depositeGrade}}
+                                    <td>{{custom.hardFacingAlloys.depositeGrade}}
                                         <table class="inside-custom-table">
                                             <tr>
                                                 <td>23</td>
@@ -116,8 +116,8 @@
                                     <td> {{custom.price.m}}</td>
                                     <td> {{custom.efficiency}}</td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" ng-click="addOrEditCustomMaterialModal('update','cust_object')"><i class="fa fa-pencil"></i> </span>
-                                        <span class="label label-sm label-danger" ng-click="deleteCustomMaterialModal('id','deleteCustomMaterial')"> <i class="fa fa-trash-o"></i></span>
+                                        <span class="label label-sm label-success" ng-click="addOrEditCustomMaterialModal('update','custom')"><i class="fa fa-pencil"></i> </span>
+                                        <span class="label label-sm label-danger" ng-click="deleteCustomMaterialModal('id','custom')"> <i class="fa fa-trash-o"></i></span>
                                     </td>
                                 </tr>
                                 <tr>

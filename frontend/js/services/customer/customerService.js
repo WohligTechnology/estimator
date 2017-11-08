@@ -40,7 +40,7 @@ myApp.service('customerService', function ($http, NavigationService, $uibModal) 
     });
   }
   //- get data of pagination
-  this.getPaginationData = function (pageNumber, callback) {
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
     NavigationService.apiCall('Customer/search', {
       page: pageNumber
     }, function (data) {
@@ -52,25 +52,35 @@ myApp.service('customerService', function ($http, NavigationService, $uibModal) 
     NavigationService.apiCall('Customer/search', {
       keyword: searchKeyword
     }, function (data) {
-      callback(data.data.results);
+      callback(data.data);
     });
   }
   //- get details about pagination
-  this.getPaginationDetails = function(pageNumber, data, callback){
+  this.getPaginationDetails = function (pageNumber, data, callback) {
     var obj = {};
-    obj.pageStart = (pageNumber-1)*10+1;
+    obj.pageNumber = pageNumber;
+    obj.pageStart = (pageNumber - 1) * 10 + 1;
     obj.total = data.total;
-    if(obj.total <= pageNumber*10){
+    if (obj.total <= pageNumber * 10) {
       obj.pageEnd = obj.total;
     } else {
-      obj.pageEnd = pageNumber*10;
-    } 
+      obj.pageEnd = pageNumber * 10;
+    }
     obj.numberOfPages = Math.ceil((obj.total) / 10);
     obj.pagesArray = [];
     for (var i = 0; i < obj.numberOfPages; i++) {
       obj.pagesArray[i] = i + 1;
     }
     callback(obj);
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, searchKeyword, callback) {
+    NavigationService.apiCall('Customer/search', {
+      keyword: searchKeyword,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
   }
 
 });

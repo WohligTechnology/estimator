@@ -22,7 +22,7 @@ myApp.service('enquiryService', function ($http, NavigationService) {
     });
   }
   //- get data of pagination
-  this.getPaginationData = function (pageNumber, callback) {
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
     NavigationService.apiCall('Enquiry/search', {
       page: pageNumber
     }, function (data) {
@@ -40,6 +40,7 @@ myApp.service('enquiryService', function ($http, NavigationService) {
   //- get details about pagination
   this.getPaginationDetails = function(pageNumber, data, callback){
     var obj = {};
+    obj.pageNumber = pageNumber;
     obj.pageStart = (pageNumber-1)*10+1;
     obj.total = data.total;
     if(obj.total <= pageNumber*10){
@@ -53,6 +54,15 @@ myApp.service('enquiryService', function ($http, NavigationService) {
       obj.pagesArray[i] = i + 1;
     }
     callback(obj);
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, searchKeyword, callback) {
+    NavigationService.apiCall('Enquiry/search', {
+      keyword: searchKeyword,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
   }
 
 });

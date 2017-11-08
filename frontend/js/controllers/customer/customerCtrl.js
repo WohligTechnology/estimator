@@ -14,11 +14,7 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
     customerService.getCustomerData(function (data) {
       $scope.customerData = data.results;
       customerService.getPaginationDetails(1, data, function (obj) {
-        $scope.total = obj.total;
-        $scope.pageStart = obj.pageStart;
-        $scope.pageEnd = obj.pageEnd;
-        $scope.numberOfPages = obj.numberOfPages;
-        $scope.pagesArray = obj.pagesArray;
+        $scope.obj = obj;
       });
     });
   }
@@ -74,23 +70,31 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
   }
 
   //- function for pagination of cusomers' records
-  $scope.getPaginationData = function (page) {
-    customerService.getPaginationData(page, function (data) {
-      $scope.customerData = data.results;
-      customerService.getPaginationDetails(page, data, function (obj) {
-        $scope.total = obj.total;
-        $scope.pageStart = obj.pageStart;
-        $scope.pageEnd = obj.pageEnd;
-        $scope.numberOfPages = obj.numberOfPages;
-        $scope.pagesArray = obj.pagesArray;
+  $scope.getPaginationData = function (page, keyword) {
+    if (angular.isUndefined(keyword) || keyword == '') {
+      customerService.getPaginationDatawithoutKeyword(page, function (data) {
+        $scope.customerData = data.results;
+        customerService.getPaginationDetails(page, data, function (obj) {
+          $scope.obj = obj;
+        });
       });
-    });
+    } else {
+      customerService.getPaginationDataWithKeyword(page, keyword, function (data) {
+        $scope.customerData = data.results;
+        customerService.getPaginationDetails(page, data, function (obj) {
+          $scope.obj = obj;
+        });
+      });
+    }
   }
 
   //- function to search the text in table
   $scope.serachText = function (keyword) {
     customerService.getSearchResult(keyword, function (data) {
-      $scope.customerData = data;
+      $scope.customerData = data.results;
+      customerService.getPaginationDetails(1, data, function (obj) {
+        $scope.obj = obj;
+      });
     });
   }
 

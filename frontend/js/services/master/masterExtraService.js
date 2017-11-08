@@ -52,7 +52,7 @@ myApp.service('masterExtraService', function ($http, NavigationService, $uibModa
     });
   }
   //- get data of pagination
-  this.getPaginationData = function (pageNumber, callback) {
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
     NavigationService.apiCall('MExtra/search', {
       page: pageNumber
     }, function (data) {
@@ -68,15 +68,16 @@ myApp.service('masterExtraService', function ($http, NavigationService, $uibModa
     });
   }
   //- get details about pagination
-  this.getPaginationDetails = function(pageNumber, data, callback){
+  this.getPaginationDetails = function (pageNumber, data, callback) {
     var obj = {};
-    obj.pageStart = (pageNumber-1)*10+1;
+    obj.pageNumber = pageNumber;
+    obj.pageStart = (pageNumber - 1) * 10 + 1;
     obj.total = data.total;
-    if(obj.total <= pageNumber*10){
+    if (obj.total <= pageNumber * 10) {
       obj.pageEnd = obj.total;
     } else {
-      obj.pageEnd = pageNumber*10;
-    } 
+      obj.pageEnd = pageNumber * 10;
+    }
     obj.numberOfPages = Math.ceil((obj.total) / 10);
     obj.pagesArray = [];
     for (var i = 0; i < obj.numberOfPages; i++) {
@@ -84,5 +85,13 @@ myApp.service('masterExtraService', function ($http, NavigationService, $uibModa
     }
     callback(obj);
   }
-
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, searchKeyword, callback) {
+    NavigationService.apiCall('MExtra/search', {
+      keyword: searchKeyword,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
 });

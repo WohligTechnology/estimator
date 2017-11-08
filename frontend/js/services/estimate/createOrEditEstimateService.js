@@ -124,10 +124,32 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
     };
 
     var formData = {
-        assembly: {}
+        assembly: {},
+        customMaterial: [_.cloneDeep(customMaterial)],
     };
 
+    var customMaterial = {
+        basePlate: {
+            thickness: "",
+            freeIssue: "",
+            baseMetal: ""
+        },
+        hardFacingAlloys: [_.cloneDeep(hardFacingAlloy)],
+        mulFact: "",
+        codPerKg: "",
+        codPerMeterSquare: ""
+    };
 
+    var hardFacingAlloy = {
+        thickness: "",
+        alloy: "",
+        codPerKg: "",
+        codPerMeterSquare: ""
+    }
+
+    this.getCustomMaterialData = function (callback) {
+        callback(formData.customMaterial);
+    }
     this.getCurretEstimateObj = function (callback) {
         callback(formData.assembly);
     }
@@ -475,6 +497,20 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
         callback(custMaterialDataObj)
 
     }
+    // this.createCustomMaterial = function (customMaterialObj) {
+    //     formData.customMaterial.push(customMaterialObj);
+    //     console.log(formData.customMaterial..........',formData.customMaterial);
+        
+    // }
+    // this.createHardFacingAlloy = function (hardFacingAlloyObj) {
+    //     formData.customMaterial.hardFacingAlloys.push(hardFacingAlloyObj);
+    //     callback();
+    // }
+    // this.saveCurrentCustomMaterial = function () {
+    //     NavigationService.apiCall('/save', formData.customMaterial, function (data) {
+    //         callback(data.data);
+    //     });
+    // }
 
 
     this.getSubAssemblyIndex = function (subAssId) {

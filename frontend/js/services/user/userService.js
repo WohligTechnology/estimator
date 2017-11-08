@@ -40,10 +40,8 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
     });
   }
   //- get data of pagination
-  this.getPaginationData = function (pageNumber, callback) {
-    NavigationService.apiCall('User/search', {
-      page: pageNumber
-    }, function (data) {
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
+    NavigationService.apiCall('User/search', {page: pageNumber}, function (data) {
       callback(data.data);
     });
   }
@@ -58,6 +56,7 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   //- get details about pagination
   this.getPaginationDetails = function (pageNumber, data, callback) {
     var obj = {};
+    obj.pageNumber = pageNumber;
     obj.pageStart = (pageNumber - 1) * 10 + 1;
     obj.total = data.total;
     if (obj.total <= pageNumber * 10) {
@@ -73,7 +72,7 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
 
     callback(obj);
   }
-  //
+  //- get pagination data with search-keyword
   this.getPaginationDataWithKeyword = function (pageNumber, searchKeyword, callback) {
     NavigationService.apiCall('User/search', { keyword: searchKeyword, page: pageNumber }, function (data) {
       callback(data.data);

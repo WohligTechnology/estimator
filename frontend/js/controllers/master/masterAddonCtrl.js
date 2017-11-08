@@ -16,11 +16,7 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
     masterAddonService.getAddonData(function (data) {
       $scope.addonData = data.results;
       masterAddonService.getPaginationDetails(1, data, function (obj) {
-        $scope.total = obj.total;
-        $scope.pageStart = obj.pageStart;
-        $scope.pageEnd = obj.pageEnd;
-        $scope.numberOfPages = obj.numberOfPages;
-        $scope.pagesArray = obj.pagesArray;
+        $scope.obj = obj;
       });
     });
   }
@@ -94,23 +90,31 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
   }
 
   //- function for pagination of master addons' records
-  $scope.getPaginationData = function (page) {
-    masterAddonService.getPaginationData(page, function (data) {
-      $scope.addonData = data.results;
-      masterAddonService.getPaginationDetails(page, data, function (obj) {
-        $scope.total = obj.total;
-        $scope.pageStart = obj.pageStart;
-        $scope.pageEnd = obj.pageEnd;
-        $scope.numberOfPages = obj.numberOfPages;
-        $scope.pagesArray = obj.pagesArray;
+  $scope.getPaginationData = function (page, keyword) {
+    if (angular.isUndefined(keyword) || keyword == '') {
+      masterAddonService.getPaginationDatawithoutKeyword(page, function (data) {
+        $scope.addonData = data.results;
+        masterAddonService.getPaginationDetails(page, data, function (obj) {
+          $scope.obj = obj;
+        });
       });
-    });
+    } else {
+      masterAddonService.getPaginationDataWithKeyword(page, keyword, function (data) {
+        $scope.addonData = data.results;
+        masterAddonService.getPaginationDetails(page, data, function (obj) {
+          $scope.obj = obj;
+        });
+      });
+    }
   }
 
   //- function to search the text in table
   $scope.serachText = function (keyword) {
     masterAddonService.getSearchResult(keyword, function (data) {
-      $scope.addonData = data;
+      $scope.addonData = data.results;
+      masterAddonService.getPaginationDetails(1, data, function (obj) {
+        $scope.obj = obj;
+      });
     });
   }
 

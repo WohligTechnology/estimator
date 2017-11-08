@@ -20,13 +20,8 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryServ
 
       $scope.tableData = data.results;
       enquiryService.getPaginationDetails(1, data, function (obj) {
-        $scope.total = obj.total;
-        $scope.pageStart = obj.pageStart;
-        $scope.pageEnd = obj.pageEnd;
-        $scope.numberOfPages = obj.numberOfPages;
-        $scope.pagesArray = obj.pagesArray;
+        $scope.obj = obj;
       });
-
     });
   }
 
@@ -56,23 +51,31 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryServ
   }
 
   //-  function for pagination of enquiries' records
-  $scope.getPaginationData = function (page) {
-    enquiryService.getPaginationData(page, function (data) {
-      $scope.tableData = data;
-      enquiryService.getPaginationDetails(page, data, function (obj) {
-        $scope.total = obj.total;
-        $scope.pageStart = obj.pageStart;
-        $scope.pageEnd = obj.pageEnd;
-        $scope.numberOfPages = obj.numberOfPages;
-        $scope.pagesArray = obj.pagesArray;
+  $scope.getPaginationData = function (page, keyword) {
+    if (angular.isUndefined(keyword) || keyword == '') {
+      enquiryService.getPaginationDatawithoutKeyword(page, function (data) {
+        $scope.tableData = data.results;
+        enquiryService.getPaginationDetails(page, data, function (obj) {
+          $scope.obj = obj;
+        });
       });
-    });
+    } else {
+      enquiryService.getPaginationDataWithKeyword(page, keyword, function (data) {
+        $scope.tableData = data.results;
+        enquiryService.getPaginationDetails(page, data, function (obj) {
+          $scope.obj = obj;
+        });
+      });
+    }
   }
 
   //- function to search the text in table
   $scope.serachText = function (keyword) {
     enquiryService.getSearchResult(keyword, function (data) {
-      $scope.tableData = data;
+      $scope.tableData = data.results;
+      enquiryService.getPaginationDetails(1, data, function (obj) {
+        $scope.obj = obj;
+      });
     });
   }
 

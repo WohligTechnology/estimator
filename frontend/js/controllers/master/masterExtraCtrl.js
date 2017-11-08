@@ -7,7 +7,7 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
     $scope.$parent.isSidebarActive = true;
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
-    
+
 
 
     // *************************** default functions begin here  ********************** //
@@ -16,13 +16,10 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
     $scope.getMasterExtraData = function () {
         masterExtraService.getMasterExtraData(function (data) {
             $scope.extraData = data.results;
-            masterExtraService.getPaginationDetails(page, data, function (obj) {
-                $scope.total = obj.total;
-                $scope.pageStart = obj.pageStart;
-                $scope.pageEnd = obj.pageEnd;
-                $scope.numberOfPages = obj.numberOfPages;
-                $scope.pagesArray = obj.pagesArray;
-              });
+            masterExtraService.getPaginationDetails(1, data, function (obj) {
+                $scope.obj = obj;
+                $scope.page = 1;
+            });
         });
     }
 
@@ -85,23 +82,31 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
     }
 
     //- function for pagination of master extras' records
-    $scope.getPaginationData = function (page) {
-        masterExtraService.getPaginationData(page, function (data) {
-            $scope.extraData = data.results;
-            masterExtraService.getPaginationDetails(page, data, function (obj) {
-                $scope.total = obj.total;
-                $scope.pageStart = obj.pageStart;
-                $scope.pageEnd = obj.pageEnd;
-                $scope.numberOfPages = obj.numberOfPages;
-                $scope.pagesArray = obj.pagesArray;
-              });
-        });
+    $scope.getPaginationData = function (page, keyword) {
+        if (angular.isUndefined(keyword) || keyword == '') {
+            masterExtraService.getPaginationDatawithoutKeyword(page, function (data) {
+                $scope.extraData = data.results;
+                masterExtraService.getPaginationDetails(page, data, function (obj) {
+                    $scope.obj = obj;
+                });
+            });
+        } else {
+            masterExtraService.getPaginationDataWithKeyword(page, keyword, function (data) {
+                $scope.extraData = data.results;
+                masterExtraService.getPaginationDetails(page, data, function (obj) {
+                    $scope.obj = obj;
+                });
+            });
+        }
     }
 
     //- function to search the text in table
     $scope.serachText = function (keyword) {
         masterExtraService.getSearchResult(keyword, function (data) {
-            $scope.extraData = data;            
+            $scope.extraData = data.results;
+            masterExtraService.getPaginationDetails(1, data, function (obj) {
+                $scope.obj = obj;
+            });
         });
     }
 
