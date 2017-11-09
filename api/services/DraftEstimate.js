@@ -70,6 +70,9 @@ var model = {
                 callback(null, 'noDataFound');
             } else {
                 delete found._id;
+                delete found.createdAt;
+                delete found.updatedAt;
+                delete found.__v;
 
                 console.log(' @@@@@@@@@@@@@@@@@ found @@@@@@@@@@@@@@@@@@@', found);
 
@@ -110,8 +113,7 @@ var model = {
                     extras: [],
                     assemblyObj:found
                 };
-                console.log(' @@@@@@@@@@@@@@@@@ assemblyObj @@@@@@@@@@@@@@@@@@@', assemblyObj);
-
+           
                 Estimate.saveData(assemblyObj, function (err, savedAssembly) {
                     if (err) {
                         console.log('**** error at Estimate.saveData of DraftEstimate.js ****', err);
@@ -119,7 +121,6 @@ var model = {
                     } else if (_.isEmpty(savedAssembly)) {
                         callback(null, 'noDataFound');
                     } else {
-                        console.log(' ******************************************* inside success of Estimate.saveData ******************************************* ');
                         async.eachSeries(found.subAssemblies, function (subAss, callback) {
 
                             var subAssObj = {
@@ -143,8 +144,7 @@ var model = {
                                 } else if (_.isEmpty(savedSubAss)) {
                                     callback(null, 'noDataFound');
                                 } else {
-                                    console.log(' ******************************************* inside success of EstimateSubAssembly.saveData ******************************************* ');
-                                    subAssembliesArray.push(savedSubAss._id);
+                                     subAssembliesArray.push(savedSubAss._id);
                                     async.eachSeries(subAss.subAssemblyParts, function (part, callback) {
                                         var partObj = {
                                             partName: part.partName,
@@ -172,7 +172,6 @@ var model = {
                                             } else if (_.isEmpty(savedPart)) {
                                                 callback(null, 'noDataFound');
                                             } else {
-                                                console.log(' ******************************************* inside success of EstimatePart.saveData ******************************************* ');
                                                 partsArray.push(savedPart._id);
                                                 async.waterfall([
                                                     function (callback) {
@@ -181,11 +180,9 @@ var model = {
                                                             tempProObj.processingLevel = "part";
                                                             tempProObj.processingLevelId = savedPart._id;
                                                             // tempProObj.processingObj = proObj;
-                                                            console.log('**** inside part la processing of DraftEstimate.js & data is ****', proObj);
                                                             EstimateProcessing.saveData(tempProObj, function (err, savedPartProcess) {
-                                                                console.log(' ******************************************* inside success of  EstimateProcessing.saveData at part level ******************************************* ');
-                                                                if (err) {
-                                                                    console.log('**** error at partProcessing@@@@ of DraftEstimate.js ****', err);
+                                                               if (err) {
+                                                                    console.log('**** error at partProcessing of DraftEstimate.js ****', err);
                                                                 } else {
                                                                     partprocessingArray.push(savedPartProcess._id);
                                                                     callback();
@@ -207,7 +204,6 @@ var model = {
                                                             tempAddonObj.addonsLevelId = savedPart._id;
                                                             // tempAddonObj.addonObj = addonsObj;
                                                             EstimateAddons.saveData(tempAddonObj, function (err, savedPartAddon) {
-                                                                console.log(' ******************************************* inside success of  EstimateAddons.saveData at part level ******************************************* ');
                                                                 if (err) {
                                                                     console.log('**** error at partAddons of DraftEstimate.js ****', err);
                                                                 } else {
@@ -230,8 +226,7 @@ var model = {
                                                             tempExtraObj.extraLevelId = savedPart._id;
                                                             // tempExtraObj.extraObj = extrasObj;
                                                             EstimateExtras.saveData(tempExtraObj, function (err, savedPartExtra) {
-                                                                console.log(' ******************************************* inside success of  EstimateExtras.saveData at part level ******************************************* ');
-                                                                if (err) {
+                                                               if (err) {
                                                                     console.log('**** error at partExtras of DraftEstimate.js ****', err);
                                                                 } else {
                                                                     partExtrasArray.push(savedPartExtra._id);
@@ -283,7 +278,6 @@ var model = {
                                                         // tempProObj.processingObj = {};
 
                                                         EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
-                                                            console.log(' ******************************************* inside success of  EstimateProcessing.saveData at subAssembly level ******************************************* ');
                                                             if (err) {
                                                                 console.log('**** error at subAssProcessing of DraftEstimate.js ****', err);
                                                             } else {
@@ -307,7 +301,6 @@ var model = {
                                                         // tempAddonObj.addonObj = addonsObj;
                                                         // tempAddonObj.addonObj = {};
                                                         EstimateAddons.saveData(tempAddonObj, function (err, savedSubAssAddon) {
-                                                            console.log(' ******************************************* inside success of  EstimateAddons.saveData at subAssembly level ******************************************* ');
                                                             if (err) {
                                                                 console.log('**** error at subAssAddons of DraftEstimate.js ****', err);
                                                             } else {
@@ -331,7 +324,6 @@ var model = {
                                                         // tempExtraObj.extraObj = extrasObj;
                                                         // tempExtraObj.extraObj = {};
                                                         EstimateExtras.saveData(tempExtraObj, function (err, savedSubAssExtra) {
-                                                            console.log(' ******************************************* inside success of  EstimateExtra.saveData at subAssembly level ******************************************* ');
                                                             if (err) {
                                                                 console.log('**** error at subAssExtras of DraftEstimate.js ****', err);
                                                             } else {
@@ -386,8 +378,7 @@ var model = {
                                             // tempProObj.processingObj = proObj;
                                             // tempProObj.processingObj = {};
                                             EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
-                                                console.log(' ******************************************* inside success of  EstimateProcessing.saveData at assembly level ******************************************* ');
-                                                if (err) {
+                                               if (err) {
                                                     console.log('**** error at assProcessing of DraftEstimate.js ****', err);
                                                 } else {
                                                     assprocessingArray.push(savedSubAssProcess._id);
@@ -410,7 +401,6 @@ var model = {
                                             // tempAddonObj.addonObj = addonObj;
                                             // tempAddonObj.addonObj = {};
                                             EstimateAddons.saveData(tempAddonObj, function (err, savedSubAssAddon) {
-                                                console.log(' ******************************************* inside success of  EstimateAddon.saveData at assembly level ******************************************* ');
                                                 if (err) {
                                                     console.log('**** error at assAddons of DraftEstimate.js ****', err);
                                                 } else {
@@ -434,7 +424,6 @@ var model = {
                                             // tempExtraObj.extraObj = extrasObj;
                                             // tempExtraObj.extraObj = {};
                                             EstimateExtras.saveData(tempExtraObj, function (err, savedSubAssExtra) {
-                                                console.log(' ******************************************* inside success of  EstimateExtra.saveData at assembly level ******************************************* ');
                                                 if (err) {
                                                     console.log('**** error at assExtras of DraftEstimate.js ****', err);
                                                 } else {
