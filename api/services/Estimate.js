@@ -68,10 +68,7 @@ var schema = new Schema({
         ref: "EstimateExtras",
         index: true
     }],
-    assemblyObj: {
-        type: Object,
-        index: true
-    },
+    assemblyObj: {},
     estimateVersion: {
         type: String,
         index: true

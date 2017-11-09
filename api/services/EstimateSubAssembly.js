@@ -41,10 +41,7 @@ var schema = new Schema({
         ref: "EstimateExtras",
         index: true
     }],
-    subAssemblyObj: {
-        type: Object,
-        index: true
-    },
+    subAssemblyObj: {},
 });
 
 schema.plugin(deepPopulate, {});

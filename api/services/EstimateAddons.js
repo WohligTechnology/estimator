@@ -42,10 +42,7 @@ var schema = new Schema({
     totalCost: Number,
     remarks: String,
    
-    addonObj: {
-        type: Object,
-        index: true
-    },
+    addonObj: {}
 });
 
 schema.plugin(deepPopulate, {});

@@ -36,10 +36,7 @@ var schema = new Schema({
     totalCost: Number,
     remarks: String,
    
-    processingObj: {
-        type: Object,
-        index: true
-    },
+    processingObj: {},
 });
 
 schema.plugin(deepPopulate, {});
