@@ -413,11 +413,15 @@ var model = {
                 callback(null, found);
             }
         });
-    },
+    },  
 
 
     search: function (data, callback) {
-        var maxRow = Config.maxRow;
+        var maxRow = 10;
+        if(data.totalRecords){
+             maxRow = data.totalRecords;
+        }
+        
         var page = 1;
         if (data.page) {
             page = data.page;
@@ -453,7 +457,7 @@ var model = {
                         callback(null, found);
                     }
                 });
-    }
+    },
 
 };
 module.exports = _.assign(module.exports, exports, model);
