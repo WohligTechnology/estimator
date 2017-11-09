@@ -265,7 +265,10 @@ var model = {
     },
 
     search: function (data, callback) {
-        var maxRow = Config.maxRow;
+        var maxRow = 10;
+        if (data.totalRecords) {
+            maxRow = data.totalRecords;
+        }
         var page = 1;
         if (data.page) {
             page = data.page;
@@ -301,11 +304,35 @@ var model = {
                         callback(null, found);
                     }
                 });
-    }
+    },
 
-
-
-
+    getEstimateVersionData: function (data, callback) {
+        Enquiry.findOne({
+            _id: data._id
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                Estimate.find({
+                    enquiryId: found._id
+                }, {
+                    assemblyObj: 0
+                }).exec(function (err, found) {
+                    if (err) {
+                        console.log('**** error at function_name of Enquiry.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(found)) {
+                        callback(null, []);
+                    } else {
+                        callback(null, found);
+                    }
+                });
+            }
+        });
+    },
 };
 
 module.exports = _.assign(module.exports, exports, model);
