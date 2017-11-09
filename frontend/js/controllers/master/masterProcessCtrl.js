@@ -6,6 +6,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     $scope.showSaveBtn = true;                 //- to show/hide save & update button on pop-up according to operation
     $scope.showEditBtn = false;
     $scope.selectedProcessCat = {};
+    $scope.bulkProcesses = [];
 
 
     // *************************** default functions begin here  ********************** //

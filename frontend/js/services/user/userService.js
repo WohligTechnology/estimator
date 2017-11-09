@@ -1,5 +1,6 @@
 myApp.service('userService', function ($http, $uibModal, NavigationService) {
 
+  var bulkArray = [];
   //- get user view
   this.getUserData = function (callback) {
     NavigationService.boxCall('User/search', function (data) {
@@ -41,7 +42,28 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
   //- get data of pagination
   this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('User/search', {page: pageNumber}, function (data) {
+    NavigationService.apiCall('User/search', {
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('User/search', {
+      keyword: searchKeyword,
+      totalRecords: count,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get page data with show records
+  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
+    NavigationService.apiCall('User/search', {
+      totalRecords: numberOfRecords,
+      page: pageNumber
+    }, function (data) {
       callback(data.data);
     });
   }
@@ -54,28 +76,57 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
     });
   }
   //- get details about pagination
-  this.getPaginationDetails = function (pageNumber, data, callback) {
+  this.getPaginationDetails = function (pageNumber, count, data, callback) {
     var obj = {};
     obj.pageNumber = pageNumber;
-    obj.pageStart = (pageNumber - 1) * 10 + 1;
+    obj.pageStart = (pageNumber - 1) * count + 1;
     obj.total = data.total;
-    if (obj.total <= pageNumber * 10) {
+    if (obj.total <= pageNumber * count) {
       obj.pageEnd = obj.total;
     } else {
-      obj.pageEnd = pageNumber * 10;
+      obj.pageEnd = pageNumber * count;
     }
-    obj.numberOfPages = Math.ceil((obj.total) / 10);
+    obj.numberOfPages = Math.ceil((obj.total) / count);
     obj.pagesArray = [];
     for (var i = 0; i < obj.numberOfPages; i++) {
       obj.pagesArray[i] = i + 1;
     }
-
+    obj.count = data.options.count;
     callback(obj);
   }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, searchKeyword, callback) {
-    NavigationService.apiCall('User/search', { keyword: searchKeyword, page: pageNumber }, function (data) {
-      callback(data.data);
+  //- form an array of bulk Ids
+  this.selectBulkUsers = function (checkboxStatus, userId, callback) {
+    if (checkboxStatus == true) {
+      bulkArray.push(userId);
+    } else {
+      _.remove(bulkArray, function (record) {
+        return record == userId;
+      });
+    }
+    callback(bulkArray);
+  }
+  //- form an array of Ids of all users for deletion
+  this.selectAll = function(users, checkboxStatus, callback) {
+    bulkArray = [];
+    if (checkboxStatus == true) {
+      angular.forEach(users,  function (obj) {
+        var userId = obj._id;
+        bulkArray.push(userId);
+      });
+    } else {
+      angular.forEach(users,  function (obj) {
+        var userId = obj._id;
+        _.remove(bulkArray, function (record) {
+          return record == userId;
+        });
+      });
+    }
+    callback(bulkArray);
+  }
+  //- delete bulk users
+  this.deleteBulkUsers = function (users, callback) {
+    NavigationService.apiCall('User/delete', users, function (data) {
+      callback(data.data.results);
     });
   }
 

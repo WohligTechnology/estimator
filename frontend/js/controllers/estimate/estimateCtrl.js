@@ -1,5 +1,6 @@
 myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
   $scope.$parent.isSidebarActive = true;
+  $scope.bulkEstimates = [];
   //table data
   $scope.tableData = [{
       "id": "1",

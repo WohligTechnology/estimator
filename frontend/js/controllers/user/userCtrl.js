@@ -3,19 +3,19 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
-
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = true;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
+  $scope.bulkUsers = [];
+
 
   // *************************** default functions begin here  ********************** //
-
   //- function to get all users from database
   $scope.getUserData = function () {
     userService.getUserData(function (data) {
       $scope.userData = data.results;
-      userService.getPaginationDetails(1, data, function (obj) {
+      userService.getPaginationDetails(1, 10, data, function (obj) {
         $scope.obj = obj;
       });
     });
@@ -23,7 +23,6 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
 
 
   // *************************** functions to be triggered form view begin here ***** //
-
   //- modal to create new user 
   $scope.addOrEditUserModal = function (operation, user) {
     userService.getUserModalData(operation, user, function (data) {
@@ -70,44 +69,86 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
       $scope.getUserData();
     });
   }
-
   //- function for pagination of users' records
-  $scope.getPaginationData = function (page, keyword) {
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
-      userService.getPaginationDatawithoutKeyword(page, function (data) {
-        $scope.userData = data.results;
-        userService.getPaginationDetails(page, data, function (obj) {
-          $scope.obj = obj;
+      if (numberOfRecords != '10') {
+        userService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+          $scope.userData = data.results;
+          userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+            $scope.obj = obj;
+          });
         });
-      });
+      } else {
+        userService.getPaginationDatawithoutKeyword(page, function (data) {
+          $scope.userData = data.results;
+          userService.getPaginationDetails(page, 10, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      }
     } else {
-      userService.getPaginationDataWithKeyword(page, keyword, function (data) {
+      userService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
         $scope.userData = data.results;
-        userService.getPaginationDetails(page, data, function (obj) {
+        userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
         });
       });
     }
   }
-
   //- function to search the text in table
-  $scope.serachText = function (keyword) {
+  $scope.serachText = function (keyword, count) {
     userService.getSearchResult(keyword, function (data) {
       $scope.userData = data.results;
-      userService.getPaginationDetails(1, data, function (obj) {
+      userService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
       });
     });
   }
-
   //- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
-  };
+  }
 
+  //- modal to confirm bulk users deletion
+  $scope.deleteBulkUsersModal = function (userIdArray, getFunction) {
+    $scope.idsToDelete = userIdArray;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/deleteBulkModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- function to delete user
+  $scope.deleteBulkUsers = function (users) {
+    userService.deleteBulkUsers(users, function (data) {
+      $scope.operationStatus = "Records deleted successfully";
+      $scope.cancelModal();
+      $scope.getUserData();
+    });
+  }
+  //- function to get bulk users
+  $scope.selectBulkUsers = function (checkboxStatus, userId) {
+    userService.selectBulkUsers(checkboxStatus, userId, function (data) {
+      if (data.length >= 1) {
+        $scope.recordSelected = true;
+      } else {
+        $scope.recordSelected = false;
+      }
+      $scope.bulkUsers = data;
+    });
+  }
+  //- to select all records
+  $scope.selectAll = function (users, checkboxStatus) {
+    userService.selectAll(users, checkboxStatus, function (data) {
+      $scope.bulkUsers = data;
+    });
+  }
 
   // *************************** init all default functions begin here ************** //
-
   //- to initilize the default function 
   $scope.init = function () {
     $scope.getUserData();
