@@ -16,6 +16,10 @@
   box-shadow: 0px 0px rgba(44, 53, 66, 0.2) !important; 
 }
 
+.page-sidebar-menu.page-sidebar-menu-closed>li:hover>.sub-menu {
+  box-shadow: 0px 0px rgba(44, 53, 66, 0.2) !important;
+}
+
 
 /**********************************css given by kishori************************/
 
@@ -452,7 +456,6 @@ body {
             line-height: 1;
         }
       }
-    }
   }
   .btn[disabled] {
     box-shadow: inset 0px -2px 0px 0px #e6e6e6;
@@ -492,7 +495,7 @@ body {
     border-width: 1px 1px 0 0;
     transform: rotate(45deg);
   }
-}
+
 
 .i-caret-down {
   border-width: 3px;
