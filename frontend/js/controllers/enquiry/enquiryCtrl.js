@@ -2,12 +2,12 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryServ
 
 
   // *************************** default variables/tasks begin here ***************** //
-
   //- to show/hide sidebar of dashboard   
   $scope.$parent.isSidebarActive = true;
+  $scope.bulkEnquiries = [];
 
+  
   // *************************** default functions begin here  ********************** //
-
   //- function to get all enquiries data 
   $scope.getEnquiryData = function () {
     enquiryService.getEnquiryData(function (data, obj) {
@@ -19,7 +19,7 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryServ
       $scope.PreQuaCriteriaActive = obj.PreQuaCriteriaActive;
 
       $scope.tableData = data.results;
-      enquiryService.getPaginationDetails(1, data, function (obj) {
+      enquiryService.getPaginationDetails(1, 10, data, function (obj) {
         $scope.obj = obj;
       });
     });
@@ -27,7 +27,6 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryServ
 
 
   // *************************** functions to be triggered form view begin here ***** //      
-
   //- modal to confirm Enquiry deletion
   $scope.deleteEnquiryModal = function (enquiryId, getFunction) {
     $scope.idToDelete = enquiryId;
@@ -51,18 +50,27 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryServ
   }
 
   //-  function for pagination of enquiries' records
-  $scope.getPaginationData = function (page, keyword) {
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
-      enquiryService.getPaginationDatawithoutKeyword(page, function (data) {
-        $scope.tableData = data.results;
-        enquiryService.getPaginationDetails(page, data, function (obj) {
-          $scope.obj = obj;
+      if (numberOfRecords != '10') {
+        enquiryService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+          $scope.tableData = data.results;
+          enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+            $scope.obj = obj;
+          });
         });
-      });
+      } else {
+        enquiryService.getPaginationDatawithoutKeyword(page, function (data) {
+          $scope.tableData = data.results;
+          enquiryService.getPaginationDetails(page, 10, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      }
     } else {
-      enquiryService.getPaginationDataWithKeyword(page, keyword, function (data) {
+      enquiryService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
         $scope.tableData = data.results;
-        enquiryService.getPaginationDetails(page, data, function (obj) {
+        enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
         });
       });
@@ -70,10 +78,10 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryServ
   }
 
   //- function to search the text in table
-  $scope.serachText = function (keyword) {
+  $scope.serachText = function (keyword, count) {
     enquiryService.getSearchResult(keyword, function (data) {
       $scope.tableData = data.results;
-      enquiryService.getPaginationDetails(1, data, function (obj) {
+      enquiryService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
       });
     });
@@ -84,9 +92,46 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryServ
     $scope.modalInstance.dismiss();
   }
 
+  //- modal to confirm bulk enquiries deletion
+  $scope.deleteBulkEnquiriesModal = function (enquiryIdArray, getFunction) {
+    $scope.idsToDelete = enquiryIdArray;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/deleteBulkModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- function to delete enquiry
+  $scope.deleteBulkEnquiries = function (enquiries) {
+    enquiryService.deleteBulkEnquiries(enquiries, function (data) {
+      $scope.operationStatus = "Records deleted successfully";
+      $scope.cancelModal();
+      $scope.getEnquiryData();
+    });
+  }
+  //- function to get bulk enquiries
+  $scope.selectBulkEnquiries = function (checkboxStatus, enquiryId) {
+    enquiryService.selectBulkEnquiries(checkboxStatus, enquiryId, function (data) {
+      if (data.length >= 1) {
+        $scope.recordSelected = true;
+      } else {
+        $scope.recordSelected = false;
+      }
+      $scope.bulkEnquiries = data;
+    });
+  }
+  //- to select all records
+  $scope.selectAll = function (enquiries, checkboxStatus) {
+    enquiryService.selectAll(enquiries, checkboxStatus, function (data) {
+      $scope.bulkEnquiries = data;
+    });
+  }
+
 
   // *************************** init all default functions begin here ************** //
-
   //- to initilize the default function   
   $scope.init = function () {
     $scope.getEnquiryData();
