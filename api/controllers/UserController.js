@@ -210,9 +210,9 @@ var controller = {
             })
         }
     },
-    deleteUser: function (req, res) {
+    deleteMultipleUsers: function (req, res) {
         if (req.body) {
-            User.deleteUser(req.body, res.callback);
+            User.deleteMultipleUsers(req.body, res.callback);
         } else {
             res.json({
                 value: false,

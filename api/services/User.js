@@ -459,21 +459,20 @@ var model = {
                 });
     },
 
-    deleteUser: function (data, callback) {
-        var userData = this(data);
-        User.deleteMany({
-            userDataFinal
-            
-        }).exec(function (err, deletedData) {
-            // err will have the data given by mongoDB if there is some error & query is not executed successfully
-            // found will have the data given by mongoDB if query is executed successfully
+    deleteMultipleUsers: function (data, callback) {
+
+        User.remove({
+            _id:{
+                $in:data.idsArray
+            }
+        }).exec(function (err, found) {
             if (err) {
-                console.log('**** error at function_name of User.js ****', err);
+                console.log('**** error at deleteMultipleUsers of User.js ****', err);
                 callback(err, null);
-            } else if (_.isEmpty(deletedData)) {
-                callback(null, 'noDataFound');
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
             } else {
-                callback(null, deletedData);
+                callback(null, found);
             }
         });
     },

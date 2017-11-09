@@ -38,7 +38,7 @@ var model = {
         if (data.totalRecords) {
             maxRow = data.totalRecords;
         }
-        
+
         var page = 1;
         if (data.page) {
             page = data.page;
@@ -74,6 +74,22 @@ var model = {
                         callback(null, found);
                     }
                 });
-    }
+    },
+    deleteMultipleCustomers: function (data, callback) {
+        Customer.remove({
+            _id: {
+                $in: data.idsArray
+            }
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Customer.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);
