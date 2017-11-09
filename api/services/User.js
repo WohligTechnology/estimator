@@ -413,15 +413,15 @@ var model = {
                 callback(null, found);
             }
         });
-    },  
+    },
 
 
     search: function (data, callback) {
         var maxRow = 10;
-        if(data.totalRecords){
-             maxRow = data.totalRecords;
+        if (data.totalRecords) {
+            maxRow = data.totalRecords;
         }
-        
+
         var page = 1;
         if (data.page) {
             page = data.page;
@@ -431,7 +431,7 @@ var model = {
             field: data.field,
             filters: {
                 keyword: {
-                    fields: ['email', 'name','mobile'],
+                    fields: ['email', 'name', 'mobile'],
                     term: data.keyword
                 }
             },
@@ -457,6 +457,25 @@ var model = {
                         callback(null, found);
                     }
                 });
+    },
+
+    deleteUser: function (data, callback) {
+        var userData = this(data);
+        User.deleteMany({
+            userDataFinal
+            
+        }).exec(function (err, deletedData) {
+            // err will have the data given by mongoDB if there is some error & query is not executed successfully
+            // found will have the data given by mongoDB if query is executed successfully
+            if (err) {
+                console.log('**** error at function_name of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(deletedData)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, deletedData);
+            }
+        });
     },
 
 };
