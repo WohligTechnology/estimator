@@ -1,21 +1,21 @@
 myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAddonService) {
 
-  // *************************** default variables/tasks begin here ***************** //
 
+  // *************************** default variables/tasks begin here ***************** //
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = true;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
   $scope.mMatSubCatData = [];
+  $scope.bulkAddons = [];
 
 
   // *************************** default functions begin here  ********************** //
-
   //- function to get all addons data
   $scope.getAddonData = function () {
     masterAddonService.getAddonData(function (data) {
       $scope.addonData = data.results;
-      masterAddonService.getPaginationDetails(1, data, function (obj) {
+      masterAddonService.getPaginationDetails(1, 10, data, function (obj) {
         $scope.obj = obj;
       });
     });
@@ -23,7 +23,6 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
 
 
   // *************************** functions to be triggered form view begin here ***** //
-
   //- modal to create new addon  
   $scope.addOrEditAddonTypeModal = function (operation, addonType) {
 
@@ -90,18 +89,27 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
   }
 
   //- function for pagination of master addons' records
-  $scope.getPaginationData = function (page, keyword) {
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
-      masterAddonService.getPaginationDatawithoutKeyword(page, function (data) {
-        $scope.addonData = data.results;
-        masterAddonService.getPaginationDetails(page, data, function (obj) {
-          $scope.obj = obj;
+      if (numberOfRecords != '10') {
+        masterAddonService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+          $scope.addonData = data.results;
+          masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+            $scope.obj = obj;
+          });
         });
-      });
+      } else {
+        masterAddonService.getPaginationDatawithoutKeyword(page, function (data) {
+          $scope.addonData = data.results;
+          masterAddonService.getPaginationDetails(page, 10, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      }
     } else {
-      masterAddonService.getPaginationDataWithKeyword(page, keyword, function (data) {
+      masterAddonService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
         $scope.addonData = data.results;
-        masterAddonService.getPaginationDetails(page, data, function (obj) {
+        masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
         });
       });
@@ -109,10 +117,10 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
   }
 
   //- function to search the text in table
-  $scope.serachText = function (keyword) {
+  $scope.serachText = function (keyword, count) {
     masterAddonService.getSearchResult(keyword, function (data) {
       $scope.addonData = data.results;
-      masterAddonService.getPaginationDetails(1, data, function (obj) {
+      masterAddonService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
       });
     });
@@ -121,11 +129,48 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
   //- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
-  };
+  }
+
+  //- modal to confirm bulk addons deletion
+  $scope.deleteBulkAddonsModal = function (addonIdArray, getFunction) {
+    $scope.idsToDelete = addonIdArray;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/deleteBulkModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- function to delete addon
+  $scope.deleteBulkAddons = function (addons) {
+    masterAddonService.deleteBulkAddons(addons, function (data) {
+      $scope.operationStatus = "Records deleted successfully";
+      $scope.cancelModal();
+      $scope.getAddonData();
+    });
+  }
+  //- function to get bulk addons
+  $scope.selectBulkAddons = function (checkboxStatus, addonId) {
+    masterAddonService.selectBulkAddons(checkboxStatus, addonId, function (data) {
+      if (data.length >= 1) {
+        $scope.recordSelected = true;
+      } else {
+        $scope.recordSelected = false;
+      }
+      $scope.bulkAddons = data;
+    });
+  }
+  //- to select all records
+  $scope.selectAll = function (addons, checkboxStatus) {
+    masterAddonService.selectAll(addons, checkboxStatus, function (data) {
+      $scope.bulkAddons = data;
+    });
+  }
 
 
   // *************************** init all default functions begin here ************** //
-
   //- to initilize the default function 
   $scope.init = function () {
     $scope.getAddonData();

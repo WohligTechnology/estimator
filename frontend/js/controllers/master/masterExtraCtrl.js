@@ -2,21 +2,19 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
 
 
     // *************************** default variables/tasks begin here ***************** //
-
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = true;
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
-
+    $scope.bulkExtras = [];
 
 
     // *************************** default functions begin here  ********************** //
-
     //- function to get all extras data
     $scope.getMasterExtraData = function () {
         masterExtraService.getMasterExtraData(function (data) {
             $scope.extraData = data.results;
-            masterExtraService.getPaginationDetails(1, data, function (obj) {
+            masterExtraService.getPaginationDetails(1, 10, data, function (obj) {
                 $scope.obj = obj;
                 $scope.page = 1;
             });
@@ -25,7 +23,6 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
 
 
     // *************************** functions to be triggered form view begin here ***** // 
-
     //- modal to create new extra 
     $scope.addOrEditExtraModal = function (operation, extra) {
 
@@ -82,29 +79,38 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
     }
 
     //- function for pagination of master extras' records
-    $scope.getPaginationData = function (page, keyword) {
+    $scope.getPaginationData = function (page, numberOfRecords, keyword) {
         if (angular.isUndefined(keyword) || keyword == '') {
+          if (numberOfRecords != '10') {
+            masterExtraService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+              $scope.extraData = data.results;
+              masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+                $scope.obj = obj;
+              });
+            });
+          } else {
             masterExtraService.getPaginationDatawithoutKeyword(page, function (data) {
-                $scope.extraData = data.results;
-                masterExtraService.getPaginationDetails(page, data, function (obj) {
-                    $scope.obj = obj;
-                });
+              $scope.extraData = data.results;
+              masterExtraService.getPaginationDetails(page, 10, data, function (obj) {
+                $scope.obj = obj;
+              });
             });
+          }
         } else {
-            masterExtraService.getPaginationDataWithKeyword(page, keyword, function (data) {
-                $scope.extraData = data.results;
-                masterExtraService.getPaginationDetails(page, data, function (obj) {
-                    $scope.obj = obj;
-                });
+            masterExtraService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+            $scope.extraData = data.results;
+            masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+              $scope.obj = obj;
             });
+          });
         }
-    }
+      }
 
     //- function to search the text in table
-    $scope.serachText = function (keyword) {
+    $scope.serachText = function (keyword, count) {
         masterExtraService.getSearchResult(keyword, function (data) {
             $scope.extraData = data.results;
-            masterExtraService.getPaginationDetails(1, data, function (obj) {
+            masterExtraService.getPaginationDetails(1, count, data, function (obj) {
                 $scope.obj = obj;
             });
         });
@@ -113,14 +119,50 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterEx
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
-    };
+    }
+    
+      //- modal to confirm bulk extras deletion
+      $scope.deleteBulkExtrasModal = function (addonIdArray, getFunction) {
+        $scope.idsToDelete = addonIdArray;
+        $scope.functionToCall = getFunction;
+    
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/deleteBulkModal.html',
+          scope: $scope,
+          size: 'md'
+        });
+      }
+      //- function to delete extra
+      $scope.deleteBulkExtras = function (extras) {
+        masterExtraService.deleteBulkExtras(extras, function (data) {
+          $scope.operationStatus = "Records deleted successfully";
+          $scope.cancelModal();
+          $scope.getMasterExtraData();
+        });
+      }
+      //- function to get bulk extras
+      $scope.selectBulkExtras = function (checkboxStatus, addonId) {
+        masterExtraService.selectBulkExtras(checkboxStatus, addonId, function (data) {
+          if (data.length >= 1) {
+            $scope.recordSelected = true;
+          } else {
+            $scope.recordSelected = false;
+          }
+          $scope.bulkExtras = data;
+        });
+      }
+      //- to select all records
+      $scope.selectAll = function (extras, checkboxStatus) {
+        masterExtraService.selectAll(extras, checkboxStatus, function (data) {
+          $scope.bulkExtras = data;
+        });
+      }
 
 
     // *************************** init all default functions begin here ************** //
-
     //- to initilize the default function 
     $scope.init = function () {
-
         $scope.getMasterExtraData();
     }
     $scope.init();

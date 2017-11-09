@@ -16,6 +16,11 @@
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
+                        <div class="btn-group pull-right">
+                            <button id="sample_editable_2_new" ng-hide="bulkUsers.length == 0" class="btn red" ng-click="deleteBulkUsersModal(bulkUsers, 'deleteBulkUsers')">
+                                <i class="fa fa-trash-o"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="col-md-1">
                         <div class="btn-group pull-right">
@@ -49,17 +54,17 @@
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a> 5</a>
+                                        <a ng-click="getPaginationData(1, 5, keyword)"> 5 </a>
                                     </li>
                                     <li>
-                                        <a> 10 </a>
+                                        <a ng-click="getPaginationData(1, 10, keyword)"> 10 </a>
                                     </li>
                                     <li>
-                                        <a> 15 </a>
+                                        <a ng-click="getPaginationData(1, 15, keyword)"> 15 </a>
                                     </li>
-                                    <li class="divider"> </li>
+                                    <li class="divider"></li>
                                     <li>
-                                        <a> 50 </a>
+                                        <a ng-click="getPaginationData(1, 50, keyword)"> 50 </a>
                                     </li>
                                 </ul>
                             </div>
@@ -69,7 +74,7 @@
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
                                         <i class="icon-magnifier"></i>
-                                        <input type="text" class="form-control form-control-solid" ng-model="keyword" ng-change="serachText(keyword)"
+                                        <input type="text" class="form-control form-control-solid" ng-model="keyword" ng-change="serachText(keyword, obj.count)"
                                             placeholder="search...">
                                     </div>
                                 </div>
@@ -82,7 +87,7 @@
                         <tr>
                             <th>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="selectAll" ng-click="checkAll()"
+                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="checkAll" ng-change="selectAll(userData, checkAll)"
                                     />
                                     <span></span>
                                 </label>
@@ -99,7 +104,8 @@
                         <tr ng-repeat="user in userData | orderBy : 'name'">
                             <td>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                    <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
+                                        ng-change="selectBulkUsers(checkboxStatus,user._id)" />
                                     <span></span>
                                 </label>
                             </td>
@@ -109,9 +115,6 @@
                             <td class="center"> {{user.dob}} </td>
                             <td>{{user.mobile }}</td>
                             <td>
-                                <span class="label label-sm label-info" ng-click="viewUser()">
-                                    <i class="fa fa-eye"></i>
-                                </span>
                                 <span class="label label-sm label-success" ng-click="addOrEditUserModal('update',user)">
                                     <i class="fa fa-pencil"></i>
                                 </span>
@@ -122,7 +125,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="row" ng-if="obj.total>10">
+                <div class="row" ng-if="obj.total>obj.count">
                     <div class="col-md-6">
                         <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing {{obj.pageStart}} to {{obj.pageEnd}} of {{obj.total}} records</div>
                     </div>
@@ -135,11 +138,11 @@
                                     </li>
                                     <li class="btn-group__item">
                                         <div class="btn btn--action">
-                                            <span ng-click="getPaginationData(page)">{{obj.pageNumber}}</span>
+                                            <span>{{obj.pageNumber}}</span>
                                             <span>of</span>
                                             <span>{{obj.numberOfPages}}</span>
                                             <i class="i-caret-down"></i>
-                                            <select class="select-overlay" ng-options="page for page in obj.pagesArray" ng-model="page" ng-change="getPaginationData(page, keyword)">
+                                            <select class="select-overlay" ng-options="page for page in obj.pagesArray" ng-model="obj.pageNumber" ng-change="getPaginationData(obj.pageNumber, obj.count, keyword)">
                                                 <option value="page">{{page}}</option>
                                             </select>
                                         </div>

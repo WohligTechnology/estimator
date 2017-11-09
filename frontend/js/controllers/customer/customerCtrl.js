@@ -1,19 +1,20 @@
 myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerService) {
 
+  
   // *************************** default variables/tasks begin here ***************** //
-
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = true;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
+  $scope.bulkCustomers = [];
+
 
   // *************************** default functions begin here  ********************** //
-
   //- function to get all customers data
   $scope.getCustomerData = function () {
     customerService.getCustomerData(function (data) {
       $scope.customerData = data.results;
-      customerService.getPaginationDetails(1, data, function (obj) {
+      customerService.getPaginationDetails(1, 10, data, function (obj) {
         $scope.obj = obj;
       });
     });
@@ -21,7 +22,6 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
 
 
   // *************************** functions to be triggered form view begin here ***** // 
-
   //- modal to create new customer 
   $scope.addOrEditCustomerModal = function (operation, customer) {
     customerService.getCustomerModalData(operation, customer, function (data) {
@@ -70,18 +70,27 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
   }
 
   //- function for pagination of cusomers' records
-  $scope.getPaginationData = function (page, keyword) {
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
-      customerService.getPaginationDatawithoutKeyword(page, function (data) {
-        $scope.customerData = data.results;
-        customerService.getPaginationDetails(page, data, function (obj) {
-          $scope.obj = obj;
+      if (numberOfRecords != '10') {
+        customerService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+          $scope.customerData = data.results;
+          customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+            $scope.obj = obj;
+          });
         });
-      });
+      } else {
+        customerService.getPaginationDatawithoutKeyword(page, function (data) {
+          $scope.customerData = data.results;
+          customerService.getPaginationDetails(page, 10, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      }
     } else {
-      customerService.getPaginationDataWithKeyword(page, keyword, function (data) {
+      customerService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
         $scope.customerData = data.results;
-        customerService.getPaginationDetails(page, data, function (obj) {
+        customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
         });
       });
@@ -89,10 +98,10 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
   }
 
   //- function to search the text in table
-  $scope.serachText = function (keyword) {
+  $scope.serachText = function (keyword, count) {
     customerService.getSearchResult(keyword, function (data) {
       $scope.customerData = data.results;
-      customerService.getPaginationDetails(1, data, function (obj) {
+      customerService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
       });
     });
@@ -101,11 +110,48 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
   //- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
-  };
+  }
+
+  //- modal to confirm bulk customers deletion
+  $scope.deleteBulkCustomersModal = function (customerIdArray, getFunction) {
+    $scope.idsToDelete = customerIdArray;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/deleteBulkModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- function to delete customer
+  $scope.deleteBulkCustomers = function (customers) {
+    customerService.deleteBulkCustomers(customers, function (data) {
+      $scope.operationStatus = "Records deleted successfully";
+      $scope.cancelModal();
+      $scope.getCustomerData();
+    });
+  }
+  //- function to get bulk customers
+  $scope.selectBulkCustomers = function (checkboxStatus, customerId) {
+    customerService.selectBulkCustomers(checkboxStatus, customerId, function (data) {
+      if (data.length >= 1) {
+        $scope.recordSelected = true;
+      } else {
+        $scope.recordSelected = false;
+      }
+      $scope.bulkCustomers = data;
+    });
+  }
+  //- to select all records
+  $scope.selectAll = function (customers, checkboxStatus) {
+    customerService.selectAll(customers, checkboxStatus, function (data) {
+      $scope.bulkCustomers = data;
+    });
+  }
 
 
   // *************************** init all default functions begin here ************** //
-
   //- to initilize the default function 
   $scope.init = function () {
     // to get customer Data

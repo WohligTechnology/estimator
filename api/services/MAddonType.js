@@ -132,6 +132,22 @@ var model = {
                     }
                 });
     },
+    deleteMultipleAddonsType: function (data, callback) {
+        MAddonType.remove({
+            _id: {
+                $in: data.idsArray
+            }
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at deleteMultipleAddonsType of MAddonType.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 
 };
 module.exports = _.assign(module.exports, exports, model);
