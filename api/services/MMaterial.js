@@ -98,8 +98,6 @@ var model = {
                 });
     },
 
-    // what this function will do ?
-    // req data --> ?
     getAllMaterials: function (data, callback) {
         MMaterial.find().exec(function (err, found) {
             if (err) {
@@ -111,6 +109,11 @@ var model = {
                 callback(null, found);
             }
         });
+    },
+    // what this function will do ?
+    // req data --> ?
+    materialAddEdit: function (data, callback) {
+    
     },
 
 

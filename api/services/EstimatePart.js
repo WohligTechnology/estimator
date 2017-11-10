@@ -62,7 +62,7 @@ module.exports = mongoose.model('EstimatePart', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
-    importPart: function (data, callback) {
+    importEstimatePart: function (data, callback) {
         EstimatePart.findOne({
                 partNumber: data.partNumber
             }).deepPopulate('processing addons extras')
@@ -151,6 +151,78 @@ var model = {
             }
         });
     },
+    importPart: function (data, callback) {
+        EstimatePart.findOne({
+            partNumber: data.partNumber
+        }).select('partObj').lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of EstimatePart.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                var lastPartNumber = data.lastPartNumber;
+                found.partObj.partNumber = lastPartNumber;
+
+                var partProcessIndex = 1;
+                var partAddonIndex = 1;
+                var partExtraIndex = 1;
+                async.waterfall([
+                    function (callback) {
+                        async.eachSeries(found.partObj.processing, function (partPro, callback) {
+                            partPro.processingNumber = lastPartNumber + 'PR' + partProcessIndex;
+                            partProcessIndex++;
+                            callback();
+
+                        }, function (err) {
+                            if (err) {
+                                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                            } else {
+                                callback();
+                            }
+                        });
+                    },
+                    function (callback) {
+                        async.eachSeries(found.partObj.addons, function (subAssAdd, callback) {
+                            subAssAdd.addonNumber = lastPartNumber + 'AD' + partAddonIndex;
+                            partAddonIndex++;
+                            callback();
+
+                        }, function (err) {
+                            if (err) {
+                                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                            } else {
+                                callback();
+                            }
+                        });
+                    },
+                    function (callback) {
+                        async.eachSeries(found.partObj.extras, function (subAssExt, callback) {
+                            subAssExt.extraNumber = lastPartNumber + 'EX' + partExtraIndex;
+                            partExtraIndex++;
+                            callback();
+
+                        }, function (err) {
+                            if (err) {
+                                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                            } else {
+                                callback();
+                            }
+                        });
+                    },
+                ], function () {
+                    if (err) {
+                        console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
+                    } else {
+                        callback(null, found);
+                    }
+                });
+
+            }
+
+        });
+    },
+
 
 };
 module.exports = _.assign(module.exports, exports, model);

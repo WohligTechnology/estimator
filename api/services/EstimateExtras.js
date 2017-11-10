@@ -42,6 +42,8 @@ var model = {
             } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
+                var latestExtraNumber = data.latestExtraNumber;
+                found.extraNumber = latestExtraNumber;
                 Estimate.removeUnwantedField(found, function (finalData) {
                     callback(null, finalData);
 

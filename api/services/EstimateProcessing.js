@@ -35,7 +35,7 @@ var schema = new Schema({
     },
     totalCost: Number,
     remarks: String,
-   
+
     processingObj: {},
 });
 
@@ -56,6 +56,8 @@ var model = {
             } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
+                var latestProcessingNumber = data.latestProcessingNumber;
+                found.processingNumber = latestProcessingNumber;
                 Estimate.removeUnwantedField(found, function (finalData) {
                     console.log('**** inside function_name of EstimateProcessing.js ****');
                     callback(null, finalData);

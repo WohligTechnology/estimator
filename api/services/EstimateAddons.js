@@ -41,7 +41,7 @@ var schema = new Schema({
     },
     totalCost: Number,
     remarks: String,
-   
+
     addonObj: {}
 });
 
@@ -60,8 +60,10 @@ var model = {
                 console.log('**** error at importAddon of EstimateAddons.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
-                callback(null, 'noDataFound');
+                callback(null, []);
             } else {
+                var latestAddonNumber = data.latestAddonNumber;
+                found.addonNumber = latestAddonNumber;
                 Estimate.removeUnwantedField(found, function (finalData) {
                     callback(null, finalData);
                 });
