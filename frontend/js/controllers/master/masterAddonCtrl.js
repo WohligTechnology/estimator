@@ -1,4 +1,4 @@
-myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAddonService) {
+myApp.controller('masterAddonCtrl', function ($scope, $http, $timeout, $uibModal, masterAddonService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -8,6 +8,7 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
   $scope.showEditBtn = false;
   $scope.mMatSubCatData = [];
   $scope.bulkAddons = [];
+  $scope.operationStatus = '';
 
 
   // *************************** default functions begin here  ********************** //
@@ -82,7 +83,10 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
   //- function for addon deletion
   $scope.deleteAddonType = function (addonId) {
     masterAddonService.deleteAddonType(addonId, function (data) {
-      $scope.operationStatus = "Record deleted successfully";
+      $scope.operationStatus = "***   Record deleted successfully   ***";
+      $timeout(function () {
+        $scope.operationStatus = "";
+      }, 3000);
       $scope.getAddonData();
       $scope.cancelModal();
     });
@@ -145,10 +149,15 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAd
   }
   //- function to delete addon
   $scope.deleteBulkAddons = function (addons) {
-    masterAddonService.deleteBulkAddons(addons, function (data) {
-      $scope.operationStatus = "Records deleted successfully";
+    masterAddonService.deleteBulkAddons(addons, function () {
       $scope.cancelModal();
       $scope.getAddonData();
+      $scope.bulkAddons = [];
+      $scope.operationStatus = "***   Record deleted successfully   ***";
+
+      $timeout(function () {
+        $scope.operationStatus = "";
+      }, 3000);
     });
   }
   //- function to get bulk addons

@@ -1,4 +1,4 @@
-myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
+myApp.controller('userCtrl', function ($scope, $http, $timeout, $uibModal, userService) {
 
 
 
@@ -8,6 +8,7 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
   $scope.bulkUsers = [];
+  $scope.operationStatus = '';
 
 
   // *************************** default functions begin here  ********************** //
@@ -29,6 +30,7 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
       $scope.formData = data.user;
       $scope.showSaveBtn = data.saveBtn;
       $scope.showEditBtn = data.editBtn;
+      $scope.operation = operation;
 
       $scope.modalInstance = $uibModal.open({
         animation: true,
@@ -40,12 +42,19 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
     });
   }
   //- function to  create new user
-  $scope.addOrEditUser = function (userData) {
-    userService.addOrEditUser(userData, function (data) {
-      $scope.operationStatus = "Record added successfully";
-      debugger;
+  $scope.addOrEditUser = function (operation, userData) {
+    userService.addOrEditUser(userData, function () {
       $scope.getUserData();
       $scope.cancelModal();
+      if(operation == 'save'){
+        $scope.operationStatus = "Record added successfully";
+      } else {
+        $scope.operationStatus = "Record updated successfully";
+      }
+      $timeout(function () {
+        $scope.operationStatus = "";
+      }, 3000);
+
     });
   }
 
@@ -64,9 +73,12 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
   //- function to delete user
   $scope.deleteUser = function (userId) {
     userService.deleteUser(userId, function (data) {
-      $scope.operationStatus = "Record deleted successfully";
       $scope.cancelModal();
       $scope.getUserData();
+      $scope.operationStatus = "***   Record deleted successfully   ***";
+      $timeout(function () {
+        $scope.operationStatus = "";        
+      }, 3000);
     });
   }
   //- function for pagination of users' records
@@ -124,10 +136,15 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
   }
   //- function to delete user
   $scope.deleteBulkUsers = function (users) {
-    userService.deleteBulkUsers(users, function (data) {
-      $scope.operationStatus = "Records deleted successfully";
+    userService.deleteBulkUsers(users, function () {
+      $scope.getUserData();      
       $scope.cancelModal();
-      $scope.getUserData();
+      $scope.bulkUsers = [];
+      $scope.operationStatus = "***   Records deleted successfully   ***";      
+    
+      $timeout(function () {
+        $scope.operationStatus = "";        
+      }, 3000);
     });
   }
   //- function to get bulk users

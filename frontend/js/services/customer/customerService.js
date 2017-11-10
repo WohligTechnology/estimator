@@ -126,8 +126,8 @@ myApp.service('customerService', function ($http, NavigationService, $uibModal) 
   }
   //- delete bulk customers
   this.deleteBulkCustomers = function (customers, callback) {
-    NavigationService.apiCall('Customer/delete', customers, function (data) {
-      callback(data.data.results);
+    NavigationService.apiCall('Customer/deleteMultipleCustomers', {idsArray: customers}, function (data) {
+      callback();
     });
   }
 

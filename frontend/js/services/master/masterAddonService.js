@@ -132,8 +132,8 @@ myApp.service('masterAddonService', function ($http, NavigationService) {
   }
   //- delete bulk addons
   this.deleteBulkAddons = function (addons, callback) {
-    NavigationService.apiCall('MAddonType/delete', addons, function (data) {
-      callback(data.data.results);
+    NavigationService.apiCall('MAddonType/deleteMultipleAddonsType', {idsArray: addons}, function (data) {
+      callback();
     });
   }
 });

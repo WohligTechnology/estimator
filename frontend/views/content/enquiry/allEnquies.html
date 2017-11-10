@@ -45,7 +45,7 @@
             <div class="portlet-body">
                 <div class="table-toolbar">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
@@ -69,7 +69,14 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="btn-group pull-left">
+                                <h4>
+                                    <span class="label label-info" ng-if="operationStatus != ''">{{operationStatus}}</span>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="inputs search pull-right">
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
@@ -87,7 +94,7 @@
                         <tr>
                             <th>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="checkAll" ng-change="selectAll(enquiryData, checkAll)"
+                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="tableData.length <= 0" ng-model="checkAll" ng-change="selectAll(tableData, checkAll)"
                                     />
                                     <span></span>
                                 </label>
@@ -110,6 +117,7 @@
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                     <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
                                         ng-change="selectBulkEnquiries(checkboxStatus, t._id)" />
+                                    <span></span>
                                 </label>
                             </td>
                             <td>{{t._id}} </td>

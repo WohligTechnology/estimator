@@ -26,9 +26,7 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   //- add or edit user
   this.addOrEditUser = function (userData, callback) {
     NavigationService.apiCall('User/createUser', userData, function (data) {
-      var user = data.data.results[0];
-      user.dob = new Date(user.dob);
-      callback(user);
+      callback();
     });
   }
   //- delete user
@@ -125,8 +123,8 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
   //- delete bulk users
   this.deleteBulkUsers = function (users, callback) {
-    NavigationService.apiCall('User/delete', users, function (data) {
-      callback(data.data.results);
+    NavigationService.apiCall('User/deleteMultipleUsers', {idsArray: users}, function (data) {
+      callback();
     });
   }
 

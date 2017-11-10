@@ -12,13 +12,13 @@
                     </div>
                     <div class="col-md-3">
                         <select class="bs-select form-control input-small pull-right" data-style="btn-info">
-                             <option>Show Records</option>
-                              <option>2</option>
-                              <option>5</option>
-                              <option>15</option>
-                               <option>20</option>
-                               <option>25</option>
-                         </select>
+                            <option>Show Records</option>
+                            <option>2</option>
+                            <option>5</option>
+                            <option>15</option>
+                            <option>20</option>
+                            <option>25</option>
+                        </select>
                     </div>
                     <div class="col-md-3">
                         <div class="inputs search pull-right">
@@ -37,7 +37,9 @@
                     </div>
                     <div class="col-md-1">
                         <div class="btn-group pull-right">
-                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i></button>
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                <i class="fa fa-angle-down"></i>
+                            </button>
                             <ul class="dropdown-menu pull-right">
                                 <li>
                                     <a href="javascript:;"> Save as PDF </a>
@@ -70,8 +72,11 @@
                         <table class="table table-bordered table-hover scroll-x">
                             <thead>
                                 <tr>
-                                    <th rowspan="2"> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                       <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label>
+                                    <th rowspan="2">
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                            <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                            <span></span>
+                                        </label>
                                     </th>
                                     <th rowspan="2" class="align-top"> Id </th>
                                     <th rowspan="2" class="align-top"> sub Assembly name</th>
@@ -93,8 +98,12 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="p in estimteData.subAssemblies | filter : search">
-                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
+                                    <td>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                            <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                            <span></span>
+                                        </label>
+                                    </td>
                                     <td> 1 </td>
                                     <td> {{p.subAssemblyName}} </td>
                                     <td>5 </td>
@@ -107,53 +116,14 @@
                                     <td> Approved</td>
                                     <td> Approved </td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" ng-click="addOrEditSubAssemblyModal('update', p)"><i class="fa fa-pencil"></i></span>
-                                        <span class="label label-sm label-danger" ng-click="deleteSubAssemblyModal(p.subAssemblyNumber,'deleteSubAssembly')"><i class="fa fa-trash-o"></i></span>
+                                        <span class="label label-sm label-success" ng-click="addOrEditSubAssemblyModal('update', p)">
+                                            <i class="fa fa-pencil"></i>
+                                        </span>
+                                        <span class="label label-sm label-danger" ng-click="deleteSubAssemblyModal(p.subAssemblyNumber,'deleteSubAssembly')">
+                                            <i class="fa fa-trash-o"></i>
+                                        </span>
                                     </td>
                                 </tr>
-                                <!-- <tr>
-                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
-                                    <td> 1 </td>
-                                    <td> Mark </td>
-                                    <td>5 </td>
-                                    <td>24 </td>
-                                    <td>400 </td>
-                                    <td>500 </td>
-                                    <td> 600 </td>
-                                    <td> 900</td>
-                                    <td> 300</td>
-                                    <td> Approved</td>
-                                    <td> Approved </td>
-                                    <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                           <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
-                                    <td> 1 </td>
-                                    <td> Mark </td>
-                                    <td>5 </td>
-                                    <td>24 </td>
-                                    <td>400 </td>
-                                    <td>500 </td>
-                                    <td> 600 </td>
-                                    <td> 900</td>
-                                    <td> 300</td>
-                                    <td> Approved</td>
-                                    <td> Approved </td>
-                                    <td class="edit-icon">
-                                        <a class="action" ng-click="edit();"> <span class="label label-sm label-success"><i class="fa fa-pencil"></i> </span></a>
-                                        <a class="" ng-click="deleteItem()"> <span class="label label-sm label-danger"> <i class="fa fa-trash-o"></i></span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="align-right" colspan="10">Total </td>
-                                    <td>5 </td>
-                                    <td colspan="2">24 </td>
-                                </tr> -->
                             </tbody>
                         </table>
                     </div>

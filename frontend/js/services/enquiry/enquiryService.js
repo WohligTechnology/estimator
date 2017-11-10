@@ -15,7 +15,7 @@ myApp.service('enquiryService', function ($http, NavigationService) {
       callback(data.data, object);
     });
   }
-  //- delete customer
+  //- delete enquiry
   this.deleteEnquiry = function (enquiryId, callback) {
     NavigationService.delete('Enquiry/delete', {
       _id: enquiryId
@@ -78,38 +78,38 @@ myApp.service('enquiryService', function ($http, NavigationService) {
     callback(obj);
   }
   //- form an array of bulk Ids
-  this.selectBulkCustomers = function (checkboxStatus, customerId, callback) {
+  this.selectBulkEnquiries = function (checkboxStatus, enquiryId, callback) {
     if (checkboxStatus == true) {
-      bulkArray.push(customerId);
+      bulkArray.push(enquiryId);
     } else {
       _.remove(bulkArray, function (record) {
-        return record == customerId;
+        return record == enquiryId;
       });
     }
     callback(bulkArray);
   }
-  //- form an array of Ids of all customers for deletion
-  this.selectAll = function (customers, checkboxStatus, callback) {
+  //- form an array of Ids of all enquiries for deletion
+  this.selectAll = function (enquiries, checkboxStatus, callback) {
     bulkArray = [];
     if (checkboxStatus == true) {
-      angular.forEach(customers,  function (obj) {
-        var customerId = obj._id;
-        bulkArray.push(customerId);
+      angular.forEach(enquiries,  function (obj) {
+        var enquiryId = obj._id;
+        bulkArray.push(enquiryId);
       });
     } else {
-      angular.forEach(customers,  function (obj) {
-        var customerId = obj._id;
+      angular.forEach(enquiries,  function (obj) {
+        var enquiryId = obj._id;
         _.remove(bulkArray, function (record) {
-          return record == customerId;
+          return record == enquiryId;
         });
       });
     }
     callback(bulkArray);
   }
-  //- delete bulk customers
-  this.deleteBulkCustomers = function (customers, callback) {
-    NavigationService.apiCall('Customer/delete', customers, function (data) {
-      callback(data.data.results);
+  //- delete bulk enquiries
+  this.deleteBulkEnquiries = function (enquiries, callback) {
+    NavigationService.apiCall('Enquiry/deleteMultipleEnquiry', {idsArray: enquiries}, function (data) {
+      callback();
     });
   }
 });

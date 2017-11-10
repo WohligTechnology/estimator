@@ -147,8 +147,8 @@ myApp.service('masterExtraService', function ($http, NavigationService, $uibModa
   }
   //- delete bulk extras
   this.deleteBulkUsers = function (extras, callback) {
-    NavigationService.apiCall('MExtra/delete', extras, function (data) {
-      callback(data.data.results);
+    NavigationService.apiCall('MExtra/deleteMultipleExtras', {idsArray: extras}, function (data) {
+      callback();
     });
   }
 });

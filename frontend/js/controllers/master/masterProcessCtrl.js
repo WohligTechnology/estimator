@@ -1,12 +1,13 @@
-myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, masterProcessService) {
+myApp.controller('masterProcessCtrl', function ($scope, $http, $timeout, $uibModal, masterProcessService) {
 
 
     // *************************** default variables/tasks begin here ***************** //
-    $scope.$parent.isSidebarActive = false;    //- to show/hide sidebar of dashboard 
-    $scope.showSaveBtn = true;                 //- to show/hide save & update button on pop-up according to operation
+    $scope.$parent.isSidebarActive = false; //- to show/hide sidebar of dashboard 
+    $scope.showSaveBtn = true; //- to show/hide save & update button on pop-up according to operation
     $scope.showEditBtn = false;
     $scope.selectedProcessCat = {};
     $scope.bulkProcesses = [];
+    $scope.operationStatus = '';
 
 
     // *************************** default functions begin here  ********************** //
@@ -47,7 +48,10 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     $scope.addOrEditProcessCat = function (processCatData, selectedUomId) {
         processCatData.uom = selectedUomId;
         masterProcessService.addOrEditProcessCat(processCatData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            $scope.operationStatus = "***   Record added successfully   ***";
+            $timeout(function () {
+                $scope.operationStatus = "";
+            }, 3000);
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -65,7 +69,10 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
     $scope.deleteProcessCat = function (processCatId) {
         masterProcessService.deleteProcessCat(processCatId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            $scope.operationStatus = "***   Record deleted successfully   ***";
+            $timeout(function () {
+                $scope.operationStatus = "";
+            }, 3000);
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -89,7 +96,10 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
     $scope.addOrEditProcessItem = function (processItemData, processCatId) {
         masterProcessService.addOrEditProcessItem(processItemData, processCatId, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            $scope.operationStatus = "***   Record added successfully   ***";
+            $timeout(function () {
+                $scope.operationStatus = "";
+            }, 3000);
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -107,7 +117,10 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
     $scope.deleteProcessItem = function (processItemId) {
         masterProcessService.deleteProcessItem(processItemId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            $scope.operationStatus = "***   Record deleted successfully   ***";
+            $timeout(function () {
+                $scope.operationStatus = "";
+            }, 3000);
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -147,7 +160,10 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         processData.quantity.uom = selectedQuaLinkedKeyUom;
         processData.quantity.finalUom = selectedQuaFinalUom;
         masterProcessService.addOrEditProcessType(processData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            $scope.operationStatus = "***   Record added successfully   ***";
+            $timeout(function () {
+                $scope.operationStatus = "";
+            }, 3000);
             $scope.getProcessTypeData();
             $scope.cancelModal();
         });
@@ -165,7 +181,10 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
     $scope.deleteProcessType = function (processId) {
         masterProcessService.deleteProcessType(processId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            $scope.operationStatus = "***   Record deleted successfully   ***";
+            $timeout(function () {
+                $scope.operationStatus = "";
+            }, 3000);
             $scope.cancelModal();
             $scope.getProcessTypeData();
         });
@@ -177,6 +196,88 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         $scope.modalInstance.dismiss();
     };
 
+    //- function for pagination of processes' records
+    $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+        if (angular.isUndefined(keyword) || keyword == '') {
+            if (numberOfRecords != '10') {
+                masterProcessService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+                    $scope.processData = data.results;
+                    masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+                        $scope.obj = obj;
+                    });
+                });
+            } else {
+                masterProcessService.getPaginationDatawithoutKeyword(page, function (data) {
+                    $scope.processData = data.results;
+                    masterProcessService.getPaginationDetails(page, 10, data, function (obj) {
+                        $scope.obj = obj;
+                    });
+                });
+            }
+        } else {
+            masterProcessService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+                $scope.processData = data.results;
+                masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+                    $scope.obj = obj;
+                });
+            });
+        }
+    }
+    //- function to search the text in table
+    $scope.serachText = function (keyword, count) {
+        masterProcessService.getSearchResult(keyword, function (data) {
+            $scope.processData = data.results;
+            masterProcessService.getPaginationDetails(1, count, data, function (obj) {
+                $scope.obj = obj;
+            });
+        });
+    }
+    //- to dismiss modal instance
+    $scope.cancelModal = function () {
+        $scope.modalInstance.dismiss();
+    }
+
+    //- modal to confirm bulk processes deletion
+    $scope.deleteBulkProcessesModal = function (processIdArray, getFunction) {
+        $scope.idsToDelete = processIdArray;
+        $scope.functionToCall = getFunction;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/deleteBulkModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
+    //- function to delete process
+    $scope.deleteBulkProcesses = function (processes) {
+        masterProcessService.deleteBulkProcesses(processes, function () {
+            $scope.cancelModal();
+            $scope.getProcessTypeData();
+            $scope.bulkProcesses = [];
+            $scope.operationStatus = "***   Records deleted successfully   ***";
+            $timeout(function () {
+                $scope.operationStatus = "";
+            }, 4000);
+        });
+    }
+    //- function to get bulk processes
+    $scope.selectBulkProcesses = function (checkboxStatus, processId) {
+        masterProcessService.selectBulkProcesses(checkboxStatus, processId, function (data) {
+            if (data.length >= 1) {
+                $scope.recordSelected = true;
+            } else {
+                $scope.recordSelected = false;
+            }
+            $scope.bulkProcesses = data;
+        });
+    }
+    //- to select all records
+    $scope.selectAll = function (processes, checkboxStatus) {
+        masterProcessService.selectAll(processes, checkboxStatus, function (data) {
+            $scope.bulkProcesses = data;
+        });
+    }
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
@@ -185,5 +286,5 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         $scope.getProcessData();
     }
     $scope.init();
-
+    
 });
