@@ -88,8 +88,8 @@ myApp.service('masterMaterialService', function ($http, NavigationService) {
         }
         callback(materialObj);
     }
-    this.addOrEditMaterial = function (materialData,materialSubCatId, callback) {
-         if (angular.isDefined(materialSubCatId)) {
+    this.addOrEditMaterial = function (materialData, materialSubCatId, callback) {
+        if (angular.isDefined(materialSubCatId)) {
             materialData.materialSubCategory = materialSubCatId;
         }
         NavigationService.apiCall('MMaterial/save', materialData, function (data) {
@@ -106,21 +106,24 @@ myApp.service('masterMaterialService', function ($http, NavigationService) {
         });
     }
 
-    this.getSubCatMaterials = function(materialSubCatId,callback){
+    this.getSubCatMaterials = function (materialSubCatId, callback) {
         var matSubCatObj = {
-            subCatId:materialSubCatId
+            subCatId: materialSubCatId
         };
         NavigationService.apiCall('MMaterial/getSubCatMaterials', matSubCatObj, function (data) {
             callback(data.data.results);
         });
-    } 
+    }
 
-    this.changeMaterialType = function(materialId, type, callback){
+    this.changeMaterialType = function (type, materialSubCatId, callback) {
         matDataObj = {
-            _id:materialId,
-            type:type
+            matSubCatId: materialSubCatId,
+            type: type
         };
-        NavigationService.apiCall('MMaterial/save', matDataObj, function (data) {
+        // NavigationService.apiCall('MMaterial/save', matDataObj, function (data) {
+        //     callback(data);
+        // });
+        NavigationService.apiCall('MMaterial/updateAllSubCatMatType', matDataObj, function (data) {
             callback(data);
         });
     }
