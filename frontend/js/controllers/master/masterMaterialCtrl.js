@@ -161,14 +161,14 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
         masterMaterialService.getSubCatMaterials(materialSubCatId, function (data) {
             console.log('**** inside getSubCatMaterials of masterMaterialCtrl.js & data is ****', data);
             $scope.subCatMaterials = data;
+            $scope.selectedSubACat = materialSubCatId;
         });
     }
 
-    $scope.changeMaterialType = function (materialId, type, materialSubCatId) {
-        masterMaterialService.changeMaterialType(materialId, type, function (data) {
+    $scope.changeMaterialType = function (type, materialSubCatId) {
+        masterMaterialService.changeMaterialType(type, materialSubCatId, function (data) {
             $scope.getSubCatMaterials(materialSubCatId);
         });
-
 
     }
 

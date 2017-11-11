@@ -113,7 +113,30 @@ var model = {
     // what this function will do ?
     // req data --> ?
     materialAddEdit: function (data, callback) {
-    
+
+    },
+
+    // what this function will do ?
+    // req data --> ?
+    updateAllSubCatMatType: function (data, callback) {
+
+        MMaterial.update({
+            materialSubCategory: data.matSubCatId,
+        }, {
+            type: data.type
+        }, {
+            multi: true
+        }).exec(function (err, updatedData) {
+            if (err) {
+                console.log('**** error at updateAllSubCatMatType of MMaterial.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(updatedData)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, updatedData);
+            }
+        });
+
     },
 
 
