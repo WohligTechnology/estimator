@@ -206,15 +206,19 @@ var model = {
     },
 
     importSubAssembly: function (data, callback) {
+        console.log('**** inside function_name of EstimateSubAssembly.js & data is ****',data);
         EstimateSubAssembly.findOne({
             subAssemblyNumber: data.subAssemblyNumber
         }).select('subAssemblyObj').lean().exec(function (err, found) {
+
+            console.log('**** inside %%%%%%%%%%%%% of EstimateSubAssembly.js ****',found);
             if (err) {
                 console.log('**** error at importAssembly of Estimate.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 callback(null, []);
             } else {
+                delete found._id;
                 var lastSubAssemblyNumber = data.lastSubAssemblyNumber;
                 found.subAssemblyObj.subAssemblyNumber = lastSubAssemblyNumber;
                 var partNumber = 1;
@@ -329,7 +333,7 @@ var model = {
                     if (err) {
                         console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
                     } else {
-                        callback(found);
+                        callback(null, found);
                     }
 
                 });

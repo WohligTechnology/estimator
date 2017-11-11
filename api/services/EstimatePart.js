@@ -155,6 +155,7 @@ var model = {
         EstimatePart.findOne({
             partNumber: data.partNumber
         }).select('partObj').lean().exec(function (err, found) {
+            delete found._id;
             if (err) {
                 console.log('**** error at function_name of EstimatePart.js ****', err);
                 callback(err, null);

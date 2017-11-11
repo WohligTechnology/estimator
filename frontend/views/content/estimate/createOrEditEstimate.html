@@ -43,7 +43,7 @@
                                             <li ng-repeat="sa in estimteData.subAssemblies track by $index">
                                                 <input type="checkbox" id="{{sa.subAssemblyName+$index}}" />
                                                 <label for="{{sa.subAssemblyName+$index}}" class="tree_label"></label>
-                                                <span ng-click="getEstimateView('subAssembly', 'assembly', sa.subAssemblyNumber)" class="subssemblyName">{{sa.subAssemblyName}}</span>
+                                                <span ng-click="getEstimateView('subAssembly', 'assembly', sa.subAssemblyNumber)" class="subssemblyName">{{sa.subAssemblyName}} ({{estimteData.subAssemblies.length}})</span>
                                                 <span ng-click="addOrEditPartModal('save',sa.subAssemblyNumber)" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ></i></span>
                                                 <span ng-click="addOrEditSubAssemblyModal('update', sa)" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
                                                 <span ng-click="deleteSubAssemblyModal(sa.subAssemblyNumber,'deleteSubAssembly')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
@@ -51,7 +51,7 @@
                                                     <li ng-repeat="p in sa.subAssemblyParts track by $index">
                                                         <input type="checkbox" id="{{p.partName+$index+$parent.$index}}" />
                                                         <label for="{{p.partName+$index+$parent.$index}}" class="tree_label"></label>
-                                                        <span ng-click="getEstimateView('partDetail', 'subAssembly', sa.subAssemblyNumber, p.partNumber)" class="tree_label partName">{{p.partName}}</span>
+                                                        <span ng-click="getEstimateView('partDetail', 'subAssembly', sa.subAssemblyNumber, p.partNumber)" class="tree_label partName">{{p.partName}} ({{sa.subAssemblyParts.length}})</span>
                                                         <span ng-click="addOrEditPartModal('update', sa.subAssemblyNumber, p)" class="partEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
                                                         <span ng-click="duplicatePart(sa.subAssemblyNumber, p)" class="partDuplicateIcon"><i class="fa fa-clone btn-success" ></i></span>                                                        
                                                         <span ng-click="deletePartModal(sa.subAssemblyNumber, p.partNumber)" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
@@ -62,43 +62,43 @@
                                                                 <span ng-click="getEstimateView('editPartItemDetail', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Item Detail</span>
                                                             </li>
                                                             <li>
-                                                                <span ng-click="getEstimateView('processing', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Processing</span>
+                                                                <span ng-click="getEstimateView('processing', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Processing ({{p.processing.length}})</span>
                                                                 <span ng-click="addItemModal('Processing', 'part', sa.subAssemblyNumber, p.partNumber)" class="processingIcon"><i class="fa fa-plus btn-info"></i></span>
                                                             </li>
                                                             <li>
-                                                                <span ng-click="getEstimateView('addons', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Addons</span>
+                                                                <span ng-click="getEstimateView('addons', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Addons ({{p.addons.length}})</span>
                                                                 <span ng-click="addItemModal('Addon', 'part', sa.subAssemblyNumber, p.partNumber)" class="addonsIcon"><i class="fa fa-plus btn-info"></i></span>
                                                             </li>
                                                             <li>
-                                                                <span ng-click="getEstimateView('extras', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Extras</span>
+                                                                <span ng-click="getEstimateView('extras', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Extras ({{p.extras.length}})</span>
                                                                 <span ng-click="addItemModal('Extra', 'part', sa.subAssemblyNumber, p.partNumber)" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
                                                             </li>
                                                         </ul>
                                                     </li>
                                                     <li>
-                                                        <span ng-click="getEstimateView('processing', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Processing</span>
+                                                        <span ng-click="getEstimateView('processing', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Processing ({{sa.processing.length}})</span>
                                                         <span ng-click="addItemModal('Processing', 'subAssembly', sa.subAssemblyNumber)" class="processingIcon"><i class="fa fa-plus btn-info"></i></span>
                                                     </li>
                                                     <li>
-                                                        <span ng-click="getEstimateView('addons', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Addons</span>
+                                                        <span ng-click="getEstimateView('addons', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Addons ({{sa.addons.length}})</span>
                                                         <span ng-click="addItemModal('Addon', 'subAssembly', sa.subAssemblyNumber)" class="addonsIcon"><i class="fa fa-plus btn-info" ></i></span>
                                                     </li>
                                                     <li>
-                                                        <span ng-click="getEstimateView('extras', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Extras</span>
+                                                        <span ng-click="getEstimateView('extras', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Extras ({{sa.extras.length}})</span>
                                                         <span ng-click="addItemModal('Extra', 'subAssembly', sa.subAssemblyNumber)" class="extrasIcon"><i class="fa fa-plus btn-info"></i></span>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li>
-                                                <span ng-click="getEstimateView('processing', 'assembly')" class="tree_label">Processing</span>
+                                                <span ng-click="getEstimateView('processing', 'assembly')" class="tree_label">Processing ({{estimteData.processing.length}})</span>
                                                 <span ng-click="addItemModal('Processing', 'assembly')" class="processingIcon"><i class="fa fa-plus btn-info" ></i></span>
                                             </li>
                                             <li>
-                                                <span ng-click="getEstimateView('addons', 'assembly')" class="tree_label">Addons</span>
+                                                <span ng-click="getEstimateView('addons', 'assembly')" class="tree_label">Addons ({{estimteData.addons.length}})</span>
                                                 <span ng-click="addItemModal('Addon', 'assembly')" class="addonsIcon"><i class="fa fa-plus btn-info"></i></span>
                                             </li>
                                             <li>
-                                                <span ng-click="getEstimateView('extras', 'assembly')" class="tree_label">Extras</span>
+                                                <span ng-click="getEstimateView('extras', 'assembly')" class="tree_label">Extras ({{estimteData.extras.length}})</span>
                                                 <span ng-click="addItemModal('Extra', 'assembly')" class="extrasIcon"><i class="fa fa-plus btn-info" ></i></span>
                                             </li>
                                         </ul>

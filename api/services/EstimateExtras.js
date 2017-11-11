@@ -35,7 +35,7 @@ var model = {
     importExtra: function (data, callback) {
         EstimateExtras.findOne({
             extraNumber: data.extraNumber
-        }).lean().exec(function (err, found) {
+        }).lean().exec(function (err, found) {         
             if (err) {
                 console.log('**** error at function_name of EstimateExtras.js ****', err);
                 callback(err, null);

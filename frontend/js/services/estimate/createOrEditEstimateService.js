@@ -188,12 +188,15 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 		} else if (estimateView == 'processing') {
 			if (getLevelName == "assembly") {
+				debugger;
 				getViewData = formData.assembly.processing;
 			} else if (getLevelName == "subAssembly") {
+				debugger;
 				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 				getViewData = formData.assembly.subAssemblies[subAssIndex].processing;
 				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
 			} else if (getLevelName == "part") {
+				debugger;
 				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 				var partIndex = this.getPartIndex(subAssIndex, partId);
 				getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing;
@@ -342,7 +345,6 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		});
 
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(duplicatePart);
-		console.log('all parts : ', formData.assembly.subAssemblies[subAssIndex].subAssemblyParts);
 		callback();
 	}
 	this.generatePartName = function (subAssId) {
@@ -545,6 +547,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 
 
 	this.getSubAssemblyNumber = function () {
+		debugger;
 		var id;
 		if (formData.assembly.subAssemblies.length == 0) {
 			id = 1;
@@ -674,7 +677,11 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 			lastSubAssemblyNumber: temp
 		}
 		NavigationService.apiCall('EstimateSubAssembly/importSubAssembly', tempObj, function (data) {
-			var subAssObj = data.data;
+			console.log("data.........2", data.data.subAssemblyObj.subAssemblyName);
+			var subAssObj = data.data.subAssemblyObj;
+			debugger;
+			//var id = this.getSubAssemblyNumber();
+			subAssObj.subAssemblyName = 'AS1SA' + '2';
 			formData.assembly.subAssemblies.push(subAssObj);
 			callback();
 		});
@@ -688,7 +695,8 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 			partNumber: partNumber
 		}
 		NavigationService.apiCall('EstimatePart/importPart', tempObj, function (data) {
-			var partObj = data.data;
+			var partObj = data.data.partObj;
+			partObj.partName = 'AS1SA1PT2'//this.generatePartName(formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber).partName;
 			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(partObj);
 			callback();
 		});

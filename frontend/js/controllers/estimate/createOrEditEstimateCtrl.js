@@ -235,7 +235,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 	}
 
 
-	//- to add Proccessing at assembly or subssembly or at partLevel
+	//- to add processing at assembly or subssembly or at partLevel
 	$scope.addProcessing = function (processingData, level, subAssemblyId, partId) {
 		createOrEditEstimateService.createProcessing(processingData, level, subAssemblyId, partId, function () {
 
@@ -243,7 +243,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 			$scope.cancelModal();
 		});
 	}
-	//- to edit Proccessing at assembly or subssembly or at partLevel
+	//- to edit processing at assembly or subssembly or at partLevel
 	$scope.editProcessing = function () {
 		$scope.getCurretEstimateObj();
 		$scope.cancelModal();
