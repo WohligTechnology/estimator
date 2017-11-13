@@ -28,16 +28,12 @@
                                 <li>
                                     <a href="javascript:;"> Export to Excel </a>
                                 </li>
-                                <li>
-                                    <a href="javascript:;"> Delete </a>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="portlet-body">
-                <div class="table-toolbar">
+                <!-- <div class="table-toolbar">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="btn-group">
@@ -74,84 +70,93 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- BEGIN BORDERED TABLE PORTLET-->
-                <div class="portlet-body">
-                    <div class="">
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th rowspan="2" class="align-top">
-                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                            <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
-                                            <span></span>
-                                        </label>
-                                    </th>
-                                    <th rowspan="2" class="align-top"> Id </th>
-                                    <th rowspan="2" class="align-top"> Processing</th>
-                                    <th rowspan="2" class="align-top">Type </th>
-                                    <th rowspan="2" class="align-top">Rate </th>
-                                    <th colspan="4" class="text-center" class="align-top"> Per item detail </th>
-                                    <th rowspan="2" class="align-top"> Total Cost</th>
-                                    <th rowspan="2" class="align-top"> Remarks</th>
-                                    <th rowspan="2" class="align-top"> Action </th>
-                                </tr>
-                                <tr>
-                                    <th>Key Value</th>
-                                    <th>Utilization</th>
-                                    <th>Contegency Wastage</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="p in estimateViewData track by $index">
-                                    <td>
-                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                            <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
-                                            <span></span>
-                                        </label>
-                                    </td>
-                                    <td> 1 </td>
-                                    <td> {{p.processType}} </td>
-                                    <td>{{p.processItem}}</td>
-                                    <td>2321312
-                                        <br>
-                                        <span>
-                                            <b>rs/m</b>
-                                        </span>
-                                    </td>
-                                    <td>23324324
-                                        <br>
-                                        <span>
-                                            <b>perimeter(m)</b>
-                                        </span>
-                                    </td>
-                                    <td>{{p.quantity.total}} </td>
-                                    <td> 600 </td>
-                                    <td> 900</td>
-                                    <td> 300</td>
-                                    <td> Approved</td>
-                                    <td class="edit-icon">
-                                        <span class="label label-sm label-success" ng-click="editItemModal('Processing', p)">
-                                            <i class="fa fa-pencil"></i>
-                                        </span>
-                                        <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteProcessing', p.processingNumber, level, estimateViewData.subAssemblyId, estimateViewData.partId)">
-                                            <i class="fa fa-trash-o"></i>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="9" class="align-right"> Total</td>
-                                    <!--<td> </td>-->
-                                    <td>5 </td>
-                                    <td>24 </td>
-                                    <td>24 </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="portlet-body vertical_scroll">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="align-top">
+                                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                        <span></span>
+                                    </label>
+                                </th>
+                                <th rowspan="2" class="align-top"> Id </th>
+                                <th rowspan="2" class="align-top"> Processing</th>
+                                <th rowspan="2" class="align-top">Type </th>
+                                <th rowspan="2" class="align-top">Rate </th>
+                                <th colspan="4" class="text-center" class="align-top"> Per item detail </th>
+                                <th rowspan="2" class="align-top"> Total Cost</th>
+                                <th rowspan="2" class="align-top"> Remarks</th>
+                                <th rowspan="2" class="align-top"> Action </th>
+                            </tr>
+                            <tr>
+                                <th>Key Value</th>
+                                <th>Utilization</th>
+                                <th>Contegency Wastage</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="p in estimateViewData track by $index">
+                                <td>
+                                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                        <span></span>
+                                    </label>
+                                </td>
+                                <td> 1 </td>
+                                <td> {{p.processType}} </td>
+                                <td>{{p.processItem}}</td>
+                                <td>2321312
+                                    <br>
+                                    <span>
+                                        <b>rs/m</b>
+                                    </span>
+                                </td>
+                                <td>23324324
+                                    <br>
+                                    <span>
+                                        <b>perimeter(m)</b>
+                                    </span>
+                                </td>
+                                <td>{{p.quantity.total}} </td>
+                                <td> 600 </td>
+                                <td> 900</td>
+                                <td> 300</td>
+                                <td> Approved</td>
+                                <td class="edit-icon">
+                                    <span class="label label-sm label-success" ng-click="editItemModal('Processing', p)">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteProcessing', p.processingNumber, level, estimateViewData.subAssemblyId, estimateViewData.partId)">
+                                        <i class="fa fa-trash-o"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="9" class="align-right"> Total</td>
+                                <!--<td> </td>-->
+                                <td>5 </td>
+                                <td>24 </td>
+                                <td>24 </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <!-- END BORDERED TABLE PORTLET-->
+                <!-- <div class="row">
+                    <div class="col-md-6">
+                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
+                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                        </div>
+                    </div>
+                </div> -->
             </div>
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->

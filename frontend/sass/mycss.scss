@@ -2,9 +2,7 @@
     .hideSideBar {
       margin-left: 0px !important;
     }
-  }
-
-  // ***** css given by ashish ********************* // 
+  } // ***** css given by ashish ********************* // 
   // for navigation/ sidebar  
   .activeSubMenu {
     background-color: rgba(55, 198, 211, 0.27) !important;
@@ -105,9 +103,7 @@ tree css*/
     .portlet {
       margin-bottom: 0px !important;
     }
-  }
-
-  //modal css
+  } //modal css
   .modal:before {
     content: '';
     display: inline-block;
@@ -133,17 +129,13 @@ tree css*/
   .mar-rb {
     margin-bottom: 20px;
     margin-right: 20px;
-  }
-
-  //master shape
+  } //master shape
   .shapes-checkbox {
     margin-left: 30px;
     .md-checkbox-inline .md-checkbox {
       min-width: 30% !important;
     }
-  }
-
-  //master part
+  } //master part
   .mar-l {
     margin-left: 30px;
   }
@@ -159,18 +151,14 @@ tree css*/
 
   .bor-t {
     border-top: 1px solid gray;
-  }
-
-  //estimate assembly
+  } //estimate assembly
   .scroll-x {
     overflow-x: scroll !important;
   }
 
   .pagination {
     margin: 0 0;
-  }
-
-  //estimate part
+  } //estimate part
   .form-horizontal .form-group.form-md-line-input>label {
     padding-top: 0px !important;
   }
@@ -207,9 +195,7 @@ tree css*/
 
   .display-inline {
     display: inline-block;
-  }
-
-  //custom table css
+  } //custom table css
   body {
     font-size: 12px;
   }
@@ -267,18 +253,14 @@ tree css*/
 
   .portlet.light.portlet-fit>.portlet-title {
     padding: 15px 20px 0px !important;
-  }
-
-  //custom form css
+  } //custom form css
   .form-horizontal .form-group.form-md-line-input>label {
     font-size: 12px;
   }
 
   .padd-t {
     padding-top: 16px;
-  }
-
-  //createOREdit Estimate table
+  } //createOREdit Estimate table
   .bordered-table {
     width: 100%;
     th {
@@ -337,24 +319,18 @@ tree css*/
   .tree-overflow {
     overflow-y: scroll;
     max-height: 200px;
-  }
-
-  //custom material 
+  } //custom material 
   .inside-custom-table {
     td {
       padding: 6px 0px;
     }
-  }
-
-  //enquiry
+  } //enquiry
   .edit-btn {
     .label.label-sm {
       font-size: 11px;
       padding: 1px 2px;
     }
-  }
-
-  //base master
+  } //base master
   .padd-caption {
     padding-top: 20px;
     display: inline-block;
@@ -364,9 +340,7 @@ tree css*/
     padding: 16px 0 11px !important;
     float: right;
     display: inline-block;
-  }
-
-  //-------- css for pagination given by bhavna --------------------//
+  } //-------- css for pagination given by bhavna --------------------//
   .zui-pager {
     margin-bottom: 5em;
     &--center {
@@ -501,26 +475,33 @@ tree css*/
         width: 100%;
       }
     }
-  }
-
+  } 
+  
   //- scroll bar css
   .vertical_scroll {
-    overflow-y: scroll;
-    height: 298px;
+    overflow: auto;
+    height: 419px;
+  }
+
+  .vertical_scroll::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
   }
 
   .vertical_scroll::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #abb0b5;
-    border-radius: 10px;
-  }
-
-  .vertical_scroll::-webkit-scrollbar {
-    width: 5px;
     background-color: #F5F5F5;
+    border-radius: 15px;
   }
 
   .vertical_scroll::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.44, #3d3433), color-stop(0.72, #3d343a), color-stop(0.86, #3d3433fc));
+    background-color: #F90;
+    border-radius: 15px;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.44, #0f809c), color-stop(0.72, #61c0de), color-stop(0.86, #6cc1dc));
   }
+
+  // .vertical_scroll::-webkit-scrollbar-thumb {
+  //   background-color: #F90;
+  //   border-radius: 15px;
+  //   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent)
+  // }
