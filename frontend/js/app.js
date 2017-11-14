@@ -67,10 +67,7 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
     $scope.loginTemplate = true;
-    $scope.logoutUser = function () {
-        $.jStorage.deleteKey("loggedInUser")
-        $state.go('login');
-    }
+
 
     // console.log("*********************************************************************",window.location.href );
     // console.log("*********************************************************************",$state.current);
@@ -153,6 +150,18 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             controller: "loginCtrl",
             resolve: {
                 "isLoggedIn": routeResolve
+            }
+        })
+
+        // ********************************** logout module ********************************** //
+        .state('logout', {
+            url: "/login",
+            templateUrl: "views/content/login/estimatorLogin.html",
+            controller: "loginCtrl",
+            resolve: {
+                logoutUser:  function () {
+                    $.jStorage.deleteKey("loggedInUser")
+                }
             }
         })
 

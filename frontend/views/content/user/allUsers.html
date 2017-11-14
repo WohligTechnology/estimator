@@ -91,8 +91,8 @@
                         <tr>
                             <th>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="userData.length <= 0" ng-model="checkAll" ng-change="selectAll(userData, checkAll)"
-                                    />
+                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="userData.length <= 0"
+                                        ng-model="checkAll" ng-change="selectAll(userData, checkAll)" />
                                     <span></span>
                                 </label>
                             </th>
@@ -119,7 +119,7 @@
                             <td class="center"> {{user.dob}} </td>
                             <td>{{user.mobile }}</td>
                             <td>
-                                <span class="label label-sm label-success" ng-click="addOrEditUserModal('update',user)">
+                                <span class="label label-sm label-success" id="add_space" ng-click="addOrEditUserModal('update',user)">
                                     <i class="fa fa-pencil"></i>
                                 </span>
                                 <span class="label label-sm label-danger" ng-click="deleteUserModal(user._id,'deleteUser')">

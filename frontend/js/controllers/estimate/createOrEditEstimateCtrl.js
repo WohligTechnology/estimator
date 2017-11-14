@@ -74,7 +74,26 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 			}, 3000);
 		});
 	}
-
+	//- Import SubAssembly
+	$scope.importAssemblyModal = function () {
+		
+		$scope.subAssId;
+		createOrEditEstimateService.getAllAssemblyNumbers(function (data) {
+			$scope.assemblyData = data;
+			$scope.modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'views/content/estimate/estimateModal/importAssembly.html',
+				scope: $scope,
+				size: 'md',
+			});
+		});
+	}
+	$scope.importAssembly = function (assemblyId) {
+		createOrEditEstimateService.getImportAssemblyData(assemblyId, function () {
+			$scope.getCurretEstimateObj();
+			$scope.cancelModal();
+		});
+	}
 
 	//- to add or edit subAssembly data
 	$scope.addOrEditSubAssemblyModal = function (operation, subAssembly) {
@@ -141,11 +160,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 	//- Import SubAssembly
 	$scope.importSubAssemblyModal = function () {
 		$scope.subAssId;
-		$scope.modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: 'views/content/estimate/estimateModal/importSubAssembly.html',
-			scope: $scope,
-			size: 'md',
+		createOrEditEstimateService.getAllSubAssNumbers(function (data) {
+			$scope.subAssemblyData = data;
+			$scope.modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'views/content/estimate/estimateModal/importSubAssembly.html',
+				scope: $scope,
+				size: 'md',
+			});
 		});
 	}
 	$scope.importSubAssembly = function (subAssId) {
@@ -206,7 +228,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 		});
 	}
 	$scope.deletePart = function (subAssemblyId, partId) {
-		debugger;
 		createOrEditEstimateService.deletePart(subAssemblyId, partId, function () {
 			$scope.operationStatus = "Record deleted successfully";
 			$scope.getEstimateView('subAssembly');
@@ -233,11 +254,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 	//- modal to import Part
 	$scope.importPartModal = function (subAssId) {
 		$scope.subAssId = subAssId;
-		$scope.modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: 'views/content/estimate/estimateModal/importPart.html',
-			scope: $scope,
-			size: 'md',
+		createOrEditEstimateService.getAllPartNumbers(function (data) {
+			$scope.partData = data;
+			$scope.modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'views/content/estimate/estimateModal/importPart.html',
+				scope: $scope,
+				size: 'md',
+			});
 		});
 	}
 	$scope.importPart = function (subAssId, partId) {
@@ -311,7 +335,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 	}
 	//- Import Processing
 	$scope.importProcessing = function (processingId, level, subAssemblyId, partId) {
-
 		createOrEditEstimateService.getImportProcessingData(processingId, level, subAssemblyId, partId, function () {
 			$scope.getCurretEstimateObj();
 			$scope.cancelModal();
@@ -345,7 +368,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 			$scope.bulkItems = [];
 			$scope.checkAll = false;
 			$scope.checkboxStatus = false;
-
 			$scope.getEstimateView('addons', level, subAssId, partId);
 			$scope.cancelModal();
 			$scope.operationStatus = "***   Records deleted successfully   ***";
@@ -398,6 +420,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 			$timeout(function () {
 				$scope.operationStatus = "";
 			}, 3000);
+			console.log('........22222............', $scope.bulkItems);
 		});
 	}
 	//- Import Extra
@@ -505,12 +528,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 		$scope.level = level;
 		$scope.subAssemblyId = subAssemblyId;
 		$scope.partId = partId;
-
-		$scope.modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: 'views/content/estimate/estimateModal/import' + type + '.html',
-			scope: $scope,
-			size: 'md',
+		createOrEditEstimateService.getAllItemNumbers(type, function (data) {
+			$scope.itemData = data;
+			$scope.modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'views/content/estimate/estimateModal/import' + type + '.html',
+				scope: $scope,
+				size: 'md',
+			});
 		});
 	}
 	//- common modal to confirm bulk items deletion
@@ -529,7 +554,19 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 		});
 	}
 
-
+  //- function to get bulk users
+  $scope.selectBulkItems= function (checkboxStatus, itemId) {
+	  console.log('**** itemId....****', itemId);
+    createOrEditEstimateService.selectBulkItems(checkboxStatus, itemId, function (data) {
+    //   if (data.length >= 1) {
+    //     $scope.recordSelected = true;
+    //   } else {
+    //     $scope.recordSelected = false;
+    //   }
+	  $scope.bulkItems = data;
+	  console.log('........111111............', $scope.bulkItems);
+    });
+  }
 	//- to select all records
 	$scope.selectAll = function (type, level, itemData, checkboxStatus, subAssId, partId) {
 		createOrEditEstimateService.selectAll(type, level, itemData, checkboxStatus, subAssId, partId, function (data) {

@@ -15,14 +15,16 @@
                         <div class="form-group">
                             <label class="col-md-5 control-label">Enter Addon Id :</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control input-circle" ng-model="itemId" placeholder="Enter Addon Id" autofocus required>
+                                <select class="form-control" ng-options="a.addonNumber for a in itemData" ng-model="itemId" placeholder="Select Addon Id"
+                                    autofocus required>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-circle green" ng-click="importAddon(itemId, level, subAssemblyId, partId)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-disabled="itemId == null" ng-click="importAddon(itemId.addonNumber, level, subAssemblyId, partId)">Save</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
