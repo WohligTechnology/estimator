@@ -9,6 +9,8 @@ myApp.controller('userCtrl', function ($scope, $http, $timeout, $uibModal, userS
   $scope.showEditBtn = false;
   $scope.bulkUsers = [];
   $scope.operationStatus = '';
+  $scope.checkAll = false;
+  $scope.checkboxStatus = false;
 
 
   // *************************** default functions begin here  ********************** //
@@ -137,9 +139,12 @@ myApp.controller('userCtrl', function ($scope, $http, $timeout, $uibModal, userS
   //- function to delete user
   $scope.deleteBulkUsers = function (users) {
     userService.deleteBulkUsers(users, function () {
-      $scope.getUserData();      
+          
       $scope.cancelModal();
       $scope.bulkUsers = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+      $scope.getUserData(); 
       $scope.operationStatus = "***   Records deleted successfully   ***";      
     
       $timeout(function () {

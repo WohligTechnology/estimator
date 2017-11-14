@@ -151,7 +151,12 @@ var model = {
             }
         });
     },
+
     importPart: function (data, callback) {
+        data.lastPartNumber = data.lastPartNumber.replace(/\d+$/, function (n) {
+            return ++n
+        });
+
         EstimatePart.findOne({
             partNumber: data.partNumber
         }).select('partObj').lean().exec(function (err, found) {

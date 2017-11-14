@@ -1,5 +1,7 @@
 myApp.service('createOrEditEstimateService', function ($http, NavigationService) {
 
+	var bulkArray = [];
+
 	var processing = {
 		processType: "",
 		processItem: "",
@@ -188,15 +190,15 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 		} else if (estimateView == 'processing') {
 			if (getLevelName == "assembly") {
-				debugger;
+
 				getViewData = formData.assembly.processing;
 			} else if (getLevelName == "subAssembly") {
-				debugger;
+
 				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 				getViewData = formData.assembly.subAssemblies[subAssIndex].processing;
 				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
 			} else if (getLevelName == "part") {
-				debugger;
+
 				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 				var partIndex = this.getPartIndex(subAssIndex, partId);
 				getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing;
@@ -281,7 +283,14 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		});
 		callback();
 	}
-
+	this.deleteMultipleSubAssemblies = function (bulkArray, callback) {
+		angular.forEach(bulkArray,  function (record) {
+			_.remove(formData.assembly.subAssemblies, function (obj) {
+				return record == obj.subAssemblyNumber;
+			});
+		});
+		callback();
+	}
 
 	this.getAllPartModalData = function (operation, subAssId, part, callback) {
 		var partDataObj = {}
@@ -312,14 +321,19 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		callback();
 	}
 	this.deletePart = function (subAssemblyId, partId, callback) {
-		console.log('**** subAssemblyId &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7 ****', subAssemblyId);
-		console.log('**** partId &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7 ****', partId);
 		var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 		_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (obj) {
 			return obj.partNumber == partId
 		});
-		console.log(" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ", formData.assembly);
-
+		callback();
+	}
+	this.deleteMultipleParts = function (subAssemblyId, bulkArray, callback) {
+		subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+		angular.forEach(bulkArray,  function (record) {
+			_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (obj) {
+				return record == obj.partNumber;
+			});
+		});
 		callback();
 	}
 	this.formDuplicatePart = function (subAssId, partData, callback) {
@@ -398,10 +412,33 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		}
 		callback();
 	}
-
+	this.deleteMultipleProcessing = function (level, bulkArray, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			angular.forEach(bulkArray,  function (record) {
+				_.remove(formData.assembly.processing, function (obj) {
+					return record == obj.processingNumber;
+				});
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			angular.forEach(bulkArray,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].processing, function (obj) {
+					return record == obj.processingNumber;
+				});
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			angular.forEach(bulkArray,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing, function (obj) {
+					return record == obj.processingNumber;
+				});
+			});
+		}
+		callback();
+	}
 
 	this.createAddon = function (addonObj, level, subAssemblyId, partId, callback) {
-
 		var id;
 		if (level == 'assembly') {
 			id = this.getAddonNumber(level);
@@ -441,7 +478,32 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		}
 		callback();
 	}
-
+	this.deleteMultipleAddons = function (level, bulkArray, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			angular.forEach(bulkArray,  function (record) {
+				_.remove(formData.assembly.addons, function (obj) {
+					return record == obj.addonNumber;
+				});
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			angular.forEach(bulkArray,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].addons, function (obj) {
+					return record == obj.addonNumber;
+				});
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			angular.forEach(bulkArray,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons, function (obj) {
+					return record == obj.addonNumber;
+				});
+			});
+		}
+		callback();
+	}
+ 
 
 	this.createExtra = function (extraObj, level, subAssemblyId, partId, callback) {
 		var id;
@@ -482,7 +544,32 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		}
 		callback();
 	}
+	this.deleteMultipleExtras = function (level, bulkArray, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
 
+			angular.forEach(bulkArray,  function (record) {
+				_.remove(formData.assembly.extras, function (obj) {
+					return record == obj.extraNumber;
+				});
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			angular.forEach(bulkArray,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].extras, function (obj) {
+					return record == obj.extraNumber;
+				});
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			angular.forEach(bulkArray,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
+					return record == obj.extraNumber;
+				});
+			});
+		}
+		callback();
+	}
 
 	this.getCustomMaterialModalData = function (operation, customMaterial, callback) {
 		var custMaterialDataObj = {}
@@ -547,7 +634,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 
 
 	this.getSubAssemblyNumber = function () {
-		debugger;
+
 		var id;
 		if (formData.assembly.subAssemblies.length == 0) {
 			id = 1;
@@ -679,7 +766,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		NavigationService.apiCall('EstimateSubAssembly/importSubAssembly', tempObj, function (data) {
 			console.log("data.........2", data.data.subAssemblyObj.subAssemblyName);
 			var subAssObj = data.data.subAssemblyObj;
-			debugger;
+
 			//var id = this.getSubAssemblyNumber();
 			subAssObj.subAssemblyName = 'AS1SA' + '2';
 			formData.assembly.subAssemblies.push(subAssObj);
@@ -696,7 +783,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		}
 		NavigationService.apiCall('EstimatePart/importPart', tempObj, function (data) {
 			var partObj = data.data.partObj;
-			partObj.partName = 'AS1SA1PT2'//this.generatePartName(formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber).partName;
+			partObj.partName = 'AS1SA1PT2' //this.generatePartName(formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber).partName;
 			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(partObj);
 			callback();
 		});
@@ -810,7 +897,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		console.log('**** extraId, level, subAssemblyId, partId ****', extraId, level, subAssemblyId, partId);
 		if (level == 'assembly') {
 			if (formData.assembly.extras.length == 0) {
-				temp = AS1 + 'EX' + '0';
+				temp = 'AS1EX' + '0';
 			} else {
 				temp = _.last(formData.assembly.extras).extraNumber;
 			}
@@ -858,6 +945,92 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 
 		}
 		callback();
+	}
+
+
+	//- form an array of bulk Ids
+	this.selectBulkItems = function (checkboxStatus, itemId, callback) {
+
+		if (checkboxStatus == true) {
+			bulkArray.push(itemId);
+		} else {
+			_.remove(bulkArray, function (record) {
+				return record == itemId;
+			});
+		}
+		callback(bulkArray);
+	}
+	//- form an array of Ids of all items for deletion
+	this.selectAll = function (type, level, itemData, checkboxStatus, subAssId, partId, callback) {
+
+		bulkArray = [];
+		if (checkboxStatus == true) {
+			if (type == 'processing') {
+				if (level == 'assembly') {
+					angular.forEach(formData.assembly.processing,  function (obj) {
+						bulkArray.push(obj.processingNumber);
+					});
+				} else if (level == 'subAssembly') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].processing,  function (obj) {
+						bulkArray.push(obj.processingNumber);
+					});
+				} else if (level == 'part') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					partIndex = this.getPartIndex(subAssIndex, partId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing,  function (obj) {
+						bulkArray.push(obj.processingNumber);
+					});
+				}
+			} else if (type == 'addons') {
+				if (level == 'assembly') {
+					angular.forEach(formData.assembly.addons,  function (obj) {
+						bulkArray.push(obj.addonNumber);
+					});
+				} else if (level == 'subAssembly') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].addons,  function (obj) {
+						bulkArray.push(obj.addonNumber);
+					});
+				} else if (level == 'part') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					partIndex = this.getPartIndex(subAssIndex, partId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons,  function (obj) {
+						bulkArray.push(obj.addonNumber);
+					});
+				}
+			} else if (type == 'extras') {
+				if (level == 'assembly') {
+					angular.forEach(formData.assembly.extras,  function (obj) {
+						bulkArray.push(obj.extraNumber);
+					});
+				} else if (level == 'subAssembly') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].extras,  function (obj) {
+						bulkArray.push(obj.extraNumber);
+					});
+				} else if (level == 'part') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					partIndex = this.getPartIndex(subAssIndex, partId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras,  function (obj) {
+						bulkArray.push(obj.extraNumber);
+					});
+				}
+			} else if (type == 'subAssembly') {
+				angular.forEach(formData.assembly.subAssemblies,  function (obj) {
+					bulkArray.push(obj.subAssemblyNumber);
+				});
+			} else if (type == 'part') {
+				console.log('........................', subAssId);
+				subAssIndex = this.getSubAssemblyIndex(subAssId);
+				angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts,  function (obj) {
+					bulkArray.push(obj.partNumber);
+				});
+			}
+		} else {
+			bulkArray = [];
+		}
+		callback(bulkArray);
 	}
 
 });

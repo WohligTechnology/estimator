@@ -21,7 +21,7 @@ var schema = new Schema({
     quantity: Number,
     totalCost: Number,
     remarks: String,
- 
+
     extraObj: {}
 });
 
@@ -33,17 +33,21 @@ module.exports = mongoose.model('EstimateExtras', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
     importExtra: function (data, callback) {
+        data.lastExtraNumber = data.lastExtraNumber.replace(/\d+$/, function (n) {
+            return ++n
+        });
+
         EstimateExtras.findOne({
             extraNumber: data.extraNumber
-        }).lean().exec(function (err, found) {         
+        }).lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of EstimateExtras.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
-                var latestExtraNumber = data.latestExtraNumber;
-                found.extraNumber = latestExtraNumber;
+                var lastExtraNumber = found.extraNumber;
+                found.extraNumber = data.lastExtraNumber;
                 Estimate.removeUnwantedField(found, function (finalData) {
                     callback(null, finalData);
 

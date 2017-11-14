@@ -55,8 +55,6 @@ module.exports = mongoose.model('MMaterial', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
-    // what this function will do ?
-    // req data --> ?
     getSubCatMaterials: function (data, callback) {
         var maxRow = Config.maxRow;
         var page = 1;
@@ -110,14 +108,11 @@ var model = {
             }
         });
     },
-    // what this function will do ?
-    // req data --> ?
     materialAddEdit: function (data, callback) {
 
     },
 
-    // what this function will do ?
-    // req data --> ?
+    // req data --> matSubCatId
     updateAllSubCatMatType: function (data, callback) {
 
         MMaterial.update({
@@ -138,7 +133,22 @@ var model = {
         });
 
     },
-
+    
+    // req data --> type
+    getAllMaterialsByMatType: function (data, callback) {
+        MMaterial.find({
+            type:data.type
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of MMaterial.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 
 };
 module.exports = _.assign(module.exports, exports, model);

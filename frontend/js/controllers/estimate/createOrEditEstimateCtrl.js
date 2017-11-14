@@ -6,7 +6,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 	$scope.$parent.isSidebarActive = false;
 	$scope.showSaveBtn = true;
 	$scope.showEditBtn = false;
-	// $scope.rowCount = 1;
+	$scope.bulkItems = [];
+	$scope.checkboxStatus = false; //- for multiple deletion
+	$scope.checkAll = false;
 
 	if (angular.isDefined($stateParams.estimateId)) {
 		$scope.draftEstimateId = $stateParams.estimateId;
@@ -120,6 +122,22 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 			$scope.cancelModal();
 		});
 	}
+	//- function to delete bulk subAssemblies
+	$scope.deleteMultipleSubAssemblies = function (subAssIds) {
+		createOrEditEstimateService.deleteMultipleSubAssemblies(subAssIds, function () {
+			$scope.bulkItems = [];
+			$scope.checkAll = false;
+			$scope.checkboxStatus = false;
+
+			$scope.getEstimateView('assembly');
+			$scope.cancelModal();
+			$scope.operationStatus = "***   Records deleted successfully   ***";
+
+			$timeout(function () {
+				$scope.operationStatus = "";
+			}, 3000);
+		});
+	}
 	//- Import SubAssembly
 	$scope.importSubAssemblyModal = function () {
 		$scope.subAssId;
@@ -174,8 +192,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 		$scope.getEstimateView('estimatePartItemDetail');
 	}
 	//- modal to confirm part deletion
-	$scope.deletePartModal = function (subAssemblyId, partId) {
+	$scope.deletePartModal = function (getFunction, subAssemblyId, partId) {
 		$scope.idToDelete = partId;
+		$scope.functionToCall = getFunction;
+
 		$scope.subAssemblyId = subAssemblyId;
 
 		$scope.modalInstance = $uibModal.open({
@@ -186,11 +206,28 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 		});
 	}
 	$scope.deletePart = function (subAssemblyId, partId) {
+		debugger;
 		createOrEditEstimateService.deletePart(subAssemblyId, partId, function () {
 			$scope.operationStatus = "Record deleted successfully";
-			// $scope.getEstimateView('subAssembly');
+			$scope.getEstimateView('subAssembly');
 			$scope.getCurretEstimateObj();
 			$scope.cancelModal();
+		});
+	}
+	//- function to delete multiple parts
+	$scope.deleteMultipleParts = function (subAssId, partIds) {
+		createOrEditEstimateService.deleteMultipleParts(subAssId, partIds, function () {
+			$scope.bulkItems = [];
+			$scope.checkAll = false;
+			$scope.checkboxStatus = false;
+			$scope.getEstimateView('subAssembly');
+			$scope.getCurretEstimateObj();
+			$scope.cancelModal();
+			$scope.operationStatus = "***   Records deleted successfully   ***";
+
+			$timeout(function () {
+				$scope.operationStatus = "";
+			}, 3000);
 		});
 	}
 	//- modal to import Part
@@ -256,15 +293,31 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 			$scope.cancelModal();
 		});
 	}
+	//- fuction to delete bulk processing
+	$scope.deleteMultipleProcessing = function (processingIds, level, subAssId, partId) {
+		createOrEditEstimateService.deleteMultipleProcessing(level, processingId, subAssId, partId, function () {
+			$scope.bulkItems = [];
+			$scope.checkAll = false;
+			$scope.checkboxStatus = false;
+
+			$scope.getEstimateView('processing', level, subAssId, partId);
+			$scope.cancelModal();
+			$scope.operationStatus = "***   Records deleted successfully   ***";
+
+			$timeout(function () {
+				$scope.operationStatus = "";
+			}, 3000);
+		});
+	}
 	//- Import Processing
 	$scope.importProcessing = function (processingId, level, subAssemblyId, partId) {
-		console.log('**** level, subAssemblyId, partId ****', level, subAssemblyId, partId);
 
 		createOrEditEstimateService.getImportProcessingData(processingId, level, subAssemblyId, partId, function () {
 			$scope.getCurretEstimateObj();
 			$scope.cancelModal();
 		});
 	}
+
 
 	//- to add Addon at assembly or subssembly or at partLevel
 	$scope.addAddon = function (addonData, level, subAssemblyId, partId) {
@@ -286,6 +339,22 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 			$scope.cancelModal();
 		});
 	}
+	//- fuction to delete bulk addons
+	$scope.deleteMultipleAddons = function (addonId, level, subAssId, partId) {
+		createOrEditEstimateService.deleteMultipleAddons(level, addonId, subAssId, partId, function () {
+			$scope.bulkItems = [];
+			$scope.checkAll = false;
+			$scope.checkboxStatus = false;
+
+			$scope.getEstimateView('addons', level, subAssId, partId);
+			$scope.cancelModal();
+			$scope.operationStatus = "***   Records deleted successfully   ***";
+
+			$timeout(function () {
+				$scope.operationStatus = "";
+			}, 3000);
+		});
+	}
 	//- Import Addon
 	$scope.importAddon = function (addonId, level, subAssemblyId, partId) {
 		createOrEditEstimateService.getImportAddonData(addonId, level, subAssemblyId, partId, function () {
@@ -293,6 +362,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 			$scope.cancelModal();
 		});
 	}
+
 
 	//- to add Extra at assembly or subssembly or at partLevel
 	$scope.addExtra = function (extraData, level, subAssemblyId, partId) {
@@ -312,6 +382,22 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 			$scope.operationStatus = "Record deleted successfully";
 			$scope.getEstimateView('extras', level, subAssemblyId, partId);
 			$scope.cancelModal();
+		});
+	}
+	//- fuction to delete bulk extras
+	$scope.deleteMultipleExtras = function (extraId, level, subAssId, partId) {
+		createOrEditEstimateService.deleteMultipleExtras(level, extraId, subAssId, partId, function () {
+			$scope.bulkItems = [];
+			$scope.checkAll = false;
+			$scope.checkboxStatus = false;
+
+			$scope.getEstimateView('extras', level, subAssId, partId);
+			$scope.cancelModal();
+			$scope.operationStatus = "***   Records deleted successfully   ***";
+
+			$timeout(function () {
+				$scope.operationStatus = "";
+			}, 3000);
 		});
 	}
 	//- Import Extra
@@ -427,6 +513,30 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 			size: 'md',
 		});
 	}
+	//- common modal to confirm bulk items deletion
+	$scope.deleteMultipleItemsModal = function (level, itemId, getFunction, subAssemblyId, partId) {
+		$scope.idToDelete = itemId;
+		$scope.functionToCall = getFunction;
+		$scope.level = level;
+		$scope.subAssemblyId = subAssemblyId;
+		$scope.partId = partId;
+
+		$scope.modalInstance = $uibModal.open({
+			animation: true,
+			templateUrl: 'views/content/estimate/estimateModal/deleteMultipleItemsModal.html',
+			scope: $scope,
+			size: 'md'
+		});
+	}
+
+
+	//- to select all records
+	$scope.selectAll = function (type, level, itemData, checkboxStatus, subAssId, partId) {
+		createOrEditEstimateService.selectAll(type, level, itemData, checkboxStatus, subAssId, partId, function (data) {
+			$scope.bulkItems = data;
+		});
+	}
+
 
 	//- dismiss current modalInstance
 	$scope.cancelModal = function () {
@@ -443,7 +553,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 		$scope.getEstimateData();
 		$scope.getCustomMaterialData();
 	}
-
 	$scope.init();
 
 

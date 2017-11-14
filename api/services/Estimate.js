@@ -324,34 +324,160 @@ var model = {
     },
 
     importAssembly: function (data, callback) {
+        data.lastAssemblyNumber = data.lastAssemblyNumber.replace(/\d+$/, function (n) {
+            return ++n
+        });
+
         Estimate.findOne({
-                assemblyNumber: data.assemblyNumber
-            }).select('assemblyObj').lean().exec(function (err, found) {
-                if (err) {
-                    console.log('**** error at importAssembly of Estimate.js ****', err);
-                    callback(err, null);
-                } else if (_.isEmpty(found)) {
-                    callback(null, 'noDataFound');
-                } else {
+            assemblyNumber: data.assemblyNumber
+        }).select('assemblyObj').lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at importAssembly of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
 
-                    var lastAssemblyNumber = data.lastAssemblyNumber;
-                    found.assemblyObj.assemblyNumber = lastAssemblyNumber;
-                    var subAssNumber = 1;
-                    
-                    async.eachSeries(found.assemblyObj.subAssemblies, function (subAss, callback) {
-                        subAss.subAssemblyNumber = lastAssemblyNumber+'SA'+ subAssNumber;
-                        subAssNumber++;
-                        var subAssProcessIndex = 1;
-                        var subAssAddonIndex = 1;
-                        var subAssExtraIndex = 1;
+                var lastAssemblyNumber = data.lastAssemblyNumber;
+                found.assemblyObj.assemblyNumber = lastAssemblyNumber;
+                var subAssNumber = 1;
 
-                        // subAssemblies  PAE
+                async.eachSeries(found.assemblyObj.subAssemblies, function (subAss, callback) {
+                    subAss.subAssemblyNumber = lastAssemblyNumber + 'SA' + subAssNumber;
+                    subAssNumber++;
+                    var subAssProcessIndex = 1;
+                    var subAssAddonIndex = 1;
+                    var subAssExtraIndex = 1;
+
+                    // subAssemblies  PAE
+                    async.waterfall([
+                        function (callback) {
+                            async.eachSeries(subAss.processing, function (subAssPro, callback) {
+                                subAssPro.processingNumber = subAss.subAssemblyNumber + 'PR' + subAssProcessIndex;
+                                subAssProcessIndex++;
+                                callback();
+                            }, function (err) {
+                                if (err) {
+                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                } else {
+                                    callback();
+                                }
+                            });
+                        },
+                        function (callback) {
+                            async.eachSeries(subAss.addons, function (subAssAdd, callback) {
+                                subAssAdd.addonNumber = subAss.subAssemblyNumber + 'AD' + subAssAddonIndex;
+                                subAssAddonIndex++;
+                                callback();
+                            }, function (err) {
+                                if (err) {
+                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                } else {
+                                    callback();
+                                }
+                            });
+                        },
+                        function (callback) {
+                            async.eachSeries(subAss.extras, function (subAssExt, callback) {
+                                subAssExt.extraNumber = subAss.subAssemblyNumber + 'EX' + subAssExtraIndex;
+                                subAssExtraIndex++;
+                                callback();
+                            }, function (err) {
+                                if (err) {
+                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                } else {
+                                    callback();
+                                }
+                            });
+                        },
+                    ], function () {
+                        if (err) {
+                            console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
+                        } else {
+                            var partNumber = 1;
+                            var partProcessIndex = 1;
+                            var partAddonIndex = 1;
+                            var partExtraIndex = 1;
+
+                            async.eachSeries(subAss.subAssemblyParts, function (part, callback) {
+
+                                part.partNumber = subAss.subAssemblyNumber + 'PT' + partNumber;
+
+                                async.waterfall([
+                                    function (callback) {
+                                        async.eachSeries(part.processing, function (partPro, callback) {
+                                            partPro.processingNumber = part.partNumber + 'PR' + partProcessIndex;
+                                            partProcessIndex++;
+                                            callback();
+
+                                        }, function (err) {
+                                            if (err) {
+                                                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                            } else {
+                                                callback();
+                                            }
+                                        });
+                                    },
+                                    function (callback) {
+                                        async.eachSeries(part.addons, function (partAdd, callback) {
+                                            partAdd.addonNumber = part.partNumber + 'AD' + partAddonIndex;
+                                            partAddonIndex++;
+                                            callback();
+
+                                        }, function (err) {
+                                            if (err) {
+                                                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                            } else {
+                                                callback();
+                                            }
+                                        });
+                                    },
+                                    function (callback) {
+                                        async.eachSeries(part.extras, function (partExt, callback) {
+                                            partExt.extraNumber = part.partNumber + 'EX' + partExtraIndex;
+                                            partExtraIndex++;
+                                            callback();
+
+                                        }, function (err) {
+                                            if (err) {
+                                                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                            } else {
+                                                callback();
+                                            }
+                                        });
+                                    },
+                                ], function () {
+                                    if (err) {
+                                        console.log('***** error at final response of async.waterfall all in function_name of Components.js *****', err);
+                                    } else {
+                                        callback();
+                                    }
+                                });
+                            }, function (err) {
+                                if (err) {
+                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                } else {
+                                    callback();
+                                }
+                            });
+                        }
+                    });
+
+                }, function (err) {
+
+                    if (err) {
+                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                    } else {
+                        var assProcessIndex = 1;
+                        var assAddonIndex = 1;
+                        var assExtraIndex = 1;
                         async.waterfall([
                             function (callback) {
-                                async.eachSeries(subAss.processing, function (subAssPro, callback) {
-                                    subAssPro.processingNumber = subAss.subAssemblyNumber+'PR'+ subAssProcessIndex;
-                                    subAssProcessIndex++;
-                                    callback();            
+                                async.eachSeries(found.assemblyObj.processing, function (assPro, callback) {
+                                    assPro.processingNumber = lastAssemblyNumber + 'PR' + assProcessIndex;
+                                    assProcessIndex++;
+                                    callback();
+
                                 }, function (err) {
                                     if (err) {
                                         console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -361,10 +487,11 @@ var model = {
                                 });
                             },
                             function (callback) {
-                                async.eachSeries(subAss.addons, function (subAssAdd, callback) {
-                                    subAssAdd.addonNumber = subAss.subAssemblyNumber+'AD'+ subAssAddonIndex;
-                                    subAssAddonIndex++;
-                                    callback();            
+                                async.eachSeries(found.assemblyObj.addons, function (assAdd, callback) {
+                                    assAdd.addonNumber = lastAssemblyNumber + 'AD' + assAddonIndex;
+                                    assAddonIndex++;
+                                    callback();
+
                                 }, function (err) {
                                     if (err) {
                                         console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -374,10 +501,11 @@ var model = {
                                 });
                             },
                             function (callback) {
-                                async.eachSeries(subAss.extras, function (subAssExt, callback) {
-                                    subAssExt.extraNumber = subAss.subAssemblyNumber+'EX'+ subAssExtraIndex;
-                                    subAssExtraIndex++;
-                                    callback();            
+                                async.eachSeries(found.assemblyObj.extras, function (assExt, callback) {
+                                    assExt.extraNumber = lastAssemblyNumber + 'EX' + assExtraIndex;
+                                    assExtraIndex++;
+                                    callback();
+
                                 }, function (err) {
                                     if (err) {
                                         console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -390,138 +518,14 @@ var model = {
                             if (err) {
                                 console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
                             } else {
-                                var partNumber = 1;
-                                var partProcessIndex = 1;
-                                var partAddonIndex = 1;
-                                var partExtraIndex = 1;
-
-                                async.eachSeries(subAss.subAssemblyParts, function (part, callback) {
-
-                                    part.partNumber = subAss.subAssemblyNumber+'PT'+ partNumber;
-                                    
-                                    async.waterfall([
-                                        function (callback) {
-                                            async.eachSeries(part.processing, function (partPro, callback) {
-                                                partPro.processingNumber = part.partNumber+'PR'+ partProcessIndex;
-                                                partProcessIndex++;
-                                                callback();
-            
-                                            }, function (err) {
-                                                if (err) {
-                                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                                } else {
-                                                    callback();
-                                                }
-                                            });
-                                        },
-                                        function (callback) {
-                                            async.eachSeries(part.addons, function (partAdd, callback) {
-                                                partAdd.addonNumber = part.partNumber+'AD'+ partAddonIndex;
-                                                partAddonIndex++;
-                                                callback();
-            
-                                            }, function (err) {
-                                                if (err) {
-                                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                                } else {
-                                                    callback();
-                                                }
-                                            });
-                                        },
-                                        function (callback) {
-                                            async.eachSeries(part.extras, function (partExt, callback) {
-                                                partExt.extraNumber = part.partNumber+'EX'+ partExtraIndex;
-                                                partExtraIndex++;
-                                                callback();
-            
-                                            }, function (err) {
-                                                if (err) {
-                                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                                } else {
-                                                    callback();
-                                                }
-                                            });
-                                        },            
-                                    ], function () {
-                                        if (err) {
-                                            console.log('***** error at final response of async.waterfall all in function_name of Components.js *****', err);
-                                        } else {
-                                            callback();
-                                        }
-                                    });
-                                }, function (err) {
-                                    if (err) {
-                                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                    } else {
-                                        callback();
-                                    }
-                                });
+                                callback(null, found);
                             }
                         });
+                    }
+                });
 
-                    }, function (err) {
-                        
-                        if (err) {
-                            console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                        } else {
-                            var assProcessIndex = 1;
-                            var assAddonIndex = 1;
-                            var assExtraIndex = 1;                          
-                            async.waterfall([
-                                function (callback) {                                    
-                                    async.eachSeries(found.assemblyObj.processing, function (assPro, callback) {
-                                        assPro.processingNumber = lastAssemblyNumber+'PR'+ assProcessIndex;
-                                        assProcessIndex++;
-                                        callback();
-            
-                                    }, function (err) {
-                                        if (err) {
-                                            console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                        } else {
-                                            callback();
-                                        }
-                                    });
-                                },
-                                function (callback) {
-                                    async.eachSeries(found.assemblyObj.addons, function (assAdd, callback) {
-                                        assAdd.addonNumber = lastAssemblyNumber+'AD'+ assAddonIndex;
-                                        assAddonIndex++;
-                                        callback();
-            
-                                    }, function (err) {
-                                        if (err) {
-                                            console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                        } else {
-                                            callback();
-                                        }
-                                    });
-                                },
-                                function (callback) {
-                                    async.eachSeries(found.assemblyObj.extras, function (assExt, callback) {
-                                        assExt.extraNumber = lastAssemblyNumber+'EX'+ assExtraIndex;
-                                        assExtraIndex++;
-                                        callback();
-            
-                                    }, function (err) {
-                                        if (err) {
-                                            console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                        } else {
-                                            callback();
-                                        }
-                                    });
-                                },            
-                            ], function () {
-                                if (err) {
-                                    console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
-                                } else {
-                                    callback(null, found);
-                                }
-                            });
-                        }
-                    });                    
-
-                }
-            });
+            }
+        });
     },
 
     getEstimateData: function (data, callback) {
@@ -539,7 +543,7 @@ var model = {
 
     search: function (data, callback) {
         var maxRow = 10;
-        if(data.totalRecords){
+        if (data.totalRecords) {
             maxRow = data.totalRecords;
         }
         var page = 1;
@@ -551,7 +555,7 @@ var model = {
             field: data.field,
             filters: {
                 keyword: {
-                    fields: ['assemblyName','assemblyNumber'],
+                    fields: ['assemblyName', 'assemblyNumber'],
                     term: data.keyword
                 }
             },

@@ -35,7 +35,7 @@
                                     <li class="mainLi">
                                         <input type="checkbox" id="c5" />
                                         <label class="tree_label" for="c5"></label>
-                                        <span ng-click="getEstimateView('assembly')" class="assebmlyName">{{estimteData.assemblyName}}</span>
+                                        <span ng-click="getEstimateView('assembly')" class="assebmlyName">{{estimteData.assemblyName}} ({{estimteData.subAssemblies.length}})</span>
                                         <span ng-click="addOrEditSubAssemblyModal('save')" class="assemblyCreateIcon"><i class="fa fa-plus btn-info"></i></span>
                                         <span ng-click="editAssemblyNameModal(estimteData)" class="assemblyEditIcon"><i class="fa fa-pencil btn-warning "></i></span>
                                        
@@ -43,7 +43,7 @@
                                             <li ng-repeat="sa in estimteData.subAssemblies track by $index">
                                                 <input type="checkbox" id="{{sa.subAssemblyName+$index}}" />
                                                 <label for="{{sa.subAssemblyName+$index}}" class="tree_label"></label>
-                                                <span ng-click="getEstimateView('subAssembly', 'assembly', sa.subAssemblyNumber)" class="subssemblyName">{{sa.subAssemblyName}} ({{estimteData.subAssemblies.length}})</span>
+                                                <span ng-click="getEstimateView('subAssembly', 'assembly', sa.subAssemblyNumber)" class="subssemblyName">{{sa.subAssemblyName}} ({{sa.subAssemblyParts.length}})</span>
                                                 <span ng-click="addOrEditPartModal('save',sa.subAssemblyNumber)" class="subAssemblyCreateIcon"><i class="fa fa-plus btn-info" ></i></span>
                                                 <span ng-click="addOrEditSubAssemblyModal('update', sa)" class="subAssemblyEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
                                                 <span ng-click="deleteSubAssemblyModal(sa.subAssemblyNumber,'deleteSubAssembly')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger"></i></span>
@@ -51,11 +51,11 @@
                                                     <li ng-repeat="p in sa.subAssemblyParts track by $index">
                                                         <input type="checkbox" id="{{p.partName+$index+$parent.$index}}" />
                                                         <label for="{{p.partName+$index+$parent.$index}}" class="tree_label"></label>
-                                                        <span ng-click="getEstimateView('partDetail', 'subAssembly', sa.subAssemblyNumber, p.partNumber)" class="tree_label partName">{{p.partName}} ({{sa.subAssemblyParts.length}})</span>
+                                                        <span ng-click="getEstimateView('partDetail', 'subAssembly', sa.subAssemblyNumber, p.partNumber)" class="tree_label partName">{{p.partName}}</span>
                                                         <span ng-click="addOrEditPartModal('update', sa.subAssemblyNumber, p)" class="partEditIcon"><i class="fa fa-pencil btn-warning" ></i></span>
                                                         <span ng-click="duplicatePart(sa.subAssemblyNumber, p)" class="partDuplicateIcon"><i class="fa fa-clone btn-success" ></i></span>                                                        
-                                                        <span ng-click="deletePartModal(sa.subAssemblyNumber, p.partNumber)" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
-                                                        <span ng-click="importPartToDifferentSubAssemblyModal(p)" class="importPartIcon"><i class="fa fa-clipboard  btn-info "></i></span>
+                                                        <span ng-click="deletePartModal('deletePart', sa.subAssemblyNumber, p.partNumber)" class="partDeleteIcon"><i class="fa fa-trash-o btn-danger "></i></span>
+                                                        <span ng-click="importPartToDifferentSubAssemblyModal(p)" class="importPartIcon"><i class="fa fa-clipboard  btn-primary "></i></span>
                                                         
                                                         <ul>
                                                             <li>

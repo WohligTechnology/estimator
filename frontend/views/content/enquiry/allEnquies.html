@@ -34,9 +34,6 @@
                                 <li>
                                     <a href="javascript:;"> Export to Excel </a>
                                 </li>
-                                <li>
-                                    <a href="javascript:;"> Delete </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -94,21 +91,24 @@
                         <tr>
                             <th>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="tableData.length <= 0" ng-model="checkAll" ng-change="selectAll(tableData, checkAll)"
-                                    />
+                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="tableData.length <= 0"
+                                        ng-model="checkAll" ng-change="selectAll(tableData, checkAll)" />
                                     <span></span>
                                 </label>
                             </th>
-                            <th> Id </th>
-                            <th> Customer ID </th>
-                            <th> Details </th>
-                            <th> Info </th>
-                            <th> Key Requirements </th>
-                            <th> Technical Requirements </th>
-                            <th> Commercial Requirements </th>
-                            <th> Pre Qualification Criteria </th>
-                            <th> Markup </th>
-                            <th> Action </th>
+                            <th> Enquiry ID </th>
+                            <th> Description </th>
+                            <th> Status </th>
+                            <th> Customer </th>
+                            <th> Location </th>
+                            <th> Due date </th>
+                            <th> Equivalent sq. m </th>
+                            <th> Hardfacing weight </th>
+                            <th> Total weight </th>
+                            <th> Value </th>
+                            <th> Sales Zone </th>
+                            <th> Salesman </th>
+                            <th> Estimator </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,43 +120,19 @@
                                     <span></span>
                                 </label>
                             </td>
-                            <td>{{t._id}} </td>
-                            <td>{{t.customerId}} </td>
-                            <td>
-                                <input type="checkbox" id="c1" value="" ng-checked="detailsActive" />
-                            </td>
-                            <td>
-                                <input type="checkbox" id="c2" value="" ng-checked="infoActive" />
-                            </td>
-                            <td>
-                                <input type="checkbox" id="c3" value="" ng-checked="keyReqActive" />
-                            </td>
-                            <td>
-                                <input type="checkbox" id="c4" value="" ng-checked="techReqsActive" />
-                            </td>
-                            <td>
-                                <input type="checkbox" id="c5" value="" ng-checked="CommReqActive" />
-                            </td>
-                            <td>
-                                <input type="checkbox" id="c6" value="" ng-checked="PreQuaCriteriaActive" />
-                            </td>
-                            <td>
-                                <input type="checkbox" id="c7" value="" ng-checked="" />
-                            </td>
-                            <td>
-                                <!--<a class="" ng-click="edit();"> <span class="label label-sm label-info"><i class="fa fa-eye"></i></span></a>-->
-                                <a class="action edit-btn" ui-sref="app.editEnquiry({enquiryId:t._id})">
-                                    <span class="label label-sm label-success">
-                                        <i class="fa fa-pencil"></i>
-                                    </span>
-                                </a>
-                                <a class="edit-btn" ng-click="deleteEnquiryModal(t._id, 'deleteEnquiry')">
-                                    <span class="label label-sm label-danger">
-                                        <i class="fa fa-trash-o"></i>
-                                    </span>
-                                </a>
-                                <!--<a class="" ui-sref="app.estimate"> <span class="label label-sm label-warning"> Estimate </span></a>-->
-                            </td>
+                            <td>{{t.enquiryId}} </td>
+                            <td>{{t.rfqDescription}} </td>
+                            <td>{{t.enquiryDetails.enquiryStatus}}</td>
+                            <td>{{t.customerId}}</td>
+                            <td>{{t.deliveryLocation}}</td>
+                            <td>{{t.rfqDueDate}}</td>
+                            <td>      </td>
+                            <td>      </td>
+                            <td>      </td>
+                            <td>      </td>
+                            <td>      </td>
+                            <td>{{t.saleman}}</td>
+                            <td>{{t.estimator}}</td>
                         </tr>
                     </tbody>
                 </table>
