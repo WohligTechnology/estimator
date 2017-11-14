@@ -83,5 +83,19 @@ var model = {
         });
 
     },
+    getAllProcessingsNo: function (data, callback) {
+        EstimateProcessing.find({},{
+            processingNumber:1
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of EstimateProcessing.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);

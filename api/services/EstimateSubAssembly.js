@@ -354,5 +354,19 @@ var model = {
             }
         });
     },
+    getAllSubAssNo: function (data, callback) {
+        EstimateSubAssembly.find({}, {
+            subAssemblyNumber: 1
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of EstimateSubAssembly.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);
