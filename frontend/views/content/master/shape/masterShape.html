@@ -62,7 +62,7 @@
                                         <div class="" ng-repeat="varChunk in variablesData">
                                             <div class="" ng-repeat="var in varChunk track by $index">
                                                 {{var.varName}}
-                                                <input type="checkbox" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
+                                                <input type="checkbox" id="checkbox-f" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
                                                     ng-checked="var.checkboxStatus" ng-model="checkedVariable">
                                             </div>
                                         </div>

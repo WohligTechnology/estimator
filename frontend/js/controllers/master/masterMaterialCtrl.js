@@ -6,6 +6,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
     //- to show/hide save & update button on pop-up according to operation
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
+    $scope.disableit = true;
 
 
     // *************************** default functions begin here  ********************** //
@@ -162,6 +163,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
             console.log('**** inside getSubCatMaterials of masterMaterialCtrl.js & data is ****', data);
             $scope.subCatMaterials = data;
             $scope.selectedSubACat = materialSubCatId;
+            $scope.disableit = false;
         });
     }
 

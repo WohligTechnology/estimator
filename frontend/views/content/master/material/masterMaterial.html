@@ -128,14 +128,14 @@
                         <div class="col-md-3">
                             <span>customOverlay :
                                 <input type="checkbox" ng-click="changeMaterialType('customOverlay',selectedSubACat)"
-                                    ng-checked="subCatMaterials[0].type == 'customOverlay'" ng-model="customOverlay" ng-disabled="subCatMaterials[0].type == 'customOverlay'">
+                                    ng-checked="subCatMaterials[0].type == 'customOverlay'" ng-model="customOverlay" ng-disabled="subCatMaterials[0].type == 'customOverlay' || disableit">
                             </span>
 
                         </div>
                         <div class="col-md-3">
                             <span>customBase :
                                 <input type="checkbox" ng-click="changeMaterialType('customBase',selectedSubACat)"
-                                    ng-checked="subCatMaterials[0].type == 'customBase'" ng-model="customBase" ng-disabled="subCatMaterials[0].type == 'customBase'">
+                                    ng-checked="subCatMaterials[0].type == 'customBase'" ng-model="customBase" ng-disabled="subCatMaterials[0].type == 'customBase' || disableit">
                             </span>
 
                         </div>

@@ -1,6 +1,7 @@
 var schema = new Schema({
     partTypeName: {
-        type: String
+        type: String,
+        unique:true
     },
     partTypeCode: {
         type: String

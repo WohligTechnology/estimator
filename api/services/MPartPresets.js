@@ -1,7 +1,8 @@
 var schema = new Schema({
     presetName: { // preset name will be used in dropdown at add Part To Estimate 
         type: String,
-        required: true
+        required: true,
+        unique:true
     },
     presetId: { // manual unique ID for preset because mongo will create a different _id for each document
         type: String // So, we will not able to identify same presets with different sizes 
