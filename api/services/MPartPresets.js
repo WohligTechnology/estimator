@@ -131,6 +131,20 @@ var model = {
             }
         });
     },
+    getPresetsShapeAndPartType: function (data, callback) {
+        MPartPresets.find({
+            presetName : data.presetName
+        }).deepPopulate('shape partType partType.material').lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of MPartPresets.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 
 
 

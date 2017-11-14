@@ -12,7 +12,6 @@ var schema = new Schema({
     materials: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MMaterial',
-        required: true
     }],
 });
 

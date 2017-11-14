@@ -206,12 +206,14 @@ var model = {
     },
 
     importSubAssembly: function (data, callback) {
-        console.log('**** inside function_name of EstimateSubAssembly.js & data is ****',data);
+
+        data.lastSubAssemblyNumber = data.lastSubAssemblyNumber.replace(/\d+$/, function (n) {
+            return ++n
+        });
         EstimateSubAssembly.findOne({
             subAssemblyNumber: data.subAssemblyNumber
         }).select('subAssemblyObj').lean().exec(function (err, found) {
 
-            console.log('**** inside %%%%%%%%%%%%% of EstimateSubAssembly.js ****',found);
             if (err) {
                 console.log('**** error at importAssembly of Estimate.js ****', err);
                 callback(err, null);

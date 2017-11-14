@@ -47,18 +47,22 @@ module.exports = mongoose.model('EstimateProcessing', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
     importProcessing: function (data, callback) {
+        data.lastProcessingNumber = data.lastProcessingNumber.replace(/\d+$/, function (n) {
+            return ++n
+        });
+
         EstimateProcessing.findOne({
             processingNumber: data.processingNumber
         }).lean().exec(function (err, found) {
-            
+
             if (err) {
                 console.log('**** error at importProcessing of EstimateProcessing.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
-                var latestProcessingNumber = data.latestProcessingNumber;
-                found.processingNumber = latestProcessingNumber;
+                var lastProcessingNumber = data.lastProcessingNumber;
+                found.processingNumber = lastProcessingNumber;
                 Estimate.removeUnwantedField(found, function (finalData) {
                     console.log('**** inside function_name of EstimateProcessing.js ****');
                     callback(null, finalData);
