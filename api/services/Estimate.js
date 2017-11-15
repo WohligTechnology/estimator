@@ -582,6 +582,23 @@ var model = {
                     }
                 });
     },
+    // what this function will do ?
+    // req data --> _id
+    getAllAssembliesNo: function (data, callback) {
+        Estimate.find({}, {
+            assemblyNumber: 1
+        }).lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getAllAssembliesNo of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+
 
 };
 module.exports = _.assign(module.exports, exports, model);

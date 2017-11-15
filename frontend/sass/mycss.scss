@@ -475,9 +475,7 @@ tree css*/
         width: 100%;
       }
     }
-  } 
-  
-  //- scroll bar css
+  } //- scroll bar css
   .vertical_scroll {
     overflow: auto;
     height: 419px;
@@ -497,11 +495,9 @@ tree css*/
   .vertical_scroll::-webkit-scrollbar-thumb {
     background-color: #F90;
     border-radius: 15px;
-    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.44, #0f809c), color-stop(0.72, #61c0de), color-stop(0.86, #6cc1dc));
-  }
-
-  // .vertical_scroll::-webkit-scrollbar-thumb {
-  //   background-color: #F90;
-  //   border-radius: 15px;
-  //   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent)
-  // }
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.44, #61c0de), color-stop(0.72, #6cc1dc), color-stop(0.86, #0f809c));
+  } 
+  
+ #add_space {
+  margin-right: 4px;
+ }

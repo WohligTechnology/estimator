@@ -138,8 +138,8 @@
                                 <tr>
                                     <th rowspan="2">
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="processData.length <= 0" ng-model="checkAll" ng-change="selectAll(processData, checkAll)"
-                                            />
+                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="processData.length <= 0"
+                                                ng-model="checkAll" ng-change="selectAll(processData, checkAll)" />
                                             <span></span>
                                         </label>
                                     </th>
@@ -180,16 +180,12 @@
                                     <td> {{process.quantity.utilization}}</td>
                                     <td> {{process.quantity.contengncyOrWastage}}</td>
                                     <td class="edit-icon">
-                                        <a class="action" ng-click="addOrEditProcessTypeModal('update',process)">
-                                            <span class="label label-sm label-success">
-                                                <i class="fa fa-pencil"></i>
-                                            </span>
-                                        </a>
-                                        <a class="" ng-click="deleteProcessTypeModal(process._id,'deleteProcessType')">
-                                            <span class="label label-sm label-danger">
-                                                <i class="fa fa-trash-o"></i>
-                                            </span>
-                                        </a>
+                                        <span class="label label-sm label-success" id="add_space" ng-click="addOrEditProcessTypeModal('update',process)">
+                                            <i class="fa fa-pencil"></i>
+                                        </span>
+                                        <span class="label label-sm label-danger" ng-click="deleteProcessTypeModal(process._id,'deleteProcessType')">
+                                            <i class="fa fa-trash-o"></i>
+                                        </span>
                                     </td>
                                 </tr>
                             </tbody>
