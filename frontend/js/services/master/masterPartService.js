@@ -121,17 +121,51 @@ myApp.service('masterPartService', function (NavigationService) {
         var obj = {
             _id: partTypeId
         }
+        var partTypeObj = {
+            partType: partTypeId
+        }
         var presetData = {}
+
+        if (operation == "save") {
+            presetData.saveBtn = true;
+            presetData.editBtn = false;
+        } else if (operation == "update") {
+            presetData.saveBtn = false;
+            presetData.editBtn = true;
+        }
+
+
+        NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
+            if (data.data.length == 0) {
+                presetData.selectedShape = null;
+                NavigationService.boxCall('MShape/search', function (sapeData) {
+                    presetData.shapeData = sapeData.data.results;
+                    NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
+                        presetData.partTypeData = partTypeData.data;
+                        callback(presetData);
+                    });
+                });
+            } else {
+                presetData.selectedShape  = data.data[0].shape;
+                NavigationService.boxCall('MShape/search', function (sapeData) {
+                    presetData.shapeData = sapeData.data.results;
+                    NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
+                        presetData.partTypeData = partTypeData.data;
+                        callback(presetData);
+                    });
+                });
+            }   
+        });
+
         // get shape data
         // get part type data
-        NavigationService.boxCall('MShape/search', function (sapeData) {
-            presetData.shapeData = sapeData.data.results;
-            NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
-                presetData.partTypeData = partTypeData.data;
-                callback(presetData);
-            });
-
-        });
+        // NavigationService.boxCall('MShape/search', function (sapeData) {
+        //     presetData.shapeData = sapeData.data.results;
+        //     NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
+        //         presetData.partTypeData = partTypeData.data;
+        //         callback(presetData);
+        //     });
+        // });
 
     }
     this.getPartTypeSizes = function (partTypeId, callback) {
@@ -141,10 +175,10 @@ myApp.service('masterPartService', function (NavigationService) {
         var partTypeDataObj = {};
 
         NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
-            if(data.data){
+            if (data.data) {
                 partTypeDataObj.partSizes = data.data;
             }
-            
+
             NavigationService.apiCall('MPartType/getOne', {
                 _id: partTypeId
             }, function (matData) {
@@ -227,5 +261,5 @@ myApp.service('masterPartService', function (NavigationService) {
 
 
 
-    
+
 });

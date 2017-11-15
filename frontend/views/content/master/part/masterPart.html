@@ -104,14 +104,123 @@
                         </div>
                     </div>
                 </div>
-                <div class="portlet-body">
+                <div class="portlet-body" ng-if="showPresetSaveForm">
                     <div class="portlet-body">
                         <form class="form-horizontal">
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Shape :</label>
                                     <div class="col-md-2">
-                                        <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)" ng-disabled="disableShape">
+                                        <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)" ng-disabled="selectedShape != null">
+                                        </select>
+                                    </div>
+                                    <label class="col-md-2 control-label">Part Type Code :</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" ng-disabled="presetFormData.partTypeData.partTypeCode" ng-model="presetFormData.partTypeData.partTypeCode" required>
+                                    </div>
+                                    <label class="col-md-2 control-label">Preset Size :</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" ng-model="presetFormData.size" required>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div>
+                                            <img src="img/Doraemon.png" alt="" class="img-responsive">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label>
+                                                <b>Variables:</b>
+                                            </label>
+                                        </div>
+                                        <div class="form-group" ng-repeat="v in selectedShape.variable track by $index">
+                                            <label class="col-md-3 control-label">{{v.varName}}</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="getPresetFinalData(presetFormData,selectedShape)" ng-model="v.varValue" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Thickness (t)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-model="presetFormData.thickness">
+                                            </div>
+                                            <label class="col-md-3 control-label">Length (L)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.length">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Wastage (wtg)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.wastage">
+                                            </div>
+                                            <label class="col-md-3 control-label">Form Factor (ff)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.formFactor">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Size Factor (sf)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.sizeFactor">
+                                            </div>
+                                            <label class="col-md-3 control-label">Preset Shortcut</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.presetName">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label class="col-md-2">
+                                        <b>Perimeter (p):</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.perimeter}}</div>
+                                    </div>
+                                    <label class="col-md-2">
+                                        <b>Sheet Metal Area:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.sheetMetalArea}}</div>
+                                    </div>
+                                    <label class="col-md-2">
+                                        <b>Surface Area:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.surfaceArea}}</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2">
+                                        <b>Weight:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.weight}}</div>
+                                    </div>
+                                    <label class="col-md-2">
+                                        <b>Cost Price:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.perimeter}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="portlet-body" ng-if="showPresetUpdateForm">
+                    <div class="portlet-body">
+                        <form class="form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Shape :</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)" ng-disabled="true">
                                         </select>
                                     </div>
                                     <label class="col-md-2 control-label">Part Type Code :</label>

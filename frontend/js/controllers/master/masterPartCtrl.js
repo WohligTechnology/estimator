@@ -14,6 +14,8 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
     $scope.showPartTypeMaterial = false;
     $scope.disableShape = false;
     $scope.selectedShape = {};
+    $scope.showPresetSaveForm = false;
+    $scope.showPresetUpdateForm = false;
     var varName = "";
     var varValue = "";
     var perimeter = 0;
@@ -126,26 +128,35 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
             $scope.showPartTypeMaterial = true;
             $scope.disableShape = true;
         });
-
     }
 
-    //-
+    //- 
     $scope.addNewPreset = function (operation, partTypeId) {
         $scope.presetFormData = {};
+        $scope.showPresetSaveForm = true;
+        $scope.showPresetUpdateForm = false;
         // $scope.selectedShape = {};
-        // $scope.disableShape = false;
+
+        // if sizes.length == 0 then make disableShape-->false
+        $scope.disableShape = false;
         masterPartService.addNewPreset(operation, partTypeId, function (data) {
             $scope.showPartView = true;
             $scope.presetFormData = data;
+            $scope.selectedShape = data.selectedShape;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
             console.log('**** inside $scope.presetFormData of masterPartCtrl.js & data is ****', $scope.presetFormData);
         });
     }
+
     //- to get/show preset view (with data in case of edit)
-    //- called when click on + icon at partType (i.e. to add new preset )    &
+    //- called when click on + icon at partType (i.e. to add new preset ) &
     //- click on the preset size to edit preset 
     $scope.getPresetViewWithData = function (operation, presetData) {
         $scope.showPartView = true;
         presetData.shape.variable = presetData.variable;
+        $scope.showPresetUpdateForm = true;
+        $scope.showPresetSaveForm = false;
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
             $scope.presetFormData = data.presetData;
             $scope.selectedShape = data.presetData.shape;
