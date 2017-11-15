@@ -213,14 +213,7 @@ myApp.service('masterProcessService', function ($http, $uibModal, NavigationServ
         var processId = obj._id;
         bulkArray.push(processId);
       });
-    } else {
-      angular.forEach(processes,  function (obj) {
-        var processId = obj._id;
-        _.remove(bulkArray, function (record) {
-          return record == processId;
-        });
-      });
-    }
+    } 
     callback(bulkArray);
   }
   //- delete bulk processes

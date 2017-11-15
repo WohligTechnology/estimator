@@ -23,7 +23,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="editSubAssembly(formData.subAssemblyNumber)">Update</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addSubAssembly(formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="formData.subAssemblyName == null" ng-click="addSubAssembly(formData)">Save</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

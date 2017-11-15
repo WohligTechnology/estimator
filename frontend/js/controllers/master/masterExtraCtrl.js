@@ -1,4 +1,4 @@
-myApp.controller('masterExtraCtrl', function ($scope, $http, $timeout, $uibModal, masterExtraService) {
+myApp.controller('masterExtraCtrl', function ($scope, $http, toastr, $uibModal, masterExtraService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -7,7 +7,6 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $timeout, $uibModal
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
   $scope.bulkExtras = [];
-  $scope.operationStatus = '';
 
 
   // *************************** default functions begin here  ********************** //
@@ -51,11 +50,7 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $timeout, $uibModal
     extraData.rate.uom = selectedRateUom;
 
     masterExtraService.addOrEditExtra(extraData, function (data) {
-
-      $scope.operationStatus = "***   Record added successfully   ***";
-      $timeout(function () {
-        $scope.operationStatus = "";
-      }, 3000);
+      toastr.info('Records added successfully', 'Extra Creation!');
       $scope.getMasterExtraData();
       $scope.cancelModal();
     });
@@ -76,10 +71,7 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $timeout, $uibModal
   //- function for  extra deletion
   $scope.deleteExtra = function (extraId) {
     masterExtraService.deleteExtra(extraId, function (data) {
-      $scope.operationStatus = "***   Record deleted successfully   ***";
-      $timeout(function () {
-        $scope.operationStatus = "";
-      }, 3000);
+      toastr.info('Records deleted successfully', 'Extra Deletion!');
       $scope.cancelModal();
       $scope.getMasterExtraData();
     });
@@ -143,24 +135,15 @@ myApp.controller('masterExtraCtrl', function ($scope, $http, $timeout, $uibModal
   //- function to delete extra
   $scope.deleteBulkExtras = function (extras) {
     masterExtraService.deleteBulkExtras(extras, function () {
-      $scope.operationStatus = "Records deleted successfully";
       $scope.cancelModal();
       $scope.getMasterExtraData();
       $scope.bulkExtras = [];
-
-      $timeout(function () {
-        $scope.operationStatus = "";
-      }, 4000);
+      toastr.info('Records added successfully', 'Extras Deletion!');
     });
   }
   //- function to get bulk extras
   $scope.selectBulkExtras = function (checkboxStatus, addonId) {
     masterExtraService.selectBulkExtras(checkboxStatus, addonId, function (data) {
-      if (data.length >= 1) {
-        $scope.recordSelected = true;
-      } else {
-        $scope.recordSelected = false;
-      }
       $scope.bulkExtras = data;
     });
   }

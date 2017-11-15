@@ -1,11 +1,10 @@
-myApp.controller('enquiryCtrl', function ($scope, $state, $timeout, $uibModal, enquiryService) {
+myApp.controller('enquiryCtrl', function ($scope, $state, toastr, $uibModal, enquiryService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
   //- to show/hide sidebar of dashboard   
   $scope.$parent.isSidebarActive = true;
   $scope.bulkEnquiries = [];
-  $scope.operationStatus = '';
 
   
   // *************************** default functions begin here  ********************** //
@@ -44,10 +43,7 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $timeout, $uibModal, e
   //- function for  enquiry deletion
   $scope.deleteEnquiry = function (enquiryId) {
     enquiryService.deleteEnquiry(enquiryId, function (data) {
-      $scope.operationStatus = "***   Record deleted successfully   ***";
-      $timeout(function () {
-        $scope.operationStatus = "";
-    }, 3000);
+      toastr.info('Record deleted successfully', 'Enquiry Deletion!');
       $scope.cancelModal();
       $scope.getEnquiryData();
     });
@@ -114,11 +110,7 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $timeout, $uibModal, e
       $scope.cancelModal();
       $scope.getEnquiryData();
       $scope.bulkEnquiries = [];
-      $scope.operationStatus = "***   Records deleted successfully   ***";
-
-      $timeout(function () {
-          $scope.operationStatus = "";
-      }, 3000);
+      toastr.info('Records deleted successfully', 'Enquiries Deletion!');
     });
   }
   //- function to get bulk enquiries

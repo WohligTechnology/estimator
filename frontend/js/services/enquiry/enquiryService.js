@@ -96,14 +96,7 @@ myApp.service('enquiryService', function ($http, NavigationService) {
         var enquiryId = obj._id;
         bulkArray.push(enquiryId);
       });
-    } else {
-      angular.forEach(enquiries,  function (obj) {
-        var enquiryId = obj._id;
-        _.remove(bulkArray, function (record) {
-          return record == enquiryId;
-        });
-      });
-    }
+    } 
     callback(bulkArray);
   }
   //- delete bulk enquiries

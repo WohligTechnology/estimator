@@ -121,12 +121,7 @@ myApp.service('masterAddonService', function ($http, NavigationService) {
         bulkArray.push(addonId);
       });
     } else {
-      angular.forEach(addons,  function (obj) {
-        var addonId = obj._id;
-        _.remove(bulkArray, function (record) {
-          return record == addonId;
-        });
-      });
+      bulkArray = [];
     }
     callback(bulkArray);
   }

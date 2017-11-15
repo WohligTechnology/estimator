@@ -1,7 +1,7 @@
 <!-- BEGIN LOGIN -->
 <div class="content" style="min-height: 300px;">
     <!-- BEGIN LOGIN FORM -->
-    <form class="login-form">
+    <form class="login-form" name="myForm">
         <div class="form-group">
             <h3 class="form-title">Login to your account</h3>
             <div class="alert alert-danger display-hide">
@@ -14,26 +14,42 @@
             <label class="control-label visible-ie8 visible-ie9">UserID</label>
             <div class="input-icon">
                 <i class="fa fa-user"></i>
-                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" ng-model="formData.userId" /> </div>
+                <input class="form-control placeholder-no-fix" name="username" type="text" autocomplete="off" placeholder="Username" ng-model="userId"
+                />
+            </div>
         </div>
         <div class="form-group">
             <label class="control-label visible-ie8 visible-ie9">Password</label>
             <div class="input-icon">
                 <i class="fa fa-lock"></i>
-                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" ng-model="formData.password" /> </div>
+                <input class="form-control placeholder-no-fix" name="password" type="password" autocomplete="off" placeholder="Password"
+                    ng-model="password" />
+            </div>
         </div>
-        <br><br>
+        <br>
+        <br>
         <div class="form-actions">
             <div class="row">
                 <div class="col-md-6">
-                    <button type="button" class="btn green pull-left" ng-click="verifyUser(formData.userId, formData.password)"> Login </button><br>
+                    <button type="button" class="btn green pull-left" ng-click="verifyUser(userId, password)" ng-disabled="myForm.password.$dirty && myForm.password.$invalid ||  
+                    myForm.username.$dirty && myForm.username.$invalid"> Login </button>
+                    <br>
                 </div>
                 <div class="col-md-6">
-                    <p class="pull-right" ng-click="forgotPasswordModal()">Forgot Password</p> 
+                    <p class="pull-right" ng-click="forgotPasswordModal()">Forgot Password</p>
                 </div>
-            </div>      
-        </div>     
-        
-        <span class="caption-subject bold" ng-if="validationError != ''">{{error}}</span>
+            </div>
+        </div>
+        <h4>
+            <span class="label label-info" ng-show="myForm.username.$error.required">UserID is required.</span>
+        </h4>
+        <h4>
+            <span class="label label-info" ng-show="myForm.password.$error.required">Password is required.</span>
+        </h4>
+        <h4>
+            <span class="label label-info" ng-show="myForm.username.$invalid">Please Enter Valid UserID</span>
+        </h4>
+        <h4>
+            <span class="label label-info" ng-if="validationError != ''">{{error}}</span>
+        </h4>
 </div>
-

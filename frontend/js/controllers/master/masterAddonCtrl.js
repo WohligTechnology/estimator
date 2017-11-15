@@ -1,4 +1,4 @@
-myApp.controller('masterAddonCtrl', function ($scope, $http, $timeout, $uibModal, masterAddonService) {
+myApp.controller('masterAddonCtrl', function ($scope, $http, toastr, $uibModal, masterAddonService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -8,7 +8,6 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $timeout, $uibModal
   $scope.showEditBtn = false;
   $scope.mMatSubCatData = [];
   $scope.bulkAddons = [];
-  $scope.operationStatus = '';
 
 
   // *************************** default functions begin here  ********************** //
@@ -62,7 +61,7 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $timeout, $uibModal
     addonTypeData.quantity.finalUom = selectedFinalUomId;
 
     masterAddonService.addOrEditAddonType(addonTypeData, function (data) {
-      $scope.successMessage = "Addon Added successfully..";
+      toastr.info('Record added successfully', 'Addon Creation!');
       $scope.getAddonData();
       $scope.cancelModal();
     });
@@ -83,10 +82,7 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $timeout, $uibModal
   //- function for addon deletion
   $scope.deleteAddonType = function (addonId) {
     masterAddonService.deleteAddonType(addonId, function (data) {
-      $scope.operationStatus = "***   Record deleted successfully   ***";
-      $timeout(function () {
-        $scope.operationStatus = "";
-      }, 3000);
+      toastr.info('Record deleted successfully', 'Addon Deletion!');
       $scope.getAddonData();
       $scope.cancelModal();
     });
@@ -153,21 +149,12 @@ myApp.controller('masterAddonCtrl', function ($scope, $http, $timeout, $uibModal
       $scope.cancelModal();
       $scope.getAddonData();
       $scope.bulkAddons = [];
-      $scope.operationStatus = "***   Record deleted successfully   ***";
-
-      $timeout(function () {
-        $scope.operationStatus = "";
-      }, 3000);
+      toastr.info('Records added successfully', 'Addons Deletion!');
     });
   }
   //- function to get bulk addons
   $scope.selectBulkAddons = function (checkboxStatus, addonId) {
     masterAddonService.selectBulkAddons(checkboxStatus, addonId, function (data) {
-      if (data.length >= 1) {
-        $scope.recordSelected = true;
-      } else {
-        $scope.recordSelected = false;
-      }
       $scope.bulkAddons = data;
     });
   }

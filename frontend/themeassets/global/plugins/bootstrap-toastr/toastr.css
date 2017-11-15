@@ -58,12 +58,14 @@ button.toast-close-button {
 }
 .toast-top-center {
   top: 0;
+  margin-top: 50px;
   right: 0;
   width: 100%;
 }
 .toast-bottom-center {
   bottom: 0;
   right: 0;
+  margin-bottom: 10px;
   width: 100%;
 }
 .toast-top-full-width {
