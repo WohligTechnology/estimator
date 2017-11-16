@@ -582,8 +582,6 @@ var model = {
                     }
                 });
     },
-    // what this function will do ?
-    // req data --> _id
     getAllAssembliesNo: function (data, callback) {
         Estimate.find({}, {
             assemblyNumber: 1

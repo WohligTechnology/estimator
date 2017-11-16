@@ -90,7 +90,7 @@ var model = {
     getAllAddonsNo: function (data, callback) {
         EstimateAddons.find({},{
             addonNumber:1
-        }).exec(function (err, found) {
+        }).lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of EstimateAddons.js ****', err);
                 callback(err, null);
