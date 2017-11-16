@@ -37,7 +37,7 @@
       <div class="portlet-body">
         <div class="table-toolbar">
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-8">
               <div class="btn-group">
                 <button type="button" class="btn btn-default">Show Records</button>
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
@@ -62,13 +62,6 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="btn-group pull-left">
-                <h4>
-                  <span class="label label-info" ng-if="operationStatus != ''">{{operationStatus}}</span>
-                </h4>
-              </div>
-            </div>
-            <div class="col-md-4">
               <div class="inputs search pull-right">
                 <div class="portlet-input input-small input-inline">
                   <div class="input-icon right">
@@ -86,8 +79,8 @@
             <tr>
               <th>
                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                  <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="tableData.length <= 0" ng-model="checkAll" ng-change="selectAll(tableData, checkAll)"
-                  />
+                  <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="tableData.length <= 0"
+                    ng-model="checkAll" ng-change="selectAll(tableData, checkAll)" />
                   <span></span>
                 </label>
               </th>
@@ -106,7 +99,7 @@
               <td>
                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                   <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
-                   ng-change="selectBulkEstimates(checkboxStatus, table._id)" />
+                    ng-change="selectBulkEstimates(checkboxStatus, table._id)" />
                   <span></span>
                 </label>
               </td>
@@ -124,21 +117,19 @@
                 <a class="delete" href=":;"> Delete </a>
               </td>
               <td>
-                <a class="action" ng-click="allEstimateEdit()">
-                  <span class="label label-sm label-success">
-                    <i class="fa fa-pencil"></i>
+                  <span class="label label-sm label-info" id="add_space" ui-sref="app.createEstimate({estimateId:'59fc450d47ab914c889c4754'})">
+                      <i class="fa fa-calculator"></i>
                   </span>
-                </a>
-                <a class="" ng-click="deleteItem()">
-                  <span class="label label-sm label-danger">
-                    <i class="fa fa-trash-o"></i>
-                  </span>
-                </a>
+                <span class="label label-sm label-success" id="add_space" ng-click="allEstimateEdit()">
+                  <i class="fa fa-pencil"></i>
+                </span>
+                <span class="label label-sm label-danger" ng-click="deleteItem()">
+                  <i class="fa fa-trash-o"></i>
+                </span>
               </td>
             </tr>
           </tbody>
         </table>
-
         <div class="row" ng-if="total>obj.count">
           <div class="col-md-6">
             <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing {{pageStart}} to {{pageEnd}} of {{total}} records</div>

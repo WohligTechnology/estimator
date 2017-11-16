@@ -16,7 +16,7 @@
                                 placeholder="Enter Addon Id">Import</button>
                         </div>
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_2_new" ng-hide="bulkItems.length == 0" class="btn btn-circle red" ng-click="deleteMultipleItemsModal(level, bulkItems, 'deleteMultipleAddons', estimateViewData.subAssemblyId, estimateViewData.partId)">
+                            <button id="sample_editable_2_new" ng-hide="bulkItems.length == 0" class="btn btn-circle red" id="add_space" ng-click="deleteMultipleItemsModal(level, bulkItems, 'deleteMultipleAddons', estimateViewData.subAssemblyId, estimateViewData.partId)">
                                 <i class="fa fa-trash-o"></i>
                             </button>
                         </div>
@@ -84,7 +84,7 @@
                             <tr>
                                 <th rowspan="2" class="align-top">
                                     <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="estimateViewData.length <= 0" ng-model="checkAll" ng-change="selectAll('addons', level, estimateViewData, checkAll, estimateViewData.subAssemblyId, estimateViewData.partId)"/>
+                                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked="checkAll" ng-disabled="estimateViewData.length <= 0" ng-model="checkAll" ng-change="selectAll('addons', level, estimateViewData, checkAll, estimateViewData.subAssemblyId, estimateViewData.partId)"/>
                                         <span></span>
                                     </label>
                                 </th>
@@ -116,16 +116,16 @@
                                 </td>
                                 <td> 1 </td>
                                 <td> {{p.addonType}} </td>
-                                <td>5 </td>
-                                <td>24 </td>
-                                <td>400 </td>
+                                <td> 5 </td>
+                                <td> 24 </td>
+                                <td> 400 </td>
                                 <td> {{p.quantity.utilization}} </td>
                                 <td> 600 </td>
-                                <td> 900</td>
-                                <td> 300</td>
-                                <td> Approved</td>
+                                <td> 900 </td>
+                                <td> 300 </td>
+                                <td> Approved </td>
                                 <td class="edit-icon">
-                                    <span class="label label-sm label-success" ng-click="editItemModal('Addon', p)">
+                                    <span class="label label-sm label-success" id="add_space" ng-click="editItemModal('Addon', p)">
                                         <i class="fa fa-pencil"></i>
                                     </span>
                                     <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteAddon', p.addonNumber, level, estimateViewData.subAssemblyId, estimateViewData.partId)">

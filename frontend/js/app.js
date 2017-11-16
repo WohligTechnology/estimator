@@ -21,6 +21,34 @@ myApp.config(function ($translateProvider) {
     $translateProvider.preferredLanguage('en');
 });
 
+myApp.config(function(toastrConfig) {
+    angular.extend(toastrConfig, {
+      allowHtml: false,
+      closeButton: false,
+      closeHtml: '<button>&times;</button>',
+      extendedTimeOut: 1000,
+      iconClasses: {
+        error: 'toast-error',
+        info: 'toast-info',
+        success: 'toast-success',
+        warning: 'toast-warning'
+      },  
+      positionClass: 'toast-bottom-center',      
+      messageClass: 'toast-message',
+      onHidden: null,
+      onShown: null,
+      onTap: null,
+      progressBar: false,
+      tapToDismiss: true,
+      templates: {
+        toast: 'directives/toast/toast.html',
+        progressbar: 'directives/progressbar/progressbar.html'
+      },
+      timeOut: 5000,
+      titleClass: 'toast-title',
+      toastClass: 'toast'
+    });
+  });
 
 myApp.config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
@@ -67,10 +95,7 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
     $scope.loginTemplate = true;
-    $scope.logoutUser = function () {
-        $.jStorage.deleteKey("loggedInUser")
-        $state.go('login');
-    }
+
 
     // console.log("*********************************************************************",window.location.href );
     // console.log("*********************************************************************",$state.current);
@@ -153,6 +178,18 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             controller: "loginCtrl",
             resolve: {
                 "isLoggedIn": routeResolve
+            }
+        })
+
+        // ********************************** logout module ********************************** //
+        .state('logout', {
+            url: "/login",
+            templateUrl: "views/content/login/estimatorLogin.html",
+            controller: "loginCtrl",
+            resolve: {
+                logoutUser:  function () {
+                    $.jStorage.deleteKey("loggedInUser")
+                }
             }
         })
 

@@ -1,4 +1,4 @@
-myApp.controller('masterProcessCtrl', function ($scope, $http, $timeout, $uibModal, masterProcessService) {
+myApp.controller('masterProcessCtrl', function ($scope, $http, toastr, $uibModal, masterProcessService) {
 
 
     // *************************** default variables/tasks begin here ***************** //
@@ -7,7 +7,6 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $timeout, $uibMod
     $scope.showEditBtn = false;
     $scope.selectedProcessCat = {};
     $scope.bulkProcesses = [];
-    $scope.operationStatus = '';
 
 
     // *************************** default functions begin here  ********************** //
@@ -48,10 +47,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $timeout, $uibMod
     $scope.addOrEditProcessCat = function (processCatData, selectedUomId) {
         processCatData.uom = selectedUomId;
         masterProcessService.addOrEditProcessCat(processCatData, function (data) {
-            $scope.operationStatus = "***   Record added successfully   ***";
-            $timeout(function () {
-                $scope.operationStatus = "";
-            }, 3000);
+            toastr.info('Record added successfully', 'Process Creation!');
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -69,10 +65,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $timeout, $uibMod
     }
     $scope.deleteProcessCat = function (processCatId) {
         masterProcessService.deleteProcessCat(processCatId, function (data) {
-            $scope.operationStatus = "***   Record deleted successfully   ***";
-            $timeout(function () {
-                $scope.operationStatus = "";
-            }, 3000);
+            toastr.info('Record deleted successfully', 'Process Deletion!');
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -96,10 +89,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $timeout, $uibMod
     }
     $scope.addOrEditProcessItem = function (processItemData, processCatId) {
         masterProcessService.addOrEditProcessItem(processItemData, processCatId, function (data) {
-            $scope.operationStatus = "***   Record added successfully   ***";
-            $timeout(function () {
-                $scope.operationStatus = "";
-            }, 3000);
+            toastr.info('Record added successfully', 'Process Creation!');
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -117,10 +107,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $timeout, $uibMod
     }
     $scope.deleteProcessItem = function (processItemId) {
         masterProcessService.deleteProcessItem(processItemId, function (data) {
-            $scope.operationStatus = "***   Record deleted successfully   ***";
-            $timeout(function () {
-                $scope.operationStatus = "";
-            }, 3000);
+            toastr.info('Record deleted successfully', 'Process Deletion!');
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -160,10 +147,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $timeout, $uibMod
         processData.quantity.uom = selectedQuaLinkedKeyUom;
         processData.quantity.finalUom = selectedQuaFinalUom;
         masterProcessService.addOrEditProcessType(processData, function (data) {
-            $scope.operationStatus = "***   Record added successfully   ***";
-            $timeout(function () {
-                $scope.operationStatus = "";
-            }, 3000);
+            toastr.info('Record added successfully', 'Process Creation!');
             $scope.getProcessTypeData();
             $scope.cancelModal();
         });
@@ -181,10 +165,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $timeout, $uibMod
     }
     $scope.deleteProcessType = function (processId) {
         masterProcessService.deleteProcessType(processId, function (data) {
-            $scope.operationStatus = "***   Record deleted successfully   ***";
-            $timeout(function () {
-                $scope.operationStatus = "";
-            }, 3000);
+            toastr.info('Record deleted successfully', 'Process Deletion!');
             $scope.cancelModal();
             $scope.getProcessTypeData();
         });
@@ -255,20 +236,12 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $timeout, $uibMod
             $scope.cancelModal();
             $scope.getProcessTypeData();
             $scope.bulkProcesses = [];
-            $scope.operationStatus = "***   Records deleted successfully   ***";
-            $timeout(function () {
-                $scope.operationStatus = "";
-            }, 4000);
+            toastr.info('Records deleted successfully', 'Process Deletion!');
         });
     }
     //- function to get bulk processes
     $scope.selectBulkProcesses = function (checkboxStatus, processId) {
         masterProcessService.selectBulkProcesses(checkboxStatus, processId, function (data) {
-            if (data.length >= 1) {
-                $scope.recordSelected = true;
-            } else {
-                $scope.recordSelected = false;
-            }
             $scope.bulkProcesses = data;
         });
     }

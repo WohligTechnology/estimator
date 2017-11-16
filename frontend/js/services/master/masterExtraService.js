@@ -135,13 +135,6 @@ myApp.service('masterExtraService', function ($http, NavigationService, $uibModa
         var extraId = obj._id;
         bulkArray.push(extraId);
       });
-    } else {
-      angular.forEach(extras,  function (obj) {
-        var extraId = obj._id;
-        _.remove(bulkArray, function (record) {
-          return record == extraId;
-        });
-      });
     }
     callback(bulkArray);
   }

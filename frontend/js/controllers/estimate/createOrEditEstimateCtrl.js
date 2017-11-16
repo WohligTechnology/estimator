@@ -1,4 +1,4 @@
-myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateParams, createOrEditEstimateService, $uibModal) {
+myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $stateParams, createOrEditEstimateService, $uibModal) {
 
 
 	// *************************** default variables/tasks begin here ***************** //
@@ -24,6 +24,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 		createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
 			$scope.level = getLevelName;
 			$scope.estimateViewData = data;
+			$scope.bulkItems = [];
 		});
 	}
 	//- get data to generate tree structure dynamically i.e. get assembly stucture
@@ -68,13 +69,30 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 	$scope.saveCurrentEstimate = function () {
 		createOrEditEstimateService.saveCurrentEstimate(function (data) {
 			$scope.getEstimateData();
-			$scope.updatedAssembly = "Estimate data updated successfully...";
-			$timeout(function () {
-				$scope.updatedAssembly = "";
-			}, 3000);
+			toastr.info('Estimate data updated successfully', 'Estimate Updation!');
 		});
 	}
+	//- Import SubAssembly
+	$scope.importAssemblyModal = function () {
 
+		$scope.subAssId;
+		createOrEditEstimateService.getAllAssemblyNumbers(function (data) {
+			$scope.assemblyData = data;
+			$scope.modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'views/content/estimate/estimateModal/importAssembly.html',
+				scope: $scope,
+				size: 'md',
+			});
+		});
+	}
+	$scope.importAssembly = function (assemblyId) {
+		createOrEditEstimateService.getImportAssemblyData(assemblyId, function () {
+			$scope.getCurretEstimateObj();
+			toastr.info('Assebly imported successfully', 'Assembly Import!');
+			$scope.cancelModal();
+		});
+	}
 
 	//- to add or edit subAssembly data
 	$scope.addOrEditSubAssemblyModal = function (operation, subAssembly) {
@@ -117,7 +135,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 	}
 	$scope.deleteSubAssembly = function (subAssemblyId) {
 		createOrEditEstimateService.deleteSubAssembly(subAssemblyId, function () {
-			$scope.operationStatus = "Record deleted successfully";
+			toastr.info('SubAssembly deleted successfully', 'SubAssembly Deletion!');
 			$scope.getEstimateView('assembly');
 			$scope.cancelModal();
 		});
@@ -131,26 +149,26 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 
 			$scope.getEstimateView('assembly');
 			$scope.cancelModal();
-			$scope.operationStatus = "***   Records deleted successfully   ***";
-
-			$timeout(function () {
-				$scope.operationStatus = "";
-			}, 3000);
+			toastr.info('SubAssemblies deleted successfully', 'SubAssemblies Deletion!');
 		});
 	}
 	//- Import SubAssembly
 	$scope.importSubAssemblyModal = function () {
 		$scope.subAssId;
-		$scope.modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: 'views/content/estimate/estimateModal/importSubAssembly.html',
-			scope: $scope,
-			size: 'md',
+		createOrEditEstimateService.getAllSubAssNumbers(function (data) {
+			$scope.subAssemblyData = data;
+			$scope.modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'views/content/estimate/estimateModal/importSubAssembly.html',
+				scope: $scope,
+				size: 'md',
+			});
 		});
 	}
 	$scope.importSubAssembly = function (subAssId) {
 		createOrEditEstimateService.getImportSubAssemblyData(subAssId, function () {
 			$scope.getCurretEstimateObj();
+			toastr.info('SubAssembly imported successfully', 'SubAssembly Import!');
 			$scope.cancelModal();
 		});
 	}
@@ -176,14 +194,15 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 		});
 	}
 	$scope.addPart = function (partData, subAssId) {
-		console.log('partData, subAssId', partData, subAssId);
 		createOrEditEstimateService.createPart(partData, subAssId, function () {
 			$scope.getCurretEstimateObj();
+			toastr.info('Part added successfully', 'Part Creation!');
 			$scope.cancelModal();
 		});
 	}
 	$scope.editPart = function () {
 		$scope.getCurretEstimateObj();
+		toastr.info('Part updated successfully', 'Part Updation!');
 		$scope.cancelModal();
 
 	}
@@ -206,9 +225,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 		});
 	}
 	$scope.deletePart = function (subAssemblyId, partId) {
-		debugger;
 		createOrEditEstimateService.deletePart(subAssemblyId, partId, function () {
-			$scope.operationStatus = "Record deleted successfully";
+			toastr.info('Part deleted successfully', 'part Deletion!');
 			$scope.getEstimateView('subAssembly');
 			$scope.getCurretEstimateObj();
 			$scope.cancelModal();
@@ -233,16 +251,20 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 	//- modal to import Part
 	$scope.importPartModal = function (subAssId) {
 		$scope.subAssId = subAssId;
-		$scope.modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: 'views/content/estimate/estimateModal/importPart.html',
-			scope: $scope,
-			size: 'md',
+		createOrEditEstimateService.getAllPartNumbers(function (data) {
+			$scope.partData = data;
+			$scope.modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'views/content/estimate/estimateModal/importPart.html',
+				scope: $scope,
+				size: 'md',
+			});
 		});
 	}
 	$scope.importPart = function (subAssId, partId) {
 		createOrEditEstimateService.getImportPartData(subAssId, partId, function () {
 			$scope.getCurretEstimateObj();
+			toastr.info('Part imported successfully', 'Part Import!');
 			$scope.cancelModal();
 		});
 	}
@@ -262,58 +284,57 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 	//- to import current part to  different subAssembly modal 
 	$scope.importPartToDifferentSubAssemblyModal = function (part) {
 		$scope.partData = part;
-		$scope.subAssemblyId = '',
+		createOrEditEstimateService.getAllSubAssNumbers(function (data) {
+			$scope.subAssemblyData = data;
 			$scope.modalInstance = $uibModal.open({
 				animation: true,
 				templateUrl: 'views/content/estimate/estimateModal/importPartToDifferentSubAssemblyModal.html',
 				scope: $scope,
 				size: 'md'
 			});
+		});
 	}
 
 
 	//- to add processing at assembly or subssembly or at partLevel
 	$scope.addProcessing = function (processingData, level, subAssemblyId, partId) {
 		createOrEditEstimateService.createProcessing(processingData, level, subAssemblyId, partId, function () {
-
 			$scope.getEstimateView('processing', level, subAssemblyId, partId);
+			toastr.info('Processing added successfully', 'Processing Creation!');
 			$scope.cancelModal();
 		});
 	}
 	//- to edit processing at assembly or subssembly or at partLevel
 	$scope.editProcessing = function () {
 		$scope.getCurretEstimateObj();
+		toastr.info('Processing updated successfully', 'Processing Updation!');
 		$scope.cancelModal();
 	}
 	//- function to confirm delete Processings
 	$scope.deleteProcessing = function (processingId, level, subAssemblyId, partId) {
 		createOrEditEstimateService.deleteProcessing(processingId, level, subAssemblyId, partId, function (data) {
-			$scope.operationStatus = "Record deleted successfully";
+			toastr.info('Processing deleted successfully', 'Processing Deletion!');
 			$scope.getEstimateView('processing', level, subAssemblyId, partId);
 			$scope.cancelModal();
 		});
 	}
 	//- fuction to delete bulk processing
 	$scope.deleteMultipleProcessing = function (processingIds, level, subAssId, partId) {
-		createOrEditEstimateService.deleteMultipleProcessing(level, processingId, subAssId, partId, function () {
+		createOrEditEstimateService.deleteMultipleProcessing(level, processingIds, subAssId, partId, function () {
 			$scope.bulkItems = [];
 			$scope.checkAll = false;
 			$scope.checkboxStatus = false;
 
 			$scope.getEstimateView('processing', level, subAssId, partId);
 			$scope.cancelModal();
-			$scope.operationStatus = "***   Records deleted successfully   ***";
-
-			$timeout(function () {
-				$scope.operationStatus = "";
-			}, 3000);
+			toastr.info('Processing deleted successfully', 'Processing Deletion!');
 		});
 	}
 	//- Import Processing
 	$scope.importProcessing = function (processingId, level, subAssemblyId, partId) {
-
 		createOrEditEstimateService.getImportProcessingData(processingId, level, subAssemblyId, partId, function () {
 			$scope.getCurretEstimateObj();
+			toastr.info('Processing imported successfully', 'Processing Import!');
 			$scope.cancelModal();
 		});
 	}
@@ -323,18 +344,20 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 	$scope.addAddon = function (addonData, level, subAssemblyId, partId) {
 		createOrEditEstimateService.createAddon(addonData, level, subAssemblyId, partId, function () {
 			$scope.getEstimateView('addons', level, subAssemblyId, partId);
+			toastr.info('Addon added successfully', 'Addon Creation!');
 			$scope.cancelModal();
 		});
 	}
 	//- to edit Addon at assembly or subssembly or at partLevel
 	$scope.editAddon = function () {
 		$scope.getCurretEstimateObj();
+		toastr.info('Addon updated successfully', 'Addon Updation!');
 		$scope.cancelModal();
 	}
 	//- function to confirm delete Addons
 	$scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {
 		createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
-			$scope.operationStatus = "Record deleted successfully";
+			toastr.info('Addon deleted successfully', 'Addon Deletion!');
 			$scope.getEstimateView('addons', level, subAssemblyId, partId);
 			$scope.cancelModal();
 		});
@@ -345,20 +368,16 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 			$scope.bulkItems = [];
 			$scope.checkAll = false;
 			$scope.checkboxStatus = false;
-
 			$scope.getEstimateView('addons', level, subAssId, partId);
 			$scope.cancelModal();
-			$scope.operationStatus = "***   Records deleted successfully   ***";
-
-			$timeout(function () {
-				$scope.operationStatus = "";
-			}, 3000);
+			toastr.info('Addons deleted successfully', 'Addons Deletion!');
 		});
 	}
 	//- Import Addon
 	$scope.importAddon = function (addonId, level, subAssemblyId, partId) {
 		createOrEditEstimateService.getImportAddonData(addonId, level, subAssemblyId, partId, function () {
 			$scope.getCurretEstimateObj();
+			toastr.info('Addon imported successfully', 'Addon Import!');
 			$scope.cancelModal();
 		});
 	}
@@ -368,18 +387,20 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 	$scope.addExtra = function (extraData, level, subAssemblyId, partId) {
 		createOrEditEstimateService.createExtra(extraData, level, subAssemblyId, partId, function () {
 			$scope.getEstimateView('extras', level, subAssemblyId, partId);
+			toastr.info('Extra added successfully', 'Extra Creation!');
 			$scope.cancelModal();
 		});
 	}
 	//- to edit Extra at assembly or subssembly or at partLevel
 	$scope.editExtra = function () {
 		$scope.getCurretEstimateObj();
+		toastr.info('Extra updated successfully', 'Extra Updation!');
 		$scope.cancelModal();
 	}
 	//- function to confirm delete Extras
 	$scope.deleteExtra = function (extraId, level, subAssemblyId, partId) {
 		createOrEditEstimateService.deleteExtra(extraId, level, subAssemblyId, partId, function () {
-			$scope.operationStatus = "Record deleted successfully";
+			toastr.info('Extra deleted successfully', 'Extra Deletion!');
 			$scope.getEstimateView('extras', level, subAssemblyId, partId);
 			$scope.cancelModal();
 		});
@@ -393,17 +414,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 
 			$scope.getEstimateView('extras', level, subAssId, partId);
 			$scope.cancelModal();
-			$scope.operationStatus = "***   Records deleted successfully   ***";
-
-			$timeout(function () {
-				$scope.operationStatus = "";
-			}, 3000);
+			toastr.info('Extras deleted successfully', 'Extra Deletion!');
 		});
 	}
 	//- Import Extra
 	$scope.importExtra = function (extraId, level, subAssemblyId, partId) {
 		createOrEditEstimateService.getImportExtraData(extraId, level, subAssemblyId, partId, function () {
 			$scope.getCurretEstimateObj();
+			toastr.info('Extra imported successfully', 'Extra Import!');
 			$scope.cancelModal();
 		});
 	}
@@ -505,12 +523,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 		$scope.level = level;
 		$scope.subAssemblyId = subAssemblyId;
 		$scope.partId = partId;
-
-		$scope.modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: 'views/content/estimate/estimateModal/import' + type + '.html',
-			scope: $scope,
-			size: 'md',
+		createOrEditEstimateService.getAllItemNumbers(type, function (data) {
+			$scope.itemData = data;
+			$scope.modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'views/content/estimate/estimateModal/import' + type + '.html',
+				scope: $scope,
+				size: 'md',
+			});
 		});
 	}
 	//- common modal to confirm bulk items deletion
@@ -529,7 +549,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $timeout, $stateP
 		});
 	}
 
+	//- function to get bulk users
+	$scope.selectBulkItems = function (checkboxStatus, itemId) {
 
+		$scope.bulkItems;
+		createOrEditEstimateService.selectBulkItems(checkboxStatus, itemId, function (data) {
+			$scope.bulkItems = data;
+		});
+	}
 	//- to select all records
 	$scope.selectAll = function (type, level, itemData, checkboxStatus, subAssId, partId) {
 		createOrEditEstimateService.selectAll(type, level, itemData, checkboxStatus, subAssId, partId, function (data) {

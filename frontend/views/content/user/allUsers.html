@@ -42,7 +42,7 @@
             <div class="portlet-body">
                 <div class="table-toolbar">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
@@ -67,13 +67,6 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="btn-group pull-left">
-                                <h4>
-                                    <span class="label label-info" ng-if="operationStatus != ''">{{operationStatus}}</span>
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
                             <div class="inputs search pull-right">
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
@@ -91,8 +84,8 @@
                         <tr>
                             <th>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="userData.length <= 0" ng-model="checkAll" ng-change="selectAll(userData, checkAll)"
-                                    />
+                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="userData.length <= 0"
+                                        ng-model="checkAll" ng-change="selectAll(userData, checkAll)" />
                                     <span></span>
                                 </label>
                             </th>
@@ -119,7 +112,7 @@
                             <td class="center"> {{user.dob}} </td>
                             <td>{{user.mobile }}</td>
                             <td>
-                                <span class="label label-sm label-success" ng-click="addOrEditUserModal('update',user)">
+                                <span class="label label-sm label-success" id="add_space" ng-click="addOrEditUserModal('update',user)">
                                     <i class="fa fa-pencil"></i>
                                 </span>
                                 <span class="label label-sm label-danger" ng-click="deleteUserModal(user._id,'deleteUser')">

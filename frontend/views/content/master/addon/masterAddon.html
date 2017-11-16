@@ -42,7 +42,7 @@
             <div class="portlet-body">
                 <div class="table-toolbar">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
@@ -67,13 +67,6 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="btn-group pull-left">
-                                <h4>
-                                    <span class="label label-info" ng-if="operationStatus != ''">{{operationStatus}}</span>
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
                             <div class="inputs search pull-right">
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
@@ -94,8 +87,8 @@
                                 <tr>
                                     <th rowspan="2">
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="addonData.length <= 0" ng-model="checkAll" ng-change="selectAll(addonData, checkAll)"
-                                            />
+                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="addonData.length <= 0"
+                                                ng-model="checkAll" ng-change="selectAll(addonData, checkAll)" />
                                             <span></span>
                                         </label>
                                     </th>
@@ -154,16 +147,12 @@
                                     <td>{{addon.quantity.finalUom.uomName}} </td>
                                     <td>{{addon.quantity.percentageUse}}</td>
                                     <td class="edit-icon">
-                                        <a class="action" ng-click="addOrEditAddonTypeModal('update',addon)">
-                                            <span class="label label-sm label-success">
-                                                <i class="fa fa-pencil"></i>
-                                            </span>
-                                        </a>
-                                        <a class="" ng-click="deleteAddonTypeModal(addon._id,'deleteAddonType')">
-                                            <span class="label label-sm label-danger">
-                                                <i class="fa fa-trash-o"></i>
-                                            </span>
-                                        </a>
+                                        <span class="label label-sm label-success" id="add_space" ng-click="addOrEditAddonTypeModal('update',addon)">
+                                            <i class="fa fa-pencil"></i>
+                                        </span>
+                                        <span class="label label-sm label-danger" ng-click="deleteAddonTypeModal(addon._id,'deleteAddonType')">
+                                            <i class="fa fa-trash-o"></i>
+                                        </span>
                                     </td>
                                 </tr>
                             </tbody>

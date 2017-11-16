@@ -1,4 +1,4 @@
-myApp.controller('customerCtrl', function ($scope, $http, $timeout, $uibModal, customerService) {
+myApp.controller('customerCtrl', function ($scope, toastr, $http, $uibModal, customerService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -7,7 +7,6 @@ myApp.controller('customerCtrl', function ($scope, $http, $timeout, $uibModal, c
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
   $scope.bulkCustomers = [];
-  $scope.operationStatus = '';
 
 
   // *************************** default functions begin here  ********************** //
@@ -44,13 +43,10 @@ myApp.controller('customerCtrl', function ($scope, $http, $timeout, $uibModal, c
   $scope.addOrEditCustomer = function (operation, customerData) {
     customerService.addOrEditCustomer(customerData, function (data) {
       if (operation == 'save') {
-        $scope.operationStatus = "***   Record added successfully   ***";
+        toastr.success('Record added successfully', 'User Creation!');
       } else {
-        $scope.operationStatus = "***   Record updated successfully   ***";
+        toastr.success('Record updated successfully', 'User Updation!');
       }
-      $timeout(function () {
-        $scope.operationStatus = "";
-      }, 3000);
       $scope.getCustomerData();
       $scope.cancelModal();
     });
@@ -71,10 +67,7 @@ myApp.controller('customerCtrl', function ($scope, $http, $timeout, $uibModal, c
   //- function to delete user
   $scope.deleteCustomer = function (customerId) {
     customerService.deleteCustomer(customerId, function (data) {
-      $scope.operationStatus = "***   Record deleted successfully   ***";
-      $timeout(function () {
-        $scope.operationStatus = "";
-      }, 3000);
+      toastr.success('Record deleted successfully', 'User Deletion!');
       $scope.cancelModal();
       $scope.getCustomerData();
     });
@@ -141,22 +134,15 @@ myApp.controller('customerCtrl', function ($scope, $http, $timeout, $uibModal, c
       $scope.cancelModal();
       $scope.getCustomerData();
       $scope.bulkCustomers = [];
-      $scope.operationStatus = "***   Records deleted successfully   ***";
-
-      $timeout(function () {
-        $scope.operationStatus = "";
-      }, 3000);
+      toastr.success('Record deleted successfully', 'User Deletion!');
     });
   }
   //- function to get bulk customers
   $scope.selectBulkCustomers = function (checkboxStatus, customerId) {
     customerService.selectBulkCustomers(checkboxStatus, customerId, function (data) {
       if (data.length >= 1) {
-        $scope.recordSelected = true;
-      } else {
-        $scope.recordSelected = false;
-      }
       $scope.bulkCustomers = data;
+      }
     });
   }
   //- to select all records

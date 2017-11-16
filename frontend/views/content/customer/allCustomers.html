@@ -42,7 +42,7 @@
             <div class="portlet-body">
                 <div class="table-toolbar">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
@@ -67,13 +67,6 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="btn-group pull-left">
-                                <h4>
-                                    <span class="label label-info" ng-if="operationStatus != ''">{{operationStatus}}</span>
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
                             <div class="inputs search pull-right">
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
@@ -91,8 +84,8 @@
                         <tr>
                             <th rowspan="2" class="align-top">
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="customerData.length <= 0" ng-model="checkAll" ng-change="selectAll(customerData, checkAll)"
-                                    />
+                                    <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="customerData.length <= 0"
+                                        ng-model="checkAll" ng-change="selectAll(customerData, checkAll)" />
                                     <span></span>
                                 </label>
                             </th>
@@ -126,16 +119,12 @@
                             <td>{{customer.margins.commission}}</td>
                             <td>{{customer.margins.other}}</td>
                             <td>
-                                <a class="action" ng-click="addOrEditCustomerModal('update',customer)">
-                                    <span class="label label-sm label-success">
-                                        <i class="fa fa-pencil"></i>
-                                    </span>
-                                </a>
-                                <a class="" ng-click="deleteCustomerModal(customer._id,'deleteCustomer')">
-                                    <span class="label label-sm label-danger">
-                                        <i class="fa fa-trash-o"></i>
-                                    </span>
-                                </a>
+                                <span class="label label-sm label-success" id="add_space" ng-click="addOrEditCustomerModal('update',customer)">
+                                    <i class="fa fa-pencil"></i>
+                                </span>
+                                <span class="label label-sm label-danger" ng-click="deleteCustomerModal(customer._id,'deleteCustomer')">
+                                    <i class="fa fa-trash-o"></i>
+                                </span>
                             </td>
                         </tr>
                     </tbody>
