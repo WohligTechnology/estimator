@@ -232,7 +232,7 @@ var model = {
     getAllPartsNo: function (data, callback) {
         EstimatePart.find({},{
             partNumber:1
-        }).exec(function (err, found) {
+        }).lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of EstimatePart.js ****', err);
                 callback(err, null);

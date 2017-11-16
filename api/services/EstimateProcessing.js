@@ -86,7 +86,7 @@ var model = {
     getAllProcessingsNo: function (data, callback) {
         EstimateProcessing.find({},{
             processingNumber:1
-        }).exec(function (err, found) {
+        }).lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of EstimateProcessing.js ****', err);
                 callback(err, null);
