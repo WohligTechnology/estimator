@@ -14,8 +14,8 @@
             <label class="control-label visible-ie8 visible-ie9">UserID</label>
             <div class="input-icon">
                 <i class="fa fa-user"></i>
-                <input class="form-control placeholder-no-fix" name="username" type="text" autocomplete="off" placeholder="Username" ng-model="userId"
-                />
+                <input class="form-control placeholder-no-fix" name="userId" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" autocomplete="off" placeholder="Username" ng-model="userId"
+                autofocus required />
             </div>
         </div>
         <div class="form-group">
@@ -23,7 +23,7 @@
             <div class="input-icon">
                 <i class="fa fa-lock"></i>
                 <input class="form-control placeholder-no-fix" name="password" type="password" autocomplete="off" placeholder="Password"
-                    ng-model="password" />
+                    ng-model="password" required />
             </div>
         </div>
         <br>
@@ -31,8 +31,7 @@
         <div class="form-actions">
             <div class="row">
                 <div class="col-md-6">
-                    <button type="button" class="btn green pull-left" ng-click="verifyUser(userId, password)" ng-disabled="myForm.password.$dirty && myForm.password.$invalid ||  
-                    myForm.username.$dirty && myForm.username.$invalid"> Login </button>
+                    <button type="button" class="btn green pull-left" ng-click="verifyUser(userId, password)" ng-disabled="myForm.userId.$invalid || myForm.password.$invalid"> Login </button>
                     <br>
                 </div>
                 <div class="col-md-6">
@@ -40,16 +39,16 @@
                 </div>
             </div>
         </div>
+        <!-- 
+            <h5><p ng-show="myForm.password.$error.minlength" class="help-block">Password is too short.</p></h5>
+        <p ng-show="myForm.userId.$error.maxlength" class="help-block">Username is too long.</p>
         <h4>
-            <span class="label label-info" ng-show="myForm.username.$error.required">UserID is required.</span>
+            <span class="label label-info" ng-show="myForm.userId.$invalid && myForm.userId.$dirty">UserID is required.</span>
         </h4>
         <h4>
-            <span class="label label-info" ng-show="myForm.password.$error.required">Password is required.</span>
-        </h4>
-        <h4>
-            <span class="label label-info" ng-show="myForm.username.$invalid">Please Enter Valid UserID</span>
-        </h4>
-        <h4>
-            <span class="label label-info" ng-if="validationError != ''">{{error}}</span>
-        </h4>
+            <span class="label label-info" ng-show="myForm.password.$invalid && myForm.password.$dirty">Password is required.</span>
+        </h4> -->
+        <h5>
+            <p class="help-block" ng-if="validationError != ''">{{error}}</p>
+        </h5>
 </div>

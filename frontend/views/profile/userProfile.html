@@ -83,16 +83,12 @@
                                         <div class="form-group">
                                             <label class="control-label">Name</label>
                                             <!-- <input type="text" class="form-control" ng-model="formData.name" />  -->
-                                            <input type="text" class="form-control" ng-model="formdata.filedata.file" /> 
+                                            <input type="text" class="form-control" ng-model="formData.name" /> 
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Mobile Number</label>
-                                            <input type="mobile" class="form-control" ng-model="formData.mobile" /> 
+                                            <input type="mobile" minlength="10" maxlength="10" class="form-control" ng-model="formData.mobile" /> 
                                         </div>
-                                        <!-- <div class="form-group">
-                                            <label class="control-label">Date Of Birth</label>
-                                            <input type="date" class="form-control" ng-model="formData.dob" /> 
-                                        </div> -->
                                         <div class="form-group">
                                             <label class="control-label">email</label>
                                             <input type="email" class="form-control" ng-model="formData.email" /> 
@@ -111,7 +107,7 @@
                                 <!-- CHANGE AVATAR TAB -->
                                 <div class="tab-pane" id="tab_1_2">
 
-                                    <form action="#" role="form">
+                                    <form role="form">
                                         <div class="form-group">
                                             <pre>{{formdata | json}}</pre>
                                             <!-- <upload-image ng-model="formdata.userAvatar"></upload-image> -->
@@ -129,25 +125,27 @@
                                 <!-- END CHANGE AVATAR TAB -->
                                 <!-- CHANGE PASSWORD TAB -->
                                 <div class="tab-pane" id="tab_1_3">
-                                    <form action="#">
+                                    <form name="myForm">
                                         <div class="form-group">
                                             <label class="control-label">Current Password</label>
-                                            <input type="password" class="form-control" /> </div>
+                                            <input type="password" class="form-control" ng-model="currentPassword" required/> </div>
                                         <div class="form-group">
                                             <label class="control-label">New Password</label>
-                                            <input type="password" class="form-control" ng-model="formData.newPassword" />
+                                            <input type="password" class="form-control" name="newPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" maxlength="15" ng-model="newPassword" required/>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label"></label>Confirm New Password</label>
-                                            <input type="password" class="form-control" ng-model="formData.confirmNewPassword" />
+                                            <input type="password" class="form-control" name="confirmNewPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" maxlength="15" ng-model="confirmNewPassword" required />
                                         </div>
                                         <div class="form-group">
-                                            <p ng-if="formData.newPassword != formData.confirmNewPassword">New Password is not matching with Confirm New Password</p>
+                                            <p ng-show="(myForm.newPassword != myForm.confirmNewPassword) && (myForm.newPassword.$dirty) && (myForm.confirmNewPassword.$dirty)" class="help-block">New Password is not matching with Confirm New Password</p>
+                                            <!-- <p ng-show="myForm.newPassword.$error.minlength" class="help-block">Password is too short.</p> -->
+                                            <p ng-show="myForm.newPassword.$error.pattern" class="help-block">Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters.</p>
                                         </div>
                                         <br>
                                         <br>
                                         <div class="margin-top-10">
-                                            <button class="btn green" ng-disabled="formData.newPassword != formData.confirmNewPassword" ng-click=""> Change Password </button>
+                                            <button class="btn green" ng-disabled="newPassword != confirmNewPassword || myForm.newPassword.$invalid || myForm.confirmNewPassword.$invalid" ng-click="changePassword(currentPassword, confirmNewPassword)"> Change Password </button>
                                             <!-- <button class="btn default"> Cancel </button> -->
                                         </div>
                                     </form>
