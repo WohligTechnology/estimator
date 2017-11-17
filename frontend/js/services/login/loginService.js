@@ -3,7 +3,6 @@ myApp.service('loginService', function (NavigationService) {
   //search a user in database with usename and password
   this.verifyUser = function(username, password, callback){
       NavigationService.apiCall('User/loginUser',{email:username, password:password},function(data){
-          debugger;
           if(data.data == 'ObjectId Invalid' || data.data == 'noDataFound'){
               data.data = [];
           }         
@@ -16,7 +15,6 @@ myApp.service('loginService', function (NavigationService) {
         if(data.data == 'userNotFound'){
               data.data = [];
         }
-          console.log('inside verifyUserId() data',data.data)
           callback(data.data);
       });
   }

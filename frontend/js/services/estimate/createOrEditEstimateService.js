@@ -157,12 +157,9 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 	}
 	this.getEstimateData = function (draftEstimateId, callback) {
 		if ($.jStorage.get('estimateObject') != null) {
-			debugger;
 			formData.assembly = $.jStorage.get('estimateObject');
-			callback($.jStorage.get('estimateObject'));
-
+			callback(formData.assembly);
 		} else {
-			debugger;
 			NavigationService.apiCall('DraftEstimate/getOne', {
 				_id: draftEstimateId
 			}, function (data) {
@@ -172,7 +169,6 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 					formData.assembly = data.data;
 					callback(data.data);
 				}
-
 			});
 		}
 	}
@@ -780,8 +776,13 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 
 	//- to import assembly
 	this.getImportAssemblyData = function (assemblyNumber, callback) {
-		//temp = _.last(formData.assembly).assemblyNumber;
-		temp = formData.assembly.assemblyNumber;
+		debugger;
+		if (formData.assembly.length == undefined) {
+			temp = 'AS0';
+		} else {
+			temp = _.last(formData.assembly).assemblyNumber;			
+		}
+		//temp = formData.assembly.assemblyNumber;
 		tempObj = {
 			assemblyNumber: assemblyNumber,
 			lastAssemblyNumber: temp
@@ -826,7 +827,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 	this.getImportProcessingData = function (processingId, level, subAssemblyId, partId, callback) {
 		if (level == 'assembly') {
 			if (formData.assembly.processing.length == 0) {
-				temp = AS1 + 'PR0';
+				temp = 'AS1' + 'PR0';
 			} else {
 				temp = _.last(formData.assembly.processing).processingNumber;
 			}

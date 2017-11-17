@@ -43,6 +43,17 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 			$scope.customData = customData;
 		});
 	}
+	// $scope.importAssembly = function () {
+	// 	debugger;
+	// 	if ($stateParams.assemblyNumber != "") {
+	// 		$scope.assemblyNumber = $stateParams.assemblyNumber;
+	// 		createOrEditEstimateService.getImportAssemblyData($scope.assemblyNumber, function () {
+	// 			$scope.getCurretEstimateObj();
+	// 			toastr.info('Assembly imported successfully', 'Assembly Import!');
+	// 			$scope.cancelModal();
+	// 		});
+	// 	}
+	// }
 
 	$scope.$watch('estimteData', function (newValue, oldValue) {
 		if (newValue != oldValue) {
@@ -90,13 +101,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 			});
 		});
 	}
-	$scope.importAssembly = function (assemblyId) {
-		createOrEditEstimateService.getImportAssemblyData(assemblyId, function () {
-			$scope.getCurretEstimateObj();
-			toastr.info('Assebly imported successfully', 'Assembly Import!');
-			$scope.cancelModal();
-		});
-	}
+	// $scope.importAssembly = function (assemblyId) {
+	// 	createOrEditEstimateService.getImportAssemblyData(assemblyId, function () {
+	// 		$scope.getCurretEstimateObj();
+	// 		toastr.info('Assebly imported successfully', 'Assembly Import!');
+	// 		$scope.cancelModal();
+	// 	});
+	// }
 
 	//- to add or edit subAssembly data
 	$scope.addOrEditSubAssemblyModal = function (operation, subAssembly) {
@@ -578,6 +589,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 	// *************************** init all default functions begin here ************** //
 	//- to initilize the default function 
 	$scope.init = function () {
+		
+	//	$scope.importAssembly();
 		// to get default view
 		$scope.getEstimateView('assembly');
 		//to get estimate tree structure data 
