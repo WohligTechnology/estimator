@@ -44,7 +44,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 		});
 	}
 
-
+	$scope.$watch('estimteData', function (newValue, oldValue) {
+		if (newValue != oldValue) {
+			$.jStorage.set("estimateObject", $scope.estimteData);
+		}
+	}, true);
 
 	// *************************** functions to be triggered form view begin here ***** //
 	//- to edit assembly name
