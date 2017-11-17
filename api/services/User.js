@@ -10,15 +10,6 @@ var schema = new Schema({
         required: true,
         unique: true
     },
-    dob: {
-        type: Date,
-        excel: {
-            name: "Birthday",
-            modify: function (val, data) {
-                return moment(val).format("MMM DD YYYY");
-            }
-        }
-    },
     mobile: {
         type: String,
         default: ""

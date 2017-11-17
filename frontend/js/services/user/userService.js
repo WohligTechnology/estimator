@@ -111,14 +111,7 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
         var userId = obj._id;
         bulkArray.push(userId);
       });
-    } else {
-      angular.forEach(users,  function (obj) {
-        var userId = obj._id;
-        _.remove(bulkArray, function (record) {
-          return record == userId;
-        });
-      });
-    }
+    } 
     callback(bulkArray);
   }
   //- delete bulk users

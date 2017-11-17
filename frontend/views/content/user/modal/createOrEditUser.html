@@ -21,19 +21,13 @@
                           <div class="form-group">
                             <label class="col-md-4 control-label" >Email Id :</label>
                             <div class="col-md-5">
-                                <input type="email" class="form-control" ng-model="formData.email">
-                            </div>
-                        </div>
-                         <div class="form-group">
-                            <label class="col-md-4 control-label" >DOB :</label>
-                            <div class="col-md-5">
-                                <input-date ng-model="formData.dob"></input-date>
+                                <input type="email" class="form-control"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" ng-model="formData.email">
                             </div>
                         </div>
                          <div class="form-group">
                             <label class="col-md-4 control-label">Mobile :</label>
                             <div class="col-md-5">
-                                <input type="mobile" minlength="10" maxlength="10" class="form-control" ng-model="formData.mobile">
+                                <input type="mobile" pattern="/^[0-9]/" minlength="10" maxlength="10" class="form-control" ng-model="formData.mobile">
                             </div>
                         </div>
                     </div>

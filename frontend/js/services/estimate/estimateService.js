@@ -81,13 +81,6 @@ myApp.service('estimateService', function ($http, $uibModal, NavigationService) 
         var estimateId = obj._id;
         bulkArray.push(estimateId);
       });
-    } else {
-      angular.forEach(estimates,  function (obj) {
-        var estimateId = obj._id;
-        _.remove(bulkArray, function (record) {
-          return record == estimateId;
-        });
-      });
     }
     callback(bulkArray);
   }

@@ -83,7 +83,7 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
     $scope.setPassword = function (id, password) {
         loginService.resetPassword(id, password, function (data) {
             $scope.cancelModal();
-            //$state.go('login');
+            $state.go('login');
         });
     }
     //forgot password modal

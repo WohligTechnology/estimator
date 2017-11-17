@@ -498,6 +498,14 @@ tree css*/
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.44, #61c0de), color-stop(0.72, #6cc1dc), color-stop(0.86, #0f809c));
   } 
   
+  //- css to add space between two icons in action column
  #add_space {
   margin-right: 4px;
+ }
+
+ //- css to add a unit into textbox
+ .unit {
+  position: absolute;
+  top: 5px;
+  right: 22px;
  }

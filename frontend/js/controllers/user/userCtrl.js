@@ -1,4 +1,4 @@
-myApp.controller('userCtrl', function ($scope, $http, $timeout, $uibModal, userService) {
+myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userService) {
 
 
 
@@ -8,7 +8,6 @@ myApp.controller('userCtrl', function ($scope, $http, $timeout, $uibModal, userS
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
   $scope.bulkUsers = [];
-  $scope.operationStatus = '';
   $scope.checkAll = false;
   $scope.checkboxStatus = false;
 
@@ -49,14 +48,10 @@ myApp.controller('userCtrl', function ($scope, $http, $timeout, $uibModal, userS
       $scope.getUserData();
       $scope.cancelModal();
       if(operation == 'save'){
-        $scope.operationStatus = "Record added successfully";
+        toastr.info('Record added successfully', 'User Creation!');
       } else {
-        $scope.operationStatus = "Record updated successfully";
+        toastr.info('Record updated successfully', 'User Updation!');
       }
-      $timeout(function () {
-        $scope.operationStatus = "";
-      }, 3000);
-
     });
   }
 
@@ -77,10 +72,7 @@ myApp.controller('userCtrl', function ($scope, $http, $timeout, $uibModal, userS
     userService.deleteUser(userId, function (data) {
       $scope.cancelModal();
       $scope.getUserData();
-      $scope.operationStatus = "***   Record deleted successfully   ***";
-      $timeout(function () {
-        $scope.operationStatus = "";        
-      }, 3000);
+      toastr.info('Record deleted successfully', 'User Deletion!');
     });
   }
   //- function for pagination of users' records
@@ -145,21 +137,12 @@ myApp.controller('userCtrl', function ($scope, $http, $timeout, $uibModal, userS
       $scope.checkAll = false;
       $scope.checkboxStatus = false;
       $scope.getUserData(); 
-      $scope.operationStatus = "***   Records deleted successfully   ***";      
-    
-      $timeout(function () {
-        $scope.operationStatus = "";        
-      }, 3000);
+      toastr.info('Record deleted successfully', 'User Deletion!');
     });
   }
   //- function to get bulk users
   $scope.selectBulkUsers = function (checkboxStatus, userId) {
     userService.selectBulkUsers(checkboxStatus, userId, function (data) {
-      if (data.length >= 1) {
-        $scope.recordSelected = true;
-      } else {
-        $scope.recordSelected = false;
-      }
       $scope.bulkUsers = data;
     });
   }

@@ -2,7 +2,7 @@ var schema = new Schema({
     presetName: { // preset name will be used in dropdown at add Part To Estimate 
         type: String,
         required: true,
-        unique:true
+        unique: true
     },
     presetId: { // manual unique ID for preset because mongo will create a different _id for each document
         type: String // So, we will not able to identify same presets with different sizes 
@@ -136,7 +136,7 @@ var model = {
 
     getPresetsShapeAndPartType: function (data, callback) {
         MPartPresets.find({
-            presetName : data.presetName
+            presetName: data.presetName
         }).deepPopulate('shape partType partType.material').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of MPartPresets.js ****', err);
@@ -149,7 +149,34 @@ var model = {
         });
     },
 
-
+    // retrieve all MPartPresets Records
+    // req data --> _id or mPartType_id and sizes
+    getAllPartPresetsData: function (data, callback) {
+        MPartPresets.findOne({
+            _id: data._id
+        }).deepPopulate('shape partType partType.material').lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of MPartPresets.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                MPartPresets.findOne({
+                    partType:data.partType,
+                    size:data.size
+                }).deepPopulate('shape partType partType.material').lean().exec(function (err, found) {
+                    if (err) {
+                        console.log('**** error at function_name of MPartPresets.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(found)) {
+                        callback(null, []);
+                    } else {
+                        callback(null, found);
+                    }
+                });
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 
 };
 module.exports = _.assign(module.exports, exports, model);

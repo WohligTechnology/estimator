@@ -1,4 +1,4 @@
-myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal, estimateService) {
+myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $uibModal, estimateService) {
     $scope.$parent.isSidebarActive = true;
     $scope.bulkEstimates = [];
     $scope.operationStatus = '';
@@ -76,21 +76,12 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, $timeout, 
             $scope.cancelModal();
             $scope.getEstimateData();
             $scope.bulkEstimates = [];
-            $scope.operationStatus = "***   Records deleted successfully   ***";
-
-            $timeout(function () {
-                $scope.operationStatus = "";
-            }, 4000);
+            toastr.info('Records deleted successfully', 'Estimates Deletion!');
         });
     }
     //- function to get bulk estimates
     $scope.selectBulkEstimates = function (checkboxStatus, estimateId) {
         estimateService.selectBulkEstimates(checkboxStatus, estimateId, function (data) {
-            if (data.length >= 1) {
-                $scope.recordSelected = true;
-            } else {
-                $scope.recordSelected = false;
-            }
             $scope.bulkEstimates = data;
         });
     }

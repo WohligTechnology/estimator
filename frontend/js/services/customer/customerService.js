@@ -114,13 +114,6 @@ myApp.service('customerService', function ($http, NavigationService, $uibModal) 
         var customerId = obj._id;
         bulkArray.push(customerId);
       });
-    } else {
-      angular.forEach(customers,  function (obj) {
-        var customerId = obj._id;
-        _.remove(bulkArray, function (record) {
-          return record == customerId;
-        });
-      });
     }
     callback(bulkArray);
   }
