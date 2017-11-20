@@ -189,6 +189,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             resolve: {
                 logoutUser:  function () {
                     $.jStorage.deleteKey("loggedInUser")
+                    $.jStorage.deleteKey("estimateObject");	
                 }
             }
         })
@@ -1012,3 +1013,4 @@ myApp.factory('accessApp', function ($location) {
         }
     }
 });
+

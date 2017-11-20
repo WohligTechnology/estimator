@@ -1,18 +1,17 @@
-myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $uibModal, $interpolate, $timeout, $state, $scope, $http, createOrEditEnquiryService) {
+myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uibModal, $interpolate, $state, $scope, $http, createOrEditEnquiryService, createOrEditEstimateService) {
 
   // *************************** default variables/tasks begin here ***************** //
 
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
   $scope.showEstimateBtn = false;
-  $scope.operationStatus = "";
   $scope.formData = {
-    enquiryDetails:{},
-    enquiryInfo:{},
-    keyRequirement:{},
-    technicalRequirement:{},
-    commercialRequirement:{},
-    preQualificationCriteria:{}
+    enquiryDetails: {},
+    enquiryInfo: {},
+    keyRequirement: {},
+    technicalRequirement: {},
+    commercialRequirement: {},
+    preQualificationCriteria: {}
   };
 
 
@@ -37,33 +36,46 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $uibModal, $
 
 
   // *************************** functions to be triggered form view begin here ***** //      
-
+  //- add form data
   $scope.addEnquiryData = function (formData, operation) {
     createOrEditEnquiryService.createEnquiry(formData, function (data) {
-      $scope.operationStatus = "Record Added Successfully";
-      if (angular.isUndefined(formData._id)) {
-        
-      }
-
-      $timeout(function () {
-        $scope.operationStatus = "";
-      }, 5000);
+      toastr.success('Record Added Successfully', 'EnquiryData Added!');
+      if (angular.isUndefined(formData._id)) {}
     });
   }
+  //- to add assembly or to import assembly
   $scope.saveAssemblyNameModal = function (enquiryId) {
     $scope.enquiryId = enquiryId;
     //- get assembly name to create 
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/enquiry/enquiryModal/getAssemblyName.html',
-      scope: $scope,
-      size: 'md',
+    createOrEditEnquiryService.getAllAssemblyNumbers(function (data) {
+      $scope.assemblyData = data;
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/enquiry/enquiryModal/getAssemblyName.html',
+        scope: $scope,
+        size: 'md',
+      });
     });
   }
+  //- create new assembly
   $scope.saveAssemblyName = function (assName, enquiryId) {
     createOrEditEnquiryService.saveAssemblyName(assName, enquiryId, function (data) {
-      $state.go('app.createEstimate',{'estimateId':data._id});
+      $state.go('app.createEstimate', {
+        'estimateId': data._id
+      });
     });
+  }
+  //- import assembly
+  $scope.importAssembly = function (assemblyNumber) {
+    createOrEditEnquiryService.getImportAssemblyData(assemblyNumber, function (data) {
+      $state.go('app.createEstimate', {
+        'estimateId': data._id,
+      });
+    });
+  }
+  //- dismiss current modalInstance
+  $scope.cancelModal = function () {
+    $scope.modalInstance.dismiss();
   }
 
   // *************************** init all default functions begin here ************** //

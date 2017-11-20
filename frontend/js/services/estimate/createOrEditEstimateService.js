@@ -157,12 +157,9 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 	}
 	this.getEstimateData = function (draftEstimateId, callback) {
 		if ($.jStorage.get('estimateObject') != null) {
-			debugger;
 			formData.assembly = $.jStorage.get('estimateObject');
-			callback($.jStorage.get('estimateObject'));
-
+			callback(formData.assembly);
 		} else {
-			debugger;
 			NavigationService.apiCall('DraftEstimate/getOne', {
 				_id: draftEstimateId
 			}, function (data) {
@@ -172,7 +169,6 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 					formData.assembly = data.data;
 					callback(data.data);
 				}
-
 			});
 		}
 	}
@@ -246,7 +242,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 	}
 	this.saveCurrentEstimate = function () {
 		NavigationService.apiCall('DraftEstimate/save', formData.assembly, function (data) {
-			$.jStorage.deleteKey("estimateObject");	
+			$.jStorage.deleteKey("estimateObject");
 			callback(data.data);
 		});
 	}
@@ -777,22 +773,6 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		return id;
 	}
 
-
-	//- to import assembly
-	this.getImportAssemblyData = function (assemblyNumber, callback) {
-		//temp = _.last(formData.assembly).assemblyNumber;
-		temp = formData.assembly.assemblyNumber;
-		tempObj = {
-			assemblyNumber: assemblyNumber,
-			lastAssemblyNumber: temp
-		}
-		NavigationService.apiCall('Estimate/importAssembly', tempObj, function (data) {
-			var assemblyObj = data.data.assemblyObj;
-			assemblyObj.assemblyName = assemblyObj.assemblyNumber;
-			formData.assembly.push(assemblyObj);
-			callback();
-		});
-	}
 	//- to import subAssembly
 	this.getImportSubAssemblyData = function (subAssNumber, callback) {
 		temp = _.last(formData.assembly.subAssemblies).subAssemblyNumber;
@@ -826,7 +806,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 	this.getImportProcessingData = function (processingId, level, subAssemblyId, partId, callback) {
 		if (level == 'assembly') {
 			if (formData.assembly.processing.length == 0) {
-				temp = AS1 + 'PR0';
+				temp = 'AS1' + 'PR0';
 			} else {
 				temp = _.last(formData.assembly.processing).processingNumber;
 			}

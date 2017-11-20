@@ -152,6 +152,8 @@ var models = {
 
 
     },
+
+    
     readAttachment: function (filename, callback) {
         console.log("filename", filename);
         var readstream = gfs.createReadStream({
