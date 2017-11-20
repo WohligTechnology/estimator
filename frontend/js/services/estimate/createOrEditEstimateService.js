@@ -156,18 +156,23 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		callback(formData.assembly);
 	}
 	this.getEstimateData = function (draftEstimateId, callback) {
-		NavigationService.apiCall('DraftEstimate/getOne', {
-			_id: draftEstimateId
-		}, function (data) {
-			if (data.data == "ObjectId Invalid") {
-				callback(data.data);
-			} else {
-				formData.assembly = data.data;
-				callback(data.data);
-			}
-
-		});
+		if ($.jStorage.get('estimateObject') != null) {
+			formData.assembly = $.jStorage.get('estimateObject');
+			callback(formData.assembly);
+		} else {
+			NavigationService.apiCall('DraftEstimate/getOne', {
+				_id: draftEstimateId
+			}, function (data) {
+				if (data.data == "ObjectId Invalid") {
+					callback(data.data);
+				} else {
+					formData.assembly = data.data;
+					callback(data.data);
+				}
+			});
+		}
 	}
+
 	this.estimateView = function (estimateView, callback) {
 		getEstimateView = "../frontend/views/content/estimate/estimateViews/" + estimateView + ".html";
 		callback(getEstimateView);
@@ -194,7 +199,6 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 				getViewData = formData.assembly.processing;
 			} else if (getLevelName == "subAssembly") {
 				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-				console.log('**** formData.assembly.subAssemblies[subAssIndex].processing, subAssIndex ****', formData.assembly.subAssemblies[subAssIndex], subAssIndex);
 				getViewData = formData.assembly.subAssemblies[subAssIndex].processing;
 				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
 			} else if (getLevelName == "part") {
@@ -238,6 +242,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 	}
 	this.saveCurrentEstimate = function () {
 		NavigationService.apiCall('DraftEstimate/save', formData.assembly, function (data) {
+			$.jStorage.deleteKey("estimateObject");
 			callback(data.data);
 		});
 	}
@@ -768,22 +773,6 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		return id;
 	}
 
-
-	//- to import assembly
-	this.getImportAssemblyData = function (assemblyNumber, callback) {
-		//temp = _.last(formData.assembly).assemblyNumber;
-		temp = formData.assembly.assemblyNumber;
-		tempObj = {
-			assemblyNumber: assemblyNumber,
-			lastAssemblyNumber: temp
-		}
-		NavigationService.apiCall('Estimate/importAssembly', tempObj, function (data) {
-			var assemblyObj = data.data.assemblyObj;
-			assemblyObj.assemblyName = assemblyObj.assemblyNumber;
-			formData.assembly.push(assemblyObj);
-			callback();
-		});
-	}
 	//- to import subAssembly
 	this.getImportSubAssemblyData = function (subAssNumber, callback) {
 		temp = _.last(formData.assembly.subAssemblies).subAssemblyNumber;
@@ -817,7 +806,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 	this.getImportProcessingData = function (processingId, level, subAssemblyId, partId, callback) {
 		if (level == 'assembly') {
 			if (formData.assembly.processing.length == 0) {
-				temp = AS1 + 'PR0';
+				temp = 'AS1' + 'PR0';
 			} else {
 				temp = _.last(formData.assembly.processing).processingNumber;
 			}
@@ -1045,15 +1034,15 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 				}
 			} else if (type == 'subAssembly') {
 				angular.forEach(formData.assembly.subAssemblies,  function (obj) {
-					bulkArray.push(obj.subAssemblyNumber);					
+					bulkArray.push(obj.subAssemblyNumber);
 				});
 			} else if (type == 'part') {
 				subAssIndex = this.getSubAssemblyIndex(subAssId);
 				angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts,  function (obj) {
 					bulkArray.push(obj.partNumber);
 				});
-			}			
-		} 
+			}
+		}
 		callback(bulkArray);
 	}
 

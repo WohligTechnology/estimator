@@ -1,4 +1,4 @@
-myApp.controller('enquiryCtrl', function ($scope, $state, toastr, $uibModal, enquiryService) {
+myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryService) {
 
 
   // *************************** default variables/tasks begin here ***************** //

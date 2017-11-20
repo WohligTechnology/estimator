@@ -24,7 +24,7 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
         callback(data.data);
       });
   }
-  this.saveAssemblyName = function(assName, enquiryId,callback){
+  this.saveAssemblyName = function(assName, enquiryId, callback){
     var estimateData = {
       assemblyName:assName,
       enquiryId:enquiryId
@@ -34,4 +34,19 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       callback(data.data);
     });
   }
+  this.getAllAssemblyNumbers = function (callback) {
+		NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
+			callback(data.data);
+		});
+  }
+  	//- to import assembly
+  this.getImportAssemblyData = function (assemblyNumber, callback) {
+		tempObj = {
+			assemblyNumber: assemblyNumber,
+			lastAssemblyNumber: 'AS0'
+		}
+    NavigationService.apiCall('Estimate/importAssembly', tempObj, function (data) {
+      callback(data.data);
+    });
+	}
 });    
