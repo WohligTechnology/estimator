@@ -242,7 +242,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 	}
 	this.saveCurrentEstimate = function () {
 		NavigationService.apiCall('DraftEstimate/save', formData.assembly, function (data) {
-			$.jStorage.deleteKey("estimateObject");	
+			$.jStorage.deleteKey("estimateObject");
 			callback(data.data);
 		});
 	}
@@ -773,27 +773,6 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		return id;
 	}
 
-
-	//- to import assembly
-	this.getImportAssemblyData = function (assemblyNumber, callback) {
-		debugger;
-		if (formData.assembly.length == undefined) {
-			temp = 'AS0';
-		} else {
-			temp = _.last(formData.assembly).assemblyNumber;			
-		}
-		//temp = formData.assembly.assemblyNumber;
-		tempObj = {
-			assemblyNumber: assemblyNumber,
-			lastAssemblyNumber: temp
-		}
-		NavigationService.apiCall('Estimate/importAssembly', tempObj, function (data) {
-			var assemblyObj = data.data.assemblyObj;
-			assemblyObj.assemblyName = assemblyObj.assemblyNumber;
-			formData.assembly.push(assemblyObj);
-			callback();
-		});
-	}
 	//- to import subAssembly
 	this.getImportSubAssemblyData = function (subAssNumber, callback) {
 		temp = _.last(formData.assembly.subAssemblies).subAssemblyNumber;

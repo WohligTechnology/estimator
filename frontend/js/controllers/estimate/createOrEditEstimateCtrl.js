@@ -43,17 +43,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 			$scope.customData = customData;
 		});
 	}
-	// $scope.importAssembly = function () {
-	// 	debugger;
-	// 	if ($stateParams.assemblyNumber != "") {
-	// 		$scope.assemblyNumber = $stateParams.assemblyNumber;
-	// 		createOrEditEstimateService.getImportAssemblyData($scope.assemblyNumber, function () {
-	// 			$scope.getCurretEstimateObj();
-	// 			toastr.info('Assembly imported successfully', 'Assembly Import!');
-	// 			$scope.cancelModal();
-	// 		});
-	// 	}
-	// }
 
 	$scope.$watch('estimteData', function (newValue, oldValue) {
 		if (newValue != oldValue) {
@@ -590,7 +579,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 	//- to initilize the default function 
 	$scope.init = function () {
 		
-	//	$scope.importAssembly();
+		
 		// to get default view
 		$scope.getEstimateView('assembly');
 		//to get estimate tree structure data 

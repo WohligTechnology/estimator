@@ -36,26 +36,28 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
 
 
   // *************************** functions to be triggered form view begin here ***** //      
-
+  //- add form data
   $scope.addEnquiryData = function (formData, operation) {
     createOrEditEnquiryService.createEnquiry(formData, function (data) {
       toastr.success('Record Added Successfully', 'EnquiryData Added!');
       if (angular.isUndefined(formData._id)) {}
     });
   }
+  //- to add assembly or to import assembly
   $scope.saveAssemblyNameModal = function (enquiryId) {
     $scope.enquiryId = enquiryId;
     //- get assembly name to create 
-    //   createOrEditEnquiryService.getAllAssemblyNumbers(function (data) {
-    //    $scope.assemblyData = data;
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/enquiry/enquiryModal/getAssemblyName.html',
-      scope: $scope,
-      size: 'md',
+    createOrEditEnquiryService.getAllAssemblyNumbers(function (data) {
+      $scope.assemblyData = data;
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/enquiry/enquiryModal/getAssemblyName.html',
+        scope: $scope,
+        size: 'md',
+      });
     });
-    //   });
   }
+  //- create new assembly
   $scope.saveAssemblyName = function (assName, enquiryId) {
     createOrEditEnquiryService.saveAssemblyName(assName, enquiryId, function (data) {
       $state.go('app.createEstimate', {
@@ -63,13 +65,14 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
       });
     });
   }
-
-  // $scope.importAssembly = function (estimateId, assemblyNumber) {
-  //   $state.go('app.createEstimate', {
-  //     'estimateId': estimateId, //- right now it is static but in future it will be dynamic
-  //     'assemblyNumber':assemblyNumber
-  //   });
-  // }
+  //- import assembly
+  $scope.importAssembly = function (assemblyNumber) {
+    createOrEditEnquiryService.getImportAssemblyData(assemblyNumber, function (data) {
+      $state.go('app.createEstimate', {
+        'estimateId': data._id,
+      });
+    });
+  }
   //- dismiss current modalInstance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
