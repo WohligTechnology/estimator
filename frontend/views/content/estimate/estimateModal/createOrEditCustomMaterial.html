@@ -61,13 +61,34 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Thickness(mm): </label>
-                            <input type="text" ng-model="customMaterialData.hardFacingAlloys.thickness" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <lable>Alloy:</lable>
-                            <select class="form-control" ng-model="customMaterialData.hardFacingAlloys.alloy">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Cost Of Deposit (Rs/kg): </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Cost Of Deposit (Rs/m
+                                <sup>2</sup>): </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-repeat="h in hardFacingAlloys">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" ng-model="h.thickness" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select class="form-control" ng-model="h.alloy">
                                 <option>A1</option>
                                 <option>A2</option>
                                 <option>A3</option>
@@ -78,22 +99,46 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Cost Of Deposit (Rs/kg): </label>
-                            <input type="text" class="form-control" ng-model="customMaterialData.hardFacingAlloys.codPerKg">
+                            <input type="text" class="form-control" ng-model="h.codPerKg">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Cost Of Deposit (Rs/m
-                                <sup>2</sup>): </label>
-                            <input type="text" class="form-control" ng-model="customMaterialData.hardFacingAlloys.codPerMeterSquare">
+                            <input type="text" class="form-control" ng-model="h.codPerMeterSquare">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" ng-model="addMe.thickness" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select class="form-control" ng-model="addMe.alloy">
+                                <option>A1</option>
+                                <option>A2</option>
+                                <option>A3</option>
+                                <option>A3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="addMe.codPerKg">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="addMe.codPerMeterSquare">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 ">
                         <div class="form-group pull-left">
-                            <button type="button" class="btn btn-info">Add More</button>
+                            <button type="button" class="btn btn-info" ng-click="addHardFacingAlloy()">Add More</button>
                         </div>
                     </div>
                 </div>

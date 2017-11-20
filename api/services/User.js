@@ -471,7 +471,6 @@ var model = {
     // req data --files
     uploadAvtar: function (data, callback) {
 
-        console.log('**** inside 67676767 of User.js ****', data);
 
         var uuid = '';
 
@@ -481,7 +480,7 @@ var model = {
         }, function (err, uploadedFile) {
             if (err) {
                 callback('error at uploadAvtar', err);
-            } else if (uploadedFile.length > 0) {
+            } else if (uploadedFile.length > 0) {                
                 var getAllFilesId = [];
                 async.concat(uploadedFile, function (n, callback) {
 

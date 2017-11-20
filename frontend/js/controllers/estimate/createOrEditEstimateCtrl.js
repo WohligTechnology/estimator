@@ -9,6 +9,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 	$scope.bulkItems = [];
 	$scope.checkboxStatus = false; //- for multiple deletion
 	$scope.checkAll = false;
+	$scope.hardFacingAlloys = [];
 
 	if (angular.isDefined($stateParams.estimateId)) {
 		$scope.draftEstimateId = $stateParams.estimateId;
@@ -434,6 +435,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 	//- modal to add or edit custom material 
 	$scope.addOrEditCustomMaterialModal = function (operation, customMaterial) {
 		$scope.arr = [];
+		$scope.addMe = {};
 		createOrEditEstimateService.getCustomMaterialModalData(operation, customMaterial, function (data) {
 
 			$scope.formData = data.custMaterialObj;
@@ -447,19 +449,20 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 				size: 'lg',
 			});
 		});
+
+
 	}
 	//- function to add or edit custom material
 	$scope.addOrEditCustomMaterial = function (customMaterialdata) {
+		customMaterialdata.hardFacingAlloys = $scope.hardFacingAlloys;
 		createOrEditEstimateService.createCustomMaterial(customMaterialdata, function () {
 			$scope.cancelModal();
 		});
 	}
 	//- function to add hard facing alloy
-	$scope.addHardFacingAlloy = function (hardFacingAlloydata) {
-		$scope.rowCount = $scope.rowCount + 1;
-		createOrEditEstimateService.createHardFacingAlloy(hardFacingAlloydata, function () {
-			$scope.cancelModal();
-		});
+	$scope.addHardFacingAlloy = function () {
+		$scope.hardFacingAlloys.push($scope.addMe);
+		$scope.addMe={};
 	}
 	//- modal to confirm delete custom material
 	$scope.deleteCustomMaterialModal = function (customMaterialId, getFunction) {

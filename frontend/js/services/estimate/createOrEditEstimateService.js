@@ -607,18 +607,9 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 
 	}
 	this.createCustomMaterial = function (customMaterialObj) {
-		//     formData.customMaterial.push(customMaterialObj);
-		//     console.log(formData.customMaterial..........',formData.customMaterial);
-
-		// }
-		// this.createHardFacingAlloy = function (hardFacingAlloyObj) {
-		//     formData.customMaterial.hardFacingAlloys.push(hardFacingAlloyObj);
-		//     callback();
-		// }
-		// this.saveCurrentCustomMaterial = function () {
-		//     NavigationService.apiCall('/save', formData.customMaterial, function (data) {
-		//         callback(data.data);
-		//     });
+		// NavigationService.apiCall('/save', customMaterialObj, function (data) {
+		// 	callback(data.data);
+		//});
 	}
 
 
