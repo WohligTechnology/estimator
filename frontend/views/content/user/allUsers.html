@@ -13,12 +13,12 @@
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
                             <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditUserModal('save')">
-                                <i class="fa fa-plus"></i>
+                                <i class="fa fa-plus" title="Add New User"></i>
                             </button>
                         </div>
                         <div class="btn-group pull-right">
                             <button id="sample_editable_2_new" ng-hide="bulkUsers.length == 0" class="btn red" ng-click="deleteBulkUsersModal(bulkUsers, 'deleteBulkUsers')">
-                                <i class="fa fa-trash-o"></i>
+                                <i class="fa fa-trash-o" title="Delete Selected Users"></i>
                             </button>
                         </div>
                     </div>
@@ -111,10 +111,10 @@
                             <td>{{user.mobile }}</td>
                             <td>
                                 <span class="label label-sm label-success" id="add_space" ng-click="addOrEditUserModal('update',user)">
-                                    <i class="fa fa-pencil"></i>
+                                    <i class="fa fa-pencil" title="Edit User Details"></i>
                                 </span>
                                 <span class="label label-sm label-danger" ng-click="deleteUserModal(user._id,'deleteUser')">
-                                    <i class="fa fa-trash-o"></i>
+                                    <i class="fa fa-trash-o" title="Delete User"></i>
                                 </span>
                             </td>
                         </tr>

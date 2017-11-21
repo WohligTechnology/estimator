@@ -21,34 +21,34 @@ myApp.config(function ($translateProvider) {
     $translateProvider.preferredLanguage('en');
 });
 
-myApp.config(function(toastrConfig) {
+myApp.config(function (toastrConfig) {
     angular.extend(toastrConfig, {
-      allowHtml: false,
-      closeButton: false,
-      closeHtml: '<button>&times;</button>',
-      extendedTimeOut: 1000,
-      iconClasses: {
-        error: 'toast-error',
-        info: 'toast-info',
-        success: 'toast-success',
-        warning: 'toast-warning'
-      },  
-      positionClass: 'toast-bottom-center',      
-      messageClass: 'toast-message',
-      onHidden: null,
-      onShown: null,
-      onTap: null,
-      progressBar: false,
-      tapToDismiss: true,
-      templates: {
-        toast: 'directives/toast/toast.html',
-        progressbar: 'directives/progressbar/progressbar.html'
-      },
-      timeOut: 5000,
-      titleClass: 'toast-title',
-      toastClass: 'toast'
+        allowHtml: false,
+        closeButton: false,
+        closeHtml: '<button>&times;</button>',
+        extendedTimeOut: 1000,
+        iconClasses: {
+            error: 'toast-error',
+            info: 'toast-info',
+            success: 'toast-success',
+            warning: 'toast-warning'
+        },
+        positionClass: 'toast-bottom-center',
+        messageClass: 'toast-message',
+        onHidden: null,
+        onShown: null,
+        onTap: null,
+        progressBar: false,
+        tapToDismiss: true,
+        templates: {
+            toast: 'directives/toast/toast.html',
+            progressbar: 'directives/progressbar/progressbar.html'
+        },
+        timeOut: 5000,
+        titleClass: 'toast-title',
+        toastClass: 'toast'
     });
-  });
+});
 
 myApp.config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
@@ -187,7 +187,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             templateUrl: "views/content/login/estimatorLogin.html",
             controller: "loginCtrl",
             resolve: {
-                logoutUser:  function () {
+                logoutUser: function () {
                     $.jStorage.deleteKey("loggedInUser")
                     //- // $.jStorage.deleteKey("estimateObject");	
                 }
@@ -942,12 +942,12 @@ myApp.controller('SidebarController', ['$state', '$scope', function ($state, $sc
     $scope.$on('$includeContentLoaded', function () {
         Layout.initSidebar($state); // init sidebar
     });
-    
+
     // var str = window.location.href;
     // var url = str.split('/');
     // var getState = url[url.length - 1];
     var getState = $state.current.name;
-   
+
     // get current state & set a class to li
     if (getState == 'app.dashboard') {
         $scope.currentState = 'dashboard';
@@ -968,7 +968,7 @@ myApp.controller('SidebarController', ['$state', '$scope', function ($state, $sc
     } else if (getState == 'app.masterExtra') {
         $scope.currentState = 'master';
         $scope.subMenuState = 'masterExtra';
-    }else if (getState == 'app.settings') {
+    } else if (getState == 'app.settings') {
         $scope.currentState = 'setting';
     }
 
@@ -1011,3 +1011,89 @@ myApp.factory('accessApp', function ($location) {
     }
 });
 
+// angular.module("myApp").directive("filesInput", function() {
+//     return {
+//       require: "ngModel",
+//       link: function postLink(scope,elem,attrs,ngModel) {
+//         elem.on("change", function(e) {
+//           var file = elem[0].files;
+//           ngModel.$setViewValue(file);
+//         })
+//       }
+//     }
+//   });
+
+//   myApp.directive('filesInput', ['$parse', function ($parse) {
+//     return {
+//        restrict: 'A',
+//        link: function(scope, element, attrs) {
+//           var model = $parse(attrs.fileModel);
+//           var modelSetter = model.assign;
+
+//           element.bind('change', function(){
+//              scope.$apply(function(){
+//                 modelSetter(scope, element[0].files[0]);
+//              });
+//           });
+//        }
+//     };
+//  }]);
+
+// angular.module('myApp', []).directive('filesInput', function($q) {
+//     var slice = Array.prototype.slice;
+
+//     return {
+//         restrict: 'A',
+//         require: '?ngModel',
+//         link: function(scope, element, attrs, ngModel) {
+//                 if (!ngModel) return;
+
+//                 ngModel.$render = function() {};
+
+//                 element.bind('change', function(e) {
+//                     var element = e.target;
+
+//                     $q.all(slice.call(element.files, 0).map(readFile))
+//                         .then(function(values) {
+//                             if (element.multiple) ngModel.$setViewValue(values);
+//                             else ngModel.$setViewValue(values.length ? values[0] : null);
+//                         });
+
+//                     function readFile(file) {
+//                         var deferred = $q.defer();
+
+//                         var reader = new FileReader();
+//                         reader.onload = function(e) {
+//                             deferred.resolve(e.target.result);
+//                         };
+//                         reader.onerror = function(e) {
+//                             deferred.reject(e);
+//                         };
+//                         reader.readAsDataURL(file);
+
+//                         return deferred.promise;
+//                     }
+
+//                 }); //change
+
+//             } //link
+//     }; //return
+// });
+
+
+
+myApp.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);

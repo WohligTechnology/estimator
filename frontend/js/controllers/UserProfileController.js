@@ -3,10 +3,10 @@ myApp.controller('UserProfileController', function ($scope, toastr, userProfileS
     // *************************** default variables/tasks begin here ***************** //
     $scope.$parent.isSidebarActive = false;
     $scope.formData = {};
-    $scope.loggedInUser = $.jStorage.get('loggedInUser');    
+    $scope.loggedInUser = $.jStorage.get('loggedInUser');
 
     // *************************** default functions begin here  ********************** //
-    //get respective profile Object
+    //- get respective profile Object
     $scope.getProfileData = function () {
         userProfileService.getProfileData($scope.loggedInUser._id, function (data) {
             $scope.formData = data;
@@ -14,28 +14,40 @@ myApp.controller('UserProfileController', function ($scope, toastr, userProfileS
     }
 
     // *************************** functions to be triggered form view begin here ***** //
-    // Update Profile based on new data
+    //- Update Profile based on new data
     $scope.updateProfile = function (formData) {
         userProfileService.updateProfile(formData, function (data) {
             toastr.success("Your Profile has been updated successfully");
         });
     }
-    //set password 
+    $scope.updateProfilePhoto = function () {
+        // var file = $scope.myFile;
+        // console.log('file is ' );
+        // console.dir(file);
+        // userProfileService.updateProfilePhoto(file, function (data) {
+            // if(data.data.data != "No files selected"){
+            //     toastr.success("Your Profile Photo has been updated successfully");
+            // } else {
+            //     toastr.warning("Photo Updation Failed");
+            // } 
+
+       // });
+    }
+    //- set password 
     $scope.changePassword = function (currentPassword, newpassword) {
         userProfileService.changePassword($scope.loggedInUser._id, currentPassword, newpassword, function (data) {
-            if(_.isEmpty(data)){
-                toastr.warning("Your Password current password is wrong");                
+            if (_.isEmpty(data)) {
+                toastr.warning("Your Password current password is wrong");
             } else {
-                toastr.success("Your Password has been changed successfully");                
+                toastr.success("Your Password has been changed successfully");
             }
             $scope.getProfileData();
         });
     }
-    // cancel changes 
+    //- cancel changes 
     $scope.cancelChanges = function () {
         $scope.getProfileData();
         toastr.info("Your Changes have been cancelled");
-        
     }
 
     // *************************** init all default functions begin here ************** //

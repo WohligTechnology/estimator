@@ -453,8 +453,8 @@ var model = {
     deleteMultipleUsers: function (data, callback) {
 
         User.remove({
-            _id:{
-                $in:data.idsArray
+            _id: {
+                $in: data.idsArray
             }
         }).exec(function (err, found) {
             if (err) {
@@ -467,6 +467,61 @@ var model = {
             }
         });
     },
+    // upload the avtar 
+    // req data --files
+    uploadAvtar: function (data, callback) {
+
+
+        var uuid = '';
+
+        data("file").upload({
+            maxBytes: 10000000, // 10 MB Storage 1 MB = 10^6
+            dirname: "../../assets/images",
+        }, function (err, uploadedFile) {
+            if (err) {
+                callback('error at uploadAvtar', err);
+            } else if (uploadedFile.length > 0) {                
+                var getAllFilesId = [];
+                async.concat(uploadedFile, function (n, callback) {
+
+                    User.uploadFile(n, function (err, value) {
+
+                        // console.log('**** inside %%%%%%%%%%%%%%%%%%%%% of Person.js ****',value);
+                        getAllFilesId.push(value);
+                        // if (err) {
+                        //   callback(err);
+                        // } else {
+                        //   callback();
+                        // }
+
+                        callback();
+                    });
+
+                }, function (err, finalData) {
+                    console.log('**** inside %%%%%%%%%%%%%%%%%%%%% of Person.js ****', getAllFilesId);
+                    callback(null, getAllFilesId);
+                });
+
+            } else {
+                callback(null, {
+                    value: false,
+                    data: "No files selected"
+                });
+            }
+        });
+    },
+
+    uploadFile: function (file, callback) {
+        var d = new Date();
+        var extension = file.filename.split('.').pop();
+        var allowedTypes = ['image/jpeg', 'image/png'];
+        uuid = file.fd.split('/').pop();
+
+        if (uuid) {
+            callback(null, uuid);
+        }
+    },
+
 
 };
 module.exports = _.assign(module.exports, exports, model);

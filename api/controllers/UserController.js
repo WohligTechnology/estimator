@@ -222,5 +222,18 @@ var controller = {
             })
         }
     },
+    uploadAvtar: function (req, res) {
+        if (req.file) {
+            User.uploadAvtar(req.file, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+
 };
 module.exports = _.assign(module.exports, controller);
