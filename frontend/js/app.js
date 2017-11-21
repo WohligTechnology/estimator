@@ -189,7 +189,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             resolve: {
                 logoutUser:  function () {
                     $.jStorage.deleteKey("loggedInUser")
-                    $.jStorage.deleteKey("estimateObject");	
+                    //- // $.jStorage.deleteKey("estimateObject");	
                 }
             }
         })
@@ -971,9 +971,6 @@ myApp.controller('SidebarController', ['$state', '$scope', function ($state, $sc
     }else if (getState == 'app.settings') {
         $scope.currentState = 'setting';
     }
-
-    console.log("****************************");
-    console.log("****************************",$scope.currentState);
 
 }]);
 

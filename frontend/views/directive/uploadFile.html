@@ -13,7 +13,7 @@
     <div class="btn-upload btn btn-primary btn-outline btn-small create-btn" ng-hide="disabled">
         <input id="inputImage" ng-show="!isMultiple" type="file" accept="image/*,application/pdf" image="image" title="Choose Files"
             class="btn-primary">
-        <input id="inputImage" ng-show="isMultiple" type="file" accept="image/*,application/pdf" image="image" title="Choose Multiple Files"
+        <input id="inputImage" ng-show="isMultiple" type="file" accept="image/*,application/pdf" image="image" name="file" title="Choose Multiple Files"
             class="btn-primary" onchange="angular.element(this).scope().clearOld()" multiple>
         <span>CHOOSE FILE</span>
         <!-- <a class="btn btn-primary btn-outline btn-small create-btn" ng-if="!isMultiple">Choose File</a> -->

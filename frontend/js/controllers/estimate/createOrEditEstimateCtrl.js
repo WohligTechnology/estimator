@@ -10,6 +10,35 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 	$scope.checkboxStatus = false; //- for multiple deletion
 	$scope.checkAll = false;
 
+	$scope.estimatePartObj = {
+		allShortcuts: [], //- get all presets name from API
+		allPartTypeNames: [], //- get all part type from API
+		allMaterial: [], //- get all material of selected partType
+		allSizes: [], //- get data from selected preset
+
+		selectedShortcut: {}, //- selected partType presets 
+		selectedPartType: {}, //- selected partType
+		selectedMaterial: {}, //- selected material     
+		selectedSize: {}, //- slected size
+
+		customMaterials: [], //- get all custom material API
+		selectedCustomMaterial: [], //-selecetd custom materail  
+
+		quality: null,
+		variables: [],
+
+		keyValueCalculation: {
+			perimater: null,
+			sma: null,
+			sa: null,
+			weight: null
+		},
+
+		materialPrice: null,
+		itemUnitPrice: null,
+		totalPrice: null
+	};
+
 	if (angular.isDefined($stateParams.estimateId)) {
 		$scope.draftEstimateId = $stateParams.estimateId;
 	}
@@ -46,7 +75,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
 	$scope.$watch('estimteData', function (newValue, oldValue) {
 		if (newValue != oldValue) {
-			$.jStorage.set("estimateObject", $scope.estimteData);
+			// $.jStorage.set("estimateObject", $scope.estimteData);
 		}
 	}, true);
 
@@ -578,8 +607,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 	// *************************** init all default functions begin here ************** //
 	//- to initilize the default function 
 	$scope.init = function () {
-		
-		
+
+
 		// to get default view
 		$scope.getEstimateView('assembly');
 		//to get estimate tree structure data 

@@ -156,10 +156,10 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 		callback(formData.assembly);
 	}
 	this.getEstimateData = function (draftEstimateId, callback) {
-		if ($.jStorage.get('estimateObject') != null) {
-			formData.assembly = $.jStorage.get('estimateObject');
-			callback(formData.assembly);
-		} else {
+		// if ($.jStorage.get('estimateObject') != null) {
+		// 	formData.assembly = $.jStorage.get('estimateObject');
+		// 	callback(formData.assembly);
+		// } else {
 			NavigationService.apiCall('DraftEstimate/getOne', {
 				_id: draftEstimateId
 			}, function (data) {
@@ -170,7 +170,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 					callback(data.data);
 				}
 			});
-		}
+		// }
 	}
 
 	this.estimateView = function (estimateView, callback) {
@@ -242,7 +242,7 @@ myApp.service('createOrEditEstimateService', function ($http, NavigationService)
 	}
 	this.saveCurrentEstimate = function () {
 		NavigationService.apiCall('DraftEstimate/save', formData.assembly, function (data) {
-			$.jStorage.deleteKey("estimateObject");
+			// $.jStorage.deleteKey("estimateObject");
 			callback(data.data);
 		});
 	}

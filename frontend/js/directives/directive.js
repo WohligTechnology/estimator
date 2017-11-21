@@ -204,8 +204,7 @@ myApp
                     checkIfBroken();
                 });
     
-    
-    
+       
     
                 $scope.isMultiple = false;
                 $scope.inObject = false;
@@ -256,6 +255,7 @@ myApp
                         },
                         transformRequest: angular.identity
                     }).then(function (data) {
+                        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
                         data = data.data;
                         if ($scope.callback) {
                             $scope.callback(data);
@@ -274,6 +274,7 @@ myApp
                             }
                         }
                     });
+
                 };
             }
         };
