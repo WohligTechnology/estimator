@@ -1,4 +1,4 @@
-myApp.service('userProfileService', function (NavigationService) {
+myApp.service('userProfileService', function (NavigationService, $http) {
 
     //to get data of current user
     this.getProfileData = function (id, callback) {
@@ -15,18 +15,30 @@ myApp.service('userProfileService', function (NavigationService) {
         });
     }
     this.updateProfilePhoto = function (file, callback) {
-        // console.log('****file in service..... ****',file);
-        // var fd = new FormData();
-        // fd.append('file', file);
-        // NavigationService.apiCall('User/uploadAvtar', {uploadedFile:file}, function (data) {
-        // //NavigationService.apiCall('User/uploadAvtar', fd, function (data) {
-        //    console.log('data............',data);
-        //     callback(data);
-       // });
+        debugger;
+        console.log('****file in service..... ****', file);
+        var fd = new FormData();
+        fd.append('file', file);
+
+        $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': undefined
+                }
+            })
+            .then(function () {
+                console.log('**** inside its working of userProfileService.js ****');
+            });
+
+
     }
     // to reset password
     this.changePassword = function (id, currentpassword, newPassword, callback) {
-        NavigationService.apiCall('User/changePassword', {_id: id,password: currentpassword,newPassword: newPassword}, function (data) {
+        NavigationService.apiCall('User/changePassword', {
+            _id: id,
+            password: currentpassword,
+            newPassword: newPassword
+        }, function (data) {
             if (data.data == 'noDataFound' || data.data == 'password not matching') {
                 data.data = [];
             }

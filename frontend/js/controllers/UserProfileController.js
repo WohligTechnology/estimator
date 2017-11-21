@@ -20,19 +20,34 @@ myApp.controller('UserProfileController', function ($scope, toastr, userProfileS
             toastr.success("Your Profile has been updated successfully");
         });
     }
-    $scope.updateProfilePhoto = function () {
-        // var file = $scope.myFile;
-        // console.log('file is ' );
-        // console.dir(file);
-        // userProfileService.updateProfilePhoto(file, function (data) {
-            // if(data.data.data != "No files selected"){
-            //     toastr.success("Your Profile Photo has been updated successfully");
-            // } else {
-            //     toastr.warning("Photo Updation Failed");
-            // } 
+    // $scope.updateProfilePhoto = function () {
+    //     var file = $scope.myFile;
+    //     console.log('file is ' );
+    //     console.dir(file);
+    //     userProfileService.updateProfilePhoto(file, function (data) {
+    //         if(data.data.data != "No files selected"){
+    //             toastr.success("Your Profile Photo has been updated successfully");
+    //         } else {
+    //             toastr.warning("Photo Updation Failed");
+    //         } 
 
-       // });
+    //    });
+    // }
+
+    $scope.uploadFile = function () {
+        var file = $scope.myFile;
+        console.log('file is ---------------------------------------' );
+        console.dir(file);
+        userProfileService.updateProfilePhoto(file, function (data) {
+            console.log('file is ' + JSON.stringify(file.name));            
+            if (data.data.data != "No files selected") {
+                toastr.success("Your Profile Photo has been updated successfully");
+            } else {
+                toastr.warning("Photo Updation Failed");
+            }
+        });
     }
+
     //- set password 
     $scope.changePassword = function (currentPassword, newpassword) {
         userProfileService.changePassword($scope.loggedInUser._id, currentPassword, newpassword, function (data) {

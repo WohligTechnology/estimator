@@ -1081,8 +1081,7 @@ myApp.factory('accessApp', function ($location) {
 // });
 
 
-
-myApp.directive('fileModel', ['$parse', function ($parse) {
+myApp.directive('fileModelOld', ['$parse',function ($parse) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
@@ -1090,10 +1089,112 @@ myApp.directive('fileModel', ['$parse', function ($parse) {
             var modelSetter = model.assign;
             
             element.bind('change', function(){
+            console.log("*** element **", element);
                 scope.$apply(function(){
                     modelSetter(scope, element[0].files[0]);
                 });
             });
+        
+
+
+            // $scope.$parent.formData.uploadedFiles = [];
+            // $scope.formData.uploadedFiles = [];
+
+            // $scope.uploadImage = function (file) {
+            //     var fd = new FormData();
+            //     fd.append('file', file);
+
+            //     $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+            //             transformRequest: angular.identity,
+            //             headers: {
+            //                 'Content-Type': undefined
+            //             }
+            //         })
+            //         .then(function () {
+
+            //             console.log('**** inside its working of userProfileService.js ****');
+            //         });
+            // }
         }
     };
 }]);
+
+myApp.directive('fileModel', ['$parse','$http', function ($parse, $http) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                // angular.element(event.target).file('model') = element[0].files[0];
+                // modelSetter(scope, element[0].files[0]);
+                // scope.uploadImage(scope.myFile);
+
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+
+                    var fd = new FormData();
+                    fd.append('file', file);
+    
+                    $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
+                            }
+                        })
+                        .then(function () {
+    
+                            console.log('**** inside its working of userProfileService.js ****');
+                        });
+                   
+                });
+            });
+                       
+            
+
+            scope.uploadImage = function (file) {
+                var fd = new FormData();
+                fd.append('file', file);
+
+                $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    })
+                    .then(function () {
+
+                        console.log('**** inside its working of userProfileService.js ****');
+                    });
+            }
+
+
+        }
+    };
+}]);
+
+
+// myApp.directive('fileModel', [
+//     function() {
+//       return {
+//         restrict: "E",
+//         template: "<input type=\"file\" />",
+//         replace: true,
+//         require: "ngModel",
+//         link: function(scope, element, attr, ctrl) {
+//           var listener;
+//           listener = function() {
+//             return scope.$apply(function() {
+//               if (attr.multiple) {
+//                 return ctrl.$setViewValue(element[0].files);
+//               } else {
+//                 return ctrl.$setViewValue(element[0].files[0]);
+//               }
+//             });
+//           };
+//           return element.bind("change", listener);
+//         }
+//       };
+//     }
+// ]);
