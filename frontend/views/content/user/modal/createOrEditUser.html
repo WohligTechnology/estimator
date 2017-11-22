@@ -15,19 +15,20 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" >Name :</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.name">
+                                <input type="text" class="form-control" ng-model="formData.name" placeholder="Enter Name">
                             </div>
                         </div>
                           <div class="form-group">
                             <label class="col-md-4 control-label" >Email Id :</label>
                             <div class="col-md-5">
-                                <input type="email" class="form-control"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" ng-model="formData.email">
+                                <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" ng-model="formData.email" placeholder="Enter Email-Id Number">
                             </div>
                         </div>
                          <div class="form-group">
                             <label class="col-md-4 control-label">Mobile :</label>
                             <div class="col-md-5">
-                                <input type="mobile" pattern="/^[0-9]/" minlength="10" maxlength="10" class="form-control" ng-model="formData.mobile">
+                                    <input type="text" cleave="options.phone" placeholder="Enter Mobile Number" class="form-control" ng-model="formData.mobile" />
+                                <!-- <input type="mobile" pattern="/^[0-9]/" minlength="10" maxlength="10" class="form-control" ng-model="formData.mobile"> -->
                             </div>
                         </div>
                     </div>

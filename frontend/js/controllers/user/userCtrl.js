@@ -10,6 +10,12 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
   $scope.bulkUsers = [];
   $scope.checkAll = false;
   $scope.checkboxStatus = false;
+  $scope.options = {
+    phone: {
+      phone: true
+    }
+  };
+
 
 
   // *************************** default functions begin here  ********************** //
@@ -47,7 +53,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
     userService.addOrEditUser(userData, function () {
       $scope.getUserData();
       $scope.cancelModal();
-      if(operation == 'save'){
+      if (operation == 'save') {
         toastr.info('Record added successfully', 'User Creation!');
       } else {
         toastr.info('Record updated successfully', 'User Updation!');
@@ -131,12 +137,12 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
   //- function to delete user
   $scope.deleteBulkUsers = function (users) {
     userService.deleteBulkUsers(users, function () {
-          
+
       $scope.cancelModal();
       $scope.bulkUsers = [];
       $scope.checkAll = false;
       $scope.checkboxStatus = false;
-      $scope.getUserData(); 
+      $scope.getUserData();
       toastr.info('Record deleted successfully', 'User Deletion!');
     });
   }
