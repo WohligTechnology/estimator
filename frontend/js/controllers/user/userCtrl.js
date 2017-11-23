@@ -7,15 +7,15 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
   $scope.$parent.isSidebarActive = true;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
-  $scope.bulkUsers = [];
-  $scope.checkAll = false;
-  $scope.checkboxStatus = false;
+  $scope.bulkUsers = []; //- for multiple records deletion
+  $scope.checkAll = false; //- for all records selection
+  $scope.checkboxStatus = false; //- for multiple records selection
+  //- for cleave validation
   $scope.options = {
     phone: {
       phone: true
     }
   };
-
 
 
   // *************************** default functions begin here  ********************** //
@@ -31,7 +31,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
 
 
   // *************************** functions to be triggered form view begin here ***** //
-  //- modal to create new user 
+  //- to add or edit user 
   $scope.addOrEditUserModal = function (operation, user) {
     userService.getUserModalData(operation, user, function (data) {
       $scope.formData = data.user;
@@ -48,20 +48,19 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
 
     });
   }
-  //- function to  create new user
+  //- to add or edit user
   $scope.addOrEditUser = function (operation, userData) {
     userService.addOrEditUser(userData, function () {
       $scope.getUserData();
       $scope.cancelModal();
       if (operation == 'save') {
-        toastr.info('Record added successfully', 'User Creation!');
+        toastr.info('Record added successfully');
       } else {
-        toastr.info('Record updated successfully', 'User Updation!');
+        toastr.info('Record updated successfully');
       }
     });
   }
-
-  //- modal to confirm user deletion
+  //- user deletion modal
   $scope.deleteUserModal = function (userId, getFunction) {
     $scope.idToDelete = userId;
     $scope.functionToCall = getFunction;
@@ -73,15 +72,15 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
       size: 'md'
     });
   }
-  //- function to delete user
+  //- to delete user
   $scope.deleteUser = function (userId) {
     userService.deleteUser(userId, function (data) {
       $scope.cancelModal();
       $scope.getUserData();
-      toastr.info('Record deleted successfully', 'User Deletion!');
+      toastr.info('Record deleted successfully');
     });
   }
-  //- function for pagination of users' records
+  //- for pagination of users' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
@@ -108,7 +107,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
       });
     }
   }
-  //- function to search the text in table
+  //- to search the text in table
   $scope.serachText = function (keyword, count) {
     userService.getSearchResult(keyword, function (data) {
       $scope.userData = data.results;
@@ -117,12 +116,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
       });
     });
   }
-  //- to dismiss modal instance
-  $scope.cancelModal = function () {
-    $scope.modalInstance.dismiss();
-  }
-
-  //- modal to confirm bulk users deletion
+  //- bulk users deletion modal
   $scope.deleteBulkUsersModal = function (userIdArray, getFunction) {
     $scope.idsToDelete = userIdArray;
     $scope.functionToCall = getFunction;
@@ -134,7 +128,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
       size: 'md'
     });
   }
-  //- function to delete user
+  //-to delete bulk users
   $scope.deleteBulkUsers = function (users) {
     userService.deleteBulkUsers(users, function () {
 
@@ -146,7 +140,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
       toastr.info('Record deleted successfully', 'User Deletion!');
     });
   }
-  //- function to get bulk users
+  //- to get bulk users
   $scope.selectBulkUsers = function (checkboxStatus, userId) {
     userService.selectBulkUsers(checkboxStatus, userId, function (data) {
       $scope.bulkUsers = data;
@@ -158,6 +152,11 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
       $scope.bulkUsers = data;
     });
   }
+  //- to dismiss modal instance
+  $scope.cancelModal = function () {
+    $scope.modalInstance.dismiss();
+  }
+
 
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 

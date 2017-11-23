@@ -4,7 +4,9 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   // *************************** default variables/tasks begin here ***************** //
   //- to show/hide sidebar of dashboard   
   $scope.$parent.isSidebarActive = true;
-  $scope.bulkEnquiries = [];
+  $scope.bulkEnquiries = []; //- for multiple records deletion
+  $scope.checkAll = false; //- for all records selection
+  $scope.checkboxStatus = false; //- for multiple records selection
 
   
   // *************************** default functions begin here  ********************** //
@@ -27,7 +29,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
 
 
   // *************************** functions to be triggered form view begin here ***** //      
-  //- modal to confirm Enquiry deletion
+  //- modal to delete enquiry
   $scope.deleteEnquiryModal = function (enquiryId, getFunction) {
     $scope.idToDelete = enquiryId;
     $scope.functionToCall = getFunction;
@@ -40,16 +42,16 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
     });
 
   }
-  //- function for  enquiry deletion
+  //- to delete enquiry
   $scope.deleteEnquiry = function (enquiryId) {
     enquiryService.deleteEnquiry(enquiryId, function (data) {
-      toastr.info('Record deleted successfully', 'Enquiry Deletion!');
+      toastr.info('Record deleted successfully');
       $scope.cancelModal();
       $scope.getEnquiryData();
     });
   }
 
-  //-  function for pagination of enquiries' records
+  //- for pagination of enquiries' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
@@ -77,7 +79,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
     }
   }
 
-  //- function to search the text in table
+  //- to search the text in the table
   $scope.serachText = function (keyword, count) {
     enquiryService.getSearchResult(keyword, function (data) {
       $scope.tableData = data.results;
@@ -92,7 +94,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
     $scope.modalInstance.dismiss();
   }
 
-  //- modal to confirm bulk enquiries deletion
+  //- modal to delete bulk enquiries
   $scope.deleteBulkEnquiriesModal = function (enquiryIdArray, getFunction) {
     $scope.idsToDelete = enquiryIdArray;
     $scope.functionToCall = getFunction;
@@ -104,16 +106,16 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
       size: 'md'
     });
   }
-  //- function to delete enquiry
+  //- to delete enquiry
   $scope.deleteBulkEnquiries = function (enquiries) {
     enquiryService.deleteBulkEnquiries(enquiries, function () {
       $scope.cancelModal();
       $scope.getEnquiryData();
       $scope.bulkEnquiries = [];
-      toastr.info('Records deleted successfully', 'Enquiries Deletion!');
+      toastr.info('Records deleted successfully');
     });
   }
-  //- function to get bulk enquiries
+  //- to get bulk enquiries
   $scope.selectBulkEnquiries = function (checkboxStatus, enquiryId) {
     enquiryService.selectBulkEnquiries(checkboxStatus, enquiryId, function (data) {
       if (data.length >= 1) {

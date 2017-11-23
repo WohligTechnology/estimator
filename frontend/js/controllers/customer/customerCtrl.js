@@ -6,7 +6,9 @@ myApp.controller('customerCtrl', function ($scope, toastr, $http, $uibModal, cus
   $scope.$parent.isSidebarActive = true;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
-  $scope.bulkCustomers = [];
+  $scope.bulkCustomers = []; // for multiple records deletion
+  $scope.checkAll = false; //- for all records selection
+  $scope.checkboxStatus = false; //- for multiple records selection
 
 
   // *************************** default functions begin here  ********************** //
@@ -22,7 +24,7 @@ myApp.controller('customerCtrl', function ($scope, toastr, $http, $uibModal, cus
 
 
   // *************************** functions to be triggered form view begin here ***** // 
-  //- modal to create new customer 
+  //- modal to addd or edit customer 
   $scope.addOrEditCustomerModal = function (operation, customer) {
     customerService.getCustomerModalData(operation, customer, function (data) {
       $scope.formData = data.customer;
@@ -39,20 +41,19 @@ myApp.controller('customerCtrl', function ($scope, toastr, $http, $uibModal, cus
 
     });
   }
-  //- function to  create new customer
+  //- to add or edit customer
   $scope.addOrEditCustomer = function (operation, customerData) {
     customerService.addOrEditCustomer(customerData, function (data) {
       if (operation == 'save') {
-        toastr.success('Record added successfully', 'User Creation!');
+        toastr.success('Record added successfully');
       } else {
-        toastr.success('Record updated successfully', 'User Updation!');
+        toastr.success('Record updated successfully');
       }
       $scope.getCustomerData();
       $scope.cancelModal();
     });
   }
-
-  //- modal to confirm customer deletion
+  //- customer deletion modal
   $scope.deleteCustomerModal = function (customerId, getFunction) {
     $scope.idToDelete = customerId;
     $scope.functionToCall = getFunction;
@@ -64,16 +65,15 @@ myApp.controller('customerCtrl', function ($scope, toastr, $http, $uibModal, cus
       size: 'md'
     });
   }
-  //- function to delete user
+  //- to delete customer
   $scope.deleteCustomer = function (customerId) {
     customerService.deleteCustomer(customerId, function (data) {
-      toastr.success('Record deleted successfully', 'User Deletion!');
+      toastr.success('Record deleted successfully');
       $scope.cancelModal();
       $scope.getCustomerData();
     });
   }
-
-  //- function for pagination of cusomers' records
+  //- for pagination of cusomers' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
@@ -101,7 +101,7 @@ myApp.controller('customerCtrl', function ($scope, toastr, $http, $uibModal, cus
     }
   }
 
-  //- function to search the text in table
+  //- to search the text in table
   $scope.serachText = function (keyword, count) {
     customerService.getSearchResult(keyword, function (data) {
       $scope.customerData = data.results;
@@ -110,13 +110,7 @@ myApp.controller('customerCtrl', function ($scope, toastr, $http, $uibModal, cus
       });
     });
   }
-
-  //- to dismiss modal instance
-  $scope.cancelModal = function () {
-    $scope.modalInstance.dismiss();
-  }
-
-  //- modal to confirm bulk customers deletion
+  //- modal to delete bulk customers
   $scope.deleteBulkCustomersModal = function (customerIdArray, getFunction) {
     $scope.idsToDelete = customerIdArray;
     $scope.functionToCall = getFunction;
@@ -128,16 +122,16 @@ myApp.controller('customerCtrl', function ($scope, toastr, $http, $uibModal, cus
       size: 'md'
     });
   }
-  //- function to delete customer
+  //- to delete customers
   $scope.deleteBulkCustomers = function (customers) {
     customerService.deleteBulkCustomers(customers, function () {
       $scope.cancelModal();
       $scope.getCustomerData();
       $scope.bulkCustomers = [];
-      toastr.success('Record deleted successfully', 'User Deletion!');
+      toastr.success('Record deleted successfully');
     });
   }
-  //- function to get bulk customers
+  //- to get bulk customers
   $scope.selectBulkCustomers = function (checkboxStatus, customerId) {
     customerService.selectBulkCustomers(checkboxStatus, customerId, function (data) {
       if (data.length >= 1) {
@@ -151,7 +145,10 @@ myApp.controller('customerCtrl', function ($scope, toastr, $http, $uibModal, cus
       $scope.bulkCustomers = data;
     });
   }
-
+  //- to dismiss modal instance
+  $scope.cancelModal = function () {
+    $scope.modalInstance.dismiss();
+  }
 
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 

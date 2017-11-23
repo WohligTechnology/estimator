@@ -475,7 +475,9 @@ tree css*/
         width: 100%;
       }
     }
-  } //- scroll bar css
+  } 
+  
+  //- scroll bar css
   .vertical_scroll {
     overflow: auto;
     height: 419px;
@@ -483,6 +485,7 @@ tree css*/
 
   .vertical_scroll::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
     background-color: #F5F5F5;
   }
 
@@ -493,6 +496,24 @@ tree css*/
   }
 
   .vertical_scroll::-webkit-scrollbar-thumb {
+    background-color: #F90;
+    border-radius: 15px;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.44, #61c0de), color-stop(0.72, #6cc1dc), color-stop(0.86, #0f809c));
+  }
+
+  .horizontal_scroll {
+    overflow: auto;
+  }
+  .horizontal_scroll::-webkit-scrollbar {
+    height: 10px;
+    background-color: #F5F5F5;
+  }
+  .horizontal_scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+    border-radius: 15px;
+  }
+  .horizontal_scroll::-webkit-scrollbar-thumb {
     background-color: #F90;
     border-radius: 15px;
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.44, #61c0de), color-stop(0.72, #6cc1dc), color-stop(0.86, #0f809c));

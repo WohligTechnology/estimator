@@ -8,7 +8,7 @@
                     <label class="tree_label" for="c5"></label>
                     <span ng-click="getAssemblyView()" class="assebmlyName">Part Master</span>
                     <span ng-click="addOrEditPartTypeCatModal('save')" class="assemblyCreateIcon">
-                        <i class="fa fa-plus btn-info"></i>
+                        <i class="fa fa-plus btn-info" title="Add Part Type Category"></i>
                     </span>
                     <ul>
                         <li ng-repeat="ptCat in partStructureData">
@@ -17,25 +17,25 @@
                             <label for="{{ptCat.name+$index}}" class="tree_label"></label>
                             <span class="subssemblyName">{{ptCat.partTypeCatName}}</span>
                             <span ng-click="addOrEditPartTypeModal('save',ptCat._id)" class="subAssemblyCreateIcon">
-                                <i class="fa fa-plus btn-info"></i>
+                                <i class="fa fa-plus btn-info" title="Add Part Type"></i>
                             </span>
                             <span ng-click="addOrEditPartTypeCatModal('update',ptCat)" class="subAssemblyEditIcon">
-                                <i class="fa fa-pencil btn-warning"></i>
+                                <i class="fa fa-pencil btn-warning" title="Edit Part Type Category"></i>
                             </span>
                             <span ng-click="deletePartTypeCatModal(ptCat._id,'deletePartTypeCat')" class="subAssemblyDeleteIcon">
-                                <i class="fa fa-trash-o btn-danger"></i>
+                                <i class="fa fa-trash-o btn-danger" title="Delete Part Type Category"></i>
                             </span>
                             <ul>
                                 <li ng-repeat="pt in ptCat.partTypes">
                                     <span class="tree_label partName" ng-click="getPartTypeSizes(pt._id)">{{pt.partTypeName}}</span>
                                     <span ng-click="addNewPreset('save',pt._id)" class="subAssemblyCreateIcon">
-                                        <i class="fa fa-plus btn-info"></i>
+                                        <i class="fa fa-plus btn-info" title="Add New Preset"></i>
                                     </span>
                                     <span ng-click="addOrEditPartTypeModal('save',ptCat._id,pt)" class="partEditIcon">
-                                        <i class="fa fa-pencil btn-warning"></i>
+                                        <i class="fa fa-pencil btn-warning" title="Edit Part Type Modal"></i>
                                     </span>
                                     <span ng-click="deleteItem()" class="partDeleteIcon">
-                                        <i class="fa fa-trash-o btn-danger "></i>
+                                        <i class="fa fa-trash-o btn-danger" title="Delete Item"></i>
                                     </span>
                                 </li>
                             </ul>
@@ -57,7 +57,7 @@
                 <div class="caption">
                     <span class="caption-subject font-dark bold uppercase font-size"> Materials </span>
                     <span ng-click="getMaterialData(partTypeId)" class="material-plus">
-                        <i class="fa fa-plus btn-info plus-padd"></i>
+                        <i class="fa fa-plus btn-info plus-padd" title="Add New Material"></i>
                     </span>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                         <td class="edit-icon">                          
                             <a ng-click="deletePartTypeMaterialModal(partTypeId,m._id,'deletePartTypeMaterial')">
                                 <span class="label label-sm label-danger">
-                                    <i class="fa fa-trash-o"></i>
+                                    <i class="fa fa-trash-o" title="Delete Part Type"></i>
                                 </span>
                             </a>
                         </td>
@@ -339,7 +339,7 @@
                             <div class="btn-group">
                                 <div class="btn-group">
                                     <button id="sample_editable_1_new" class="btn green" ng-click="addProcessing()">
-                                        <i class="fa fa-plus"></i>
+                                        <i class="fa fa-plus" title="Add Processing"></i>
                                     </button>
                                 </div>
                             </div>
@@ -374,12 +374,12 @@
                                         <td class="edit-icon">
                                             <a class="action" ng-click="addProcessing()">
                                                 <span class="label label-sm label-success">
-                                                    <i class="fa fa-pencil"></i>
+                                                    <i class="fa fa-pencil" title="Edit Processing"></i>
                                                 </span>
                                             </a>
                                             <a class="" ng-click="deleteItem()">
                                                 <span class="label label-sm label-danger">
-                                                    <i class="fa fa-trash-o"></i>
+                                                    <i class="fa fa-trash-o" title="Delete Processing"></i>
                                                 </span>
                                             </a>
                                         </td>

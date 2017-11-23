@@ -6,7 +6,7 @@
                 <label class="tree_label" for="c5"></label>
                 <span class="assebmlyName">Material Master</span>
                 <span ng-click="addOrEditMaterialCatModal('save')" class="assemblyCreateIcon">
-                    <i class="fa fa-plus btn-info"></i>
+                    <i class="fa fa-plus btn-info" title="Add New Category"></i>
                 </span>
                 <ul>
                     <li ng-repeat="mc in materialStructureData">
@@ -17,15 +17,15 @@
                         <span ng-click="" class="subssemblyName">{{mc.materialCatName}}</span>
                         <!-- create sub material category -->
                         <span ng-click="addOrEditMaterialSubCatModal('save',mc._id)" class="subAssemblyCreateIcon">
-                            <i class="fa fa-plus btn-info"></i>
+                            <i class="fa fa-plus btn-info" title="Add SubCategory"></i>
                         </span>
                         <!-- edit material category -->
                         <span ng-click="addOrEditMaterialCatModal('update',mc)" class="subAssemblyEditIcon">
-                            <i class="fa fa-pencil btn-warning"></i>
+                            <i class="fa fa-pencil btn-warning" title="Edit Category Name"></i>
                         </span>
                         <!-- delete material category -->
                         <span ng-click="deleteMaterialCatModal(mc._id,'deleteMaterialCat')" class="subAssemblyDeleteIcon">
-                            <i class="fa fa-trash-o btn-danger"></i>
+                            <i class="fa fa-trash-o btn-danger" title="Delete Category"></i>
                         </span>
                         <ul>
                             <li ng-repeat="msc in mc.subCat">
@@ -35,26 +35,26 @@
                                 <span class="tree_label partName" ng-click="getSubCatMaterials(msc._id)">{{msc.materialSubCatName}}</span>
                                 <!-- create material -->
                                 <span ng-click="addOrEditMaterialModal('save',msc._id)" class="materialSubCreateIcon">
-                                    <i class="fa fa-plus btn-info"></i>
+                                    <i class="fa fa-plus btn-info" title="Add Material"></i>
                                 </span>
                                 <!-- edit material sub category name -->
                                 <span ng-click="addOrEditMaterialSubCatModal('update',mc._id,msc)" class="partEditIcon">
-                                    <i class="fa fa-pencil btn-warning"></i>
+                                    <i class="fa fa-pencil btn-warning" title="Edit SubCategory Name"></i>
                                 </span>
                                 <!-- delete material sub category -->
                                 <span ng-click="deleteMaterialSubCatModal(msc._id,'deleteMaterialSubCat')" class="partDeleteIcon">
-                                    <i class="fa fa-trash-o btn-danger"></i>
+                                    <i class="fa fa-trash-o btn-danger" title="Delete SubCategory"></i>
                                 </span>
                                 <ul>
                                     <li ng-repeat="m in msc.materials">
                                         <span class="tree_label partName">{{m.materialName}}</span>
                                         <!-- edit material -->
                                         <span ng-click="addOrEditMaterialModal('update',msc._id,m)" class="materialEditIcon">
-                                            <i class="fa fa-pencil btn-warning"></i>
+                                            <i class="fa fa-pencil btn-warning" title="Edit Material"></i>
                                         </span>
                                         <!-- delete material -->
                                         <span ng-click="deleteMaterialModal(m._id,'deleteMaterial')" class="materialDeleteIcon">
-                                            <i class="fa fa-trash-o btn-danger"></i>
+                                            <i class="fa fa-trash-o btn-danger" title="Delete Material"></i>
                                         </span>
                                     </li>
                                 </ul>
@@ -152,7 +152,7 @@
                     </div>
                 </div>
                 <!-- BEGIN BORDERED TABLE PORTLET-->
-                <div class="portlet-body">
+                <div class="portlet-body horizontal_scroll">
                     <div class="">
                         <table class="table table-bordered table-hover">
                             <thead>
@@ -176,13 +176,13 @@
                                 <tr ng-repeat="m in subCatMaterials">
                                     <td>{{$index+1}}</td>
                                     <td>{{m.materialName}}</td>
-                                    <td>{{m.typicalRatePerKg}}</td>
-                                    <td>{{m.density}}</td>
-                                    <td>{{m.weightPerUnit}}</td>
-                                    <td>{{m.rollingIndex}}</td>
-                                    <td>{{m.cuttingIndex}}</td>
-                                    <td>{{m.bendingIndex}}</td>
-                                    <td>{{m.fabrictionIndex}}</td>
+                                    <td><input type="text" ng-model="m.typicalRatePerKg" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.density" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.weightPerUnit" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.rollingIndex" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.cuttingIndex" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.bendingIndex" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.fabrictionIndex" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
                                     <td>{{m.type}}</td>
                                     <td>{{m.contingencyOrWastage}}</td>                                    
                                     <!-- <td class="text-center">

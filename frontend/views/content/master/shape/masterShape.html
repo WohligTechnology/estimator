@@ -6,16 +6,16 @@
                 <label class="tree_label" for="c5"></label>
                 <span class="assebmlyName">Shapes</span>
                 <span ng-click="createOrEditShapeData('save')" class="assemblyCreateIcon">
-                    <i class="fa fa-plus btn-info"></i>
+                    <i class="fa fa-plus btn-info" title="Add Shape"></i>
                 </span>
                 <ul>
                     <li ng-repeat="sh in shapeData">
                         <span class="tree_label" class="partName">{{sh.shapeName}}</span>
                         <span ng-click="createOrEditShapeData('update',sh)" class="subAssemblyEditIcon">
-                            <i class="fa fa-pencil btn-warning" ng-click="shape();"></i>
+                            <i class="fa fa-pencil btn-warning" title="Edit Shape"></i>
                         </span>
                         <span ng-click="deleteShapeModal(sh._id,'deleteShape')" class="subAssemblyDeleteIcon">
-                            <i class="fa fa-trash-o btn-danger"></i>
+                            <i class="fa fa-trash-o btn-danger" title="Delete Shape"></i>
                         </span>
                     </li>
                 </ul>

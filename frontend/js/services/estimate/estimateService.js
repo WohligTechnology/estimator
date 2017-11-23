@@ -7,7 +7,6 @@ myApp.service('estimateService', function ($http, $uibModal, NavigationService) 
       callback(data.data);
     });
   }
-
   //- get data of pagination
   this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
     NavigationService.apiCall('Estimate/search', {

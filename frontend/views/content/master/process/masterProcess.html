@@ -6,7 +6,7 @@
                 <label class="tree_label" for="c5"></label>
                 <span ng-click="getAssemblyView()" class="assebmlyName">Process Categories</span>
                 <span ng-click="addOrEditProcessCatModal('save')" class="assemblyCreateIcon">
-                    <i class="fa fa-plus btn-info"></i>
+                    <i class="fa fa-plus btn-info" title="Add Process Category"></i>
                 </span>
                 <ul>
                     <li ng-repeat="pc in processStructureData">
@@ -17,24 +17,24 @@
                         <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pc.processCatName}}</span>
                         <!-- create  process items  -->
                         <span ng-click="addOrEditProcessItemModal('save',pc._id)" class="subAssemblyCreateIcon">
-                            <i class="fa fa-plus btn-info"></i>
+                            <i class="fa fa-plus btn-info" title="Add Process Item"></i>
                         </span>
                         <!-- edit process category -->
                         <span ng-click="addOrEditProcessCatModal('update', pc)" class="subAssemblyEditIcon">
-                            <i class="fa fa-pencil btn-warning"></i>
+                            <i class="fa fa-pencil btn-warning" title="Edit Process Category"></i>
                         </span>
                         <!-- delete process category -->
                         <span ng-click="deleteProcessCatModal(pc._id,'deleteProcessCat')" class="subAssemblyDeleteIcon">
-                            <i class="fa fa-trash-o btn-danger"></i>
+                            <i class="fa fa-trash-o btn-danger" title="Delete Process Category"></i>
                         </span>
                         <ul class="">
                             <li ng-repeat="pi in pc.processItems">
                                 <span class="tree_label" class="partName">{{pi.processItemName}}</span>
                                 <span ng-click="addOrEditProcessItemModal('update',pc._id,pi)" class="partEditIcon">
-                                    <i class="fa fa-pencil btn-warning "></i>
+                                    <i class="fa fa-pencil btn-warning" title="Edit Process Item"></i>
                                 </span>
                                 <span ng-click="deleteProcessItemModal(pi._id,'deleteProcessItem')" class="partDeleteIcon">
-                                    <i class="fa fa-trash-o btn-danger"></i>
+                                    <i class="fa fa-trash-o btn-danger" title="Delete Process Item"></i>
                                 </span>
                             </li>
                         </ul>
@@ -57,12 +57,12 @@
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
                             <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditProcessTypeModal('save');">
-                                <i class="fa fa-plus"></i>
+                                <i class="fa fa-plus" title="Add Process Type"></i>
                             </button>
                         </div>
                         <div class="btn-group pull-right">
                             <button id="sample_editable_2_new" ng-hide="bulkProcesses.length == 0" class="btn red" ng-click="deleteBulkProcessesModal(bulkProcesses, 'deleteBulkProcesses')">
-                                <i class="fa fa-trash-o"></i>
+                                <i class="fa fa-trash-o" title="Delete Selected Records"></i>
                             </button>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <!-- BEGIN BORDERED TABLE PORTLET-->
-                <div class="portlet-body">
+                <div class="portlet-body horizontal_scroll">
                     <div class="">
                         <table class="table table-bordered table-hover">
                             <thead>
@@ -174,10 +174,10 @@
                                     <td> {{process.quantity.contengncyOrWastage}}</td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" id="add_space" ng-click="addOrEditProcessTypeModal('update',process)">
-                                            <i class="fa fa-pencil"></i>
+                                            <i class="fa fa-pencil" title="Edit Process Type"></i>
                                         </span>
                                         <span class="label label-sm label-danger" ng-click="deleteProcessTypeModal(process._id,'deleteProcessType')">
-                                            <i class="fa fa-trash-o"></i>
+                                            <i class="fa fa-trash-o" title="Delete Process Type"></i>
                                         </span>
                                     </td>
                                 </tr>
