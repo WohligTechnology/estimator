@@ -166,8 +166,8 @@
                                     <th>CI</th>
                                     <th>BI</th>
                                     <th>FI</th>
-                                    <th>Material Type</th>
                                     <th>Wastage</th>
+                                    <th>Action</th>
                                     <!-- <th>Custom Base Material</th> -->
                                     <!-- <th>Custom Overlay</th> -->
                                 </tr>
@@ -175,16 +175,17 @@
                             <tbody>
                                 <tr ng-repeat="m in subCatMaterials">
                                     <td>{{$index+1}}</td>
-                                    <td>{{m.materialName}}</td>
-                                    <td><input type="text" ng-model="m.typicalRatePerKg" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.density" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.weightPerUnit" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.rollingIndex" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.cuttingIndex" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.bendingIndex" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.fabrictionIndex" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td>{{m.type}}</td>
-                                    <td>{{m.contingencyOrWastage}}</td>                                    
+                                    <td><input type="text" ng-model="m.materialName" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.typicalRatePerKg" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.density" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.weightPerUnit" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.rollingIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.cuttingIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.bendingIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.fabrictionIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.contingencyOrWastage" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>                               
+                                    <td><span class="label label-sm label-success" id="add_space" ng-click="editMaterial(m._id)">
+                                        <i class="fa fa-pencil" title="Edit Material"></i></td>
                                     <!-- <td class="text-center">
                                         <input type="checkbox" ng-click="customBase ? changeMaterialType(m._id, 'customBase', m.materialSubCategory) : changeMaterialType(m._id, 'standard',m.materialSubCategory)"
                                             ng-checked="m.type == 'customBase'" ng-model="customBase" ng-disabled="m.type == 'customOverlay' || customOverlay == true">
