@@ -1,0 +1,61 @@
+<div class="btn btn-primary" ngf-select="uploadFiles($files,type)" multiple="multiple">Upload</div><br>
+
+<!--Multiple Select and Delete-->
+<div class="row" ng-if="type!='Documents'">
+  <div class="col-md-6">
+    <span class="space-left">{{ type | capitalize }} </span><span class="color-green">({{photos.length}})</span>
+    <span class="space-left">
+      <a tooltip-placement="top" uib-tooltip="Download Zip of All Photos" class="btn btn-primary btn-upload-directive" ng-if="photos.length > 0" ng-click="generateZip(type);">
+        <i class="ln-file-zip font-size18"></i>
+      </a>
+      <a tooltip-placement="top" uib-tooltip="Delete Photos" class="btn btn-danger red-upload-directive ml-5" ng-click="deleteSelectedData(type);">
+        <i class="fa fa-trash font-size18"></i>
+      </a>
+    </span>
+    <div class="checkbox checkbox-upload checkbox-primary float-left">
+      <input id="{{'checkboxAll' + type }}" type="checkbox" ng-model="selectAll" ng-click="selectAllData(type,selectAll)">
+      <label for="{{'checkboxAll' + type }}">Select All</label></a>
+    </div>
+  </div>
+</div>
+
+<!--DROP BOX -->
+<div ng-if="type!='Documents'" class="dropbox" ngf-drop="uploadFiles($files,type)" class="drop-box" ngf-drag-over-class="'dragover'"
+  ngf-multiple="true" ngf-pattern="'image/*,application/pdf'">
+
+  <!--SHOWING AND EDIT IMAGES IN FRAME-->
+  <div class="file-selector">
+    <!-- <div class="text-center" ng-if="file.files.length==0">No files found.</div> -->
+    <div class="scroll-x-max">
+      <div class="row">
+        <div class="col-md-3 mter" ng-repeat="photo in photos track by $index">
+          <div class="photosbx">
+            <a fancybox-box rel="gallery1" style="opacity:1;" href="{{photo.file|uploadpath}}">
+              <img ng-src="{{photo.file|uploadpath:width=200}}" alt="" class="img-responsive">
+            </a>
+            <p>{{photo.fileName | date:'ddMMMyy, hh:mm'}}</p>
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="checkbox checkbox-primary top-margin">
+                  <input id="{{ 'checkbox'+ type + $index }}" type="checkbox" ng-click="addDataToDelete(type,$index,photo.file)" ng-checked="selectAll">
+                  <label for="{{ 'checkbox'+ type + $index }}"> </label>
+                </div>
+              </div>
+              <div class="col-md-4 top-padding-left">
+                <a tooltip-placement="top" uib-tooltip="Download Photo" class="btn btn-primary btn-upload-directive" download="{{photo.file}}"
+                  ng-href="{{photo.file|downloadImage}}">
+                  <i class="fa fa-arrow-down font-size18"></i>
+                </a>
+              </div>
+              <div class="col-md-4 top-padding">
+                <a tooltip-placement="top" uib-tooltip="Remove Photo" class="btn btn-danger red-upload-directive" ng-click="removeElement(type,$index)">
+                  <i class="fa fa-trash font-size18"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

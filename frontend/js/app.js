@@ -1177,26 +1177,371 @@ myApp.directive('fileModel', ['$parse','$http', function ($parse, $http) {
 }]);
 
 
-// myApp.directive('fileModel', [
-//     function() {
-//       return {
-//         restrict: "E",
-//         template: "<input type=\"file\" />",
-//         replace: true,
-//         require: "ngModel",
-//         link: function(scope, element, attr, ctrl) {
-//           var listener;
-//           listener = function() {
-//             return scope.$apply(function() {
-//               if (attr.multiple) {
-//                 return ctrl.$setViewValue(element[0].files);
-//               } else {
-//                 return ctrl.$setViewValue(element[0].files[0]);
-//               }
-//             });
-//           };
-//           return element.bind("change", listener);
-//         }
-//       };
-//     }
-// ]);
+
+
+
+
+
+
+
+
+myApp.directive('uploadFiles', function ($http, $timeout,upload, toastr, NavigationService, $uibModal, TemplateService, $rootScope) {
+    return {
+        templateUrl: '../frontend/views/directive/uploadFiles.html',
+        scope: {
+            employee: '=employee',
+            assignmentid: '=assignmentid',
+            timeline: '=timeline',
+            model: '=ngModel',
+            type: '=type',
+            photos: '=photos',
+            photoLength: "=photolength",
+            callback: '&ngCallback',
+            photosMaxLength: '=length'
+        },
+        link: function ($scope, scope, element, attrs) {
+            $scope.progressBar = false;
+            // UPLOADING FILES
+            $scope.uploadFiles = function (files, type) {
+                // console.log('files', files, 'types', type);
+                $scope.progressBar = 0;
+                $scope.model = [];
+                var limitArr = [];
+                var count = 0;
+                var enterFile = true;
+                if (type == "photos" || type == "editSurveyPhotos" || type == "surveyPhotos") {
+                    if ($scope.photoLength < $scope.photosMaxLength) {
+                        if (files && files.length) {
+                            if (files.length <= ($scope.photosMaxLength - $scope.photoLength)) {
+                                if (files && files.length) {
+                                    for (var i = 0; i < files.length; i++) {
+                                        $scope.progressBar = true;
+                                        Upload.upload({
+                                            url: uploadurl,
+                                            data: {
+                                                file: files[i],
+                                            },
+                                            headers: {
+                                                'Content-Type': undefined
+                                            },
+                                            transformRequest: angular.identity
+                                        }).then(function (resp) {
+                                            if (resp.data) {
+                                                count++;
+                                                if (count === 1) {
+                                                    $rootScope.viewProgressBar = true;
+                                                }
+                                                $scope.model.push(resp.data.data[0]);
+                                                $rootScope.progressPercentage = parseInt((100.0 * (count + 1)) / (files.length + 1));
+                                                $rootScope.imageName = resp.config.data.file.name;
+                                                $rootScope.filesLength = files.length;
+                                                $rootScope.currentCount = count;
+                                                if (count == files.length) {
+                                                    $scope.callback($scope.model);
+                                                    setTimeout(function () {
+                                                        $rootScope.viewProgressBar = false;
+                                                        $rootScope.$apply();
+                                                        console.log('$rootScope.viewProgressBar', $rootScope.viewProgressBar);
+                                                    }, 1000);
+                                                }
+                                                $rootScope.fileSize = resp.config.data.file.size;
+                                            }
+                                        }, function (resp) {
+                                            console.log('Error status: ' + resp.status);
+                                        }, function (evt) {
+                                            // console.log('evt loaded', evt.loaded, "evt.total", evt.total);
+                                            // $scope.singleProgress = parseInt(100.0 * evt.loaded / evt.total);
+                                        });
+                                    }
+                                }
+                            } else {
+                                var rejected = files.length - ($scope.photosMaxLength - $scope.photoLength);
+                                files = _.drop(files, (files.length - ($scope.photosMaxLength - $scope.photoLength)));
+                                if (files && files.length) {
+                                    for (var i = 0; i < files.length; i++) {
+                                        $scope.progressBar = true;
+                                        Upload.upload({
+                                            url: uploadurl,
+                                            data: {
+                                                file: files[i],
+                                            },
+                                            headers: {
+                                                'Content-Type': undefined
+                                            },
+                                            transformRequest: angular.identity
+                                        }).then(function (resp) {
+                                            if (resp.data) {
+                                                count++;
+                                                if (count === 1) {
+                                                    $rootScope.viewProgressBar = true;
+                                                }
+                                                $scope.model.push(resp.data.data[0]);
+                                                $rootScope.progressPercentage = parseInt((100.0 * (count + 1)) / (files.length + 1));
+                                                $rootScope.imageName = resp.config.data.file.name;
+                                                $rootScope.filesLength = files.length;
+                                                $rootScope.currentCount = count;
+                                                if (count == files.length) {
+                                                    if (type == "surveyPhotos") {
+                                                        toastr.error(files.length + " uploaded & " + rejected + " rejected", "Only 16 photos alloweddd");
+                                                    } else {
+                                                        toastr.error(files.length + " uploaded & " + rejected + " rejected", "Only " + $scope.photosMaxLength + " photos allowed");
+                                                    }
+                                                    $scope.callback($scope.model);
+                                                    setTimeout(function () {
+                                                        $rootScope.viewProgressBar = false;
+                                                        $rootScope.$apply();
+                                                        console.log('$rootScope.viewProgressBar', $rootScope.viewProgressBar);
+                                                    }, 1000);
+                                                }
+                                                $rootScope.fileSize = resp.config.data.file.size;
+                                            }
+                                        }, function (resp) {
+                                            console.log('Error status: ' + resp.status);
+                                        }, function (evt) {
+                                            // console.log('evt loaded', evt.loaded, "evt.total", evt.total);
+                                            // $scope.singleProgress = parseInt(100.0 * evt.loaded / evt.total);
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        toastr.error("Only " + $scope.photosMaxLength + " photos allowed");
+                        enterFile = false;
+                        $scope.callback($scope.model);
+                    }
+                } else {
+                    if (files && files.length) {
+                        for (var i = 0; i < files.length; i++) {
+                            $scope.progressBar = true;
+                            Upload.upload({
+                                url: uploadurl,
+                                data: {
+                                    file: files[i],
+                                },
+                                headers: {
+                                    'Content-Type': undefined
+                                },
+                                transformRequest: angular.identity
+                            }).then(function (resp) {
+                                if (resp.data) {
+                                    count++;
+                                    if (count === 1) {
+                                        $rootScope.viewProgressBar = true;
+                                    }
+                                    console.log("-->", resp)
+                                    $scope.model.push(resp.data.data[0]);
+                                    $rootScope.progressPercentage = parseInt((100.0 * (count + 1)) / (files.length + 1));
+                                    $rootScope.imageName = resp.config.data.file.name;
+                                    $rootScope.filesLength = files.length;
+                                    $rootScope.currentCount = count;
+                                    if (count == files.length) {
+                                        $scope.callback($scope.model);
+                                        setTimeout(function () {
+                                            $rootScope.viewProgressBar = false;
+                                            $rootScope.$apply();
+                                            console.log('$rootScope.viewProgressBar', $rootScope.viewProgressBar);
+                                        }, 1000);
+                                    }
+                                    $rootScope.fileSize = resp.config.data.file.size;
+
+
+                                }
+                            }, function (resp) {
+                                console.log('Error status: ' + resp.status);
+                            }, function (evt) {
+                                // console.log('evt loaded', evt.loaded, "evt.total", evt.total);
+                                // $scope.singleProgress = parseInt(100.0 * evt.loaded / evt.total);
+                            });
+                        }
+                    }
+                }
+            }
+
+            // GENERATE ZIP
+            $scope.generateZip = function (type) {
+                window.open(adminurl + 'Assignment/generateZip?id=' + $scope.assignmentid + '&type=' + type, '_self');
+                window.close();
+            }
+
+            // SELECT ALL IMAGES
+            $scope.deleteIndexs = [];
+            $scope.deleteSurveyIndexs = [];
+            $scope.surveyData = {};
+            $scope.selectAllData = function (type, flag) {
+                // console.log('flag ', flag);
+                if (flag === true) {
+                    var matchedData = $scope.photos;
+                    _.each(matchedData, function (value, key) {
+                        $scope.deleteIndexs.push({
+                            id: key,
+                            file: value.file.toString()
+                        });
+                        // console.log('delete Indexs : ', $scope.deleteIndexs);
+                    });
+                } else {
+                    $scope.deleteIndexs = [];
+                }
+            };
+
+            //SELECT SINGLE IMAGE TO DELETE
+            $scope.addDataToDelete = function (type, index, data) {
+                var matchedData = $scope.photos;
+                var matchIndex = _.findIndex(matchedData, function (o) {
+                    console.log(" 1", o.file.toString(), "2 : ", data.toString());
+                    return o.file.toString() == data.toString();
+                });
+                // console.log("matchIndex : ", matchIndex);
+                var duplicateIndex = -1;
+                if (!_.isEmpty($scope.deleteIndexs)) {
+                    duplicateIndex = _.findIndex($scope.deleteIndexs, function (o) {
+                        return o.id == matchIndex;
+                    });
+                    // console.log('duplicateIndex : ', duplicateIndex);
+                }
+
+                if (_.isEmpty($scope.deleteIndexs)) {
+                    $scope.deleteIndexs.push({
+                        id: matchIndex,
+                        file: data.toString()
+                    });
+                } else {
+                    if (duplicateIndex === -1) {
+                        $scope.deleteIndexs.push({
+                            id: matchIndex,
+                            file: data.toString()
+                        });
+                    } else {
+                        $scope.deleteIndexs.splice(duplicateIndex, 1);
+                    }
+                }
+                // console.log('deleteIndexs : ', $scope.deleteIndexs);
+            };
+
+            //DELETE SELECTED IMAGE AND UPDATE TIMELINE
+            $scope.deleteSelectedData = function (type) {
+                if (_.isEmpty($scope.deleteIndexs)) {
+                    $scope.selectOneRecord();
+                } else {
+                    _.each($scope.deleteIndexs, function (deleteData) {
+                        var matchedData = $scope.photos;
+                        var matchIndex = -1;
+                        matchIndex = _.findIndex(matchedData, function (o) {
+                            console.log(" 1", o.file.toString(), "2 : ", deleteData.file.toString());
+                            return o.file.toString() == deleteData.file.toString();
+                        });
+                        if (matchIndex != -1) {
+                            $scope.photos.splice(matchIndex, 1);
+                        }
+                    });
+
+                    setTimeout(function () {
+                        var formData = {};
+                        var a = {};
+                        formData._id = $scope.assignmentid;
+                        if (type === "jir") {
+                            formData.jir = $scope.photos;
+                            a.title = "Jir Deleted";
+                            a.subTitle = "Jir Deleted Successfully"
+                        } else if (type === "photos") {
+                            formData.photos = $scope.photos;
+                            a.title = "Photos Deleted";
+                            a.subTitle = "Photos Deleted Successfully"
+                        } else if (type === "Documents") {
+                            formData.docs = $scope.photos;
+                            a.title = "Document Deleted";
+                            a.subTitle = "Document Deleted Successfully"
+                        } else {
+                            $scope.photos.splice(index, 1);
+                        }
+                        if (type == 'jir' || type == 'photos' || type == 'Documents') {
+                            NavigationService.assignmentSave(formData, function (data) {
+                                if (data.value) {
+                                    if (data.data.nModified === 1) {
+                                        a.type = "Normal";
+                                        a.employee = $scope.employee;
+                                        $scope.timeline.chat.push(a);
+                                        $scope.timelineSave();
+                                        toastr.success(a.subTitle, a.title);
+                                    } else {
+                                        toastr.error("There was an error while delete the Jir ", "Error Deleting Jir");
+                                    }
+                                } else {
+                                    toastr.error("There was an error while delete the Jir ", "Error Deleting Jir");
+                                }
+                            });
+                        }
+                    }, 2000);
+                }
+
+
+            };
+
+            //REMOVE IMAGE AND UPDATE TIMELINE
+            $scope.removeElement = function (type, index) {
+                var formData = {};
+                var a = {};
+                formData._id = $scope.assignmentid;
+                if (type === "jir") {
+                    $scope.photos.splice(index, 1);
+                    formData.jir = $scope.photos;
+                    a.title = "Jir Deleted";
+                    a.subTitle = "Jir Deleted Successfully";
+                } else if (type === "photos") {
+                    $scope.photos.splice(index, 1);
+                    formData.photos = $scope.photos;
+                    a.title = "Photos Deleted";
+                    a.subTitle = "Photos Deleted Successfully";
+                } else if (type === "Documents") {
+                    $scope.photos.splice(index, 1);
+                    formData.docs = $scope.photos;
+                    a.title = "Document Deleted";
+                    a.subTitle = "Document Deleted Successfully";
+                } else {
+                    $scope.photos.splice(index, 1);
+                }
+                if (type == 'jir' || type == 'photos' || type == 'Documents') {
+                    NavigationService.assignmentSave(formData, function (data) {
+                        if (data.value) {
+                            if (data.data.nModified === 1) {
+                                a.type = "Normal";
+                                a.employee = $scope.employee;
+                                $scope.timeline.chat.push(a);
+                                $scope.timelineSave();
+                                toastr.success(a.subTitle, a.title);
+                            } else {
+                                toastr.error("There was an error while delete the " + _.capitalize(type), "Error Deleting " + _.capitalize(type));
+                            }
+                        } else {
+                            toastr.error("There was an error while delete the " + _.capitalize(type), "Error Deleting " + _.capitalize(type));
+                        }
+                    });
+                }
+            }
+
+            //SAVE TIMELINE
+            $scope.timelineSave = function () {
+                NavigationService.saveChat($scope.timeline, function (data) {
+                    if (data.value === false) {
+                        toastr.success("There was an error while saving data to the timeline", "Timeline Error");
+                    }
+                });
+            };
+
+            //SELECT ONE RECORD MODAL
+            $scope.selectOneRecord = function () {
+                var modalInstance = $uibModal.open({
+                    scope: $scope,
+                    templateUrl: '/frontend/views/modal/select-one-record.html',
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+            };
+
+            //Refresh timeline
+            $scope.refreshTimeline = function () {
+                $state.reload();
+            };
+        }
+    };
+});

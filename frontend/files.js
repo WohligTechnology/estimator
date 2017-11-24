@@ -26,6 +26,9 @@ module.exports = [
   "bower_components/angular-toastr/dist/angular-toastr.tpls.js",
   "bower_components/angular-promise-buttons/dist/angular-promise-buttons.js",
 
+  'bower_components/ng-file-upload/ng-file-upload.min.js',
+  'bower_components/ng-file-upload-shim/ng-file-upload-shim.min.js',
+
   // "frontend/themeassets/global/plugins/jquery.min.js",
   // "frontend/themeassets/global/plugins/bootstrap/js/bootstrap.min.js",
   "frontend/themeassets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js",
