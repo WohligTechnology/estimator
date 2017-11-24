@@ -1,3 +1,5 @@
+var bcrypt = require('bcrypt');
+
 var schema = new Schema({
     name: {
         type: String,
@@ -46,7 +48,7 @@ var schema = new Schema({
     accessLevel: {
         type: String,
         default: "User",
-        enum: ['User', 'Admin']
+        enum: ['User', 'SuperAdmin']
     }
 });
 
@@ -135,6 +137,7 @@ var model = {
         });
     },
     updateAccessToken: function (id, accessToken) {
+
         User.findOne({
             "_id": id
         }).exec(function (err, data) {
@@ -480,7 +483,7 @@ var model = {
         }, function (err, uploadedFile) {
             if (err) {
                 callback('error at uploadAvtar', err);
-            } else if (uploadedFile.length > 0) {                
+            } else if (uploadedFile.length > 0) {
                 var getAllFilesId = [];
                 async.concat(uploadedFile, function (n, callback) {
 
@@ -521,7 +524,37 @@ var model = {
             callback(null, uuid);
         }
     },
+    // what this function will do ?
+    // req data --> ?
+    fecthFiles: function (data, callback) {
+        const testFolder = './assets/images';
 
+        fs.readdir(testFolder, (err, files) => {
+            files.forEach(file => {
+                if (file == data) {
+                    console.log(file);
+                } else {
+                    callback(null, 'file is not mmatched');
+                }
+
+            })
+
+        });
+    },
+
+    beforeCreate: function (data, callback) {
+        bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(data.password, salt, function (err, hash) {
+                if (err) {
+                    console.log(err);
+                    callback(err);
+                } else {
+                    data.password = hash;
+                    callback();
+                }
+            });
+        });
+    },
 
 };
 module.exports = _.assign(module.exports, exports, model);
