@@ -1107,59 +1107,23 @@ myApp.directive('fileModel', ['$parse', '$http', function ($parse, $http) {
 }]);
 
 
-// myApp.directive('uploadAllFiles', function () {
-//     return {
-//         restrict: 'E',
-//         scope: {
-//             finalData: '=ngModel'
-//         },
-//         template: '<input type="file" ng-model="files" onchange="angular.element(this).scope().uploadImage(files)" multiple/>',
-
-//         link: function (scope, element, attrs) {
-//             debugger;
-//             scope.uploadImage = function (files) {
-//                 console.log("*** inside function & files are ***", files);
-//                 // http request here
-
-//                 angular.forEach(files, function (file) {
-//                     debugger;
-//                     console.log("****************** file is ******************", file);
-//                     scope.finalData.push(file.name);
-//                 });
-
-//                 //   var fd = new FormData();
-//                 //   fd.append('file', file);
-
-//                 //   $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-//                 //           transformRequest: angular.identity,
-//                 //           headers: {
-//                 //               'Content-Type': undefined
-//                 //           }
-//                 //       })
-//                 //       .then(function () {
-//                 //           console.log('**** inside its working of userProfileService.js ****');
-//                 //       });
-
-//             };
-//         }
-//     };
-// });
-
 myApp.directive('uploadAllFiles', function ($http) {
     return {
         restrict: 'E',
         scope: {
             model: '=ngModel'
         },
-        template: '<input type="file" ng-model="files" onchange="angular.element(this).scope().uploadImage(files)" multiple/>',
+        templateUrl: 'frontend/views/directive/uploadAllFiles.html',
 
         link: function (scope, element, attrs) {
-
+            debugger;
+            scope.isMultiple = false;
             scope.uploadImage = function (files) {
                 console.log("*** inside function & files are ***", files);
                 // http request here
 
                 if (_.isArray(scope.model)) {
+                    scope.isMultiple = true;
                     angular.forEach(files, function (file) {
                         debugger;
                         console.log("****************** file is ******************", file);
@@ -1197,6 +1161,65 @@ myApp.directive('uploadAllFiles', function ($http) {
 
                 }
             };
+        }
+    };
+});
+
+
+myApp.filter('uploadpath', function () {
+    return function (input, width, height, style) {
+        var other = "";
+        if (input.search(".pdf") >= 0) {
+            return "frontend/img/pdf.jpg";
+        } else {
+            if (input.search(".jpg") >= 0 || input.search(".png") >= 0) {
+                return "frontend/img/image.png";
+            } else {
+                if (input.search(".doc") >= 0 || input.search(".docx") >= 0) {
+                    return "frontend/img/doc.png";
+                } else if (input == 'broken') {
+                    return "frontend/img/nofile.png";
+                }
+            }
+        }
+        if (width && width !== "") {
+            other += "&width=" + width;
+        }
+        if (height && height !== "") {
+            other += "&height=" + height;
+        }
+        if (style && style !== "") {
+            other += "&style=" + style;
+        }
+        if (input) {
+            if (input.indexOf('https://') == -1) {
+                return imgpath + "?file=" + input + other;
+            } else {
+                return input;
+            }
+        }
+    };
+});
+
+myApp.filter('downloadpath', function () {
+    debugger;
+    return function (input, width, height, style) {
+        var other = "";
+        if (width && width !== "") {
+            other += "&width=" + width;
+        }
+        if (height && height !== "") {
+            other += "&height=" + height;
+        }
+        if (style && style !== "") {
+            other += "&style=" + style;
+        }
+        if (input) {
+            if (input.indexOf('https://') == -1) {
+                return adminurl + "download/" + input;
+            } else {
+                return adminurl;
+            }
         }
     };
 });
