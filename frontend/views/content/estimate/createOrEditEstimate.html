@@ -1,0 +1,290 @@
+<div class="row">
+    <div class="col-md-12 ">
+        <div class="img-border">
+            <div class="portlet light">
+                <div class="portlet-title tabbable-line tabs-left">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#" data-target="#tab_1_1" data-toggle="tab">Details</a>
+                        </li>
+                        <li>
+                            <a href="#" data-target="#tab_1_2" data-toggle="tab">Estimate</a>
+                        </li>
+                        <li>
+                            <a href="#" data-target="#tab_1_3" data-toggle="tab">BOQ</a>
+                        </li>
+                        <li>
+                            <a href="#" data-target="#tab_1_4" data-toggle="tab">Attachments</a>
+                        </li>
+                    </ul>
+                    <div class="text-right saveEstimateBtn">
+                        <p>
+                            <span style="padding-right: 40%;">{{updatedAssembly}}</span>
+                            <button type="Save" class="btn btn-circle green" ng-click="saveCurrentEstimate()">Update</button>
+                        </p>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="tab-content">
+                        <!-- DETAILS TAB -->
+                        <div class="tab-pane active" id="tab_1_1">
+                        </div>
+                        <!-- END DETAIL TAB -->
+                        <!-- Estimate TAB -->
+                        <div class="tab-pane" id="tab_1_2">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <ul class="tree">
+                                        <li class="mainLi">
+                                            <input type="checkbox" id="c5" />
+                                            <label class="tree_label" for="c5"></label>
+                                            <span ng-click="getEstimateView('assembly')" class="assebmlyName">{{estimteData.assemblyName}} ({{estimteData.subAssemblies.length}})</span>
+                                            <span ng-click="addOrEditSubAssemblyModal('save')" class="assemblyCreateIcon">
+                                                <i class="fa fa-plus btn-info" title="Add SubAssembly"></i>
+                                            </span>
+                                            <span ng-click="editAssemblyNameModal(estimteData)" class="assemblyEditIcon">
+                                                <i class="fa fa-pencil btn-warning" title="Edit Assembly Name"></i>
+                                            </span>
+
+                                            <ul class="tree_animation">
+                                                <li ng-repeat="sa in estimteData.subAssemblies track by $index">
+                                                    <input type="checkbox" id="{{sa.subAssemblyName+$index}}" />
+                                                    <label for="{{sa.subAssemblyName+$index}}" class="tree_label"></label>
+                                                    <span ng-click="getEstimateView('subAssembly', 'assembly', sa.subAssemblyNumber)" class="subssemblyName">{{sa.subAssemblyName}} ({{sa.subAssemblyParts.length}})</span>
+                                                    <span ng-click="addOrEditPartModal('save',sa.subAssemblyNumber)" class="subAssemblyCreateIcon">
+                                                        <i class="fa fa-plus btn-info" title="Add Part"></i>
+                                                    </span>
+                                                    <span ng-click="addOrEditSubAssemblyModal('update', sa)" class="subAssemblyEditIcon">
+                                                        <i class="fa fa-pencil btn-warning" title="Edit SubAssembly Name"></i>
+                                                    </span>
+                                                    <span ng-click="deleteSubAssemblyModal(sa.subAssemblyNumber,'deleteSubAssembly')" class="subAssemblyDeleteIcon">
+                                                        <i class="fa fa-trash-o btn-danger" title="Delete SubAssembly"></i>
+                                                    </span>
+                                                    <ul class="tree_animation">
+                                                        <li ng-repeat="p in sa.subAssemblyParts track by $index">
+                                                            <input type="checkbox" id="{{p.partName+$index+$parent.$index}}" />
+                                                            <label for="{{p.partName+$index+$parent.$index}}" class="tree_label"></label>
+                                                            <span ng-click="getEstimateView('partDetail', 'subAssembly', sa.subAssemblyNumber, p.partNumber)" class="tree_label partName">{{p.partName}}</span>
+                                                            <span ng-click="addOrEditPartModal('update', sa.subAssemblyNumber, p)" class="partEditIcon">
+                                                                <i class="fa fa-pencil btn-warning" title="Edit Part"></i>
+                                                            </span>
+                                                            <span ng-click="duplicatePart(sa.subAssemblyNumber, p)" class="partDuplicateIcon">
+                                                                <i class="fa fa-clone btn-success" title="Duplicate Part"></i>
+                                                            </span>
+                                                            <span ng-click="deletePartModal('deletePart', sa.subAssemblyNumber, p.partNumber)" class="partDeleteIcon">
+                                                                <i class="fa fa-trash-o btn-danger" title="Delete Part"></i>
+                                                            </span>
+                                                            <span ng-click="importPartToDifferentSubAssemblyModal(p)" class="importPartIcon">
+                                                                <i class="fa fa-clipboard  btn-primary" title="Add Part To Different SubAssembly"></i>
+                                                            </span>
+
+                                                            <ul>
+                                                                <li>
+                                                                    <span ng-click="getEstimateView('editPartItemDetail', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Item Detail</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span ng-click="getEstimateView('processing', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Processing ({{p.processing.length}})</span>
+                                                                    <span ng-click="addItemModal('Processing', 'part', sa.subAssemblyNumber, p.partNumber)" class="processingIcon">
+                                                                        <i class="fa fa-plus btn-info" title="Add Processing"></i>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <span ng-click="getEstimateView('addons', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Addons ({{p.addons.length}})</span>
+                                                                    <span ng-click="addItemModal('Addon', 'part', sa.subAssemblyNumber, p.partNumber)" class="addonsIcon">
+                                                                        <i class="fa fa-plus btn-info" title="Add Addon"></i>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <span ng-click="getEstimateView('extras', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Extras ({{p.extras.length}})</span>
+                                                                    <span ng-click="addItemModal('Extra', 'part', sa.subAssemblyNumber, p.partNumber)" class="extrasIcon">
+                                                                        <i class="fa fa-plus btn-info" title="Add Extra"></i>
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li>
+                                                            <span ng-click="getEstimateView('processing', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Processing ({{sa.processing.length}})</span>
+                                                            <span ng-click="addItemModal('Processing', 'subAssembly', sa.subAssemblyNumber)" class="processingIcon">
+                                                                <i class="fa fa-plus btn-info" title="Add Processing"></i>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span ng-click="getEstimateView('addons', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Addons ({{sa.addons.length}})</span>
+                                                            <span ng-click="addItemModal('Addon', 'subAssembly', sa.subAssemblyNumber)" class="addonsIcon">
+                                                                <i class="fa fa-plus btn-info" title="Add Addon"></i>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span ng-click="getEstimateView('extras', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Extras ({{sa.extras.length}})</span>
+                                                            <span ng-click="addItemModal('Extra', 'subAssembly', sa.subAssemblyNumber)" class="extrasIcon">
+                                                                <i class="fa fa-plus btn-info" title="Add Extra"></i>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <span ng-click="getEstimateView('processing', 'assembly')" class="tree_label">Processing ({{estimteData.processing.length}})</span>
+                                                    <span ng-click="addItemModal('Processing', 'assembly')" class="processingIcon">
+                                                        <i class="fa fa-plus btn-info" title="Add Processing"></i>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span ng-click="getEstimateView('addons', 'assembly')" class="tree_label">Addons ({{estimteData.addons.length}})</span>
+                                                    <span ng-click="addItemModal('Addon', 'assembly')" class="addonsIcon">
+                                                        <i class="fa fa-plus btn-info" title="Add Addon"></i>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span ng-click="getEstimateView('extras', 'assembly')" class="tree_label">Extras ({{estimteData.extras.length}})</span>
+                                                    <span ng-click="addItemModal('Extra', 'assembly')" class="extrasIcon">
+                                                        <i class="fa fa-plus btn-info" title="Add Extra"></i>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="cm" />
+                                            <label class="tree_label" for="cm"></label>
+                                            <span ng-click="getEstimateView('customMaterial')" class="customMaterialName">Custom Material</span>
+                                            <span ng-click="addOrEditCustomMaterialModal('save')" class="customerMaterialCreateIcon">
+                                                <i class="fa fa-plus btn-info" title="Add Custom Material"></i>
+                                            </span>
+                                            <span ng-click="editCustomMaterialNameModal('update', estimteData)" class="customerMaterialEditIcon">
+                                                <i class="fa fa-pencil btn-warning" title="Edit Custom Material"></i>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-9">
+                                    <div ng-include="estimateView"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Estimate TAB -->
+                        <!-- BOQ TAB -->
+                        <div class="tab-pane" id="tab_1_3">
+                            <form>
+                                <div class="form-group">
+                                    <label class="control-label">Current Password</label>
+                                    <input type="password" class="form-control" /> </div>
+                                <div class="form-group">
+                                    <label class="control-label">New Password</label>
+                                    <input type="password" class="form-control" /> </div>
+                                <div class="form-group">
+                                    <label class="control-label">Re-type New Password</label>
+                                    <input type="password" class="form-control" /> </div>
+                                <div class="margin-top-10">
+                                    <a href="#" class="btn green-haze"> Change Password </a>
+                                    <a href="#" class="btn default"> Cancel </a>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- END BOQ TAB -->
+                        <!-- Attachments TAB -->
+                        <div class="tab-pane" id="tab_1_4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="portlet light bordered">
+                                        <div class="portlet-title">
+                                            <div class="padd-t font-green-haze">
+                                                <i class="icon-settings font-green-haze"></i>
+                                                <span class="caption-subject bold uppercase"> Attachments</span>
+                                            </div>
+                                        </div>
+                                        <form role="form" class="form-horizontal">
+                                            <div class="portlet-body form">
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-3 control-label" for="form_control_1">Attachments:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="file" id="form_control_1">
+                                                        <!--<div class="form-control-focus"> </div>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class=" col-md-12 text-center">
+                                                        <button type="button" class="btn blue">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Attachments TAB -->
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-scrollable">
+                        <!--<table class="table table-bordered">
+                        <tr>
+                            <th class="align-middle text-center"> Total Weight </th>
+                            <th > Material Cost</th>
+                            <th> Process Cost </th>
+                            <th> Addon Cost </th>
+                            <th>Extra Cost </th>
+                            <th> Total Cost </th>
+                        </tr>
+                        <tr>
+                            <td rowspan="3" class="align-middle text-center">1000</td>
+                            <td> 1 </td>
+                            <td> 200 </td>
+                            <td> 300 </td>
+                            <td> 500 </td>
+                            <td>300 </td>
+                        </tr>
+                        <tr>
+                            <th> Material Cost</th>
+                            <th> Process Cost </th>
+                            <th> Addon Cost </th>
+                            <th>Extra Cost </th>
+                            <th> Total Cost </th>
+                        </tr>
+                        <tr>
+                            <td> 1 </td>
+                            <td> 200 </td>
+                            <td> 100 </td>
+                            <td> 434 </td>
+                            <td>209 </td>
+                        </tr>
+                    </table>-->
+                        <table class="bordered-table">
+                            <tr>
+                                <th class="align-middle text-center"> Total Weight </th>
+                                <th> Material Cost</th>
+                                <th> Process Cost </th>
+                                <th> Addon Cost </th>
+                                <th>Extra Cost </th>
+                                <th> Total Cost </th>
+                            </tr>
+                            <tr class="border-bott">
+                                <td rowspan="3" class="align-middle text-center border-right">1000</td>
+                                <td> 1 </td>
+                                <td> 200 </td>
+                                <td> 300 </td>
+                                <td> 500 </td>
+                                <td>300 </td>
+                            </tr>
+                            <tr>
+                                <th> Material Salling Price</th>
+                                <th> Process Salling Price </th>
+                                <th> Addon Salling Price </th>
+                                <th>Extra Salling Price </th>
+                                <th> Total Salling Price </th>
+                            </tr>
+                            <tr>
+                                <td> 1 </td>
+                                <td> 200 </td>
+                                <td> 100 </td>
+                                <td> 434 </td>
+                                <td>209 </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

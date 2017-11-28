@@ -1,4 +1,7 @@
-myApp.factory('NavigationService', function () {
+myApp.factory('NavigationService', function ($http) {
+
+    // var adminurl ="http://192.168.0.24/api/"
+    var adminurl ="http://wohlig.io/api/"
     var navigation = [{
             name: "Home",
             classis: "active",
@@ -21,10 +24,28 @@ myApp.factory('NavigationService', function () {
             subnav: []
         }
     ];
-
+    
     return {
         getNavigation: function () {
             return navigation;
+        },
+        boxCall: function (url, callback) {
+            $http.post(adminurl + url).then(function (data) {
+                data = data.data;
+                callback(data);
+            });
+        },
+        apiCall: function (url, formData, callback) {
+            $http.post(adminurl + url, formData).then(function (data) {
+                data = data.data;
+                callback(data);
+            });
+        },
+        delete: function (url, formData, callback) {
+            $http.post(adminurl + url, formData).then(function (data) {
+                data = data.data;
+                callback(data);
+            });
         },
     };
 });

@@ -42,29 +42,29 @@ var Layout = function () {
         });
 
         // handle scrolling to top on responsive menu toggler click when header is fixed for mobile view
-        $('body').on('click', '.page-header-top-fixed .page-header-top .menu-toggler', function(){
-            App.scrollTop();
-        });     
+        // $('body').on('click', '.page-header-top-fixed .page-header-top .menu-toggler', function(){
+        //     App.scrollTop();
+        // });     
     };
 
     // Handles main menu
     var handleMainMenu = function () {
 
         // handle menu toggler icon click
-        $(".page-header .menu-toggler").on("click", function(event) {
-            if (App.getViewPort().width < resBreakpointMd) {
-                var menu = $(".page-header .page-header-menu");
-                if (menu.is(":visible")) {
-                    menu.slideUp(300);
-                } else {  
-                    menu.slideDown(300);
-                }
+        // $(".page-header .menu-toggler").on("click", function(event) {
+        //     if (App.getViewPort().width < resBreakpointMd) {
+        //         var menu = $(".page-header .page-header-menu");
+        //         if (menu.is(":visible")) {
+        //             menu.slideUp(300);
+        //         } else {  
+        //             menu.slideDown(300);
+        //         }
 
-                if ($('body').hasClass('page-header-top-fixed')) {
-                    App.scrollTop();
-                }
-            }
-        });
+        //         if ($('body').hasClass('page-header-top-fixed')) {
+        //             App.scrollTop();
+        //         }
+        //     }
+        // });
 
         // handle sub dropdown menu click for mobile devices only
         $(".hor-menu .menu-dropdown > a, .hor-menu .dropdown-submenu > a").on("click", function(e) {                
@@ -270,9 +270,9 @@ var Layout = function () {
         closeMainMenu: function() {
             $('.hor-menu').find('li.open').removeClass('open');
 
-            if (App.getViewPort().width < resBreakpointMd && $('.page-header-menu').is(":visible")) { // close the menu on mobile view while laoding a page 
-                $('.page-header .menu-toggler').click();
-            }
+            // if (App.getViewPort().width < resBreakpointMd && $('.page-header-menu').is(":visible")) { // close the menu on mobile view while laoding a page 
+            //     $('.page-header .menu-toggler').click();
+            // }
         },
 
         getLayoutImgPath: function() {

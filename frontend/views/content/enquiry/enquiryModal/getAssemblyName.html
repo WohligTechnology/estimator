@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-12 mar-b">
+        <div class="portlet box green ">
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form class="form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Enter Estimate's Assembly Name:</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" ng-disabled="assemlyId != null" placeholder="Enter Assembly Name" ng-model="assemblyName" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <label class="col-md-5 control-label">Enter Assembly Id :</label>
+                            <div class="col-md-5">
+                                <select class="form-control" ng-disabled="assemlyId != null" ng-options="s.assemblyNumber for s in assemblyData" ng-model="assemlyId" placeholder="Select Assembly Id"
+                                    autofocus required>
+                                </select>
+                            </div>
+                        </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-circle green" ng-hide="assemblyName == null" ng-click="saveAssemblyName(assemblyName,enquiryId)">Save</button>
+                                <button type="submit" ng-hide="assemlyId == null" class="btn btn-circle green" ng-click="importAssembly(assemlyId.assemblyNumber)">Add</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>

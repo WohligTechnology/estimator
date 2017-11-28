@@ -104,11 +104,14 @@
             console.log(content);
             console.log("%c ---------------------------------------", 'background: #222; color: #bada55');
         };
+   
     </script>
 
     <% _.each(jsFiles,function(file) {  %>
         <script src="<%= file %>"></script>
         <% }); %>
+
+    
 
 </body>
 <!-- END BODY -->

@@ -1,0 +1,218 @@
+<div class="row">
+    <div class="col-md-3">
+        <ul class="tree">
+            <li class="mainLi">
+                <input type="checkbox" id="c5" />
+                <label class="tree_label" for="c5"></label>
+                <span class="assebmlyName">Material Master</span>
+                <span ng-click="addOrEditMaterialCatModal('save')" class="assemblyCreateIcon">
+                    <i class="fa fa-plus btn-info" title="Add New Category"></i>
+                </span>
+                <ul>
+                    <li ng-repeat="mc in materialStructureData">
+                        <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                        <input type="checkbox" id="{{mc.materialCatName+$index}}" />
+                        <label for="{{mc.materialCatName+$index}}" class="tree_label"></label>
+                        <!-- material cat name -->
+                        <span ng-click="" class="subssemblyName">{{mc.materialCatName}}</span>
+                        <!-- create sub material category -->
+                        <span ng-click="addOrEditMaterialSubCatModal('save',mc._id)" class="subAssemblyCreateIcon">
+                            <i class="fa fa-plus btn-info" title="Add SubCategory"></i>
+                        </span>
+                        <!-- edit material category -->
+                        <span ng-click="addOrEditMaterialCatModal('update',mc)" class="subAssemblyEditIcon">
+                            <i class="fa fa-pencil btn-warning" title="Edit Category Name"></i>
+                        </span>
+                        <!-- delete material category -->
+                        <span ng-click="deleteMaterialCatModal(mc._id,'deleteMaterialCat')" class="subAssemblyDeleteIcon">
+                            <i class="fa fa-trash-o btn-danger" title="Delete Category"></i>
+                        </span>
+                        <ul>
+                            <li ng-repeat="msc in mc.subCat">
+                                <input type="checkbox" id="{{msc.materialSubCatName+$index+$parent.$index}}" />
+                                <label for="{{msc.materialSubCatName+$index+$parent.$index}}" class="tree_label"></label>
+                                <!-- material sub category name -->
+                                <span class="tree_label partName" ng-click="getSubCatMaterials(msc._id)">{{msc.materialSubCatName}}</span>
+                                <!-- create material -->
+                                <span ng-click="addOrEditMaterialModal('save',msc._id)" class="materialSubCreateIcon">
+                                    <i class="fa fa-plus btn-info" title="Add Material"></i>
+                                </span>
+                                <!-- edit material sub category name -->
+                                <span ng-click="addOrEditMaterialSubCatModal('update',mc._id,msc)" class="partEditIcon">
+                                    <i class="fa fa-pencil btn-warning" title="Edit SubCategory Name"></i>
+                                </span>
+                                <!-- delete material sub category -->
+                                <span ng-click="deleteMaterialSubCatModal(msc._id,'deleteMaterialSubCat')" class="partDeleteIcon">
+                                    <i class="fa fa-trash-o btn-danger" title="Delete SubCategory"></i>
+                                </span>
+                                <ul>
+                                    <li ng-repeat="m in msc.materials">
+                                        <span class="tree_label partName">{{m.materialName}}</span>
+                                        <!-- edit material -->
+                                        <span ng-click="addOrEditMaterialModal('update',msc._id,m)" class="materialEditIcon">
+                                            <i class="fa fa-pencil btn-warning" title="Edit Material"></i>
+                                        </span>
+                                        <!-- delete material -->
+                                        <span ng-click="deleteMaterialModal(m._id,'deleteMaterial')" class="materialDeleteIcon">
+                                            <i class="fa fa-trash-o btn-danger" title="Delete Material"></i>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="caption">
+                            <i class="icon-settings font-green"></i>
+                            <span class="caption-subject font-green bold uppercase">Master Material</span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-1">
+                        <div class="btn-group pull-right">
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;"> Save as PDF </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Export to Excel </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Delete </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">Show Records</button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
+                                    data-close-others="true">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a> 5</a>
+                                    </li>
+                                    <li>
+                                        <a> 10 </a>
+                                    </li>
+                                    <li>
+                                        <a> 15 </a>
+                                    </li>
+                                    <li class="divider"> </li>
+                                    <li>
+                                        <a> 50 </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <span>customOverlay :
+                                <input type="checkbox" ng-click="changeMaterialType('customOverlay',selectedSubACat)"
+                                    ng-checked="subCatMaterials[0].type == 'customOverlay'" ng-model="customOverlay" ng-disabled="subCatMaterials[0].type == 'customOverlay' || disableit">
+                            </span>
+
+                        </div>
+                        <div class="col-md-3">
+                            <span>customBase :
+                                <input type="checkbox" ng-click="changeMaterialType('customBase',selectedSubACat)"
+                                    ng-checked="subCatMaterials[0].type == 'customBase'" ng-model="customBase" ng-disabled="subCatMaterials[0].type == 'customBase' || disableit">
+                            </span>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="inputs search pull-right">
+                                <div class="portlet-input input-small input-inline">
+                                    <div class="input-icon right">
+                                        <i class="icon-magnifier"></i>
+                                        <input type="text" class="form-control form-control-solid" placeholder="search...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BEGIN BORDERED TABLE PORTLET-->
+                <div class="portlet-body horizontal_scroll">
+                    <div class="">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Rate</th>
+                                    <th>Density</th>
+                                    <th>Weight</th>
+                                    <th>RI</th>
+                                    <th>CI</th>
+                                    <th>BI</th>
+                                    <th>FI</th>
+                                    <th>Wastage</th>
+                                    <th>Action</th>
+                                    <!-- <th>Custom Base Material</th> -->
+                                    <!-- <th>Custom Overlay</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="m in subCatMaterials">
+                                    <td>{{$index+1}}</td>
+                                    <td><input type="text" ng-model="m.materialName" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.typicalRatePerKg" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.density" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.weightPerUnit" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.rollingIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.cuttingIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.bendingIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.fabrictionIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
+                                    <td><input type="text" ng-model="m.contingencyOrWastage" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>                               
+                                    <td><span class="label label-sm label-success" id="add_space" ng-click="editMaterial(m._id)">
+                                        <i class="fa fa-pencil" title="Edit Material"></i></td>
+                                    <!-- <td class="text-center">
+                                        <input type="checkbox" ng-click="customBase ? changeMaterialType(m._id, 'customBase', m.materialSubCategory) : changeMaterialType(m._id, 'standard',m.materialSubCategory)"
+                                            ng-checked="m.type == 'customBase'" ng-model="customBase" ng-disabled="m.type == 'customOverlay' || customOverlay == true">
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" ng-click="customOverlay ? changeMaterialType(m._id, 'customOverlay', m.materialSubCategory) : changeMaterialType(m._id, 'standard', m.materialSubCategory)"
+                                            ng-checked="m.type == 'customOverlay'" ng-model="customOverlay" ng-disabled="m.type == 'customBase' || customBase == true">
+                                    </td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END BORDERED TABLE PORTLET-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
+                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

@@ -1,0 +1,590 @@
+<div class="row">
+    <div class="col-md-3">
+        <!-- tree structure -->
+        <div class="tree-overflow">
+            <ul class="tree">
+                <li class="mainLi">
+                    <input type="checkbox" id="c5" />
+                    <label class="tree_label" for="c5"></label>
+                    <span ng-click="getAssemblyView()" class="assebmlyName">Part Master</span>
+                    <span ng-click="addOrEditPartTypeCatModal('save')" class="assemblyCreateIcon">
+                        <i class="fa fa-plus btn-info" title="Add Part Type Category"></i>
+                    </span>
+                    <ul>
+                        <li ng-repeat="ptCat in partStructureData">
+                            <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                            <input type="checkbox" id="{{ptCat.name+$index}}" />
+                            <label for="{{ptCat.name+$index}}" class="tree_label"></label>
+                            <span class="subssemblyName">{{ptCat.partTypeCatName}}</span>
+                            <span ng-click="addOrEditPartTypeModal('save',ptCat._id)" class="subAssemblyCreateIcon">
+                                <i class="fa fa-plus btn-info" title="Add Part Type"></i>
+                            </span>
+                            <span ng-click="addOrEditPartTypeCatModal('update',ptCat)" class="subAssemblyEditIcon">
+                                <i class="fa fa-pencil btn-warning" title="Edit Part Type Category"></i>
+                            </span>
+                            <span ng-click="deletePartTypeCatModal(ptCat._id,'deletePartTypeCat')" class="subAssemblyDeleteIcon">
+                                <i class="fa fa-trash-o btn-danger" title="Delete Part Type Category"></i>
+                            </span>
+                            <ul>
+                                <li ng-repeat="pt in ptCat.partTypes">
+                                    <span class="tree_label partName" ng-click="getPartTypeSizes(pt._id)">{{pt.partTypeName}}</span>
+                                    <span ng-click="addNewPreset('save',pt._id)" class="subAssemblyCreateIcon">
+                                        <i class="fa fa-plus btn-info" title="Add New Preset"></i>
+                                    </span>
+                                    <span ng-click="addOrEditPartTypeModal('save',ptCat._id,pt)" class="partEditIcon">
+                                        <i class="fa fa-pencil btn-warning" title="Edit Part Type Modal"></i>
+                                    </span>
+                                    <span ng-click="deleteItem()" class="partDeleteIcon">
+                                        <i class="fa fa-trash-o btn-danger" title="Delete Item"></i>
+                                    </span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- paty type sizes -->
+        <div class="mar-t" ng-if="showPartTypeSize">
+            <label>
+                <b>Sizes</b>
+            </label>
+            <p ng-repeat="s in partTypeSizes" ng-click="getPresetViewWithData('update',s)">{{s.size}}</p>
+        </div>
+        <!-- paty type materials -->
+        <div class="mar-t" ng-if="showPartTypeMaterial">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-dark bold uppercase font-size"> Materials </span>
+                    <span ng-click="getMaterialData(partTypeId)" class="material-plus">
+                        <i class="fa fa-plus btn-info plus-padd" title="Add New Material"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="overflow-scroll">
+                <table class="part-table">
+                    <tr>
+                        <th>material</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr ng-repeat="m in partTypeMaterials">
+                        <td>{{m.materialName}}</td>
+                        <td class="edit-icon">                          
+                            <a ng-click="deletePartTypeMaterialModal(partTypeId,m._id,'deletePartTypeMaterial')">
+                                <span class="label label-sm label-danger">
+                                    <i class="fa fa-trash-o" title="Delete Part Type"></i>
+                                </span>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- preset add or edit form -->
+    <div class="col-md-9 ">
+        <div ng-if="showPartView" class="part-tables">
+            <div class="portlet light portlet-fit bordered">
+                <div class="portlet-title">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="caption">
+                                <i class="icon-settings font-green"></i>
+                                <span class="caption-subject font-green sbold uppercase">Part Presets</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="caption">
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartPreset(presetFormData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData, 'saveAsNew')">Save as new</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData)">Update</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="hidePartPresetView()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body" ng-if="showPresetSaveForm">
+                    <div class="portlet-body">
+                        <form class="form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Shape :</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)" ng-disabled="selectedShape != null">
+                                        </select>
+                                    </div>
+                                    <label class="col-md-2 control-label">Part Type Code :</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" ng-disabled="presetFormData.partTypeData.partTypeCode" ng-model="presetFormData.partTypeData.partTypeCode" required>
+                                    </div>
+                                    <label class="col-md-2 control-label">Preset Size :</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" ng-model="presetFormData.size" required>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div>
+                                            <img src="img/Doraemon.png" alt="" class="img-responsive">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label>
+                                                <b>Variables:</b>
+                                            </label>
+                                        </div>
+                                        <div class="form-group" ng-repeat="v in selectedShape.variable track by $index">
+                                            <label class="col-md-3 control-label">{{v.varName}}</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="getPresetFinalData(presetFormData,selectedShape)" ng-model="v.varValue" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Thickness (t)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-model="presetFormData.thickness">
+                                            </div>
+                                            <label class="col-md-3 control-label">Length (L)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.length">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Wastage (wtg)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.wastage">
+                                            </div>
+                                            <label class="col-md-3 control-label">Form Factor (ff)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.formFactor">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Size Factor (sf)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.sizeFactor">
+                                            </div>
+                                            <label class="col-md-3 control-label">Preset Shortcut</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.presetName">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label class="col-md-2">
+                                        <b>Perimeter (p):</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.perimeter}}</div>
+                                    </div>
+                                    <label class="col-md-2">
+                                        <b>Sheet Metal Area:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.sheetMetalArea}}</div>
+                                    </div>
+                                    <label class="col-md-2">
+                                        <b>Surface Area:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.surfaceArea}}</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2">
+                                        <b>Weight:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.weight}}</div>
+                                    </div>
+                                    <label class="col-md-2">
+                                        <b>Cost Price:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.perimeter}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="portlet-body" ng-if="showPresetUpdateForm">
+                    <div class="portlet-body">
+                        <form class="form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Shape :</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape" ng-change="showSelectedShapeData(selectedShape)" ng-disabled="true">
+                                        </select>
+                                    </div>
+                                    <label class="col-md-2 control-label">Part Type Code :</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" ng-disabled="presetFormData.partTypeData.partTypeCode" ng-model="presetFormData.partTypeData.partTypeCode" required>
+                                    </div>
+                                    <label class="col-md-2 control-label">Preset Size :</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" ng-model="presetFormData.size" required>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div>
+                                            <img src="img/Doraemon.png" alt="" class="img-responsive">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label>
+                                                <b>Variables:</b>
+                                            </label>
+                                        </div>
+                                        <div class="form-group" ng-repeat="v in selectedShape.variable track by $index">
+                                            <label class="col-md-3 control-label">{{v.varName}}</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="getPresetFinalData(presetFormData,selectedShape)" ng-model="v.varValue" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Thickness (t)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-model="presetFormData.thickness">
+                                            </div>
+                                            <label class="col-md-3 control-label">Length (L)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.length">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Wastage (wtg)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.wastage">
+                                            </div>
+                                            <label class="col-md-3 control-label">Form Factor (ff)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.formFactor">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Size Factor (sf)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.sizeFactor">
+                                            </div>
+                                            <label class="col-md-3 control-label">Preset Shortcut</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.presetName">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label class="col-md-2">
+                                        <b>Perimeter (p):</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.perimeter}}</div>
+                                    </div>
+                                    <label class="col-md-2">
+                                        <b>Sheet Metal Area:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.sheetMetalArea}}</div>
+                                    </div>
+                                    <label class="col-md-2">
+                                        <b>Surface Area:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.surfaceArea}}</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2">
+                                        <b>Weight:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.weight}}</div>
+                                    </div>
+                                    <label class="col-md-2">
+                                        <b>Cost Price:</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.partFormulae.perimeter}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4" ng-if="showPartTypeProcessing">
+                <!-- BEGIN BORDERED TABLE PORTLET-->
+                <div class="portlet light portlet-fit bordered">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="icon-bubble font-dark"></i>
+                            <span class="caption-subject font-dark bold uppercase"> Processing </span>
+                        </div>
+                        <div class="actions">
+                            <div class="btn-group">
+                                <div class="btn-group">
+                                    <button id="sample_editable_1_new" class="btn green" ng-click="addProcessing()">
+                                        <i class="fa fa-plus" title="Add Processing"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                                <span></span>
+                                            </label>
+                                        </th>
+                                        <th> # </th>
+                                        <th> First Name </th>
+                                        <th> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                        <td> 1 </td>
+                                        <td> Mark </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="addProcessing()">
+                                                <span class="label label-sm label-success">
+                                                    <i class="fa fa-pencil" title="Edit Processing"></i>
+                                                </span>
+                                            </a>
+                                            <a class="" ng-click="deleteItem()">
+                                                <span class="label label-sm label-danger">
+                                                    <i class="fa fa-trash-o" title="Delete Processing"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                        <td> Jacob </td>
+                                        <td> Nilson </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="addProcessing()">
+                                                <span class="label label-sm label-success">
+                                                    <i class="fa fa-pencil"></i>
+                                                </span>
+                                            </a>
+                                            <a ng-click="deleteItem()">
+                                                <span class="label label-sm label-danger">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END BORDERED TABLE PORTLET-->
+            </div>
+            <div class="col-md-4" ng-if="showPartTypeAddons">
+                <!-- BEGIN BORDERED TABLE PORTLET-->
+                <div class="portlet light portlet-fit bordered">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="icon-bubble font-dark"></i>
+                            <span class="caption-subject font-dark bold uppercase">Addons </span>
+                        </div>
+                        <div class="actions">
+                            <div class="btn-group">
+                                <div class="btn-group">
+                                    <button id="sample_editable_1_new" class="btn green" ng-click="addAddon();">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                                <span></span>
+                                            </label>
+                                        </th>
+                                        <th> # </th>
+                                        <th> First Name </th>
+                                        <th class="align-top"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                        <td> 1 </td>
+                                        <td> Mark </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="addAddon()">
+                                                <span class="label label-sm label-success">
+                                                    <i class="fa fa-pencil"></i>
+                                                </span>
+                                            </a>
+                                            <a class="" ng-click="deleteItem()">
+                                                <span class="label label-sm label-danger">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                        <td> Jacob </td>
+                                        <td> Nilson </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="addAddon()">
+                                                <span class="label label-sm label-success">
+                                                    <i class="fa fa-pencil"></i>
+                                                </span>
+                                            </a>
+                                            <a class="" ng-click="deleteItem()">
+                                                <span class="label label-sm label-danger">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END BORDERED TABLE PORTLET-->
+            </div>
+            <div class="col-md-4" ng-if="showPartTypeExtras">
+                <!-- BEGIN BORDERED TABLE PORTLET-->
+                <div class="portlet light portlet-fit bordered">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="icon-bubble font-dark"></i>
+                            <span class="caption-subject font-dark bold uppercase">Extras </span>
+                        </div>
+                        <div class="actions">
+                            <div class="btn-group">
+                                <div class="btn-group">
+                                    <button id="sample_editable_1_new" class="btn green" ng-click="addExtra()">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                                <span></span>
+                                            </label>
+                                        </th>
+                                        <th> # </th>
+                                        <th> First Name </th>
+                                        <th class="align-top"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                        <td> 1 </td>
+                                        <td> Mark </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="addExtra()">
+                                                <span class="label label-sm label-success">
+                                                    <i class="fa fa-pencil"></i>
+                                                </span>
+                                            </a>
+                                            <a class="" ng-click="deleteItem()">
+                                                <span class="label label-sm label-danger">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                        <td> Jacob </td>
+                                        <td> Nilson </td>
+                                        <td class="edit-icon">
+                                            <a class="action" ng-click="addExtra()">
+                                                <span class="label label-sm label-success">
+                                                    <i class="fa fa-pencil"></i>
+                                                </span>
+                                            </a>
+                                            <a class="" ng-click="deleteItem()">
+                                                <span class="label label-sm label-danger">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END BORDERED TABLE PORTLET-->
+            </div>
+        </div>
+    </div>
+</div>

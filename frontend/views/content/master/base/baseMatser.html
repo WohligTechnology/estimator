@@ -1,0 +1,139 @@
+<div class="page-content-wrapper">
+    <div class="portlet light portlet-fit full-height-content full-height-content-scrollable bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class=" icon-layers font-green"></i>
+                <span class="caption-subject font-green bold uppercase">Base Master</span>
+            </div>
+            <div class="actions">
+                <p>{{operationStatus}}</p>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet light bordered " id="blockui_sample_1_portlet_body">
+                        <div class="portlet-title">
+                            <div class="padd-caption">
+                                <i class="icon-bubble font-green-sharp"></i>
+                                <span class="caption-subject font-green-sharp sbold ">UOM</span>
+                            </div>
+                            <div class="padd-action">
+                                <div class="btn-group">
+                                    <a class="btn green-haze btn-outline btn-circle btn-sm" ng-click="addOrEditUomModal('save')"> <i class="fa fa-plus" title="Add UOM"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <ul class="tree">
+                                <li class="mainLi">
+                                    <input type="checkbox" id="c5" />
+                                    <label class="tree_label" for="c5"></label>
+                                    <span class="assebmlyName">UOM</span>
+                                    <ul>
+                                        <li ng-repeat="u in uomData">
+                                            <span class="tree_label" class="partName">{{u.uomName}}</span>
+                                            <span ng-click="addOrEditUomModal('update',u)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning" title="Edit UOM"></i></span>
+                                            <span ng-click="deleteUomModal(u._id,'deleteUom')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" title="Delete UOM"></i></span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="portlet light bordered" id="blockui_sample_1_portlet_body">
+                        <div class="portlet-title">
+                            <div class="padd-caption">
+                                <i class="icon-bubble font-green-sharp"></i>
+                                <span class="caption-subject font-green-sharp sbold">Difficulty Factor</span>
+                            </div>
+                            <div class="padd-action">
+                                <div class="btn-group">
+                                    <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown"
+                                        data-close-others="true" ng-click="addOrEditDfModal('save')"><i class="fa fa-plus" title="Add Difficulty Factor"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <ul class="tree">
+                                <li class="mainLi">
+                                    <input type="checkbox" id="c7" />
+                                    <label class="tree_label" for="c7"></label>
+                                    <span class="assebmlyName">Difficulty Factor</span>
+                                    <ul>
+                                        <li ng-repeat="fa in dfData">
+                                            <span class="tree_label" class="partName">{{fa.difficultyFactor}} ({{fa.mulfact}})</span>
+                                            <span ng-click="addOrEditDfModal('update',fa)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning" title="Edit Difficulty Factor"></i></span>
+                                            <span ng-click="deleteDfModal(fa._id,'deleteDf')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" title="Delete Difficulty Factor"></i></span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="portlet light bordered" id="blockui_sample_1_portlet_body">
+                        <div class="portlet-title">
+                            <div class="padd-caption">
+                                <i class="icon-bubble font-green-sharp"></i>
+                                <span class="caption-subject font-green-sharp sbold">Markups</span>
+                            </div>
+                            <div class="padd-action">
+                                <div class="btn-group">
+                                    <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown"
+                                        data-close-others="true" ng-click="addOrEditMarkupModal('save')"> <i class="fa fa-plus" title="Add Markup"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <ul class="tree">
+                                <li class="mainLi">
+                                    <input type="checkbox" id="c8" />
+                                    <label class="tree_label" for="c8"></label>
+                                    <span ng-click="getAssemblyView()" class="assebmlyName">Markups</span>
+                                    <!--<span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditUom();"></i></span>-->
+                                    <ul>
+                                        <li ng-repeat="ma in markupData">
+                                            <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
+                                            <input type="checkbox" id="{{ma.markupType+$index}}" />
+                                            <label class="tree_label" for="{{ma.markupType+$index}}"></label>
+                                            <span class="tree_label" class="partName">{{ma.markupType}}</span>
+                                            <span ng-click="addOrEditMarkupModal('update',ma)" class="baseMasterEditIcon"><i class="fa fa-pencil btn-warning" title="Edit Markup"></i></span>
+                                            <span ng-click="deleteMarkupModal(ma._id,'deleteMarkup')" class="subAssemblyDeleteIcon"><i class="fa fa-trash-o btn-danger" title="Delete Markup"></i></span>
+                                            <ul>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Overhead: {{ma.overhead}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Min Profit: {{ma.minProfit}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Negotiation: {{ma.negotiation}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Commission: {{ma.commission}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Other: {{ma.other}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="tree_label" class="partName">Total Value: {{ma.totalValue}}</span>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -11,6 +11,7 @@ var myApp = angular.module('myApp', [
     'ui.swiper',
     'angularPromiseButtons',
     'toastr',
+    'cleave.js',
     "oc.lazyLoad"
 ]);
 
@@ -21,18 +22,46 @@ myApp.config(function ($translateProvider) {
     $translateProvider.preferredLanguage('en');
 });
 
+myApp.config(function (toastrConfig) {
+    angular.extend(toastrConfig, {
+        allowHtml: false,
+        closeButton: false,
+        closeHtml: '<button>&times;</button>',
+        extendedTimeOut: 1000,
+        iconClasses: {
+            error: 'toast-error',
+            info: 'toast-info',
+            success: 'toast-success',
+            warning: 'toast-warning'
+        },
+        positionClass: 'toast-bottom-center',
+        messageClass: 'toast-message',
+        onHidden: null,
+        onShown: null,
+        onTap: null,
+        progressBar: false,
+        tapToDismiss: true,
+        templates: {
+            toast: 'directives/toast/toast.html',
+            progressbar: 'directives/progressbar/progressbar.html'
+        },
+        timeOut: 5000,
+        titleClass: 'toast-title',
+        toastClass: 'toast'
+    });
+});
 
-myApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
+myApp.config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
         // global configs go here
     });
 }]);
 
 // AngularJS v1.3.x workaround for old style controller declarition in HTML
-myApp.config(['$controllerProvider', function($controllerProvider) {
-  // this option might be handy for migrating old apps, but please don't use it
-  // in new ones!
-  $controllerProvider.allowGlobals();
+myApp.config(['$controllerProvider', function ($controllerProvider) {
+    // this option might be handy for migrating old apps, but please don't use it
+    // in new ones!
+    $controllerProvider.allowGlobals();
 }]);
 
 /********************************************
@@ -40,7 +69,8 @@ myApp.config(['$controllerProvider', function($controllerProvider) {
 *********************************************/
 
 /* Setup global settings */
-myApp.factory('settings', ['$rootScope', function($rootScope) {
+// 
+myApp.factory('settings', ['$rootScope', function ($rootScope) {
     // supported languages
     var settings = {
         layout: {
@@ -60,11 +90,18 @@ myApp.factory('settings', ['$rootScope', function($rootScope) {
 }]);
 
 /* Setup App Main Controller */
-myApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
-    $scope.$on('$viewContentLoaded', function() {
+myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
+    $scope.$on('$viewContentLoaded', function () {
         App.initComponents(); // init core components
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
+    $scope.loginTemplate = true;
+    $scope.themeColor = '#32c5d3';
+
+
+    // console.log("*********************************************************************",window.location.href );
+    // console.log("*********************************************************************",$state.current);
+
 }]);
 
 /***
@@ -74,44 +111,39 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-myApp.controller('HeaderController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
+myApp.controller('HeaderController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
         Layout.initHeader(); // init header
     });
 }]);
 
-/* Setup Layout Part - Sidebar */
-myApp.controller('SidebarController', ['$state', '$scope', function($state, $scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        Layout.initSidebar($state); // init sidebar
-    });
-}]);
+
 
 /* Setup Layout Part - Quick Sidebar */
-myApp.controller('QuickSidebarController', ['$scope', function($scope) {    
-    $scope.$on('$includeContentLoaded', function() {
-       setTimeout(function(){
+myApp.controller('QuickSidebarController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
+        setTimeout(function () {
             QuickSidebar.init(); // init quick sidebar        
         }, 2000)
     });
 }]);
 
 /* Setup Layout Part - Theme Panel */
-myApp.controller('ThemePanelController', ['$scope', function($scope) {    
-    $scope.$on('$includeContentLoaded', function() {
+myApp.controller('ThemePanelController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
         Demo.init(); // init theme panel
     });
 }]);
 
 /* Setup Layout Part - Footer */
-myApp.controller('FooterController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
+myApp.controller('FooterController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
         Layout.initFooter(); // init footer
     });
 }]);
 
 /* Init global settings and run the app */
-myApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
+myApp.run(["$rootScope", "settings", "$state", function ($rootScope, settings, $state) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 }]);
@@ -121,49 +153,458 @@ myApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $s
 myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
     var tempateURL = "views/template/template.html"; //Default Template URL
 
+    var routeResolve = function (accessApp) {
+        accessApp.isLoggedIn();
+    }
+
+
+
     // for http request with session
     $httpProvider.defaults.withCredentials = true;
     $stateProvider
-        // .state('home', {
-        //     url: "/",
-        //     templateUrl: tempateURL,
-        //     controller: 'HomeCtrl'
-        // })
-        // .state('form', {
-        //     url: "/form",
-        //     templateUrl: tempateURL,
-        //     controller: 'FormCtrl'
-        // })
+
         .state('app', {
-            abstract:true,
+            abstract: true,
             url: "/app",
-            template:"<div ui-view></div>",
-            controller: 'rootCtrl'
-        })
-        .state('dashboard', {
-            url: "/dashboard",
-            templateUrl: "views/dashboard.html",
-            data: {
-                pageTitle: 'Admin Dashboard Template'
-            },
-            controller: "DashboardController",
+            templateUrl: "views/tpl/template.html",
+            controller: "appCtrl",
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                "isLoggedIn": routeResolve
+            }
+        })
+
+        // ********************************** login module ********************************** //
+        .state('login', {
+            url: "/login",
+            templateUrl: "views/content/login/estimatorLogin.html",
+            controller: "loginCtrl",
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+
+        // ********************************** logout module ********************************** //
+        .state('logout', {
+            url: "/login",
+            templateUrl: "views/content/login/estimatorLogin.html",
+            controller: "loginCtrl",
+            resolve: {
+                logoutUser: function () {
+                    $.jStorage.deleteKey("loggedInUser")
+                    //- // $.jStorage.deleteKey("estimateObject");	
+                }
+            }
+        })
+
+        // ******************************** dashboard module ******************************** //
+        .state('app.dashboard', {
+            url: "/dashboard",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/dashboard.html",
+                    controller: "DashboardController"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+
+        // ********************************* enquiry module ********************************* //
+        .state('app.enquiry', {
+            url: "/enquiry",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/enquiry/allEnquies.html",
+                    controller: "enquiryCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+        .state('app.createEnquiry', {
+            url: "/enquiry/create",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
+                    controller: "createOrEditEnquiryCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+        .state('app.editEnquiry', {
+            url: "/enquiry/edit/:enquiryId",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
+                    controller: "createOrEditEnquiryCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+
+        // ******************************** estimate module ******************************** //
+        .state('app.estimate', {
+            url: "/estimate",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/estimate/allEstimates.html",
+                    controller: "estimateCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+        .state('app.createEstimate', {
+            url: "/estimate/create/:estimateId",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/estimate/createOrEditEstimate.html",
+                    controller: "createOrEditEstimateCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+        .state('app.editEstimate', {
+            url: "/estimate/edit/:estimateId",
+            data: {
+                isSidebActive: true
+            },
+            views: {
+                "mainView": {
+                    templateUrl: "views/createOrEditEstimate.html",
+                    controller: "createOrEditEstimateCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+
+        // ********************************** user module ********************************* //
+        .state('app.users', {
+            url: "/user",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/user/allUsers.html",
+                    controller: "userCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+        .state("app.userProfile", {
+            url: "/userProfile",
+            views: {
+                "mainView": {
+                    templateUrl: "views/profile/userProfile.html",
+                    controller: "UserProfileController"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+
+        // ******************************** customer module ******************************* //
+        .state('app.customer', {
+            url: "/customer",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/customer/allCustomers.html",
+                    controller: "customerCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+
+        // ******************************** master module ******************************** // 
+
+        .state('app.baseMatser', {
+            url: "/master/baseMatser",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/master/base/baseMatser.html",
+                    controller: "baseMasterCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+        .state('app.masterAddon', {
+            url: "/master/addon",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/master/addon/masterAddon.html",
+                    controller: "masterAddonCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+        .state('app.masterExtra', {
+            url: "/master/extra",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/master/extra/masterExtra.html",
+                    controller: "masterExtraCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+        .state('app.masterMaterial', {
+            url: "/master/material",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/master/material/masterMaterial.html",
+                    controller: "masterMaterialCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+        .state('app.masterPart', {
+            url: "/master/part",
+            views: {
+                // "sidebar": {
+                //     templateUrl: "views/tpl/sidebar.html",
+                //     controller: "SidebarController"
+                // },
+                "mainView": {
+                    templateUrl: "views/content/master/part/masterPart.html",
+                    controller: "masterPartCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+        .state('app.masterProcess', {
+            url: "/master/process",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/master/process/masterProcess.html",
+                    controller: "masterProcessCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+        .state('app.masterShape', {
+            url: "/master/shape",
+            views: {
+                "mainView": {
+                    templateUrl: "views/content/master/shape/masterShape.html",
+                    controller: "masterShapeCtrl"
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+
+        // ******************************** settings module ******************************** // 
+        .state('app.settings', {
+            url: "/settings",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "",
+                    controller: ""
+                }
+            },
+            resolve: {
+                "isLoggedIn": routeResolve
+            }
+        })
+
+
+
+
+
+
+
+
+
+        // ******************************** extra unwanted states ************************ // 
+        // delete all following states after complete the project
+
+        // estimate
+        .state("estimate", {
+            url: "/estimate",
+            templateUrl: "views/estimate.html",
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            './themeassets/global/plugins/morris/morris.css',                            
-                            './themeassets/global/plugins/morris/morris.min.js',
-                            './themeassets/global/plugins/morris/raphael-min.js',                            
-                            './themeassets/global/plugins/jquery.sparkline.min.js',
-                            './themeassets/pages/scripts/dashboard.min.js',
-                            // 'controllers/DashboardController.js',
-                        ] 
+                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            './themeassets/apps/css/todo-2.css',
+                            './themeassets/global/plugins/select2/css/select2.min.css',
+                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            './themeassets/global/plugins/select2/js/select2.full.min.js',
+                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            './themeassets/apps/scripts/todo-2.min.js',
+                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
+                            './themeassets/global/plugins/jstree/dist/jstree.js',
+                            './themeassets/pages/scripts/ui-tree.js',
+                            // 'controllers/TodoController.js'
+                        ]
                     });
                 }]
             }
         })
+        //estimate assembly
+        .state('app.assembly', {
+            url: "/assembly",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/assembly.html",
+                    controller: ""
+                }
+            }
+        })
+        //subasembly
+        .state('app.subassembly', {
+            url: "/subassembly",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/subassembly.html",
+                    controller: ""
+                }
+            }
+        })
+        //processing view
+        .state('app.processing', {
+            url: "/processing",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/processing.html",
+                    controller: ""
+                }
+            }
+        })
+        //part
+
+        .state('app.part', {
+            url: "/part",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/part.html",
+                    controller: ""
+                }
+            }
+        })
+        //addore
+        .state('app.addons', {
+            url: "/addons",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/addons.html",
+                    controller: ""
+                }
+            }
+        })
+        //extras
+        .state('app.extras', {
+            url: "/extras",
+            views: {
+                "sidebar": {
+                    templateUrl: "views/tpl/sidebar.html",
+                    controller: "SidebarController"
+                },
+                "mainView": {
+                    templateUrl: "views/content/insideestimate/extras.html",
+                    controller: ""
+                }
+            }
+        })
+
+
+        .state('enquiries', {
+            url: "/enquiries",
+            templateUrl: "views/enquiries.html",
+            controller: "EnquiriesController",
+        })
+        //  .state('subasembly', {
+        //     url: "/subasembly",
+        //     templateUrl: "views/content/insideestimate/subasembly.html",
+        //     controller: "",
+        // })
 
         // Blank Page
         .state('blank', {
@@ -273,8 +714,8 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
                             './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                            './themeassets/global/plugins/jstree/dist/jstree.min.js',
-                            './themeassets/pages/scripts/ui-tree.min.js',
+                            './themeassets/global/plugins/jstree/dist/jstree.js',
+                            './themeassets/pages/scripts/ui-tree.js',
                             // 'controllers/GeneralPageController.js'
                         ]
                     }]);
@@ -441,52 +882,19 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
 
-        // User Profile
-        .state("profile", {
-            url: "/profile",
-            templateUrl: "views/profile/main.html",
-            data: {
-                pageTitle: 'User Profile'
-            },
-            controller: "UserProfileController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            './themeassets/pages/css/profile.css',
 
-                            './themeassets/global/plugins/jquery.sparkline.min.js',
-                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-
-                            './themeassets/pages/scripts/profile.min.js',
-
-                            // 'controllers/UserProfileController.js'
-                        ]
-                    });
-                }]
-            }
-        })
 
         // User Profile Dashboard
         .state("profile.dashboard", {
-            url: "/dashboard",
+            url: "/profileDashboard",
             templateUrl: "views/profile/dashboard.html",
+            controller: "UserProfileController",
             data: {
                 pageTitle: 'User Profile'
             }
         })
 
-        // User Profile Account
-        .state("profile.account", {
-            url: "/account",
-            templateUrl: "views/profile/account.html",
-            data: {
-                pageTitle: 'User Account'
-            }
-        })
+
 
         // User Profile Help
         .state("profile.help", {
@@ -525,6 +933,293 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         });
 
-    $urlRouterProvider.otherwise("/dashboard");
+    $urlRouterProvider.otherwise("/login");
     $locationProvider.html5Mode(isproduction);
+});
+
+
+
+/* Setup Layout Part - Sidebar */
+myApp.controller('SidebarController', ['$state', '$scope', function ($state, $scope) {
+    $scope.$on('$includeContentLoaded', function () {
+        Layout.initSidebar($state); // init sidebar
+    });
+
+    // var str = window.location.href;
+    // var url = str.split('/');
+    // var getState = url[url.length - 1];
+    var getState = $state.current.name;
+
+    // get current state & set a class to li
+    if (getState == 'app.dashboard') {
+        $scope.currentState = 'dashboard';
+    } else if (getState == 'app.enquiry') {
+        $scope.currentState = 'enquiry';
+    } else if (getState == 'app.estimate') {
+        $scope.currentState = 'estimate';
+    } else if (getState == 'app.customer') {
+        $scope.currentState = 'customer';
+    } else if (getState == 'app.users') {
+        $scope.currentState = 'user';
+    } else if (getState == 'app.masterAddon') {
+        $scope.currentState = 'master';
+        $scope.subMenuState = 'masterAddon';
+    } else if (getState == 'app.baseMatser') {
+        $scope.currentState = 'master';
+        $scope.subMenuState = 'masterBaseMaster';
+    } else if (getState == 'app.masterExtra') {
+        $scope.currentState = 'master';
+        $scope.subMenuState = 'masterExtra';
+    } else if (getState == 'app.settings') {
+        $scope.currentState = 'setting';
+    }
+
+}]);
+
+myApp.directive('inputDate', function ($compile, $parse) {
+    return {
+        restrict: 'E',
+        replace: false,
+        scope: {
+            value: "=ngModel",
+        },
+        templateUrl: 'frontend/views/directive/date.html',
+        link: function ($scope, element, attrs) {
+            $scope.data = {};
+            $scope.dateOptions = {
+                dateFormat: "dd/mm/yy"
+            };
+            if (!_.isEmpty($scope.value)) {
+                $scope.data.model = moment($scope.value).toDate();
+            }
+            $scope.changeDate = function (data) {
+                // $scope.value = $scope.data.model;
+                $scope.value = data;
+            };
+        }
+    };
+});
+
+myApp.factory('accessApp', function ($location) {
+    console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
+    return {
+        isLoggedIn: function () {
+            if ($.jStorage.get("loggedInUser")) {
+                return true;
+            } else {
+                return $location.path('/');
+            }
+        }
+    }
+});
+
+myApp.directive('fileModelOld', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function () {
+                console.log("*** element **", element);
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+
+
+
+            // $scope.$parent.formData.uploadedFiles = [];
+            // $scope.formData.uploadedFiles = [];
+
+            // $scope.uploadImage = function (file) {
+            //     var fd = new FormData();
+            //     fd.append('file', file);
+
+            //     $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+            //             transformRequest: angular.identity,
+            //             headers: {
+            //                 'Content-Type': undefined
+            //             }
+            //         })
+            //         .then(function () {
+
+            //             console.log('**** inside its working of userProfileService.js ****');
+            //         });
+            // }
+        }
+    };
+}]);
+
+myApp.directive('fileModel', ['$parse', '$http', function ($parse, $http) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function () {
+                // angular.element(event.target).file('model') = element[0].files[0];
+                // modelSetter(scope, element[0].files[0]);
+                // scope.uploadImage(scope.myFile);
+
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+
+                    var fd = new FormData();
+                    fd.append('file', file);
+
+                    $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
+                            }
+                        })
+                        .then(function () {
+
+                            console.log('**** inside its working of userProfileService.js ****');
+                        });
+
+                });
+            });
+
+
+
+            scope.uploadImage = function (file) {
+                var fd = new FormData();
+                fd.append('file', file);
+
+                $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    })
+                    .then(function () {
+
+                        console.log('**** inside its working of userProfileService.js ****');
+                    });
+            }
+
+
+        }
+    };
+}]);
+
+
+myApp.directive('uploadAllFiles', function ($http) {
+    return {
+        restrict: 'E',
+        scope: {
+            model: '=ngModel'
+        },
+        templateUrl: 'frontend/views/directive/uploadAllFiles.html',
+
+        link: function (scope, element, attrs) {
+            debugger;
+            scope.isMultiple = false;
+            scope.uploadImage = function (files) {
+                console.log("*** inside function & files are ***", files);
+                // http request here
+
+                if (_.isArray(scope.model)) {
+                    scope.isMultiple = true;
+                    angular.forEach(files, function (file) {
+                        debugger;
+                        console.log("****************** file is ******************", file);
+                        var fd = new FormData();
+                        fd.append('file', file);
+
+                        $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                                headers: {
+                                    'Content-Type': undefined
+                                },
+                                transformRequest: angular.identity
+                            })
+                            .then(function (data) {
+                                console.log('**** inside its working of userProfileService.js ****', data);
+                                scope.model.push(data.data.data[0]);;
+                            });
+                    });
+
+                } else {
+                    var fd = new FormData();
+                    fd.append('file', files[0]);
+
+                    $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                            headers: {
+                                'Content-Type': undefined
+                            },
+                            transformRequest: angular.identity
+                        })
+                        .then(function (data) {
+                            scope.model = data.data.data[0];
+                            console.log('**** inside its working of userProfileService.js ****', data);
+                        });
+
+
+
+                }
+            };
+        }
+    };
+});
+
+
+myApp.filter('uploadpath', function () {
+    return function (input, width, height, style) {
+        var other = "";
+        if (input.search(".pdf") >= 0) {
+            return "frontend/img/pdf.jpg";
+        } else {
+            if (input.search(".jpg") >= 0 || input.search(".png") >= 0) {
+                return "frontend/img/image.png";
+            } else {
+                if (input.search(".doc") >= 0 || input.search(".docx") >= 0) {
+                    return "frontend/img/doc.png";
+                } else if (input == 'broken') {
+                    return "frontend/img/nofile.png";
+                }
+            }
+        }
+        if (width && width !== "") {
+            other += "&width=" + width;
+        }
+        if (height && height !== "") {
+            other += "&height=" + height;
+        }
+        if (style && style !== "") {
+            other += "&style=" + style;
+        }
+        if (input) {
+            if (input.indexOf('https://') == -1) {
+                return imgpath + "?file=" + input + other;
+            } else {
+                return input;
+            }
+        }
+    };
+});
+
+myApp.filter('downloadpath', function () {
+    debugger;
+    return function (input, width, height, style) {
+        var other = "";
+        if (width && width !== "") {
+            other += "&width=" + width;
+        }
+        if (height && height !== "") {
+            other += "&height=" + height;
+        }
+        if (style && style !== "") {
+            other += "&style=" + style;
+        }
+        if (input) {
+            if (input.indexOf('https://') == -1) {
+                return adminurl + "User/download/" + input;
+            } else {
+                return adminurl;
+            }
+        }
+    };
 });

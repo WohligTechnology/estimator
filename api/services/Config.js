@@ -152,6 +152,8 @@ var models = {
 
 
     },
+
+    
     readAttachment: function (filename, callback) {
         console.log("filename", filename);
         var readstream = gfs.createReadStream({
@@ -431,11 +433,75 @@ var models = {
                 });
             }
         });
+    },
+    email: function (data, callback) {
 
+        var requrl = env.realHost + "/api/";
+        console.log(' *** inside email of Config.js ***', requrl);
 
+        MailKey.find().exec(function (err, getMailKey) {
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            } else if (getMailKey && getMailKey.length > 0) {
+                if (data.filename && data.filename != "") {
+                    console.log('**** inside email of Config.js & data is ****',data);
+                    request.post({
+                        url: requrl + "config/emailReader/",
+                        json: data
+                    }, function (err, http, body) {
+                        console.log("body : ", body);
+                        if (err) {
+                            console.log(err);
+                            callback(err, null);
+                        } else {
+                            if (body && body.value != false) {
+                                var helper = require('sendgrid').mail;
+                                var from_email = new helper.Email(data.from);
+                                var to_email = new helper.Email(data.email);
+                                var subject = data.subject;
+                                var content = new helper.Content("text/html", body);
+                                mail = new helper.Mail(from_email, subject, to_email, content)
 
+                                var sg = require('sendgrid')(getMailKey[0].name);
+                                var request = sg.emptyRequest({
+                                    method: 'POST',
+                                    path: '/v3/mail/send',
+                                    body: mail.toJSON()
+                                });
 
+                                sg.API(request, function (error, response) {
+                                    if (error) {
+                                        console.log('Error response received', error);
+                                        callback(null, error);
+                                    } else {
+                                        console.log(' *******************************************');
+                                        console.log(response.statusCode)
+                                        console.log(response.body)
+                                        console.log(response.headers)
+                                        console.log(' *******************************************');
+                                        callback(null, response);
+                                    }
+                                })
+                            } else {
+                                callback({
+                                    message: "Error while sending mail."
+                                }, null);
+                            }
+                        }
+                    });
+                } else {
+                    callback({
+                        message: "Please provide params"
+                    }, null);
+                }
+            } else {
+                callback({
+                    message: "No api keys found"
+                }, null);
+            }
+        });
+    },
 
-    }
 };
 module.exports = _.assign(module.exports, models);

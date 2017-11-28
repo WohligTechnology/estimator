@@ -1,0 +1,37 @@
+<div class="row">
+        <div class="col-md-12 mar-b">
+            <div class="portlet box green ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Assembly Name
+                    </div>
+                    <div class="tools">
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <!-- BEGIN FORM-->
+                    <form class="form-horizontal">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-5 control-label">Enter Assembly Id :</label>
+                                <div class="col-md-5">
+                                    <select class="form-control" ng-options="s.assemblyNumber for s in assemblyData" ng-model="assemlyId" placeholder="Select SubAssembly Id"
+                                        autofocus required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" ng-disabled="assemlyId == null" class="btn btn-circle green" ng-click="importAssembly(assemlyId.assemblyNumber)">Save</button>
+                                    <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                </div>
+            </div>
+        </div>
+    </div>

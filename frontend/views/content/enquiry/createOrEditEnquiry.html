@@ -1,0 +1,584 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="img-border">
+            <div class="portlet light">
+                <div class="portlet-title tabbable-line tabs-left">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#" data-target="#tab_1_1" data-toggle="tab">Details</a>
+                        </li>
+                        <li>
+                            <a href="#" data-target="#tab_1_2" data-toggle="tab">Information</a>
+                        </li>
+                        <li>
+                            <a href="#" data-target="#tab_1_3" data-toggle="tab">Key Requirements</a>
+                        </li>
+                        <li>
+                            <a href="#" data-target="#tab_1_4" data-toggle="tab">Technical Req</a>
+                        </li>
+                        <li>
+                            <a href="#" data-target="#tab_1_5" data-toggle="tab">Commercial Req </a>
+                        </li>
+                        <li>
+                            <a href="#" data-target="#tab_1_6" data-toggle="tab">Pre-qualification Criteria </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="portlet-body">
+                    <div class="tab-content">
+                        <!-- Details INFO TAB -->
+                        <div class="tab-pane active" id="tab_1_1">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="portlet light bordered">
+                                        <div class="portlet-title">
+                                            <div class="padd-t font-green-haze">
+                                                <i class="icon-settings font-green-haze"></i>
+                                                <span class="caption-subject bold uppercase"> Enquiry  Details</span>
+                                                <div class="pull-right">
+                                                    <span class="caption-subject bold"> {{operationStatus}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form role="form" class="form-horizontal">
+                                            <div class="portlet-body form">
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Enquiry Id:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_10" ng-model="formData.enquiryId" disabled>
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Status:</label>
+                                                    <div class="col-md-3">
+                                                        <select class="form-control" ng-model="formData.enquiryDetails.enquiryStatus">
+                                                        <option></option>                                                            
+                                                        <option value='open'>Open</option>
+                                                        <option value='close'>Close</option>
+                                                        <option value='hold'>Hold</option>
+                                                    </select>
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Customer Name:</label>
+                                                    <div class="col-md-3">
+                                                        <select class="form-control" ng-options="c.customerName for c in customerData track by c._id" ng-model="selectedCustomer">        
+                                                        </select>                                                        
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>                                                    
+                                                    <label class="col-md-2 control-label" for="form_control_1">Enquiry Type:</label>
+                                                    <div class="col-md-3">
+                                                        <select class="form-control" ng-model="formData.enquiryDetails.enquiryType">
+                                                            <option></option>
+                                                            <option value='firmRfq'>FirmRfq</option>
+                                                            <option value='budgetary'>Budgetary</option>
+                                                            <option value='verbal'>Verbal</option>
+                                                            <option value='other'>Other</option>
+                                                        </select>                                                        
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>
+                            
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Estimator:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.estimator">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>                                                    
+                                                    <label class="col-md-2 control-label" for="form_control_1">Customer Contact:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="number" class="form-control" id="form_control_1">
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Customer Location:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.customerLocation">                                                            
+                                                    <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Currency:</label>
+                                                    <div class="col-md-3">
+                                                        <select class="form-control" ng-model="formData.enquiryDetails.currency">
+                                                            <option></option>                                                            
+                                                            <option>abc</option>
+                                                        <option>efg</option>
+                                                    </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Delivery Location:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.deliveryLocation">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Delivery Distant:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.deliveryDistance">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Project:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.project">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Application Category:</label>
+                                                    <div class="col-md-3">
+                                                        <select class="form-control" ng-model="formData.enquiryDetails.applicationCategory">
+                                                        <option></option>
+                                                        <option value='extraction'>Extraction</option>
+                                                        <option value='crushing'>Crushing</option>
+                                                        <option value='grinding'>Grinding</option>
+                                                        <option value='mixing'>Mixing</option>
+                                                        <option value='screening'>Screening</option>
+                                                        <option value='agglomeration'>Agglomeration</option>
+                                                        <option value='transport'>Transport</option>
+                                                    </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">OEM Equipment Name:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.oemEquipmentName">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">RFQ Description:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqDescription">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">RFQ No:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="tel" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqNo">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">RFQ Received Date:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="date" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqReceiveddDate">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">RFQ Due Date:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="date" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqDueDate">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Saleman:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.salesman">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class=" col-md-12 text-center">
+                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Details INFO TAB -->
+                        <!-- Information TAB -->
+                        <div class="tab-pane" id="tab_1_2">
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <div class="portlet light bordered">
+                                        <div class="portlet-title">
+                                            <div class="padd-t font-green-haze">
+                                                <i class="icon-settings font-green-haze"></i>
+                                                <span class="caption-subject bold uppercase"> Information</span>
+                                                <div class="pull-right">
+                                                    <span class="caption-subject bold"> {{operationStatus}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form role="form" class="form-horizontal">
+                                            <div class="portlet-body form">
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">RFQ copy:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.rfqCopy">
+                                                        <!--<div class="form-control-focus"> </div>-->
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Drawings / Rev:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.drawings">
+                                                        <!--<div class="form-control-focus"> </div>-->
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Photos:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.photos">
+                                                        <!--<div class="form-control-focus"> </div>-->
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Others docs:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.otherDocs">
+                                                        <!--<div class="form-control-focus"> </div>-->
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Technical Feedback:</label>
+                                                    <div class="col-md-3">
+                                                        <textarea class="form-control" name="" rows="2" ng-model="formData.enquiryInfo.technicalFeedback"></textarea>
+                                                        <div class="form-control-focus"> </div>
+                                                        <span class="help-block">Some help goes here...</span>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Commercial Feedback:</label>
+                                                    <div class="col-md-3">
+                                                        <textarea class="form-control" name="" rows="2" ng-model="formData.enquiryInfo.commercialFeedback"></textarea>
+                                                        <div class="form-control-focus"> </div>
+                                                        <span class="help-block">Some help goes here...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Remarks:</label>
+                                                    <div class="col-md-3">
+                                                        <textarea class="form-control" name="" rows="2" ng-model="formData.enquiryInfo.remarks"></textarea>
+                                                        <div class="form-control-focus"> </div>
+                                                        <span class="help-block">Some help goes here...</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class=" col-md-12 text-center">
+                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Information TAB -->
+                        <!-- Key Requirements TAB -->
+                        <div class="tab-pane" id="tab_1_3">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="portlet light bordered">
+                                        <div class="portlet-title">
+                                            <div class="padd-t font-green-haze">
+                                                <i class="icon-settings font-green-haze"></i>
+                                                <span class="caption-subject bold uppercase">  Key Requirements</span>
+                                                <div class="pull-right">
+                                                    <span class="caption-subject bold"> {{operationStatus}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form role="form" class="form-horizontal">
+                                            <div class="portlet-body form">
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-3 control-label" for="form_control_1">NDA agreement:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="file" id="form_control_1" ng-model="formData.keyRequirement.ndaAgreement">
+                                                        <!--<div class="form-control-focus"> </div>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class=" col-md-12 text-center">
+                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Key RequirementsTAB -->
+                        <!-- Technical Req TAB -->
+                        <div class="tab-pane" id="tab_1_4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="portlet light bordered">
+                                        <div class="portlet-title">
+                                            <div class="padd-t font-green-haze">
+                                                <i class="icon-settings font-green-haze"></i>
+                                                <span class="caption-subject bold uppercase"> Technical requirements:</span>
+                                                <div class="pull-right">
+                                                    <span class="caption-subject bold"> {{operationStatus}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form role="form" class="form-horizontal">
+                                            <div class="portlet-body form">
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Design:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.technicalRequirement.design" autofocus>
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Fabrication:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.technicalRequirement.fabrication">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Preparation:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.technicalRequirement.preparation">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Site services:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.technicalRequirement.siteServices">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class=" col-md-12 text-center">
+                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Technical Req TAB -->
+                        <!-- Commercial Req TAB -->
+                        <div class="tab-pane" id="tab_1_5">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="portlet light bordered">
+                                        <div class="portlet-title">
+                                            <div class="padd-t font-green-haze">
+                                                <i class="icon-settings font-green-haze"></i>
+                                                <span class="caption-subject bold uppercase"> Commercial Requirements:</span>
+                                                <div class="pull-right">
+                                                    <span class="caption-subject bold"> {{operationStatus}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form role="form" class="form-horizontal">
+                                            <div class="portlet-body form">
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Warranty required:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.warrantyRequired" autofocus>
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Payment terms:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Retention terms:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.retentionTerms">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1"> LD/Penalties:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.ldOrPenalties">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1"> Security deposit:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.securityDeposit">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1"> EMD:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.emd">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1"> Other:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.other1">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1"> Other:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.other2">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1"> Other:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.other3">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class=" col-md-12 text-center">
+                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Commercial Req TAB -->
+                        <!-- Pre-qualification Criteria TAB -->
+                        <div class="tab-pane" id="tab_1_6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="portlet light bordered">
+                                        <div class="portlet-title">
+                                            <div class="padd-t font-green-haze">
+                                                <i class="icon-settings font-green-haze"></i>
+                                                <span class="caption-subject bold uppercase"> Pre-qualification criteria:</span>
+                                                <div class="pull-right">
+                                                    <span class="caption-subject bold"> {{operationStatus}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form role="form" class="form-horizontal">
+                                            <div class="portlet-body form">
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Detail:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.preQualificationCriteria.detail" autofocus>
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Paint specs:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.preQualificationCriteria.paintSpecs">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Freight:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.preQualificationCriteria.freight">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1"> Other:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.preQualificationCriteria.other1">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Other:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" placeholder="Sales Zone" ng-model="formData.preQualificationCriteria.other2">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="form_control_1"> Other:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" id="form_control_1" placeholder="Sales Zone" ng-model="formData.preQualificationCriteria.other3">
+                                                        <div class="form-control-focus"> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class=" col-md-12 text-center">
+                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ENDPre-qualification Criteria TAB -->
+                    </div>
+                </div>
+                <!--Go to Estimate view-->
+                <!-- <div class="btn-group pull-right">
+                    <button id="sample_editable_1_new" class="btn green" ng-click="saveAssemblyNameModal(formData._id,enquiryId)" ng-if="showEstimateBtn"> Estimate </button>
+                </div> -->
+                <div class="btn-group pull-right">
+                    <button id="sample_editable_1_new" class="btn green" ng-click="saveAssemblyNameModal(formData._id,enquiryId)"> Estimate </button>
+                </div>
+                <!-- start of table-->
+                <div class="portlet-body">
+                    <div class="table-scrollable">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th> Estimate Id </th>
+                                    <th> Estimate Version </th>
+                                    <th> Created By User </th>
+                                    <th> Last Updated By User </th>
+                                    <th> Created Date </th>
+                                    <th> Updated Date </th>
+                                    <th>EC </th>
+                                    <th>EC </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> Mark </td>
+                                    <td> Otto </td>
+                                    <td> makr124 </td>
+                                    <td>20/5/2017 </td>
+                                    <td>20/5/2017</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td> Jacob </td>
+                                    <td> Nilson </td>
+                                    <td> jac123 </td>
+                                    <td>20/5/2017 </td>
+                                    <td>20/5/2017</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td> 3 </td>
+                                    <td> Larry </td>
+                                    <td> Cooper </td>
+                                    <td> lar </td>
+                                    <td>20/5/2017 </td>
+                                    <td>20/5/2017</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td> 3 </td>
+                                    <td> Sandy </td>
+                                    <td> Lim </td>
+                                    <td> sanlim </td>
+                                    <td>20/5/2017 </td>
+                                    <td>20/5/2017</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--<upload-image ng-model="formData.files" multiple="true" ></upload-image>-->
+            </div>
+        </div>
+    </div>
+    <!--end of table-->
+</div>

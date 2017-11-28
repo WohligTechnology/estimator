@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="col-md-12 mar-b">
+        <div class="portlet box green ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Process Type
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form class="form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Process Type Name:</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" ng-model="formData.processTypeName" autofocus required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Process Category:</label>
+                            <div class="col-md-5">
+                                <select class="form-control" ng-options="pc.processCatName for pc in processCats track by pc._id"
+                                    ng-model="selectedProcessCat">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 "><b>Rate -</b></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Multiplication Factor:</label>
+                            <div class="col-md-5">
+                                <input type="number" class="form-control" ng-model="formData.rate.mulFact">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">UOM:</label>
+                            <div class="col-md-5">
+                               <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
+                                    ng-model="selectedRateMUlFactUom">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2"><b>Quantity -</b></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Linkedkey Value:</label>
+                            <div class="col-md-5">
+                                <select class="form-control" ng-model="formData.quantity.linkedKeyValue">
+                                    <option></option>
+                                    <option>Perimeter</option>
+                                    <option>SMA</option>
+                                    <option>SA</option>
+                                    <option>Wt</option>
+                                    <option>Nos</option>
+                                    <option>Hrs</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">UOM:</label>
+                            <div class="col-md-5">
+                                <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
+                                    ng-model="selectedQuaLinkedKeyUom">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Multiplication Factor:</label>
+                            <div class="col-md-5">
+                                <input type="number" class="form-control" ng-model="formData.quantity.mulfact">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Utilization:</label>
+                            <div class="col-md-5">
+                                <input type="number" class="form-control" ng-model="formData.quantity.utilization">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Contegency or Wastage:</label>
+                            <div class="col-md-5">
+                                <input type="number" class="form-control" ng-model="formData.quantity.contengncyOrWastage">
+                            </div>
+                        </div>
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">Final UOM:</label>
+                            <div class="col-md-5">
+                                <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
+                                    ng-model="selectedQuaFinalUom">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)">Update</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>

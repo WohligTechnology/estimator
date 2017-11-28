@@ -51,7 +51,7 @@ myApp
                 } else {
                     target = element;
                 }
-
+   
                 target.fancybox({
                     openEffect: 'fade',
                     closeEffect: 'fade',
@@ -159,6 +159,127 @@ myApp
         return {
             link: function (scope, elem) {
                 elem.dropdownHover();
+            }
+        };
+    })
+
+    .directive('uploadImage', function ($http, $filter) {
+        console.log('**** inside uploadImage of app.js ****');
+        return {
+            templateUrl: 'frontend/views/directive/uploadFile.html',
+            scope: {
+                model: '=ngModel',
+                callback: "=ngCallback",
+                disabled: "=ngDisabled"
+            },
+            controller: function($scope) { 
+            },
+            link: function ($scope, element, attrs, ctrl) {
+                debugger;
+                // $scope.image = ctrl.$viewValue;
+                $scope.image = $scope.model;
+                console.log('**** inside model of directive.js ****',$scope.model);
+                function checkIfBroken() {
+                    if ($scope.model && $scope.model != "broken") {
+                        // because institute-form will have lot of files in it (around or more than 1 GB), it will 
+                        // take huge amount of time to download all files from server  
+                        // so we have to stop downloading all files 
+                        // if it is affecting on other webpages where you have used same directive, then simply make a 
+                        // copy of same directive with different name, uncomment following downloadpath filter in that copy
+                        // & use new directive but please do not change it
+    
+                        var str = $scope.model;
+                        if ($scope.model.slice(str.length - 3, str.length) != 'pdf') {
+                            $http.get($filter("downloadpath")($scope.model)).then(function (data) {
+                                if (data.data && data.data.value === false) {
+                                    $scope.model = "broken";
+                                }
+                            });
+                        }
+                    }
+                }
+    
+    
+                $scope.showImage = function () {
+                    console.log($scope.image);
+                };
+                $scope.$watch("model", function (newVal, oldVal) {
+                    debugger;
+                    checkIfBroken();
+                });
+    
+       
+    
+                $scope.isMultiple = false;
+                $scope.inObject = false;
+                if (attrs.multiple || attrs.multiple === "") {
+                    $scope.isMultiple = true;
+                    $("#inputImage").attr("multiple", "ADD");
+                }
+                if (attrs.noView || attrs.noView === "") {
+                    $scope.noShow = true;
+                }
+    
+                $scope.$watch("image", function (newVal, oldVal) {
+                    console.log('**** inside newVal of app.js ****', newVal);
+                    console.log('**** inside oldVal of app.js ****', oldVal);
+                    if (newVal && newVal.file) {
+                        $scope.uploadNow(newVal);
+                    }
+                });
+    
+                if ($scope.model) {
+                    if (_.isArray($scope.model)) {
+                        $scope.image = [];
+                        _.each($scope.model, function (n) {
+                            $scope.image.push({
+                                url: n
+                            });
+                        });
+                    }    
+                }
+                if (attrs.inobj || attrs.inobj === "") {
+                    $scope.inObject = true;
+                }
+                $scope.clearOld = function () {
+                    $scope.model = [];
+                };
+                $scope.uploadNow = function (image) {
+                    console.log('**** inside uploadImage uploadNow of app.js ****');
+                    debugger;
+                    $scope.uploadStatus = "uploading";
+    
+                    var Template = this;
+                    image.hide = true;
+                    var formData = new FormData();
+                    formData.append('file', image.file, image.name);
+                    $http.post(uploadurl, formData, {
+                        headers: {
+                            'Content-Type': undefined
+                        },
+                        transformRequest: angular.identity
+                    }).then(function (data) {
+                        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                        data = data.data;
+                        if ($scope.callback) {
+                            $scope.callback(data);
+                        } else {
+                            $scope.uploadStatus = "uploaded";
+                            if ($scope.isMultiple) {
+                                if ($scope.inObject) {
+                                    $scope.model.push({
+                                        "image": data.data[0]
+                                    });
+                                } else {
+                                    $scope.model.push(data.data[0]);
+                                }
+                            } else {
+                                $scope.model = data.data[0];
+                            }
+                        }
+                    });
+
+                };
             }
         };
     });

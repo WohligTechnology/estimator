@@ -1,50 +1,28 @@
 var schema = new Schema({
     name: {
         type: String,
-        required: true,
-        excel: true,
+        required: true
     },
     email: {
         type: String,
         validate: validators.isEmail(),
         excel: "User Email",
+        required: true,
         unique: true
     },
-    dob: {
-        type: Date,
-        excel: {
-            name: "Birthday",
-            modify: function (val, data) {
-                return moment(val).format("MMM DD YYYY");
-            }
-        }
+    mobile: {
+        type: "",
+        default: ""
     },
     photo: {
-        type: String,
-        default: "",
-        excel: [{
-            name: "Photo Val"
-        }, {
-            name: "Photo String",
-            modify: function (val, data) {
-                return "http://abc/" + val;
-            }
-        }, {
-            name: "Photo Kebab",
-            modify: function (val, data) {
-                return data.name + " " + moment(data.dob).format("MMM DD YYYY");
-            }
-        }]
+        file: String,
+        default: ""
     },
     password: {
         type: String,
         default: ""
     },
     forgotPassword: {
-        type: String,
-        default: ""
-    },
-    mobile: {
         type: String,
         default: ""
     },
@@ -68,7 +46,7 @@ var schema = new Schema({
     accessLevel: {
         type: String,
         default: "User",
-        enum: ['User', 'Admin']
+        enum: ['User', 'superAdmin']
     }
 });
 
@@ -157,6 +135,7 @@ var model = {
         });
     },
     updateAccessToken: function (id, accessToken) {
+
         User.findOne({
             "_id": id
         }).exec(function (err, data) {
@@ -166,6 +145,402 @@ var model = {
     },
     getAllMedia: function (data, callback) {
 
-    }
+    },
+    getAllDashboardData: function (data, callback) {
+
+        async.parallel({
+            userCount: function (callback) {
+                User.count().exec(function (err, count) {
+                    callback(null, count);
+                });
+
+            },
+            customerCount: function (callback) {
+                Customer.count().exec(function (err, count) {
+                    callback(null, count);
+                });
+
+            },
+            enquiryCount: function (callback) {
+                Enquiry.count().exec(function (err, count) {
+                    callback(null, count);
+                });
+
+            },
+            estimateCount: function (callback) {
+                Estimate.count().exec(function (err, count) {
+                    callback(null, count);
+                });
+
+            },
+
+        }, function (err, finalResults) {
+            if (err) {
+                console.log('********** error at final response of async.parallel  User.js ************', err);
+                callback(err, null);
+            } else if (_.isEmpty(finalResults)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, finalResults);
+            }
+        });
+    },
+
+    createUser: function (data, callback) {
+        var userData = {};
+        async.waterfall([
+                function (callback) {
+                    var saveDataObj = {
+                        email: data.email,
+                        name: data.name
+                    };
+                    User.saveData(saveDataObj, function (err, savedData) {
+                        if (err) {
+                            console.log('**** error at createUser of User.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(savedData)) {
+                            callback(null, []);
+                        } else {
+                            var oneTimePassword = User.generateRandomString(8);
+                            savedData.password = oneTimePassword;
+
+                            User.saveData(savedData, function (err, result) {
+                                if (err) {
+                                    callback(err, null);
+                                } else {
+                                    callback(null, savedData);
+                                }
+                            });
+                        }
+                    });
+                },
+                // Send new password to user's email
+                function (savedData, callback) {
+                    if (_.isEmpty(savedData)) {
+                        callback(null, []);
+                    } else {
+                        var emailData = {};
+                        emailData.otp = savedData.password;
+                        emailData.email = data.email;
+                        emailData.subject = "Estimator User Credential";
+                        emailData.filename = "forgotPassword.ejs";
+                        // emailData.from = "admin@rusa.com"
+                        emailData.from = "ashish.zanwar@wohlig.com";
+                        emailData.name = savedData.name;
+
+                        Config.email(emailData, callback);
+                    }
+                },
+            ],
+            function (err, result) {
+                console.log(" ***** async.waterfall final response of createUser ***** ", result);
+                callback(err, "success");
+            });
+
+    },
+
+    loginUser: function (data, callback) {
+        User.findOne({
+            email: data.email,
+            password: data.password
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at loginUser of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+
+    generateRandomString: function (number) {
+        var text = "";
+        var possible = "$ABCDEFGHIJKLMNOPQRS&TUVWXYZabcd#efghijklmnopqrstuvw@xyz01234%56789";
+
+        for (var i = 0; i < number; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    },
+
+    changePassword: function (data, callback) {
+        User.findOne({
+            _id: data._id
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at resetPassword of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+
+                if (found.password == data.password) {
+
+                    var saveDataObj = {
+                        password: data.newPassword
+                    };
+
+                    if (!_.isEmpty(found._id)) {
+                        saveDataObj._id = found._id;
+
+                    }
+
+                    User.saveData(saveDataObj, function (err, savedData) {
+                        if (err) {
+                            console.log('**** error at resetPassword of User.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(savedData)) {
+                            callback(null, 'noDataFound');
+                        } else {
+                            callback(null, savedData);
+                        }
+                    });
+                } else {
+                    callback(null, "password not matching");
+                }
+            }
+        });
+    },
+    sendForgetPasswordOtp: function (data, callback) {
+        var userData = {};
+        // check whether user is available or not ?
+        // if --> yes --> generate OTP & send email to user with otp
+        async.waterfall([
+                // Check whether user is present
+                function (callback) {
+                    User.findOne({
+                        email: data.email
+                    }).lean().exec(callback);
+                },
+                // Change password to random String
+                function (user, callback) {
+                    if (_.isEmpty(user)) {
+                        callback(null, []);
+                    } else {
+                        // Generate random String as a password
+                        var verificationCode = User.generateRandomString(6);
+
+                        user.otp = verificationCode;
+                        User.saveData(user, function (err, result) {
+                            if (err) {
+                                callback(err, null);
+                            } else {
+                                console.log('**** inside function_name of User mai hu& data is ****', user);
+                                User.findOne({
+                                    _id: user._id
+                                }).exec(callback);
+                            }
+                        });
+                    }
+                },
+                // Send forget password email
+                function (user, callback) {
+                    if (_.isEmpty(user)) {
+                        userData.userId = user._id;
+                        callback(null, "userNotFound");
+                    } else {
+                        userData.userId = user._id;
+                        var emailData = {};
+                        emailData.otp = user.otp;
+                        emailData.email = data.email;
+                        emailData.subject = "Forgot Password";
+                        emailData.filename = "forgotPassword.ejs";
+                        // emailData.from = "admin@rusa.com"
+                        emailData.from = "ashish.zanwar@wohlig.com";
+                        // emailData.from = "vijayvaidya99@gmail.com";
+                        emailData.name = user.name;
+                        Config.email(emailData, callback);
+                        // callback();
+                    }
+                }
+            ],
+            function (err, result) {
+                console.log(" ***** async.waterfall final response of sendForgotPasswordOtp ***** ", result);
+                callback(err, userData);
+            });
+    },
+    confirmForgotPasswordOtp: function (data, callback) {
+        User.findOne({
+            _id: data._id,
+            otp: data.verifyOtp
+        }).lean().exec(function (err, found) {
+            if (err) {
+                console.log(" *** inside confirmForgotPasswordOtp err *** ", err);
+                callback(null, err);
+            } else if (_.isEmpty(found)) {
+                callback(null, {});
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+    resetPassword: function (data, callback) {
+        User.findOneAndUpdate({
+            _id: data._id
+        }, {
+            password: data.newPassword,
+            otp: ""
+        }).exec(function (err, updatedData) {
+            if (err) {
+                console.log('**** error at resetPassword of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(updatedData)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, updatedData);
+            }
+        });
+    },
+    getUserData: function (data, callback) {
+        User.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getUserData of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+
+
+    search: function (data, callback) {
+        var maxRow = 10;
+        if (data.totalRecords) {
+            maxRow = data.totalRecords;
+        }
+
+        var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['email', 'name', 'mobile'],
+                    term: data.keyword
+                }
+            },
+            sort: {
+                desc: 'createdAt'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+        User.find({}).sort({
+                createdAt: -1
+            })
+            .order(options)
+            .keyword(options)
+            .page(options,
+                function (err, found) {
+                    if (err) {
+                        console.log('**** error at search of User.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(found)) {
+                        callback(null, 'noDataFound');
+                    } else {
+                        callback(null, found);
+                    }
+                });
+    },
+
+    deleteMultipleUsers: function (data, callback) {
+
+        User.remove({
+            _id: {
+                $in: data.idsArray
+            }
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at deleteMultipleUsers of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+    // upload the avtar 
+    // req data --files
+    uploadAvtar: function (data, callback) {
+
+
+        var uuid = '';
+
+        data("file").upload({
+            maxBytes: 10000000, // 10 MB Storage 1 MB = 10^6
+            dirname: "../../assets/images",
+        }, function (err, uploadedFile) {
+            if (err) {
+                callback('error at uploadAvtar', err);
+            } else if (uploadedFile.length > 0) {
+                var getAllFilesId = [];
+                async.concat(uploadedFile, function (n, callback) {
+
+                    User.uploadFile(n, function (err, value) {
+
+                        // console.log('**** inside %%%%%%%%%%%%%%%%%%%%% of Person.js ****',value);
+                        getAllFilesId.push(value);
+                        // if (err) {
+                        //   callback(err);
+                        // } else {
+                        //   callback();
+                        // }
+
+                        callback();
+                    });
+
+                }, function (err, finalData) {
+                    console.log('**** inside %%%%%%%%%%%%%%%%%%%%% of Person.js ****', getAllFilesId);
+                    callback(null, getAllFilesId);
+                });
+
+            } else {
+                callback(null, {
+                    value: false,
+                    data: "No files selected"
+                });
+            }
+        });
+    },
+
+    uploadFile: function (file, callback) {
+        var d = new Date();
+        var extension = file.filename.split('.').pop();
+        var allowedTypes = ['image/jpeg', 'image/png'];
+        uuid = file.fd.split('/').pop();
+
+        if (uuid) {
+            callback(null, uuid);
+        }
+    },
+
+    beforeCreate: function (data, callback) {
+        bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(data.password, salt, function (err, hash) {
+                if (err) {
+                    console.log(err);
+                    callback(err);
+                } else {
+                    data.password = hash;
+                    callback();
+                }
+            });
+        });
+    },
+    // what this function will do ?
+    // req data --> ?
+    AceesControl: function (data, callback) {
+
+    },
+    
+
 };
 module.exports = _.assign(module.exports, exports, model);

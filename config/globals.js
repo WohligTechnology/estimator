@@ -73,7 +73,7 @@ global["monguurl"] = require('monguurl');
 require('mongoose-middleware').initialize(mongoose);
 global["Schema"] = mongoose.Schema;
 global["Grid"] = require('gridfs-stream');
-global["gfs"] = Grid(mongoose.connections[0].db, mongoose);
+global["gfs"] = Grid(mongoose.connection, mongoose);
 global["http"] = require('http');
 gfs.mongo = mongoose.mongo;
 
@@ -92,6 +92,8 @@ global["fs"] = require('fs');
 global["json2xls"] = require('json2xls');
 global["xlsx"] = require('node-xlsx').default;
 global["async"] = require('async');
+global["bcrypt"] = require('bcrypt');
+
 // global["pdf"] = require('html-pdf');
 
 // passport Globals

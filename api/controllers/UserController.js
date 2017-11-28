@@ -52,7 +52,7 @@ var controller = {
         if (q >= 0) {
             _.times(20, function (n) {
                 var name = moment().subtract(5 + n, "days").format("ddd-Do-MMM-YYYY");
-                exec("cd backup && rm -rf " + name + "*", function (err, stdout, stderr) { });
+                exec("cd backup && rm -rf " + name + "*", function (err, stdout, stderr) {});
             });
             var jagz = _.map(mongoose.models, function (Model, key) {
                 var name = Model.collection.collectionName;
@@ -66,9 +66,9 @@ var controller = {
                 "key": "fs.chunks",
                 "name": "fs.chunks"
             }, {
-                    "key": "fs.files",
-                    "name": "fs.files"
-                });
+                "key": "fs.files",
+                "name": "fs.files"
+            });
             var isBackup = fs.existsSync("./backup");
             if (!isBackup) {
                 fs.mkdirSync("./backup");
@@ -94,7 +94,182 @@ var controller = {
     },
     sendmail: function (req, res) {
         Config.sendEmail("chintan@wohlig.com", "jagruti@wohlig.com", "first email from endgrid", "", "<html><body>dome content</body></html>");
-    }
+    },
 
+    getAllDashboardData: function (req, res) {
+        if (req.body) {
+            // please remove Controller.js from below line
+            User.getAllDashboardData(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    createUser: function (req, res) {
+        if (req.body) {
+            User.createUser(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+
+    loginUser: function (req, res) {
+        if (req.body) {
+            // please remove Controller.js from below line
+            User.loginUser(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    changePassword: function (req, res) {
+        if (req.body) {
+            // please remove Controller.js from below line
+            User.changePassword(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    sendForgetPasswordOtp: function (req, res) {
+        if (req.body) {
+            User.sendForgetPasswordOtp(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    confirmForgotPasswordOtp: function (req, res) {
+        if (req.body) {
+            User.confirmForgotPasswordOtp(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    resetPassword: function (req, res) {
+        if (req.body) {
+            User.resetPassword(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    getUserData: function (req, res) {
+        if (req.body) {
+            User.getUserData(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+
+
+    search: function (req, res) {
+        if (req.body) {
+            User.search(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    deleteMultipleUsers: function (req, res) {
+        if (req.body) {
+            User.deleteMultipleUsers(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    uploadAvtar: function (req, res) {
+        if (req.file) {
+            User.uploadAvtar(req.file, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+
+    downloadFile:function(req, res) { 
+            var file = req.params.file;
+            var path = require('path');
+            var path = path.resolve(".") + '/assets/images/' + file;
+            res.download(path, file, function(err){
+              if (err){
+                console.log(err);
+              } else {
+                console.log('downloading successful');
+              }
+            });
+    },
+    beforeCreate: function (req, res) {
+        if (req.body) {
+            User.beforeCreate(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    AceesControl: function (req, res) {
+        if (req.body) {
+            User.AceesControl(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
 };
 module.exports = _.assign(module.exports, controller);
