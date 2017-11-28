@@ -234,10 +234,22 @@ var controller = {
             })
         }
     },
-    fecthFiles: function (req, res) {
+
+    downloadFile:function(req, res) { 
+            var file = req.params.file;
+            var path = require('path');
+            var path = path.resolve(".") + '/assets/images/' + file;
+            res.download(path, file, function(err){
+              if (err){
+                console.log(err);
+              } else {
+                console.log('downloading successful');
+              }
+            });
+    },
+    beforeCreate: function (req, res) {
         if (req.body) {
-            // please remove Controller.js from below line
-            User.fecthFiles(req.body, res.callback);
+            User.beforeCreate(req.body, res.callback);
         } else {
             res.json({
                 value: false,
@@ -247,9 +259,9 @@ var controller = {
             })
         }
     },
-    beforeCreate: function (req, res) {
+    AceesControl: function (req, res) {
         if (req.body) {
-            User.beforeCreate(req.body, res.callback);
+            User.AceesControl(req.body, res.callback);
         } else {
             res.json({
                 value: false,
