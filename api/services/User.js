@@ -1,5 +1,3 @@
-var bcrypt = require('bcrypt');
-
 var schema = new Schema({
     name: {
         type: String,
@@ -48,7 +46,7 @@ var schema = new Schema({
     accessLevel: {
         type: String,
         default: "User",
-        enum: ['User', 'SuperAdmin']
+        enum: ['User', 'superAdmin']
     }
 });
 
@@ -271,7 +269,6 @@ var model = {
         User.findOne({
             _id: data._id
         }).exec(function (err, found) {
-            console.log('**** inside res object of User.js & data is ****', found);
             if (err) {
                 console.log('**** error at resetPassword of User.js ****', err);
                 callback(err, null);
@@ -524,23 +521,6 @@ var model = {
             callback(null, uuid);
         }
     },
-    // what this function will do ?
-    // req data --> ?
-    fecthFiles: function (data, callback) {
-        const testFolder = './assets/images';
-
-        fs.readdir(testFolder, (err, files) => {
-            files.forEach(file => {
-                if (file == data) {
-                    console.log(file);
-                } else {
-                    callback(null, 'file is not mmatched');
-                }
-
-            })
-
-        });
-    },
 
     beforeCreate: function (data, callback) {
         bcrypt.genSalt(10, function (err, salt) {
@@ -555,6 +535,12 @@ var model = {
             });
         });
     },
+    // what this function will do ?
+    // req data --> ?
+    AceesControl: function (data, callback) {
+
+    },
+    
 
 };
 module.exports = _.assign(module.exports, exports, model);

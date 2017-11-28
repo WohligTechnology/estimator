@@ -54,9 +54,9 @@ module.exports.routes = {
         controller: "WebController",
         action: "download"
     },
-    "/api/User/fecthFiles/:filename": {
+    "/api/User/download/:file(*)": {
         controller: "UserController",
-        action: "fecthFiles"
+        action: "downloadFile"
     },
 
 
