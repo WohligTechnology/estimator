@@ -64,7 +64,6 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
   $scope.deleteUserModal = function (userId, getFunction) {
     $scope.idToDelete = userId;
     $scope.functionToCall = getFunction;
-
     $scope.modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
@@ -104,6 +103,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userSer
         userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
         });
+
       });
     }
   }

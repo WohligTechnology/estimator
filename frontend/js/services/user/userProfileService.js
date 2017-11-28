@@ -1,3 +1,4 @@
+
 myApp.service('userProfileService', function (NavigationService, $http) {
 
     //to get data of current user

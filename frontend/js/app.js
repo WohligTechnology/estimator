@@ -91,10 +91,12 @@ myApp.factory('settings', ['$rootScope', function ($rootScope) {
 
 /* Setup App Main Controller */
 myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
+
     $scope.$on('$viewContentLoaded', function () {
         App.initComponents(); // init core components
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
+
     $scope.loginTemplate = true;
     $scope.themeColor = '#32c5d3';
 
@@ -894,7 +896,15 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             }
         })
 
-
+        // User Profile Account
+        .state("profile.account", {
+            url: "/account/:profileId",
+            templateUrl: "views/profile/account.html",
+            controller: "UserProfileController",
+            data: {
+                pageTitle: 'User Account'
+            }
+        })
 
         // User Profile Help
         .state("profile.help", {
