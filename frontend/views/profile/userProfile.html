@@ -111,9 +111,7 @@
                                         <div class="form-group">
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                                 <div>
-                                                    <upload-files ng-model="img3" ng-callback="SurveyDocsUploadCallback(img3,length)" type="'editSurveyDocs'" photos="surveyData.doc"
-                                                        assignmentid="assignment._id" timeline="timeline" employee="employee"></upload-files>
-
+                                                   <upload-all-files ng-model="formData.photo"></upload-all-files>
                                                 </div>
                                             </div>
                                         </div>

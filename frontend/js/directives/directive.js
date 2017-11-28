@@ -51,7 +51,7 @@ myApp
                 } else {
                     target = element;
                 }
-
+   
                 target.fancybox({
                     openEffect: 'fade',
                     closeEffect: 'fade',
@@ -172,8 +172,12 @@ myApp
                 callback: "=ngCallback",
                 disabled: "=ngDisabled"
             },
-            link: function ($scope, element, attrs) {
+            controller: function($scope) { 
+            },
+            link: function ($scope, element, attrs, ctrl) {
                 debugger;
+                // $scope.image = ctrl.$viewValue;
+                $scope.image = $scope.model;
                 console.log('**** inside model of directive.js ****',$scope.model);
                 function checkIfBroken() {
                     if ($scope.model && $scope.model != "broken") {
