@@ -1154,47 +1154,47 @@ myApp.directive('uploadAllFiles', function ($http) {
         template: '<input type="file" ng-model="files" onchange="angular.element(this).scope().uploadImage(files)" multiple/>',
 
         link: function (scope, element, attrs) {
-            debugger;
+
             scope.uploadImage = function (files) {
                 console.log("*** inside function & files are ***", files);
                 // http request here
 
                 if (_.isArray(scope.model)) {
-                    // angular.forEach(files, function(file) {
-                    //     debugger;
-                    //     console.log("****************** file is ******************", file);
-                    //     scope.model.push(file.name);
-                    //   });
-                    var fd = new FormData();
-                    fd.append('file', files[0]);
+                    angular.forEach(files, function (file) {
+                        debugger;
+                        console.log("****************** file is ******************", file);
+                        var fd = new FormData();
+                        fd.append('file', file);
 
-                    $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-                            // transformRequest: angular.identity,
-                            // headers: {
-                            //     'Content-Type': "application/json"
-                            // }
-                        })
-                        .then(function (data) {
-                            console.log('**** inside its working of userProfileService.js ****');
-                        });
-                } else {
-                    debugger;
-                    var fd = new FormData();
-                    fd.append('file', files[0]);
-                    // scope.model = files["0"].name;
-
-                    $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': "application/json"
-                        }
-                    })
-                    .then(function (data) {
-                        console.log('**** inside its working of userProfileService.js ****');
+                        $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                                headers: {
+                                    'Content-Type': undefined
+                                },
+                                transformRequest: angular.identity
+                            })
+                            .then(function (data) {
+                                console.log('**** inside its working of userProfileService.js ****', data);
+                                scope.model.push(data.data.data[0]);;
+                            });
                     });
 
+                } else {
+                    var fd = new FormData();
+                    fd.append('file', files[0]);
 
-                    // scope.model = "111jdghjgdhagsdh.jpg";
+                    $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                            headers: {
+                                'Content-Type': undefined
+                            },
+                            transformRequest: angular.identity
+                        })
+                        .then(function (data) {
+                            scope.model = data.data.data[0];
+                            console.log('**** inside its working of userProfileService.js ****', data);
+                        });
+
+
+
                 }
             };
         }
