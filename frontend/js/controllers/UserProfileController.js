@@ -2,14 +2,19 @@ myApp.controller('UserProfileController', function ($scope, toastr, userProfileS
 
     // *************************** default variables/tasks begin here ***************** //
     $scope.$parent.isSidebarActive = false;
-    $scope.formData = {};
     $scope.loggedInUser = $.jStorage.get('loggedInUser');
+    $scope.image = {};
+    // to upload files
+    $scope.formData = {};
+    $scope.formData.files = [];
+    $scope.allFiles = [];
 
     // *************************** default functions begin here  ********************** //
     //- get respective profile Object
     $scope.getProfileData = function () {
         userProfileService.getProfileData($scope.loggedInUser._id, function (data) {
             $scope.formData = data;
+            $scope.formData.files = [];
         });
     }
 

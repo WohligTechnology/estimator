@@ -1013,90 +1013,20 @@ myApp.factory('accessApp', function ($location) {
     }
 });
 
-// angular.module("myApp").directive("filesInput", function() {
-//     return {
-//       require: "ngModel",
-//       link: function postLink(scope,elem,attrs,ngModel) {
-//         elem.on("change", function(e) {
-//           var file = elem[0].files;
-//           ngModel.$setViewValue(file);
-//         })
-//       }
-//     }
-//   });
-
-//   myApp.directive('filesInput', ['$parse', function ($parse) {
-//     return {
-//        restrict: 'A',
-//        link: function(scope, element, attrs) {
-//           var model = $parse(attrs.fileModel);
-//           var modelSetter = model.assign;
-
-//           element.bind('change', function(){
-//              scope.$apply(function(){
-//                 modelSetter(scope, element[0].files[0]);
-//              });
-//           });
-//        }
-//     };
-//  }]);
-
-// angular.module('myApp', []).directive('filesInput', function($q) {
-//     var slice = Array.prototype.slice;
-
-//     return {
-//         restrict: 'A',
-//         require: '?ngModel',
-//         link: function(scope, element, attrs, ngModel) {
-//                 if (!ngModel) return;
-
-//                 ngModel.$render = function() {};
-
-//                 element.bind('change', function(e) {
-//                     var element = e.target;
-
-//                     $q.all(slice.call(element.files, 0).map(readFile))
-//                         .then(function(values) {
-//                             if (element.multiple) ngModel.$setViewValue(values);
-//                             else ngModel.$setViewValue(values.length ? values[0] : null);
-//                         });
-
-//                     function readFile(file) {
-//                         var deferred = $q.defer();
-
-//                         var reader = new FileReader();
-//                         reader.onload = function(e) {
-//                             deferred.resolve(e.target.result);
-//                         };
-//                         reader.onerror = function(e) {
-//                             deferred.reject(e);
-//                         };
-//                         reader.readAsDataURL(file);
-
-//                         return deferred.promise;
-//                     }
-
-//                 }); //change
-
-//             } //link
-//     }; //return
-// });
-
-
-myApp.directive('fileModelOld', ['$parse',function ($parse) {
+myApp.directive('fileModelOld', ['$parse', function ($parse) {
     return {
         restrict: 'A',
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
             var model = $parse(attrs.fileModel);
             var modelSetter = model.assign;
-            
-            element.bind('change', function(){
-            console.log("*** element **", element);
-                scope.$apply(function(){
+
+            element.bind('change', function () {
+                console.log("*** element **", element);
+                scope.$apply(function () {
                     modelSetter(scope, element[0].files[0]);
                 });
             });
-        
+
 
 
             // $scope.$parent.formData.uploadedFiles = [];
@@ -1121,24 +1051,24 @@ myApp.directive('fileModelOld', ['$parse',function ($parse) {
     };
 }]);
 
-myApp.directive('fileModel', ['$parse','$http', function ($parse, $http) {
+myApp.directive('fileModel', ['$parse', '$http', function ($parse, $http) {
     return {
         restrict: 'A',
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
             var model = $parse(attrs.fileModel);
             var modelSetter = model.assign;
-            
-            element.bind('change', function(){
+
+            element.bind('change', function () {
                 // angular.element(event.target).file('model') = element[0].files[0];
                 // modelSetter(scope, element[0].files[0]);
                 // scope.uploadImage(scope.myFile);
 
-                scope.$apply(function(){
+                scope.$apply(function () {
                     modelSetter(scope, element[0].files[0]);
 
                     var fd = new FormData();
                     fd.append('file', file);
-    
+
                     $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
                             transformRequest: angular.identity,
                             headers: {
@@ -1146,14 +1076,14 @@ myApp.directive('fileModel', ['$parse','$http', function ($parse, $http) {
                             }
                         })
                         .then(function () {
-    
+
                             console.log('**** inside its working of userProfileService.js ****');
                         });
-                   
+
                 });
             });
-                       
-            
+
+
 
             scope.uploadImage = function (file) {
                 var fd = new FormData();
@@ -1177,370 +1107,95 @@ myApp.directive('fileModel', ['$parse','$http', function ($parse, $http) {
 }]);
 
 
+// myApp.directive('uploadAllFiles', function () {
+//     return {
+//         restrict: 'E',
+//         scope: {
+//             finalData: '=ngModel'
+//         },
+//         template: '<input type="file" ng-model="files" onchange="angular.element(this).scope().uploadImage(files)" multiple/>',
 
+//         link: function (scope, element, attrs) {
+//             debugger;
+//             scope.uploadImage = function (files) {
+//                 console.log("*** inside function & files are ***", files);
+//                 // http request here
 
+//                 angular.forEach(files, function (file) {
+//                     debugger;
+//                     console.log("****************** file is ******************", file);
+//                     scope.finalData.push(file.name);
+//                 });
 
+//                 //   var fd = new FormData();
+//                 //   fd.append('file', file);
 
+//                 //   $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+//                 //           transformRequest: angular.identity,
+//                 //           headers: {
+//                 //               'Content-Type': undefined
+//                 //           }
+//                 //       })
+//                 //       .then(function () {
+//                 //           console.log('**** inside its working of userProfileService.js ****');
+//                 //       });
 
+//             };
+//         }
+//     };
+// });
 
-
-
-myApp.directive('uploadFiles', function ($http, $timeout,upload, toastr, NavigationService, $uibModal, TemplateService, $rootScope) {
+myApp.directive('uploadAllFiles', function ($http) {
     return {
-        templateUrl: '../frontend/views/directive/uploadFiles.html',
+        restrict: 'E',
         scope: {
-            employee: '=employee',
-            assignmentid: '=assignmentid',
-            timeline: '=timeline',
-            model: '=ngModel',
-            type: '=type',
-            photos: '=photos',
-            photoLength: "=photolength",
-            callback: '&ngCallback',
-            photosMaxLength: '=length'
+            model: '=ngModel'
         },
-        link: function ($scope, scope, element, attrs) {
-            $scope.progressBar = false;
-            // UPLOADING FILES
-            $scope.uploadFiles = function (files, type) {
-                // console.log('files', files, 'types', type);
-                $scope.progressBar = 0;
-                $scope.model = [];
-                var limitArr = [];
-                var count = 0;
-                var enterFile = true;
-                if (type == "photos" || type == "editSurveyPhotos" || type == "surveyPhotos") {
-                    if ($scope.photoLength < $scope.photosMaxLength) {
-                        if (files && files.length) {
-                            if (files.length <= ($scope.photosMaxLength - $scope.photoLength)) {
-                                if (files && files.length) {
-                                    for (var i = 0; i < files.length; i++) {
-                                        $scope.progressBar = true;
-                                        Upload.upload({
-                                            url: uploadurl,
-                                            data: {
-                                                file: files[i],
-                                            },
-                                            headers: {
-                                                'Content-Type': undefined
-                                            },
-                                            transformRequest: angular.identity
-                                        }).then(function (resp) {
-                                            if (resp.data) {
-                                                count++;
-                                                if (count === 1) {
-                                                    $rootScope.viewProgressBar = true;
-                                                }
-                                                $scope.model.push(resp.data.data[0]);
-                                                $rootScope.progressPercentage = parseInt((100.0 * (count + 1)) / (files.length + 1));
-                                                $rootScope.imageName = resp.config.data.file.name;
-                                                $rootScope.filesLength = files.length;
-                                                $rootScope.currentCount = count;
-                                                if (count == files.length) {
-                                                    $scope.callback($scope.model);
-                                                    setTimeout(function () {
-                                                        $rootScope.viewProgressBar = false;
-                                                        $rootScope.$apply();
-                                                        console.log('$rootScope.viewProgressBar', $rootScope.viewProgressBar);
-                                                    }, 1000);
-                                                }
-                                                $rootScope.fileSize = resp.config.data.file.size;
-                                            }
-                                        }, function (resp) {
-                                            console.log('Error status: ' + resp.status);
-                                        }, function (evt) {
-                                            // console.log('evt loaded', evt.loaded, "evt.total", evt.total);
-                                            // $scope.singleProgress = parseInt(100.0 * evt.loaded / evt.total);
-                                        });
-                                    }
-                                }
-                            } else {
-                                var rejected = files.length - ($scope.photosMaxLength - $scope.photoLength);
-                                files = _.drop(files, (files.length - ($scope.photosMaxLength - $scope.photoLength)));
-                                if (files && files.length) {
-                                    for (var i = 0; i < files.length; i++) {
-                                        $scope.progressBar = true;
-                                        Upload.upload({
-                                            url: uploadurl,
-                                            data: {
-                                                file: files[i],
-                                            },
-                                            headers: {
-                                                'Content-Type': undefined
-                                            },
-                                            transformRequest: angular.identity
-                                        }).then(function (resp) {
-                                            if (resp.data) {
-                                                count++;
-                                                if (count === 1) {
-                                                    $rootScope.viewProgressBar = true;
-                                                }
-                                                $scope.model.push(resp.data.data[0]);
-                                                $rootScope.progressPercentage = parseInt((100.0 * (count + 1)) / (files.length + 1));
-                                                $rootScope.imageName = resp.config.data.file.name;
-                                                $rootScope.filesLength = files.length;
-                                                $rootScope.currentCount = count;
-                                                if (count == files.length) {
-                                                    if (type == "surveyPhotos") {
-                                                        toastr.error(files.length + " uploaded & " + rejected + " rejected", "Only 16 photos alloweddd");
-                                                    } else {
-                                                        toastr.error(files.length + " uploaded & " + rejected + " rejected", "Only " + $scope.photosMaxLength + " photos allowed");
-                                                    }
-                                                    $scope.callback($scope.model);
-                                                    setTimeout(function () {
-                                                        $rootScope.viewProgressBar = false;
-                                                        $rootScope.$apply();
-                                                        console.log('$rootScope.viewProgressBar', $rootScope.viewProgressBar);
-                                                    }, 1000);
-                                                }
-                                                $rootScope.fileSize = resp.config.data.file.size;
-                                            }
-                                        }, function (resp) {
-                                            console.log('Error status: ' + resp.status);
-                                        }, function (evt) {
-                                            // console.log('evt loaded', evt.loaded, "evt.total", evt.total);
-                                            // $scope.singleProgress = parseInt(100.0 * evt.loaded / evt.total);
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        toastr.error("Only " + $scope.photosMaxLength + " photos allowed");
-                        enterFile = false;
-                        $scope.callback($scope.model);
-                    }
-                } else {
-                    if (files && files.length) {
-                        for (var i = 0; i < files.length; i++) {
-                            $scope.progressBar = true;
-                            Upload.upload({
-                                url: uploadurl,
-                                data: {
-                                    file: files[i],
-                                },
-                                headers: {
-                                    'Content-Type': undefined
-                                },
-                                transformRequest: angular.identity
-                            }).then(function (resp) {
-                                if (resp.data) {
-                                    count++;
-                                    if (count === 1) {
-                                        $rootScope.viewProgressBar = true;
-                                    }
-                                    console.log("-->", resp)
-                                    $scope.model.push(resp.data.data[0]);
-                                    $rootScope.progressPercentage = parseInt((100.0 * (count + 1)) / (files.length + 1));
-                                    $rootScope.imageName = resp.config.data.file.name;
-                                    $rootScope.filesLength = files.length;
-                                    $rootScope.currentCount = count;
-                                    if (count == files.length) {
-                                        $scope.callback($scope.model);
-                                        setTimeout(function () {
-                                            $rootScope.viewProgressBar = false;
-                                            $rootScope.$apply();
-                                            console.log('$rootScope.viewProgressBar', $rootScope.viewProgressBar);
-                                        }, 1000);
-                                    }
-                                    $rootScope.fileSize = resp.config.data.file.size;
+        template: '<input type="file" ng-model="files" onchange="angular.element(this).scope().uploadImage(files)" multiple/>',
 
+        link: function (scope, element, attrs) {
+            debugger;
+            scope.uploadImage = function (files) {
+                console.log("*** inside function & files are ***", files);
+                // http request here
 
-                                }
-                            }, function (resp) {
-                                console.log('Error status: ' + resp.status);
-                            }, function (evt) {
-                                // console.log('evt loaded', evt.loaded, "evt.total", evt.total);
-                                // $scope.singleProgress = parseInt(100.0 * evt.loaded / evt.total);
-                            });
-                        }
-                    }
-                }
-            }
+                if (_.isArray(scope.model)) {
+                    // angular.forEach(files, function(file) {
+                    //     debugger;
+                    //     console.log("****************** file is ******************", file);
+                    //     scope.model.push(file.name);
+                    //   });
+                    var fd = new FormData();
+                    fd.append('file', files[0]);
 
-            // GENERATE ZIP
-            $scope.generateZip = function (type) {
-                window.open(adminurl + 'Assignment/generateZip?id=' + $scope.assignmentid + '&type=' + type, '_self');
-                window.close();
-            }
-
-            // SELECT ALL IMAGES
-            $scope.deleteIndexs = [];
-            $scope.deleteSurveyIndexs = [];
-            $scope.surveyData = {};
-            $scope.selectAllData = function (type, flag) {
-                // console.log('flag ', flag);
-                if (flag === true) {
-                    var matchedData = $scope.photos;
-                    _.each(matchedData, function (value, key) {
-                        $scope.deleteIndexs.push({
-                            id: key,
-                            file: value.file.toString()
+                    $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                            // transformRequest: angular.identity,
+                            // headers: {
+                            //     'Content-Type': "application/json"
+                            // }
+                        })
+                        .then(function (data) {
+                            console.log('**** inside its working of userProfileService.js ****');
                         });
-                        // console.log('delete Indexs : ', $scope.deleteIndexs);
-                    });
                 } else {
-                    $scope.deleteIndexs = [];
-                }
-            };
+                    debugger;
+                    var fd = new FormData();
+                    fd.append('file', files[0]);
+                    // scope.model = files["0"].name;
 
-            //SELECT SINGLE IMAGE TO DELETE
-            $scope.addDataToDelete = function (type, index, data) {
-                var matchedData = $scope.photos;
-                var matchIndex = _.findIndex(matchedData, function (o) {
-                    console.log(" 1", o.file.toString(), "2 : ", data.toString());
-                    return o.file.toString() == data.toString();
-                });
-                // console.log("matchIndex : ", matchIndex);
-                var duplicateIndex = -1;
-                if (!_.isEmpty($scope.deleteIndexs)) {
-                    duplicateIndex = _.findIndex($scope.deleteIndexs, function (o) {
-                        return o.id == matchIndex;
-                    });
-                    // console.log('duplicateIndex : ', duplicateIndex);
-                }
-
-                if (_.isEmpty($scope.deleteIndexs)) {
-                    $scope.deleteIndexs.push({
-                        id: matchIndex,
-                        file: data.toString()
-                    });
-                } else {
-                    if (duplicateIndex === -1) {
-                        $scope.deleteIndexs.push({
-                            id: matchIndex,
-                            file: data.toString()
-                        });
-                    } else {
-                        $scope.deleteIndexs.splice(duplicateIndex, 1);
-                    }
-                }
-                // console.log('deleteIndexs : ', $scope.deleteIndexs);
-            };
-
-            //DELETE SELECTED IMAGE AND UPDATE TIMELINE
-            $scope.deleteSelectedData = function (type) {
-                if (_.isEmpty($scope.deleteIndexs)) {
-                    $scope.selectOneRecord();
-                } else {
-                    _.each($scope.deleteIndexs, function (deleteData) {
-                        var matchedData = $scope.photos;
-                        var matchIndex = -1;
-                        matchIndex = _.findIndex(matchedData, function (o) {
-                            console.log(" 1", o.file.toString(), "2 : ", deleteData.file.toString());
-                            return o.file.toString() == deleteData.file.toString();
-                        });
-                        if (matchIndex != -1) {
-                            $scope.photos.splice(matchIndex, 1);
+                    $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': "application/json"
                         }
+                    })
+                    .then(function (data) {
+                        console.log('**** inside its working of userProfileService.js ****');
                     });
 
-                    setTimeout(function () {
-                        var formData = {};
-                        var a = {};
-                        formData._id = $scope.assignmentid;
-                        if (type === "jir") {
-                            formData.jir = $scope.photos;
-                            a.title = "Jir Deleted";
-                            a.subTitle = "Jir Deleted Successfully"
-                        } else if (type === "photos") {
-                            formData.photos = $scope.photos;
-                            a.title = "Photos Deleted";
-                            a.subTitle = "Photos Deleted Successfully"
-                        } else if (type === "Documents") {
-                            formData.docs = $scope.photos;
-                            a.title = "Document Deleted";
-                            a.subTitle = "Document Deleted Successfully"
-                        } else {
-                            $scope.photos.splice(index, 1);
-                        }
-                        if (type == 'jir' || type == 'photos' || type == 'Documents') {
-                            NavigationService.assignmentSave(formData, function (data) {
-                                if (data.value) {
-                                    if (data.data.nModified === 1) {
-                                        a.type = "Normal";
-                                        a.employee = $scope.employee;
-                                        $scope.timeline.chat.push(a);
-                                        $scope.timelineSave();
-                                        toastr.success(a.subTitle, a.title);
-                                    } else {
-                                        toastr.error("There was an error while delete the Jir ", "Error Deleting Jir");
-                                    }
-                                } else {
-                                    toastr.error("There was an error while delete the Jir ", "Error Deleting Jir");
-                                }
-                            });
-                        }
-                    }, 2000);
+
+                    // scope.model = "111jdghjgdhagsdh.jpg";
                 }
-
-
-            };
-
-            //REMOVE IMAGE AND UPDATE TIMELINE
-            $scope.removeElement = function (type, index) {
-                var formData = {};
-                var a = {};
-                formData._id = $scope.assignmentid;
-                if (type === "jir") {
-                    $scope.photos.splice(index, 1);
-                    formData.jir = $scope.photos;
-                    a.title = "Jir Deleted";
-                    a.subTitle = "Jir Deleted Successfully";
-                } else if (type === "photos") {
-                    $scope.photos.splice(index, 1);
-                    formData.photos = $scope.photos;
-                    a.title = "Photos Deleted";
-                    a.subTitle = "Photos Deleted Successfully";
-                } else if (type === "Documents") {
-                    $scope.photos.splice(index, 1);
-                    formData.docs = $scope.photos;
-                    a.title = "Document Deleted";
-                    a.subTitle = "Document Deleted Successfully";
-                } else {
-                    $scope.photos.splice(index, 1);
-                }
-                if (type == 'jir' || type == 'photos' || type == 'Documents') {
-                    NavigationService.assignmentSave(formData, function (data) {
-                        if (data.value) {
-                            if (data.data.nModified === 1) {
-                                a.type = "Normal";
-                                a.employee = $scope.employee;
-                                $scope.timeline.chat.push(a);
-                                $scope.timelineSave();
-                                toastr.success(a.subTitle, a.title);
-                            } else {
-                                toastr.error("There was an error while delete the " + _.capitalize(type), "Error Deleting " + _.capitalize(type));
-                            }
-                        } else {
-                            toastr.error("There was an error while delete the " + _.capitalize(type), "Error Deleting " + _.capitalize(type));
-                        }
-                    });
-                }
-            }
-
-            //SAVE TIMELINE
-            $scope.timelineSave = function () {
-                NavigationService.saveChat($scope.timeline, function (data) {
-                    if (data.value === false) {
-                        toastr.success("There was an error while saving data to the timeline", "Timeline Error");
-                    }
-                });
-            };
-
-            //SELECT ONE RECORD MODAL
-            $scope.selectOneRecord = function () {
-                var modalInstance = $uibModal.open({
-                    scope: $scope,
-                    templateUrl: '/frontend/views/modal/select-one-record.html',
-                    size: 'lg',
-                    backdrop: 'static'
-                });
-            };
-
-            //Refresh timeline
-            $scope.refreshTimeline = function () {
-                $state.reload();
             };
         }
     };
