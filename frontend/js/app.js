@@ -1216,7 +1216,7 @@ myApp.filter('downloadpath', function () {
         }
         if (input) {
             if (input.indexOf('https://') == -1) {
-                return adminurl + "download/" + input;
+                return adminurl + "User/download/" + input;
             } else {
                 return adminurl;
             }

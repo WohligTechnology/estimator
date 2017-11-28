@@ -2,23 +2,24 @@
     <pre>{{model | json}}</pre>
     <div class="clearfix" ng-if="!isMultiple">
         <div class="img-box" style="float:left;">
-            <img alt="" ng-src="{{model|downloadpath}}" class="img-responsive" />
+            <img alt="" ng-src="{{model|downloadpath}}" class="img-responsive" style="width: 25.8%;padding: 2px;"/>
             <!-- <img alt="" ng-src="{{model | uploadpath}}" class="img-responsive" /> -->
             <img alt="" ng-if="!model" ng-src="frontend/img/nofile.png" class="img-responsive" />
-            <a ng-if="model != 'broken'" class="btn btn-default btn btn-sm btn-block" href="{{model|downloadpath}}" target="_blank">Download</a>
+            <!-- <a ng-if="model != 'broken'" class="btn btn-default btn btn-sm btn-block" href="{{model|downloadpath}}" target="_blank">Download</a> -->
         </div>
     </div>
-    <div class="clearfix"  ng-if="isMultiple">
-            <p>Image will be show here</p>
-            <div class="img-box" style="float:left;" ng-repeat="file in model">
-                <img alt="" ng-src="{{file | uploadpath}}" class="img-responsive" />
-                <img alt="" ng-if="!model" ng-src="frontend/img/nofile.png" class="img-responsive" />
-                <a ng-if="model != 'broken'" class="btn btn-default btn btn-sm btn-block" href="{{model|downloadpath}}" target="_blank">Download</a>
-            </div>
+    <div class="clearfix" ng-if="isMultiple">
+        <p>Image will be show here</p>
+        <div class="img-box" style="float:left;" ng-repeat="file in model">
+            <img alt="" ng-src="{{model|downloadpath}}" class="img-responsive" style="width: 25.8%;padding: 2px;"/>
+            <img alt="" ng-if="!model" ng-src="frontend/img/nofile.png" class="img-responsive" />
+            <!-- <a ng-if="model != 'broken'" class="btn btn-default btn btn-sm btn-block" href="{{model|downloadpath}}" target="_blank">Download</a> -->
         </div>
-    <div class="btn-upload btn btn-primary btn-outline btn-small create-btn" ng-hide="disabled">
-        <input type="file" ng-model="files" accept="image/*,application/pdf" onchange="angular.element(this).scope().uploadImage(files)" multiple/>             
     </div>
-    <span class="label label-success" ng-if="uploadStatus == 'uploaded'">Document Uploaded - {{image.file.name}}</span>
-    <span class="label label-warning" ng-if="uploadStatus == 'uploading'">Uploading Document {{image.file.name}}</span>
+    <div class="btn-upload btn btn-primary btn-outline btn-small create-btn" ng-hide="disabled" style="width: 21%;">
+        <input type="file" ng-model="files" accept="image/*,application/pdf" onchange="angular.element(this).scope().uploadImage(files)"
+            multiple/>
+    </div>
+    <span class="label label-success" ng-if="uploadStatus == 'uploaded'">Document Uploaded - {{model.file.name}}</span>
+    <span class="label label-warning" ng-if="uploadStatus == 'uploading'">Uploading Document {{model.file.name}}</span>
 </div>
