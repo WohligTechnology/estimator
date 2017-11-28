@@ -235,17 +235,28 @@ var controller = {
         }
     },
 
-    downloadFile:function(req, res) { 
-            var file = req.params.file;
-            var path = require('path');
-            var path = path.resolve(".") + '/assets/images/' + file;
-            res.download(path, file, function(err){
-              if (err){
+    downloadFile: function (req, res) {
+        var file = req.params.file;
+        var path = path.resolve(".") + '/assets/images/' + file;
+        res.download(path, file, function (err) {
+            if (err) {
                 console.log(err);
-              } else {
+            } else {
                 console.log('downloading successful');
-              }
-            });
+            }
+        });
+    },
+
+    readFile: function (req, res) {
+        var file = req.params.file;
+        var myFile = path.resolve(".") + '/assets/images/' + file;
+        fs.readFile(myFile, function (err, data) {
+            if (err) throw err; // Fail if the file can't be read.
+            else
+                res.end(data); // Send the file data to the browser.
+            console.log('Server running at http://localhost:8080/');
+        });
+
     },
     beforeCreate: function (req, res) {
         if (req.body) {
