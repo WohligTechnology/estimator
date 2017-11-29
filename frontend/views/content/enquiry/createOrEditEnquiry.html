@@ -34,10 +34,10 @@
                                         <div class="portlet-title">
                                             <div class="padd-t font-green-haze">
                                                 <i class="icon-settings font-green-haze"></i>
-                                                <span class="caption-subject bold uppercase"> Enquiry  Details</span>
-                                                <div class="pull-right">
+                                                <span class="caption-subject bold uppercase"> Enquiry Details</span>
+                                                <!-- <div class="pull-right">
                                                     <span class="caption-subject bold"> {{operationStatus}}</span>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <form role="form" class="form-horizontal">
@@ -51,21 +51,21 @@
                                                     <label class="col-md-2 control-label" for="form_control_1">Status:</label>
                                                     <div class="col-md-3">
                                                         <select class="form-control" ng-model="formData.enquiryDetails.enquiryStatus">
-                                                        <option></option>                                                            
-                                                        <option value='open'>Open</option>
-                                                        <option value='close'>Close</option>
-                                                        <option value='hold'>Hold</option>
-                                                    </select>
+                                                            <option></option>
+                                                            <option value='open'>Open</option>
+                                                            <option value='close'>Close</option>
+                                                            <option value='hold'>Hold</option>
+                                                        </select>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Name:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control" ng-options="c.customerName for c in customerData track by c._id" ng-model="selectedCustomer">        
-                                                        </select>                                                        
+                                                        <select class="form-control" ng-options="c.customerName for c in customerData track by c._id" ng-model="selectedCustomer">
+                                                        </select>
                                                         <div class="form-control-focus"> </div>
-                                                    </div>                                                    
+                                                    </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Enquiry Type:</label>
                                                     <div class="col-md-3">
                                                         <select class="form-control" ng-model="formData.enquiryDetails.enquiryType">
@@ -74,17 +74,17 @@
                                                             <option value='budgetary'>Budgetary</option>
                                                             <option value='verbal'>Verbal</option>
                                                             <option value='other'>Other</option>
-                                                        </select>                                                        
+                                                        </select>
                                                         <div class="form-control-focus"></div>
                                                     </div>
                                                 </div>
-                            
+
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Estimator:</label>
                                                     <div class="col-md-3">
                                                         <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.estimator">
                                                         <div class="form-control-focus"> </div>
-                                                    </div>                                                    
+                                                    </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Contact:</label>
                                                     <div class="col-md-3">
                                                         <input type="number" class="form-control" id="form_control_1">
@@ -94,16 +94,16 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Location:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.customerLocation">                                                            
-                                                    <div class="form-control-focus"> </div>
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.customerLocation">
+                                                        <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Currency:</label>
                                                     <div class="col-md-3">
                                                         <select class="form-control" ng-model="formData.enquiryDetails.currency">
-                                                            <option></option>                                                            
+                                                            <option></option>
                                                             <option>abc</option>
-                                                        <option>efg</option>
-                                                    </select>
+                                                            <option>efg</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
@@ -127,15 +127,15 @@
                                                     <label class="col-md-2 control-label" for="form_control_1">Application Category:</label>
                                                     <div class="col-md-3">
                                                         <select class="form-control" ng-model="formData.enquiryDetails.applicationCategory">
-                                                        <option></option>
-                                                        <option value='extraction'>Extraction</option>
-                                                        <option value='crushing'>Crushing</option>
-                                                        <option value='grinding'>Grinding</option>
-                                                        <option value='mixing'>Mixing</option>
-                                                        <option value='screening'>Screening</option>
-                                                        <option value='agglomeration'>Agglomeration</option>
-                                                        <option value='transport'>Transport</option>
-                                                    </select>
+                                                            <option></option>
+                                                            <option value='extraction'>Extraction</option>
+                                                            <option value='crushing'>Crushing</option>
+                                                            <option value='grinding'>Grinding</option>
+                                                            <option value='mixing'>Mixing</option>
+                                                            <option value='screening'>Screening</option>
+                                                            <option value='agglomeration'>Agglomeration</option>
+                                                            <option value='transport'>Transport</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
@@ -197,9 +197,9 @@
                                             <div class="padd-t font-green-haze">
                                                 <i class="icon-settings font-green-haze"></i>
                                                 <span class="caption-subject bold uppercase"> Information</span>
-                                                <div class="pull-right">
+                                                <!-- <div class="pull-right">
                                                     <span class="caption-subject bold"> {{operationStatus}}</span>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <form role="form" class="form-horizontal">
@@ -207,25 +207,25 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ copy:</label>
                                                     <div class="col-md-3">
-                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.rfqCopy">
-                                                        <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.rfqCopy"></upload-all-file>
+                                                            <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Drawings / Rev:</label>
                                                     <div class="col-md-3">
-                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.drawings">
-                                                        <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.drawings"></upload-all-file>
+                                                            <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Photos:</label>
                                                     <div class="col-md-3">
-                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.photos">
-                                                        <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.photos"></upload-all-file>
+                                                            <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Others docs:</label>
                                                     <div class="col-md-3">
-                                                        <input type="file" id="form_control_1" ng-model="formData.enquiryInfo.otherDocs">
-                                                        <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.otherDocs"></upload-all-file>
+                                                            <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
@@ -272,10 +272,10 @@
                                         <div class="portlet-title">
                                             <div class="padd-t font-green-haze">
                                                 <i class="icon-settings font-green-haze"></i>
-                                                <span class="caption-subject bold uppercase">  Key Requirements</span>
-                                                <div class="pull-right">
+                                                <span class="caption-subject bold uppercase"> Key Requirements</span>
+                                                <!-- <div class="pull-right">
                                                     <span class="caption-subject bold"> {{operationStatus}}</span>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <form role="form" class="form-horizontal">
@@ -283,7 +283,7 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-3 control-label" for="form_control_1">NDA agreement:</label>
                                                     <div class="col-md-6">
-                                                        <input type="file" id="form_control_1" ng-model="formData.keyRequirement.ndaAgreement">
+                                                            <upload-all-files ng-model="formData.keyRequirement.ndaAgreement"></upload-all-file>  
                                                         <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
@@ -310,9 +310,9 @@
                                             <div class="padd-t font-green-haze">
                                                 <i class="icon-settings font-green-haze"></i>
                                                 <span class="caption-subject bold uppercase"> Technical requirements:</span>
-                                                <div class="pull-right">
+                                                <!-- <div class="pull-right">
                                                     <span class="caption-subject bold"> {{operationStatus}}</span>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <form role="form" class="form-horizontal">
@@ -449,9 +449,9 @@
                                             <div class="padd-t font-green-haze">
                                                 <i class="icon-settings font-green-haze"></i>
                                                 <span class="caption-subject bold uppercase"> Pre-qualification criteria:</span>
-                                                <div class="pull-right">
+                                                <!-- <div class="pull-right">
                                                     <span class="caption-subject bold"> {{operationStatus}}</span>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <form role="form" class="form-horizontal">

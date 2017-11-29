@@ -237,7 +237,9 @@ var controller = {
 
     downloadFile: function (req, res) {
         var file = req.params.file;
-        var path = path.resolve(".") + '/assets/images/' + file;
+        console.log('**** inside function_name of UserController.js ****');
+        var path = require('path');
+        path = path.resolve(".") + '/assets/images/' + file;
         res.download(path, file, function (err) {
             if (err) {
                 console.log(err);

@@ -1111,22 +1111,30 @@ myApp.directive('uploadAllFiles', function ($http) {
     return {
         restrict: 'E',
         scope: {
-            model: '=ngModel'
+            model: '=ngModel',
+            icon: '=icon',
+            pdfFile: '=pdfFile'
         },
         templateUrl: 'frontend/views/directive/uploadAllFiles.html',
 
         link: function (scope, element, attrs) {
             debugger;
             scope.isMultiple = false;
-            scope.uploadImage = function (files) {
-                console.log("*** inside function & files are ***", files);
-                // http request here
 
+            scope.uploadImage = function (files) {
+                console.log("*** 111111inside function & files are ***", files[0].name, _.split(files[0].name, '.'));
+                // http request here
+                // var fileName = _.split(files[0].name, '.');
+                // if(fileName[1] == 'pdf'){
+                    // scope.pdfFile = true;
+                // } else { //if(fileName[1] == 'jpg' || fileName[1] == 'png'){
+                //     scope.pdfFile = false;
+                // }
                 if (_.isArray(scope.model)) {
                     scope.isMultiple = true;
                     angular.forEach(files, function (file) {
                         debugger;
-                        console.log("****************** file is ******************", file);
+                        console.log("***********array******* file is ******************", file);
                         var fd = new FormData();
                         fd.append('file', file);
 
