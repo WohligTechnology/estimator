@@ -1,4 +1,4 @@
-myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal, masterShapeService) {
+myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, masterShapeService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 

@@ -1,4 +1,4 @@
-myApp.controller('baseMasterCtrl', function ($scope, $http, $uibModal, baseMatserService) {
+myApp.controller('baseMasterCtrl', function ($scope,$uibModal, baseMatserService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 

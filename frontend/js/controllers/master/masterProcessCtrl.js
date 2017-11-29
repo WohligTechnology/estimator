@@ -1,4 +1,4 @@
-myApp.controller('masterProcessCtrl', function ($scope, $http, toastr, $uibModal, masterProcessService) {
+myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, masterProcessService) {
 
 
     // *************************** default variables/tasks begin here ***************** //

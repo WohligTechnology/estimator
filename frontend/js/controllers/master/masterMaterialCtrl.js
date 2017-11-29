@@ -1,4 +1,4 @@
-myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, masterMaterialService) {
+myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, masterMaterialService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 

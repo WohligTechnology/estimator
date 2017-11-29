@@ -1,4 +1,4 @@
-myApp.service('createOrEditEstimateService', function ($http, NavigationService) {
+myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	var bulkArray = [];
 

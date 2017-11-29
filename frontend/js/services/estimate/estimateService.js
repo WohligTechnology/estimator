@@ -1,4 +1,4 @@
-myApp.service('estimateService', function ($http, $uibModal, NavigationService) {
+myApp.service('estimateService', function (NavigationService) {
 
   var bulkArray = [];
   //- get estimate view

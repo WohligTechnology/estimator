@@ -1,4 +1,4 @@
-myApp.service('masterMaterialService', function ($http, NavigationService) {
+myApp.service('masterMaterialService', function (NavigationService) {
     //- get master material view
     this.getMaterialView = function (callback) {
         callback();

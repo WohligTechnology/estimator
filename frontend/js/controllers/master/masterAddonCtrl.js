@@ -1,4 +1,4 @@
-myApp.controller('masterAddonCtrl', function ($scope, $http, toastr, $uibModal, masterAddonService) {
+myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAddonService) {
 
 
   // *************************** default variables/tasks begin here ***************** //

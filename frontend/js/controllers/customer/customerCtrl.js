@@ -1,4 +1,4 @@
-myApp.controller('customerCtrl', function ($scope, toastr, $http, $uibModal, customerService) {
+myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerService) {
 
 
   // *************************** default variables/tasks begin here ***************** //

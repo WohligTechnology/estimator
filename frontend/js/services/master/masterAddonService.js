@@ -1,4 +1,4 @@
-myApp.service('masterAddonService', function ($http, NavigationService) {
+myApp.service('masterAddonService', function (NavigationService) {
 
   var bulkArray = [];
 

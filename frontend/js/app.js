@@ -1,12 +1,12 @@
 // Link all the JS Docs here
 var myApp = angular.module('myApp', [
     'ui.router',
-    'pascalprecht.translate',
+    // 'pascalprecht.translate',
     'angulartics',
-    'angulartics.google.analytics',
+    // 'angulartics.google.analytics',
     'ui.bootstrap',
-    'ngAnimate',
-    'ngSanitize',
+    // 'ngAnimate',
+    // 'ngSanitize',
     'angular-flexslider',
     'ui.swiper',
     'angularPromiseButtons',
@@ -16,12 +16,13 @@ var myApp = angular.module('myApp', [
 ]);
 
 // For Language JS
-myApp.config(function ($translateProvider) {
-    $translateProvider.translations('en', LanguageEnglish);
-    $translateProvider.translations('hi', LanguageHindi);
-    $translateProvider.preferredLanguage('en');
-});
-
+////
+// myApp.config(function ($translateProvider) {
+//     $translateProvider.translations('en', LanguageEnglish);
+//     $translateProvider.translations('hi', LanguageHindi);
+//     $translateProvider.preferredLanguage('en');
+// });
+////
 myApp.config(function (toastrConfig) {
     angular.extend(toastrConfig, {
         allowHtml: false,
@@ -934,7 +935,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         });
 
     $urlRouterProvider.otherwise("/login");
-    $locationProvider.html5Mode(isproduction);
+    $locationProvider.html5Mode(false);
 });
 
 

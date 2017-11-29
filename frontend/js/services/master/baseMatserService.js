@@ -1,4 +1,4 @@
-myApp.service('baseMatserService', function ($http, NavigationService) {
+myApp.service('baseMatserService', function (NavigationService) {
 
     this.getUomData = function (callback) {
         NavigationService.boxCall('MUom/search', function (data) {
