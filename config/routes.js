@@ -59,6 +59,12 @@ module.exports.routes = {
         action: "downloadFile"
     },
 
+    "/api/User/readFile/:file(*)": {
+        controller: "UserController",
+        action: "readFile"
+    },
+
+
 
     /***************************************************************************
      *                                                                          *

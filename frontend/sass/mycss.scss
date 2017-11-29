@@ -1,4 +1,14 @@
-  @media (min-width: 992px) {
+ // master shape css 
+ .iconClass{
+   display: flex;
+ }
+//  
+ 
+ 
+ 
+ 
+ 
+ @media (min-width: 992px) {
     .hideSideBar {
       margin-left: 0px !important;
     }
@@ -484,8 +494,8 @@ tree css*/
   }
 
   .vertical_scroll::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     background-color: #F5F5F5;
   }
 
@@ -505,7 +515,7 @@ tree css*/
     overflow: auto;
   }
   .horizontal_scroll::-webkit-scrollbar {
-    height: 10px;
+    height: 7px;
     background-color: #F5F5F5;
   }
   .horizontal_scroll::-webkit-scrollbar-track {

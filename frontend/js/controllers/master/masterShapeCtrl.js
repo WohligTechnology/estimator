@@ -1,5 +1,4 @@
 myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, masterShapeService) {
-
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = false;
@@ -24,8 +23,26 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
 
     // *************************** functions to be triggered form view begin here ***** //
 
+    $scope.temp = function(){
+        $scope.shapeView = '../frontend/views/content/master/shape/shapeView.html';
+    }
+
     $scope.createOrEditShapeData = function (operation, shape) {
+             
+        if(operation == 'save'){
+            // $scope.shapeView = '../frontend/views/content/master/shape/shapeView.html';
+            $scope.formData = {};
+            $scope.formData.icon = {};
+            $scope.formData.icon.file = "";
+        }else{
+            // $scope.shapeView = '../frontend/views/content/master/shape/shapeView.html';
+            $scope.formData = shape;
+            $scope.formData.icon.file = "";
+        }
+        // debugger;
+        
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
+            $scope.shapeView = '../frontend/views/content/master/shape/tempView.html';
             $scope.formData = data.shape;
             $scope.variablesData = data.shapeVariables;
             $scope.showSaveBtn = data.saveBtn;
@@ -63,8 +80,7 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
         if (checkboxStatus == 'unchecked') {
             var index = _.findIndex($scope.shapeVariables, ['varName', variableName]);
             $scope.shapeVariables.splice(index, 1);
-        }
-        else if (checkboxStatus == 'checked') {
+        } else if (checkboxStatus == 'checked') {
             var tempVarObj = {
                 varName: variableName
             };

@@ -136,6 +136,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, masterMateri
             $scope.cancelModal();
         });
     }
+    //- instant edit master material
+    $scope.editMaterial = function (materialId) {
+        $scope.editMaterialId = materialId;
+    }
     //- modal to confirm material deletion
     $scope.deleteMaterialModal = function (materialId, getFunction) {
         console.log('**** inside deleteMaterialModal of createOrEditMaterialCtrl.js ****', getFunction);
