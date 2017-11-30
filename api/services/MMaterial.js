@@ -134,11 +134,11 @@ var model = {
         });
 
     },
-    
+
     // req data --> type
     getAllMaterialsByMatType: function (data, callback) {
         MMaterial.find({
-            type:data.type
+            type: data.type
         }).exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of MMaterial.js ****', err);
@@ -150,6 +150,49 @@ var model = {
             }
         });
     },
+
+    search: function (data, callback) {
+        var maxRow = 10;
+        if (data.totalRecords) {
+            maxRow = data.totalRecords;
+        }
+        var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['materialName'],
+                    term: data.keyword
+                }
+            },
+            sort: {
+                desc: 'createdAt'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+        MMaterial.find({}).sort({
+                createdAt: -1
+            })
+            .order(options)
+            .keyword(options)
+            .page(options,
+                function (err, found) {
+                    if (err) {
+                        console.log('**** error at search of Estimate.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(found)) {
+                        callback(null, 'noDataFound');
+                    } else {
+                        callback(null, found);
+                    }
+                });
+    },
+
 
 };
 module.exports = _.assign(module.exports, exports, model);
