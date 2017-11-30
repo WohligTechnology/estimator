@@ -121,12 +121,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     });
   }
   // $scope.importAssembly = function (assemblyId) {
-  // 	createOrEditEstimateService.getImportAssemblyData(assemblyId, function () {
-  // 		$scope.getCurretEstimateObj();
-  // 		toastr.info('Assebly imported successfully', 'Assembly Import!');
-  // 		$scope.cancelModal();
-  // 	});
-  // }
+    // 	createOrEditEstimateService.getImportAssemblyData(assemblyId, function () {
+    // 		$scope.getCurretEstimateObj();
+    // 		toastr.info('Assebly imported successfully', 'Assembly Import!');
+    // 		$scope.cancelModal();
+    // 	});
+    // }
 
   //- to add or edit subAssembly data modal
   $scope.addOrEditSubAssemblyModal = function (operation, subAssembly) {

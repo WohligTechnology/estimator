@@ -1,16 +1,30 @@
  // master shape css 
- .iconClass{
-   display: flex;
+ .leftPosition{
+   flex-direction: row;
+  }
+   
+ .rightPosition {
+  flex-direction: row-reverse;
+    
+  }
+   .leftPosition, .rightPosition {
+    display: flex;
+    img {
+      width: 3em; 
+      height: 3em;
+      margin-left:0.5em;
+    }
+   }
+
+
+ } 
+ .topPosition {
+   
  }
-//  
- 
- 
- 
- 
- 
+ // 
  @media (min-width: 992px) {
-    .hideSideBar {
-      margin-left: 0px !important;
+  .hideSideBar {    
+  margin-left: 0px !important;
     }
   } // ***** css given by ashish ********************* // 
   // for navigation/ sidebar  
