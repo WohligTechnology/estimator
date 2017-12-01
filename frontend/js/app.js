@@ -1,18 +1,14 @@
 // Link all the JS Docs here
 var myApp = angular.module('myApp', [
-    'ui.router',
-    // 'pascalprecht.translate',
-    // 'angulartics',
-    // 'angulartics.google.analytics',
-    'ui.bootstrap',
-    // 'ngAnimate',
-    // 'ngSanitize',
-    'angular-flexslider',
-    'ui.swiper',
-    // 'angularPromiseButtons',
-    'toastr',
-    'cleave.js',
-    "oc.lazyLoad"
+  'ui.router',
+  'ui.bootstrap',
+  // 'ngAnimate',
+  // 'ngSanitize',
+  'angular-flexslider',
+  'ui.swiper',
+  'toastr',
+  'cleave.js',
+  "oc.lazyLoad"
 ]);
 
 // For Language JS
@@ -80,9 +76,9 @@ myApp.factory('settings', ['$rootScope', function ($rootScope) {
       pageBodySolid: false, // solid body color state
       pageAutoScrollOnLoad: 1000 // auto scroll to top on page load
     },
-    assetsPath: '../frontend/themeassets',
-    globalPath: '../frontend/themeassets/global',
-    layoutPath: '../frontend/themeassets/layouts/layout',
+    assetsPath: 'themeassets',
+    globalPath: 'themeassets/global',
+    layoutPath: 'themeassets/layouts/layout',
   };
 
   $rootScope.settings = settings;
@@ -117,7 +113,6 @@ myApp.controller('HeaderController', ['$scope', function ($scope) {
     Layout.initHeader(); // init header
   });
 }]);
-
 
 
 /* Setup Layout Part - Quick Sidebar */

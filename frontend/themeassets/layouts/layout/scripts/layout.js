@@ -136,7 +136,7 @@ var Layout = function () {
         // end: handle active state
  
         el.parents('li').each(function () {
-            $(this).addClass('active');
+            // $(this).addClass('active');
             $(this).find('> a > span.arrow').addClass('open');
  
             if ($(this).parent('ul.page-sidebar-menu').size() === 1) {
@@ -434,16 +434,16 @@ var Layout = function () {
     // Handles the horizontal menu
     var handleHorizontalMenu = function () {
         //handle tab click
-        $('.page-header').on('click', '.hor-menu a[data-toggle="tab"]', function (e) {
-            e.preventDefault();
-            var nav = $(".hor-menu .nav");
-            var active_link = nav.find('li.current');
-            $('li.active', active_link).removeClass("active");
-            $('.selected', active_link).remove();
-            var new_link = $(this).parents('li').last();
-            new_link.addClass("current");
-            new_link.find("a:first").append('<span class="selected"></span>');
-        });
+        // $('.page-header').on('click', '.hor-menu a[data-toggle="tab"]', function (e) {
+        //     e.preventDefault();
+        //     var nav = $(".hor-menu .nav");
+        //     var active_link = nav.find('li.current');
+        //     $('li.active', active_link).removeClass("active");
+        //     $('.selected', active_link).remove();
+        //     var new_link = $(this).parents('li').last();
+        //     new_link.addClass("current");
+        //     new_link.find("a:first").append('<span class="selected"></span>');
+        // });
 
         // handle search box expand/collapse        
         $('.page-header').on('click', '.search-form', function (e) {

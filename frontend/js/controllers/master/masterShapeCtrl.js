@@ -24,18 +24,18 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
     // *************************** functions to be triggered form view begin here ***** //
 
     $scope.temp = function(){
-        $scope.shapeView = '../frontend/views/content/master/shape/shapeView.html';
+        $scope.shapeView = 'views/content/master/shape/shapeView.html';
     }
 
     $scope.createOrEditShapeData = function (operation, shape) {
              
         // if(operation == 'save'){
-        //     // $scope.shapeView = '../frontend/views/content/master/shape/shapeView.html';
+        //     // $scope.shapeView = 'views/content/master/shape/shapeView.html';
         //     $scope.formData = {};
         //     $scope.formData.icon = {};
         //     $scope.formData.icon.file = "";
         // }else{
-        //     // $scope.shapeView = '../frontend/views/content/master/shape/shapeView.html';
+        //     // $scope.shapeView = 'views/content/master/shape/shapeView.html';
         //     $scope.formData = shape;
         //     $scope.formData.icon = {};
         //     $scope.formData.icon.file = "";
@@ -43,7 +43,7 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
         // debugger;
         
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
-            $scope.shapeView = '../frontend/views/content/master/shape/tempView.html';
+            $scope.shapeView = 'views/content/master/shape/tempView.html';
             $scope.formData = data.shape;
             $scope.variablesData = data.shapeVariables;
             $scope.showSaveBtn = data.saveBtn;
