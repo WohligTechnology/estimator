@@ -1,4 +1,4 @@
-myApp.controller('masterExtraCtrl', function ($scope, $http, toastr, $uibModal, masterExtraService) {
+myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterExtraService) {
 
 
   // *************************** default variables/tasks begin here ***************** //

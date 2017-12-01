@@ -1,4 +1,4 @@
-myApp.service('masterShapeService', function ($http, $timeout, $uibModal, NavigationService) {
+myApp.service('masterShapeService', function (NavigationService) {
 
     this.variableData = [{
         'varName': 'a'

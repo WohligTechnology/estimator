@@ -1,4 +1,4 @@
-myApp.controller('userCtrl', function ($scope, toastr, $http, $uibModal, userService) {
+myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
 
 
 

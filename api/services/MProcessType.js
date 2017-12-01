@@ -9,7 +9,7 @@ var schema = new Schema({
         required: true
     },
     rate: {
-        mulFact: Number,
+        mulFact: String,
         uom: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'MUom',
@@ -23,7 +23,7 @@ var schema = new Schema({
             ref: 'MUom',
             required: true
         },
-        mulfact: Number,
+        mulfact: String,
         utilization: Number,
         contengncyOrWastage: Number,
         finalUom: {

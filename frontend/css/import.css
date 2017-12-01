@@ -74,7 +74,6 @@
 
 html[xmlns] .flexslider .slides {
   display: block; }
-
 * html .flexslider .slides {
   height: 1%; }
 
@@ -9728,4 +9727,8 @@ body {
   background-image: url(../img/next.png); }
 
 .fancybox-nav.fancybox-prev span {
+<<<<<<< HEAD
   background-image: url(../img/prev.png); }
+=======
+  background-image: url(../img/prev.png); }
+>>>>>>> development

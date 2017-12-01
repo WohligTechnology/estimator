@@ -9,10 +9,12 @@ var schema = new Schema({
         default: "2d"
     },
     icon: {
-        type: String
+        file: String,
+        default: ""
     },
     image: {
-        type: String
+        file: String,
+        default: ""
     },
     variable: [{
         varName: String

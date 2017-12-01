@@ -1,4 +1,4 @@
-myApp.service('masterExtraService', function ($http, NavigationService, $uibModal) {
+myApp.service('masterExtraService', function (NavigationService) {
 
   var bulkArray = [];
 

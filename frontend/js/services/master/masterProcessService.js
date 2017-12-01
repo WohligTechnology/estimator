@@ -1,4 +1,4 @@
-myApp.service('masterProcessService', function ($http, $uibModal, NavigationService) {
+myApp.service('masterProcessService', function (NavigationService) {
 
   //- to get master process tree structure data
   this.getProcessData = function (callback) {

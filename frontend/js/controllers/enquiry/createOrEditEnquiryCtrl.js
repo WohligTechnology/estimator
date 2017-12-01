@@ -1,4 +1,4 @@
-myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uibModal, $interpolate, $state, $scope, $http, createOrEditEnquiryService, createOrEditEstimateService) {
+myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uibModal, $interpolate, $state, $scope, createOrEditEnquiryService) {
 
   // *************************** default variables/tasks begin here ***************** //
 
