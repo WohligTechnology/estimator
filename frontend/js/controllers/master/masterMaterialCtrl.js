@@ -1,4 +1,4 @@
-myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, masterMaterialService) {
+myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, masterMaterialService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -7,6 +7,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, masterMateri
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
     $scope.disableit = true;
+    $scope.editAll = false; // to make all the records instant editable
+    // $scope.bulkMaterials = []; //- for multiple records deletion
+    // $scope.checkAll = false; //- for all records selection
+    // $scope.checkboxStatus = false; //- for multiple records selection
 
 
     // *************************** default functions begin here  ********************** //
@@ -136,9 +140,17 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, masterMateri
             $scope.cancelModal();
         });
     }
-    //- instant edit master material
+    //- instant edit particular master material
     $scope.editMaterial = function (materialId) {
         $scope.editMaterialId = materialId;
+    }
+    //- instant edit all master materials
+    $scope.instantEditAllMaterial = function (editAll) {
+        if (editAll == true) {
+            $scope.editAll = false;
+        } else {
+            $scope.editAll = true;
+        }
     }
     //- modal to confirm material deletion
     $scope.deleteMaterialModal = function (materialId, getFunction) {
@@ -165,9 +177,13 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, masterMateri
     $scope.getSubCatMaterials = function (materialSubCatId) {
         masterMaterialService.getSubCatMaterials(materialSubCatId, function (data) {
             console.log('**** inside getSubCatMaterials of masterMaterialCtrl.js & data is ****', data);
-            $scope.subCatMaterials = data;
+            $scope.subCatMaterials = data.results;
             $scope.selectedSubACat = materialSubCatId;
             $scope.disableit = false;
+            $scope.getMaterialData();
+            masterMaterialService.getPaginationDetails(1, 10, data, function (obj) {
+                $scope.obj = obj;
+            });
         });
     }
 
@@ -175,15 +191,86 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, masterMateri
         masterMaterialService.changeMaterialType(type, materialSubCatId, function (data) {
             $scope.getSubCatMaterials(materialSubCatId);
         });
-
     }
 
 
+    //- for pagination of materials' records
+    $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+        if (angular.isUndefined(keyword) || keyword == '') {
+            if (numberOfRecords != '10') {
+                masterMaterialService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+                    $scope.subCatMaterials = data.results;
+                    masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+                        $scope.obj = obj;
+                    });
+                });
+            } else {
+                masterMaterialService.getPaginationDatawithoutKeyword(page, function (data) {
+                    $scope.subCatMaterials = data.results;
+                    masterMaterialService.getPaginationDetails(page, 10, data, function (obj) {
+                        $scope.obj = obj;
+                    });
+                });
+            }
+        } else {
+            masterMaterialService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+                $scope.subCatMaterials = data.results;
+                masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+                    $scope.obj = obj;
+                });
+            });
+        }
+    }
+    //- to search the text in table
+    $scope.serachText = function (keyword, count) {
+        masterMaterialService.getSearchResult(keyword, function (data) {
+            $scope.subCatMaterials = data.results;
+            masterMaterialService.getPaginationDetails(1, count, data, function (obj) {
+                $scope.obj = obj;
+            });
+        });
+    }
+    //   //- bulk materials deletion modal
+    //   $scope.deleteBulkMaterialsModal = function (materialIdArray, getFunction) {
+    //     $scope.idsToDelete = materialIdArray;
+    //     $scope.functionToCall = getFunction;
+
+    //     $scope.modalInstance = $uibModal.open({
+    //       animation: true,
+    //       templateUrl: 'views/content/deleteBulkModal.html',
+    //       scope: $scope,
+    //       size: 'md'
+    //     });
+    //   }
+    //   //-to delete bulk materials
+    //   $scope.deleteBulkMaterials = function (materials) {
+    //     masterMaterialService.deleteBulkMaterials(materials, function () {
+
+    //       $scope.cancelModal();
+    //       $scope.bulkMaterials = [];
+    //       $scope.checkAll = false;
+    //       $scope.checkboxStatus = false;
+    //       $scope.getMaterialData();
+    //       toastr.info('Record deleted successfully', 'Material Deletion!');
+    //     });
+    //   }
+    //   //- to get bulk materials
+    //   $scope.selectBulkMaterials = function (checkboxStatus, materialId) {
+    //     masterMaterialService.selectBulkMaterials(checkboxStatus, materialId, function (data) {
+    //       $scope.bulkMaterials = data;
+    //     });
+    //   }
+    //   //- to select all records
+    //   $scope.selectAll = function (materials, checkboxStatus) {
+    //     masterMaterialService.selectAll(materials, checkboxStatus, function (data) {
+    //       $scope.bulkMaterials = data;
+    //     });
+    //   }
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
-    };
+    }
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 

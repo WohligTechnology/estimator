@@ -110,43 +110,52 @@
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a> 5</a>
+                                        <a ng-click="getPaginationData(1, 5, keyword)"> 5 </a>
                                     </li>
                                     <li>
-                                        <a> 10 </a>
+                                        <a ng-click="getPaginationData(1, 10, keyword)"> 10 </a>
                                     </li>
                                     <li>
-                                        <a> 15 </a>
+                                        <a ng-click="getPaginationData(1, 15, keyword)"> 15 </a>
                                     </li>
-                                    <li class="divider"> </li>
+                                    <li class="divider"></li>
                                     <li>
-                                        <a> 50 </a>
+                                        <a ng-click="getPaginationData(1, 50, keyword)"> 50 </a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <span>customOverlay :
-                                <input type="checkbox" ng-click="changeMaterialType('customOverlay',selectedSubACat)"
-                                    ng-checked="subCatMaterials[0].type == 'customOverlay'" ng-model="customOverlay" ng-disabled="subCatMaterials[0].type == 'customOverlay' || disableit">
+                                <input type="checkbox" ng-click="changeMaterialType('customOverlay',selectedSubACat)" ng-checked="subCatMaterials[0].type == 'customOverlay'"
+                                    ng-model="customOverlay" ng-disabled="subCatMaterials[0].type == 'customOverlay' || disableit">
                             </span>
 
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <span>customBase :
-                                <input type="checkbox" ng-click="changeMaterialType('customBase',selectedSubACat)"
-                                    ng-checked="subCatMaterials[0].type == 'customBase'" ng-model="customBase" ng-disabled="subCatMaterials[0].type == 'customBase' || disableit">
+                                <input type="checkbox" ng-click="changeMaterialType('customBase',selectedSubACat)" ng-checked="subCatMaterials[0].type == 'customBase'"
+                                    ng-model="customBase" ng-disabled="subCatMaterials[0].type == 'customBase' || disableit">
                             </span>
 
+                        </div>
+                        <div class="col-md-1">
+                            <button id="sample_editable_2_new" ng-if="subCatMaterials != undefined" class="btn red" ng-click="instantEditAllMaterial(editAll)">
+                                <i class="fa fa-pencil" title="Edit All Materials"></i>
+                            </button>
                         </div>
                         <div class="col-md-3">
                             <div class="inputs search pull-right">
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
                                         <i class="icon-magnifier"></i>
-                                        <input type="text" class="form-control form-control-solid" placeholder="search...">
+                                        <input type="text" class="form-control form-control-solid" ng-model="keyword" ng-change="serachText(keyword, obj.count)"
+                                        placeholder="search...">
                                     </div>
                                 </div>
+                                <!-- <div class="btn-group pull-right">
+
+                                    </div> -->
                             </div>
                         </div>
                     </div>
@@ -175,17 +184,47 @@
                             <tbody>
                                 <tr ng-repeat="m in subCatMaterials">
                                     <td>{{$index+1}}</td>
-                                    <td><input type="text" ng-model="m.materialName" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.typicalRatePerKg" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.density" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.weightPerUnit" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.rollingIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.cuttingIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.bendingIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.fabrictionIndex" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>
-                                    <td><input type="text" ng-model="m.contingencyOrWastage" ng-disabled="editMaterialId != m._id" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" /></td>                               
-                                    <td><span class="label label-sm label-success" id="add_space" ng-click="editMaterial(m._id)">
-                                        <i class="fa fa-pencil" title="Edit Material"></i></td>
+                                    <td>
+                                        <input type="text" ng-model="m.materialName" ng-disabled="editMaterialId != m._id && !editAll"
+                                            class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="m.typicalRatePerKg" ng-disabled="editMaterialId != m._id && !editAll"
+                                            class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="m.density" ng-disabled="editMaterialId != m._id && !editAll"
+                                            class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="m.weightPerUnit" ng-disabled="editMaterialId != m._id && !editAll"
+                                            class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="m.rollingIndex" ng-disabled="editMaterialId != m._id && !editAll"
+                                            class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="m.cuttingIndex" ng-disabled="editMaterialId != m._id && !editAll"
+                                            class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="m.bendingIndex" ng-disabled="editMaterialId != m._id && !editAll"
+                                            class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="m.fabrictionIndex" ng-disabled="editMaterialId != m._id && !editAll"
+                                            class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="m.contingencyOrWastage" ng-disabled="editMaterialId != m._id && !editAll"
+                                            class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)" />
+                                    </td>
+                                    <td>
+                                        <span class="label label-sm label-success" id="add_space" ng-click="editMaterial(m._id)">
+                                            <i class="fa fa-pencil" title="Edit Material"></i>
+                                        </span>
+                                    </td>
                                     <!-- <td class="text-center">
                                         <input type="checkbox" ng-click="customBase ? changeMaterialType(m._id, 'customBase', m.materialSubCategory) : changeMaterialType(m._id, 'standard',m.materialSubCategory)"
                                             ng-checked="m.type == 'customBase'" ng-model="customBase" ng-disabled="m.type == 'customOverlay' || customOverlay == true">
@@ -200,7 +239,7 @@
                     </div>
                 </div>
                 <!-- END BORDERED TABLE PORTLET-->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-6">
                         <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div>
                     </div>
@@ -208,6 +247,36 @@
                         <div class="pull-right">
                             <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;"
                                 next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row" ng-if="obj.total>obj.count">
+                    <div class="col-md-6">
+                        <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing {{obj.pageStart}} to {{obj.pageEnd}} of {{obj.total}} records</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <div class="zui-pager small">
+                                <ol class="btn-group">
+                                    <li class="btn-group__item">
+                                        <i class="i-chevron-left"></i>
+                                    </li>
+                                    <li class="btn-group__item">
+                                        <div class="btn btn--action">
+                                            <span>{{obj.pageNumber}}</span>
+                                            <span>of</span>
+                                            <span>{{obj.numberOfPages}}</span>
+                                            <i class="i-caret-down"></i>
+                                            <select class="select-overlay" ng-options="page for page in obj.pagesArray" ng-model="obj.pageNumber" ng-change="getPaginationData(obj.pageNumber, obj.count, keyword)">
+                                                <option value="page">{{page}}</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                    <li class="btn-group__item">
+                                        <i class="i-chevron-right"></i>
+                                    </li>
+                                </ol>
+                            </div>
                         </div>
                     </div>
                 </div>
