@@ -2,14 +2,14 @@
 var myApp = angular.module('myApp', [
     'ui.router',
     // 'pascalprecht.translate',
-    'angulartics',
+    // 'angulartics',
     // 'angulartics.google.analytics',
     'ui.bootstrap',
     // 'ngAnimate',
     // 'ngSanitize',
     'angular-flexslider',
     'ui.swiper',
-    'angularPromiseButtons',
+    // 'angularPromiseButtons',
     'toastr',
     'cleave.js',
     "oc.lazyLoad"
@@ -1119,9 +1119,7 @@ myApp.directive('uploadAllFiles', function ($http) {
         templateUrl: 'frontend/views/directive/uploadAllFiles.html',
 
         link: function (scope, element, attrs) {
-            debugger;
             scope.isMultiple = false;
-
             scope.uploadImage = function (files) {
                 console.log("*** 111111inside function & files are ***", files[0].name, _.split(files[0].name, '.'));
                 // http request here
@@ -1134,7 +1132,6 @@ myApp.directive('uploadAllFiles', function ($http) {
                 if (_.isArray(scope.model)) {
                     scope.isMultiple = true;
                     angular.forEach(files, function (file) {
-                        debugger;
                         console.log("***********array******* file is ******************", file);
                         var fd = new FormData();
                         fd.append('file', file);
@@ -1211,7 +1208,6 @@ myApp.filter('uploadpath', function () {
 });
 
 myApp.filter('downloadpath', function () {
-    debugger;
     return function (input, width, height, style) {
         var other = "";
         if (width && width !== "") {

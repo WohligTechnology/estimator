@@ -41,7 +41,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: 'views/content/master/material/createOrEditMaterialCat.html',
+                templateUrl: 'views/content/master/part/createOrEditPartTypeCat.html',
                 scope: $scope,
                 size: 'md'
             });
@@ -186,7 +186,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
 
         _.map(selectedShape.variable, function (n) {
             varName = n.varName;
-            varValue = n.varValue;
+            varValue = parseInt(n.varValue);
             perimeter = selectedShape.partFormulae.perimeter;
             sheetMetalArea = selectedShape.partFormulae.sheetMetalArea;
             surfaceArea = selectedShape.partFormulae.surfaceArea;

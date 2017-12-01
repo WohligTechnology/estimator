@@ -29,16 +29,17 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
 
     $scope.createOrEditShapeData = function (operation, shape) {
              
-        if(operation == 'save'){
-            // $scope.shapeView = '../frontend/views/content/master/shape/shapeView.html';
-            $scope.formData = {};
-            $scope.formData.icon = {};
-            $scope.formData.icon.file = "";
-        }else{
-            // $scope.shapeView = '../frontend/views/content/master/shape/shapeView.html';
-            $scope.formData = shape;
-            $scope.formData.icon.file = "";
-        }
+        // if(operation == 'save'){
+        //     // $scope.shapeView = '../frontend/views/content/master/shape/shapeView.html';
+        //     $scope.formData = {};
+        //     $scope.formData.icon = {};
+        //     $scope.formData.icon.file = "";
+        // }else{
+        //     // $scope.shapeView = '../frontend/views/content/master/shape/shapeView.html';
+        //     $scope.formData = shape;
+        //     $scope.formData.icon = {};
+        //     $scope.formData.icon.file = "";
+        // }
         // debugger;
         
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
