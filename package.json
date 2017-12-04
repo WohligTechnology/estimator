@@ -97,6 +97,7 @@
     "grunt-ejs-compile": "0.0.1",
     "grunt-ejs-locals": "^0.1.1",
     "grunt-http": "^2.0.1",
-    "grunt-postcss": "^0.8.0"
+    "grunt-postcss": "^0.8.0",
+    "http-server": "^0.10.0"
   }
 }

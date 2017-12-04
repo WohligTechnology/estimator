@@ -1128,7 +1128,7 @@ myApp.directive('uploadAllFiles', function ($http) {
       pdfFile: '=pdfFile',
       fileLocation: '@fileLocation'
     },
-    templateUrl: 'frontend/views/directive/uploadAllFiles.html',
+    templateUrl: '/views/directive/uploadAllFiles.html',
 
     link: function (scope, element, attrs) {
       scope.isMultiple = false;

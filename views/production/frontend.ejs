@@ -27,7 +27,7 @@
     </div>
     <!-- END PAGE SPINNER -->
     <!-- BEGIN HEADER -->
-    <div data-ng-include="'views/tpl/header.html'" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top">
+    <div data-ng-include="'views/tpl/header.html'"  ng-if="loginTemplate" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top">
     </div>
     <!-- END HEADER -->
     <div class="clearfix"> </div>
@@ -35,7 +35,7 @@
     <div ui-view class="page-container"></div>
     <!-- END CONTAINER -->
     <!-- BEGIN FOOTER -->
-    <div data-ng-include="'views/tpl/footer.html'" data-ng-controller="FooterController" class="page-footer"> </div>
+    <div data-ng-include="'views/tpl/footer.html'"   ng-if="loginTemplate" data-ng-controller="FooterController" class="page-footer"> </div>
     <!-- END FOOTER -->
     <!-- BEGIN QUICK NAV -->
 
@@ -45,14 +45,14 @@
 
     <script>
         var adminurl = "<%= ((typeof adminurl) == "undefined") ? "" : adminurl  %>";
-        var isproduction = true;
+        var isproduction = false;
         var chintan = function(content) {
             console.log("%c ---------------------------------------", 'background: #222; color: #bada55');
             console.log(content);
             console.log("%c ---------------------------------------", 'background: #222; color: #bada55');
         };
     </script>
-    <script src="js/production.min.js"></script>
+    <script src="js/production.js"></script>
 
     
 
