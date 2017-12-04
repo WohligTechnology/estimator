@@ -7,6 +7,14 @@ myApp.service('estimateService', function (NavigationService) {
       callback(data.data);
     });
   }
+    //- delete estimate
+    this.deleteEnquiry = function (estimateId, callback) {
+      NavigationService.delete('Estimate/delete', {
+        _id: estimateId
+      }, function (data) {
+        callback(data);
+      });
+    }
   //- get data of pagination
   this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
     NavigationService.apiCall('Estimate/search', {

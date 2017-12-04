@@ -56,6 +56,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   };
 
   if (angular.isDefined($stateParams.estimateId)) {
+    debugger;
     $scope.draftEstimateId = $stateParams.estimateId;
   }
   // *************************** default functions begin here  ********************** //

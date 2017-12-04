@@ -16,6 +16,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
 
 
   if (angular.isDefined($stateParams.enquiryId)) {
+    debugger;
     $scope.showEstimateBtn = true;
     $scope.enquiryId = $stateParams.enquiryId;
   }
@@ -25,6 +26,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
 
   $scope.getEnquiryObj = function () {
     createOrEditEnquiryService.getEnquiryObj($stateParams.enquiryId, function (data) {
+      debugger;
       $scope.formData = data;
     });
   }
@@ -38,6 +40,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
   // *************************** functions to be triggered form view begin here ***** //      
   //- add form data
   $scope.addEnquiryData = function (operation, formData) {
+    debugger;
     createOrEditEnquiryService.createEnquiry(formData, function (data) {
       toastr.success('Record Added Successfully', 'EnquiryData Added!');
       if (angular.isUndefined(formData._id)) {}

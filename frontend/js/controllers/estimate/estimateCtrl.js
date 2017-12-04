@@ -1,62 +1,58 @@
 myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $uibModal, estimateService) {
+
+  
+  // *************************** default variables/tasks begin here ***************** //
+  //- to show/hide sidebar of dashboard   
   $scope.$parent.isSidebarActive = true;
   $scope.bulkEstimates = []; //- for multiple records deletion
   $scope.checkAll = false; //- for all records selection
   $scope.checkboxStatus = false; //- for multiple records selection
-  //- table data
-  $scope.tableData = [{
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-      "pname": "kishori",
-      "did": "1",
-      "bname": "kishori",
 
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-    }
-  ]
-
-  //- to delete estimate 
-  $scope.deleteItem = function () {
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/modal/delete.html',
-      scope: $scope,
-      size: 'sm',
+  //- to get all estimates data
+  $scope.getTableData = function () {
+    estimateService.getEstimateData(function (data) {
+      $scope.tableData = data.results;
     });
   }
 
-  //- to edit estimate
-  $scope.allEstimateEdit = function () {
+
+  // *************************** functions to be triggered form view begin here ***** //     
+   //- modal to delete estimate
+   $scope.deleteEstimateModal = function (estimateId, getFunction) {
+    $scope.idToDelete = estimateId;
+    $scope.functionToCall = getFunction;
+
     $scope.modalInstance = $uibModal.open({
       animation: true,
-      templateUrl: 'views/content/estimate/estimateModal/allEstimateEdit.html',
+      templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
       scope: $scope,
-      size: 'md',
+      size: 'md'
+    });
+
+  }
+  //- to delete estimate
+  $scope.deleteEstimate = function (estimateId) {
+    estimateService.deleteEstimate(estimateId, function (data) {
+      toastr.info('Record deleted successfully');
+      $scope.cancelModal();
+      $scope.getTableData();
     });
   }
+
+  // //- to edit estimate
+  // $scope.allEstimateEdit = function () {
+  //   $scope.modalInstance = $uibModal.open({
+  //     animation: true,
+  //     templateUrl: 'views/content/estimate/estimateModal/allEstimateEdit.html',
+  //     scope: $scope,
+  //     size: 'md',
+  //   });
+  // }
 
   //- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
   }
-
   //- modal to delete bulk estimates
   $scope.deleteBulkEstimatesModal = function (estimateIdArray, getFunction) {
     $scope.idsToDelete = estimateIdArray;
@@ -95,7 +91,7 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 
   $scope.init = function () {
-    // $scope.getEstimateData();
+    $scope.getTableData();
   }
   $scope.init();
 
