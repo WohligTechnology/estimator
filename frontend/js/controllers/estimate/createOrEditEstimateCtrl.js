@@ -22,14 +22,19 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     selectedMaterial: {}, //- selected material     
     selectedSize: {}, //- slected size
 
-    customMaterials: [], //- get all custom material API
+    customMaterials: [], //- get all custom material from  API
     selectedCustomMaterial: [], //-selecetd custom materail  
 
     quality: null,
     variables: [],
+    shapeImage:null,
+    shapeIcon:null,
+    processingCount:null,
+    addonCount:null,
+    extraCount:null, 
 
     keyValueCalculation: {
-      perimater: null,
+      perimeter: null,
       sma: null,
       sa: null,
       weight: null
@@ -40,11 +45,19 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     totalPrice: null
   };
 
+  //- to enable & disable partType fields while creating/updating 
+  $scope.disablePartFields = {
+    disableField: true,
+    disableShortcut: false,
+    disablePartTypeName: false,
+    disableMaterial: true,
+    disableSize: true,
+    disableCustomMaterial: false,
+  };
+
   if (angular.isDefined($stateParams.estimateId)) {
     $scope.draftEstimateId = $stateParams.estimateId;
   }
-
-
   // *************************** default functions begin here  ********************** //
   //- to get all views of createOrEdit estimate screen dynamically 
   $scope.getEstimateView = function (getViewName, getLevelName, subAssemblyId, partId) {
@@ -52,11 +65,106 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       $scope.estimateView = data;
     });
     createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
-      $scope.level = getLevelName;
-      $scope.estimateViewData = data;
-      $scope.bulkItems = [];
+
+      if (getViewName == 'editPartItemDetail') {
+        // get all data from API & put it into $scope.estimatePartObj
+        $scope.estimatePartObj.allShortcuts = data.allShortcuts;
+        $scope.estimatePartObj.allPartTypeNames = data.allPartTypeNames;
+      } else {
+        $scope.level = getLevelName;
+        $scope.estimateViewData = data;
+        $scope.bulkItems = [];
+      }
     });
   }
+
+  //- =================== part functionality/calculation start =================== //
+
+  //- call when user will select shortcut/preset name 
+  //- update dependent data on the base of  selected shortcut data
+  $scope.getSelectedShortcutData = function (shortcutObj) {
+
+    //- update selectedShortcut
+    //- get part type (update selectedPartType) & disable it
+    //- get material data to select 
+    //- get size & disable it
+    //- custom material --> disable it
+    //- get shape data from selected shortcut (i.e part presetName)
+    //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
+    
+    $scope.estimatePartObj.selectedShortcut = shortcutObj;       /////-
+    $scope.estimatePartObj.selectedPartType = selectedPartType;  /////-
+    $scope.estimatePartObj.allMaterial = allMaterial;            /////-
+    $scope.estimatePartObj.selectedSize = selectedSize;          /////-
+    
+    //- update shape related data
+    $scope.estimatePartObj.variables = shapeData.variables;      /////-
+    $scope.estimatePartObj.keyValueCalculation.perimeter = shapeData.perimeter;  /////-
+    $scope.estimatePartObj.keyValueCalculation.sma = shapeData.sma;              /////-
+    $scope.estimatePartObj.keyValueCalculation.sa = shapeData.sa;                /////-
+    $scope.estimatePartObj.keyValueCalculation.weight = shapeData.weight;        /////-
+    $scope.estimatePartObj.shapeIcon = shapeData.shapeIcon;                      /////-
+    $scope.estimatePartObj.shapeImage = shapeData.shapeImage;                    /////-
+
+    //- update PAE count
+    $scope.estimatePartObj.processingCount = part.processing.length;             /////-
+    $scope.estimatePartObj.addonCount = part.addons.length;                      /////-
+    $scope.estimatePartObj.extraCount = part.extras.length;                      /////-
+          
+    //- disable fields
+    $scope.disablePartFields.disablePartTypeName = true;
+    $scope.disablePartFields.disableSize = true;
+    $scope.disablePartFields.disableCustomMaterial = true;
+    
+  }
+
+  //- call when user will select part type name 
+  //- update dependent data on the base of selected part type data
+  $scope.getSelectedPartTypeData = function (partTypeObj) {
+    
+    //- all shortcuts data is already there (so, don't  update it corresponding to selected part Type), let user select size to get shortcut
+    //- get all materials (corresponding to selected part Type) data to select 
+    //- get/update all sizes (corresponding to selected part Type) data to select
+    //- custom material --> disable it 
+
+    //- $scope.estimatePartObj.allShortcuts = allShortcuts;      /////-  
+    $scope.estimatePartObj.selectedPartType = selectedPartType;  /////-
+    $scope.estimatePartObj.allMaterial = allMaterial;            /////-
+    $scope.estimatePartObj.allSizes = allSizes;                  /////-
+
+    //- disable fields
+    $scope.disablePartFields.disableCustomMaterial = true;
+
+  }
+
+  //- call when user will select material (only in case of either shortcut OR part type is selected)
+  //- update dependent data on the base of selcted material data
+  $scope.getSelectedMaterialData = function(materialObj){
+    $scope.estimatePartObj.selectedMaterial = selectedMaterial;          /////-
+  }
+
+  //- call when user will select size (only in case when user selected part type)
+  //- update dependent data on the base of selected size data
+  $scope.getSelectedSizeData = function(size){
+    //- get shortcut corresponding to the selected partType & size
+    //- get all material data to select 
+    //- get shape data from selected partType & size 
+    //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
+
+    $scope.estimatePartObj.selectedShortcut = shortcutObj;     /////-
+    
+    //- update shape related data
+    $scope.estimatePartObj.variables = shapeData.variables;      /////-
+    $scope.estimatePartObj.keyValueCalculation.perimeter = shapeData.perimeter;  /////-
+    $scope.estimatePartObj.keyValueCalculation.sma = shapeData.sma;              /////-
+    $scope.estimatePartObj.keyValueCalculation.sa = shapeData.sa;                /////-
+    $scope.estimatePartObj.keyValueCalculation.weight = shapeData.weight;        /////-
+
+  }
+
+  //- =================== part functionality/calculation end =================== //
+
+
   //- get data to generate tree structure dynamically i.e. get assembly stucture
   $scope.getEstimateData = function () {
     createOrEditEstimateService.getEstimateData($scope.draftEstimateId, function (data) {
@@ -79,6 +187,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       // $.jStorage.set("estimateObject", $scope.estimteData);
     }
   }, true);
+
+
 
   // *************************** functions to be triggered form view begin here ***** //
   //- to edit assembly name
@@ -120,13 +230,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       });
     });
   }
-  // $scope.importAssembly = function (assemblyId) {
-    // 	createOrEditEstimateService.getImportAssemblyData(assemblyId, function () {
-    // 		$scope.getCurretEstimateObj();
-    // 		toastr.info('Assebly imported successfully', 'Assembly Import!');
-    // 		$scope.cancelModal();
-    // 	});
-    // }
 
   //- to add or edit subAssembly data modal
   $scope.addOrEditSubAssemblyModal = function (operation, subAssembly) {

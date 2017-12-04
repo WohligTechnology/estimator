@@ -177,7 +177,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to set a view of the page
 	this.estimateView = function (estimateView, callback) {
-		getEstimateView = "../frontend/views/content/estimate/estimateViews/" + estimateView + ".html";
+		getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
 		callback(getEstimateView);
 	}
 	//- to get a view of the page
