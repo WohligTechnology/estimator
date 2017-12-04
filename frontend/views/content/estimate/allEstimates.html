@@ -84,13 +84,17 @@
                   <span></span>
                 </label>
               </th>
-              <th> Id </th>
-              <th> Name </th>
-              <th>SubAssembly Count </th>
-              <th> Part Count </th>
-              <th> Total Cost </th>
+              <th> Assembly Id </th>
+              <th> Assembly Name </th>
+              <th> Enquiry Id </th>
+              <th> Customer Name </th>
               <th> Created by user </th>
               <th> Updated by user </th>
+              <th title="Material Cost"> MC </th>
+              <th title="Processing Cost"> PC </th>
+              <th title="Addon Cost"> AC </th>
+              <th title="Extra Cost"> EC </th>
+              <th title="Addon Cost"> TC </th>
               <th> Action </th>
             </tr>
           </thead>
@@ -107,15 +111,13 @@
               <td>{{table.name}} </td>
               <td>{{table.dname}} </td>
               <td class="center"> {{table.dname}} </td>
-              <td>
-                <a class="edit" href="javascript:;"> Edit </a>
-              </td>
-              <td>
-                <a class="delete" href=":;"> Delete </a>
-              </td>
-              <td>
-                <a class="delete" href=":;"> Delete </a>
-              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td>
                   <span class="label label-sm label-info" id="add_space" ui-sref="app.createEstimate({estimateId:'5a0c45b26ff10e301e2123e2'})">
                       <i class="fa fa-calculator" title="Estimator"></i>

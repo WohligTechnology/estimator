@@ -68340,7 +68340,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
 
   // *************************** functions to be triggered form view begin here ***** //      
   //- add form data
-  $scope.addEnquiryData = function (formData, operation) {
+  $scope.addEnquiryData = function (operation, formData {
     createOrEditEnquiryService.createEnquiry(formData, function (data) {
       toastr.success('Record Added Successfully', 'EnquiryData Added!');
       if (angular.isUndefined(formData._id)) {}
