@@ -94,6 +94,7 @@ module.exports = [
   'frontend/js/controllers/master/masterProcessCtrl.js',
   'frontend/js/controllers/master/masterShapeCtrl.js',
   'frontend/js/controllers/user/userCtrl.js',
+  'frontend/js/controllers/settings/roleCtrl.js',
   'frontend/js/controllers/UserProfileController.js',
   
 
@@ -111,6 +112,7 @@ module.exports = [
   'frontend/js/services/master/masterProcessService.js',
   'frontend/js/services/master/masterShapeService.js',
   'frontend/js/services/user/userService.js',
+  'frontend/js/services/settings/roleService.js',
   'frontend/js/services/user/userProfileService.js',
   'frontend/js/services/dashboardService.js'
 ];

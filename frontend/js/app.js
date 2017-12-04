@@ -470,6 +470,22 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         "isLoggedIn": routeResolve
       }
     })
+    .state('app.roles', {
+      url: "/roles",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/settings/allRoles.html",
+          controller: "roleCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
 
 
 
@@ -1114,26 +1130,30 @@ myApp.directive('uploadAllFiles', function ($http) {
     scope: {
       model: '=ngModel',
       icon: '=icon',
-      pdfFile: '=pdfFile'
+      pdfFile: '=pdfFile',
+      fileLocation: '@fileLocation'
     },
     templateUrl: 'frontend/views/directive/uploadAllFiles.html',
 
     link: function (scope, element, attrs) {
       scope.isMultiple = false;
-
+      //scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
+      
       scope.uploadImage = function (files) {
-        console.log("*** 111111inside function & files are ***", files[0].name, _.split(files[0].name, '.'));
-        // http request here
-        // var fileName = _.split(files[0].name, '.');
-        // if(fileName[1] == 'pdf'){
-        // } else { //if(fileName[1] == 'jpg' || fileName[1] == 'png'){
-        //     scope.pdfFile = false;
-        // }
+        scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
+        console.log("*** scope.isNoFile...!scope.model...... ***", scope.isNoFile, !scope.model);
+        var fileName = _.split(files[0].name, '.');
+        var fileType = fileName[1];
+        console.log('**** fileType......... ****',fileType);
+        scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png') && !scope.pdfFile;
+        scope.isPdf = (fileType == 'pdf') && !scope.icon && scope.pdfFile;
+        scope.isDocs = (fileType == 'doc' || fileType == 'docx') && !scope.icon && scope.pdfFile;
+        scope.isOtherFile = fileType != 'pdf' && fileType != 'doc' && fileType != 'docx' && fileType != 'jpg' && fileType != 'jpeg' && fileType != 'png';
+
+        console.log('**** ,scope.isPhoto,  scope.isPdf, scope.isDocs, scope.isOtherFile,scope.isNoFile ****',scope.isPhoto,  scope.isPdf, scope.isDocs, scope.isOtherFile,scope.isNoFile);
         if (_.isArray(scope.model)) {
           scope.isMultiple = true;
           angular.forEach(files, function (file) {
-            debugger;
-            console.log("***********array******* file is ******************", file);
             var fd = new FormData();
             fd.append('file', file);
 
@@ -1150,8 +1170,6 @@ myApp.directive('uploadAllFiles', function ($http) {
           });
 
         } else {
-          var fileName = _.split(files[0].name, '.');
-          scope.fileType = fileName[1];
           var fd = new FormData();
           fd.append('file', files[0]);
 

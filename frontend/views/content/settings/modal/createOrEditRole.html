@@ -1,0 +1,129 @@
+<div class="row">
+    <div class="col-md-12 mar-b">
+        <div class="portlet box green ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Role
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form class="form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Enter Role :</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" ng-model="formData.role" placeholder="Enter Role" required autofocus>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                                <label class="col-md-4 control-label" >Select Tables:</label>
+                                <div class="col-md-5">
+                                    <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" ng-model="formData.email" placeholder="Enter Email-Id Number">
+                                </div>
+                            </div> -->
+                        <div class="form-group">
+                                <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2" class="text-center" class="align-top">
+                                                    <!-- <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                        <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="tableData.length <= 0"
+                                                            ng-model="checkAll" ng-change="selectAll(tableData, checkAll)" />
+                                                        <span></span>
+                                                    </label> -->
+                                                    Table Name
+                                                </th>
+                                                <th colspan="4" class="text-center" class="align-top"> Access Permissions </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="t in [1,2,3, 4, 5, 6 ,7]">
+                                                <td>
+                                                    <!-- <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                        <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
+                                                            ng-change="selectBulkEnquiries(checkboxStatus, t._id)" />
+                                                        <span></span>
+                                                    </label> -->
+                                                    <input type="checkbox" id="checkbox-f" ng-model="isUserSelected">User
+                                                </td>
+                                                <td> </td>
+                                                <td><span><input type="checkbox" id="checkbox-f">Create</span></td>
+                                                <td><input type="checkbox" id="checkbox-f">Read</td>
+                                                <td><input type="checkbox" id="checkbox-f">Update</td>
+                                                <td><input type="checkbox" id="checkbox-f">Delete</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            <div class="shapes-checkbox">
+                                <div class="">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="checkbox-f" ng-model="isUserSelected">User
+                                    </div>
+                                    <div class="col-md-2" ng-show="isUserSelected">
+                                        <span><input type="checkbox" id="checkbox-f">Create</span>
+                                    </div>
+                                    <div class="col-md-2" ng-show="isUserSelected">
+                                        <input type="checkbox" id="checkbox-f">Read
+                                    </div>
+                                    <div class="col-md-2" ng-show="isUserSelected">
+                                        <input type="checkbox" id="checkbox-f">Update
+                                    </div>
+                                    <div class="col-md-2" ng-show="isUserSelected">
+                                        <input type="checkbox" id="checkbox-f">Delete
+                                    </div>
+                                </div><br><br><hr>
+                                <div class="">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="checkbox-f" ng-model="isCustomerSelected">Customer
+                                    </div>
+                                    <div class="col-md-2" ng-show="isCustomerSelected">
+                                        <input type="checkbox" id="checkbox-f">Create
+                                    </div>
+                                    <div class="col-md-2" ng-show="isCustomerSelected">
+                                        <input type="checkbox" id="checkbox-f">Read
+                                    </div>
+                                    <div class="col-md-2" ng-show="isCustomerSelected">
+                                        <input type="checkbox" id="checkbox-f">Update
+                                    </div>
+                                    <div class="col-md-2" ng-show="isCustomerSelected">
+                                        <input type="checkbox" id="checkbox-f">Delete
+                                    </div>
+                                </div><br><br><hr>
+                                <div class="">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="checkbox-f" ng-model="isEnquirySelected">Enquiry
+                                    </div>
+                                    <div class="col-md-2" ng-show="isEnquirySelected">
+                                        <input type="checkbox" id="checkbox-f">Create
+                                    </div>
+                                    <div class="col-md-2" ng-show="isEnquirySelected">
+                                        <input type="checkbox" id="checkbox-f">Read
+                                    </div>
+                                    <div class="col-md-2" ng-show="isEnquirySelected">
+                                        <input type="checkbox" id="checkbox-f">Update
+                                    </div>
+                                    <div class="col-md-2" ng-show="isEnquirySelected">
+                                        <input type="checkbox" id="checkbox-f">Delete
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn">Update</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>
