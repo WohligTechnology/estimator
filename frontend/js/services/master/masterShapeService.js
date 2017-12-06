@@ -1,4 +1,5 @@
-myApp.service('masterShapeService', function (NavigationService) {
+myApp.service('masterShapeService', function (
+    NavigationService) {
 
     this.variableData = [{
         'varName': 'a'

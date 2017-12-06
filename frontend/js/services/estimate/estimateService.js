@@ -3,10 +3,11 @@ myApp.service('estimateService', function (NavigationService) {
   var bulkArray = [];
   //- get estimate view
   this.getEstimateData = function (callback) {
-    NavigationService.boxCall('Estimate/search', function (data) {
+    NavigationService.boxCall('DraftEstimate/search', function (data) {
       callback(data.data);
     });
   }
+
   //- delete estimate
   this.deleteEnquiry = function (estimateId, callback) {
     NavigationService.delete('DraftEstimate/delete', {
@@ -15,6 +16,7 @@ myApp.service('estimateService', function (NavigationService) {
       callback(data);
     });
   }
+
   //- get data of pagination
   this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
     NavigationService.apiCall('DraftEstimate/search', {
@@ -93,9 +95,13 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- delete bulk estimates
   this.deleteBulkEstimates = function (estimates, callback) {
+<<<<<<< HEAD
     NavigationService.apiCall('DraftEstimate/deleteMultipleEstimates', {
       idsArray: estimates
     }, function (data) {
+=======
+    NavigationService.apiCall('DraftEstimate/deleteMultipleEstimates', {idsArray: estimates}, function (data) {
+>>>>>>> 9632da82347cbf4f4f23ce8d2cf950f3c0ba65fa
       callback();
     });
   }

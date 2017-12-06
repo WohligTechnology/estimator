@@ -51,27 +51,30 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	var part = {
 		partName: "",
 		partNumber: "",
-		shortcut: "",
-		scaleFactor: "",
-		finalCalculation: {
-			materialPrice: "",
+		partIcon:"",
+		shortcut: "",                   //- selecetd shortCut
+		partType:"",                    //- selected partType
+		material: "",                   //- selected material
+		size: "",                       //- size
+		customMaterial:"",              //- selectedCustomeMaterial
+		quantity: "",                   //- quantity
+		variable: [{}],                 //- variables 
+		scaleFactor: "",                //- sacaleFactor
+		finalCalculation: {             //- finalCalculation
+			materialPrice: "",          
 			itemUnitPrice: "",
-			totalCostForQuantity: ""
+			totalCostForQuantity: ""    
 		},
-		keyValueCalculations: {
+		keyValueCalculations: {          //- keyValueCalculation
 			perimeter: "",
 			sheetMetalArea: "",
 			surfaceArea: "",
 			weight: ""
-		},
-		sectionCode: "",
-		material: "",
-		size: "",
-		quantity: "",
-		variable: [{}],
-		processing: [_.cloneDeep(processing)],
-		addons: [_.cloneDeep(addon)],
-		extras: [_.cloneDeep(extra)]
+		},				
+
+		processing: [],  
+		addons: [],
+		extras: []
 	};
 
 	var subAssembly = {

@@ -95,7 +95,6 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
   $scope.loginTemplate = true;
   $scope.themeColor = '#32c5d3';
 
-
   // console.log("*********************************************************************",window.location.href );
   // console.log("*********************************************************************",$state.current);
 
@@ -1024,150 +1023,66 @@ myApp.factory('accessApp', function ($location) {
   }
 });
 
-myApp.directive('fileModelOld', ['$parse', function ($parse) {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      var model = $parse(attrs.fileModel);
-      var modelSetter = model.assign;
-
-      element.bind('change', function () {
-        console.log("*** element **", element);
-        scope.$apply(function () {
-          modelSetter(scope, element[0].files[0]);
-        });
-      });
-
-
-
-      // $scope.$parent.formData.uploadedFiles = [];
-      // $scope.formData.uploadedFiles = [];
-
-      // $scope.uploadImage = function (file) {
-      //     var fd = new FormData();
-      //     fd.append('file', file);
-
-      //     $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-      //             transformRequest: angular.identity,
-      //             headers: {
-      //                 'Content-Type': undefined
-      //             }
-      //         })
-      //         .then(function () {
-
-      //             console.log('**** inside its working of userProfileService.js ****');
-      //         });
-      // }
-    }
-  };
-}]);
-
-myApp.directive('fileModel', ['$parse', '$http', function ($parse, $http) {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      var model = $parse(attrs.fileModel);
-      var modelSetter = model.assign;
-
-      element.bind('change', function () {
-        // angular.element(event.target).file('model') = element[0].files[0];
-        // modelSetter(scope, element[0].files[0]);
-        // scope.uploadImage(scope.myFile);
-
-        scope.$apply(function () {
-          modelSetter(scope, element[0].files[0]);
-
-          var fd = new FormData();
-          fd.append('file', file);
-
-          $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-              transformRequest: angular.identity,
-              headers: {
-                'Content-Type': undefined
-              }
-            })
-            .then(function () {
-
-              console.log('**** inside its working of userProfileService.js ****');
-            });
-
-        });
-      });
-
-
-
-      scope.uploadImage = function (file) {
-        var fd = new FormData();
-        fd.append('file', file);
-
-        $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-            transformRequest: angular.identity,
-            headers: {
-              'Content-Type': undefined
-            }
-          })
-          .then(function () {
-
-            console.log('**** inside its working of userProfileService.js ****');
-          });
-      }
-
-
-    }
-  };
-}]);
-
-
 myApp.directive('uploadAllFiles', function ($http) {
   return {
     restrict: 'E',
     scope: {
       model: '=ngModel',
-      icon: '=icon',
-      pdfFile: '=pdfFile',
-      fileLocation: '@fileLocation'
+      fileLocation: '@fileLocation',
+      isMultiple: '=isMultiple'
     },
     templateUrl: '/views/directive/uploadAllFiles.html',
 
     link: function (scope, element, attrs) {
-      scope.isMultiple = false;
-      //scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
-      
+
+      if (scope.isMultiple) {
+        if (scope.model) {
+
+        } else {
+          scope.model = [];
+        }
+      } else {
+        if (scope.model) {
+          var fileName = _.split(scope.model, '.');
+          var fileType = fileName[1];
+          scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
+          scope.isPdf = (fileType == 'pdf');
+          scope.isDocs = (fileType == 'doc' || fileType == 'docx');
+          scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
+        }
+      }
+
       scope.uploadImage = function (files) {
-        scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
-        console.log("*** scope.isNoFile...!scope.model...... ***", scope.isNoFile, !scope.model);
+        // scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
         var fileName = _.split(files[0].name, '.');
         var fileType = fileName[1];
-        console.log('**** fileType......... ****',fileType);
-        scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png') && !scope.pdfFile;
-        scope.isPdf = (fileType == 'pdf') && !scope.icon && scope.pdfFile;
-        scope.isDocs = (fileType == 'doc' || fileType == 'docx') && !scope.icon && scope.pdfFile;
-        scope.isOtherFile = fileType != 'pdf' && fileType != 'doc' && fileType != 'docx' && fileType != 'jpg' && fileType != 'jpeg' && fileType != 'png';
 
-        console.log('**** ,scope.isPhoto,  scope.isPdf, scope.isDocs, scope.isOtherFile,scope.isNoFile ****',scope.isPhoto,  scope.isPdf, scope.isDocs, scope.isOtherFile,scope.isNoFile);
-        if (_.isArray(scope.model)) {
-          scope.isMultiple = true;
+        scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
+        scope.isPdf = (fileType == 'pdf');
+        scope.isDocs = (fileType == 'doc' || fileType == 'docx');
+        scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
+
+        debugger;
+        if (files.length > 1 && scope.isMultiple) {
           angular.forEach(files, function (file) {
             var fd = new FormData();
             fd.append('file', file);
 
-            $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+            $http.post(adminurl + 'User/uploadAvtar', fd, {
                 headers: {
                   'Content-Type': undefined
                 },
                 transformRequest: angular.identity
               })
               .then(function (data) {
-                console.log('**** inside its working of userProfileService.js ****', data);
                 scope.model.push(data.data.data[0]);;
               });
           });
-
         } else {
           var fd = new FormData();
           fd.append('file', files[0]);
 
-          $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+          $http.post(adminurl + 'User/uploadAvtar', fd, {
               headers: {
                 'Content-Type': undefined
               },
@@ -1234,6 +1149,29 @@ myApp.filter('downloadpath', function () {
     if (input) {
       if (input.indexOf('https://') == -1) {
         return adminurl + "User/download/" + input;
+      } else {
+        return adminurl;
+      }
+    }
+  };
+});
+
+myApp.filter('readFile', function () {
+  return function (input, width, height, style) {
+    var other = "";
+    if (width && width !== "") {
+      other += "&width=" + width;
+    }
+    if (height && height !== "") {
+      other += "&height=" + height;
+    }
+    if (style && style !== "") {
+      other += "&style=" + style;
+    }
+    if (input) {
+      if (input.indexOf('https://') == -1) {
+        console.log('**** inside readfile of app.js ****');
+        return adminurl + "User/readFile/" + input;
       } else {
         return adminurl;
       }

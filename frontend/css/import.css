@@ -9712,13 +9712,8 @@ body {
   top: 5px;
   right: 22px; }
 
-.select-color {
-  margin-top: 10%;
-  border-color: #32c5d2;
-  color: #32c5d2;
-  background: #FFFF;
-  padding: 3px 8px;
-  font-size: 12px; }
+#table_alignment {
+  text-align: left !important; }
 
 #fancybox-loading,
 .fancybox-close,

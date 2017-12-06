@@ -8,6 +8,9 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.showEditBtn = false;
     $scope.disableit = true;
     $scope.editAll = false; // to make all the records instant editable
+    // $scope.formData = {
+    //     datasheet:[]
+    // };
     // $scope.bulkMaterials = []; //- for multiple records deletion
     // $scope.checkAll = false; //- for all records selection
     // $scope.checkboxStatus = false; //- for multiple records selection
@@ -117,9 +120,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
     $scope.addOrEditMaterialModal = function (operation, materialSubCatId, material) {
         console.log('**** inside addOrEditMaterialModal of createOrEditMaterialCtrl.js ****', materialSubCatId);
-        masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {
-            $scope.formData = data.material;
+        masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {           
             console.log('**** inside function_name of masterMaterialCtrl.js ****', data);
+
+            $scope.formData = data.material;           
             $scope.subCatId = data.materialSubCategory; // pass it to parameter of addOrEditMaterial
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
