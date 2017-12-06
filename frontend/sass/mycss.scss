@@ -3,7 +3,7 @@
    flex-direction: row;
    img {
     margin-right:0.5em;
-  }
+   }
   }
    
  .rightPosition {
@@ -562,4 +562,12 @@ tree css*/
  //role modal table css
  #table_alignment {
   text-align: left !important;
+ }
+
+ //role table css
+ .greenColor {
+   color:green;
+ }
+ .redColor {
+   color:red;
  }

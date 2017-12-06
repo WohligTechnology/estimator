@@ -25,7 +25,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
     // *************************** functions to be triggered form view begin here ***** //
     $scope.addOrEditMaterialCatModal = function (operation, materialCat) {
-        console.log('**** inside addOrEditMaterialCatModal of createOrEditMaterialCtrl.js ****', operation);
         masterMaterialService.getMaterialCatModalData(operation, materialCat, function (data) {
             $scope.formData = data.materialCat;
             $scope.showSaveBtn = data.saveBtn;
@@ -180,7 +179,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
     $scope.getSubCatMaterials = function (materialSubCatId) {
         masterMaterialService.getSubCatMaterials(materialSubCatId, function (data) {
-            console.log('**** inside getSubCatMaterials of masterMaterialCtrl.js & data is ****', data);
             $scope.subCatMaterials = data.results;
             $scope.selectedSubACat = materialSubCatId;
             $scope.disableit = false;
@@ -202,14 +200,14 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.getPaginationData = function (page, numberOfRecords, keyword) {
         if (angular.isUndefined(keyword) || keyword == '') {
             if (numberOfRecords != '10') {
-                masterMaterialService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+                masterMaterialService.getPaginationData(page, numberOfRecords, null, function (data) {
                     $scope.subCatMaterials = data.results;
                     masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
                         $scope.obj = obj;
                     });
                 });
             } else {
-                masterMaterialService.getPaginationDatawithoutKeyword(page, function (data) {
+                masterMaterialService.getPaginationData(page, null, null, function (data) {
                     $scope.subCatMaterials = data.results;
                     masterMaterialService.getPaginationDetails(page, 10, data, function (obj) {
                         $scope.obj = obj;
@@ -217,7 +215,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
                 });
             }
         } else {
-            masterMaterialService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+            masterMaterialService.getPaginationData(page, numberOfRecords, keyword, function (data) {
                 $scope.subCatMaterials = data.results;
                 masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
                     $scope.obj = obj;
@@ -227,7 +225,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     //- to search the text in table
     $scope.serachText = function (keyword, count) {
-        masterMaterialService.getSearchResult(keyword, function (data) {
+        masterMaterialService.getPaginationData(null, keyword, function (data) {
             $scope.subCatMaterials = data.results;
             masterMaterialService.getPaginationDetails(1, count, data, function (obj) {
                 $scope.obj = obj;

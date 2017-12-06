@@ -26,7 +26,7 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   //- add or edit user
   this.addOrEditUser = function (userData, callback) {
     NavigationService.apiCall('User/createUser', userData, function (data) {
-      callback();
+      callback(data);
     });
   }
   //- delete user
@@ -38,37 +38,12 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
       callback(data);
     });
   }
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('User/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('User/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('User/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('User/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });

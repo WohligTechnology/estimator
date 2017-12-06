@@ -50,13 +50,18 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   }
   //- to add or edit user
   $scope.addOrEditUser = function (operation, userData) {
-    userService.addOrEditUser(userData, function () {
-      $scope.getUserData();
-      $scope.cancelModal();
-      if (operation == 'save') {
-        toastr.info('Record added successfully');
+    userService.addOrEditUser(userData, function (data) {
+      if (data.data == "success") {
+        debugger;
+        $scope.getUserData();
+        $scope.cancelModal();
+        if (operation == 'save') {
+          toastr.info('Record added successfully');
+        } else {
+          toastr.info('Record updated successfully');
+        }
       } else {
-        toastr.info('Record updated successfully');
+        toastr.Warning('Please enter details properly');
       }
     });
   }
@@ -84,14 +89,14 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        userService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        userService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.userData = data.results;
           userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        userService.getPaginationDatawithoutKeyword(page, function (data) {
+        userService.getPaginationData(page, null, null, function (data) {
           $scope.userData = data.results;
           userService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -99,7 +104,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
         });
       }
     } else {
-      userService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      userService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.userData = data.results;
         userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
@@ -109,7 +114,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   }
   //- to search the text in table
   $scope.serachText = function (keyword, count) {
-    userService.getSearchResult(keyword, function (data) {
+    userService.getPaginationData(null, null, keyword, function (data) {
       $scope.userData = data.results;
       userService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;

@@ -92,14 +92,14 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        masterAddonService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        masterAddonService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.addonData = data.results;
           masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        masterAddonService.getPaginationDatawithoutKeyword(page, function (data) {
+        masterAddonService.getPaginationData(page, null, null, function (data) {
           $scope.addonData = data.results;
           masterAddonService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -107,7 +107,7 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
         });
       }
     } else {
-      masterAddonService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      masterAddonService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.addonData = data.results;
         masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
@@ -118,7 +118,7 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
 
   //- function to search the text in table
   $scope.serachText = function (keyword, count) {
-    masterAddonService.getSearchResult(keyword, function (data) {
+    masterAddonService.getPaginationData(null, null, keyword, function (data) {
       $scope.addonData = data.results;
       masterAddonService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;

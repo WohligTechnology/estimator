@@ -44,13 +44,17 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   //- to add or edit customer
   $scope.addOrEditCustomer = function (operation, customerData) {
     customerService.addOrEditCustomer(customerData, function (data) {
-      if (operation == 'save') {
-        toastr.success('Record added successfully');
+      if(angular.isUndefined(data.error)) {
+        if (operation == 'save') {
+          toastr.success('Record added successfully');
+        } else {
+          toastr.success('Record updated successfully');
+        }
+        $scope.getCustomerData();
+        $scope.cancelModal();
       } else {
-        toastr.success('Record updated successfully');
+        toastr.warning('Please enter details properly');
       }
-      $scope.getCustomerData();
-      $scope.cancelModal();
     });
   }
   //- customer deletion modal
@@ -77,14 +81,14 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        customerService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        customerService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.customerData = data.results;
           customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        customerService.getPaginationDatawithoutKeyword(page, function (data) {
+        customerService.getPaginationData(page, null, null, function (data) {
           $scope.customerData = data.results;
           customerService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -92,7 +96,7 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
         });
       }
     } else {
-      customerService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      customerService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.customerData = data.results;
         customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
@@ -103,7 +107,7 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
 
   //- to search the text in table
   $scope.serachText = function (keyword, count) {
-    customerService.getSearchResult(keyword, function (data) {
+    customerService.getPaginationData(null, null, keyword, function (data) {
       $scope.customerData = data.results;
       customerService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
