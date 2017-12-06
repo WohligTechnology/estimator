@@ -7,17 +7,17 @@ myApp.service('estimateService', function (NavigationService) {
       callback(data.data);
     });
   }
-    //- delete estimate
-    this.deleteEnquiry = function (estimateId, callback) {
-      NavigationService.delete('Estimate/delete', {
-        _id: estimateId
-      }, function (data) {
-        callback(data);
-      });
-    }
+  //- delete estimate
+  this.deleteEnquiry = function (estimateId, callback) {
+    NavigationService.delete('DraftEstimate/delete', {
+      _id: estimateId
+    }, function (data) {
+      callback(data);
+    });
+  }
   //- get data of pagination
   this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('Estimate/search', {
+    NavigationService.apiCall('DraftEstimate/search', {
       page: pageNumber
     }, function (data) {
       callback(data.data);
@@ -25,7 +25,7 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- get pagination data with search-keyword
   this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
-    NavigationService.apiCall('Estimate/search', {
+    NavigationService.apiCall('DraftEstimate/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
@@ -35,7 +35,7 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- get page data with show records
   this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('Estimate/search', {
+    NavigationService.apiCall('DraftEstimate/search', {
       totalRecords: numberOfRecords,
       page: pageNumber
     }, function (data) {
@@ -44,7 +44,7 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- get data of seach results
   this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('Estimate/search', {
+    NavigationService.apiCall('DraftEstimate/search', {
       keyword: searchKeyword
     }, function (data) {
       callback(data.data);
@@ -93,7 +93,9 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- delete bulk estimates
   this.deleteBulkEstimates = function (estimates, callback) {
-    NavigationService.apiCall('Estimate/deleteMultipleEstimates', {idsArray: estimates}, function (data) {
+    NavigationService.apiCall('DraftEstimate/deleteMultipleEstimates', {
+      idsArray: estimates
+    }, function (data) {
       callback();
     });
   }
