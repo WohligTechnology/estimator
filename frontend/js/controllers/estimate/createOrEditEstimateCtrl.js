@@ -1,7 +1,7 @@
 myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $stateParams, createOrEditEstimateService, $uibModal) {
 
 
-  // *************************** default variables/tasks begin here ***************** //
+  // **************************************** default variables/tasks begin here **************************************** //
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
   $scope.showSaveBtn = true;
@@ -12,41 +12,42 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   $scope.hardFacingAlloys = []; //- for dynamic addition of Hard Facing Alloys
 
   $scope.estimatePartObj = {
-    allShortcuts: [],                   //- get all presets name from API
-    allPartTypeNames: [],               //- get all part type from API
-    allMaterial: [],                    //- get all material of selected partType
-    allSizes: [],                       //- get data from selected preset
+    allShortcuts: [], //- get all presets name from API
+    allPartTypes: [], //- get all part type from API
+    allMaterial: [], //- get all material of selected partType
+    allSizes: [], //- get data from selected preset
 
-    selectedShortcut: {},               //- selected partType presets 
-    selectedPartType: {},               //- selected partType
-    selectedMaterial: {},               //- selected material     
-    selectedSize: {},                   //- slected size
+    selectedShortcut: {}, //- selected partType presets 
+    selectedPartType: {}, //- selected partType
+    selectedMaterial: {}, //- selected material     
+    selectedSize: {}, //- slected size
 
-    customMaterials: [],                //- get all custom material from  API
-    selectedCustomMaterial: [],         //- selecetd custom materail  
+    customMaterials: [], //- get all custom material from  API
+    selectedCustomMaterial: {}, //- selecetd custom materail  
 
-    quality: null,                      //- part.quantity
-    variables: [],                      //- part.variables
-    shapeImage: null,                   //- get it from slected partPreset --> shape.image      
-    shapeIcon: null,                    //- get it from slected partPreset --> shape.icon
-    processingCount: null,              //- part.processing.length
-    addonCount: null,                   //- part.addons.length
-    extraCount: null,                   //- part.extars.length
+    quantity: null, //- part.quantity
+    variables: [], //- part.variables
+    shapeImage: null, //- get it from slected partPreset --> shape.shapeImage      
+    shapeIcon: null, //- get it from slected partPreset --> shape.shapeIcon
+    processingCount: null, //- part.processing.length
+    addonCount: null, //- part.addons.length
+    extraCount: null, //- part.extars.length
 
-    partName: null,                     //- part.name
-    partNumber: null,                   //- part.number 
-    scaleFactor: null,                  //- part.scaleFactor
+    partName: null, //- part.partName
+    partNumber: null, //- part.partNumber 
+    scaleFactor: null, //- part.scaleFactor
 
     keyValueCalculation: {
-      perimeter: null,                  //- part.keyValueCalculation.perimeter
-      sheetMetalArea: null,             //- part.keyValueCalculation.sma
-      surfaceArea: null,                //- part.keyValueCalculation.sa
-      weight: null                      //- part.keyValueCalculation.weight
+      perimeter: null, //- part.keyValueCalculation.perimeter
+      sheetMetalArea: null, //- part.keyValueCalculation.sheetMetalArea
+      surfaceArea: null, //- part.keyValueCalculation.surfaceArea
+      weight: null //- part.keyValueCalculation.weight
     },
-    finalCalculation: {                 
-      materialPrice: null,              //- part.finalCalculation.materialPrice
-      itemUnitPrice: null,              //- part.finalCalculation.itemUnitPrice
-      totalCostForQuantity: null        //- part.finalCalculation.totalCostForQuantity
+    
+    finalCalculation: {
+      materialPrice: null, //- part.finalCalculation.materialPrice
+      itemUnitPrice: null, //- part.finalCalculation.itemUnitPrice
+      totalCostForQuantity: null //- part.finalCalculation.totalCostForQuantity
     }
   };
 
@@ -64,18 +65,51 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     debugger;
     $scope.draftEstimateId = $stateParams.estimateId;
   }
-  // *************************** default functions begin here  ********************** //
+
+  // **************************************** default functions begin here  **************************************** //
   //- to get all views of createOrEdit estimate screen dynamically 
   $scope.getEstimateView = function (getViewName, getLevelName, subAssemblyId, partId) {
+
     createOrEditEstimateService.estimateView(getViewName, function (data) {
       $scope.estimateView = data;
     });
-    createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
 
-      if (getViewName == 'editPartItemDetail') {
+    createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
+      if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
         // get all data from API & put it into $scope.estimatePartObj
         $scope.estimatePartObj.allShortcuts = data.allShortcuts;
-        $scope.estimatePartObj.allPartTypeNames = data.allPartTypeNames;
+        $scope.estimatePartObj.allPartTypes = data.allPartTypes;
+        $scope.estimatePartObj.allMaterial = data.allMaterial;
+        $scope.estimatePartObj.allSizes = data.allSizes;
+
+        $scope.estimatePartObj.selectedShortcut = data.selectedShortcut;
+        $scope.estimatePartObj.selectedPartType = data.selectedPartType;
+        $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
+        $scope.estimatePartObj.selectedSize = data.selectedSize;
+
+        $scope.estimatePartObj.customMaterials = data.customMaterials;
+        $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
+
+        $scope.estimatePartObj.quantity = data.quantity;
+        $scope.estimatePartObj.variables = data.variables;
+        $scope.estimatePartObj.shapeImage = data.shapeImage;
+        $scope.estimatePartObj.shapeIcon = data.shapeIcon;
+        $scope.estimatePartObj.processingCount = data.processingCount;
+        $scope.estimatePartObj.addonCount = data.addonCount;
+        $scope.estimatePartObj.extraCount = data.extraCount;
+        $scope.estimatePartObj.partName = data.partName;
+        $scope.estimatePartObj.partNumber = data.partNumber;
+        $scope.estimatePartObj.scaleFactor = data.scaleFactor;
+
+        $scope.estimatePartObj.keyValueCalculation.perimeter = data.keyValueCalculation.perimeter;
+        $scope.estimatePartObj.keyValueCalculation.sheetMetalArea = data.keyValueCalculation.sheetMetalArea;
+        $scope.estimatePartObj.keyValueCalculation.surfaceArea = data.keyValueCalculation.surfaceArea;
+        $scope.estimatePartObj.keyValueCalculation.weight = data.keyValueCalculation.weight;
+
+        $scope.estimatePartObj.finalCalculation.materialPrice = data.keyValueCalculation.materialPrice;
+        $scope.estimatePartObj.finalCalculation.itemUnitPrice = data.keyValueCalculation.itemUnitPrice;
+        $scope.estimatePartObj.finalCalculation.totalCostForQuantity = data.keyValueCalculation.totalCostForQuantity;
+        
       } else {
         $scope.level = getLevelName;
         $scope.estimateViewData = data;
@@ -98,24 +132,24 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     //- get shape data from selected shortcut (i.e part presetName)
     //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
 
-    $scope.estimatePartObj.selectedShortcut = shortcutObj; /////-
-    $scope.estimatePartObj.selectedPartType = selectedPartType; /////-
+    $scope.estimatePartObj.selectedShortcut = shortcutObj; 
+    $scope.estimatePartObj.selectedPartType = shortcutObj.partType;
     $scope.estimatePartObj.allMaterial = allMaterial; /////-
-    $scope.estimatePartObj.selectedSize = selectedSize; /////-
+    $scope.estimatePartObj.selectedSize = shortcutObj.size; /////- 
 
     //- update shape related data
-    $scope.estimatePartObj.variables = shapeData.variables; /////-
-    $scope.estimatePartObj.keyValueCalculation.perimeter = shapeData.perimeter; /////-
-    $scope.estimatePartObj.keyValueCalculation.sma = shapeData.sma; /////-
-    $scope.estimatePartObj.keyValueCalculation.sa = shapeData.sa; /////-
-    $scope.estimatePartObj.keyValueCalculation.weight = shapeData.weight; /////-
-    $scope.estimatePartObj.shapeIcon = shapeData.shapeIcon; /////-
-    $scope.estimatePartObj.shapeImage = shapeData.shapeImage; /////-
+    $scope.estimatePartObj.variables = shortcutObj.variable; /////-
+    $scope.estimatePartObj.keyValueCalculation.perimeter = shortcutObj.partFormulae.perimeter; /////-
+    $scope.estimatePartObj.keyValueCalculation.sheetMetalArea = shortcutObj.partFormulae.sheetMetalArea; /////-
+    $scope.estimatePartObj.keyValueCalculation.surfaceArea = shortcutObj.partFormulae.surfaceArea; /////-
+    $scope.estimatePartObj.keyValueCalculation.weight = shortcutObj.partFormulae.weight; /////-
+    $scope.estimatePartObj.shapeIcon = shortcutObj.shape.icon; /////-
+    $scope.estimatePartObj.shapeImage = shortcutObj.shape.image; /////-
 
     //- update PAE count
-    $scope.estimatePartObj.processingCount = part.processing.length; /////-
-    $scope.estimatePartObj.addonCount = part.addons.length; /////-
-    $scope.estimatePartObj.extraCount = part.extras.length; /////-
+    // $scope.estimatePartObj.processingCount = part.processing.length; /////-
+    // $scope.estimatePartObj.addonCount = part.addons.length; /////-
+    // $scope.estimatePartObj.extraCount = part.extras.length; /////-
 
     //- disable fields
     $scope.disablePartFields.disablePartTypeName = true;
@@ -168,6 +202,15 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
   }
 
+  // $scope.$watch($scope.estimatePartObj.selectedShortcut, function (oldValue, newValue) {
+  //   console.log('**** inside $watch of selectedShortcut ofcreateOrEditEstimateCtrl.js ****');
+  // });
+
+  // $scope.$watch($scope.estimatePartObj.selectedPartType, function (oldValue, newValue) {
+  //   console.log('**** inside $watch of selectedPartType of createOrEditEstimateCtrl.js ****');
+  // });
+
+
   //- =================== part functionality/calculation end =================== //
 
 
@@ -196,7 +239,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
 
 
-  // *************************** functions to be triggered form view begin here ***** //
+  // **************************************** functions to be triggered form view begin here **************************************** //
   //- to edit assembly name
   //- Edit Assembly Name modal start
   $scope.editAssemblyNameModal = function (assembly) {
@@ -723,7 +766,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   }
 
 
-  // *************************** init all default functions begin here ************** //
+  // **************************************** init all default functions begin here **************************************** //
   //- to initilize the default function 
   $scope.init = function () {
     // to get default view

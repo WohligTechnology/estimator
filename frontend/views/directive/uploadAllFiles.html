@@ -1,33 +1,39 @@
-<div class="form-group" ng-class="{'leftPosition':fileLocation=='left','rightPosition':fileLocation=='right', 'topPosition':fileLocation=='top'}">
+<div class="form-group" ng-class="{'leftPosition':fileLocation=='left' || icon,'rightPosition':fileLocation=='right', 'topPosition':fileLocation=='top', 'iconWidth':icon}">
 
+    <!-- In case of multiple files -->
     <div class="clearfix" ng-if="!isMultiple">
         <div class="img-box" style="float:left;">
-            <img alt="" ng-if="isPhoto" ng-src="{{model|downloadpath}}" class="img-responsive" />
-            <img alt="" ng-if="isPdf" ng-src="frontend/img/pdf.jpg" class="img-responsive" />
-            <img alt="" ng-if="isDocs" ng-src="frontend/img/doc.png" class="img-responsive" />
-            <img alt="" ng-if="isOtherFile" ng-src="frontend/img/file.png" class="img-responsive" />
+            <a ng-if="model != 'broken'" href="{{model|readFile}}" target="_blank">
+                <img alt="" ng-if="isPhoto" ng-src="{{model|downloadpath}}" class="img-responsive" />
+                <img alt="" ng-if="isPdf" ng-src="frontend/img/pdf.jpg" class="img-responsive" />
+                <img alt="" ng-if="isDocs" ng-src="frontend/img/doc.png" class="img-responsive" />
+                <img alt="" ng-if="isOtherFile" ng-src="frontend/img/file.png" class="img-responsive" />
+            </a>
         </div>
     </div>
 
+    <!-- In case of single file -->
     <div class="clearfix" ng-if="isMultiple" style="display:flex;">
-        <pre>{{mode | json}}</pre>
         <div class="img-box" class="horizontal_scroll" style="width:100px;" ng-repeat="file in model">
-            <pre>{{fileType | json}}</pre>
             <input type="text" style="visibility:none;" ng-model="fileType" ng-value="file.slice(str.length-3, str.length)">
             <a ng-if="model != 'broken'" class="btn btn-default btn btn-sm btn-block" href="{{file|readFile}}" target="_blank">
                 <img alt="" ng-src="{{file|downloadpath}}" class="img-responsive" ng-if="fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png'"
                 />
                 <img alt="" ng-src="frontend/img/pdf.jpg" ng-if="fileType == 'pdf'" class="img-responsive" />
                 <img alt="" ng-src="frontend/img/pdf.jpg" ng-if="fileType == 'doc' || fileType == 'docx'" class="img-responsive" />
-                <img alt="" ng-src="frontend/img/pdf.jpg" ng-if="fileType == 'pdf' || fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png' || fileType == 'doc' || fileType == 'docx'" class="img-responsive" />
+                <img alt="" ng-src="frontend/img/pdf.jpg" ng-if="fileType == 'pdf' || fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png' || fileType == 'doc' || fileType == 'docx'"
+                    class="img-responsive" />
             </a>
         </div>
     </div>
+
+    <!-- button to select file/files -->
     <div class="btn-upload btn btn-primary btn-outline btn-small create-btn" ng-hide="disabled" style="width: 19em;height:3em">
         <input type="file" ng-model="files" ng-if="!isMultiple" onchange="angular.element(this).scope().uploadImage(files)" />
         <input type="file" ng-model="files" ng-if="isMultiple" onchange="angular.element(this).scope().uploadImage(files)" multiple/>
     </div>
+
     <span class="label label-success" ng-if="uploadStatus == 'uploaded'">Document Uploaded - {{model.file.name}}</span>
     <span class="label label-warning" ng-if="uploadStatus == 'uploading'">Uploading Document {{model.file.name}}</span>
+
 </div>
-<!-- <a ng-if="model != 'broken'" class="btn btn-default btn btn-sm btn-block" href="{{model|downloadpath}}" target="_blank">Download</a> -->
