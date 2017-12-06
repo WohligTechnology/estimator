@@ -1012,7 +1012,6 @@ myApp.directive('inputDate', function ($compile, $parse) {
 });
 
 myApp.factory('accessApp', function ($location) {
-  console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
   return {
     isLoggedIn: function () {
       if ($.jStorage.get("loggedInUser")) {

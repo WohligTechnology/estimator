@@ -12,10 +12,13 @@
     <meta name="robots" content="noindex">
     <meta name="googlebot" content="noindex">
     <link rel="shortcut icon" href="img/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="css/import.css" />
 
     <title ng-bind="'Estimator | '+template.title"></title>
+    <link rel="stylesheet" type="text/css" href="css/import.css" />
 
+
+    <!--[if IE]> <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script> <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script> <![endif]-->
+    <!--[if IE]> <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script> <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script> <![endif]-->
 </head>
 
 <body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-on-load login" ng-class="{'page-content-white': settings.layout.pageContentWhite,'page-container-bg-solid': settings.layout.pageBodySolid, 'page-sidebar-closed': settings.layout.pageSidebarClosed}">
@@ -27,7 +30,7 @@
     </div>
     <!-- END PAGE SPINNER -->
     <!-- BEGIN HEADER -->
-    <div data-ng-include="'views/tpl/header.html'"  ng-if="loginTemplate" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top">
+    <div data-ng-include="'../frontend/views/tpl/header.html'" ng-if="loginTemplate" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top">
     </div>
     <!-- END HEADER -->
     <div class="clearfix"> </div>
@@ -35,28 +38,221 @@
     <div ui-view class="page-container"></div>
     <!-- END CONTAINER -->
     <!-- BEGIN FOOTER -->
-    <div data-ng-include="'views/tpl/footer.html'"   ng-if="loginTemplate" data-ng-controller="FooterController" class="page-footer"> </div>
+    <div data-ng-include="'../frontend/views/tpl/footer.html'" ng-if="loginTemplate" data-ng-controller="FooterController" class="page-footer"> </div>
     <!-- END FOOTER -->
     <!-- BEGIN QUICK NAV -->
-
+    <!-- <nav class="quick-nav">
+        <a class="quick-nav-trigger" href="#">
+                <span aria-hidden="true"></span>
+        </a>
+        <ul>
+            <li>
+                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" target="_blank"
+                    class="active">
+                        <span>Purchase Metronic</span>
+                        <i class="icon-basket"></i>
+                    </a>
+            </li>
+            <li>
+                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/reviews/4021469?ref=keenthemes" target="_blank">
+                        <span>Customer Reviews</span>
+                        <i class="icon-users"></i>
+                    </a>
+            </li>
+            <li>
+                <a href="http://keenthemes.com/showcast/" target="_blank">
+                        <span>Showcase</span>
+                        <i class="icon-user"></i>
+                    </a>
+            </li>
+            <li>
+                <a href="http://keenthemes.com/metronic-theme/changelog/" target="_blank">
+                        <span>Changelog</span>
+                        <i class="icon-graph"></i>
+                    </a>
+            </li>
+        </ul>
+        <span aria-hidden="true" class="quick-nav-bg"></span>
+    </nav> -->
     <div class="quick-nav-overlay"></div>
 
-    <link rel="stylesheet" type="text/css" href="css/production.css" />
-
+    <!-- <div class="repeated-item" ui-view></div> -->
     <script>
-        var adminurl = "http://migindia.in/api/";
-        var isproduction = false;
+        var adminurl = "http://wohlig.io/api/";
+        var isproduction = true;
         var chintan = function(content) {
             console.log("%c ---------------------------------------", 'background: #222; color: #bada55');
             console.log(content);
             console.log("%c ---------------------------------------", 'background: #222; color: #bada55');
         };
     </script>
-    <script src="js/production.js"></script>
-
     
-
+        <script src="bower_components/jquery/jquery.min.js"></script>
+        
+        <script src="bower_components/jStorage/jstorage.min.js"></script>
+        
+        <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+        
+        <script src="bower_components/fancybox/dist/jquery.fancybox.js"></script>
+        
+        <script src="bower_components/smart-app-banner/smart-app-banner.js"></script>
+        
+        <script src="bower_components/moment/min/moment.min.js"></script>
+        
+        <script src="bower_components/angular/angular.js"></script>
+        
+        <script src="bower_components/cleave.js/dist/cleave-angular.min.js"></script>
+        
+        <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+        
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        
+        <script src="bower_components/angular-flexslider/angular-flexslider.js"></script>
+        
+        <script src="bower_components/angular-translate/angular-translate.js"></script>
+        
+        <script src="bower_components/lodash/lodash.js"></script>
+        
+        <script src="bower_components/angular-ui-swiper/dist/angular-ui-swiper.js"></script>
+        
+        <script src="bower_components/angular-toastr/dist/angular-toastr.js"></script>
+        
+        <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/jquery.blockui.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/js.cookie.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/angularjs/angular-touch.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/angularjs/plugins/ocLazyLoad.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/angularjs/plugins/ui-bootstrap-tpls.min.js"></script>
+        
+        <script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+        
+        <script src="frontend/themeassets/global/scripts/app.min.js"></script>
+        
+        <script src="frontend/themeassets/layouts/layout/scripts/layout.js"></script>
+        
+        <script src="frontend/themeassets/layouts/global/scripts/quick-sidebar.min.js"></script>
+        
+        <script src="frontend/themeassets/layouts/global/scripts/quick-nav.min.js"></script>
+        
+        <script src="frontend/themeassets/layouts/layout/scripts/demo.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+        
+        <script src="frontend/themeassets/global/plugins/backstretch/jquery.backstretch.min.js"></script>
+        
+        <script src="frontend/themeassets/pages/scripts/login-4.min.js"></script>
+        
+        <script src="frontend/js/app.js"></script>
+        
+        <script src="frontend/js/languages/language.js"></script>
+        
+        <script src="frontend/js/directives/directive.js"></script>
+        
+        <script src="frontend/js/filters/filter.js"></script>
+        
+        <script src="frontend/js/services/template.js"></script>
+        
+        <script src="frontend/js/factories/navigation.js"></script>
+        
+        <script src="frontend/js/factories/api.js"></script>
+        
+        <script src="frontend/js/controllers/controller.js"></script>
+        
+        <script src="frontend/js/controllers/header-controller.js"></script>
+        
+        <script src="frontend/js/controllers/language-controller.js"></script>
+        
+        <script src="frontend/js/controllers/BlankController.js"></script>
+        
+        <script src="frontend/js/controllers/DashboardController.js"></script>
+        
+        <script src="frontend/js/controllers/GeneralPageController.js"></script>
+        
+        <script src="frontend/js/controllers/TodoController.js"></script>
+        
+        <script src="frontend/js/controllers/UISelectController.js"></script>
+        
+        <script src="frontend/js/controllers/appCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/dashboardCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/customer/customerCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/enquiry/createOrEditEnquiryCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/enquiry/enquiryCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/estimate/createOrEditEstimateCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/estimate/estimateCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/login/loginCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/master/baseMasterCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/master/masterAddonCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/master/masterExtraCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/master/masterMaterialCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/master/masterPartCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/master/masterProcessCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/master/masterShapeCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/user/userCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/settings/roleCtrl.js"></script>
+        
+        <script src="frontend/js/controllers/UserProfileController.js"></script>
+        
+        <script src="frontend/js/services/customer/customerService.js"></script>
+        
+        <script src="frontend/js/services/enquiry/createOrEditEnquiryService.js"></script>
+        
+        <script src="frontend/js/services/enquiry/enquiryService.js"></script>
+        
+        <script src="frontend/js/services/estimate/createOrEditEstimateService.js"></script>
+        
+        <script src="frontend/js/services/estimate/estimateService.js"></script>
+        
+        <script src="frontend/js/services/login/loginService.js"></script>
+        
+        <script src="frontend/js/services/master/baseMatserService.js"></script>
+        
+        <script src="frontend/js/services/master/masterAddonService.js"></script>
+        
+        <script src="frontend/js/services/master/masterExtraService.js"></script>
+        
+        <script src="frontend/js/services/master/masterMaterialService.js"></script>
+        
+        <script src="frontend/js/services/master/masterPartService.js"></script>
+        
+        <script src="frontend/js/services/master/masterProcessService.js"></script>
+        
+        <script src="frontend/js/services/master/masterShapeService.js"></script>
+        
+        <script src="frontend/js/services/user/userService.js"></script>
+        
+        <script src="frontend/js/services/settings/roleService.js"></script>
+        
+        <script src="frontend/js/services/user/userProfileService.js"></script>
+        
+        <script src="frontend/js/services/dashboardService.js"></script>
+        
 </body>
-<!-- END BODY -->
 
 </html>
