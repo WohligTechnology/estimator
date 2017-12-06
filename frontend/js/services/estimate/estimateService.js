@@ -7,45 +7,20 @@ myApp.service('estimateService', function (NavigationService) {
       callback(data.data);
     });
   }
-    //- delete estimate
-    this.deleteEnquiry = function (estimateId, callback) {
-      NavigationService.delete('DraftEstimate/delete', {
-        _id: estimateId
-      }, function (data) {
-        callback(data);
-      });
-    }
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('DraftEstimate/search', {
-      page: pageNumber
+
+  //- delete estimate
+  this.deleteEstimate = function (estimateId, callback) {
+    NavigationService.delete('DraftEstimate/delete', {
+      _id: estimateId
     }, function (data) {
-      callback(data.data);
+      callback(data);
     });
   }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('DraftEstimate/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('DraftEstimate/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('DraftEstimate/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -93,7 +68,9 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- delete bulk estimates
   this.deleteBulkEstimates = function (estimates, callback) {
-    NavigationService.apiCall('DraftEstimate/deleteMultipleEstimates', {idsArray: estimates}, function (data) {
+    NavigationService.apiCall('DraftEstimate/deleteMultipleEstimates', {
+      idsArray: estimates
+    }, function (data) {
       callback();
     });
   }

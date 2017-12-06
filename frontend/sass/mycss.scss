@@ -2,18 +2,11 @@
  .leftPosition {
    flex-direction: row;
    img {
-     margin-right: 0.5em;
-   }
- }
 
- .rightPosition {
-   flex-direction: row-reverse;
-   img {
-     margin-left: 0.5em;
+    margin-right:0.5em;
    }
- }
-
- .leftPosition,
+  }
+   
  .rightPosition {
    display: flex;
    img {
@@ -568,11 +561,15 @@ tree css*/
    right: 22px;
  }
 
- .select-color {
-   margin-top: 10%;
-   border-color: #32c5d2;
-   color: #32c5d2;
-   background: #FFFF;
-   padding: 3px 8px;
-   font-size: 12px;
+ //role modal table css
+ #table_alignment {
+  text-align: left !important;
+ }
+
+ //role table css
+ .greenColor {
+   color:green;
+ }
+ .redColor {
+   color:red;
  }
