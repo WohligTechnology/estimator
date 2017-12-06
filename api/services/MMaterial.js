@@ -9,7 +9,9 @@ var schema = new Schema({
         required: true,
         key: "materials"
     },
-    datasheet:[],
+    datasheet:{
+        type:String
+    },
     density: {
         type: Number
     },

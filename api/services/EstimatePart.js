@@ -1,24 +1,23 @@
 var schema = new Schema({
     partName: String,
+    partIcon:String,
     partNumber: { // a1s1pX where a1 --> assembly name, s1 --> subAssemblyName, X is auto increasing number
         type: String
     },
-    shortcut: String,
-    scaleFactor: Number, // it is %
-    finalCalculation: {
-        materialPrice: Number,
-        itemUnitPrice: Number,
-        totalCostForQuantity: Number
+    subAssemblyId: {
+        type: Schema.Types.ObjectId,
+        ref: "EstimateSubAssembly",
+        index: true
+        // key: 'subAssemblyParts'
     },
-    keyValueCalculations: {
-        perimeter: Number,
-        sheetMetalArea: Number,
-        surfaceArea: Number,
-        weight: Number
-    },
-    sectionCode: {
+    shortcut: {
         type: Schema.Types.ObjectId,
         ref: "MPartPresets",
+        index: true,
+    },
+    partType:{
+        type: Schema.Types.ObjectId,
+        ref: "MPartType",
         index: true,
     },
     material: {
@@ -27,15 +26,13 @@ var schema = new Schema({
         index: true,
     },
     size: String,
+    customMaterialId:{
+        type: Schema.Types.ObjectId,
+        ref: "MMaterial",
+        index: true,
+    },
     quantity: Number,
     variable: [{}], // Structure not defined yet    
-
-    subAssemblyId: {
-        type: Schema.Types.ObjectId,
-        ref: "EstimateSubAssembly",
-        index: true
-        // key: 'subAssemblyParts'
-    },
 
     processing: [{
         type: Schema.Types.ObjectId,
@@ -52,7 +49,20 @@ var schema = new Schema({
         ref: "EstimateExtras",
         index: true
     }],
-    partObj: {}
+    partObj: {},
+
+    scaleFactor: Number, // it is %      
+    finalCalculation: {
+        materialPrice: Number,
+        itemUnitPrice: Number,
+        totalCostForQuantity: Number
+    },
+    keyValueCalculations: {
+        perimeter: Number,
+        sheetMetalArea: Number,
+        surfaceArea: Number,
+        weight: Number
+    }
 });
 
 schema.plugin(deepPopulate, {});
