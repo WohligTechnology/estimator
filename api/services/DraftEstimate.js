@@ -47,7 +47,20 @@ var schema = new Schema({
 
 });
 
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+    populate: {
+        'enquiryId.customerId': {
+            select: 'customerName',
+        },
+
+        'estimateCreatedUser': {
+            select: 'name'
+        },
+        'estimateUpdatedUser': {
+            select: 'name'
+        }
+    }
+});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('DraftEstimate', schema);
@@ -88,7 +101,7 @@ var model = {
                 var assAddonsArray = [];
                 var assExtrasArray = [];
                 // 1st async.eachSeries
-                
+
 
                 var assemblyObj = {
                     enquiryId: found.enquiryId,
@@ -111,9 +124,9 @@ var model = {
                     processing: [],
                     addons: [],
                     extras: [],
-                    assemblyObj:found
+                    assemblyObj: found
                 };
-           
+
                 Estimate.saveData(assemblyObj, function (err, savedAssembly) {
                     if (err) {
                         console.log('**** error at Estimate.saveData of DraftEstimate.js ****', err);
@@ -134,7 +147,7 @@ var model = {
                                 processing: [],
                                 addons: [],
                                 extras: [],
-                                subAssemblyObj:subAss
+                                subAssemblyObj: subAss
                             };
 
                             EstimateSubAssembly.saveData(subAssObj, function (err, savedSubAss) {
@@ -144,7 +157,7 @@ var model = {
                                 } else if (_.isEmpty(savedSubAss)) {
                                     callback(null, 'noDataFound');
                                 } else {
-                                     subAssembliesArray.push(savedSubAss._id);
+                                    subAssembliesArray.push(savedSubAss._id);
                                     async.eachSeries(subAss.subAssemblyParts, function (part, callback) {
                                         var partObj = {
                                             partName: part.partName,
@@ -162,7 +175,7 @@ var model = {
                                             processing: [],
                                             addons: [],
                                             extras: [],
-                                            partObj:part
+                                            partObj: part
                                         };
 
                                         EstimatePart.saveData(partObj, function (err, savedPart) {
@@ -176,12 +189,12 @@ var model = {
                                                 async.waterfall([
                                                     function (callback) {
                                                         async.eachSeries(part.processing, function (proObj, callback) {
-                                                            var tempProObj = proObj; 
+                                                            var tempProObj = proObj;
                                                             tempProObj.processingLevel = "part";
                                                             tempProObj.processingLevelId = savedPart._id;
                                                             // tempProObj.processingObj = proObj;
                                                             EstimateProcessing.saveData(tempProObj, function (err, savedPartProcess) {
-                                                               if (err) {
+                                                                if (err) {
                                                                     console.log('**** error at partProcessing of DraftEstimate.js ****', err);
                                                                 } else {
                                                                     partprocessingArray.push(savedPartProcess._id);
@@ -226,7 +239,7 @@ var model = {
                                                             tempExtraObj.extraLevelId = savedPart._id;
                                                             // tempExtraObj.extraObj = extrasObj;
                                                             EstimateExtras.saveData(tempExtraObj, function (err, savedPartExtra) {
-                                                               if (err) {
+                                                                if (err) {
                                                                     console.log('**** error at partExtras of DraftEstimate.js ****', err);
                                                                 } else {
                                                                     partExtrasArray.push(savedPartExtra._id);
@@ -270,8 +283,8 @@ var model = {
                                             async.waterfall([
                                                 function (callback) {
                                                     async.eachSeries(subAss.processing, function (proObj, callback) {
-                     
-                                                        var tempProObj = proObj; 
+
+                                                        var tempProObj = proObj;
                                                         tempProObj.processingLevel = "subAssembly";
                                                         tempProObj.processingLevelId = savedSubAss._id;
                                                         // tempProObj.processingObj = proObj;
@@ -378,7 +391,7 @@ var model = {
                                             // tempProObj.processingObj = proObj;
                                             // tempProObj.processingObj = {};
                                             EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
-                                               if (err) {
+                                                if (err) {
                                                     console.log('**** error at assProcessing of DraftEstimate.js ****', err);
                                                 } else {
                                                     assprocessingArray.push(savedSubAssProcess._id);
@@ -466,6 +479,8 @@ var model = {
         });
 
     },
+
+    //-save the document in draft estimate table
 
     createDraftEstimate: function (data, callback) {
 
@@ -556,6 +571,8 @@ var model = {
         }
     },
 
+    //-retrieve all records from draft estimate table
+
     getDraftEstimateData: function (data, callback) {
         DraftEstimate.find().lean().exec(function (err, found) {
             if (err) {
@@ -568,6 +585,33 @@ var model = {
             }
         });
 
+    },
+
+    getDraftEstimateCustomerName: function (data, callback) {
+        DraftEstimate.findOne({
+                _id: data._id
+            }).deepPopulate('estimateCreatedUser estimateUpdatedUser enquiryId.customerId')
+            .select('assemblyName assemblyNumber enquiryId estimateCreatedUser estimateUpdatedUser materialCost processingCost addonCost extrasCost totalCost')
+            .lean().exec(function (err, found) {
+                if (err) {
+                    console.log('**** error at function_name of DraftEstimate.js ****', err);
+                    callback(err, null);
+                } else if (_.isEmpty(found)) {
+                    callback(null, 'noDataFound');
+                } else {
+                    delete found.enquiryId.__v;
+                    delete found.enquiryId._id;
+                    delete found.enquiryId.createdAt;
+                    delete found.enquiryId.updatedAt;
+                    delete found.enquiryId.enquiryId;
+                    delete found.enquiryId.keyRequirement;
+                    delete found.enquiryId.enquiryName;
+                    delete found.enquiryId.enquiryInfo;
+                    delete found.enquiryId.enquiryDetails;
+                    delete found.enquiryId.customerId._id;
+                    callback(null, found);
+                }
+            });
     },
 
 

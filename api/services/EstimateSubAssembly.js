@@ -51,7 +51,7 @@ module.exports = mongoose.model('EstimateSubAssembly', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
-    importEstimateSubAssembly: function (data, callback) {
+    importSubAssembly: function (data, callback) {
         EstimateSubAssembly.findOne({
                 subAssemblyNumber: data.subAssemblyNumber
             }).deepPopulate('processing addons extras subAssemblyParts subAssemblyParts.processing subAssemblyParts.addons subAssemblyParts.extras')
@@ -205,7 +205,7 @@ var model = {
             });
     },
 
-    importSubAssembly: function (data, callback) {
+    qqqimportSubAssembly: function (data, callback) {
 
         data.lastSubAssemblyNumber = data.lastSubAssemblyNumber.replace(/\d+$/, function (n) {
             return ++n

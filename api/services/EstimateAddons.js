@@ -52,6 +52,8 @@ module.exports = mongoose.model('EstimateAddons', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //- import addon by passing addon number and get the last to last addon number no. by giving addon number.
     importAddon: function (data, callback) {
         data.lastAddonNumber = data.lastAddonNumber.replace(/\d+$/, function (n) {
             return ++n
@@ -75,6 +77,8 @@ var model = {
             }
         });
     },
+    
+    //-retrieve all estimate addon records from estimae addon table.
     getEstimateAddonsData: function (data, callback) {
         EstimateAddons.find().lean().exec(function (err, found) {
             if (err) {
@@ -87,9 +91,11 @@ var model = {
             }
         });
     },
+
+    //-get all addons no. by passing addon number
     getAllAddonsNo: function (data, callback) {
-        EstimateAddons.find({},{
-            addonNumber:1
+        EstimateAddons.find({}, {
+            addonNumber: 1
         }).lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of EstimateAddons.js ****', err);

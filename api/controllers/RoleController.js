@@ -25,9 +25,22 @@ var controller = {
         }
     },
     createRoleWithPermissions: function (req, res) {
-        console.log('**** inside function_name of RoleController.js & data is ****',req.body);
+        console.log('**** inside function_name of RoleController.js & data is ****', req.body);
         if (req.body) {
             Role.createRoleWithPermissions(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    createRole: function (req, res) {
+        console.log('****!!!!!!!!!!!!****',req.body);
+        if (req.body) {
+            Role.createRole(req.body, res.callback);
         } else {
             res.json({
                 value: false,

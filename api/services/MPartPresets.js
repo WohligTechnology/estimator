@@ -120,7 +120,7 @@ var model = {
     updateMaterial: function (data, callback) {
 
     },
-    
+
     getMPartPresetData: function (data, callback) {
         MPartPresets.find().lean().exec(function (err, found) {
             if (err) {
@@ -160,8 +160,8 @@ var model = {
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 MPartPresets.findOne({
-                    partType:data.partType,
-                    size:data.size
+                    partType: data.partType,
+                    size: data.size
                 }).deepPopulate('shape partType partType.material').lean().exec(function (err, found) {
                     if (err) {
                         console.log('**** error at function_name of MPartPresets.js ****', err);
@@ -176,6 +176,12 @@ var model = {
                 callback(null, found);
             }
         });
+    },
+
+    // what this function will do ?
+    // req data --> ?
+    function_name: function (data, callback) {
+
     },
 
 };

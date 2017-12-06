@@ -1,12 +1,14 @@
 var schema = new Schema({
     roleName: {
-        type: String
-    },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        type: String,
         index: true
-    }
+    },
+    permission: [{
+        model: String,
+        action: {}
+    }],
+
+
 });
 
 schema.plugin(deepPopulate, {});
@@ -73,7 +75,7 @@ var model = {
     // what this function will do ?
     // req data --> ?
     createRoleWithPermissions: function (data, callback) {
-        
+
         PermissionService.createRole({
             name: data.roleName,
             users: data.email,
@@ -88,6 +90,21 @@ var model = {
             ]
         })
     },
+    createRole: function (data, callback) {
+        Role.create({
+            roleName: data.roleName,
+            })
+            .then(function (role) {
+                console.log(role);
+                callback(role);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+
+    },
+
+
 
 };
 module.exports = _.assign(module.exports, exports, model);
