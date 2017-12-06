@@ -246,8 +246,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			//- get all shortcuts i.e. part presets 
 			//- get all part types
 			//- get all custom materials 
-			NavigationService.boxCall('model_name/function_name', function (data) {
-				$scope.data = data.data;
+			NavigationService.boxCall('MPartPresets/getMPartPresetData', function (data) {
+				estimatePartObj.allShortcuts = data.data;
+
+				NavigationService.boxCall('MPartType/getPartTypeData', function (data) {
+					estimatePartObj.allPartTypes = data.data;
+					callback(estimatePartObj);
+				});
 			});
 
 

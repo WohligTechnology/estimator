@@ -149,8 +149,8 @@ var model = {
         });
     },
 
-    // retrieve all MPartPresets Records
-    // req data --> _id or mPartType_id and sizes
+    //- retrieve all MPartPresets Records
+    //- req data --> _id or mPartType_id and sizes
     getAllPartPresetsData: function (data, callback) {
         MPartPresets.findOne({
             _id: data._id

@@ -109,7 +109,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
         $scope.estimatePartObj.finalCalculation.materialPrice = data.keyValueCalculation.materialPrice;
         $scope.estimatePartObj.finalCalculation.itemUnitPrice = data.keyValueCalculation.itemUnitPrice;
         $scope.estimatePartObj.finalCalculation.totalCostForQuantity = data.keyValueCalculation.totalCostForQuantity;
-        
+
       } else {
         $scope.level = getLevelName;
         $scope.estimateViewData = data;

@@ -206,8 +206,6 @@ var model = {
                 callback(null, found);
             }
         });
-    },
-
-
+    }
 };
 module.exports = _.assign(module.exports, exports, model);
