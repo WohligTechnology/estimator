@@ -53,6 +53,8 @@ module.exports = mongoose.model('MAddonType', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom', 'materialCat materialCat.subCat materialSubCat rate.uom quantity.additionalInputUom quantity.linkedKeyUom quantity.finalUom'));
 var model = {
+
+    //-Get all addon materials for single document of MAddon Type table.
     getAddonMaterial: function (data, callback) {
         MAddonType.findOne({
             _id: data._id
@@ -79,6 +81,8 @@ var model = {
 
         });
     },
+
+    //-get all master addon type records from MAddonType table.
     getMAddonTypeData: function (data, callback) {
         MAddonType.find().lean().exec(function (err, found) {
             if (err) {
@@ -91,6 +95,8 @@ var model = {
             }
         });
     },
+
+    //-Search the MAddon Type records on basis of addon type name with pagination.
     search: function (data, callback) {
         var maxRow = 10;
         if (data.totalRecords) {
@@ -132,6 +138,8 @@ var model = {
                     }
                 });
     },
+
+    //-Delete multiple records from table MAddon type by passing multiple MAddon Type Ids.
     deleteMultipleAddonsType: function (data, callback) {
         MAddonType.remove({
             _id: {

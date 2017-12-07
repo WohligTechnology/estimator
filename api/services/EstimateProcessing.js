@@ -70,6 +70,8 @@ var model = {
             }
         });
     },
+
+    //-Get all estimate processing records from Estimate Processing table.
     getEstimateProcessingData: function (data, callback) {
         EstimateProcessing.find().lean().exec(function (err, found) {
             if (err) {
@@ -83,6 +85,8 @@ var model = {
         });
 
     },
+
+    //-Get all estimate processing nos only from Estimate Processing table.
     getAllProcessingsNo: function (data, callback) {
         EstimateProcessing.find({},{
             processingNumber:1

@@ -9,8 +9,8 @@ var schema = new Schema({
         required: true,
         key: "materials"
     },
-    datasheet:{
-        type:String
+    datasheet: {
+        type: String
     },
     density: {
         type: Number
@@ -96,6 +96,7 @@ var model = {
                 });
     },
 
+    //-Get all material records from MMaterial table.
     getAllMaterials: function (data, callback) {
         MMaterial.find().exec(function (err, found) {
             if (err) {
@@ -112,9 +113,8 @@ var model = {
 
     },
 
-    // req data --> matSubCatId
+    //-update sub cat material type by passing material sub cat Id.
     updateAllSubCatMatType: function (data, callback) {
-
         MMaterial.update({
             materialSubCategory: data.matSubCatId,
         }, {
@@ -134,7 +134,7 @@ var model = {
 
     },
 
-    // req data --> type
+    //-get all material data on the basis of Material type.
     getAllMaterialsByMatType: function (data, callback) {
         MMaterial.find({
             type: data.type
@@ -150,6 +150,7 @@ var model = {
         });
     },
 
+    //-Search the MMaterial records on the basis of materialName field
     search: function (data, callback) {
         var maxRow = 10;
         if (data.totalRecords) {

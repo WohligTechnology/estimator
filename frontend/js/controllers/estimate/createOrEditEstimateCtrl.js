@@ -122,8 +122,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
   //- call when user will select shortcut/preset name 
   //- update dependent data on the base of  selected shortcut data
-  $scope.getSelectedShortcutData = function (shortcutObj) {
-
+  $scope.getSelectedShortcutData = function (shortcutObj,partTypes) {
+    debugger;
     //- update selectedShortcut
     //- get part type (update selectedPartType) & disable it
     //- get material data to select 
@@ -131,10 +131,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     //- custom material --> disable it
     //- get shape data from selected shortcut (i.e part presetName)
     //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
-
+    $scope.estimatePartObj.allPartTypes = $scope.estimatePartObj.allPartTypes; 
     $scope.estimatePartObj.selectedShortcut = shortcutObj; 
     $scope.estimatePartObj.selectedPartType = shortcutObj.partType;
-    $scope.estimatePartObj.allMaterial = allMaterial; /////-
+    $scope.tempObj =  shortcutObj.partType;;
+    // $scope.estimatePartObj.allMaterial = allMaterial; /////-
     $scope.estimatePartObj.selectedSize = shortcutObj.size; /////- 
 
     //- update shape related data
@@ -152,10 +153,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     // $scope.estimatePartObj.extraCount = part.extras.length; /////-
 
     //- disable fields
-    $scope.disablePartFields.disablePartTypeName = true;
+    $scope.disablePartFields.disablePartType = true;
     $scope.disablePartFields.disableSize = true;
     $scope.disablePartFields.disableCustomMaterial = true;
 
+    debugger;
   }
 
   //- call when user will select part type name 

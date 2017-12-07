@@ -35,6 +35,8 @@ var model = {
         });
 
     },
+
+    //-Get all Mvariable data from MVarible table.
     getMVariableData: function (data, callback) {
         MVariables.find().lean().exec(function (err, found) {
             if (err) {

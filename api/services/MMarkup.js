@@ -19,6 +19,8 @@ module.exports = mongoose.model('MMarkup', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //-Get all markup data from MMarkup table.
     getMMarkupData: function (data, callback) {
         MMarkup.find().lean().exec(function (err, found) {
             if (err) {

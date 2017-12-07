@@ -17,6 +17,8 @@ module.exports = mongoose.model('MPartTypeCat', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'partTypes', 'partTypes'));
 var model = {
+
+    //-Get All Master Part Type Cat. records from MPartTypeCat table. 
     getMPartTypeCatData: function (data, callback) {
         MPartTypeCat.find().lean().exec(function (err, found) {
             if (err) {

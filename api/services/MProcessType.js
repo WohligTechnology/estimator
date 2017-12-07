@@ -57,10 +57,8 @@ module.exports = mongoose.model('MProcessType', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "processCat rate.uom quantity.uom, quantity.finalUom", "processCat rate.uom quantity.uom, quantity.finalUom"));
 var model = {
 
-    // what this function will do ?
-    // req data --> ?
+    //- Seatch the MProcess type data by passing Process Type name.
     getAllProcessType: function (data, callback) {
-
         var maxRow = Config.maxRow;
         var page = 1;
         if (data.page) {
@@ -123,6 +121,8 @@ var model = {
             }
         });
     },
+
+    //-Get all process type data from MProcess Type table.
     getProcessTypeData: function (data, callback) {
         MProcessType.find().lean().exec(function (err, found) {
             if (err) {
@@ -135,6 +135,8 @@ var model = {
             }
         });
     },
+
+    //-Delete multiple process type from MProcess Type table by passing multiple MProcessType Ids.
     deleteMultipleProcessType: function (data, callback) {
         MProcessType.remove({
             _id:{

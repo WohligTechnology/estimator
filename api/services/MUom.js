@@ -12,6 +12,8 @@ module.exports = mongoose.model('MUom', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //-Get all MUom data from MUom table.
     getMUomData: function (data, callback) {
         MUom.find().lean().exec(function (err, found) {
             if (err) {

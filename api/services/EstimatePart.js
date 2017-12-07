@@ -75,84 +75,8 @@ module.exports = mongoose.model('EstimatePart', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
-    importEstimatePart: function (data, callback) {
-        EstimatePart.findOne({
-                partNumber: data.partNumber
-            }).deepPopulate('processing addons extras')
-            .lean().exec(function (err, found) {
-                if (err) {
-                    console.log('**** error at function_name of EstimatePart.js ****', err);
-                    callback(err, null);
-                } else if (_.isEmpty(found)) {
-                    callback(null, 'noDataFound');
-                } else {
-                    delete found._id;
-                    delete found.createdAt;
-                    delete found.updatedAt;
-                    delete found.__v;
 
-                    async.parallel([
-                        function (callback) {
-                            async.eachSeries(found.addons, function (add, callback) {
-                                delete add._id;
-                                delete add.createdAt;
-                                delete add.updatedAt;
-                                delete add.__v;
-                                callback();
-
-                            }, function (err) {
-                                if (err) {
-                                    console.log('***** error at final response of async.eachSeries in function_name of EstimatePart.js*****', err);
-                                } else {
-                                    callback();
-                                }
-                            });
-                        },
-                        function (callback) {
-                            async.eachSeries(found.processing, function (proc, callback) {
-                                delete proc._id;
-                                delete proc.createdAt;
-                                delete proc.updatedAt;
-                                delete proc.__v;
-                                callback();
-
-                            }, function (err) {
-                                if (err) {
-                                    console.log('***** error at final response of async.eachSeries in function_name of EstimatePart.js*****', err);
-                                } else {
-                                    callback();
-                                }
-                            });
-                        },
-                        function (callback) {
-                            async.eachSeries(found.extras, function (ext, callback) {
-                                delete ext._id;
-                                delete ext.createdAt;
-                                delete ext.updatedAt;
-                                delete ext.__v;
-                                callback();
-
-                            }, function (err) {
-                                if (err) {
-                                    console.log('***** error at final response of async.eachSeries in function_name of EstimatePart.js*****', err);
-                                } else {
-                                    callback();
-                                }
-                            });
-
-                        }
-                    ], function () {
-                        if (err) {
-                            console.log('********** error at final response of async.parallel  EstimatePart.js ************', err);
-                            callback(err, null);
-                        } else {
-                            callback(null, found);
-                        }
-                    });
-                }
-            });
-    },
-    
+    //-Get all Estimate Part records from Estimate Part table.
     getEstimatePartData: function (data, callback) {
         EstimatePart.find().lean().exec(function (err, found) {
             if (err) {
@@ -243,6 +167,7 @@ var model = {
         });
     },
 
+    //-Get all parts nos. only from Estimate part table.
     getAllPartsNo: function (data, callback) {
         EstimatePart.find({},{
             partNumber:1

@@ -17,6 +17,8 @@ module.exports = mongoose.model('MExtrasPreset', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //-Get all MExtraPreset records from MExtra Preset table.
     getMExtraPresetData: function (data, callback) {
         MExtrasPreset.find().lean().exec(function (err, found) {
             if (err) {

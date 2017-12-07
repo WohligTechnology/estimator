@@ -23,8 +23,7 @@ module.exports = mongoose.model('MMaterialSubCat', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
-    // what this function will do ?
-    // req data --> ?
+    //-Find the records of material sub category on the basis of material category Id.
     getCatsOfSubCat: function (data, callback) {
         MMaterialSubCat.find({
             catId: data.matCatId
@@ -39,6 +38,8 @@ var model = {
             }
         });
     },
+
+    //-Get all the records of material sub category from MMAterialSubCat table.
     getMMaterialSubCatData: function (data, callback) {
         MMaterialSubCat.find().lean().exec(function (err, found) {
             if (err) {

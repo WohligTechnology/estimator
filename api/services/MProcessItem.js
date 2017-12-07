@@ -18,6 +18,8 @@ module.exports = mongoose.model('MProcessItem', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //-Get All MProcess items records from MProcess Item table
     getMProcessItemData: function (data, callback) {
         MProcessItem.find().lean().exec(function (err, found) {
             if (err) {
