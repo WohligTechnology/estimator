@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Enter Role :</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.role" placeholder="Enter Role" required autofocus>
+                                <input type="text" class="form-control" ng-model="roleData.roleName" placeholder="Enter Role" required autofocus>
                             </div>
                         </div>
                         <div class="form-group">
@@ -135,7 +135,7 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="">Save</button>
                                 <button type="submit" class="btn btn-circle green" ng-if="showEditBtn">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>

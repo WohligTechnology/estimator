@@ -82,56 +82,46 @@
                             <th>Actions</th>
                         </tr>
                         <tr>
-                            <th>User</th>
-                            <th>Customer</th>
-                            <th>Enquiry</th>
-                            <th>Estimate</th>
-                            <th>Master</th>
+                            <th>{{moduleNames[0]}}</th>
+                            <th>{{moduleNames[1]}}</th>
+                            <th>{{moduleNames[2]}}</th>
+                            <th>{{moduleNames[3]}}</th>
+                            <th>{{moduleNames[4]}}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="t in [1,2,3, 4, 5, 6 ,7]">
+                        <tr ng-repeat="t in [1, 2, 3, 4, 5]" class="bold">
                             <td>{{$index + 1}}</td>
                             <td>Role</td>
                             <td>
-                                <b>
-                                    <span ng-class="{'redColor':!userC, 'greenColor':userC}">C</span>
-                                    <span ng-class="{'redColor':!userR, 'greenColor':userC}">R</span>
-                                    <span ng-class="{'redColor':!userU, 'greenColor':userC}">U</span>
-                                    <span ng-class="{'redColor':userD, 'greenColor':!userC}">D</span>
-                                </b>
+                                <span ng-class="{'redColor':!userC, 'greenColor':userC}">C</span>
+                                <span ng-class="{'redColor':!userR, 'greenColor':userC}">R</span>
+                                <span ng-class="{'redColor':!userU, 'greenColor':userC}">U</span>
+                                <span ng-class="{'redColor':userD, 'greenColor':!userC}">D</span>
                             </td>
                             <td>
-                                <b>
-                                    <span ng-class="{'redColor':!customerC, 'greenColor':customerC}">C</span>
-                                    <span ng-class="{'redColor':customerR, 'greenColor':!customerR}">R</span>
-                                    <span ng-class="{'redColor':!customerU, 'greenColor':customerU}">U</span>
-                                    <span ng-class="{'redColor':customerD, 'greenColor':!customerD}">D</span>
-                                </b>
+                                <span ng-class="{'redColor':!customerC, 'greenColor':customerC}">C</span>
+                                <span ng-class="{'redColor':customerR, 'greenColor':!customerR}">R</span>
+                                <span ng-class="{'redColor':!customerU, 'greenColor':customerU}">U</span>
+                                <span ng-class="{'redColor':customerD, 'greenColor':!customerD}">D</span>
                             </td>
                             <td>
-                                <b>
-                                    <span ng-class="{'redColor':enquiryC, 'greenColor':!enquiryC}">C</span>
-                                    <span ng-class="{'redColor':enquiryR, 'greenColor':!enquiryR}">R</span>
-                                    <span ng-class="{'redColor':!enquiryU, 'greenColor':enquiryU}">U</span>
-                                    <span ng-class="{'redColor':!enquiryD, 'greenColor':enquiryD}">D</span>
-                                </b>
+                                <span ng-class="{'redColor':enquiryC, 'greenColor':!enquiryC}">C</span>
+                                <span ng-class="{'redColor':enquiryR, 'greenColor':!enquiryR}">R</span>
+                                <span ng-class="{'redColor':!enquiryU, 'greenColor':enquiryU}">U</span>
+                                <span ng-class="{'redColor':!enquiryD, 'greenColor':enquiryD}">D</span>
                             </td>
                             <td>
-                                <b>
-                                    <span ng-class="{'redColor':estimateC, 'greenColor':!estimateC}">C</span>
-                                    <span ng-class="{'redColor':estimateR, 'greenColor':!estimateC}">R</span>
-                                    <span ng-class="{'redColor':!estimateU, 'greenColor':estimateC}">U</span>
-                                    <span ng-class="{'redColor':estimateD, 'greenColor':!estimateC}">D</span>
-                                </b>
+                                <span ng-class="{'redColor':estimateC, 'greenColor':!estimateC}">C</span>
+                                <span ng-class="{'redColor':estimateR, 'greenColor':!estimateC}">R</span>
+                                <span ng-class="{'redColor':!estimateU, 'greenColor':estimateC}">U</span>
+                                <span ng-class="{'redColor':estimateD, 'greenColor':!estimateC}">D</span>
                             </td>
                             <td>
-                                <b>
-                                    <span ng-class="{'redColor':masterC, 'greenColor':!masterC}">C</span>
-                                    <span ng-class="{'redColor':masterR, 'greenColor':!masterC}">R</span>
-                                    <span ng-class="{'redColor':!masterU, 'greenColor':masterC}">U</span>
-                                    <span ng-class="{'redColor':!masterD, 'greenColor':masterC}">D</span>
-                                </b>
+                                <span ng-class="{'redColor':masterC, 'greenColor':!masterC}">C</span>
+                                <span ng-class="{'redColor':masterR, 'greenColor':!masterC}">R</span>
+                                <span ng-class="{'redColor':!masterU, 'greenColor':masterC}">U</span>
+                                <span ng-class="{'redColor':!masterD, 'greenColor':masterC}">D</span>
                             </td>
                             <td class="text-center">
                                 <span class="label label-sm label-primary" id="add_space" ng-click="addOrEditRoleModal('update', _id)">

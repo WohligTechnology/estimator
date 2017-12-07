@@ -3,7 +3,7 @@ myApp.service('estimateService', function (NavigationService) {
   var bulkArray = [];
   //- get estimate view
   this.getEstimateData = function (callback) {
-    NavigationService.boxCall('DraftEstimate/search', function (data) {
+    NavigationService.boxCall('DraftEstimate/getDraftEstimateCustomerName', function (data) {
       callback(data.data);
     });
   }
@@ -16,6 +16,7 @@ myApp.service('estimateService', function (NavigationService) {
       callback(data);
     });
   }
+  //- get pagination data
   this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('DraftEstimate/search', {
       keyword: searchKeyword,

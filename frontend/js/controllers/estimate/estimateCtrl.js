@@ -1,6 +1,6 @@
 myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $uibModal, estimateService) {
 
-  
+
   // *************************** default variables/tasks begin here ***************** //
   //- to show/hide sidebar of dashboard   
   $scope.$parent.isSidebarActive = true;
@@ -11,14 +11,14 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   //- to get all estimates data
   $scope.getTableData = function () {
     estimateService.getEstimateData(function (data) {
-      $scope.tableData = data.results;
+      $scope.tableData = data;
     });
   }
 
 
   // *************************** functions to be triggered form view begin here ***** //     
-   //- modal to delete estimate
-   $scope.deleteEstimateModal = function (estimateId, getFunction) {
+  //- modal to delete estimate
+  $scope.deleteEstimateModal = function (estimateId, getFunction) {
     $scope.idToDelete = estimateId;
     $scope.functionToCall = getFunction;
 
@@ -38,16 +38,43 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
       $scope.getTableData();
     });
   }
+  //- for pagination of estimates' records
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+    if (angular.isUndefined(keyword) || keyword == '') {
+      if (numberOfRecords != '10') {
+        estimateService.getPaginationData(page, numberOfRecords, null, function (data) {
+          $scope.tableData = data.results;
+          estimateService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      } else {
+        estimateService.getPaginationData(page, null, null, function (data) {
+          $scope.tableData = data.results;
+          estimateService.getPaginationDetails(page, 10, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      }
+    } else {
+      estimateService.getPaginationData(page, numberOfRecords, keyword, function (data) {
+        $scope.tableData = data.results;
+        estimateService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+          $scope.obj = obj;
+        });
+      });
+    }
+  }
 
-  // //- to edit estimate
-  // $scope.allEstimateEdit = function () {
-  //   $scope.modalInstance = $uibModal.open({
-  //     animation: true,
-  //     templateUrl: 'views/content/estimate/estimateModal/allEstimateEdit.html',
-  //     scope: $scope,
-  //     size: 'md',
-  //   });
-  // }
+  //- to search the text in the table
+  $scope.serachText = function (keyword, count) {
+    enquiryService.getPaginationData(null, null, keyword, function (data) {
+      $scope.tableData = data.results;
+      enquiryService.getPaginationDetails(1, count, data, function (obj) {
+        $scope.obj = obj;
+      });
+    });
+  }
 
   //- to dismiss modal instance
   $scope.cancelModal = function () {

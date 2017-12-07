@@ -109,10 +109,10 @@
               </td>
               <td>{{table.assemblyNumber}} </td>
               <td>{{table.assemblyName}} </td>
-              <td>{{table.enquiryId}} </td>
-              <td>{{table.customerName}}</td>
-              <td>{{table.estimateCreatedUser}}</td>
-              <td>{{table.estimateUpdatedUser}}</td>
+              <td>{{table.enquiryId._id}} </td>
+              <td>{{table.enquiryId.customerId.customerName}}</td>
+              <td>{{table.estimateCreatedUser.name}}</td>
+              <td>{{table.estimateUpdatedUsername}}</td>
               <td>{{table.materialCost}}</td>
               <td>{{table.processingCost}}</td>
               <td>{{table.addonCost}}</td>
