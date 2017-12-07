@@ -584,7 +584,6 @@ var model = {
                 callback(null, found);
             }
         });
-
     },
 
     getDraftEstimateCustomerName: function (data, callback) {
@@ -613,7 +612,6 @@ var model = {
                 }
             });
     },
-
 
 };
 module.exports = _.assign(module.exports, exports, model);

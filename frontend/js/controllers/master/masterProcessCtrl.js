@@ -181,14 +181,14 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     $scope.getPaginationData = function (page, numberOfRecords, keyword) {
         if (angular.isUndefined(keyword) || keyword == '') {
             if (numberOfRecords != '10') {
-                masterProcessService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+                masterProcessService.getPaginationData(page, numberOfRecords, null, function (data) {
                     $scope.processData = data.results;
                     masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
                         $scope.obj = obj;
                     });
                 });
             } else {
-                masterProcessService.getPaginationDatawithoutKeyword(page, function (data) {
+                masterProcessService.getPaginationData(page, null, null, function (data) {
                     $scope.processData = data.results;
                     masterProcessService.getPaginationDetails(page, 10, data, function (obj) {
                         $scope.obj = obj;
@@ -196,7 +196,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
                 });
             }
         } else {
-            masterProcessService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+            masterProcessService.getPaginationData(page, numberOfRecords, keyword, function (data) {
                 $scope.processData = data.results;
                 masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
                     $scope.obj = obj;
@@ -206,7 +206,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     //- function to search the text in table
     $scope.serachText = function (keyword, count) {
-        masterProcessService.getSearchResult(keyword, function (data) {
+        masterProcessService.getSearchResult(null, null, keyword, function (data) {
             $scope.processData = data.results;
             masterProcessService.getPaginationDetails(1, count, data, function (obj) {
                 $scope.obj = obj;

@@ -51,28 +51,31 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	var part = {
 		partName: "",
 		partNumber: "",
-		partIcon:"",
-		shortcut: "",                   //- selecetd shortCut
-		partType:"",                    //- selected partType
-		material: "",                   //- selected material
-		size: "",                       //- size
-		customMaterial:"",              //- selectedCustomeMaterial
-		quantity: "",                   //- quantity
-		variable: [{}],                 //- variables 
-		scaleFactor: "",                //- sacaleFactor
-		finalCalculation: {             //- finalCalculation
-			materialPrice: "",          
+		partIcon: "",
+
+		shortcut: "", //- selecetd shortCut
+		partType: "", //- selected partType
+		material: "", //- selected material
+		size: "", //- size
+
+		customMaterial: "", //- selectedCustomeMaterial
+		quantity: "", //- quantity
+		variable: [{}], //- variables 
+		scaleFactor: "", //- sacaleFactor
+
+		finalCalculation: { //- finalCalculation
+			materialPrice: "",
 			itemUnitPrice: "",
-			totalCostForQuantity: ""    
+			totalCostForQuantity: ""
 		},
-		keyValueCalculations: {          //- keyValueCalculation
+		keyValueCalculations: { //- keyValueCalculation
 			perimeter: "",
 			sheetMetalArea: "",
 			surfaceArea: "",
 			weight: ""
-		},				
+		},
 
-		processing: [],  
+		processing: [],
 		addons: [],
 		extras: []
 	};
@@ -200,6 +203,60 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (estimateView == 'editPartItemDetail') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
+
+			var estimatePartObj = {
+				allShortcuts: [], //- get all presets name from API
+				allPartTypes: [], //- get all part type from API
+				// allMaterial: [],                    //- get all material of selected partType
+				// allSizes: [],                       //- get data from selected preset
+
+				selectedShortcut: {}, //- selected partType presets 
+				selectedPartType: {}, //- selected partType
+				selectedMaterial: {}, //- selected material     
+				selectedSize: {}, //- slected size
+
+				customMaterials: [], //- get all custom material from  API
+				selectedCustomMaterial: {}, //- selecetd custom materail  
+
+				quantity: null, //- part.quantity
+				variables: [], //- part.variables
+				shapeImage: null, //- get it from slected partPreset --> shape.shapeImage      
+				shapeIcon: null, //- get it from slected partPreset --> shape.shapeIcon
+				processingCount: null, //- part.processing.length
+				addonCount: null, //- part.addons.length
+				extraCount: null, //- part.extars.length
+
+				partName: null, //- part.partName
+				partNumber: null, //- part.partNumber 
+				scaleFactor: null, //- part.scaleFactor
+
+				keyValueCalculation: {
+					perimeter: null, //- part.keyValueCalculation.perimeter
+					sheetMetalArea: null, //- part.keyValueCalculation.sheetMetalArea
+					surfaceArea: null, //- part.keyValueCalculation.surfaceArea
+					weight: null //- part.keyValueCalculation.weight
+				},
+				finalCalculation: {
+					materialPrice: null, //- part.finalCalculation.materialPrice
+					itemUnitPrice: null, //- part.finalCalculation.itemUnitPrice
+					totalCostForQuantity: null //- part.finalCalculation.totalCostForQuantity
+				}
+			};
+
+			//- get all shortcuts i.e. part presets 
+			//- get all part types
+			//- get all custom materials 
+			NavigationService.boxCall('MPartPresets/getMPartPresetData', function (data) {
+				estimatePartObj.allShortcuts = data.data;
+
+				NavigationService.boxCall('MPartType/getPartTypeData', function (data) {
+					estimatePartObj.allPartTypes = data.data;
+					callback(estimatePartObj);
+				});
+			});
+
+
+
 		} else if (estimateView == 'processing') {
 			if (getLevelName == "assembly") {
 
@@ -245,7 +302,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
 			}
 		}
-		callback(getViewData);
+
+		if (estimateView != 'editPartItemDetail' || estimateView != 'partDetail') {
+			callback(getViewData);
+		}
+
 	}
 	//- to save current estimate object
 	this.saveCurrentEstimate = function () {

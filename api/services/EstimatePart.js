@@ -4,12 +4,14 @@ var schema = new Schema({
     partNumber: { // a1s1pX where a1 --> assembly name, s1 --> subAssemblyName, X is auto increasing number
         type: String
     },
+
     subAssemblyId: {
         type: Schema.Types.ObjectId,
         ref: "EstimateSubAssembly",
         index: true
         // key: 'subAssemblyParts'
     },
+
     shortcut: {
         type: Schema.Types.ObjectId,
         ref: "MPartPresets",
@@ -26,13 +28,27 @@ var schema = new Schema({
         index: true,
     },
     size: String,
-    customMaterialId:{
+
+    customMaterial:{
         type: Schema.Types.ObjectId,
         ref: "MMaterial",
         index: true,
     },
     quantity: Number,
     variable: [{}], // Structure not defined yet    
+    scaleFactor: Number, // it is %     
+
+    finalCalculation: {
+        materialPrice: Number,
+        itemUnitPrice: Number,
+        totalCostForQuantity: Number
+    },
+    keyValueCalculations: {
+        perimeter: Number,
+        sheetMetalArea: Number,
+        surfaceArea: Number,
+        weight: Number
+    },
 
     processing: [{
         type: Schema.Types.ObjectId,
@@ -50,19 +66,6 @@ var schema = new Schema({
         index: true
     }],
     partObj: {},
-
-    scaleFactor: Number, // it is %      
-    finalCalculation: {
-        materialPrice: Number,
-        itemUnitPrice: Number,
-        totalCostForQuantity: Number
-    },
-    keyValueCalculations: {
-        perimeter: Number,
-        sheetMetalArea: Number,
-        surfaceArea: Number,
-        weight: Number
-    }
 });
 
 schema.plugin(deepPopulate, {});
@@ -149,6 +152,7 @@ var model = {
                 }
             });
     },
+    
     getEstimatePartData: function (data, callback) {
         EstimatePart.find().lean().exec(function (err, found) {
             if (err) {

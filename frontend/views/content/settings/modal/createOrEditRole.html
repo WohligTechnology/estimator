@@ -29,7 +29,7 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" id="checkbox-f" ng-model="isUserSelected">User</td>
+                                            <input type="checkbox" id="checkbox-f" ng-model="isUserSelected" ng-disabled="userC || userR || userU ||userD">User</td>
                                         <td>
                                             <span ng-show="isUserSelected">
                                                 <input type="checkbox" id="checkbox-f" ng-model="userC">Create</span>
@@ -49,7 +49,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" id="checkbox-f" ng-model="isCustomerSelected">Customer</td>
+                                            <input type="checkbox" id="checkbox-f" ng-model="isCustomerSelected" ng-disabled="customerC || customerR || customerU || customerD">Customer</td>
                                         <td>
                                             <span ng-show="isCustomerSelected">
                                                 <input type="checkbox" id="checkbox-f" ng-model="customerC">Create</span>
@@ -69,7 +69,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" id="checkbox-f" ng-model="isEnquirySelected">Enquiry</td>
+                                            <input type="checkbox" id="checkbox-f" ng-model="isEnquirySelected" ng-disabled="enquiryC || enquiryR || enquiryU || enquiryD">Enquiry</td>
                                         <td>
                                             <span ng-show="isEnquirySelected">
                                                 <input type="checkbox" id="checkbox-f" ng-model="enquiryC">Create</span>
@@ -89,7 +89,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" id="checkbox-f" ng-model="isEstimateSelected">Estimate</td>
+                                            <input type="checkbox" id="checkbox-f" ng-model="isEstimateSelected" ng-disabled="estimateC || estimateR || estimateU || estimateD">Estimate</td>
                                         <td>
                                             <span ng-show="isEstimateSelected">
                                                 <input type="checkbox" id="checkbox-f" ng-model="estimateC">Create</span>
@@ -109,7 +109,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" id="checkbox-f" ng-model="isMasterSelected">Master</td>
+                                            <input type="checkbox" id="checkbox-f" ng-model="isMasterSelected" ng-disabled="masterC || masterR || masterU || masterD">Master</td>
                                         <td></td>
                                         <td>
                                             <span ng-show="isMasterSelected">

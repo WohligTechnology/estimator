@@ -9,45 +9,18 @@ myApp.service('estimateService', function (NavigationService) {
   }
 
   //- delete estimate
-  this.deleteEnquiry = function (estimateId, callback) {
+  this.deleteEstimate = function (estimateId, callback) {
     NavigationService.delete('DraftEstimate/delete', {
       _id: estimateId
     }, function (data) {
       callback(data);
     });
   }
-
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('DraftEstimate/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('DraftEstimate/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('DraftEstimate/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('DraftEstimate/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -95,13 +68,9 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- delete bulk estimates
   this.deleteBulkEstimates = function (estimates, callback) {
-<<<<<<< HEAD
     NavigationService.apiCall('DraftEstimate/deleteMultipleEstimates', {
       idsArray: estimates
     }, function (data) {
-=======
-    NavigationService.apiCall('DraftEstimate/deleteMultipleEstimates', {idsArray: estimates}, function (data) {
->>>>>>> 9632da82347cbf4f4f23ce8d2cf950f3c0ba65fa
       callback();
     });
   }

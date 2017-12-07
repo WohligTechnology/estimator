@@ -1029,16 +1029,15 @@ myApp.directive('uploadAllFiles', function ($http) {
     scope: {
       model: '=ngModel',
       fileLocation: '@fileLocation',
-      isMultiple: '=isMultiple'
+      isMultiple: '=isMultiple',
+      icon: '@icon'
     },
     templateUrl: '/views/directive/uploadAllFiles.html',
 
     link: function (scope, element, attrs) {
 
       if (scope.isMultiple) {
-        if (scope.model) {
-
-        } else {
+        if (!scope.model) {
           scope.model = [];
         }
       } else {
@@ -1062,7 +1061,6 @@ myApp.directive('uploadAllFiles', function ($http) {
         scope.isDocs = (fileType == 'doc' || fileType == 'docx');
         scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
 
-        debugger;
         if (files.length > 1 && scope.isMultiple) {
           angular.forEach(files, function (file) {
             var fd = new FormData();
@@ -1090,7 +1088,6 @@ myApp.directive('uploadAllFiles', function ($http) {
             })
             .then(function (data) {
               scope.model = data.data.data[0];
-              console.log('**** inside its working of userProfileService.js ****', data);
             });
         }
       };

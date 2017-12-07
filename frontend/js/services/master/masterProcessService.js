@@ -138,38 +138,12 @@ myApp.service('masterProcessService', function (NavigationService) {
       callback(data);
     });
   }
-
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('MProcessType/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('MProcessType/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('MProcessType/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('MProcessType/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });

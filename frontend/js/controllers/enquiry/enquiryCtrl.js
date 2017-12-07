@@ -55,14 +55,14 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        enquiryService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        enquiryService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.tableData = data.results;
           enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        enquiryService.getPaginationDatawithoutKeyword(page, function (data) {
+        enquiryService.getPaginationData(page, null, null, function (data) {
           $scope.tableData = data.results;
           enquiryService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -70,7 +70,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
         });
       }
     } else {
-      enquiryService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      enquiryService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.tableData = data.results;
         enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
@@ -81,7 +81,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
 
   //- to search the text in the table
   $scope.serachText = function (keyword, count) {
-    enquiryService.getSearchResult(keyword, function (data) {
+    enquiryService.getPaginationData(null, null, keyword, function (data) {
       $scope.tableData = data.results;
       enquiryService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
