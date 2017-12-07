@@ -18,6 +18,8 @@ module.exports = mongoose.model('Role', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //-Find all the role records from the role table.
     getRoleData: function (data, callback) {
         Role.find().lean().exec(function (err, found) {
             if (err) {

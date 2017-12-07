@@ -132,8 +132,7 @@ module.exports = mongoose.model('Enquiry', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
-    //-retrieve total hold enquiries from enquiry table on the basis of enquiry status as "hold".
-
+    //-retrieve count of  hold enquiries from enquiry table on the basis of enquiry status as "hold".
     totalHoldsEnquiries: function (data, callback) {
         Enquiry.find({
             enquiryDetails: {
@@ -152,7 +151,7 @@ var model = {
         });
     },
 
-    //-retrieve total open enquiries from enquiry table on the basis of enquiry status as "open".
+    //-retrieve count of open enquiries from enquiry table on the basis of enquiry status as "open".
     totalOpenEnquiries: function (data, callback) {
         Enquiry.find({
             enquiryDetails: {
@@ -172,7 +171,7 @@ var model = {
 
     },
 
-    //-retrieve total close enquiries from enquiry table on the basis of enquiry status as "close".
+    //-retrieve total count of closed enquiries from enquiry table on the basis of enquiry status as "close".
     totalCloseEnquiries: function (data, callback) {
         Enquiry.find({
             enquiryDetails: {
@@ -227,13 +226,11 @@ var model = {
         });
     },
 
-    //-create the enquiry by admin 
+    //-create the new enquiry by admin 
     createEnquiry: function (data, callback) {
-
         Enquiry.findOne().sort({
             createdAt: -1
         }).exec(function (err, found) {
-            console.log('**** inside function_name of Enquiry.js ****', found);
             if (err) {
                 console.log('**** error at function_name of Enquiry.js ****', err);
                 callback(err, null);
@@ -242,10 +239,6 @@ var model = {
             } else {
                 data.enquiryId = found.enquiryId + 1;
             }
-
-            console.log('**** inside &&&&&&&&&&&&& of Enquiry.js ****', data);
-
-
             Enquiry.saveData(data, function (err, savedData) {
                 if (err) {
                     console.log('**** error at function_name of Enquiry.js ****', err);
@@ -259,7 +252,7 @@ var model = {
         });
     },
 
-    //-retrieve total enquiry data from enqury table.
+    //-retrieve total enquiry records from enqury table.
     getEnquiryData: function (data, callback) {
         Enquiry.find().lean().exec(function (err, found) {
             if (err) {
@@ -273,7 +266,7 @@ var model = {
         });
     },
 
-    //- search the records by passing enquiry name.
+    //- search the records by passing enquiry name with pagination.
     search: function (data, callback) {
         var maxRow = 10;
         if (data.totalRecords) {
@@ -345,7 +338,7 @@ var model = {
         });
     },
 
-    //-delete multiple enquiry from enquiry table by passing multiple enquiry ids.
+    //-delete multiple enquiries from enquiry table by passing multiple enquiry ids.
     deleteMultipleEnquiry: function (data, callback) {
         Enquiry.remove({
             _id: {

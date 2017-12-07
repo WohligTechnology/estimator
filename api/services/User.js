@@ -522,7 +522,7 @@ var model = {
         });
     },
 
-    //-upload the new file from frontend and give back fileId.
+    //-uploadAvtar function calling the function uploadFile from frontend and give back fileId.
     uploadFile: function (file, callback) {
         var d = new Date();
         var extension = file.filename.split('.').pop();
@@ -547,8 +547,7 @@ var model = {
             });
         });
     },
-    // what this function will do ?
-    // req data --> ?
+
     AceesControl: function (data, callback) {
         PermissionService.createRole({
             roleName: data.roleName,

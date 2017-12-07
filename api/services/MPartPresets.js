@@ -65,6 +65,7 @@ module.exports = mongoose.model('MPartPresets', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'shape partType', 'shape partType'));
 var model = {
 
+    //-Get All Part Types and Shapes by passing partTypeId from MPartPresets table.
     getPresetSizes: function (data, callback) {
         MPartPresets.find({
             partType: data.partType
@@ -81,7 +82,7 @@ var model = {
     },
 
     getPresetMaterials: function (data, callback) {
-        MPartPresets.find({
+        MPartPresets.findOne({
                 _id: data._id
             }).deepPopulate('material')
             .select("material")
@@ -103,7 +104,6 @@ var model = {
         MPartPresets.findOneAndUpdate({
             _id: data.id
         }, {
-            // to push multiple objects in an arrayOfObjects_name
             $addToSet: {
                 material: data.materialId
             },
@@ -119,11 +119,12 @@ var model = {
         });
     },
 
-    //- to delete materials from material array 
+    //-to delete materials from material array 
     updateMaterial: function (data, callback) {
 
     },
 
+    //-Get all part presets records from MPartPresets table
     getMPartPresetData: function (data, callback) {
         MPartPresets.find().deepPopulate('shape partType').lean().exec(function (err, found) {
             if (err) {

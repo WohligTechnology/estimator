@@ -71,7 +71,6 @@ var model = {
     //- compile draft estimate & store it into the 6 collections.
     // req data --> _id (i.e. estimate Id)
     compileEstimate: function (data, callback) {
-
         DraftEstimate.findOne({
             _id: data._id
         }).lean().exec(function (err, found) {
@@ -481,7 +480,6 @@ var model = {
     },
 
     //-save the document in draft estimate table
-
     createDraftEstimate: function (data, callback) {
 
         var draftEstimateObj = {
@@ -572,7 +570,6 @@ var model = {
     },
 
     //-retrieve all records from draft estimate table
-
     getDraftEstimateData: function (data, callback) {
         DraftEstimate.find().lean().exec(function (err, found) {
             if (err) {
@@ -587,9 +584,7 @@ var model = {
     },
 
     getDraftEstimateCustomerName: function (data, callback) {
-        DraftEstimate.findOne({
-                _id: data._id
-            }).deepPopulate('estimateCreatedUser estimateUpdatedUser enquiryId.customerId')
+        DraftEstimate.find().deepPopulate('estimateCreatedUser estimateUpdatedUser enquiryId.customerId')
             .select('assemblyName assemblyNumber enquiryId estimateCreatedUser estimateUpdatedUser materialCost processingCost addonCost extrasCost totalCost')
             .lean().exec(function (err, found) {
                 if (err) {
@@ -598,17 +593,27 @@ var model = {
                 } else if (_.isEmpty(found)) {
                     callback(null, 'noDataFound');
                 } else {
-                    delete found.enquiryId.__v;
-                    delete found.enquiryId._id;
-                    delete found.enquiryId.createdAt;
-                    delete found.enquiryId.updatedAt;
-                    delete found.enquiryId.enquiryId;
-                    delete found.enquiryId.keyRequirement;
-                    delete found.enquiryId.enquiryName;
-                    delete found.enquiryId.enquiryInfo;
-                    delete found.enquiryId.enquiryDetails;
-                    delete found.enquiryId.customerId._id;
-                    callback(null, found);
+                    async.eachSeries(found, function (found, callback) {
+                        delete found.enquiryId.__v;
+                        // delete found.enquiryId._id;
+                        delete found.enquiryId.createdAt;
+                        delete found.enquiryId.updatedAt;
+                        delete found.enquiryId.enquiryId;
+                        delete found.enquiryId.keyRequirement;
+                        delete found.enquiryId.enquiryName;
+                        delete found.enquiryId.enquiryInfo;
+                        delete found.enquiryId.enquiryDetails;
+                        delete found.enquiryId.customerId._id;
+
+                        callback();
+
+                    }, function (err) {
+                        if (err) {
+                            console.log('***** error at final response of async.eachSeries in function_name of DraftEstimate.js*****', err);
+                        } else {
+                            callback(null,found);
+                        }
+                    });
                 }
             });
     },

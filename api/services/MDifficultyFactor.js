@@ -10,6 +10,8 @@ module.exports = mongoose.model('MDifficultyFactor', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //-Get all MDifficultyFactor records from MDifficulty Factor table.
     getMDifficultyFactorData: function (data, callback) {
         MDifficultyFactor.find().lean().exec(function (err, found) {
             if (err) {

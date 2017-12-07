@@ -124,7 +124,6 @@ var controller = {
 
     loginUser: function (req, res) {
         if (req.body) {
-            // please remove Controller.js from below line
             User.loginUser(req.body, res.callback);
         } else {
             res.json({

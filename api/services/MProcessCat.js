@@ -27,6 +27,8 @@ module.exports = mongoose.model('MProcessCat', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'processItems uom', 'processItems uom'));
 var model = {
+
+    //-Get all MProcessCatData records from MProcessCat table.
     getMProcessCatData: function (data, callback) {
         MProcessCat.find().lean().exec(function (err, found) {
             if (err) {

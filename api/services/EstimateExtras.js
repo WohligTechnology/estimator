@@ -55,6 +55,8 @@ var model = {
             }
         });
     },
+
+    //-get all estimate extra records from estimate extra table.
     getEstimateExtraData: function (data, callback) {
         EstimateExtras.find().lean().exec(function (err, found) {
             if (err) {
@@ -68,6 +70,8 @@ var model = {
         });
 
     },
+
+    //-get all extra nos only from Estimate extra table.
     getAllExtrasNo: function (data, callback) {
         EstimateExtras.find({},{
             extraNumber:1
