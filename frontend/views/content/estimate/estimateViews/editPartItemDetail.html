@@ -37,7 +37,7 @@
                                             <label class="col-md-4 control-label">Shortcut:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="s.presetName for s in estimatePartObj.allShortcuts" ng-model="estimatePartObj.selectedShortcut"
-                                                    placeholder="Select" ng-chick="getSelectedShortcutData(estimatePartObj.selectedShortcut)" ng-disabled="disablePartFields.disableShortcut">
+                                                    placeholder="Select" ng-click="getSelectedShortcutData(estimatePartObj.selectedShortcut)" ng-disabled="disablePartFields.disableShortcut">
                                                 </select>
                                             </div>
                                         </div>
@@ -45,7 +45,7 @@
                                             <label class="col-md-4 control-label">Part Type Name:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="ptn.partTypeName for ptn in estimatePartObj.allPartTypes" ng-model="estimatePartObj.selectedPartType"
-                                                    placeholder="Select" ng-chick="getSelectedPartTypeData(estimatePartObj.selectedPartType)" ng-disabled="disablePartFields.disablePartTypeName">
+                                                    placeholder="Select" ng-click="getSelectedPartTypeData(estimatePartObj.selectedPartType)" ng-disabled="disablePartFields.disablePartTypeName">
                                                 </select>
                                             </div>
                                         </div>
@@ -53,7 +53,7 @@
                                             <label class="col-md-4 control-label">Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial" ng-model="estimatePartObj.selectedMaterial"
-                                                    placeholder="Select" ng-chick="getSelectedMaterialData(estimatePartObj.selectedMaterial)" ng-disabled="disablePartFields.disableMaterial">
+                                                    placeholder="Select" ng-click="getSelectedMaterialData(estimatePartObj.selectedMaterial)" ng-disabled="disablePartFields.disableMaterial">
                                                 </select>
                                             </div>
                                         </div>
@@ -61,7 +61,7 @@
                                             <label class="col-md-4 control-label">Size:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="size.size for size in estimatePartObj.allSizes" ng-model="estimatePartObj.selectedSize"
-                                                    placeholder="Select" ng-chick="getSelectedSizeData(disablePartFields.disableSize)" ng-disabled="disablePartFields.disableSize">
+                                                    placeholder="Select" ng-click="getSelectedSizeData(disablePartFields.disableSize)" ng-disabled="disablePartFields.disableSize">
                                                 </select>
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@
                                             <label class="col-md-4 control-label">Custom Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="cmd.size for cmd in estimatePartObj.customMaterialsData" ng-model="estimatePartObj.selectedCustomMaterial"
-                                                    placeholder="Select" ng-chick="" ng-disabled="disablePartFields.disableCustomMaterial">
+                                                    placeholder="Select" ng-click="" ng-disabled="disablePartFields.disableCustomMaterial">
                                                 </select>
                                             </div>
                                         </div>
