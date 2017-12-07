@@ -83,6 +83,7 @@ module.exports = mongoose.model('Estimate', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
+    //-helps to remove unwanted fields like _id,_iv etc. from the documents .
     removeUnwantedField: function (data, callback) {
         delete data._id;
         delete data.createdAt;
@@ -93,236 +94,6 @@ var model = {
 
     //- import assembly by passing assembly number
     //- import assembly by making deepPopulate all fileds & then send response after deletion of _id,_v etc..  from object
-    importEstimateAssembly: function (data, callback) {
-        Estimate.findOne({
-                assemblyNumber: data.assemblyNumber
-            }).deepPopulate('subAssemblies processing addons extras subAssemblies.subAssemblyParts subAssemblies.extras subAssemblies.addons subAssemblies.processing subAssemblies.subAssemblyParts.processing subAssemblies.subAssemblyParts.addons subAssemblies.subAssemblyParts.extras')
-            .lean().exec(function (err, found) {
-                if (err) {
-                    console.log('**** error at importAssembly of Estimate.js ****', err);
-                    callback(err, null);
-                } else if (_.isEmpty(found)) {
-                    callback(null, 'noDataFound');
-                } else {
-                    delete found._id;
-                    delete found.createdAt;
-                    delete found.updatedAt;
-                    delete found.__v;
-
-                    console.log('**** inside success of find of Estimate.js ****', found);
-
-                    async.eachSeries(found.subAssemblies, function (subAss, callback) {
-                        delete subAss._id;
-                        delete subAss.createdAt;
-                        delete subAss.updatedAt;
-                        delete subAss.__v;
-                        console.log('**** inside success of subAss of Estimate.js ****', subAss);
-
-                        async.parallel([
-                            function (callback) {
-                                async.eachSeries(subAss.processing, function (subAssPro, callback) {
-                                    delete subAssPro._id;
-                                    delete subAssPro.createdAt;
-                                    delete subAssPro.updatedAt;
-                                    delete subAssPro.__v;
-
-                                    callback();
-
-                                }, function (err) {
-                                    if (err) {
-                                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                    } else {
-                                        callback();
-                                    }
-                                });
-                            },
-                            function (callback) {
-                                async.eachSeries(subAss.addons, function (subAssAdd, callback) {
-                                    delete subAssAdd._id;
-                                    delete subAssAdd.createdAt;
-                                    delete subAssAdd.updatedAt;
-                                    delete subAssAdd.__v;
-
-                                    callback();
-
-                                }, function (err) {
-                                    if (err) {
-                                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                    } else {
-                                        callback();
-                                    }
-                                });
-                            },
-                            function (callback) {
-                                async.eachSeries(subAss.extras, function (subAssExt, callback) {
-                                    delete subAssExt._id;
-                                    delete subAssExt.createdAt;
-                                    delete subAssExt.updatedAt;
-                                    delete subAssExt.__v;
-
-                                    callback();
-
-                                }, function (err) {
-                                    if (err) {
-                                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                    } else {
-                                        callback();
-                                    }
-                                });
-                            },
-
-                        ], function () {
-                            if (err) {
-                                console.log('***** error at final response of async.parallel in function_name of Components.js *****', err);
-                            } else {
-                                async.eachSeries(subAss.subAssemblyParts, function (part, callback) {
-                                    delete part._id;
-                                    delete part.createdAt;
-                                    delete part.updatedAt;
-                                    delete part.__v;
-
-                                    async.parallel([
-                                        function (callback) {
-                                            async.eachSeries(part.processing, function (partPro, callback) {
-                                                delete partPro._id;
-                                                delete partPro.createdAt;
-                                                delete partPro.updatedAt;
-                                                delete partPro.__v;
-
-                                                callback();
-
-                                            }, function (err) {
-                                                if (err) {
-                                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                                } else {
-                                                    callback();
-                                                }
-                                            });
-                                        },
-                                        function (callback) {
-                                            async.eachSeries(part.addons, function (partAdd, callback) {
-                                                delete partAdd._id;
-                                                delete partAdd.createdAt;
-                                                delete partAdd.updatedAt;
-                                                delete partAdd.__v;
-
-                                                callback();
-
-                                            }, function (err) {
-                                                if (err) {
-                                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                                } else {
-                                                    callback();
-                                                }
-                                            });
-                                        },
-                                        function (callback) {
-                                            async.eachSeries(part.extras, function (partExt, callback) {
-                                                delete partExt._id;
-                                                delete partExt.createdAt;
-                                                delete partExt.updatedAt;
-                                                delete partExt.__v;
-
-                                                callback();
-
-                                            }, function (err) {
-                                                if (err) {
-                                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                                } else {
-                                                    callback();
-                                                }
-                                            });
-                                        },
-
-                                    ], function () {
-                                        if (err) {
-                                            console.log('***** error at final response of async.parallel all in function_name of Components.js *****', err);
-                                        } else {
-                                            callback();
-                                        }
-                                    });
-
-                                }, function (err) {
-                                    if (err) {
-                                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                    } else {
-                                        callback();
-                                    }
-                                });
-                            }
-                        });
-
-                    }, function (err) {
-                        if (err) {
-                            console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                        } else {
-                            async.parallel([
-                                function (callback) {
-                                    async.eachSeries(found.processing, function (assPro, callback) {
-                                        delete assPro._id;
-                                        delete assPro.createdAt;
-                                        delete assPro.updatedAt;
-                                        delete assPro.__v;
-
-                                        callback();
-
-                                    }, function (err) {
-                                        if (err) {
-                                            console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                        } else {
-                                            callback();
-                                        }
-                                    });
-                                },
-                                function (callback) {
-                                    async.eachSeries(found.addons, function (assAdd, callback) {
-                                        delete assAdd._id;
-                                        delete assAdd.createdAt;
-                                        delete assAdd.updatedAt;
-                                        delete assAdd.__v;
-
-                                        callback();
-
-                                    }, function (err) {
-                                        if (err) {
-                                            console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                        } else {
-                                            callback();
-                                        }
-                                    });
-                                },
-                                function (callback) {
-                                    async.eachSeries(found.extras, function (assExt, callback) {
-                                        delete assExt._id;
-                                        delete assExt.createdAt;
-                                        delete assExt.updatedAt;
-                                        delete assExt.__v;
-
-                                        callback();
-
-                                    }, function (err) {
-                                        if (err) {
-                                            console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
-                                        } else {
-                                            callback();
-                                        }
-                                    });
-                                },
-
-                            ], function () {
-                                if (err) {
-                                    console.log('***** error at final response of async.parallel in function_name of Components.js *****', err);
-                                } else {
-                                    callback(null, found);
-                                }
-                            });
-                        }
-                    });
-
-                }
-            });
-    },
-
     importAssembly: function (data, callback) {
         data.lastAssemblyNumber = data.lastAssemblyNumber.replace(/\d+$/, function (n) {
             return ++n
@@ -528,6 +299,7 @@ var model = {
         });
     },
 
+    //-get all estimate data from estimate table.
     getEstimateData: function (data, callback) {
         Estimate.find().lean().exec(function (err, found) {
             if (err) {
@@ -541,6 +313,7 @@ var model = {
         });
     },
 
+    //-search the estimate records using assembly name or assembly number.
     search: function (data, callback) {
         var maxRow = 10;
         if (data.totalRecords) {
@@ -582,6 +355,8 @@ var model = {
                     }
                 });
     },
+
+    //-get all assembly no, from estimate table by passing assembly number.
     getAllAssembliesNo: function (data, callback) {
         Estimate.find({}, {
             assemblyNumber: 1

@@ -19,6 +19,8 @@ module.exports = mongoose.model('Customer', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //- retrieve all customer data from customer table.
     getCustomerData: function (data, callback) {
         Customer.find().lean().exec(function (err, found) {
             if (err) {
@@ -32,6 +34,8 @@ var model = {
         });
 
     },
+
+    //-search customer data using customer name with pagintion.
 
     search: function (data, callback) {
         var maxRow = 10;
@@ -75,6 +79,9 @@ var model = {
                     }
                 });
     },
+
+    //- delete multiple customers by passing multiple customer ids.
+    
     deleteMultipleCustomers: function (data, callback) {
         Customer.remove({
             _id: {

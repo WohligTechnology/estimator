@@ -9,7 +9,7 @@ var schema = new Schema({
     },
     customerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'customer',
+        ref: 'Customer',
         //required: true
     },
     enquiryDetails: {
@@ -131,6 +131,9 @@ module.exports = mongoose.model('Enquiry', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //-retrieve total hold enquiries from enquiry table on the basis of enquiry status as "hold".
+
     totalHoldsEnquiries: function (data, callback) {
         Enquiry.find({
             enquiryDetails: {
@@ -149,7 +152,8 @@ var model = {
         });
     },
 
-    totalOpenEnuieries: function (data, callback) {
+    //-retrieve total open enquiries from enquiry table on the basis of enquiry status as "open".
+    totalOpenEnquiries: function (data, callback) {
         Enquiry.find({
             enquiryDetails: {
                 enquiryStatus: "open"
@@ -168,6 +172,7 @@ var model = {
 
     },
 
+    //-retrieve total close enquiries from enquiry table on the basis of enquiry status as "close".
     totalCloseEnquiries: function (data, callback) {
         Enquiry.find({
             enquiryDetails: {
@@ -187,6 +192,7 @@ var model = {
 
     },
 
+    //-retrieve total enquiry status count from enquiry table on the basis of enquiry status.
     getStatusCount: function (data, callback) {
         Enquiry.find({
             enquiryDetails: {
@@ -206,6 +212,7 @@ var model = {
         });
     },
 
+    //-retrieve total enquiry status count for all status at same time in bulk from enquiry table.
     getStatusCountInBulk: function (data, callback) {
         Enquiry.find({}).exec(function (err, found) {
             if (err) {
@@ -220,6 +227,7 @@ var model = {
         });
     },
 
+    //-create the enquiry by admin 
     createEnquiry: function (data, callback) {
 
         Enquiry.findOne().sort({
@@ -251,6 +259,7 @@ var model = {
         });
     },
 
+    //-retrieve total enquiry data from enqury table.
     getEnquiryData: function (data, callback) {
         Enquiry.find().lean().exec(function (err, found) {
             if (err) {
@@ -264,6 +273,7 @@ var model = {
         });
     },
 
+    //- search the records by passing enquiry name.
     search: function (data, callback) {
         var maxRow = 10;
         if (data.totalRecords) {
@@ -306,6 +316,7 @@ var model = {
                 });
     },
 
+    //-get estimate version data by passing enquiry id.
     getEstimateVersionData: function (data, callback) {
         Enquiry.findOne({
             _id: data._id
@@ -333,6 +344,8 @@ var model = {
             }
         });
     },
+
+    //-delete multiple enquiry from enquiry table by passing multiple enquiry ids.
     deleteMultipleEnquiry: function (data, callback) {
         Enquiry.remove({
             _id: {
