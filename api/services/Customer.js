@@ -35,8 +35,7 @@ var model = {
 
     },
 
-    //-search customer data using customer name with pagintion.
-
+    //-search customer records using customer name with pagination.
     search: function (data, callback) {
         var maxRow = 10;
         if (data.totalRecords) {
@@ -81,7 +80,6 @@ var model = {
     },
 
     //- delete multiple customers by passing multiple customer ids.
-    
     deleteMultipleCustomers: function (data, callback) {
         Customer.remove({
             _id: {

@@ -52,6 +52,8 @@ module.exports = mongoose.model('MShape', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'variable', 'variable'));
 var model = {
+
+    //-Get all MShape data from MShape table.
     getMShapeData: function (data, callback) {
         MShape.find().lean().exec(function (err, found) {
             if (err) {

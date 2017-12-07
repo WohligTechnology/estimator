@@ -17,6 +17,8 @@ module.exports = mongoose.model('MAddonsPresets', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //-Get all Master addons presets data from Maddons presets table.
     getMAddonsPresetsData: function (data, callback) {
         MAddonsPresets.find().lean().exec(function (err, found) {
             if (err) {

@@ -23,6 +23,8 @@ module.exports = mongoose.model('MExtra', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "rate.uom"));
 var model = {
+
+    //-Get All Master extra data from MExtra table.
     getMExtraData: function (data, callback) {
         MExtra.find().lean().exec(function (err, found) {
             if (err) {
@@ -36,6 +38,7 @@ var model = {
         });
     },
 
+    //-Do the searching of MExtra table records on basis of extra Name with pagination.
     search: function (data, callback) {
         var maxRow = 10;
         if (data.totalRecords) {
@@ -77,6 +80,8 @@ var model = {
                     }
                 });
     },
+
+    //-Delete multiple Extra Records by passing multiple Extra Ids in format of array.
     deleteMultipleExtras: function (data, callback) {
         MExtra.remove({
             _id: {

@@ -77,7 +77,7 @@ var model = {
             }
         });
     },
-    
+
     //-retrieve all estimate addon records from estimae addon table.
     getEstimateAddonsData: function (data, callback) {
         EstimateAddons.find().lean().exec(function (err, found) {
@@ -92,7 +92,7 @@ var model = {
         });
     },
 
-    //-get all addons no. by passing addon number
+    //-get all estimate addons no. only from Estimate addon table.
     getAllAddonsNo: function (data, callback) {
         EstimateAddons.find({}, {
             addonNumber: 1

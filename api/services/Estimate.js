@@ -83,7 +83,7 @@ module.exports = mongoose.model('Estimate', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
-    //-helps to remove unwanted fields like _id,_iv etc. from the documents .
+    //-It helps to remove unwanted fields like _id,_iv etc. from the documents .
     removeUnwantedField: function (data, callback) {
         delete data._id;
         delete data.createdAt;
@@ -313,7 +313,7 @@ var model = {
         });
     },
 
-    //-search the estimate records using assembly name or assembly number.
+    //-search the estimate records using assembly name or assembly number with pagination.
     search: function (data, callback) {
         var maxRow = 10;
         if (data.totalRecords) {
@@ -356,7 +356,7 @@ var model = {
                 });
     },
 
-    //-get all assembly no, from estimate table by passing assembly number.
+    //-get all assembly nos. from estimate table.
     getAllAssembliesNo: function (data, callback) {
         Estimate.find({}, {
             assemblyNumber: 1

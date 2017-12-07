@@ -17,6 +17,8 @@ module.exports = mongoose.model('MProcessingPresets', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //-Get All MProcessing presets records from MProcessingPresets table.
     getMProcessingPresetsData: function (data, callback) {
         MProcessingPresets.find().lean().exec(function (err, found) {
             if (err) {
