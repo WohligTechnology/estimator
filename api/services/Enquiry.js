@@ -63,10 +63,10 @@ var schema = new Schema({
         //     type: mongoose.Schema.Types.ObjectId,
         //     ref: 'MMaterialCat'
         // },
-        // enquiryType: {
-        //     type: String,
-        //     enum: ['firmRfq', 'budgetary', 'verbal', 'other']
-        // }
+        enquiryType: {
+            type: String,
+            enum: ['firmRfq', 'budgetary', 'verbal', 'other']
+        }
     },
     enquiryInfo: {
         rfqCopy: [{

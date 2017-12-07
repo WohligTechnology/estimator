@@ -593,17 +593,10 @@ var model = {
                 } else if (_.isEmpty(found)) {
                     callback(null, 'noDataFound');
                 } else {
-                    async.eachSeries(found, function (found, callback) {
-                        delete found.enquiryId.__v;
-                        // delete found.enquiryId._id;
-                        delete found.enquiryId.createdAt;
-                        delete found.enquiryId.updatedAt;
-                        delete found.enquiryId.enquiryId;
-                        delete found.enquiryId.keyRequirement;
-                        delete found.enquiryId.enquiryName;
-                        delete found.enquiryId.enquiryInfo;
-                        delete found.enquiryId.enquiryDetails;
-                        delete found.enquiryId.customerId._id;
+                    async.eachSeries(found, function (f, callback) {
+                        f.enquiryNumber = f.enquiryId.enquiryId;
+                        f.customerName = f.enquiryId.customerId.customerName;
+                        delete f.enquiryId;
 
                         callback();
 
