@@ -96,5 +96,19 @@ var model = {
             }
         });
     },
+
+    //-Get all customer Name and loation from customer tables.
+    getCustomerNameAndLocation: function (data, callback) {
+        Customer.find().select('customerName location').lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Customer.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);
