@@ -75,7 +75,6 @@
     "rc": "1.0.1",
     "request": "^2.74.0",
     "sails": "~0.12.3",
-    "sails-auth": "^50.0.0",
     "sails-disk": "~0.10.9",
     "sails-wohlig-controller": "latest",
     "sails-wohlig-service": "latest",
