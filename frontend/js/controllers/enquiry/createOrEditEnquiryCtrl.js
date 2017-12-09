@@ -5,6 +5,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
   $scope.showEstimateBtn = false;
+  $scope.editPermmission = false;
   $scope.formData = {
     enquiryDetails: {},
     enquiryInfo: {},
@@ -19,32 +20,54 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     debugger;
     $scope.showEstimateBtn = true;
     $scope.enquiryId = $stateParams.enquiryId;
+    $scope.editPermmission = true;
   }
 
 
   // *************************** default functions begin here  ********************** //
-
+  //- to get enquiry object
   $scope.getEnquiryObj = function () {
     createOrEditEnquiryService.getEnquiryObj($stateParams.enquiryId, function (data) {
-      debugger;
       $scope.formData = data;
     });
   }
+  //- to get all customer names and their locations
   $scope.getCustomerData = function () {
     createOrEditEnquiryService.getCustomerData(function (data) {
       $scope.customerData = data;
     });
   }
+  //- to get all user names
+  $scope.getUserData = function () {
+    createOrEditEnquiryService.getUserData(function (data) {
+      $scope.userData = data;
+    });
+  }
 
 
   // *************************** functions to be triggered form view begin here ***** //      
-  //- add form data
-  $scope.addEnquiryData = function (operation, formData) {
-    debugger;
+  //- add  enquiry data
+  $scope.addEnquiryData = function (formData) {
     createOrEditEnquiryService.createEnquiry(formData, function (data) {
-      toastr.success('Record Added Successfully', 'EnquiryData Added!');
-      if (angular.isUndefined(formData._id)) {}
+      if ($scope.editPermmission) {
+        toastr.success('Enquiry Updated Successfully');
+      } else {
+        toastr.success('Enquiry Added Successfully');
+        $state.go('app.editEnquiry', {
+          'enquiryId': data._id
+        });
+      }
     });
+  }
+  //- to bind customer data to formData
+  $scope.setCustomerData = function (customerDataObj) {
+    $scope.formData.enquiryDetails = {};
+    $scope.formData.enquiryDetails.customerName = customerDataObj.customerName;
+    $scope.formData.enquiryDetails.customerLocation = customerDataObj.location;
+  }
+  //- to bind user name to formData
+  $scope.setEstimator = function (userDataObj) {
+    $scope.formData.enquiryDetails.estimator = userDataObj._id;
   }
   //- to add assembly or to import assembly
   $scope.saveAssemblyNameModal = function (enquiryId) {
@@ -86,6 +109,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
   $scope.init = function () {
     $scope.getEnquiryObj();
     $scope.getCustomerData();
+    $scope.getUserData();
   }
 
   $scope.init();
