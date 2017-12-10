@@ -227,7 +227,8 @@ myApp.service('masterPartService', function (NavigationService) {
             delete presetData.$$hashKey;
             console.log('**** inside -------------------------- of masterPartService.js ****', presetData);
         }
-        presetData.partType = presetData.partTypeData.partTypeId;
+        debugger;
+        presetData.partType = presetData.partTypeData._id;
         NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
             callback(data);
         });

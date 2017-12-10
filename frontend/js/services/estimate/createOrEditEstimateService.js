@@ -231,10 +231,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				scaleFactor: null, //- part.scaleFactor
 
 				keyValueCalculation: {
-					perimeter: null, //- part.keyValueCalculation.perimeter
-					sheetMetalArea: null, //- part.keyValueCalculation.sheetMetalArea
-					surfaceArea: null, //- part.keyValueCalculation.surfaceArea
-					weight: null //- part.keyValueCalculation.weight
+					perimeter: "", //- part.keyValueCalculation.perimeter
+					sheetMetalArea: "", //- part.keyValueCalculation.sheetMetalArea
+					surfaceArea: "", //- part.keyValueCalculation.surfaceArea
+					weight: "" //- part.keyValueCalculation.weight
 				},
 				finalCalculation: {
 					materialPrice: null, //- part.finalCalculation.materialPrice
@@ -251,6 +251,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 				NavigationService.boxCall('MPartType/getPartTypeData', function (data) {
 					estimatePartObj.allPartTypes = data.data;
+					debugger;
 					callback(estimatePartObj);
 				});
 			});

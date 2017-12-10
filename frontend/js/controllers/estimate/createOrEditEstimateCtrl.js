@@ -43,7 +43,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       surfaceArea: null, //- part.keyValueCalculation.surfaceArea
       weight: null //- part.keyValueCalculation.weight
     },
-    
+
     finalCalculation: {
       materialPrice: null, //- part.finalCalculation.materialPrice
       itemUnitPrice: null, //- part.finalCalculation.itemUnitPrice
@@ -59,10 +59,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     disableMaterial: true,
     disableSize: true,
     disableCustomMaterial: false,
+    displayPresetSize: false
   };
 
   if (angular.isDefined($stateParams.estimateId)) {
-    debugger;
     $scope.draftEstimateId = $stateParams.estimateId;
   }
 
@@ -122,8 +122,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
   //- call when user will select shortcut/preset name 
   //- update dependent data on the base of  selected shortcut data
-  $scope.getSelectedShortcutData = function (shortcutObj,partTypes) {
-    debugger;
+  $scope.getSelectedShortcutData = function (shortcutObj, partTypes) {
     //- update selectedShortcut
     //- get part type (update selectedPartType) & disable it
     //- get material data to select 
@@ -131,11 +130,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     //- custom material --> disable it
     //- get shape data from selected shortcut (i.e part presetName)
     //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
-    $scope.estimatePartObj.allPartTypes = $scope.estimatePartObj.allPartTypes; 
-    $scope.estimatePartObj.selectedShortcut = shortcutObj; 
+    $scope.estimatePartObj.allPartTypes = $scope.estimatePartObj.allPartTypes;
+    $scope.estimatePartObj.selectedShortcut = shortcutObj;
     $scope.estimatePartObj.selectedPartType = shortcutObj.partType;
-    $scope.tempObj =  shortcutObj.partType;;
-    // $scope.estimatePartObj.allMaterial = allMaterial; /////-
+    $scope.estimatePartObj.allMaterial = $scope.estimatePartObj.selectedPartType.material; /////-
+
     $scope.estimatePartObj.selectedSize = shortcutObj.size; /////- 
 
     //- update shape related data
@@ -154,10 +153,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
     //- disable fields
     $scope.disablePartFields.disablePartType = true;
+    $scope.disablePartFields.disableMaterial = false;
     $scope.disablePartFields.disableSize = true;
     $scope.disablePartFields.disableCustomMaterial = true;
 
-    debugger;
+    $scope.disablePartFields.displayPresetSize = true;
+
   }
 
   //- call when user will select part type name 
@@ -182,7 +183,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   //- call when user will select material (only in case of either shortcut OR part type is selected)
   //- update dependent data on the base of selcted material data
   $scope.getSelectedMaterialData = function (materialObj) {
-    $scope.estimatePartObj.selectedMaterial = selectedMaterial; /////-
+    $scope.estimatePartObj.selectedMaterial = materialObj;
+    console.log('**** inside getSelectedMaterialData of createOrEditEstimateCtrl.js ****', $scope.estimatePartObj);
   }
 
   //- call when user will select size (only in case when user selected part type)
@@ -204,6 +206,19 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
   }
 
+
+  $scope.getPartFinalCalculation = function () {
+    console.log('**** inside getPartFinalCalculation of createOrEditEstimateCtrl.js ****');
+    //- get all updated variable data & calculate all keyValueCalculation i.e. perimeter, sheetMetalArea, surfaceArea, weight
+    //- also calculate all finalCalculation i.e. materialPrice, itemUnitPrice, totalCostForQuantity    
+  }
+
+
+  $scope.$watch($scope.estimatePartObj, function (newValue, oldValue) {
+    console.log('**** inside $watch --> $scope.estimatePartObj of createOrEditEstimateCtrl.js ****');
+  }, true);
+
+
   // $scope.$watch($scope.estimatePartObj.selectedShortcut, function (oldValue, newValue) {
   //   console.log('**** inside $watch of selectedShortcut ofcreateOrEditEstimateCtrl.js ****');
   // });
@@ -211,7 +226,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   // $scope.$watch($scope.estimatePartObj.selectedPartType, function (oldValue, newValue) {
   //   console.log('**** inside $watch of selectedPartType of createOrEditEstimateCtrl.js ****');
   // });
-
 
   //- =================== part functionality/calculation end =================== //
 

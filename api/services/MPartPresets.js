@@ -126,7 +126,7 @@ var model = {
 
     //-Get all part presets records from MPartPresets table
     getMPartPresetData: function (data, callback) {
-        MPartPresets.find().deepPopulate('shape partType').lean().exec(function (err, found) {
+        MPartPresets.find().deepPopulate('shape partType partType.material').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of MPartPresets.js ****', err);
                 callback(err, null);

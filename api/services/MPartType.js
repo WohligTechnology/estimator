@@ -212,7 +212,7 @@ var model = {
 
     //-Get all records from Mpart type table.
     getPartTypeData: function (data, callback) {
-        MPartType.find().lean().exec(function (err, found) {
+        MPartType.find().lean().deepPopulate('material').exec(function (err, found) {
             if (err) {
                 console.log('**** error at getPartTypeData of MPartType.js ****', err);
                 callback(err, null);
