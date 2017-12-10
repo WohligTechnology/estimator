@@ -4,8 +4,8 @@ var schema = new Schema({
         // required: true
     },
     enquiryId: {
-        type: Number, // auto geneatated with suffix
-        required: true
+        //type: Number, // auto geneatated with suffix
+        //required: true
     },
     customerId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -53,16 +53,23 @@ var schema = new Schema({
             type: Date
         },
         customerContacts: {
+            type: Number
+        },
+        customerName: {
             type: String
         },
+        customerLocation: {
+            type: String
+        },
+        
         // salesman: {
         //     type: mongoose.Schema.Types.ObjectId,
         //     ref: 'MMaterialCat'
         // },
-        // estimator: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: 'MMaterialCat'
-        // },
+        estimator: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
         enquiryType: {
             type: String,
             enum: ['firmRfq', 'budgetary', 'verbal', 'other']

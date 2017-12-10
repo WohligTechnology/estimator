@@ -8,19 +8,19 @@
                             <a href="#" data-target="#tab_1_1" data-toggle="tab">Details</a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_2" data-toggle="tab">Information</a>
+                            <a href="#" data-target="#tab_1_2" data-toggle="tab" ng-if="editPermmission">Information</a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_3" data-toggle="tab">Key Requirements</a>
+                            <a href="#" data-target="#tab_1_3" data-toggle="tab" ng-if="editPermmission">Key Requirements</a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_4" data-toggle="tab">Technical Req</a>
+                            <a href="#" data-target="#tab_1_4" data-toggle="tab" ng-if="editPermmission">Technical Req</a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_5" data-toggle="tab">Commercial Req </a>
+                            <a href="#" data-target="#tab_1_5" data-toggle="tab" ng-if="editPermmission">Commercial Req </a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_6" data-toggle="tab">Pre-qualification Criteria </a>
+                            <a href="#" data-target="#tab_1_6" data-toggle="tab" ng-if="editPermmission">Pre-qualification Criteria </a>
                         </li>
                     </ul>
                 </div>
@@ -62,7 +62,8 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Name:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control" ng-options="c.customerName for c in customerData track by c._id" ng-model="selectedCustomer">
+                                                        <select class="form-control" ng-options="c.customerName for c in customerData track by c._id" ng-model="formData.customerDataObj"
+                                                            ng-change="setCustomerData(formData.customerDataObj)">
                                                         </select>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
@@ -82,27 +83,28 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Estimator:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.estimator">
+                                                        <select class="form-control" ng-options="u.name for u in userData track by u._id" ng-model="formData.userDataObj" ng-change="setEstimator(formData.userDataObj)">
+                                                        </select>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Contact:</label>
                                                     <div class="col-md-3">
-                                                        <input type="number" class="form-control" id="form_control_1">
+                                                        <input type="number" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.customerContacts">
                                                         <div class="form-control-focus"></div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Location:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.customerLocation">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.customerLocation" disabled>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Currency:</label>
                                                     <div class="col-md-3">
                                                         <select class="form-control" ng-model="formData.enquiryDetails.currency">
-                                                            <option></option>
-                                                            <option>abc</option>
-                                                            <option>efg</option>
+                                                            <option selected> INR </option>
+                                                            <!-- <option>dollar</option>
+                                                            <option>euro</option> -->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -114,7 +116,7 @@
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Delivery Distant:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.deliveryDistance">
+                                                        <input type="number" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.deliveryDistance">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
@@ -166,6 +168,7 @@
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ Due Date:</label>
                                                     <div class="col-md-3">
                                                         <input type="date" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqDueDate">
+                                                        <!-- <input-date ng-model="formData.enquiryDetails.rfqDueDate"></input-date> -->
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Saleman:</label>
@@ -175,9 +178,10 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <pre>{{formData | json}}</pre>
                                             <div class="form-actions">
                                                 <div class="row">
-                                                    <div class=" col-md-12 text-center">
+                                                    <div class=" col-md-12">
                                                         <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
                                                     </div>
                                                 </div>
@@ -207,25 +211,25 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ copy:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.rfqCopy" icon="false" pdf-file="true" file-location="left"></upload-all-files>
-                                                            <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.rfqCopy.file" icon="false" pdf-file="true" file-location="left"></upload-all-files>
+                                                        <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Drawings / Rev:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.drawings" icon="false" pdf-file="true" file-location="right"></upload-all-files>
-                                                            <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.drawings.file" icon="false" pdf-file="true" file-location="right"></upload-all-files>
+                                                        <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Photos:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.photos" icon="false" pdf-file="false" file-location="top"></upload-all-files>
-                                                            <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.photos.file" icon="false" pdf-file="false" file-location="top"></upload-all-files>
+                                                        <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Others docs:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.otherDocs" icon="false" pdf-file="true" file-location="right"></upload-all-files>
-                                                            <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.otherDocs.file" icon="false" pdf-file="true" file-location="right"></upload-all-files>
+                                                        <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
@@ -283,8 +287,8 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-3 control-label" for="form_control_1">NDA agreement:</label>
                                                     <div class="col-md-6">
-                                                            <upload-all-files ng-model="formData.keyRequirement.ndaAgreement"></upload-all-file>  
-                                                        <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.keyRequirement.ndaAgreement.file" pdf-file="true" icon="false" file-location="top"></upload-all-files>
+                                                            <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -512,8 +516,10 @@
                 <!-- <div class="btn-group pull-right">
                     <button id="sample_editable_1_new" class="btn green" ng-click="saveAssemblyNameModal(formData._id,enquiryId)" ng-if="showEstimateBtn"> Estimate </button>
                 </div> -->
+                <pre>{{ formData | json}}</pre>
                 <div class="btn-group pull-right">
-                    <button id="sample_editable_1_new" class="btn green" ng-click="saveAssemblyNameModal(formData._id,enquiryId)"> Estimate </button>
+                    <button id="sample_editable_1_new" class="btn green" ng-click="saveAssemblyNameModal(formData._id,enquiryId)" ng-if="editPermmission">
+                        Estimate </button>
                 </div>
                 <!-- start of table-->
                 <div class="portlet-body">

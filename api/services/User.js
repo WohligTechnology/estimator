@@ -548,14 +548,29 @@ var model = {
         });
     },
 
-    AceesControl: function (data, callback) {
-        PermissionService.createRole({
-            roleName: data.roleName,
-            permissions: [{
-                model: data.modelName,
-                action: data.action
-            }, ]
-        })
+    // AceesControl: function (data, callback) {
+    //     PermissionService.createRole({
+    //         roleName: data.roleName,
+    //         permissions: [{
+    //             model: data.modelName,
+    //             action: data.action
+    //         }, ]
+    //     })
+    // },
+
+    //-Get all users' name from user table.
+    getUserName: function (data, callback) {
+        console.log('**** i@@@@@@@2 ****',data);
+        User.find().select('name').lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
     },
 
 

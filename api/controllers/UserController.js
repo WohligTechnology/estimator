@@ -195,8 +195,6 @@ var controller = {
             })
         }
     },
-
-
     search1: function (req, res) {
         if (req.body) {
             User.search1(req.body, res.callback);
@@ -283,18 +281,17 @@ var controller = {
             })
         }
     },
-    // function_name: function (req, res) {
-    //     if (req.body) {
-    //         // please remove Controller.js from below line
-    //         UserController.js.function_name(req.body, res.callback);
-    //     } else {
-    //         res.json({
-    //             value: false,
-    //             data: {
-    //                 message: 'Invalid Request'
-    //             }
-    //         })
-    //     }
-    // },
+    getUserName: function (req, res) {
+        if (req.body) {
+            User.getUserName(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
 };
 module.exports = _.assign(module.exports, controller);

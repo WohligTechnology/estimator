@@ -93,7 +93,9 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
     Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
   });
   $scope.loginTemplate = true;
-  $scope.themeColor = '#32c5d3';
+  if (!$scope.loginTemplate) {
+    $scope.userPhoto = ($.jStorage.get('loggedInUser')).photo;
+  }
 
   // console.log("*********************************************************************",window.location.href );
   // console.log("*********************************************************************",$state.current);
@@ -173,9 +175,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
       url: "/login",
       templateUrl: "views/content/login/estimatorLogin.html",
       controller: "loginCtrl",
-      resolve: {
-        "isLoggedIn": routeResolve
-      }
+      // resolve: {
+      //   "isLoggedIn": routeResolve
+      // }
     })
 
     // ********************************** logout module ********************************** //
@@ -986,192 +988,3 @@ myApp.controller('SidebarController', ['$state', '$scope', function ($state, $sc
   }
 
 }]);
-
-myApp.directive('inputDate', function ($compile, $parse) {
-  return {
-    restrict: 'E',
-    replace: false,
-    scope: {
-      value: "=ngModel",
-    },
-    templateUrl: 'frontend/views/directive/date.html',
-    link: function ($scope, element, attrs) {
-      $scope.data = {};
-      $scope.dateOptions = {
-        dateFormat: "dd/mm/yy"
-      };
-      if (!_.isEmpty($scope.value)) {
-        $scope.data.model = moment($scope.value).toDate();
-      }
-      $scope.changeDate = function (data) {
-        // $scope.value = $scope.data.model;
-        $scope.value = data;
-      };
-    }
-  };
-});
-
-myApp.factory('accessApp', function ($location) {
-  return {
-    isLoggedIn: function () {
-      if ($.jStorage.get("loggedInUser")) {
-        return true;
-      } else {
-        return $location.path('/');
-      }
-    }
-  }
-});
-
-myApp.directive('uploadAllFiles', function ($http) {
-  return {
-    restrict: 'E',
-    scope: {
-      model: '=ngModel',
-      fileLocation: '@fileLocation',
-      isMultiple: '=isMultiple',
-      icon: '@icon'
-    },
-    templateUrl: '/views/directive/uploadAllFiles.html',
-
-    link: function (scope, element, attrs) {
-
-      if (scope.isMultiple) {
-        if (!scope.model) {
-          scope.model = [];
-        }
-      } else {
-        if (scope.model) {
-          var fileName = _.split(scope.model, '.');
-          var fileType = fileName[1];
-          scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
-          scope.isPdf = (fileType == 'pdf');
-          scope.isDocs = (fileType == 'doc' || fileType == 'docx');
-          scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
-        }
-      }
-
-      scope.uploadImage = function (files) {
-        // scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
-        var fileName = _.split(files[0].name, '.');
-        var fileType = fileName[1];
-
-        scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
-        scope.isPdf = (fileType == 'pdf');
-        scope.isDocs = (fileType == 'doc' || fileType == 'docx');
-        scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
-
-        if (files.length > 1 && scope.isMultiple) {
-          angular.forEach(files, function (file) {
-            var fd = new FormData();
-            fd.append('file', file);
-
-            $http.post(adminurl + 'User/uploadAvtar', fd, {
-                headers: {
-                  'Content-Type': undefined
-                },
-                transformRequest: angular.identity
-              })
-              .then(function (data) {
-                scope.model.push(data.data.data[0]);;
-              });
-          });
-        } else {
-          var fd = new FormData();
-          fd.append('file', files[0]);
-
-          $http.post(adminurl + 'User/uploadAvtar', fd, {
-              headers: {
-                'Content-Type': undefined
-              },
-              transformRequest: angular.identity
-            })
-            .then(function (data) {
-              scope.model = data.data.data[0];
-            });
-        }
-      };
-    }
-  };
-});
-
-
-myApp.filter('uploadpath', function () {
-  return function (input, width, height, style) {
-    var other = "";
-    if (input.search(".pdf") >= 0) {
-      return "frontend/img/pdf.jpg";
-    } else {
-      if (input.search(".jpg") >= 0 || input.search(".png") >= 0) {
-        return "frontend/img/image.png";
-      } else {
-        if (input.search(".doc") >= 0 || input.search(".docx") >= 0) {
-          return "frontend/img/doc.png";
-        } else if (input == 'broken') {
-          return "frontend/img/nofile.png";
-        }
-      }
-    }
-    if (width && width !== "") {
-      other += "&width=" + width;
-    }
-    if (height && height !== "") {
-      other += "&height=" + height;
-    }
-    if (style && style !== "") {
-      other += "&style=" + style;
-    }
-    if (input) {
-      if (input.indexOf('https://') == -1) {
-        return imgpath + "?file=" + input + other;
-      } else {
-        return input;
-      }
-    }
-  };
-});
-
-myApp.filter('downloadpath', function () {
-  return function (input, width, height, style) {
-    var other = "";
-    if (width && width !== "") {
-      other += "&width=" + width;
-    }
-    if (height && height !== "") {
-      other += "&height=" + height;
-    }
-    if (style && style !== "") {
-      other += "&style=" + style;
-    }
-    if (input) {
-      if (input.indexOf('https://') == -1) {
-        return adminurl + "User/download/" + input;
-      } else {
-        return adminurl;
-      }
-    }
-  };
-});
-
-myApp.filter('readFile', function () {
-  return function (input, width, height, style) {
-    var other = "";
-    if (width && width !== "") {
-      other += "&width=" + width;
-    }
-    if (height && height !== "") {
-      other += "&height=" + height;
-    }
-    if (style && style !== "") {
-      other += "&style=" + style;
-    }
-    if (input) {
-      if (input.indexOf('https://') == -1) {
-        console.log('**** inside readfile of app.js ****');
-        return adminurl + "User/readFile/" + input;
-      } else {
-        return adminurl;
-      }
-    }
-  };
-});
