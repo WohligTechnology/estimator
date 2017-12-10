@@ -24,7 +24,7 @@
             <div class="portlet-body">
                 <div class="table-toolbar">
                     <div class="part-detail-form">
-                        <form action="#" class="form-horizontal">
+                        <form class="form-horizontal">
                             <div class="form-body">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -70,7 +70,7 @@
                                             <label class="col-md-4 control-label">Size:</label>
                                             <div class="col-md-5">
                                                 <!-- <input type="text" class="form-control" ng-model="estimatePartObj.selectedSize" required> -->
-                                                <select class="form-control" ng-disabled="disablePartFields.disableSize" ng-disabled="disablePartFields.displayPresetSize">
+                                                <select class="form-control" ng-disabled="disablePartFields.displayPresetSize">
                                                     <option value="" selected>{{estimatePartObj.selectedSize}}</option>
                                                 </select>
                                             </div>
@@ -83,11 +83,11 @@
                                                     placeholder="Select">
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div>                                      
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">Quantity:</label>
                                             <div class="col-md-5">
-                                                <input type="text" class="form-control" mg-model="estimatePartObj.quantity" required>
+                                                <input type="number" class="form-control" ng-change="getPartFinalCalculation()" ng-model="estimatePartObj.quantity" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -124,7 +124,7 @@
                                                 <label class="col-md-5 ">Perimeter:</label>
                                                 <div class="col-md-4">
                                                     <div>
-                                                        <p>{{estimatePartObj.keyValueCalculation.perimeter}}
+                                                        <p>{{estimatePartObj.keyValueCalculations.perimeter}}
                                                             <span>m</span>
                                                         </p>
                                                     </div>
@@ -134,7 +134,7 @@
                                                 <label class="col-md-5 ">SMA:</label>
                                                 <div class="col-md-4">
                                                     <div>
-                                                        <p>{{estimatePartObj.keyValueCalculation.sheetMetalArea}}
+                                                        <p>{{estimatePartObj.keyValueCalculations.sheetMetalArea}}
                                                             <span>sq m</span</p>
                                                     </div>
                                                 </div>
@@ -143,7 +143,7 @@
                                                 <label class="col-md-5 ">SA:</label>
                                                 <div class="col-md-4">
                                                     <div>
-                                                        <p>{{estimatePartObj.keyValueCalculation.surfaceArea}}
+                                                        <p>{{estimatePartObj.keyValueCalculations.surfaceArea}}
                                                             <span>sq m</span</p>
                                                     </div>
                                                 </div>
@@ -152,7 +152,7 @@
                                                 <label class="col-md-5 ">Weight/Unit:</label>
                                                 <div class="col-md-4">
                                                     <div>
-                                                        <p>{{estimatePartObj.keyValueCalculation.weight}}
+                                                        <p>{{estimatePartObj.keyValueCalculations.weight}}
                                                             <span>sq m</span</p>
                                                     </div>
                                                 </div>
@@ -191,7 +191,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-circle green" ng-change="savePart()">Save</button>
+                                        <button type="submit" class="btn btn-circle green" ng-click="updatePartDetail(estimatePartObj)">Save</button>
                                         <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                                     </div>
                                 </div>

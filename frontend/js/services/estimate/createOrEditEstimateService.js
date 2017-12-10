@@ -77,7 +77,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 		processing: [],
 		addons: [],
-		extras: []
+		extras: [],
+
+		partUpdateStatus: false
 	};
 
 	var subAssembly = {
@@ -207,8 +209,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var estimatePartObj = {
 				allShortcuts: [], //- get all presets name from API
 				allPartTypes: [], //- get all part type from API
-				// allMaterial: [],                    //- get all material of selected partType
-				// allSizes: [],                       //- get data from selected preset
 
 				selectedShortcut: {}, //- selected partType presets 
 				selectedPartType: {}, //- selected partType
@@ -226,11 +226,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				addonCount: null, //- part.addons.length
 				extraCount: null, //- part.extars.length
 
-				partName: null, //- part.partName
+				partName: formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partName, //- part.partName
 				partNumber: null, //- part.partNumber 
 				scaleFactor: null, //- part.scaleFactor
 
-				keyValueCalculation: {
+				keyValueCalculations: {
 					perimeter: "", //- part.keyValueCalculation.perimeter
 					sheetMetalArea: "", //- part.keyValueCalculation.sheetMetalArea
 					surfaceArea: "", //- part.keyValueCalculation.surfaceArea
@@ -240,24 +240,61 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					materialPrice: null, //- part.finalCalculation.materialPrice
 					itemUnitPrice: null, //- part.finalCalculation.itemUnitPrice
 					totalCostForQuantity: null //- part.finalCalculation.totalCostForQuantity
-				}
+				},
+				subAssNumber: subAssemblyId,
+				partNumber: partId
 			};
 
 			//- get all shortcuts i.e. part presets 
 			//- get all part types
 			//- get all custom materials 
-			NavigationService.boxCall('MPartPresets/getMPartPresetData', function (data) {
-				estimatePartObj.allShortcuts = data.data;
+			NavigationService.boxCall('MPartPresets/getMPartPresetData', function (partPresetData) {
+				estimatePartObj.allShortcuts = partPresetData.data;
 
-				NavigationService.boxCall('MPartType/getPartTypeData', function (data) {
-					estimatePartObj.allPartTypes = data.data;
-					debugger;
-					callback(estimatePartObj);
+				NavigationService.boxCall('MPartType/getPartTypeData', function (partTypeData) {
+					estimatePartObj.allPartTypes = partTypeData.data;
+
+					//- check part calculation data is available or not
+					if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partUpdateStatus) {
+
+						var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+						if (!_.isEmpty(tempPart.shortcut) && tempPart.shortcut != undefined) {
+							estimatePartObj.selectedShortcut = tempPart.shortcut; //- selecetd shortCut
+						}
+						if (!_.isEmpty(tempPart.partType) && tempPart.partType != undefined) {
+							estimatePartObj.selectedPartType = tempPart.partType; //- selected partType
+						}
+						if (!_.isEmpty(tempPart.material) && tempPart.material != undefined) {
+							estimatePartObj.selectedMaterial = tempPart.material; //- selected material
+						}
+						if (!_.isEmpty(tempPart.size) && tempPart.size != undefined) {
+							estimatePartObj.selectedSize = tempPart.size; //- size
+						}
+						if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
+							estimatePartObj.selectedCustomMaterial = tempPart.customMaterial; //- selectedCustomeMaterial
+						}
+
+						estimatePartObj.quantity = tempPart.quantity; //- quantity
+						estimatePartObj.variable = tempPart.variable; //- variable
+
+						estimatePartObj.finalCalculation.materialPrice = tempPart.finalCalculation.materialPrice;
+						estimatePartObj.finalCalculation.itemUnitPrice = tempPart.finalCalculation.itemUnitPrice;
+						estimatePartObj.finalCalculation.totalCostForQuantity = tempPart.finalCalculation.totalCostForQuantity
+
+						estimatePartObj.keyValueCalculations.perimeter = tempPart.keyValueCalculations.perimeter;
+						estimatePartObj.keyValueCalculations.sheetMetalArea = tempPart.keyValueCalculations.sheetMetalArea;
+						estimatePartObj.keyValueCalculations.surfaceArea = tempPart.keyValueCalculations.surfaceArea;
+						estimatePartObj.keyValueCalculations.weight = tempPart.keyValueCalculations.weight
+						estimatePartObj.partUpdateStatus = true;
+
+						callback(estimatePartObj);
+					} else {
+						callback(estimatePartObj);
+					}
+
 				});
 			});
-
-
-
 		} else if (estimateView == 'processing') {
 			if (getLevelName == "assembly") {
 
@@ -304,6 +341,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 		}
 
+		//- this if is bcoz we are already sending callback in case of editPartItemDetail & partDetail view
 		if (estimateView != 'editPartItemDetail' || estimateView != 'partDetail') {
 			callback(getViewData);
 		}
@@ -316,7 +354,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			callback(data.data);
 		});
 	}
-	//- to save new assebly name
+	//- to update assebly name
 	this.editAssemblyName = function (estimateName, draftEstimateId, callback) {
 		var tempEstimateObj = {
 			_id: draftEstimateId,
@@ -326,6 +364,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			callback(data.data);
 		});
 	}
+
+
 	//- to get all assembly numbers
 	this.getAllAssemblyNumbers = function (callback) {
 		NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
@@ -414,6 +454,49 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(tempPartObj);
 		callback();
 	}
+	//- update Part Detail with all calculation & other data
+	this.updatePartDetail = function (partObject) {
+		debugger;
+		console.log('**** inside updatePartDetail of createOrEditEstimateService.js ****', partObject);
+		//-make proper part Object by removing all unwanted fields 
+
+		var subAssIndex = this.getSubAssemblyIndex(partObject.subAssNumber);
+		var partIndex = this.getPartIndex(subAssIndex, partObject.partNumber);
+
+		var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+		if (!_.isEmpty(partObject.selectedShortcut) && partObject.selectedShortcut != undefined) {
+			tempPart.shortcut = partObject.selectedShortcut; //- selecetd shortCut
+		}
+		if (!_.isEmpty(partObject.selectedPartType) && partObject.selectedPartType != undefined) {
+			tempPart.partType = partObject.selectedPartType; //- selected partType
+		}
+		if (!_.isEmpty(partObject.selectedMaterial) && partObject.selectedMaterial != undefined) {
+			tempPart.material = partObject.selectedMaterial; //- selected material
+		}
+		if (!_.isEmpty(partObject.selectedSize) && partObject.selectedSize != undefined) {
+			tempPart.size = partObject.selectedSize; //- size
+		}
+		if (!_.isEmpty(partObject.selectedCustomMaterial) && partObject.selectedCustomMaterial != undefined) {
+			tempPart.customMaterial = partObject.selectedCustomMaterial; //- selectedCustomeMaterial
+		}
+
+		tempPart.quantity = partObject.quantity; //- quantity
+		tempPart.variable = partObject.variables; //- variables 
+		tempPart.finalCalculation = {};
+		tempPart.finalCalculation.materialPrice = partObject.finalCalculation.materialPrice;
+		tempPart.finalCalculation.itemUnitPrice = partObject.finalCalculation.itemUnitPrice;
+		tempPart.finalCalculation.totalCostForQuantity = partObject.finalCalculation.totalCostForQuantity
+		tempPart.keyValueCalculations = {};
+		tempPart.keyValueCalculations.perimeter = partObject.keyValueCalculations.perimeter;
+		tempPart.keyValueCalculations.sheetMetalArea = partObject.keyValueCalculations.sheetMetalArea;
+		tempPart.keyValueCalculations.surfaceArea = partObject.keyValueCalculations.surfaceArea;
+		tempPart.keyValueCalculations.weight = partObject.keyValueCalculations.weight
+		tempPart.partUpdateStatus = true;
+
+		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex] = tempPart;
+
+	}
 	//- to delete a part
 	this.deletePart = function (subAssemblyId, partId, callback) {
 		var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
@@ -468,6 +551,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		};
 		return obj;
 	}
+
+
 
 
 	//- to add a processing
@@ -540,6 +625,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback();
 	}
 
+
+
 	//- to add an addon
 	this.createAddon = function (addonObj, level, subAssemblyId, partId, callback) {
 		var id;
@@ -610,6 +697,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback();
 	}
 
+
+
 	//- to add an extra
 	this.createExtra = function (extraObj, level, subAssemblyId, partId, callback) {
 		var id;
@@ -679,6 +768,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback();
 	}
 
+
+
 	//- to get customer data
 	this.getCustomMaterialModalData = function (operation, customMaterial, callback) {
 		var custMaterialDataObj = {}
@@ -703,6 +794,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		// 	callback(data.data);
 		//});
 	}
+
+
 
 	//- to get index of subAssId
 	this.getSubAssemblyIndex = function (subAssId) {
@@ -733,6 +826,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 		return addonIndex;
 	}
+
 
 
 	//- to get subAssembly number for new addition of record
@@ -861,6 +955,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 		return id;
 	}
+
+
 
 	//- to import subAssembly
 	this.getImportSubAssemblyData = function (subAssNumber, callback) {
@@ -1037,6 +1133,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 		callback();
 	}
+
+
 
 	//- to get numbers of processing/addons/extras present in assembly object
 	this.getAllItemNumbers = function (type, callback) {
