@@ -326,6 +326,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     createOrEditEstimateService.editAssemblyName(assemblyName, $scope.draftEstimateId, function (data) {
       $scope.getEstimateData();
       $scope.cancelModal();
+      toastr.success('Estimate data updated successfully');
     });
   }
   //- to update estimate object in draftEstimate table
@@ -372,12 +373,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     createOrEditEstimateService.createSubAssembly(subAssemblyData, function () {
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
+      toastr.success('SubAssembly added successfully');
     });
   }
   //- to edit subAssembly data
   $scope.editSubAssembly = function (number) {
     $scope.getCurretEstimateObj();
     $scope.cancelModal();
+    toastr.success('SubAssembly Name Edited successfully');
   }
   //- modal to confirm subssembly deletion
   $scope.deleteSubAssemblyModal = function (subAssemblyId, getFunction) {
@@ -490,7 +493,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   //- to  delete part
   $scope.deletePart = function (subAssemblyId, partId) {
     createOrEditEstimateService.deletePart(subAssemblyId, partId, function () {
-      toastr.info('Part deleted successfully');
+      toastr.success('Part deleted successfully');
       $scope.getEstimateView('subAssembly');
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
@@ -505,7 +508,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       $scope.getEstimateView('subAssembly');
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
-      toastr.info('Parts deleted successfully');
+      toastr.success('Parts deleted successfully');
       // $scope.operationStatus = "***   Records deleted successfully   ***";
 
       // $timeout(function () {
@@ -542,7 +545,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
         if (option == 'import') {
           $scope.cancelModal();
         }
-        toastr.info('Part duplicated successfully');
+        toastr.success('Part duplicated successfully');
       });
     } else {
       //$scope.message = 'Please Enter Valid SubAssembly Number';

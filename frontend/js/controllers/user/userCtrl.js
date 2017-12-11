@@ -12,8 +12,9 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   $scope.checkboxStatus = false; //- for multiple records selection
   //- for cleave validation
   $scope.options = {
-    phone: {
-      phone: true
+    mobile: {
+      phone: true,
+      phoneRegionCode: 'IN'      
     }
   };
 

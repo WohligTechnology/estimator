@@ -45,7 +45,7 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Enquiry Id:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_10" ng-model="formData.enquiryId" disabled>
+                                                        <input type="text" class="form-control" id="form_control_10" ng-model="formData.enquiryId" readonly>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Status:</label>
@@ -516,7 +516,6 @@
                 <!-- <div class="btn-group pull-right">
                     <button id="sample_editable_1_new" class="btn green" ng-click="saveAssemblyNameModal(formData._id,enquiryId)" ng-if="showEstimateBtn"> Estimate </button>
                 </div> -->
-                <pre>{{ formData | json}}</pre>
                 <div class="btn-group pull-right">
                     <button id="sample_editable_1_new" class="btn green" ng-click="saveAssemblyNameModal(formData._id,enquiryId)" ng-if="editPermmission">
                         Estimate </button>
@@ -527,56 +526,23 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th> Estimate Id </th>
+                                    <th> ID </th>
                                     <th> Estimate Version </th>
                                     <th> Created By User </th>
                                     <th> Last Updated By User </th>
                                     <th> Created Date </th>
                                     <th> Updated Date </th>
-                                    <th>EC </th>
-                                    <th>EC </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td> 1 </td>
-                                    <td> Mark </td>
-                                    <td> Otto </td>
-                                    <td> makr124 </td>
-                                    <td>20/5/2017 </td>
-                                    <td>20/5/2017</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td> Jacob </td>
-                                    <td> Nilson </td>
-                                    <td> jac123 </td>
-                                    <td>20/5/2017 </td>
-                                    <td>20/5/2017</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td> 3 </td>
-                                    <td> Larry </td>
-                                    <td> Cooper </td>
-                                    <td> lar </td>
-                                    <td>20/5/2017 </td>
-                                    <td>20/5/2017</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td> 3 </td>
-                                    <td> Sandy </td>
-                                    <td> Lim </td>
-                                    <td> sanlim </td>
-                                    <td>20/5/2017 </td>
-                                    <td>20/5/2017</td>
-                                    <td></td>
-                                    <td></td>
+                                <!-- <tr ng-repeat="v in versionData track by $index"> -->
+                                    <tr>
+                                    <td> {{$index + 1}} </td>
+                                    <td>  </td>
+                                    <td>  </td>
+                                    <td>  </td>
+                                    <td> </td>
+                                    <td> </td>
                                 </tr>
                             </tbody>
                         </table>

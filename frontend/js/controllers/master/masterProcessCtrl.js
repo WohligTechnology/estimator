@@ -47,7 +47,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     $scope.addOrEditProcessCat = function (processCatData, selectedUomId) {
         processCatData.uom = selectedUomId;
         masterProcessService.addOrEditProcessCat(processCatData, function (data) {
-            toastr.info('Record added successfully', 'Process Creation!');
+            toastr.success('Record added successfully', 'Process Creation!');
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -65,7 +65,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessCat = function (processCatId) {
         masterProcessService.deleteProcessCat(processCatId, function (data) {
-            toastr.info('Record deleted successfully', 'Process Deletion!');
+            toastr.success('Record deleted successfully', 'Process Deletion!');
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -89,7 +89,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.addOrEditProcessItem = function (processItemData, processCatId) {
         masterProcessService.addOrEditProcessItem(processItemData, processCatId, function (data) {
-            toastr.info('Record added successfully', 'Process Creation!');
+            toastr.success('Record added successfully', 'Process Creation!');
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -107,7 +107,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessItem = function (processItemId) {
         masterProcessService.deleteProcessItem(processItemId, function (data) {
-            toastr.info('Record deleted successfully', 'Process Deletion!');
+            toastr.success('Record deleted successfully', 'Process Deletion!');
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -147,7 +147,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         processData.quantity.uom = selectedQuaLinkedKeyUom;
         processData.quantity.finalUom = selectedQuaFinalUom;
         masterProcessService.addOrEditProcessType(processData, function (data) {
-            toastr.info('Record added successfully', 'Process Creation!');
+            toastr.success('Record added successfully', 'Process Creation!');
             $scope.getProcessTypeData();
             $scope.cancelModal();
         });
@@ -165,7 +165,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessType = function (processId) {
         masterProcessService.deleteProcessType(processId, function (data) {
-            toastr.info('Record deleted successfully', 'Process Deletion!');
+            toastr.success('Record deleted successfully', 'Process Deletion!');
             $scope.cancelModal();
             $scope.getProcessTypeData();
         });
@@ -236,7 +236,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
             $scope.cancelModal();
             $scope.getProcessTypeData();
             $scope.bulkProcesses = [];
-            toastr.info('Records deleted successfully', 'Process Deletion!');
+            toastr.success('Records deleted successfully', 'Process Deletion!');
         });
     }
     //- function to get bulk processes

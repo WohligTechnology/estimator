@@ -10,6 +10,7 @@ module.exports = [
   //Angular Libs   
   'bower_components/angular/angular.js',
   'bower_components/cleave.js/dist/cleave-angular.min.js',
+  'bower_components/cleave.js/dist/addons/cleave-phone.in.js',
   'bower_components/angular-bootstrap/ui-bootstrap.min.js',
   'bower_components/angular-ui-router/release/angular-ui-router.min.js',
   'bower_components/angular-flexslider/angular-flexslider.js',

@@ -1,4 +1,4 @@
-myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, masterShapeService) {
+myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterShapeService) {
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = false;
@@ -40,7 +40,6 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
         //     $scope.formData.icon = {};
         //     $scope.formData.icon.file = "";
         // }
-        // debugger;
         
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
             $scope.shapeView = 'views/content/master/shape/tempView.html';
@@ -53,7 +52,7 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
     $scope.createOrEditShape = function (shape, shapeVariables) {
         shape.variable = shapeVariables;
         masterShapeService.createOrEditShape(shape, function (data) {
-            $scope.operationStatus = "Shape added successfully";
+            toastr.success('Shape added successfully');
             $scope.getShapeData();
         });
     }
@@ -70,7 +69,7 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
     }
     $scope.deleteShape = function (shapeId) {
         masterShapeService.deleteShape(shapeId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            toastr.success('Record deleted  successfully');
             $scope.cancelModal();
             $scope.getShapeData();
         });

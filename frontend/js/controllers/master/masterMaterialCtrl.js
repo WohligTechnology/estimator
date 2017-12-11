@@ -41,7 +41,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.addOrEditMaterialCat = function (materialCatData) {
         console.log('**** inside addOrEditMaterialCat of createOrEditMaterialCtrl.js ****');
         masterMaterialService.addOrEditMaterialCat(materialCatData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            toastr.success('Record added successfully');
             $scope.getMaterialData();
             $scope.cancelModal();
         });
@@ -61,7 +61,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.deleteMaterialCat = function (materialCatId) {
         console.log('**** inside deleteMaterialCat of createOrEditMaterialCtrl.js ****');
         masterMaterialService.deleteMaterialCat(materialCatId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            toastr.success('Record deleted successfully');
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -89,7 +89,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', materialSubCatData);
         console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', materialCatId);
         masterMaterialService.addOrEditMaterialSubCat(materialSubCatData, materialCatId, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            toastr.success('Record added successfully');
             $scope.getMaterialData();
             $scope.cancelModal();
         });
@@ -110,7 +110,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.deleteMaterialSubCat = function (materialSubCatId) {
         console.log('**** inside deleteMaterialSubCat of createOrEditMaterialCtrl.js ****');
         masterMaterialService.deleteMaterialSubCat(materialSubCatId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            toastr.success('Record added successfully');            
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -138,9 +138,9 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
         console.log('**** inside addOrEditMaterial of createOrEditMaterialCtrl.js ****', materialSubCatId);
         masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {
-            $scope.operationStatus = "Record added successfully";
-            $scope.getMaterialData();
+            toastr.info('Record added successfully');            
             $scope.cancelModal();
+            $scope.getMaterialData();
         });
     }
     //- instant edit particular master material
@@ -153,11 +153,11 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
             $scope.editAll = false;
         } else {
             $scope.editAll = true;
+            toastr.success('Now you can edit any material');
         }
     }
     //- modal to confirm material deletion
     $scope.deleteMaterialModal = function (materialId, getFunction) {
-        console.log('**** inside deleteMaterialModal of createOrEditMaterialCtrl.js ****', getFunction);
         $scope.idToDelete = materialId;
         $scope.functionToCall = getFunction;
 
@@ -169,9 +169,8 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.deleteMaterial = function (materialId) {
-        console.log('**** inside deleteMaterial of createOrEditMaterialCtrl.js ****');
         masterMaterialService.deleteMaterial(materialId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            toastr.info('Record deleted successfully');
             $scope.cancelModal();
             $scope.getMaterialData();
         });

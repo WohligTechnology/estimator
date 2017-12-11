@@ -16,6 +16,9 @@
                 <i class="fa fa-user"></i>
                 <input class="form-control placeholder-no-fix" name="userId" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" autocomplete="off" placeholder="Username or Email ID" ng-model="userId"
                 autofocus required />
+                <small class="error" ng-if="userId.$error.email">
+                    Please input a valid email.
+                </small>
             </div>
         </div>
         <div class="form-group">
