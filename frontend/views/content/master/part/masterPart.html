@@ -15,7 +15,7 @@
                             <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
                             <input type="checkbox" id="{{ptCat.name+$index}}" />
                             <label for="{{ptCat.name+$index}}" class="tree_label"></label>
-                            <span class="subssemblyName">{{ptCat.partTypeCatName}}</span>
+                            <span class="subssemblyName">{{ptCat.partTypeCatName | capitalize}}</span>
                             <span ng-click="addOrEditPartTypeModal('save',ptCat._id)" class="subAssemblyCreateIcon">
                                 <i class="fa fa-plus btn-info" title="Add Part Type"></i>
                             </span>
@@ -27,7 +27,7 @@
                             </span>
                             <ul>
                                 <li ng-repeat="pt in ptCat.partTypes">
-                                    <span class="tree_label partName" ng-click="getPartTypeSizes(pt._id)">{{pt.partTypeName}}</span>
+                                    <span class="tree_label partName" ng-click="getPartTypeSizes(pt._id)">{{pt.partTypeName | capitalize}}</span>
                                     <span ng-click="addNewPreset('save',pt._id)" class="subAssemblyCreateIcon">
                                         <i class="fa fa-plus btn-info" title="Add New Preset"></i>
                                     </span>

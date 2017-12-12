@@ -17,7 +17,6 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
 
 
   if (angular.isDefined($stateParams.enquiryId)) {
-    debugger;
     $scope.showEstimateBtn = true;
     $scope.enquiryId = $stateParams.enquiryId;
     $scope.editPermmission = true;
@@ -30,18 +29,18 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     createOrEditEnquiryService.getEnquiryObj($stateParams.enquiryId, function (data) {
       $scope.formData = data;
     });
-  }
-  //- to get all customer names and their locations
-  $scope.getCustomerData = function () {
+    //- to get all customer names and their locations
     createOrEditEnquiryService.getCustomerData(function (data) {
       $scope.customerData = data;
     });
-  }
   //- to get all user names
-  $scope.getUserData = function () {
     createOrEditEnquiryService.getUserData(function (data) {
       $scope.userData = data;
     });
+    //- to get all versions data
+    // createOrEditEnquiryService.getVersionData(function (data) {
+    //   $scope.versionData = data;
+    // });
   }
 
 
@@ -108,8 +107,6 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
   //- to initilize the default function  
   $scope.init = function () {
     $scope.getEnquiryObj();
-    $scope.getCustomerData();
-    $scope.getUserData();
   }
 
   $scope.init();

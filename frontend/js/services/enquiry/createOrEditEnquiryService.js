@@ -28,6 +28,11 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       callback(data.data);
     });
   }
+  // this.getVersionData = function (callback) {
+  //   NavigationService.boxCall('/', function (data) {
+  //     callback(data.data);
+  //   });
+  // }
   this.createEnquiry = function (enquiryData, callback) {
     NavigationService.apiCall('Enquiry/createEnquiry', enquiryData, function (data) {
       callback(data.data);

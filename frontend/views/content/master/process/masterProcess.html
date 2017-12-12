@@ -14,7 +14,7 @@
                         <input type="checkbox" id="{{pc.processCatName+$index}}" />
                         <label for="{{pc.processCatName+$index}}" class="tree_label"></label>
                         <!-- process cat name -->
-                        <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pc.processCatName}}</span>
+                        <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pc.processCatName | capitalize}}</span>
                         <!-- create  process items  -->
                         <span ng-click="addOrEditProcessItemModal('save',pc._id)" class="subAssemblyCreateIcon">
                             <i class="fa fa-plus btn-info" title="Add Process Item"></i>
@@ -29,7 +29,7 @@
                         </span>
                         <ul class="">
                             <li ng-repeat="pi in pc.processItems">
-                                <span class="tree_label" class="partName">{{pi.processItemName}}</span>
+                                <span class="tree_label" class="partName">{{pi.processItemName | capitalize}}</span>
                                 <span ng-click="addOrEditProcessItemModal('update',pc._id,pi)" class="partEditIcon">
                                     <i class="fa fa-pencil btn-warning" title="Edit Process Item"></i>
                                 </span>
