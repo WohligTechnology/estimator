@@ -96,7 +96,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
           $scope.estimatePartObj.selectedSize = data.selectedSize;
           $scope.disablePartFields.displayPresetSize = true;
           $scope.disablePartFields.disableCustomMaterial = true;
-          
+
           $scope.estimatePartObj.customMaterials = data.customMaterials;
           $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
 
@@ -225,6 +225,31 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
   }
 
+  $scope.updatePartCalculation = function () {
+    console.log('**** inside updatePartCalculation of createOrEditEstimateCtrl.js ****');
+
+    //- get shape formulae
+    //- get updated variables 
+    //- calculate keyValueCalculations & finalCalculation 
+    //- update estimate object --> variable array
+    debugger;
+    var partFormulae = $scope.estimatePartObj.selectedShortcut.shape.partFormulae;
+
+    _.map($scope.estimatePartObj.variables, function (n) {
+      varName = n.varName;
+      varValue = parseInt(n.varValue);
+
+      tempVar = varName;
+      window[tempVar] = varValue;
+    });
+
+    $scope.estimatePartObj.keyValueCalculations.perimeter = eval(partFormulae.perimeter);
+    $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = eval(partFormulae.sheetMetalArea);
+    $scope.estimatePartObj.keyValueCalculations.surfaceArea = eval(partFormulae.surfaceArea);
+    $scope.estimatePartObj.keyValueCalculations.weight = eval(partFormulae.weight);
+    $scope.getPartFinalCalculation();
+  }
+
   $scope.getPartFinalCalculation = function () {
     //- get all updated variable data & calculate all keyValueCalculations i.e. perimeter, sheetMetalArea, surfaceArea, weight
     //- also calculate all finalCalculation i.e. materialPrice, itemUnitPrice, totalCostForQuantity  
@@ -248,8 +273,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
   }
 
+  //- to update part calculation detail into an corresponding part 
   $scope.updatePartDetail = function (partObject) {
-    debugger;
     createOrEditEstimateService.updatePartDetail(partObject, function (data) {
       $scope.estimteData = data;
     });
