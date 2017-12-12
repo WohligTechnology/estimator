@@ -71,11 +71,19 @@ var schema = new Schema({
     assemblyObj: {},
     estimateVersion: {
         type: String,
-        index: true
     },
 });
 
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+    populate: {
+        'estimateCreatedUser': {
+            select: 'name'
+        },
+        'estimateUpdatedUser': {
+            select: 'name'
+        }
+    }
+});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Estimate', schema);
@@ -366,6 +374,21 @@ var model = {
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+
+    getEstimateVersion: function (data, callback) {
+        Estimate.find({
+            enquiryId: data.enquiryId
+        }).deepPopulate('estimateCreatedUser estimateUpdatedUser').select('estimateVersion createdAt updatedAt estimateCreatedUser estimateUpdatedUser').exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
             } else {
                 callback(null, found);
             }

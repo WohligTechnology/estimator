@@ -10,7 +10,6 @@ var schema = new Schema({
     },
     processingNumber: {
         type: String,
-        unique: true,
         required: true
     },
     processType: {

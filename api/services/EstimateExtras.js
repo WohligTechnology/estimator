@@ -10,7 +10,6 @@ var schema = new Schema({
     },
     extraNumber: {
         type: String,
-        unique: true,
         required: true
     },
     extraItem: {
