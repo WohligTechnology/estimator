@@ -38,9 +38,9 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
       $scope.userData = data;
     });
     //- to get all versions data
-    // createOrEditEnquiryService.getVersionData(function (data) {
-    //   $scope.versionData = data;
-    // });
+    createOrEditEnquiryService.getEstimateVersionData($scope.enquiryId, function (data) {
+      $scope.versionData = data;
+    });
   }
 
 

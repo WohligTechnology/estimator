@@ -53,7 +53,6 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   $scope.addOrEditUser = function (operation, userData) {
     userService.addOrEditUser(userData, function (data) {
       if (data.data == "success") {
-        debugger;
         $scope.getUserData();
         $scope.cancelModal();
         if (operation == 'save') {

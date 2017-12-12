@@ -36,9 +36,16 @@
                             <div class="shapes-checkbox">
                                 <div class="" ng-repeat="varChunk in variablesData">
                                     <div class="col-md-4" ng-repeat="var in varChunk track by $index">
+                                        <!-- 
                                         {{var.varName}}
                                         <input type="checkbox" id="checkbox-f" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
                                             ng-checked="var.checkboxStatus" ng-model="checkedVariable">
+                                         -->
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">{{var.varName}}
+                                            <input type="checkbox" id="checkAll" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
+                                            ng-checked="var.checkboxStatus" ng-model="checkedVariable" />
+                                            <span></span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>

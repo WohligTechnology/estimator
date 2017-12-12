@@ -94,7 +94,8 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
   });
   $scope.loginTemplate = true;
   if (!$scope.loginTemplate) {
-    $scope.userPhoto = ($.jStorage.get('loggedInUser')).photo;
+    $scope.userPhoto = '';
+    $scope.userName = '';
   }
 
   // console.log("*********************************************************************",window.location.href );
