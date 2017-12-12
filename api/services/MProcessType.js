@@ -57,7 +57,7 @@ module.exports = mongoose.model('MProcessType', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "processCat rate.uom quantity.uom, quantity.finalUom", "processCat rate.uom quantity.uom, quantity.finalUom"));
 var model = {
 
-    //- Seatch the MProcess type data by passing Process Type name.
+    //- Search the MProcess type data by passing Process Type name.
     getAllProcessType: function (data, callback) {
         var maxRow = Config.maxRow;
         var page = 1;
@@ -108,7 +108,7 @@ var model = {
             } else {
                 MProcessCat.findOne({
                     _id: myData.processCat
-                }).populate('processItems').select('processItems').exec(function (err, itemsData) {
+                }).deepPopulate('processItems').select('processItems').exec(function (err, itemsData) {
                     if (err) {
                         console.log('**** error at function_name of MProcessType.js ****', err);
                         callback(err, null);
@@ -122,9 +122,15 @@ var model = {
         });
     },
 
-    //-Get all process type data from MProcess Type table.
+    //- Get all process type data from MProcess Type table without pagination
     getProcessTypeData: function (data, callback) {
-        MProcessType.find().lean().exec(function (err, found) {
+        MProcessType.find().populate({ 
+            path: 'rate',
+            populate: {
+              path: 'uom',
+              model: 'MUom'
+            }
+          }).exec(function (err, found) {
             if (err) {
                 console.log('**** error at getProcessTypeData of MProcessType.js ****', err);
                 callback(err, null);
