@@ -135,7 +135,11 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     //- instant edit particular master material
     $scope.editMaterial = function (materialId) {
-        $scope.editMaterialId = materialId;
+        if($scope.editMaterialId == materialId) {
+            $scope.editMaterialId = '';
+        } else {
+            $scope.editMaterialId = materialId;
+        }
     }
     //- instant edit all master materials
     $scope.instantEditAllMaterial = function (editAll) {
@@ -213,8 +217,8 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         }
     }
     //- to search the text in table
-    $scope.serachText = function (keyword, count) {
-        masterMaterialService.getPaginationData(null, keyword, function (data) {
+    $scope.searchText = function (keyword, count) {
+        masterMaterialService.getPaginationData(null, null, keyword, function (data) {
             $scope.subCatMaterials = data.results;
             masterMaterialService.getPaginationDetails(1, count, data, function (obj) {
                 $scope.obj = obj;
