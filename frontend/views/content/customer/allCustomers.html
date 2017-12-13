@@ -41,9 +41,9 @@
             </div>
             <div class="portlet-body horizontal_scroll">
                 <div class="table-toolbar">
-                    <div class="row">
+                    <div class="row" ng-if="total>obj.count">
                         <div class="col-md-8">
-                            <div class="btn-group" ng-if="obj.total>obj.count">
+                            <div class="btn-group">
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
                                     data-close-others="true">
@@ -82,7 +82,7 @@
                 <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
                     <thead>
                         <tr>
-                            <th rowspan="2" class="align-top">
+                            <th rowspan="2" class="align-left">
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                     <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="customerData.length <= 0"
                                         ng-model="checkAll" ng-change="selectAll(customerData, checkAll)" />

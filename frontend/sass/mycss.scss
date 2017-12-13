@@ -1,12 +1,11 @@
- // master shape css 
+   // master shape css 
  .leftPosition {
    flex-direction: row;
    img {
-
-    margin-right:0.5em;
+     margin-right:0.5em;
    }
-  }
-   
+ }
+
  .rightPosition {
    display: flex;
    img {
@@ -27,8 +26,7 @@
      width: 36px !important;
      height: 36px;
    }
- } 
-
+ }
 
  @media (min-width: 992px) {
    .hideSideBar {
@@ -559,17 +557,25 @@ tree css*/
    color: #c2c2c2;
    top: 5px;
    right: 22px;
- }
-
+ } 
+ 
  //role modal table css
  #table_alignment {
-  text-align: left !important;
- }
-
+   text-align: left !important;
+ } 
+ 
  //role table css
  .greenColor {
    color:green;
  }
  .redColor {
    color:red;
+ }
+
+ //checkbox css
+
+ .mt-checkbox.mt-checkbox-outline> input:checked ~ span {
+  border-color: rgb(84, 131, 145) !important;
+  background: #3d4957 !important; 
+  position: absolute !important;
  }

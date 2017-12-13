@@ -178,7 +178,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <pre>{{formData | json}}</pre>
                                             <div class="form-actions">
                                                 <div class="row">
                                                     <div class=" col-md-12">
@@ -521,7 +520,7 @@
                         Estimate </button>
                 </div>
                 <!-- start of table-->
-                <div class="portlet-body">
+                <div class="portlet-body" ng-if="editPermmission">
                     <div class="table-scrollable">
                         <table class="table table-bordered table-hover">
                             <thead>
@@ -535,14 +534,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- <tr ng-repeat="v in versionData track by $index"> -->
-                                    <tr>
+                                <tr ng-repeat="v in versionData track by $index">
                                     <td> {{$index + 1}} </td>
-                                    <td>  </td>
-                                    <td>  </td>
-                                    <td>  </td>
-                                    <td> </td>
-                                    <td> </td>
+                                    <td> {{v.estimateVersion}} </td>
+                                    <td> {{v.estimateCreatedUser.name}} </td>
+                                    <td> {{v.estimateUpdatedUser.name}} </td>
+                                    <td> {{v.createdAt}} </td>
+                                    <td> {{v.updatedAt}} </td>
                                 </tr>
                             </tbody>
                         </table>

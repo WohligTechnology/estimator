@@ -22,8 +22,8 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
                 $scope.loggedInUser = {};
                 $scope.loggedInUser._id = $scope.userData._id;
                 $scope.loggedInUser.email = $scope.userData.email;
-                $scope.loggedInUser.name = $scope.userData.name;
-                $scope.loggedInUser.photo = $scope.userData.photo;
+                $scope.$parent.userName = $scope.loggedInUser.name = $scope.userData.name;
+                $scope.$parent.userPhoto = $scope.loggedInUser.photo = $scope.userData.photo;
                 $.jStorage.set("loggedInUser", $scope.loggedInUser);
                 $state.go('app.dashboard');
                 $scope.$parent.loginTemplate = true;

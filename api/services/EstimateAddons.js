@@ -10,7 +10,6 @@ var schema = new Schema({
     },
     addonNumber: {
         type: String,
-        unique: true,
         required: true
     },
 

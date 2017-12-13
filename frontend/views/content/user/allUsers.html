@@ -41,9 +41,9 @@
             </div>
             <div class="portlet-body horizontal_scroll">
                 <div class="table-toolbar">
-                    <div class="row">
+                    <div class="row" ng-if="total>obj.count">
                         <div class="col-md-8">
-                            <div class="btn-group" ng-if="obj.total>obj.count">
+                            <div class="btn-group">
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
                                     data-close-others="true">
@@ -112,9 +112,9 @@
                             <td>{{user.mobile }}</td>
                             <td>{{user.accessLevel }}</td>
                             <td>
-                                <span class="label label-sm label-success" id="add_space" ng-click="addOrEditUserModal('update',user)">
+                                <span class="label label-sm label-success" ng-click="addOrEditUserModal('update',user)">
                                     <i class="fa fa-pencil" title="Edit User Details"></i>
-                                </span>
+                                </span>&nbsp;
                                 <span class="label label-sm label-danger" ng-click="deleteUserModal(user._id,'deleteUser')">
                                     <i class="fa fa-trash-o" title="Delete User"></i>
                                 </span>
