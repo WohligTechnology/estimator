@@ -11,9 +11,9 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     // $scope.formData = {
     //     datasheet:[]
     // };
-    // $scope.bulkMaterials = []; //- for multiple records deletion
-    // $scope.checkAll = false; //- for all records selection
-    // $scope.checkboxStatus = false; //- for multiple records selection
+    $scope.bulkMaterials = []; //- for multiple records deletion
+    $scope.checkAll = false; //- for all records selection
+    $scope.checkboxStatus = false; //- for multiple records selection
 
 
     // *************************** default functions begin here  ********************** //
@@ -39,7 +39,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.addOrEditMaterialCat = function (materialCatData) {
-        console.log('**** inside addOrEditMaterialCat of createOrEditMaterialCtrl.js ****');
         masterMaterialService.addOrEditMaterialCat(materialCatData, function (data) {
             toastr.success('Record added successfully');
             $scope.getMaterialData();
@@ -59,7 +58,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.deleteMaterialCat = function (materialCatId) {
-        console.log('**** inside deleteMaterialCat of createOrEditMaterialCtrl.js ****');
         masterMaterialService.deleteMaterialCat(materialCatId, function (data) {
             toastr.success('Record deleted successfully');
             $scope.cancelModal();
@@ -69,7 +67,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
 
     $scope.addOrEditMaterialSubCatModal = function (operation, materialCatId, materialSubCat) {
-        console.log('**** inside addOrEditMaterialSubCatModal of createOrEditMaterialCtrl.js ****', materialSubCat);
         masterMaterialService.getMaterialSubCatModalData(operation, materialCatId, materialSubCat, function (data) {
             $scope.formData = data.materialSubCat;
             $scope.catId = data.catId;
@@ -86,8 +83,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.addOrEditMaterialSubCat = function (materialSubCatData, materialCatId) {
         // materialSubCatData.catId = materialCatId;
-        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', materialSubCatData);
-        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', materialCatId);
         masterMaterialService.addOrEditMaterialSubCat(materialSubCatData, materialCatId, function (data) {
             toastr.success('Record added successfully');
             $scope.getMaterialData();
@@ -96,7 +91,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     //- modal to confirm material sub deletion
     $scope.deleteMaterialSubCatModal = function (materialSubCatId, getFunction) {
-        console.log('**** inside deleteMaterialSubCatModal of createOrEditMaterialCtrl.js ****', getFunction);
         $scope.idToDelete = materialSubCatId;
         $scope.functionToCall = getFunction;
 
@@ -108,7 +102,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.deleteMaterialSubCat = function (materialSubCatId) {
-        console.log('**** inside deleteMaterialSubCat of createOrEditMaterialCtrl.js ****');
         masterMaterialService.deleteMaterialSubCat(materialSubCatId, function (data) {
             toastr.success('Record added successfully');            
             $scope.cancelModal();
@@ -118,9 +111,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
 
     $scope.addOrEditMaterialModal = function (operation, materialSubCatId, material) {
-        console.log('**** inside addOrEditMaterialModal of createOrEditMaterialCtrl.js ****', materialSubCatId);
         masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {           
-            console.log('**** inside function_name of masterMaterialCtrl.js ****', data);
 
             $scope.formData = data.material;           
             $scope.subCatId = data.materialSubCategory; // pass it to parameter of addOrEditMaterial
@@ -136,7 +127,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
-        console.log('**** inside addOrEditMaterial of createOrEditMaterialCtrl.js ****', materialSubCatId);
         masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {
             toastr.info('Record added successfully');            
             $scope.cancelModal();
@@ -232,41 +222,41 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     //   //- bulk materials deletion modal
-    //   $scope.deleteBulkMaterialsModal = function (materialIdArray, getFunction) {
-    //     $scope.idsToDelete = materialIdArray;
-    //     $scope.functionToCall = getFunction;
+      $scope.deleteBulkMaterialsModal = function (materialIdArray, getFunction) {
+        $scope.idsToDelete = materialIdArray;
+        $scope.functionToCall = getFunction;
 
-    //     $scope.modalInstance = $uibModal.open({
-    //       animation: true,
-    //       templateUrl: 'views/content/deleteBulkModal.html',
-    //       scope: $scope,
-    //       size: 'md'
-    //     });
-    //   }
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/deleteBulkModal.html',
+          scope: $scope,
+          size: 'md'
+        });
+      }
     //   //-to delete bulk materials
-    //   $scope.deleteBulkMaterials = function (materials) {
-    //     masterMaterialService.deleteBulkMaterials(materials, function () {
+      $scope.deleteBulkMaterials = function (materials) {
+        masterMaterialService.deleteBulkMaterials(materials, function () {
 
-    //       $scope.cancelModal();
-    //       $scope.bulkMaterials = [];
-    //       $scope.checkAll = false;
-    //       $scope.checkboxStatus = false;
-    //       $scope.getMaterialData();
-    //       toastr.info('Record deleted successfully', 'Material Deletion!');
-    //     });
-    //   }
+          $scope.cancelModal();
+          $scope.bulkMaterials = [];
+          $scope.checkAll = false;
+          $scope.checkboxStatus = false;
+          $scope.getSubCatMaterials();
+          toastr.info('Record deleted successfully', 'Material Deletion!');
+        });
+      }
     //   //- to get bulk materials
-    //   $scope.selectBulkMaterials = function (checkboxStatus, materialId) {
-    //     masterMaterialService.selectBulkMaterials(checkboxStatus, materialId, function (data) {
-    //       $scope.bulkMaterials = data;
-    //     });
-    //   }
-    //   //- to select all records
-    //   $scope.selectAll = function (materials, checkboxStatus) {
-    //     masterMaterialService.selectAll(materials, checkboxStatus, function (data) {
-    //       $scope.bulkMaterials = data;
-    //     });
-    //   }
+      $scope.selectBulkMaterials = function (checkboxStatus, materialId) {
+        masterMaterialService.selectBulkMaterials(checkboxStatus, materialId, function (data) {
+          $scope.bulkMaterials = data;
+        });
+      }
+      //- to select all records
+      $scope.selectAll = function (materials, checkAll) {
+        masterMaterialService.selectAll(materials, checkAll, function (data) {
+          $scope.bulkMaterials = data;
+        });
+      }
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {
