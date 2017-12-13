@@ -131,7 +131,6 @@ var model = {
                 callback(null, updatedData);
             }
         });
-
     },
 
     //-get all material data on the basis of Material type.
@@ -192,7 +191,83 @@ var model = {
                     }
                 });
     },
+    delRestrictions: function (data, callback) {
+        var modelName = [{
+                models: "MMaterial",
+                fieldName: ["estimateId"]
+            },
+            {
+                models: "MMaterialSubCat",
+                fieldName: ["materialSubCategory", "addons"]
+            },
+            {
+                models: "Estimate",
+                fieldName: ["enquiryId", "addons", "estimateCreatedUser"]
+            },
+        ];
+        async.eachSeries(modelName, function (m, callback) {
+                var i = 0;
+                async.eachSeries(modelName, function (f, callback) {
+                        var len = m.fieldName.length;
+                        if (i < len) {
+                            console.log('**** yyyyyyyyyyyyyyyyyyyyyyyy ****', i);
+                            this[m.models].findOne({
+                                [f.fieldName[i]]: data._id
+                            }).select('_id)').lean().exec(function (err, found) {
+                                console.log('****&&&&&&&&&&&&& ****', found);
+                                if (err) {
+                                    console.log('**** error at delRestrictions ****', err);
+                                } else if (_.isEmpty(found)) {
+                                    console.log('****no depenedecy of the table ' + m.models);
+                                    i++;
+                                    callback(null, []);
+                                } else {
+                                    console.log('it has denpendency of model ' + m.models);
+                                    callback(null, found);
+                                }
 
+                            });
+                        } else {
+                            callback(null, []);
+                        }
+                    },
+                    function (err) {
+                        if (err) {
+                            console.log('***** error at final response of 1st async.eachSeries in function_name of MMaterial.js *****', err);
+                        } else {
+                            callback();
+                        }
+                    });
+
+            },
+            function (err) {
+                if (err) {
+                    console.log('***** error at final response of 2nd async.eachSeries in function_name of MMaterial.js *****', err);
+                } else {
+                    callback();
+                }
+            });
+
+    },
+    
+    //-delete multiple materials by passing multiple user ids
+    deleteMultipleMaterials: function (data, callback) {
+        MMaterial.remove({
+            _id: {
+                $in: data.idsArray
+            }
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at deleteMultipleMaterials of Material.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 
 };
+
 module.exports = _.assign(module.exports, exports, model);
