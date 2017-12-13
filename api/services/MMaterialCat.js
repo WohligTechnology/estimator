@@ -27,7 +27,7 @@ var model = {
                     console.log('**** error at getMaterialStructure of MMaterialCat.js ****', err);
                     callback(err, null);
                 } else if (_.isEmpty(found)) {
-                    callback(null, 'noDataFound');
+                    callback(null, []);
                 } else {
                     callback(null, found);
                 }

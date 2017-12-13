@@ -109,7 +109,7 @@
                                         <div class="form-group" ng-repeat="v in estimatePartObj.variables track by $index">
                                             <label class="col-md-3 control-label">{{v.varName}}</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control" ng-change="getPartFinalCalculation(estimatePartObj.variable)" ng-model="v.varValue" required>
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="v.varValue" required>
                                             </div>
                                         </div>
                                        

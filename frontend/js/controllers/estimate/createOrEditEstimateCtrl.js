@@ -51,7 +51,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     subAssNumber: "", //- to update part object of corresponding subAssembly
     partNumber: "" //- to update this part object
   };
-
   //- to enable & disable partType fields while creating/updating 
   $scope.disablePartFields = {
     disableField: true,
@@ -62,6 +61,32 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     disableCustomMaterial: false,
     displayPresetSize: false
   };
+
+  $scope.processingObj = {
+    processingTypeData: [],
+    processingItemData: [],
+    selectedProcessingType: {},
+    selectedProcessingItem: {},
+    rate: {
+      actualRate: "",
+      uom: ""
+    },
+    quantity: {
+      linkedKeyValue: "",
+      uom: "",
+      mulFact: "",
+      finalUom: "",
+      utilization: null,
+      contengncyOrWastage: null
+    },
+    totalQuantity:1,
+    remark:"",
+    totalCost:null
+  };
+  $scope.disableProcessingFields = {
+    disableProcessItem : true
+  };
+
 
   if (angular.isDefined($stateParams.estimateId)) {
     $scope.draftEstimateId = $stateParams.estimateId;
@@ -96,7 +121,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
           $scope.estimatePartObj.selectedSize = data.selectedSize;
           $scope.disablePartFields.displayPresetSize = true;
           $scope.disablePartFields.disableCustomMaterial = true;
-          
+
           $scope.estimatePartObj.customMaterials = data.customMaterials;
           $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
 
@@ -225,6 +250,31 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
   }
 
+  $scope.updatePartCalculation = function () {
+    console.log('**** inside updatePartCalculation of createOrEditEstimateCtrl.js ****');
+
+    //- get shape formulae
+    //- get updated variables 
+    //- calculate keyValueCalculations & finalCalculation 
+    //- update estimate object --> variable array
+    debugger;
+    var partFormulae = $scope.estimatePartObj.selectedShortcut.shape.partFormulae;
+
+    _.map($scope.estimatePartObj.variables, function (n) {
+      varName = n.varName;
+      varValue = parseInt(n.varValue);
+
+      tempVar = varName;
+      window[tempVar] = varValue;
+    });
+
+    $scope.estimatePartObj.keyValueCalculations.perimeter = eval(partFormulae.perimeter);
+    $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = eval(partFormulae.sheetMetalArea);
+    $scope.estimatePartObj.keyValueCalculations.surfaceArea = eval(partFormulae.surfaceArea);
+    $scope.estimatePartObj.keyValueCalculations.weight = eval(partFormulae.weight);
+    $scope.getPartFinalCalculation();
+  }
+
   $scope.getPartFinalCalculation = function () {
     //- get all updated variable data & calculate all keyValueCalculations i.e. perimeter, sheetMetalArea, surfaceArea, weight
     //- also calculate all finalCalculation i.e. materialPrice, itemUnitPrice, totalCostForQuantity  
@@ -248,37 +298,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
   }
 
+  //- to update part calculation detail into an corresponding part 
   $scope.updatePartDetail = function (partObject) {
-    debugger;
     createOrEditEstimateService.updatePartDetail(partObject, function (data) {
       $scope.estimteData = data;
     });
   }
 
-  // $scope.$watch($scope.estimatePartObj.selectedShortcut, function (oldValue, newValue) {
-  //   console.log('**** inside $watch of selectedShortcut ofcreateOrEditEstimateCtrl.js ****');
-  // });
-
-  // $scope.$watch($scope.estimatePartObj.selectedPartType, function (oldValue, newValue) {
-  //   console.log('**** inside $watch of selectedPartType of createOrEditEstimateCtrl.js ****');
-  // });
-
-  // $scope.$watch($scope.estimatePartObj, function (newValue, oldValue) {
-  //   console.log('**** inside $watch --> $scope.estimatePartObj of createOrEditEstimateCtrl.js ****');
-  // }, true);
-
-  // $scope.$watchGroup(['estimatePartObj.selectedShortcut', 'estimatePartObj.selectedPartType', 'estimatePartObj.selectedMaterial', 'estimatePartObj.selectedSize'], function (newValue, oldValue) {
-  //   console.log('**** inside $watchGroup --> $scope.estimatePartObj of createOrEditEstimateCtrl.js ****');
-  //   if ($scope.estimatePartObj.selectedShortcut) {
-  //     if ($scope.estimatePartObj.selectedPartType) {
-  //       if ($scope.estimatePartObj.selectedMaterial) {
-  //         if ($scope.estimatePartObj.selectedSize) {
-  //           console.log('**** all 4 object are ready ****');
-  //         }
-  //       }
-  //     }
-  //   }
-  // });
 
   //- =================== part functionality/calculation end =================== //
 
@@ -767,6 +793,31 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       scope: $scope,
       size: 'md',
     });
+
+
+    if (itemType == 'Processing') {
+      // get part type data
+      // get part item data
+
+      createOrEditEstimateService.getProcessingData(function (data) {
+        $scope.processingObj.processingTypeData = data.processingTypeData;
+        $scope.processingObj.processingItemData = data.processingItemData;
+      });
+
+    } else if (itemType == 'addons') {
+      // get addon type data
+      // get addon item data
+
+      createOrEditEstimateService.getAddoneData(function (data) {
+        $scope.addonTypeData = data;
+      });
+
+    } else if (itemType == 'extras') {
+      // get extra data
+      createOrEditEstimateService.getExtraData(function (data) {
+        $scope.partTypeData = data;
+      });
+    }
   }
   //- commmon edit modal for processing, addons & extras
   $scope.editItemModal = function (itemType, extraObj) {
@@ -828,6 +879,27 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     });
   }
 
+
+  //- =================== processing functionality/calculation start =================== //
+
+  $scope.getSelectedProessType = function(proTypeObj){
+    //- get all process Item of corrresponding processType
+    createOrEditEstimateService.getSelectedProessType(proTypeObj._id, function(data){
+      $scope.disableProcessingFields.disableProcessItem = false;
+      $scope.processingObj.processingItemData = data;      
+    });
+
+  }
+
+  $scope.getSelectedProessItem = function(proItemObj){
+    //- calculate rate
+        debugger;
+    $scope.processingObj.rate.actualRate = $scope.processingObj.selectedProcessingType.rate.mulFact * proItemObj.rate;
+    $scope.processingObj.rate.uom = $scope.processingObj.selectedProcessingType.rate.uom;
+
+  }
+
+  //- =================== processing functionality/calculation end =================== //
 
 
   //- function to get bulk processing, addons & extras
