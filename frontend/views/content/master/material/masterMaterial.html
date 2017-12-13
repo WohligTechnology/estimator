@@ -9,7 +9,7 @@
                     <i class="fa fa-plus btn-info" title="Add New Category"></i>
                 </span>
                 <ul>
-                    <li ng-repeat="mc in materialStructureData">
+                    <li ng-repeat="mc in materialStructureData track by $index">
                         <!-- <span class="tree_label">Sub Assembly 1 Name</span> -->
                         <input type="checkbox" id="{{mc.materialCatName+$index}}" />
                         <label for="{{mc.materialCatName+$index}}" class="tree_label"></label>
