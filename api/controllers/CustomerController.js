@@ -41,7 +41,7 @@ var controller = {
 
     getCustomerNameLocationAndPayTerms: function (req, res) {
         if (req.body) {
-            Customer.getCustomerNameAndLocation(req.body, res.callback);
+            Customer.getCustomerNameLocationAndPayTerms(req.body, res.callback);
         } else {
             res.json({
                 value: false,
