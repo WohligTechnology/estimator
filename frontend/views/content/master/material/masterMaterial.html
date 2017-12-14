@@ -76,7 +76,7 @@
                             <span class="caption-subject font-green bold uppercase">Master Material</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" ng-if="subCatMaterials != undefined">
                         <div class="btn-group pull-right">
                             <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools
                                 <i class="fa fa-angle-down"></i>
@@ -98,8 +98,8 @@
             </div>
             <div class="portlet-body">
                 <div class="table-toolbar">
-                    <div class="row">
-                        <div class="col-md-3">
+                    <div class="row" ng-if="subCatMaterials != undefined">
+                        <div class="col-md-2">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
@@ -123,25 +123,25 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <span>Custom Overlay :
-                                <input type="checkbox" ng-click="changeMaterialType('customOverlay',selectedSubACat)" ng-checked="subCatMaterials[0].type == 'customOverlay'"
-                                    ng-model="customOverlay" ng-disabled="subCatMaterials[0].type == 'customOverlay' || disableit">
-                            </span>
-
+                        <div class="col-md-3">
+                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline pull-right">Custom Overlay
+                                <input type="checkbox" id="checkAll" ng-click="changeMaterialType('customOverlay',selectedSubACat)" ng-checked="subCatMaterials[0].type == 'customOverlay'"
+                                    ng-model="customOverlay" ng-disabled="subCatMaterials[0].type == 'customOverlay' || disableit"
+                                />
+                                <span></span>
+                            </label>
                         </div>
                         <div class="col-md-2">
-                            <span>Custom Base :
-                                <input type="checkbox" ng-click="changeMaterialType('customBase',selectedSubACat)" ng-checked="subCatMaterials[0].type == 'customBase'"
-                                    ng-model="customBase" ng-disabled="subCatMaterials[0].type == 'customBase' || disableit">
-                            </span>
-
+                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">Custom Base
+                                <input type="checkbox" id="checkAll" ng-click="changeMaterialType('customBase',selectedSubACat)" ng-checked="subCatMaterials[0].type == 'customBase'"
+                                    ng-model="customBase" ng-disabled="subCatMaterials[0].type == 'customBase' || disableit"
+                                />
+                                <span></span>
+                            </label>
                         </div>
                         <div class="col-md-2">
                             <div class="btn-group pull-right">
-                                <button id="sample_editable_2_new" ng-if="subCatMaterials != undefined" class="btn green" ng-click="instantEditAllMaterial(editAll)">
-                                    <i class="fa fa-pencil" title="Edit All Materials"></i>
-                                </button>
+                                <button id="sample_editable_2_new" class="btn green" ng-click="instantEditAllMaterial(editAll)">
                             </div>
                             <div class="btn-group pull-right">
                                 <button ng-hide="bulkMaterials.length == 0" class="btn red" ng-click="deleteBulkMaterialsModal(bulkMaterials, 'deleteBulkMaterials')">
@@ -181,7 +181,8 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Rate (Rs/Kg)</th>
-                                    <th>Density (Kg/m<sup>3</sup>)</th>
+                                    <th>Density (Kg/m
+                                        <sup>3</sup>)</th>
                                     <th title="Rolling Index">RI</th>
                                     <th title="Cutting Index">CI</th>
                                     <th title="Bending Index">BI</th>

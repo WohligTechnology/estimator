@@ -19,7 +19,7 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     }
   }
   this.getCustomerData = function (callback) {
-    NavigationService.boxCall('Customer/getCustomerNameAndLocation', function (data) {
+    NavigationService.boxCall('Customer/getCustomerNameLocationAndPayTerms', function (data) {
       callback(data.data);
     });
   }
@@ -29,7 +29,9 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     });
   }
   this.getEstimateVersionData = function (Id, callback) {
-    NavigationService.apiCall('Estimate/getEstimateVersion', { enquiryId:Id }, function (data) {
+    NavigationService.apiCall('Estimate/getEstimateVersion', {
+      enquiryId: Id
+    }, function (data) {
       callback(data.data);
     });
   }

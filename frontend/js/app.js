@@ -93,9 +93,9 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
     Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
   });
   $scope.loginTemplate = true;
-  if (!$scope.loginTemplate) {
-    $scope.userPhoto = '';
-    $scope.userName = '';
+  if ($.jStorage.get('loggedInUser') != null) {
+    $scope.userPhoto = $.jStorage.get('loggedInUser').photo;
+    $scope.userName = $.jStorage.get('loggedInUser').name;
   }
 
   // console.log("*********************************************************************",window.location.href );

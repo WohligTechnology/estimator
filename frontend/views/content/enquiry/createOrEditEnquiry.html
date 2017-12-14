@@ -62,7 +62,7 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Name:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control" ng-options="c.customerName for c in customerData track by c._id" ng-model="formData.customerDataObj"
+                                                            <select class="form-control" ng-options="c.customerName for c in customerData track by c._id" ng-model="formData.customerDataObj"
                                                             ng-change="setCustomerData(formData.customerDataObj)">
                                                         </select>
                                                         <div class="form-control-focus"> </div>
@@ -83,13 +83,13 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Estimator:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control" ng-options="u.name for u in userData track by u._id" ng-model="formData.userDataObj" ng-change="setEstimator(formData.userDataObj)">
+                                                        <select class="form-control" ng-options="u.name for u in userData track by u._id" ng-model="formData.enquiryDetails.estimator" ng-change="setEstimator(formData.userDataObj)">
                                                         </select>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Contact:</label>
                                                     <div class="col-md-3">
-                                                        <input type="number" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.customerContacts">
+                                                        <input type="text" class="form-control" id="form_control_1" cleave="options.mobile" ng-model="formData.enquiryDetails.customerContacts">
                                                         <div class="form-control-focus"></div>
                                                     </div>
                                                 </div>
@@ -171,16 +171,16 @@
                                                         <!-- <input-date ng-model="formData.enquiryDetails.rfqDueDate"></input-date> -->
                                                         <div class="form-control-focus"> </div>
                                                     </div>
-                                                    <label class="col-md-2 control-label" for="form_control_1">Saleman:</label>
+                                                    <!-- <label class="col-md-2 control-label" for="form_control_1">Saleman:</label>
                                                     <div class="col-md-3">
                                                         <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.salesman">
                                                         <div class="form-control-focus"> </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                             <div class="form-actions">
                                                 <div class="row">
-                                                    <div class=" col-md-12">
+                                                    <div class=" col-md-12 text-center">
                                                         <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
                                                     </div>
                                                 </div>
@@ -210,24 +210,24 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ copy:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.rfqCopy.file" icon="false" pdf-file="true" file-location="left"></upload-all-files>
+                                                        <upload-all-files ng-model="formData.enquiryInfo.rfqCopy" icon="false" is-multiple="true" file-location="left"></upload-all-files>
                                                         <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Drawings / Rev:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.drawings.file" icon="false" pdf-file="true" file-location="right"></upload-all-files>
+                                                        <upload-all-files ng-model="formData.enquiryInfo.drawings" icon="false" is-multiple="true" file-location="right"></upload-all-files>
                                                         <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Photos:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.photos.file" icon="false" pdf-file="false" file-location="top"></upload-all-files>
+                                                        <upload-all-files ng-model="formData.enquiryInfo.photos" icon="false" is-multiple="true" file-location="top"></upload-all-files>
                                                         <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Others docs:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.otherDocs.file" icon="false" pdf-file="true" file-location="right"></upload-all-files>
+                                                        <upload-all-files ng-model="formData.enquiryInfo.otherDocs" icon="false" is-multiple="true" file-location="right"></upload-all-files>
                                                         <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
@@ -286,7 +286,7 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-3 control-label" for="form_control_1">NDA agreement:</label>
                                                     <div class="col-md-6">
-                                                        <upload-all-files ng-model="formData.keyRequirement.ndaAgreement.file" pdf-file="true" icon="false" file-location="top"></upload-all-files>
+                                                        <upload-all-files ng-model="formData.keyRequirement.ndaAgreement" is-multiple="true" icon="false" file-location="top"></upload-all-files>
                                                             <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
@@ -367,9 +367,9 @@
                                             <div class="padd-t font-green-haze">
                                                 <i class="icon-settings font-green-haze"></i>
                                                 <span class="caption-subject bold uppercase"> Commercial Requirements:</span>
-                                                <div class="pull-right">
+                                                <!-- <div class="pull-right">
                                                     <span class="caption-subject bold"> {{operationStatus}}</span>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <form role="form" class="form-horizontal">
@@ -382,7 +382,7 @@
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Payment terms:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.paymentTerms">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
