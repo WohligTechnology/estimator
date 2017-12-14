@@ -192,92 +192,98 @@ var model = {
                 });
     },
     delRestrictions: function (data, callback) {
-         console.log('**** inside function_name of MMaterial.js & data is ****',data);
-            var modelName = [{
-                models: "Enquiry",
-                fieldName: ["customerId", "enquiryDetails.estimator"]
-            }]
-            var modelName =[{
-                models: "Estimate",
-                fieldName: ["enquiryId", "draftEstimateId", "estimateCreatedUser", "estimateUpdatedUser", "subAssemblies", "processing", "addons", "extras","estimateAttachment._id"]
-            }]
-            // var modelName =[{
-            //     models: "EstimateAddons",
-            //     fieldName: ["addonType", "addonItem","addonsLevelId"]
-            // }]
-            // var modelName =[{
-            //     models: "EstimateExtras",
-            //     fieldName: ["extraItem","extraLevelId"]
-            // }]
-            // var modelName = [{
-            //     models: "EstimatePart",
-            //     fieldName: ["subAssemblyId", "shortcut", "partType", "material", "customMaterial", "processing", "addons", "extras"]
-            // }]
-            // var modelName =[{
-            //     models: "EstimateProcessing",
-            //     fieldName: ["processType", "processItem","processingLevelId"]
-            // }]
-            // var modelName = [{
-            //     models: "EstimateSubAssembly",
-            //     fieldName: ["estimateId", "subAssemblyParts", "processing", "addons", "extras"]
-            // }]
-            // var modelName = [{
-            //     models: "MAddonType",
-            //     fieldName: ["materialCat", "materialSubCat", "rate.uom", "quantity.additionalInputUom", "quantity.linkedKeyUom", "quantity.finalUom"]
-            // }]
-            // var modelName = [{
-            //     models: "MExtra",
-            //     fieldName: ["rate.uom"]
-            // }]
+        console.log('**** inside function_name of MMaterial.js & data is ****', data);
+        var modelName = [{
+                models: "MMaterialSubCat",
+                fieldName: ["materials"]
+            },
+            {
+                models: "MPartType",
+                fieldName: ["material"]
 
-            // var modelName = 
-            // {
-            //     models: "MMaterial",
-            //     fieldName: ["materialSubCategory", "estimateId"]
-            // },
-            // {
-            //     models: "MMaterialCat",
-            //     fieldName: ["subCat"]
-            // },
+            }
+        ]
+        // var modelName = [{
+        //     models: "Estimate",
+        //     fieldName: ["enquiryId", "draftEstimateId", "estimateCreatedUser", "estimateUpdatedUser", "subAssemblies", "processing", "addons", "extras", "estimateAttachment._id"]
+        // }]
+        // var modelName =[{
+        //     models: "EstimateAddons",
+        //     fieldName: ["addonType", "addonItem","addonsLevelId"]
+        // }]
+        // var modelName =[{
+        //     models: "EstimateExtras",
+        //     fieldName: ["extraItem","extraLevelId"]
+        // }]
+        // var modelName = [{
+        //     models: "EstimatePart",
+        //     fieldName: ["subAssemblyId", "shortcut", "partType", "material", "customMaterial", "processing", "addons", "extras"]
+        // }]
+        // var modelName =[{
+        //     models: "EstimateProcessing",
+        //     fieldName: ["processType", "processItem","processingLevelId"]
+        // }]
+        // var modelName = [{
+        //     models: "EstimateSubAssembly",
+        //     fieldName: ["estimateId", "subAssemblyParts", "processing", "addons", "extras"]
+        // }]
+        // var modelName = [{
+        //     models: "MAddonType",
+        //     fieldName: ["materialCat", "materialSubCat", "rate.uom", "quantity.additionalInputUom", "quantity.linkedKeyUom", "quantity.finalUom"]
+        // }]
+        // var modelName = [{
+        //     models: "MExtra",
+        //     fieldName: ["rate.uom"]
+        // }]
 
-            // var modelName = 
-            // {
-            //     models: "MMaterialSubCat",
-            //     fieldName: ["catId", "materials"]
-            // },
+        // var modelName = 
+        // {
+        //     models: "MMaterial",
+        //     fieldName: ["materialSubCategory", "estimateId"]
+        // },
+        // {
+        //     models: "MMaterialCat",
+        //     fieldName: ["subCat"]
+        // },
 
-            // var modelName = 
-            // {
-            //     models: "MPartPresets",
-            //     fieldName: ["shape", "partType"]
-            // },
-            // var modelName = 
-            // {
-            //     models: "MPartType",
-            //     fieldName: ["partTypeCat", "proccessing", "addons", "extras", "material"]
-            // },
-            // var modelName = 
-            // {
-            //     models: "MPartTypeCat",
-            //     fieldName: ["partTypes"]
-            // },
-            // {
-            //     models: "MProcessCat",
-            //     fieldName: ["uom", "processItems"]
-            // },
-            // var modelName = 
-            // {
-            //     models: "MProcessItem",
-            //     fieldName: ["processCat"]
-            // },
-            // var modelName = 
-            // {
-            //     models: "MProcessType",
-            //     fieldName: ["processCat", "rate.uom", "quantity.uom", "quantity.finalUom"]
-            // },
+        // var modelName = 
+        // {
+        //     models: "MMaterialSubCat",
+        //     fieldName: ["catId", "materials"]
+        // },
+
+        // var modelName = 
+        // {
+        //     models: "MPartPresets",
+        //     fieldName: ["shape", "partType"]
+        // },
+        // var modelName = 
+        // {
+        //     models: "MPartType",
+        //     fieldName: ["partTypeCat", "proccessing", "addons", "extras", "material"]
+        // },
+        // var modelName = 
+        // {
+        //     models: "MPartTypeCat",
+        //     fieldName: ["partTypes"]
+        // },
+        // {
+        //     models: "MProcessCat",
+        //     fieldName: ["uom", "processItems"]
+        // },
+        // var modelName = 
+        // {
+        //     models: "MProcessItem",
+        //     fieldName: ["processCat"]
+        // },
+        // var modelName = 
+        // {
+        //     models: "MProcessType",
+        //     fieldName: ["processCat", "rate.uom", "quantity.uom", "quantity.finalUom"]
+        // },
         // ];
         var allDependency = [];
-        
+
         async.eachSeries(modelName, function (m, callback) {
                 i = 0;
                 async.eachSeries(m.fieldName, function (f, callback) {
@@ -295,11 +301,11 @@ var model = {
                             } else {
                                 var tablesDependency = {
                                     model: m.models,
-                                    fieldName:f
+                                    fieldName: f
                                 };
                                 console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
                                 allDependency.push(tablesDependency);
-                                callback();                                
+                                callback();
                             }
                         });
                     },
@@ -315,7 +321,7 @@ var model = {
                 if (err) {
                     callback('***no data found*****', err);
                 } else {
-                    callback(null,allDependency);
+                    callback(null, allDependency);
                 }
             });
     },

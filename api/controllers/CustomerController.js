@@ -39,7 +39,7 @@ var controller = {
         }
     },
 
-    getCustomerNameAndLocation: function (req, res) {
+    getCustomerNameLocationAndPayTerms: function (req, res) {
         if (req.body) {
             Customer.getCustomerNameAndLocation(req.body, res.callback);
         } else {
