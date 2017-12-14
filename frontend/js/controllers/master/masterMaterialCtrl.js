@@ -266,6 +266,14 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         $scope.modalInstance.dismiss();
     }
 
+    $scope.helpMaterialModal = function () {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/helpMaterialModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
     $scope.init = function () {
