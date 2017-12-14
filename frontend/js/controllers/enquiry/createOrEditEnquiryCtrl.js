@@ -14,6 +14,12 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     commercialRequirement: {},
     preQualificationCriteria: {}
   };
+  $scope.options = {
+    mobile: {
+      phone: true,
+      phoneRegionCode: 'IN'
+    }
+  };
 
 
   if (angular.isDefined($stateParams.enquiryId)) {
@@ -28,12 +34,16 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
   $scope.getEnquiryObj = function () {
     createOrEditEnquiryService.getEnquiryObj($stateParams.enquiryId, function (data) {
       $scope.formData = data;
+      if ($stateParams.enquiryId) {
+        $scope.formData.enquiryDetails.estimator = data.enquiryDetails.estimator;
+        $scope.formData.customerDataObj = data.customerId;
+      }
     });
     //- to get all customer names and their locations
     createOrEditEnquiryService.getCustomerData(function (data) {
       $scope.customerData = data;
     });
-  //- to get all user names
+    //- to get all user names
     createOrEditEnquiryService.getUserData(function (data) {
       $scope.userData = data;
     });
@@ -60,10 +70,10 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
   }
   //- to bind customer data to formData
   $scope.setCustomerData = function (customerDataObj) {
-    $scope.formData.enquiryDetails = {};
+    $scope.formData.enquiryDetails.customerLocation = customerDataObj.location;
     $scope.formData.enquiryDetails.customerId = customerDataObj._id;
     $scope.formData.enquiryDetails.customerName = customerDataObj.customerName;
-    $scope.formData.enquiryDetails.customerLocation = customerDataObj.location;
+    $scope.formData.commercialRequirement.paymentTerms = customerDataObj.paymentTerms;
   }
   //- to bind user name to formData
   $scope.setEstimator = function (userDataObj) {

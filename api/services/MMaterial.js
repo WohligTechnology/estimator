@@ -192,65 +192,139 @@ var model = {
                 });
     },
     delRestrictions: function (data, callback) {
+        console.log('**** inside function_name of MMaterial.js & data is ****', data);
         var modelName = [{
-                models: "MMaterial",
-                fieldName: ["estimateId"]
-            },
-            {
                 models: "MMaterialSubCat",
-                fieldName: ["materialSubCategory", "addons"]
+                fieldName: ["materials"]
             },
             {
-                models: "Estimate",
-                fieldName: ["enquiryId", "addons", "estimateCreatedUser"]
-            },
-        ];
-        async.eachSeries(modelName, function (m, callback) {
-                var i = 0;
-                async.eachSeries(modelName, function (f, callback) {
-                        var len = m.fieldName.length;
-                        if (i < len) {
-                            console.log('**** yyyyyyyyyyyyyyyyyyyyyyyy ****', i);
-                            this[m.models].findOne({
-                                [f.fieldName[i]]: data._id
-                            }).select('_id)').lean().exec(function (err, found) {
-                                console.log('****&&&&&&&&&&&&& ****', found);
-                                if (err) {
-                                    console.log('**** error at delRestrictions ****', err);
-                                } else if (_.isEmpty(found)) {
-                                    console.log('****no depenedecy of the table ' + m.models);
-                                    i++;
-                                    callback(null, []);
-                                } else {
-                                    console.log('it has denpendency of model ' + m.models);
-                                    callback(null, found);
-                                }
+                models: "MPartType",
+                fieldName: ["material"]
 
-                            });
-                        } else {
-                            callback(null, []);
-                        }
+            }
+        ]
+        // var modelName = [{
+        //     models: "Estimate",
+        //     fieldName: ["enquiryId", "draftEstimateId", "estimateCreatedUser", "estimateUpdatedUser", "subAssemblies", "processing", "addons", "extras", "estimateAttachment._id"]
+        // }]
+        // var modelName =[{
+        //     models: "EstimateAddons",
+        //     fieldName: ["addonType", "addonItem","addonsLevelId"]
+        // }]
+        // var modelName =[{
+        //     models: "EstimateExtras",
+        //     fieldName: ["extraItem","extraLevelId"]
+        // }]
+        // var modelName = [{
+        //     models: "EstimatePart",
+        //     fieldName: ["subAssemblyId", "shortcut", "partType", "material", "customMaterial", "processing", "addons", "extras"]
+        // }]
+        // var modelName =[{
+        //     models: "EstimateProcessing",
+        //     fieldName: ["processType", "processItem","processingLevelId"]
+        // }]
+        // var modelName = [{
+        //     models: "EstimateSubAssembly",
+        //     fieldName: ["estimateId", "subAssemblyParts", "processing", "addons", "extras"]
+        // }]
+        // var modelName = [{
+        //     models: "MAddonType",
+        //     fieldName: ["materialCat", "materialSubCat", "rate.uom", "quantity.additionalInputUom", "quantity.linkedKeyUom", "quantity.finalUom"]
+        // }]
+        // var modelName = [{
+        //     models: "MExtra",
+        //     fieldName: ["rate.uom"]
+        // }]
+
+        // var modelName = 
+        // {
+        //     models: "MMaterial",
+        //     fieldName: ["materialSubCategory", "estimateId"]
+        // },
+        // {
+        //     models: "MMaterialCat",
+        //     fieldName: ["subCat"]
+        // },
+
+        // var modelName = 
+        // {
+        //     models: "MMaterialSubCat",
+        //     fieldName: ["catId", "materials"]
+        // },
+
+        // var modelName = 
+        // {
+        //     models: "MPartPresets",
+        //     fieldName: ["shape", "partType"]
+        // },
+        // var modelName = 
+        // {
+        //     models: "MPartType",
+        //     fieldName: ["partTypeCat", "proccessing", "addons", "extras", "material"]
+        // },
+        // var modelName = 
+        // {
+        //     models: "MPartTypeCat",
+        //     fieldName: ["partTypes"]
+        // },
+        // {
+        //     models: "MProcessCat",
+        //     fieldName: ["uom", "processItems"]
+        // },
+        // var modelName = 
+        // {
+        //     models: "MProcessItem",
+        //     fieldName: ["processCat"]
+        // },
+        // var modelName = 
+        // {
+        //     models: "MProcessType",
+        //     fieldName: ["processCat", "rate.uom", "quantity.uom", "quantity.finalUom"]
+        // },
+        // ];
+        var allDependency = [];
+
+        async.eachSeries(modelName, function (m, callback) {
+                i = 0;
+                async.eachSeries(m.fieldName, function (f, callback) {
+                        this[m.models].findOne({
+                            [f]: data._id
+                        }).select('_id').lean().exec(function (err, found) {
+                            // console.log('****&&&&&&&&&&&&& ****', found);
+                            i++;
+                            if (err) {
+                                console.log('**** error at delRestrictions ****', err);
+                                callback(err, null);
+                            } else if (_.isEmpty(found)) {
+                                // console.log('****no dependency of the table ' + m.models);
+                                callback(null, []);
+                            } else {
+                                var tablesDependency = {
+                                    model: m.models,
+                                    fieldName: f
+                                };
+                                console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
+                                allDependency.push(tablesDependency);
+                                callback();
+                            }
+                        });
                     },
                     function (err) {
                         if (err) {
-                            console.log('***** error at final response of 1st async.eachSeries in function_name of MMaterial.js *****', err);
+                            callback('***** error at final response of async.eachSeries in function_name of MMaterial.js*****', err);
                         } else {
                             callback();
                         }
                     });
-
             },
             function (err) {
                 if (err) {
-                    console.log('***** error at final response of 2nd async.eachSeries in function_name of MMaterial.js *****', err);
+                    callback('***no data found*****', err);
                 } else {
-                    callback();
+                    callback(null, allDependency);
                 }
             });
-
     },
-    
-    //-delete multiple materials by passing multiple user ids
     deleteMultipleMaterials: function (data, callback) {
         MMaterial.remove({
             _id: {
@@ -267,7 +341,6 @@ var model = {
             }
         });
     },
-
 };
 
 module.exports = _.assign(module.exports, exports, model);

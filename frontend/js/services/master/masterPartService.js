@@ -111,7 +111,7 @@ myApp.service('masterPartService', function (NavigationService) {
             _id: partTypeId
         };
 
-        NavigationService.apiCall('MpartType/delete', deleteMatCat, function (data) {
+        NavigationService.apiCall('MPartType/delete', deleteMatCat, function (data) {
             callback(data);
         });
     }
@@ -227,7 +227,6 @@ myApp.service('masterPartService', function (NavigationService) {
             delete presetData.$$hashKey;
             console.log('**** inside -------------------------- of masterPartService.js ****', presetData);
         }
-        debugger;
         presetData.partType = presetData.partTypeData._id;
         NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
             callback(data);
@@ -259,8 +258,5 @@ myApp.service('masterPartService', function (NavigationService) {
             callback(data);
         });
     }
-
-
-
 
 });

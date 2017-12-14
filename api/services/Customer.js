@@ -97,9 +97,9 @@ var model = {
         });
     },
 
-    //-Get all customer Name and loation from customer tables.
-    getCustomerNameAndLocation: function (data, callback) {
-        Customer.find().select('customerName location').lean().exec(function (err, found) {
+    //-Get all customer Name and loation and Payment Terms from customer tables.
+    getCustomerNameLocationAndPayTerms: function (data, callback) {
+        Customer.find().select('customerName location paymentTerms').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of Customer.js ****', err);
                 callback(err, null);
