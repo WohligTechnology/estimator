@@ -45,7 +45,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   //- to delete enquiry
   $scope.deleteEnquiry = function (enquiryId) {
     enquiryService.deleteEnquiry(enquiryId, function (data) {
-      toastr.info('Record deleted successfully');
+      toastr.success('Record deleted successfully');
       $scope.cancelModal();
       $scope.getEnquiryData();
     });

@@ -25,6 +25,8 @@
                             <!-- <img src="img/Doraemon.png" alt="" class=" img-responsive"> -->
                             <upload-all-files ng-model="formData.image.file" pdf-file="true" icon="false" file-location="top"></upload-all-files>
                         </div>
+                        <div class="displayBlock pull-left">Global Variables : <br>a = 1.000m<br>b = 58888kg
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <div class="form-group">
@@ -43,7 +45,7 @@
                                          -->
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">{{var.varName}}
                                             <input type="checkbox" id="checkAll" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
-                                            ng-checked="var.checkboxStatus" ng-model="checkedVariable" />
+                                                ng-checked="var.checkboxStatus" ng-model="checkedVariable" />
                                             <span></span>
                                         </label>
                                     </div>
@@ -51,11 +53,11 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Size Factor</label>
+                            <label class="col-md-2 control-label">Size Factor (sf)</label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control " ng-model="formData.sizeFactor" placeholder="">
                             </div>
-                            <label class="col-md-3 control-label">Form Factor</label>
+                            <label class="col-md-3 control-label">Form Factor (ff)</label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control " ng-model="formData.formFactor" placeholder="">
                             </div>
@@ -73,7 +75,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Wastage</label>
+                            <label class="col-md-2 control-label">Wastage (wtg)</label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control " ng-model="formData.wastage" placeholder="">
                                 <span class="unit">%</span>

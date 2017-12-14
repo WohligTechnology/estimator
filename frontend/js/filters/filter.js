@@ -12,7 +12,7 @@ myApp
           return output;
       };
 
-  });
+  })
 
   .filter('indianCurrency', function () {
     return function (getNumber) {
@@ -32,7 +32,7 @@ myApp
         return finalNumber;
       }
     }
-  });
+  })
 
   .filter('capitalize', function() {
     return function(input, scope) {

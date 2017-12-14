@@ -797,6 +797,38 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 
 
+	this.getProcessingData = function (callback) {
+		var procObj = {
+			processingTypeData: []
+		};
+
+		NavigationService.boxCall('MProcessType/getProcessTypeData', function (proTypeData) {
+			procObj.processingTypeData = proTypeData.data;
+			callback(procObj);
+		});
+	}
+	this.getSelectedProessType = function (processTypeId,callback) {
+		NavigationService.apiCall('MProcessType/getProcessTypeItem', {_id:processTypeId}, function (data) {
+			callback(data.data.processItems);
+		});
+	}
+	// this.getSelectedProessItem = function (processItemId,callback) {
+	// 	NavigationService.apiCall('model_name/function_name', {_id:processItemId}, function (data) {
+	// 		callback(data.data);
+	// 	});
+	// }
+
+
+
+	this.getAddonTypeData = function (callback) {
+
+	}
+
+	this.getExtraData = function (callback) {
+
+	}
+
+
 	//- to get index of subAssId
 	this.getSubAssemblyIndex = function (subAssId) {
 

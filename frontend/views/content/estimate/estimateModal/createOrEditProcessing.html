@@ -13,75 +13,109 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Process Type:</label>
                             <div class="col-md-5">
-                                <select class="form-control " ng-model="formData.processType" autofocus required>
-                                    <option>Type1</option>
-                                    <option>Type2</option>
+                                <select class="form-control" ng-options="pt.processTypeName for pt in processingObj.processingTypeData track by pt._id" ng-model="processingObj.selectedProcessingType"
+                                    placeholder="Select" ng-change="getSelectedProessType(processingObj.selectedProcessingType)">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Process Item:</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-model="formData.processItem" required>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
+                                <select class="form-control" ng-options="pi.processItemName for pi in processingObj.processingItemData track by pi._id" ng-model="processingObj.selectedProcessingItem"
+                                    placeholder="Select" ng-click="getSelectedProessItem(processingObj.selectedProcessingItem)" ng-disabled="disableProcessingFields.disableProcessItem">
                                 </select>
                             </div>
                         </div>
+                        <pre>{{processingObj.rate}}</pre>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Rate:</label>
-                            <div class="col-md-5">
-                                <div><label class="padd-t">895740</label> <span> <b>Rs/m</b> </span></div>
+                            <div class="col-md-5 text-left">
+                                <div>
+                                    <label class="padd-t">{{processingObj.rate.actualRate}}</label>
+                                    <span>
+                                        <b>{{processingObj.rate.uom}}</b>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2"><b>Quantity -</b></label>
+                            <label class="col-md-6 tex-right">
+                                <b>Quantity -</b>
+                            </label>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Key Value:</label>
-                            <div class="col-md-5">
-                                <div><label class="padd-t">895740</label> <span> <b>Perimeter(m)</b> </span></div>
+                            <div class="col-md-5 text-left">
+                                <div>
+                                    <label class="padd-t">{{processingObj.quantity.linkedKeyValue}}</label>
+                                    <span>
+                                        <b>{{processingObj.quantity.linkedKeyValue}}</b>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Multiplication Factor:</label>
-                            <div class="col-md-5">
-                                <div><label class="padd-t">895740</label></div>
+                            <div class="col-md-5 text-left">
+                                <div>
+                                    <label class="padd-t">{{processingObj.quantity.mulFact}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Final UOM:</label>
+                            <div class="col-md-5 text-left">
+                                <div>
+                                    <input type="text" class="form-control" ng-model="processingObj.quantity.finalUom" placeholder="100" required>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Utilization:</label>
-                            <div class="col-md-5">
-                                <div class="display-inline"> <input type="text" class="form-control" ng-model="formData.quantity.utilization" placeholder="100" required></div>
-                                <div class="display-inline"><span>%</span></div>
+                            <div class="col-md-5 text-left">
+                                <div class="display-inline">
+                                    <input type="text" class="form-control" ng-model="processingObj.quantity.utilization" placeholder="100"
+                                        required>
+                                </div>
+                                <div class="display-inline">
+                                    <span>%</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Contigency or Wastage:</label>
-                            <div class="col-md-5">
-                                <div class="display-inline"> <input type="text" class="form-control" ng-model="formData.quantity.contigencyorwastage" placeholder="10" required></div>
-                                <div class="display-inline"><span>%</span></div>
+                            <div class="col-md-5 text-left">
+                                <div class="display-inline">
+                                    <input type="text" class="form-control" ng-model="processingObj.quantity.contengncyOrWastage"
+                                        placeholder="10" required>
+                                </div>
+                                <div class="display-inline">
+                                    <span>%</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Total Quantity:</label>
-                            <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.quantity.total" required>
+                            <div class="col-md-5 text-left">
+                                <input type="text" class="form-control" ng-model="processingObj.totalQuantity" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Remark:</label>
-                            <div class="col-md-5">
-                                <textarea class="form-control" ng-model="formData.remarks" required>
+                            <div class="col-md-5 text-left">
+                                <textarea class="form-control" ng-model="processingObj.remark" required>
                                 </textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Total Cost:</label>
-                            <div class="col-md-5">
-                                <div><label class="padd-t">895740</label> <span> <b>Rs/m</b> </span></div>
+                            <div class="col-md-5 text-left">
+                                <div>
+                                    <label class="padd-t">{{processingObj.totalCost}}</label>
+                                    <span>
+                                        <b>{{processingObj.quantity.finalUom}}</b>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -89,7 +123,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addProcessing(formData, level, subAssemblyId, partId)">Save</button>
-                                <button type="submit" class="btn btn-circle green"ng-if="showEditBtn" ng-click="editProcessing()">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="editProcessing()">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
