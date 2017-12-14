@@ -3,20 +3,23 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	var bulkArray = [];
 
 	var processing = {
-		processType: "",
-		processItem: "",
-		rate: "",
-		quantity: {
-			keyValue: {
-				keyVariable: "",
-				keyValue: ""
-			},
-			utilization: "",
-			contengncyOrWastage: "",
-			total: ""
+		processType: {},
+		processItem: {},
+		rate: {
+			actualRate: "",
+			uom: ""
 		},
-		totalCost: "",
-		remarks: ""
+		quantity: {
+			linkedKeyValue: "",
+			uom: "",
+			mulFact: "",
+			finalUom: "",
+			utilization: null,
+			contengncyOrWastage: null
+		},
+		totalQuantity: 1,
+		remark: "",
+		totalCost: null
 	};
 
 	var addon = {
@@ -96,9 +99,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			hours: ""
 		},
 		subAssemblyParts: [],
-		processing: [_.cloneDeep(processing)],
-		addons: [_.cloneDeep(addon)],
-		extras: [_.cloneDeep(extra)]
+		processing: [],
+		addons: [],
+		extras: []
 	};
 
 	var assembly = {
@@ -127,10 +130,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		estimateAttachment: [{
 			file: ""
 		}],
-		subAssemblies: [_.cloneDeep(subAssembly)],
-		processing: [_.cloneDeep(subAssembly)],
-		addons: [_.cloneDeep(subAssembly)],
-		extras: [_.cloneDeep(subAssembly)]
+		subAssemblies: [],
+		processing: [],
+		addons: [],
+		extras: []
 	};
 
 	var formData = {
@@ -573,7 +576,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 			id = this.getProcessingNumber(level, subAssIndex, partIndex);
 			processingObj.processingNumber = partId + 'PR' + id;
-			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.push(processingObj)
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.push(processingObj);
 		}
 		callback();
 	}
@@ -797,18 +800,72 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 
 
-	this.getProcessingData = function (callback) {
-		var procObj = {
-			processingTypeData: []
-		};
+	this.getProcessingModalData = function (operation, level, subAssemblyId, partId, processId, callback) {
 
 		NavigationService.boxCall('MProcessType/getProcessTypeData', function (proTypeData) {
-			procObj.processingTypeData = proTypeData.data;
-			callback(procObj);
+
+			var partProcessingObj = {
+				processingTypeData: [],
+				processingItemData: [],
+				selectedProcessingType: {},
+				selectedProcessingItem: {},
+				rate: {
+					actualRate: "",
+					uom: ""
+				},
+				quantity: {
+					linkedKeyValue: "",
+					uom: "",
+					mulFact: "",
+					finalUom: "",
+					utilization: null,
+					contengncyOrWastage: null
+				},
+				totalQuantity: 1,
+				remark: "",
+				totalCost: null,
+				currentPartObj: {}
+			};
+
+
+			if (operation == 'save') {
+
+				partProcessingObj.processingTypeData = proTypeData.data;
+
+			} else if (operation == 'update') {
+				debugger;
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var partIndex = this.getPartIndex(subAssIndex, partId);
+				var getProcessingIndex = this.getProcessIndex(processId, subAssIndex, partIndex);
+				var tempProcessingObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex];
+
+				partProcessingObj.processingTypeData = proTypeData.data;
+				partProcessingObj.processingItemData = [];
+				partProcessingObj.selectedProcessingType = tempProcessingObj.processType;
+				partProcessingObj.selectedProcessingItem = tempProcessingObj.processItem;
+				partProcessingObj.rate.actualRate = tempProcessingObj.rate.actualRate;
+				partProcessingObj.rate.uom = tempProcessingObj.rate.uom;
+				partProcessingObj.quantity.linkedKeyValue = tempProcessingObj.quantity.linkedKeyValue;
+				partProcessingObj.quantity.uom = tempProcessingObj.quantity.uom;
+				partProcessingObj.quantity.mulFact = tempProcessingObj.quantity.mulFact;
+				partProcessingObj.quantity.finalUom = tempProcessingObj.quantity.finalUom;
+				partProcessingObj.quantity.utilization = tempProcessingObj.quantity.utilization;
+				partProcessingObj.quantity.contengncyOrWastage = tempProcessingObj.quantity.contengncyOrWastage;
+				partProcessingObj.totalQuantity = tempProcessingObj.totalQuantity;
+				partProcessingObj.remark = tempProcessingObj.remark;
+				partProcessingObj.totalCost = tempProcessingObj.totalCost;
+
+			}
+
+			callback(partProcessingObj);
+
 		});
 	}
-	this.getSelectedProessType = function (processTypeId,callback) {
-		NavigationService.apiCall('MProcessType/getProcessTypeItem', {_id:processTypeId}, function (data) {
+
+	this.getSelectedProessType = function (processTypeId, callback) {
+		NavigationService.apiCall('MProcessType/getProcessTypeItem', {
+			_id: processTypeId
+		}, function (data) {
 			callback(data.data.processItems);
 		});
 	}
@@ -844,6 +901,20 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var partIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, ['partNumber', partId]);
 		return partIndex;
 	}
+	//- to get index of processId
+	this.getProcessIndex = function (processId, subAssIndex, partIndex) {
+		var processIndex;
+		if (angular.isDefined(subAssIndex)) {
+			if (angular.isDefined(partIndex)) {
+				processIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons, ['processNumber', processId]);
+			} else {
+				processIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].addons, ['processNumber', processId]);
+			}
+		} else {
+			processIndex = _.findIndex(formData.assembly.addons, ['processNumber', processId]);
+		}
+		return processIndex;
+	}
 	//- to get index of addonId
 	this.getAddonIndex = function (addonId, subAssIndex, partIndex) {
 		var addonIndex;
@@ -857,6 +928,20 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			addonIndex = _.findIndex(formData.assembly.addons, ['addonNumber', addonId]);
 		}
 		return addonIndex;
+	}
+	//- to get index of extraId
+	this.getExtraIndex = function (extraId, subAssIndex, partIndex) {
+		var extraIndex;
+		if (angular.isDefined(subAssIndex)) {
+			if (angular.isDefined(partIndex)) {
+				extraIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons, ['extraNumber', extraId]);
+			} else {
+				extraIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].addons, ['extraNumber', extraId]);
+			}
+		} else {
+			extraIndex = _.findIndex(formData.assembly.addons, ['extraNumber', extraId]);
+		}
+		return extraIndex;
 	}
 
 

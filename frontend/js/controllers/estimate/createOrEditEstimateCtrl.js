@@ -62,7 +62,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     displayPresetSize: false
   };
 
-  $scope.processingObj = {
+  $scope.partProcessingObj = {
     processingTypeData: [],
     processingItemData: [],
     selectedProcessingType: {},
@@ -79,12 +79,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       utilization: null,
       contengncyOrWastage: null
     },
-    totalQuantity:1,
-    remark:"",
-    totalCost:null
+    totalQuantity: 1,
+    remark: "",
+    totalCost: null,
+    currentPartObj: {}
   };
   $scope.disableProcessingFields = {
-    disableProcessItem : true
+    disableProcessItem: true
   };
 
 
@@ -593,9 +594,55 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   }
 
 
+  $scope.addOrEditProcessingModal = function (operation, level, subAssemblyId, partId, processingId) {
 
+    $scope.level = level;
+    $scope.subAssemblyId = subAssemblyId;
+    $scope.partId = partId;
+
+
+    //- get required data to add processing
+    createOrEditEstimateService.getProcessingModalData(operation, level, subAssemblyId, partId, processingId, function (data) {
+
+      if (operation == 'save') {
+        //- get required data to add processing
+        $scope.partProcessingObj.processingTypeData = data.processingTypeData;
+
+      } else if ('update') {
+
+        $scope.partProcessingObj.processingTypeData = data.processingTypeData;
+        $scope.partProcessingObj.processingItemData = data.processingItemData;
+        $scope.partProcessingObj.selectedProcessingType = data.selectedProcessingType;
+        $scope.partProcessingObj.selectedProcessingItem = data.selectedProcessingItem;
+        $scope.partProcessingObj.rate.actualRate = data.actualRate;
+        $scope.partProcessingObj.rate.uom = data.uom;
+        $scope.partProcessingObj.quantity.linkedKeyValue = data.linkedKeyValue;
+        $scope.partProcessingObj.quantity.uom = data.uom;
+        $scope.partProcessingObj.quantity.mulFact = data.mulFact;
+        $scope.partProcessingObj.quantity.finalUom = data.finalUom;
+        $scope.partProcessingObj.quantity.utilization = data.utilization;
+        $scope.partProcessingObj.quantity.contengncyOrWastage = data.contengncyOrWastage;
+        $scope.partProcessingObj.totalQuantity = data.totalQuantity;
+        $scope.partProcessingObj.remark = data.remark;
+        $scope.partProcessingObj.totalCost = data.totalCost;
+        $scope.partProcessingObj.currentPartObj = data.currentPartObj;
+
+      }
+
+    });
+    
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/estimate/estimateModal/createOrEditProcessing.html',
+      scope: $scope,
+      size: 'md',
+    });
+
+  }
   //- to add processing at assembly or subssembly or at partLevel
   $scope.addProcessing = function (processingData, level, subAssemblyId, partId) {
+    //- make processingData properly
+
     createOrEditEstimateService.createProcessing(processingData, level, subAssemblyId, partId, function () {
       $scope.getEstimateView('processing', level, subAssemblyId, partId);
       toastr.info('Processing added successfully', 'Processing Creation!');
@@ -794,14 +841,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       size: 'md',
     });
 
-
     if (itemType == 'Processing') {
       // get part type data
       // get part item data
 
       createOrEditEstimateService.getProcessingData(function (data) {
-        $scope.processingObj.processingTypeData = data.processingTypeData;
-        $scope.processingObj.processingItemData = data.processingItemData;
+        $scope.partProcessingObj.processingTypeData = data.processingTypeData;
       });
 
     } else if (itemType == 'addons') {
@@ -882,20 +927,20 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
   //- =================== processing functionality/calculation start =================== //
 
-  $scope.getSelectedProessType = function(proTypeObj){
+  $scope.getSelectedProessType = function (proTypeObj) {
     //- get all process Item of corrresponding processType
-    createOrEditEstimateService.getSelectedProessType(proTypeObj._id, function(data){
+    createOrEditEstimateService.getSelectedProessType(proTypeObj._id, function (data) {
       $scope.disableProcessingFields.disableProcessItem = false;
-      $scope.processingObj.processingItemData = data;      
+      $scope.partProcessingObj.processingItemData = data;
     });
 
   }
 
-  $scope.getSelectedProessItem = function(proItemObj){
+  $scope.getSelectedProessItem = function (proItemObj) {
     //- calculate rate
-        debugger;
-    $scope.processingObj.rate.actualRate = $scope.processingObj.selectedProcessingType.rate.mulFact * proItemObj.rate;
-    $scope.processingObj.rate.uom = $scope.processingObj.selectedProcessingType.rate.uom;
+    debugger;
+    $scope.partProcessingObj.rate.actualRate = $scope.partProcessingObj.selectedProcessingType.rate.mulFact * proItemObj.rate;
+    $scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom;
 
   }
 
