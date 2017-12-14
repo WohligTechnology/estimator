@@ -173,21 +173,20 @@
                                 <tr>
                                     <th>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="subCatMaterials.length <= 0"
+                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="subCatMaterials == undefined"
                                                 ng-model="checkAll" ng-change="selectAll(subCatMaterials, checkAll)" />
                                             <span></span>
                                         </label>
                                     </th>
                                     <th>Id</th>
                                     <th>Name</th>
-                                    <th>Rate</th>
-                                    <th>Density</th>
-                                    <th>Weight</th>
-                                    <th>RI</th>
-                                    <th>CI</th>
-                                    <th>BI</th>
-                                    <th>FI</th>
-                                    <th>Wastage</th>
+                                    <th>Rate (Rs/Kg)</th>
+                                    <th>Density (Kg/m<sup>3</sup>)</th>
+                                    <th title="Rolling Index">RI</th>
+                                    <th title="Cutting Index">CI</th>
+                                    <th title="Bending Index">BI</th>
+                                    <th title="Fabrication Index">FI</th>
+                                    <th>Wastage (%)</th>
                                     <th>Action</th>
                                     <!-- <th>Custom Base Material</th> -->
                                     <!-- <th>Custom Overlay</th> -->
@@ -213,10 +212,6 @@
                                     </td>
                                     <td>
                                         <input type="text" ng-model="m.density" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
-                                        />
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="m.weightPerUnit" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
                                         />
                                     </td>
                                     <td>

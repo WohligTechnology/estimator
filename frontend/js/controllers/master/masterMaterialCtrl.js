@@ -127,8 +127,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
-        masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {
-            toastr.info('Record added successfully');            
+        masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {          
             $scope.cancelModal();
             $scope.getMaterialData();
         });

@@ -573,9 +573,18 @@ tree css*/
  }
 
  //checkbox css
-
  .mt-checkbox.mt-checkbox-outline> input:checked ~ span {
   border-color: rgb(84, 131, 145) !important;
   background: #3d4957 !important; 
   position: absolute !important;
+ }
+
+ //- global variable block css
+ .displayBlock {
+    display: block;
+    padding:15px;
+    background-color: #e6e5e7;
+    width:19em;
+    margin-left: -15px;
+    font-family: Arial, Helvetica, sans-serif;
  }
