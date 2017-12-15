@@ -77,16 +77,16 @@ var schema = new Schema({
     },
     enquiryInfo: {
         rfqCopy: [{
-            file: String
+            type: String
         }],
         drawings: [{
-            file: String
+            type: String
         }],
         photos: [{
-            file: String
+            type: String
         }],
         otherDocs: [{
-            file: String
+            type: String
         }],
         technicalFeedback: {
             type: String
@@ -100,7 +100,7 @@ var schema = new Schema({
     },
     keyRequirement: {
         ndaAgreement: [{
-            file: String
+            type: String
         }],
     },
     technicalRequirement: {
@@ -111,7 +111,7 @@ var schema = new Schema({
     },
     commercialRequirement: {
         warrantyRequired: String,
-        // paymentTerms:String,     // get it from customer collection
+        paymentTerms: String, // get it from customer collection
         retentionTerms: String,
         ldOrPenalties: String,
         securityDeposit: String,
@@ -131,12 +131,18 @@ var schema = new Schema({
 
 });
 
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+    populate: {
+        'customerId': {
+            select: 'customerName location paymentTerms _id'
+        }
+    }
+});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Enquiry', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'customerId', 'customerId'));
 var model = {
 
     //-retrieve count of  hold enquiries from enquiry table on the basis of enquiry status as "hold".
@@ -361,6 +367,40 @@ var model = {
                 callback(null, found);
             }
         });
+    },
+
+    // what this function will do ?
+    // req data --> ?
+    getOne: function (data, callback) {
+        console.log('**** inside &&&&&&&&&&&&&&&&&& of Enquiry.js ****',data);
+        Enquiry.findOne({
+            _id: data._id
+        }).populate('customerId').exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, {});
+            } else {
+
+                User.findOne({
+                    _id:found.enquiryDetails.estimator
+                }).exec(function (err, getOneUser) {
+                    if (err) {
+                        console.log('**** error at function_name of Enquiry.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(getOneUser)) {
+                        callback(null, {});
+                    } else {
+                        found.enquiryDetails.estimator = getOneUser;
+                        callback(null, found);
+                    }
+                });
+
+                // callback(null, found);
+            }
+        });
+
     },
 };
 

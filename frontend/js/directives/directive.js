@@ -88,7 +88,7 @@ myApp
                                     transformRequest: angular.identity
                                 })
                                 .then(function (data) {
-                                    scope.model.push(data.data.data[0]);;
+                                    scope.model.push(data.data.data[0]);
                                 });
                         });
                     } else {
