@@ -36,5 +36,17 @@ var controller = {
             })
         }
     },
+    getAllMAddonType: function (req, res) {
+        if (req.body) {
+            MAddonType.getAllMAddonType(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
 };
 module.exports = _.assign(module.exports, controller);
