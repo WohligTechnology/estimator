@@ -177,19 +177,20 @@ var model = {
                                         } else {
                                             subAssembliesArray.push(savedSubAss._id);
                                             async.eachSeries(subAss.subAssemblyParts, function (part, callback) {
+                                                console.log('**** ^^^^^^^^^^^^^ ****',part);
                                                 var partObj = {
                                                     partName: part.partName,
                                                     partIcon: part.partIcon,
                                                     partNumber: part.partNumber,
                                                     subAssemblyId: savedSubAss._id,
-                                                    shortcut: part.shortcut._id,
-                                                    partType: part.partType._id,
-                                                    material: part.material._id,
+                                                    shortcut: part.shortcut,
+                                                    partType: part.partType,
+                                                    material: part.material,
                                                     size: part.size,
-                                                    // customMaterial:part.customMaterial._id,
+                                                    // customMaterial:part.customMaterial,
                                                     quantity: part.quantity,
                                                     variable: part.variable,
-                                                    // scaleFactor: part.scaleFactor._id,
+                                                    scaleFactor: part.scaleFactor,
                                                     finalCalculation: part.finalCalculation,
                                                     keyValueCalculations: part.keyValueCalculations,
                                                     processing: [],
