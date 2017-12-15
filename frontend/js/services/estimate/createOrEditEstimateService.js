@@ -174,8 +174,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		NavigationService.apiCall('DraftEstimate/getOne', {
 			_id: draftEstimateId
 		}, function (data) {
-			if (data.data == "ObjectId Invalid") {
-				callback(data.data);
+			if (data.data != "ObjectId Invalid" && data.data != "No Data Found") {
+				callback({});
 			} else {
 				formData.assembly = data.data;
 				callback(data.data);
@@ -390,10 +390,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback(subAssDataObj);
 	}
 	//- to get all subAssembly numbers
-	this.getAllSubAssNumbers = function (callback) {
-		NavigationService.boxCall('EstimateSubAssembly/getAllSubAssNo', function (data) {
-			callback(data.data);
+	this.getAllSubAssNumbers = function (subAssNumber, callback) {
+		var subAssNumbersArray = [];
+		angular.forEach(formData.assembly.subAssemblies,  function (record) {
+			subAssNumbersArray.push(record.subAssemblyNumber);
 		});
+		_.remove(subAssNumbersArray, function(n) {
+			return n  == subAssNumber;
+		  });		  
+		callback(subAssNumbersArray);
 	}
 	//- to add a subAssembly
 	this.createSubAssembly = function (subAssObj, callback) {
@@ -990,20 +995,20 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 
 
-	//- to import subAssembly
-	this.getImportSubAssemblyData = function (subAssNumber, callback) {
-		temp = _.last(formData.assembly.subAssemblies).subAssemblyNumber;
-		tempObj = {
-			subAssemblyNumber: subAssNumber,
-			lastSubAssemblyNumber: temp
-		}
-		NavigationService.apiCall('EstimateSubAssembly/importSubAssembly', tempObj, function (data) {
-			var subAssObj = data.data.subAssemblyObj;
-			subAssObj.subAssemblyName = subAssObj.subAssemblyNumber;
-			formData.assembly.subAssemblies.push(subAssObj);
-			callback();
-		});
-	}
+	// //- to import subAssembly
+	// this.getImportSubAssemblyData = function (subAssNumber, callback) {
+	// 	temp = _.last(formData.assembly.subAssemblies).subAssemblyNumber;
+	// 	tempObj = {
+	// 		subAssemblyNumber: subAssNumber,
+	// 		lastSubAssemblyNumber: temp
+	// 	}
+	// 	NavigationService.apiCall('EstimateSubAssembly/importSubAssembly', tempObj, function (data) {
+	// 		var subAssObj = data.data.subAssemblyObj;
+	// 		subAssObj.subAssemblyName = subAssObj.subAssemblyNumber;
+	// 		formData.assembly.subAssemblies.push(subAssObj);
+	// 		callback();
+	// 	});
+	// }
 	//- to import part
 	this.getImportPartData = function (subAssNumber, partNumber, callback) {
 		var subAssIndex = this.getSubAssemblyIndex(subAssNumber);

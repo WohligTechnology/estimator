@@ -571,24 +571,27 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
         if (option == 'import') {
           $scope.cancelModal();
         }
-        toastr.success('Part duplicated successfully');
+        toastr.success('Part added successfully');
       });
     } else {
-      //$scope.message = 'Please Enter Valid SubAssembly Number';
       toastr.warning('Please Enter Valid SubAssembly Number');
     }
   }
   //- to import current part to  different subAssembly 
-  $scope.importPartToDifferentSubAssemblyModal = function (part) {
+  $scope.importPartToDifferentSubAssemblyModal = function (subAssNumber, part) {
     $scope.partData = part;
-    createOrEditEstimateService.getAllSubAssNumbers(function (data) {
-      $scope.subAssemblyData = data;
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/estimate/estimateModal/importPartToDifferentSubAssemblyModal.html',
-        scope: $scope,
-        size: 'md'
-      });
+    createOrEditEstimateService.getAllSubAssNumbers(subAssNumber, function (data) {
+      if(_.isEmpty(data)) {
+        toastr.warning('No SubAssemblies are available to import');
+      } else {
+        $scope.subAssemblyData = data;
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/estimate/estimateModal/importPartToDifferentSubAssemblyModal.html',
+          scope: $scope,
+          size: 'md'
+        });        
+      }
     });
   }
 
