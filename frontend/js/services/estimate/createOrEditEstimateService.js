@@ -175,8 +175,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		NavigationService.apiCall('DraftEstimate/getOne', {
 			_id: draftEstimateId
 		}, function (data) {
-			if (data.data != "ObjectId Invalid" && data.data != "No Data Found") {
-				callback({});
+			if (data.data == "ObjectId Invalid") {
+				callback(data.data);
 			} else {
 				formData.assembly = data.data;
 				callback(data.data);

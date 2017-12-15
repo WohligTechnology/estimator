@@ -12,6 +12,7 @@
                 <!-- BEGIN FORM-->
                 <form class="form-horizontal">
                     <div class="form-body">
+                        <b style="color:red;font-size:13px">Either create new assembly or import assembly</b><br><br>
                         <div class="form-group">
                             <label class="col-md-5 control-label">Enter Assembly Name :</label>
                             <div class="col-md-5">
@@ -23,8 +24,8 @@
                     <div class="form-group">
                         <label class="col-md-5 control-label">Import Assembly :</label>
                         <div class="col-md-5">
-                            <select class="form-control" style="width: 215px;margin-left: 5px;" ng-disabled="assemblyName.length != 0" ng-options="s.assemblyNumber for s in assemblyData" ng-model="assemlyId"
-                                placeholder="Select Assembly Id" autofocus required>
+                            <select class="form-control" style="width: 215px;margin-left: 5px;" ng-disabled="assemblyName.length != 0" ng-options="s.assemblyNumber for s in assemblyData"
+                                ng-model="assemlyId" placeholder="Select Assembly Id" autofocus required>
                             </select>
                         </div>
                     </div>
