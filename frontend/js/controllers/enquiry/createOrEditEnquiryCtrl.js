@@ -70,6 +70,17 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
   }
   //- to bind customer data to formData
   $scope.setCustomerData = function (customerDataObj) {
+    console.log('**** inside setCustomerData of createOrEditEnquiryCtrl.js ****', $scope.formData);
+    // $scope.formData.enquiryDetails = {
+    //   customerLocation:"",
+    //   customerId:"",
+    //   customerName:""
+    // }
+
+    // $scope.formData.commercialRequirement = {
+    //   paymentTerms:""
+    // }
+
     $scope.formData.enquiryDetails.customerLocation = customerDataObj.location;
     $scope.formData.customerId = customerDataObj._id;
     $scope.formData.enquiryDetails.customerName = customerDataObj.customerName;

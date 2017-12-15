@@ -84,7 +84,7 @@
                                                                 </li>
                                                                 <li>
                                                                     <span ng-click="getEstimateView('processing', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Processing ({{p.processing.length}})</span>
-                                                                    <span ng-click="addItemModal('Processing', 'part', sa.subAssemblyNumber, p.partNumber)" class="processingIcon">
+                                                                    <span ng-click="addOrEditProcessingModal('save', 'part', sa.subAssemblyNumber, p.partNumber)" class="processingIcon">
                                                                         <i class="fa fa-plus btn-info" title="Add Processing"></i>
                                                                     </span>
                                                                 </li>
@@ -104,7 +104,7 @@
                                                         </li>
                                                         <li>
                                                             <span ng-click="getEstimateView('processing', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Processing ({{sa.processing.length}})</span>
-                                                            <span ng-click="addItemModal('Processing', 'subAssembly', sa.subAssemblyNumber)" class="processingIcon">
+                                                            <span ng-click="addOrEditProcessingModal('save', 'subAssembly', sa.subAssemblyNumber)" class="processingIcon">
                                                                 <i class="fa fa-plus btn-info" title="Add Processing"></i>
                                                             </span>
                                                         </li>
@@ -124,7 +124,7 @@
                                                 </li>
                                                 <li>
                                                     <span ng-click="getEstimateView('processing', 'assembly')" class="tree_label">Processing ({{estimteData.processing.length}})</span>
-                                                    <span ng-click="addItemModal('Processing', 'assembly')" class="processingIcon">
+                                                    <span ng-click="addOrEditProcessingModal('save', 'assembly')" class="processingIcon">
                                                         <i class="fa fa-plus btn-info" title="Add Processing"></i>
                                                     </span>
                                                 </li>

@@ -15,7 +15,14 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
         }
       });
     } else {
-      callback({});
+      callback({
+        enquiryDetails: {},
+        enquiryInfo: {},
+        keyRequirement: {},
+        technicalRequirement: {},
+        commercialRequirement: {},
+        preQualificationCriteria: {}
+      });
     }
   }
   this.getCustomerData = function (callback) {

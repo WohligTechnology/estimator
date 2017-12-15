@@ -103,10 +103,10 @@ var model = {
     //- import assembly by passing assembly number
     //- import assembly by making deepPopulate all fileds & then send response after deletion of _id,_v etc..  from object
     importAssembly: function (data, callback) {
+
         DraftEstimate.findOne().sort({
             createdAt: -1
         }).limit(1).exec(function (err, found) {
-            console.log('****$$$$$$$$$$$$s ****', found);
             if (err) {
                 console.log('**** error at function_name of Estimate.js ****', err);
                 callback(err, null);
