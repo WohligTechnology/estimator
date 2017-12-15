@@ -115,18 +115,18 @@
                                 </label>
                             </td>
                             <td>{{t.enquiryId}} </td>
-                            <td>{{t.rfqDescription}} </td>
+                            <td>{{t.enquiryDetails.rfqDescription}} </td>
                             <td>{{t.enquiryDetails.enquiryStatus}}</td>
-                            <td>{{t.customerId}}</td>
-                            <td>{{t.deliveryLocation}}</td>
-                            <td>{{t.rfqDueDate}}</td>
+                            <td>{{t.enquiryDetails.customerName}}</td>
+                            <td>{{t.enquiryDetails.deliveryLocation}}</td>
+                            <td>{{t.enquiryDetails.rfqDueDate | date :  "dd-MM-y"}}</td>
                             <td> </td>
                             <td> </td>
                             <td> </td>
                             <td> </td>
                             <td> </td>
                             <td>{{t.saleman}}</td>
-                            <td>{{t.estimator}}</td>
+                            <td>{{t.enquiryDetails.estimator}}</td>
                             <td>
                                 <span class="label label-sm label-success" id="add_space"  ui-sref="app.editEnquiry({enquiryId:t._id})">
                                     <i class="fa fa-pencil" title="Edit Enquiry "></i>

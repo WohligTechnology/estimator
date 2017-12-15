@@ -82,7 +82,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     // }
 
     $scope.formData.enquiryDetails.customerLocation = customerDataObj.location;
-    $scope.formData.enquiryDetails.customerId = customerDataObj._id;
+    $scope.formData.customerId = customerDataObj._id;
     $scope.formData.enquiryDetails.customerName = customerDataObj.customerName;
     $scope.formData.commercialRequirement.paymentTerms = customerDataObj.paymentTerms;
   }
@@ -96,6 +96,8 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     //- get assembly name to create 
     createOrEditEnquiryService.getAllAssemblyNumbers(function (data) {
       $scope.assemblyData = data;
+      $scope.assemblyName = '';
+      $scope.assemlyId = null;
       $scope.modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'views/content/enquiry/enquiryModal/getAssemblyName.html',
