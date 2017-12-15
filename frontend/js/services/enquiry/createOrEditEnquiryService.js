@@ -65,11 +65,12 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
   //- to import assembly
   this.getImportAssemblyData = function (assemblyNumber, callback) {
     tempObj = {
-      assemblyNumber: assemblyNumber,
-      lastAssemblyNumber: 'AS0'
+      assemblyNumber: assemblyNumber
     }
     NavigationService.apiCall('Estimate/importAssembly', tempObj, function (data) {
-      callback(data.data);
+      NavigationService.apiCall('DraftEstimate/save', data.data.assemblyObj, function (data1) {
+        callback(data.data);
+      });
     });
   }
 });

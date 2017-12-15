@@ -124,20 +124,54 @@ var model = {
 
     //- Get all process type data from MProcess Type table without pagination
     getProcessTypeData: function (data, callback) {
-        MProcessType.find().populate({ 
-            path: 'rate',
-            populate: {
-              path: 'uom',
-              model: 'MUom'
-            }
-          }).exec(function (err, found) {
+        MProcessType.find().lean().exec(function (err, found) {
+            
             if (err) {
                 console.log('**** error at getProcessTypeData of MProcessType.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 callback(null, []);
             } else {
-                callback(null, found);
+                var index = 0;
+                async.eachSeries(found, function (proType, callback) {
+                    MUom.findOne({
+                        _id: proType.rate.uom
+                    }).exec(function (err, foundRateUom) {
+                        if (err) {
+                            console.log('**** error at rate uom of MProcessType.js ****', err);
+                        } else {
+                            found[index].rate.uom = foundRateUom;
+                            MUom.findOne({
+                                _id: proType.quantity.uom
+                            }).exec(function (err, foundQuantityUom) {
+                                if (err) {
+                                    console.log('**** error at quantity uom of MProcessType.js ****', err);
+                                } else {
+                                    found[index].quantity.uom = foundQuantityUom;
+
+                                    MUom.findOne({
+                                        _id: proType.quantity.finalUom
+                                    }).exec(function (err, foundQuantityFinalUom) {
+                                        if (err) {
+                                            console.log('**** error at quantity finalUom  of MProcessType.js ****', err);
+                                        } else {
+                                            found[index].quantity.finalUom = foundQuantityFinalUom;
+                                            index++;
+                                            callback();
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                }, function (err) {
+                    if (err) {
+                        console.log('***** error at final response of async.eachSeries in function_name of MProcessType.js*****', err);
+                    } else {
+                        callback(null, found);
+                    }
+                });
             }
         });
     },
@@ -145,8 +179,8 @@ var model = {
     //-Delete multiple process type from MProcess Type table by passing multiple MProcessType Ids.
     deleteMultipleProcessType: function (data, callback) {
         MProcessType.remove({
-            _id:{
-                $in:data.idsArray
+            _id: {
+                $in: data.idsArray
             }
         }).exec(function (err, found) {
             if (err) {
