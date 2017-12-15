@@ -104,7 +104,7 @@ var model = {
     //- import assembly by making deepPopulate all fileds & then send response after deletion of _id,_v etc..  from object
     importAssembly: function (data, callback) {
         data.lastAssemblyNumber = data.lastAssemblyNumber.replace(/\d+$/, function (n) {
-            return ++n
+            return ++n;
         });
 
         Estimate.findOne({

@@ -3,21 +3,19 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	var bulkArray = [];
 
 	var processing = {
+		processingNumber: "",
 		processType: {},
 		processItem: {},
-		rate: {
-			actualRate: "",
-			uom: ""
-		},
+		rate: null,
 		quantity: {
-			linkedKeyValue: "",
-			uom: "",
-			mulFact: "",
-			finalUom: "",
+			linkedKeyValue: {
+				keyVariable: null,
+				keyValue: null
+			},
+			totalQuantity: null,
 			utilization: null,
 			contengncyOrWastage: null
 		},
-		totalQuantity: 1,
 		remark: "",
 		totalCost: null
 	};
@@ -799,8 +797,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 
 
-
+	//- to get the required data in order to add / edit processing at any level
 	this.getProcessingModalData = function (operation, level, subAssemblyId, partId, processId, callback) {
+
+
 
 		NavigationService.boxCall('MProcessType/getProcessTypeData', function (proTypeData) {
 
@@ -809,29 +809,49 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				processingItemData: [],
 				selectedProcessingType: {},
 				selectedProcessingItem: {},
-				rate: {
-					actualRate: "",
-					uom: ""
-				},
+				rate: null,
 				quantity: {
-					linkedKeyValue: "",
-					uom: "",
-					mulFact: "",
-					finalUom: "",
+					linkedKeyValue: {
+						keyVariable: null,
+						keyValue: null
+					},
+					totalQuantity: null,
 					utilization: null,
 					contengncyOrWastage: null
 				},
-				totalQuantity: 1,
 				remark: "",
 				totalCost: null,
-				currentPartObj: {}
+
+				linkedKeyValuesCalculation: {
+					perimeter: null,
+					sheetMetalArea: null,
+					surfaceArea: null,
+					weight: null
+				},
+
+				linkedKeyValuesAtPartCalculation: {
+					perimeter: null,
+					sheetMetalArea: null,
+					surfaceArea: null,
+					weight: null
+				},
+				linkedKeyValuesAtSubAssemblyCalculation: {
+					perimeter: null,
+					sheetMetalArea: null,
+					surfaceArea: null,
+					weight: null
+				},
+				linkedKeyValuesAtAssemblyCalculation: {
+					perimeter: null,
+					sheetMetalArea: null,
+					surfaceArea: null,
+					weight: null
+				}
 			};
 
 
 			if (operation == 'save') {
-
 				partProcessingObj.processingTypeData = proTypeData.data;
-
 			} else if (operation == 'update') {
 				debugger;
 				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
@@ -849,12 +869,28 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				partProcessingObj.quantity.uom = tempProcessingObj.quantity.uom;
 				partProcessingObj.quantity.mulFact = tempProcessingObj.quantity.mulFact;
 				partProcessingObj.quantity.finalUom = tempProcessingObj.quantity.finalUom;
+				partProcessingObj.quantity.totalQuantity = tempProcessingObj.totalQuantity;
 				partProcessingObj.quantity.utilization = tempProcessingObj.quantity.utilization;
 				partProcessingObj.quantity.contengncyOrWastage = tempProcessingObj.quantity.contengncyOrWastage;
-				partProcessingObj.totalQuantity = tempProcessingObj.totalQuantity;
+
 				partProcessingObj.remark = tempProcessingObj.remark;
 				partProcessingObj.totalCost = tempProcessingObj.totalCost;
 
+			}
+
+			if (level == 'part') {
+				//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var partIndex = this.getPartIndex(subAssIndex, partId);
+				partProcessingObj.linkedKeyValuesAtPartCalculation = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+			} else if (level == 'subAssembly') {
+				//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly
+				partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = data.linkedKeyValuesAtSubAssemblyCalculation;
+			} else if (level == 'assembly') {
+				//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
+				//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
+				//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation 
+				partProcessingObj.linkedKeyValuesAtAssemblyCalculation = data.linkedKeyValuesAtAssemblyCalculation;
 			}
 
 			callback(partProcessingObj);
@@ -862,6 +898,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		});
 	}
 
+	//- called when user will select a processType while adding a processing at any level
 	this.getSelectedProessType = function (processTypeId, callback) {
 		NavigationService.apiCall('MProcessType/getProcessTypeItem', {
 			_id: processTypeId
@@ -869,6 +906,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			callback(data.data.processItems);
 		});
 	}
+
 	// this.getSelectedProessItem = function (processItemId,callback) {
 	// 	NavigationService.apiCall('model_name/function_name', {_id:processItemId}, function (data) {
 	// 		callback(data.data);
