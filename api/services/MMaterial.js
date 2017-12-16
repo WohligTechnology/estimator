@@ -187,309 +187,296 @@ var model = {
                     }
                 });
     },
-    delRestrictions: function (data, callback) {
 
+    delRestrictions: function (data, callback) {
+        if (data.modelName == 'Customer') {
+            var myModel = [{
+                models: "Enquiry",
+                fieldName: ["customerId"]
+            }]
+        }
         if (data.modelName == 'DraftEstimate') {
             var myModel = [{
-                    models: "Enquiry",
-                    fieldName: ["enquiryId"]
-                },
-                {
-                    models: "User",
-                    fieldName: ["estimateCreatedUser"]
-                },
-                {
-                    models: "User",
-                    fieldName: ["estimateUpdatedUser"]
-                }
-            ]
+                models: "Estimate",
+                fieldName: ["draftEstimateId"]
+            }]
         }
         if (data.modelName == 'Enquiry') {
             var myModel = [{
-                    models: "Customer",
-                    fieldName: ["customerId"]
+                    models: "DraftEstimate",
+                    fieldName: ["enquiryId"]
                 },
                 {
-                    models: "User",
-                    fieldName: ["enquiryDetails.estimator"]
+                    models: "Estimate",
+                    fieldName: ["enquiryId"]
                 }
             ]
         }
         if (data.modelName == 'Estimate') {
             var myModel = [{
-                    models: "Enquiry",
-                    fieldName: ["enquiryId"]
-                },
-                {
-                    models: "DraftEstimate",
-                    fieldName: ["draftEstimateId"]
-                },
-                {
-                    models: "User",
-                    fieldName: ["estimateCreatedUser"]
-                },
-                {
-                    models: "User",
-                    fieldName: ["estimateUpdatedUser"]
-                },
-                {
                     models: "EstimateSubAssembly",
-                    fieldName: ["subAssemblies"]
+                    fieldName: ["estimateId"]
                 },
                 {
-                    models: "EstimateProcessing",
-                    fieldName: ["processing"]
-                },
-                {
-                    models: "EstimateAddons",
-                    fieldName: ["addons"]
-                },
-                {
-                    models: "EstimateExtras",
-                    fieldName: ["extras"]
+                    models: "MMaterial",
+                    fieldName: ["estimateId"]
                 }
             ]
         }
         if (data.modelName == 'EstimateAddons') {
             var myModel = [{
-                    models: "MAddonType",
-                    fieldName: ["addonType"]
+                    models: "Estimate",
+                    fieldName: ["addons"]
                 },
                 {
-                    models: "MMaterial",
-                    fieldName: ["addonItem"]
+                    models: "EstimateSubAssembly",
+                    fieldName: ["addons"]
+                },
+                {
+                    models: "EstimatePart",
+                    fieldName: ["addons"]
                 }
             ]
         }
-        if (data.modelName == 'EstimateExtra') {
+        if (data.modelName == 'EstimateExtras') {
             var myModel = [{
-                    models: "MExtra",
-                    fieldName: ["extraItem"]
+                    models: "Estimate",
+                    fieldName: ["extras"]
                 },
                 {
-                    models: "----",
-                    fieldName: ["extraLevelId"]
+                    models: "EstimateSubAssembly",
+                    fieldName: ["extras"]
+                },
+                {
+                    models: "EstimatePart",
+                    fieldName: ["extras"]
                 }
+
             ]
         }
         if (data.modelName == 'EstimatePart') {
             var myModel = [{
-                    models: "EstimateSubAssembly",
-                    fieldName: ["subAssemblyId"]
-                },
-                {
-                    models: "MPartPresets",
-                    fieldName: ["shortcut"]
-                },
-                {
-                    models: "MPartType",
-                    fieldName: ["partType"]
-                },
-                {
-                    models: "MMaterial",
-                    fieldName: ["material"]
-                },
-                {
-                    models: "MMaterial",
-                    fieldName: ["customMaterial"]
-                },
-                {
-                    models: "EstimateProcessing",
-                    fieldName: ["processing"]
-                },
-                {
-                    models: "EstimateAddons",
-                    fieldName: ["addons"]
-                },
-                {
-                    models: "EstimateExtras",
-                    fieldName: ["extras"]
-                }
-            ]
+                models: "EstimateSubAssembly",
+                fieldName: ["subAssemblyParts"]
+            }]
         }
         if (data.modelName == 'EstimateProcessing') {
             var myModel = [{
-                    models: "------",
-                    fieldName: ["processingLevelId"]
+                    models: "Estimate",
+                    fieldName: ["processing"]
                 },
                 {
-                    models: "MProcessType",
-                    fieldName: ["processType"]
+                    models: "EstimatePart",
+                    fieldName: ["processing"]
                 },
                 {
-                    models: "MProcessItem",
-                    fieldName: ["processItem"]
+                    models: "EstimateSubAssembly",
+                    fieldName: ["processing"]
                 }
             ]
         }
         if (data.modelName == 'EstimateSubAssembly') {
             var myModel = [{
                     models: "Estimate",
-                    fieldName: ["estimateId"]
+                    fieldName: ["subAssemblies"]
                 },
                 {
                     models: "EstimatePart",
-                    fieldName: ["subAssemblyParts"]
-                },
-                {
-                    models: "EstimateProcessing",
-                    fieldName: ["processing"]
-                },
-                {
-                    models: "EstimateAddons",
-                    fieldName: ["addons"]
-                },
-                {
-                    models: "EstimateExtras",
-                    fieldName: ["extras"]
+                    fieldName: ["subAssemblyId"]
                 }
             ]
         }
+        // if (data.modelName == 'MAddonsPresets') {
+        //     var myModel = [{
+        //         models: "EstimateAddons",
+        //         fieldName: ["addonType"]
+        //     }]
+        // }
+
         if (data.modelName == 'MAddonType') {
             var myModel = [{
-                    models: "MMaterialCat",
-                    fieldName: ["materialCat"]
+                    models: "EstimateAddons",
+                    fieldName: ["addonType"]
                 },
                 {
                     models: "MPartType",
-                    fieldName: ["materialSubCat"]
-                },
-                {
-                    models: "MUom",
-                    fieldName: ["rate.uom"]
-                },
-                {
-                    models: "MUom",
-                    fieldName: ["quantity.additionalInputUom"]
-                },
-                {
-                    models: "MUom",
-                    fieldName: ["quantity.linkedKeyUom"]
-                },
-                {
-                    models: "MUom",
-                    fieldName: ["quantity.finalUom"]
-                },
-
+                    fieldName: ["addons"]
+                }
             ]
         }
         if (data.modelName == 'MExtra') {
             var myModel = [{
-                models: "MUom",
-                fieldName: ["rate.uom"]
-            }]
-        }
-        if (data.modelName == 'MMaterial') {
-            var myModel = [{
-                    models: "MMaterialSubCat",
-                    fieldName: ["materialSubCategory"]
+                    models: "EstimateExtra",
+                    fieldName: ["extraItem"]
                 },
                 {
-                    models: "Estimate",
-                    fieldName: ["estimateId"]
+                    models: "MPartType",
+                    fieldName: ["extras"]
                 }
+            ]
+        }
+        // if (data.modelName == 'MExtrasPreset') {
+        //     var myModel = [{
+        //         models: "",
+        //         fieldName: [""]
+        //     }]
+        // }
+
+        if (data.modelName == 'MMaterial') {
+            var myModel = [{
+                    models: "EstimateAddons",
+                    fieldName: ["addonItem"]
+                },
+                {
+                    models: "EstimatePart",
+                    fieldName: ["material", "customMaterial"]
+                },
+                {
+                    models: "MMaterialSubCat",
+                    fieldName: ["materials"]
+                },
+                {
+                    models: "MPartType",
+                    fieldName: ["material"]
+                }
+
+
             ]
         }
         if (data.modelName == 'MMaterialCat') {
             var myModel = [{
-                models: "MMaterialSubCat",
-                fieldName: ["subCat"]
-            }]
+                    models: "MAddonType",
+                    fieldName: ["materialCat"]
+                },
+                {
+                    models: "MMaterialSubCat",
+                    fieldName: ["catId"]
+                }
+            ]
         }
         if (data.modelName == 'MMaterialSubCat') {
             var myModel = [{
-                    models: "MMaterialCat",
-                    fieldName: ["catId"]
+                    models: "MAddonType",
+                    fieldName: ["materialSubCat"]
                 },
                 {
                     models: "MMaterial",
-                    fieldName: ["materials"]
-                }
+                    fieldName: ["materialSubCategory"]
+                },
+                {
+                    models: "MMaterialCat",
+                    fieldName: ["subCat"]
+                },
+
             ]
         }
         if (data.modelName == 'MPartPresets') {
             var myModel = [{
-                    models: "EstimatePart",
-                    fieldName: ["shortcut"]
+                models: "EstimatePart",
+                fieldName: ["shortcut"]
 
-                }, {
-
-                    models: "MShape",
-                    fieldName: ["shape"]
-                },
-                {
-                    models: "MPartType",
-                    fieldName: ["partType"]
-                }
-            ]
+            }]
         }
         if (data.modelName == 'MPartType') {
             var myModel = [{
-                    models: "MPartTypeCat",
-                    fieldName: ["partTypeCat"]
-                },
-                {
-                    models: "MProcessType",
-                    fieldName: ["proccessing"]
-                },
-                {
-                    models: "MAddonType",
-                    fieldName: ["addons"]
-                },
-                {
-                    models: "MExtra",
-                    fieldName: ["extras"]
-                },
-                {
-                    models: "MMaterial",
-                    fieldName: ["material"]
-                }
-            ]
+                models: "EstimatePart",
+                fieldName: ["partType"]
+            },
+            {
+                models: "MPartPresets",
+                fieldName: ["partType"]
+            },
+            {
+                models: "MPartTypeCat",
+                fieldName: ["partTypes"]
+            }
+        ]
         }
         if (data.modelName == 'MPartTypeCat') {
             var myModel = [{
                 models: "MPartType",
-                fieldName: ["partTypes"]
+                fieldName: ["partTypeCat"]
             }]
         }
         if (data.modelName == 'MProcessCat') {
             var myModel = [{
-                    models: "MUom",
-                    fieldName: ["uom"]
+                models: "MProcessItem",
+                fieldName: ["processCat"]
+            }, {
+                models: "MProcessType",
+                fieldName: ["processCat"]
+            }]
+        }
+        // if (data.modelName == 'MProcessingPresets') {
+        //     var myModel = [{
+        //         models: "",
+        //         fieldName: [""]
+        //     }]
+        // }
+        if (data.modelName == 'MProcessItem') {
+            var myModel = [{
+                    models: "EstimateProcessing",
+                    fieldName: ["processItem"]
                 },
                 {
-                    models: "MProcessItem",
+                    models: "MProcessCat",
                     fieldName: ["processItems"]
                 }
             ]
         }
-        if (data.modelName == 'MProcessItem') {
-            var myModel = [{
-                models: "MProcessCat",
-                fieldName: ["processCat"]
-            }]
-        }
         if (data.modelName == 'MProcessType') {
             var myModel = [{
-                    models: "MProcessCat",
-                    fieldName: ["processCat"]
+                    models: "EstimateProcessing",
+                    fieldName: ["processType"]
                 },
                 {
-                    models: "MUom",
-                    fieldName: ["rate.uom"]
-                },
-                {
-                    models: "MUom",
-                    fieldName: ["quantity.uom"]
-                },
-                {
-                    models: "MUom",
-                    fieldName: ["quantity.finalUom"]
+                    models: "MPartType",
+                    fieldName: ["proccessing"]
                 }
             ]
         }
+        if (data.modelName == 'MShape') {
+            var myModel = [{
+                models: "MPartPresets",
+                fieldName: ["shape"]
+            }]
+        }
+        if (data.modelName == 'MUom') {
+            var myModel = [{
+                    models: "MAddonType",
+                    fieldName: ["rate.uom", "quantity.additionalInputUom", "quantity.linkedKeyUom", "quantity.finalUom"]
+                },
+                {
+                    models: "MExtra",
+                    fieldName: ["rate.uom"]
+                },
+                {
+                    models: "MProcessCat",
+                    fieldName: ["uom"]
+                },
+                {
+                    models: "MProcessType",
+                    fieldName: ["rate.uom", "quantity.uom", "quantity.finalUom"]
+                }
+            ]
+        }
+        if (data.modelName == 'User') {
+            var myModel = [{
+                    models: "DraftEstimate",
+                    fieldName: ["estimateCreatedUser","estimateUpdatedUser"]
+                },
+                {
+                    models: "Enquiry",
+                    fieldName: ["estimator"]
+                },
+                {
+                    models: "Estimate",
+                    fieldName: ["estimateCreatedUser","estimateUpdatedUser"]
+                }
+            ]
+        }
+
         allDependency = [];
-        console.log('**** 222222222222222 ****', myModel);
         async.eachSeries(myModel, function (m, callback) {
                 i = 0;
                 async.eachSeries(m.fieldName, function (f, callback) {
@@ -507,7 +494,8 @@ var model = {
                             } else {
                                 var tablesDependency = {
                                     model: m.models,
-                                    fieldName: f
+                                    fieldName: f,
+                                    _id: found._id
                                 };
                                 console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
                                 allDependency.push(tablesDependency);
@@ -525,16 +513,16 @@ var model = {
             },
             function (err) {
                 if (err) {
-                    callback('***errrrrrrr*****', err);
+                    callback('**** error at delRestrictions ****', err);
                 } else if (_.isEmpty(allDependency)) {
-                    this[data.modelName].findOne({
+                    this[data.modelName].find({
                         _id: data._id
                     }).exec(function (err, found) {
                         if (err) {
                             console.log('**** error at function_name of MMaterial.js ****', err);
                             callback(err, null);
                         } else if (_.isEmpty(found)) {
-                            callback(null, 'noDataFound');
+                            callback(null, []);
                         } else {
                             callback(null, found);
                         }
