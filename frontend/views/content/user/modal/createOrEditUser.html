@@ -10,7 +10,7 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form class="form-horizontal">
+                <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name :</label>
@@ -44,8 +44,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditUser(operation, formData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditUser(operation, formData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn && myForm.$dirty" ng-click="addOrEditUser(operation, formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn && myForm.$dirty" ng-click="addOrEditUser(operation, formData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

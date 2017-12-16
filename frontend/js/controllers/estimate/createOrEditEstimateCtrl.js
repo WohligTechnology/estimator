@@ -1,4 +1,4 @@
-myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $stateParams, createOrEditEstimateService, $uibModal) {
+myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $stateParams, createOrEditEstimateService, $uibModal) {
 
   // **************************************** default variables/tasks begin here **************************************** //
   //- to show/hide sidebar of dashboard 
@@ -328,7 +328,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       }
     }
   });
-
+  window.onbeforeunload = function(event) {
+    if ($scope.changesCounter > '0') {
+       return 'Are you sure you want to reload?'
+    }
+  };
 
   // **************************************** functions to be triggered form view begin here **************************************** //
   //- to edit assembly name
