@@ -32,7 +32,7 @@
                                 <div>
                                     <label class="padd-t">{{partProcessingObj.rate.actualRate}}</label>
                                     <span>
-                                        <b>{{partProcessingObj.rate.uom.uomName}}</b>
+                                        <b>{{partProcessingObj.rate.uom}}</b>
                                     </span>
                                 </div>
                             </div>
@@ -46,14 +46,14 @@
                             <label class="col-md-4 control-label">Key Value:</label>
                             <div class="col-md-5 text-left">
                                 <div>
-                                    <label class="padd-t">{{currentPartObject * partProcessingObj.processingItemData.quantity.linkedKeyValue}}</label>
+                                    <label class="padd-t">{{partProcessingObj.quantity.linkedKeyValue.keyValue}}</label>
                                     <span>
-                                        <b>{{partProcessingObj.selectedProcessingType.quantity.linkedKeyValue}} ({{partProcessingObj.selectedProcessingType.quantity.uom}})</b>
+                                        <b>{{partProcessingObj.quantity.linkedKeyValue.keyVariable}} ({{partProcessingObj.selectedProcessingType.quantity.uom.uomName}})</b>
                                     </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Multiplication Factor:</label>
                             <div class="col-md-5 text-left">
                                 <div>
@@ -68,7 +68,7 @@
                                     <input type="text" class="form-control" ng-model="partProcessingObj.quantity.finalUom" placeholder="100" required>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label class="col-md-4 control-label">Utilization:</label>
                             <div class="col-md-5 text-left">
@@ -96,7 +96,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Total Quantity:</label>
                             <div class="col-md-5 text-left">
-                                <input type="text" class="form-control" ng-model="partProcessingObj.totalQuantity" required>
+                                <input type="number" class="form-control" ng-model="partProcessingObj.quantity.totalQuantity" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -110,9 +110,9 @@
                             <label class="col-md-4 control-label">Total Cost:</label>
                             <div class="col-md-5 text-left">
                                 <div>
-                                    <label class="padd-t">{{partProcessingObj.totalCost}}</label>
+                                    <label class="padd-t">{{partProcessingObj.quantity.totalQuantity * partProcessingObj.rate.actualRate}}</label>
                                     <span>
-                                        <b>{{partProcessingObj.quantity.finalUom}}</b>
+                                        <b>{{partProcessingObj.finalUom}}</b>
                                     </span>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addProcessing(formData, level, subAssemblyId, partId)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addProcessing(partProcessingObj, level, subAssemblyId, partId)">Save</button>
                                 <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="editProcessing()">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
