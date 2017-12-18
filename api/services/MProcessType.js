@@ -134,6 +134,9 @@ var model = {
             } else {
                 var index = 0;
                 async.eachSeries(found, function (proType, callback) {
+                    delete proType.createdAt;
+                    delete proType.updatedAt;
+                    delete proType.__v;
                     MUom.findOne({
                         _id: proType.rate.uom
                     }).exec(function (err, foundRateUom) {
