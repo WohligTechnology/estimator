@@ -107,7 +107,7 @@
                             <td>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                     <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
-                                        ng-change="selectBulkCustomers(checkboxStatus, customer._id)" />
+                                        ng-click="selectBulkCustomers(checkboxStatus, customer._id)" />
                                     <span></span>
                                 </label>
                             </td>
@@ -119,9 +119,9 @@
                             <td>{{customer.margins.commission}}</td>
                             <td>{{customer.margins.other}}</td>
                             <td>
-                                <span class="label label-sm label-success" id="add_space" ng-click="addOrEditCustomerModal('update',customer)">
+                                <span class="label label-sm label-success" ng-click="addOrEditCustomerModal('update',customer)">
                                     <i class="fa fa-pencil" title="Edit Customers Details"></i>
-                                </span>
+                                </span>&nbsp;
                                 <span class="label label-sm label-danger" ng-click="deleteCustomerModal(customer._id,'deleteCustomer')">
                                     <i class="fa fa-trash-o" title="Delete Customer"></i>
                                 </span>

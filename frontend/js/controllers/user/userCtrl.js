@@ -52,13 +52,13 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   //- to add or edit user
   $scope.addOrEditUser = function (operation, userData) {
     userService.addOrEditUser(userData, function (data) {
-      if (data.data == "success") {
+      if (angular.isDefined(data.data)) {
         $scope.getUserData();
         $scope.cancelModal();
         if (operation == 'save') {
-          toastr.info('Record added successfully');
+          toastr.success('Record added successfully');
         } else {
-          toastr.info('Record updated successfully');
+          toastr.success('Record updated successfully');
         }
       } else {
         toastr.Warning('Please enter details properly');
@@ -82,7 +82,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
     userService.deleteUser(userId, function (data) {
       $scope.cancelModal();
       $scope.getUserData();
-      toastr.info('Record deleted successfully');
+      toastr.success('Record deleted successfully');
     });
   }
   //- for pagination of users' records
@@ -142,7 +142,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
       $scope.checkAll = false;
       $scope.checkboxStatus = false;
       $scope.getUserData();
-      toastr.info('Record deleted successfully', 'User Deletion!');
+      toastr.success('Records deleted successfully');
     });
   }
   //- to get bulk users

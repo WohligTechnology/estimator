@@ -103,7 +103,7 @@
               <td>
                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                   <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
-                    ng-change="selectBulkEstimates(checkboxStatus, table._id)" />
+                    ng-click="selectBulkEstimates(checkboxStatus, table._id)" />
                   <span></span>
                 </label>
               </td>
@@ -119,9 +119,9 @@
               <td>{{table.extrasCost}}</td>
               <td>{{table.totalCost}}</td>
               <td>
-                  <span class="label label-sm label-info" id="add_space" ui-sref="app.createEstimate({estimateId:table._id})">
+                  <span class="label label-sm label-info" ui-sref="app.createEstimate({estimateId:table._id})">
                       <i class="fa fa-calculator" title="Estimate"></i>
-                  </span>
+                  </span>&nbsp;
                 <!-- <span class="label label-sm label-success" id="add_space" ng-click="allEstimateEdit()">
                   <i class="fa fa-pencil" title="Edit Estimate "></i>
                 </span> -->

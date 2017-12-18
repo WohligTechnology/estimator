@@ -50,7 +50,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
     extraData.rate.uom = selectedRateUom;
 
     masterExtraService.addOrEditExtra(extraData, function (data) {
-      toastr.info('Records added successfully', 'Extra Creation!');
+      toastr.success('Extra added/updated successfully');
       $scope.getMasterExtraData();
       $scope.cancelModal();
     });
@@ -71,7 +71,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   //- function for  extra deletion
   $scope.deleteExtra = function (extraId) {
     masterExtraService.deleteExtra(extraId, function (data) {
-      toastr.info('Records deleted successfully', 'Extra Deletion!');
+      toastr.success('Extra deleted successfully');
       $scope.cancelModal();
       $scope.getMasterExtraData();
     });
@@ -138,7 +138,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
       $scope.cancelModal();
       $scope.getMasterExtraData();
       $scope.bulkExtras = [];
-      toastr.info('Records added successfully', 'Extras Deletion!');
+      toastr.success('Extras deleted successfully');
     });
   }
   //- function to get bulk extras

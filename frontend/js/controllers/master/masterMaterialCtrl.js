@@ -40,7 +40,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.addOrEditMaterialCat = function (materialCatData) {
         masterMaterialService.addOrEditMaterialCat(materialCatData, function (data) {
-            toastr.success('Record added successfully');
+            toastr.success('Material Category added/updated successfully');
             $scope.getMaterialData();
             $scope.cancelModal();
         });
@@ -59,7 +59,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterialCat = function (materialCatId) {
         masterMaterialService.deleteMaterialCat(materialCatId, function (data) {
-            toastr.success('Record deleted successfully');
+            toastr.success('Material Category deleted successfully');
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -84,7 +84,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.addOrEditMaterialSubCat = function (materialSubCatData, materialCatId) {
         // materialSubCatData.catId = materialCatId;
         masterMaterialService.addOrEditMaterialSubCat(materialSubCatData, materialCatId, function (data) {
-            toastr.success('Record added successfully');
+            toastr.success('Material SubCategory added successfully');
             $scope.getMaterialData();
             $scope.cancelModal();
         });
@@ -103,7 +103,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterialSubCat = function (materialSubCatId) {
         masterMaterialService.deleteMaterialSubCat(materialSubCatId, function (data) {
-            toastr.success('Record added successfully');            
+            toastr.success('Material SubCategory added/updated successfully');            
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -127,7 +127,8 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
-        masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {          
+        masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {    
+            toastr.Success('Material added successfully');      
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -146,7 +147,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
             $scope.editAll = false;
         } else {
             $scope.editAll = true;
-            toastr.success('Now you can edit any material');
+            toastr.info('Now you can edit any material');
         }
     }
     //- modal to confirm material deletion
@@ -163,7 +164,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterial = function (materialId) {
         masterMaterialService.deleteMaterial(materialId, function (data) {
-            toastr.info('Record deleted successfully');
+            toastr.Success('Material deleted successfully');
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -245,7 +246,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
           $scope.checkAll = false;
           $scope.checkboxStatus = false;
           $scope.getSubCatMaterials();
-          toastr.info('Record deleted successfully', 'Material Deletion!');
+          toastr.success('Record deleted successfully');
         });
       }
     //   //- to get bulk materials
