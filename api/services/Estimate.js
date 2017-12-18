@@ -113,13 +113,14 @@ var model = {
             } else if (_.isEmpty(found)) {
                 callback(null, []);
             } else {
-                data.lastAssemblyNumber=found.assemblyNumber;   
+                data.lastAssemblyNumber = found.assemblyNumber;
                 data.lastAssemblyNumber = data.lastAssemblyNumber.replace(/\d+$/, function (n) {
                     return ++n
                 });
 
                 Estimate.findOne({
-                    assemblyNumber: data.assemblyNumber
+                    assemblyNumber: data.assemblyNumber,
+                    estimateVersion: data.estimateVersion
                 }).select('assemblyObj').lean().exec(function (err, found) {
                     if (err) {
                         console.log('**** error at importAssembly of Estimate.js ****', err);
@@ -377,13 +378,11 @@ var model = {
                 });
     },
 
-    //-get all assembly nos. from estimate table.
-    getAllAssembliesNo: function (data, callback) {
-        Estimate.find({}, {
-            assemblyNumber: 1
-        }).lean().exec(function (err, found) {
+    //-get all unique assembly nos. from estimate table.
+    getAllUniqueAssembliesNo: function (data, callback) {
+        Estimate.find().distinct('assemblyNumber').lean().exec(function (err, found) {
             if (err) {
-                console.log('**** error at getAllAssembliesNo of Estimate.js ****', err);
+                console.log('**** error at getAllUniqueAssembliesNo of Estimate.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 callback(null, []);
@@ -393,6 +392,7 @@ var model = {
         });
     },
 
+    //-Get Estimate version by passing enquiry Id.
     getEstimateVersion: function (data, callback) {
         Estimate.find({
             enquiryId: data.enquiryId
@@ -408,6 +408,20 @@ var model = {
         });
     },
 
-
+    //-Get all Estimate Versions by passing assembly no.
+    getAllEstimateVersionOnAssemblyNo: function (data, callback) {
+        Estimate.find({
+            assemblyNumber: data.assemblyNumber
+        }).select('estimateVersion assemblyNumber').lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);
