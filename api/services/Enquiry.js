@@ -61,7 +61,7 @@ var schema = new Schema({
         customerLocation: {
             type: String
         },
-        
+
         // salesman: {
         //     type: mongoose.Schema.Types.ObjectId,
         //     ref: 'MMaterialCat'
@@ -306,18 +306,40 @@ var model = {
         };
         Enquiry.find({}).sort({
                 createdAt: -1
-            })
+            }).lean()
             .order(options)
             .keyword(options)
             .page(options,
                 function (err, found) {
+                    console.log('****@@@@@@@@@@ ****', found.results);
                     if (err) {
                         console.log('**** error at search of Enquiry.js ****', err);
                         callback(err, null);
                     } else if (_.isEmpty(found)) {
-                        callback(null, 'noDataFound');
+                        callback(null, []);
                     } else {
-                        callback(null, found);
+                        var index = 0;
+                        async.eachSeries(found.results, function (enquiryObj, callback) {
+                                UserId = enquiryObj.enquiryDetails.estimator
+                                User.find({
+                                    _id: enquiryObj.enquiryDetails.estimator
+                                }).lean().select('name').exec(function (err, foundEnquiryDetailsEstimator) {
+                                    if (err) {
+                                        console.log('**** error at rate uom of MProcessType.js ****', err);
+                                    } else {
+                                        found.results[index].enquiryDetails.estimator = foundEnquiryDetailsEstimator;
+                                        index++;
+                                        callback();
+                                    }
+                                });
+                            },
+                            function (err) {
+                                if (err) {
+                                    console.log('***** error at final response of async.eachSeries in function_name of MProcessType.js*****', err);
+                                } else {
+                                    callback(null, found);
+                                }
+                            });
                     }
                 });
     },
@@ -372,7 +394,7 @@ var model = {
     // what this function will do ?
     // req data --> ?
     getOne: function (data, callback) {
-        console.log('**** inside &&&&&&&&&&&&&&&&&& of Enquiry.js ****',data);
+        console.log('**** inside &&&&&&&&&&&&&&&&&& of Enquiry.js ****', data);
         Enquiry.findOne({
             _id: data._id
         }).populate('customerId').exec(function (err, found) {
@@ -384,7 +406,7 @@ var model = {
             } else {
 
                 User.findOne({
-                    _id:found.enquiryDetails.estimator
+                    _id: found.enquiryDetails.estimator
                 }).exec(function (err, getOneUser) {
                     if (err) {
                         console.log('**** error at function_name of Enquiry.js ****', err);
@@ -402,6 +424,41 @@ var model = {
         });
 
     },
-};
 
+    // what this function will do ?
+    // req data --> ?
+    getAllEnquiryUsers: function (data, callback) {
+        Enquiry.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                var index = 0;
+                async.eachSeries(found, function (enquiryObj, callback) {
+                        User.find({
+                            _id: enquiryObj.enquiryDetails.estimator
+                        }).lean().select('name').exec(function (err, foundEnquiryDetailsEstimator) {
+                            if (err) {
+                                console.log('**** error at rate uom of MProcessType.js ****', err);
+                            } else {
+                                found[index].enquiryDetails.estimator = foundEnquiryDetailsEstimator;
+                                index++;
+                                callback();
+                            }
+                        });
+
+                    },
+                    function (err) {
+                        if (err) {
+                            console.log('***** error at final response of async.eachSeries in function_name of MProcessType.js*****', err);
+                        } else {
+                            callback(null, found);
+                        }
+                    });
+            }
+        });
+    },
+};
 module.exports = _.assign(module.exports, exports, model);

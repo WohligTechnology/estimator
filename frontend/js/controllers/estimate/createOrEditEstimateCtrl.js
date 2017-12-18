@@ -1,4 +1,4 @@
-myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $stateParams, createOrEditEstimateService, $uibModal) {
+myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $stateParams, createOrEditEstimateService, $uibModal) {
 
   // **************************************** default variables/tasks begin here **************************************** //
   //- to show/hide sidebar of dashboard 
@@ -9,6 +9,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   $scope.checkboxStatus = false; //- for multiple records selection
   $scope.checkAll = false; //- for all records selection
   $scope.hardFacingAlloys = []; //- for dynamic addition of Hard Facing Alloys
+  $scope.changesCounter = 0; //- for save changes before redirecting
 
   $scope.estimatePartObj = {
     allShortcuts: [], //- get all presets name from API
@@ -310,7 +311,29 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   //   }
   // }, true);
 
+  //- to alert user before refreshing the page
+  $scope.$watch('estimteData', function (newValue, oldValue) {
+    if (oldValue != undefined) {
+      if (newValue != oldValue) {
+        $scope.changesCounter += 1;
+      }
+    }
+  }, true);
 
+  //- to ask user to save changes before redirecting
+  $scope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+    if (fromState.name == 'app.createEstimate' && $scope.changesCounter > '0') {
+      var answer = window.confirm('Please Save Your Changes !!!');
+      if (answer) {
+        event.preventDefault();
+      }
+    }
+  });
+  window.onbeforeunload = function(event) {
+    if ($scope.changesCounter > '0') {
+       return 'Are you sure you want to reload?'
+    }
+  };
 
   // **************************************** functions to be triggered form view begin here **************************************** //
   //- to edit assembly name
@@ -328,6 +351,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   //- to edit assembly name
   $scope.editAssemblyName = function (assemblyName) {
     createOrEditEstimateService.editAssemblyName(assemblyName, $scope.draftEstimateId, function (data) {
+      $scope.changesCounter = 0;
       $scope.getEstimateData();
       $scope.cancelModal();
       toastr.success('Estimate data updated successfully');
@@ -335,6 +359,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   }
   //- to update estimate object in draftEstimate table
   $scope.saveCurrentEstimate = function () {
+    $scope.changesCounter = 0;
     createOrEditEstimateService.saveCurrentEstimate(function (data) {
       $scope.getEstimateData();
       toastr.info('Estimate data updated successfully');
@@ -549,24 +574,27 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
         if (option == 'import') {
           $scope.cancelModal();
         }
-        toastr.success('Part duplicated successfully');
+        toastr.success('Part added successfully');
       });
     } else {
-      //$scope.message = 'Please Enter Valid SubAssembly Number';
       toastr.warning('Please Enter Valid SubAssembly Number');
     }
   }
   //- to import current part to  different subAssembly 
-  $scope.importPartToDifferentSubAssemblyModal = function (part) {
+  $scope.importPartToDifferentSubAssemblyModal = function (subAssNumber, part) {
     $scope.partData = part;
-    createOrEditEstimateService.getAllSubAssNumbers(function (data) {
-      $scope.subAssemblyData = data;
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/estimate/estimateModal/importPartToDifferentSubAssemblyModal.html',
-        scope: $scope,
-        size: 'md'
-      });
+    createOrEditEstimateService.getAllSubAssNumbers(subAssNumber, function (data) {
+      if (_.isEmpty(data)) {
+        toastr.warning('No SubAssemblies are available to import');
+      } else {
+        $scope.subAssemblyData = data;
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/estimate/estimateModal/importPartToDifferentSubAssemblyModal.html',
+          scope: $scope,
+          size: 'md'
+        });
+      }
     });
   }
 
@@ -987,6 +1015,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       $scope.partProcessingObj.processingItemData = data;
       $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = "";
       $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = "";
+
       //- get the value of selected linkedKeyValue of processType from part --> keyValueCalculation --> selected linkedKeyValue
       debugger;
 

@@ -15,16 +15,16 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Enter SubAssembly ID:</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-options="s.subAssemblyNumber for s in subAssemblyData" ng-model="subAssId" autofocus required>
+                                <select class="form-control" ng-model="subAssId" autofocus required>
+                                <option ng-repeat="s in subAssemblyData">{{s}}</option>
                                 </select>
                             </div>
                         </div>
-                        <span class="caption-subject bold" ng-if="message != ''">{{message}}</span>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-circle green" ng-click="duplicatePart(subAssId.subAssemblyNumber, partData, 'import')">Import</button>
+                                <button type="button" class="btn btn-circle green" ng-click="duplicatePart(subAssId, partData, 'import')">Import</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

@@ -157,5 +157,67 @@ var model = {
         });
     },
 
+    //- Get all addon type data from MAddon Type table without pagination.
+    getAllMAddonTypeOfMuom: function (data, callback) {
+        MAddonType.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at getAllMAddonType of MAddonType.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                var index = 0;
+                async.eachSeries(found, function (addType, callback) {
+                        MUom.findOne({
+                            _id: addType.rate.uom
+                        }).exec(function (err, foundRateUom) {
+                            if (err) {
+                                console.log('**** error at rate uom of MProcessType.js ****', err);
+                            } else {
+                                found[index].rate.uom = foundRateUom;
+                                MUom.findOne({
+                                    _id: addType.quantity.additionalInputUom
+                                }).exec(function (err, foundQuantityAdditionalInputUom) {
+                                    if (err) {
+                                        console.log('**** error at quantity uom of MProcessType.js ****', err);
+                                    } else {
+                                        found[index].quantity.additionalInputUom = foundQuantityAdditionalInputUom;
+                                        MUom.findOne({
+                                            _id: addType.quantity.linkedKeyUom
+                                        }).exec(function (err, foundQuantitylinkedKeyUom) {
+                                            if (err) {
+                                                console.log('**** error at quantity finalUom  of MProcessType.js ****', err);
+                                            } else {
+                                                found[index].quantity.linkedKeyUom = foundQuantitylinkedKeyUom;
+                                                MUom.findOne({
+                                                    _id: addType.quantity.finalUom
+                                                }).exec(function (err, foundQuantityFinalUom) {
+                                                    if (err) {
+                                                        console.log('**** error at quantity finalUom  of MProcessType.js ****', err);
+                                                    } else {
+                                                        found[index].quantity.finalUom = foundQuantityFinalUom;
+                                                        index++;
+                                                        callback();
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+
+                    },
+                    function (err) {
+                        if (err) {
+                            console.log('***** error at final response of async.eachSeries in function_name of MProcessType.js*****', err);
+                        } else {
+                            callback(null, found);
+                        }
+                    });
+            }
+        });
+    },
+
 };
 module.exports = _.assign(module.exports, exports, model);
