@@ -99,7 +99,7 @@ var model = {
     },
 
     getProcessTypeItem: function (data, callback) {
-        MProcessType.findOne().lean().exec(function (err, myData) {
+        MProcessType.findOne({_id:data._id}).lean().exec(function (err, myData) {
             if (err) {
                 console.log('**** error at function_name of MProcessType.js ****', err);
                 callback(err, null);

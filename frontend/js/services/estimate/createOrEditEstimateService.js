@@ -396,9 +396,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		angular.forEach(formData.assembly.subAssemblies,  function (record) {
 			subAssNumbersArray.push(record.subAssemblyNumber);
 		});
-		_.remove(subAssNumbersArray, function(n) {
-			return n  == subAssNumber;
-		  });		  
+		_.remove(subAssNumbersArray, function (n) {
+			return n == subAssNumber;
+		});
 		callback(subAssNumbersArray);
 	}
 	//- to add a subAssembly
@@ -561,6 +561,137 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 
 
+	//- to get the required data in order to add / edit processing at any level
+	this.getProcessingModalData = function (operation, level, subAssemblyId, partId, processId, callback) {
+
+		var partProcessingObj = {
+			processingTypeData: [],
+			processingItemData: [],
+			selectedProcessingType: {},
+			selectedProcessingItem: {},
+			rate: {
+				actualRate: null
+			},
+			quantity: {
+				linkedKeyValue: {
+					keyVariable: null,
+					keyValue: null
+				},
+				totalQuantity: null,
+				utilization: null,
+				contengncyOrWastage: null
+			},
+			remark: "",
+			totalCost: null,
+
+			linkedKeyValuesCalculation: {
+				perimeter: null,
+				sheetMetalArea: null,
+				surfaceArea: null,
+				weight: null
+			},
+
+			linkedKeyValuesAtPartCalculation: {
+				perimeter: null,
+				sheetMetalArea: null,
+				surfaceArea: null,
+				weight: null
+			},
+			linkedKeyValuesAtSubAssemblyCalculation: {
+				perimeter: null,
+				sheetMetalArea: null,
+				surfaceArea: null,
+				weight: null
+			},
+			linkedKeyValuesAtAssemblyCalculation: {
+				perimeter: null,
+				sheetMetalArea: null,
+				surfaceArea: null,
+				weight: null
+			}
+		};
+
+
+		//- to get keyValue calculations
+		if (level == 'part') {
+			//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			partProcessingObj.linkedKeyValuesAtPartCalculation = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
+			console.log('**** inside function_name of createOrEditEstimateService.js ****',partProcessingObj);
+		} else if (level == 'subAssembly') {
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly
+			partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = data.linkedKeyValuesAtSubAssemblyCalculation;
+		} else if (level == 'assembly') {
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
+			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
+			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation 
+			partProcessingObj.linkedKeyValuesAtAssemblyCalculation = data.linkedKeyValuesAtAssemblyCalculation;
+		}
+
+		//- to get part index to update it
+		if (operation == 'update') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			var getProcessingIndex = this.getProcessIndex(processId, subAssIndex, partIndex);
+		}
+
+		NavigationService.boxCall('MProcessType/getProcessTypeData', function (proTypeData) {
+			// console.log('**** inside function_name of createOrEditEstimateService.js ****',tempThis);
+
+			if (operation == 'save') {
+				partProcessingObj.processingTypeData = proTypeData.data;
+				callback(partProcessingObj);
+			} else if (operation == 'update') {
+
+				var tempProcessingObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex];
+				
+				NavigationService.apiCall('MProcessType/getProcessTypeItem', {
+					_id: tempProcessingObj.processType._id
+				}, function (selecetdProcessItem) {
+					
+					partProcessingObj.processingNumber = tempProcessingObj.processingNumber;
+					partProcessingObj.processingTypeData = proTypeData.data;
+					partProcessingObj.processingItemData = selecetdProcessItem.data.processItems;
+					partProcessingObj.selectedProcessingType = tempProcessingObj.processType;
+					partProcessingObj.selectedProcessingItem = tempProcessingObj.processItem;
+
+					partProcessingObj.rate.actualRate = tempProcessingObj.rate;
+					// partProcessingObj.rate.uom = tempProcessingObj.rate.uom;
+
+					partProcessingObj.quantity.linkedKeyValue.keyVariable = tempProcessingObj.quantity.linkedKeyValue.keyVariable;
+					partProcessingObj.quantity.linkedKeyValue.keyValue = tempProcessingObj.quantity.linkedKeyValue.keyValue;
+					partProcessingObj.quantity.utilization = tempProcessingObj.quantity.utilization;
+					partProcessingObj.quantity.contengncyOrWastage = tempProcessingObj.quantity.contengncyOrWastage;
+					partProcessingObj.quantity.totalQuantity = tempProcessingObj.quantity.totalQuantity;
+
+					partProcessingObj.finalUom = tempProcessingObj.processType.quantity.finalUom.uomName;;
+					partProcessingObj.remark = tempProcessingObj.remark;
+					// partProcessingObj.quantity.uom = tempProcessingObj.quantity.uom;
+					// partProcessingObj.quantity.mulFact = tempProcessingObj.quantity.mulFact;
+					partProcessingObj.currentPartObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+					callback(partProcessingObj);
+
+				});
+			}
+		});
+	}
+	//- called when user will select a processType while adding a processing at any level
+	this.getSelectedProessType = function (processTypeId, callback) {
+		NavigationService.apiCall('MProcessType/getProcessTypeItem', {
+			_id: processTypeId
+		}, function (data) {
+			callback(data.data.processItems);
+		});
+	}
+
+	// this.getSelectedProessItem = function (processItemId,callback) {
+	// 	NavigationService.apiCall('model_name/function_name', {_id:processItemId}, function (data) {
+	// 		callback(data.data);
+	// 	});
+	// }
+
 	//- to add a processing
 	this.createProcessing = function (processingObj, level, subAssemblyId, partId, callback) {
 
@@ -580,10 +711,47 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			id = this.getProcessingNumber(level, subAssIndex, partIndex);
 			processingObj.processingNumber = partId + 'PR' + id;
 			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.push(processingObj);
-			console.log(' ------------------------------------------------------------------------------------------------------------ ');
-			console.log('part object',formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex]);
-			console.log(' ------------------------------------------------------------------------------------------------------------ ');
 		}
+		callback();
+	}
+	//- edit/update created processing 
+	this.updateProcessing = function(processingData, level, subAssemblyId, partId, callback){
+		debugger;
+		var id;
+		if (level == 'assembly') {
+			
+		} else if (level == 'subAssembly') {
+			
+		} else if (level == 'part') {
+			
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			var getProcessingIndex = this.getProcessIndex(processingData.processingNumber, subAssIndex, partIndex);
+			var tempProcessOject = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex];
+
+			tempProcessOject.processType = processingData.processType;
+			tempProcessOject.processItem = processingData.processItem;
+			tempProcessOject.rate = processingData.rate;
+			tempProcessOject.quantity = {
+			  linkedKeyValue: {
+				keyVariable: processingData.quantity.linkedKeyValue.keyVariable,
+				keyValue: processingData.quantity.linkedKeyValue.keyValue
+			  },
+			  totalQuantity: processingData.quantity.totalQuantity,
+			  utilization: processingData.quantity.utilization,
+			  contengncyOrWastage: processingData.quantity.contengncyOrWastage
+			},
+			tempProcessOject.remark = processingData.remark;
+			tempProcessOject.totalCost = processingData.totalCost;
+			debugger;
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex] = tempProcessOject;
+
+			console.log('************************************************************************************************************');
+			console.log('**** inside of createOrEditEstimateService.js ****',formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex]);
+			console.log('************************************************************************************************************');
+
+		}
+
 		callback();
 	}
 	//- to delete a processing
@@ -805,138 +973,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 
 
-
-
-	//- to get the required data in order to add / edit processing at any level
-	this.getProcessingModalData = function (operation, level, subAssemblyId, partId, processId, callback) {
-		// debugger;
-		// var tempThis = this;
-		var partProcessingObj = {
-			processingTypeData: [],
-			processingItemData: [],
-			selectedProcessingType: {},
-			selectedProcessingItem: {},
-			rate: null,
-			quantity: {
-				linkedKeyValue: {
-					keyVariable: null,
-					keyValue: null
-				},
-				totalQuantity: null,
-				utilization: null,
-				contengncyOrWastage: null
-			},
-			remark: "",
-			totalCost: null,
-
-			linkedKeyValuesCalculation: {
-				perimeter: null,
-				sheetMetalArea: null,
-				surfaceArea: null,
-				weight: null
-			},
-
-			linkedKeyValuesAtPartCalculation: {
-				perimeter: null,
-				sheetMetalArea: null,
-				surfaceArea: null,
-				weight: null
-			},
-			linkedKeyValuesAtSubAssemblyCalculation: {
-				perimeter: null,
-				sheetMetalArea: null,
-				surfaceArea: null,
-				weight: null
-			},
-			linkedKeyValuesAtAssemblyCalculation: {
-				perimeter: null,
-				sheetMetalArea: null,
-				surfaceArea: null,
-				weight: null
-			}
-		};
-
-		if (level == 'part') {
-			//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
-			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			var partIndex = this.getPartIndex(subAssIndex, partId);
-			partProcessingObj.linkedKeyValuesAtPartCalculation = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
-		} else if (level == 'subAssembly') {
-			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly
-			partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = data.linkedKeyValuesAtSubAssemblyCalculation;
-		} else if (level == 'assembly') {
-			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
-			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
-			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation 
-			partProcessingObj.linkedKeyValuesAtAssemblyCalculation = data.linkedKeyValuesAtAssemblyCalculation;
-		}
-
-		if(operation == 'update'){
-			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			var partIndex = this.getPartIndex(subAssIndex, partId);
-			var getProcessingIndex = this.getProcessIndex(processId, subAssIndex, partIndex);
-		}
-
-		NavigationService.boxCall('MProcessType/getProcessTypeData', function (proTypeData) {
-			// console.log('**** inside function_name of createOrEditEstimateService.js ****',tempThis);
-
-			if (operation == 'save') {
-				partProcessingObj.processingTypeData = proTypeData.data;
-			} else if (operation == 'update') {
-				var tempProcessingObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex];
-				debugger;
-				console.log('*********************************************************************************************************');
-				console.log('**** tempProcessingObj ****',tempProcessingObj);
-				console.log('*********************************************************************************************************');
-				partProcessingObj.processingTypeData = proTypeData.data;
-				partProcessingObj.processingItemData = [];
-				partProcessingObj.selectedProcessingType = tempProcessingObj.processType;
-				partProcessingObj.selectedProcessingItem = tempProcessingObj.processItem;
-
-				partProcessingObj.rate.actualRate = tempProcessingObj.rate;
-				partProcessingObj.rate.uom = tempProcessingObj.rate.uom;
-
-				partProcessingObj.quantity.linkedKeyValue.keyVariable = tempProcessingObj.quantity.linkedKeyValue.keyVariable;
-				partProcessingObj.quantity.linkedKeyValue.keyValue = tempProcessingObj.quantity.linkedKeyValue.keyValue;
-				partProcessingObj.quantity.utilization = tempProcessingObj.quantity.utilization;
-				partProcessingObj.quantity.contengncyOrWastage = tempProcessingObj.quantity.contengncyOrWastage;
-				partProcessingObj.quantity.totalQuantity = tempProcessingObj.quantity.totalQuantity;
-
-				partProcessingObj.finalUom = tempProcessingObj.processType.quantity.finalUom.uomName;;
-				partProcessingObj.remark = tempProcessingObj.remark;
-				// partProcessingObj.quantity.uom = tempProcessingObj.quantity.uom;
-				// partProcessingObj.quantity.mulFact = tempProcessingObj.quantity.mulFact;
-				partProcessingObj.currentPartObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
-
-			}
-
-			callback(partProcessingObj);
-		});
-	}
-
-	//- called when user will select a processType while adding a processing at any level
-	this.getSelectedProessType = function (processTypeId, callback) {
-		NavigationService.apiCall('MProcessType/getProcessTypeItem', {
-			_id: processTypeId
-		}, function (data) {
-			callback(data.data.processItems);
-		});
-	}
-
-	// this.getSelectedProessItem = function (processItemId,callback) {
-	// 	NavigationService.apiCall('model_name/function_name', {_id:processItemId}, function (data) {
-	// 		callback(data.data);
-	// 	});
-	// }
-
-
-
 	this.getAddonTypeData = function (callback) {
-
 	}
-
 	this.getExtraData = function (callback) {
-
 	}
 
 
@@ -960,9 +999,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var processIndex;
 		if (angular.isDefined(subAssIndex)) {
 			if (angular.isDefined(partIndex)) {
-				console.log('**** inside function_name of createOrEditEstimateService.js ****',formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing);
+				console.log('**** inside function_name of createOrEditEstimateService.js ****', formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing);
 				processIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing, ['processingNumber', processId]);
-				
+
 			} else {
 				processIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].processing, ['processingNumber', processId]);
 			}

@@ -616,8 +616,10 @@ var model = {
                 } else if (_.isEmpty(found)) {
                     callback(null, 'noDataFound');
                 } else {
+                    console.log('**** inside %%%%% of DraftEstimate.js ****',found);
                     async.eachSeries(found, function (f, callback) {
-                        f.enquiryNumber = f.enquiryId.enquiryId;
+                        console.log('**** inside ####### of DraftEstimate.js ****');
+                         f.enquiryNumber = f.enquiryId.enquiryId;
                         f.customerName = f.enquiryId.customerId.customerName;
                         delete f.enquiryId;
 
