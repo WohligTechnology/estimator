@@ -158,7 +158,7 @@
                                     <td>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                             <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
-                                                ng-change="selectBulkProcesses(checkboxStatus, process._id)" />
+                                                ng-click="selectBulkProcesses(checkboxStatus, process._id)" />
                                             <span></span>
                                         </label>
                                     </td>
@@ -173,9 +173,9 @@
                                     <td> {{process.quantity.utilization}}</td>
                                     <td> {{process.quantity.contengncyOrWastage}}</td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" id="add_space" ng-click="addOrEditProcessTypeModal('update',process)">
+                                        <span class="label label-sm label-success" ng-click="addOrEditProcessTypeModal('update',process)">
                                             <i class="fa fa-pencil" title="Edit Process Type"></i>
-                                        </span>
+                                        </span>&nbsp;
                                         <span class="label label-sm label-danger" ng-click="deleteProcessTypeModal(process._id,'deleteProcessType')">
                                             <i class="fa fa-trash-o" title="Delete Process Type"></i>
                                         </span>

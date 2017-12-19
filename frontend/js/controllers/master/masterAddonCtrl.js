@@ -27,7 +27,6 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   $scope.addOrEditAddonTypeModal = function (operation, addonType) {
 
     masterAddonService.getAddonTypeModalData(operation, addonType, function (data) {
-      console.log('**** inside function_name of masterAddonCtrl.js ****', data);
       $scope.formData = data.addonTypeData;
       $scope.mMatCatData = data.mMatData;
       $scope.mUomData = data.mUomData;
@@ -61,7 +60,7 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
     addonTypeData.quantity.finalUom = selectedFinalUomId;
 
     masterAddonService.addOrEditAddonType(addonTypeData, function (data) {
-      toastr.info('Record added successfully', 'Addon Creation!');
+      toastr.success('Addon added/updated successfully');
       $scope.getAddonData();
       $scope.cancelModal();
     });
@@ -82,7 +81,7 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   //- function for addon deletion
   $scope.deleteAddonType = function (addonId) {
     masterAddonService.deleteAddonType(addonId, function (data) {
-      toastr.info('Record deleted successfully', 'Addon Deletion!');
+      toastr.success('Addon deleted successfully');
       $scope.getAddonData();
       $scope.cancelModal();
     });
@@ -149,7 +148,7 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
       $scope.cancelModal();
       $scope.getAddonData();
       $scope.bulkAddons = [];
-      toastr.info('Records added successfully', 'Addons Deletion!');
+      toastr.success('Addons deleted successfully');
     });
   }
   //- function to get bulk addons

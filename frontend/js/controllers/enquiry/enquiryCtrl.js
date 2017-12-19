@@ -112,7 +112,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
       $scope.cancelModal();
       $scope.getEnquiryData();
       $scope.bulkEnquiries = [];
-      toastr.info('Records deleted successfully');
+      toastr.success('Records deleted successfully');
     });
   }
   //- to get bulk enquiries

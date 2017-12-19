@@ -110,6 +110,7 @@ var model = {
         });
     },
     materialAddEdit: function (data, callback) {},
+
     //-update sub cat material type by passing material sub cat Id.
     updateAllSubCatMatType: function (data, callback) {
         MMaterial.update({
@@ -532,11 +533,12 @@ var model = {
                 }
             });
     },
-    deleteMultipleMaterials: function (data, callback) {
-        MMaterial.remove({
-            _id: {
-                $in: data.idsArray
-            }
+    deleteMultipleModelRecords: function (data,model, callback) {
+        console.log('**** !!!!!!!!!!!!!!!****',data);
+        var modelName = model.split("/").pop();        
+        console.log('****%%%%%%%%%%% ****',modelName);
+        this[modelName].find({
+            _id: data._id
         }).exec(function (err, found) {
             if (err) {
                 console.log('**** error at deleteMultipleMaterials of Material.js ****', err);

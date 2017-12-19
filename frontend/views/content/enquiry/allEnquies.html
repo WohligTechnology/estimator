@@ -110,7 +110,7 @@
                             <td>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                     <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
-                                        ng-change="selectBulkEnquiries(checkboxStatus, t._id)" />
+                                        ng-click="selectBulkEnquiries(checkboxStatus, t._id)" />
                                     <span></span>
                                 </label>
                             </td>
@@ -128,9 +128,9 @@
                             <!-- <td>{{t.saleman}}</td> -->
                             <td>{{t.enquiryDetails.estimator[0].name}}</td>
                             <td>
-                                <span class="label label-sm label-success" id="add_space"  ui-sref="app.editEnquiry({enquiryId:t._id})">
+                                <span class="label label-sm label-success" ui-sref="app.editEnquiry({enquiryId:t._id})">
                                     <i class="fa fa-pencil" title="Edit Enquiry "></i>
-                                </span>
+                                </span>&nbsp;
                                 <span class="label label-sm label-danger" ng-click="deleteEnquiryModal(t._id,'deleteEnquiry')">
                                     <i class="fa fa-trash-o" title="Delete Enquiry"></i>
                                 </span>

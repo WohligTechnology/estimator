@@ -63,7 +63,11 @@ module.exports.routes = {
         controller: "UserController",
         action: "readFile"
     },
+    "api/MMaterial/deleteMultipleModelRecords/:model": {
+        controller: "MMaterialController",
+        action: "deleteMultipleModelRecords"
 
+    }
 
 
     /***************************************************************************

@@ -28,7 +28,8 @@
                             <ul>
                                 <li ng-repeat="pt in ptCat.partTypes">
                                     <span class="tree_label partName" ng-click="getPartTypeSizes(pt._id)">{{pt.partTypeName | capitalize}}</span>
-                                    <span ng-click="addNewPreset('save',pt._id)" class="subAssemblyCreateIcon">
+                                    <span ng-click="addNewPreset('save',pt._id)" class="partPresetAdd
+                                        ">
                                         <i class="fa fa-plus btn-info" title="Add New Preset"></i>
                                     </span>
                                     <span ng-click="addOrEditPartTypeModal('save',ptCat._id,pt)" class="partEditIcon">

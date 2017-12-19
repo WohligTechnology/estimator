@@ -117,22 +117,10 @@
                                     <td>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                             <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
-                                                ng-change="selectBulkAddons(checkboxStatus, addon._id)" />
+                                                ng-click="selectBulkAddons(checkboxStatus, addon._id)" />
                                             <span></span>
                                         </label>
                                     </td>
-                                    <!-- <td>aa</td>
-                                    <td>bb</td>
-                                    <td>cc</td>
-                                    <td>dd</td>
-                                    <td>ee</td>
-                                    <td>ff</td>
-                                    <td>gg</td>
-                                    <td>hh</td>
-                                    <td>ii</td>
-                                    <td>jj</td>
-                                    <td>kk</td>
-                                    <td>ll</td> -->
                                     <td>{{$index}} </td>
                                     <td>{{addon.addonTypeName}}</td>
                                     <td>{{addon.materialCat.materialCatName}} </td>
@@ -147,9 +135,9 @@
                                     <td>{{addon.quantity.finalUom.uomName}} </td>
                                     <td>{{addon.quantity.percentageUse}}</td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" id="add_space" ng-click="addOrEditAddonTypeModal('update',addon)">
+                                        <span class="label label-sm label-success" ng-click="addOrEditAddonTypeModal('update',addon)">
                                             <i class="fa fa-pencil" title="Edit Addon"></i>
-                                        </span>
+                                        </span>&nbsp;
                                         <span class="label label-sm label-danger" ng-click="deleteAddonTypeModal(addon._id,'deleteAddonType')">
                                             <i class="fa fa-trash-o" title="Delete Addon"></i>
                                         </span>

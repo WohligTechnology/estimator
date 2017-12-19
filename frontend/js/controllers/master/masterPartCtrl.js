@@ -38,6 +38,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             $scope.formData = data.partTypeCat;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
+            $scope.operation = operation;
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -47,9 +48,14 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             });
         });
     }
-    $scope.addOrEditPartTypeCat = function (partTypeCatData) {
+    $scope.addOrEditPartTypeCat = function (operation, partTypeCatData) {
         masterPartService.addOrEditPartTypeCat(partTypeCatData, function (data) {
-            toastr.success('Record added successfully');
+            if (operation == 'update') {
+                toastr.success('Part Category Name Updated Successfully');
+
+            } else {
+                toastr.success('Part Category Name Added Successfully');
+            }
             $scope.getPartData();
             $scope.cancelModal();
         });
@@ -90,7 +96,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     $scope.addOrEditPartType = function (partTypeData, partTypeCatId) {
         masterPartService.addOrEditPartType(partTypeData, partTypeCatId, function (data) {
-            toastr.success('Record added successfully');
+            toastr.success('Part type  added/updated successfully');
             $scope.getPartData();
             $scope.cancelModal();
         });
@@ -98,7 +104,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
 
     $scope.deletePartType = function (partTypeId) {
         masterPartService.deletePartType(partTypeId, function (data) {
-            toastr.success('Record deleted successfully');
+            toastr.success('Part type deleted successfully');
             $scope.cancelModal();
             $scope.getPartData();
         });
@@ -212,13 +218,13 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
                 size: 'md'
             });
 
-            
+
         });
     };
 
-    $scope.addMaterialToPartType = function (selectedMatId,partTypeId) {
-        masterPartService.addMaterialToPartType(selectedMatId,partTypeId, function (data) {
-            $scope.successMessage = "material added to the partType successfully...";
+    $scope.addMaterialToPartType = function (selectedMatId, partTypeId) {
+        masterPartService.addMaterialToPartType(selectedMatId, partTypeId, function (data) {
+            toastr.success('Material Added To The PartType Successfully');
             $scope.cancelModal();
             $scope.getPartTypeSizes(data._id);
         });
@@ -236,16 +242,16 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             size: 'md'
         });
     }
-    $scope.deletePartTypeMaterial = function (materialId,partTypeId) {
-        masterPartService.deletePartTypeMaterial(materialId,partTypeId, function (data) {
-            toastr.success('Record deleted successfully');
+    $scope.deletePartTypeMaterial = function (materialId, partTypeId) {
+        masterPartService.deletePartTypeMaterial(materialId, partTypeId, function (data) {
+            toastr.success('Material deleted successfully');
             $scope.cancelModal();
             $scope.getPartTypeSizes(partTypeId);
         });
     }
 
     // Delete part type modal
-    $scope.deletePartTypeModal = function (partTypeId, getFunction){ 
+    $scope.deletePartTypeModal = function (partTypeId, getFunction) {
         $scope.idToDelete = partTypeId;
         $scope.functionToCall = getFunction;
         $scope.modalInstance = $uibModal.open({
