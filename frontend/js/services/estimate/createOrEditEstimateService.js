@@ -104,8 +104,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	var assembly = {
 		enquiryId: "",
-		assemblyName: "Assembly 1",
-		assemblyNumber: "AS1",
+		assemblyName: "",
+		assemblyNumber: "",
 		keyValueCalculations: {
 			perimeter: "",
 			sheetMetalArea: "",
@@ -136,7 +136,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	var formData = {
 		assembly: {},
-		customMaterial: [_.cloneDeep(customMaterial)],
+		customMaterial: [],
 	};
 
 	var customMaterial = {
