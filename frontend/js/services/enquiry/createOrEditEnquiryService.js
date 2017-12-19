@@ -58,14 +58,24 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     });
   }
   this.getAllAssemblyNumbers = function (callback) {
-    NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
+    NavigationService.boxCall('Estimate/getAllUniqueAssembliesNo', function (data) {
+      callback(data.data);
+    });
+  }
+
+  this.getAllEstimateVersionOnAssemblyNo = function (assemblyNumber, callback) {
+    var tempObj = {
+      assemblyNumber: assemblyNumber
+    }
+    NavigationService.apiCall('Estimate/getAllEstimateVersionOnAssemblyNo', tempObj, function (data) {
       callback(data.data);
     });
   }
   //- to import assembly
-  this.getImportAssemblyData = function (assemblyNumber, callback) {
+  this.getImportAssemblyData = function (assemblyNumber, versionNo, callback) {
     var tempObj = {
-      assemblyNumber: assemblyNumber
+      assemblyNumber: assemblyNumber,
+      estimateVersion: versionNo
     }
     NavigationService.apiCall('Estimate/importAssembly', tempObj, function (data) {
       tempObj = data.data.assemblyObj;
