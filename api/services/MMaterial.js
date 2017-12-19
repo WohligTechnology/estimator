@@ -380,18 +380,18 @@ var model = {
         }
         if (data.modelName == 'MPartType') {
             var myModel = [{
-                models: "EstimatePart",
-                fieldName: ["partType"]
-            },
-            {
-                models: "MPartPresets",
-                fieldName: ["partType"]
-            },
-            {
-                models: "MPartTypeCat",
-                fieldName: ["partTypes"]
-            }
-        ]
+                    models: "EstimatePart",
+                    fieldName: ["partType"]
+                },
+                {
+                    models: "MPartPresets",
+                    fieldName: ["partType"]
+                },
+                {
+                    models: "MPartTypeCat",
+                    fieldName: ["partTypes"]
+                }
+            ]
         }
         if (data.modelName == 'MPartTypeCat') {
             var myModel = [{
@@ -464,7 +464,7 @@ var model = {
         if (data.modelName == 'User') {
             var myModel = [{
                     models: "DraftEstimate",
-                    fieldName: ["estimateCreatedUser","estimateUpdatedUser"]
+                    fieldName: ["estimateCreatedUser", "estimateUpdatedUser"]
                 },
                 {
                     models: "Enquiry",
@@ -472,7 +472,7 @@ var model = {
                 },
                 {
                     models: "Estimate",
-                    fieldName: ["estimateCreatedUser","estimateUpdatedUser"]
+                    fieldName: ["estimateCreatedUser", "estimateUpdatedUser"]
                 }
             ]
         }
@@ -517,8 +517,10 @@ var model = {
                     callback('**** error at delRestrictions ****', err);
                 } else if (_.isEmpty(allDependency)) {
                     this[data.modelName].find({
-                        _id: data._id
-                    }).exec(function (err, found) {
+                        _id: {
+                            $in: req.body.idsArray
+                        }
+                            }).exec(function (err, found) {
                         if (err) {
                             console.log('**** error at function_name of MMaterial.js ****', err);
                             callback(err, null);
@@ -532,24 +534,7 @@ var model = {
                     callback(null, allDependency);
                 }
             });
-    },
-    deleteMultipleModelRecords: function (data,model, callback) {
-        console.log('**** !!!!!!!!!!!!!!!****',data);
-        var modelName = model.split("/").pop();        
-        console.log('****%%%%%%%%%%% ****',modelName);
-        this[modelName].find({
-            _id: data._id
-        }).exec(function (err, found) {
-            if (err) {
-                console.log('**** error at deleteMultipleMaterials of Material.js ****', err);
-                callback(err, null);
-            } else if (_.isEmpty(found)) {
-                callback(null, []);
-            } else {
-                callback(null, found);
-            }
-        });
-    },
+    }
 };
 
 module.exports = _.assign(module.exports, exports, model);
