@@ -52,7 +52,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     $scope.createOrEditShape = function (shape, shapeVariables) {
         shape.variable = shapeVariables;
         masterShapeService.createOrEditShape(shape, function (data) {
-            toastr.success('Shape added successfully');
+            toastr.success('Shape added/updated successfully');
             $scope.getShapeData();
         });
     }
@@ -69,7 +69,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     }
     $scope.deleteShape = function (shapeId) {
         masterShapeService.deleteShape(shapeId, function (data) {
-            toastr.success('Record deleted  successfully');
+            toastr.success('Shape deleted  successfully');
             $scope.cancelModal();
             $scope.getShapeData();
         });
@@ -91,7 +91,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
-    };
+    }
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 

@@ -65,7 +65,7 @@ var model = {
         };
         MExtra.find({}).sort({
                 createdAt: -1
-            })
+            }).lean()
             .order(options)
             .keyword(options)
             .page(options,
@@ -76,7 +76,27 @@ var model = {
                     } else if (_.isEmpty(found)) {
                         callback(null, []);
                     } else {
-                        callback(null, found);
+                        var index = 0;
+                        async.eachSeries(found.results, function (extraObj, callback) {
+                                MUom.find({
+                                    _id: extraObj.rate.uom
+                                }).lean().exec(function (err, foundRateUomObj) {
+                                    if (err) {
+                                        console.log('**** error at rate uom of MProcessType.js ****', err);
+                                    } else {
+                                        found.results[index].rate.uom = foundRateUomObj;
+                                        index++;
+                                        callback();
+                                    }
+                                });
+                            },
+                            function (err) {
+                                if (err) {
+                                    console.log('***** error at final response of async.eachSeries in function_name of MProcessType.js*****', err);
+                                } else {
+                                    callback(null, found);
+                                }
+                            });
                     }
                 });
     },

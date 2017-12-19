@@ -75,37 +75,5 @@ var controller = {
             })
         }
     },
-    deleteMultipleModelRecords: function (req, res) {
-        console.log('****!!!!!!!!!!!!!!! ****', req);
-        if (req.body) {
-            var modelName = req.options.model + req.options.model.slice(1);
-                    
-            // console.log('**** !!!!!!!!!!!!!!!****', data);
-            // var modelName = req.url.split("/").pop();
-            console.log('****%%%%%%%%%%% ****', modelName);
-            var myModel = modelName
-            this[modelName].findOne({
-                _id: req.body._id
-            }).exec(function (err, found) {
-                if (err) {
-                    console.log('**** error at deleteMultipleMaterials of Material.js ****', err);
-                    res.callback(err, null);
-                } else if (_.isEmpty(found)) {
-                    res.callback(null, 'no data found');
-                } else {
-                    res.callback(null, found);
-                }
-            });
-        }
-        // MMaterial.deleteMultipleModelRecords(req.body, req.originalUrl, res.callback);
-        else {
-            res.json({
-                value: false,
-                data: {
-                    message: 'Invalid Request'
-                }
-            })
-        }
-    },
 };
 module.exports = _.assign(module.exports, controller);
