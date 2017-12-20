@@ -135,7 +135,7 @@
                                 <td>{{p.rate * p.quantity.totalQuantity}}</td>
                                 <td>{{p.remark}}</td>
                                 <td class="edit-icon">
-                                    <span class="label label-sm label-success" id="add_space" ng-click="addOrEditProcessingModal('update','part', estimateViewData.subAssemblyId, estimateViewData.partId, p.processingNumber)">
+                                    <span class="label label-sm label-success" id="add_space" ng-click="addOrEditProcessingModal('update',level, estimateViewData.subAssemblyId, estimateViewData.partId, p.processingNumber)">
                                         <i class="fa fa-pencil"></i>
                                     </span>
                                     <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteProcessing', p.processingNumber, level, estimateViewData.subAssemblyId, estimateViewData.partId)">

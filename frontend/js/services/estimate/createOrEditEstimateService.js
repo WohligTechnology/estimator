@@ -621,19 +621,59 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			console.log('**** inside function_name of createOrEditEstimateService.js ****',partProcessingObj);
 		} else if (level == 'subAssembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly
-			partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = data.linkedKeyValuesAtSubAssemblyCalculation;
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var count =  formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.length;
+			var tempObj = {
+				perimeter: 0,
+				sheetMetalArea: 0,
+				surfaceArea: 0,
+				weight: 0
+			};
+			var calculationsObj = formData.assembly.subAssemblies[subAssIndex].keyValueCalculations;
+			angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts,  function (record) {
+				tempObj.perimeter += parseFloat(record.keyValueCalculations.perimeter);
+				tempObj.sheetMetalArea += parseFloat(record.keyValueCalculations.sheetMetalArea);
+				tempObj.surfaceArea += parseFloat(record.keyValueCalculations.surfaceArea);
+				tempObj.weight += parseFloat(record.keyValueCalculations.weight);
+			});
+			calculationsObj.perimeter = tempObj.perimeter / count;
+			calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
+			calculationsObj.surfaceArea = tempObj.surfaceArea / count;
+			calculationsObj.weight = tempObj.weight / count;
+			
+			partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = calculationsObj;
+			formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = calculationsObj;
 		} else if (level == 'assembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
 			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation 
-			partProcessingObj.linkedKeyValuesAtAssemblyCalculation = data.linkedKeyValuesAtAssemblyCalculation;
+			var count =  formData.assembly.subAssemblies.length;
+			var tempObj = {
+				perimeter: 0,
+				sheetMetalArea: 0,
+				surfaceArea: 0,
+				weight: 0
+			};
+			var calculationsObj = formData.assembly.keyValueCalculations;
+			angular.forEach(formData.assembly.subAssemblies,  function (record) {
+				tempObj.perimeter += parseFloat(record.keyValueCalculations.perimeter);
+				tempObj.sheetMetalArea += parseFloat(record.keyValueCalculations.sheetMetalArea);
+				tempObj.surfaceArea += parseFloat(record.keyValueCalculations.surfaceArea);
+				tempObj.weight += parseFloat(record.keyValueCalculations.weight);
+			});
+			calculationsObj.perimeter = tempObj.perimeter / count;
+			calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
+			calculationsObj.surfaceArea = tempObj.surfaceArea / count;
+			calculationsObj.weight = 	tempObj.weight / count;
+			partProcessingObj.linkedKeyValuesAtAssemblyCalculation = calculationsObj;
+			formData.assembly.keyValueCalculations = calculationsObj;
 		}
 
 		//- to get part index to update it
 		if (operation == 'update') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
-			var getProcessingIndex = this.getProcessIndex(processId, subAssIndex, partIndex);
+			var getProcessingIndex = this.getProcessIndex(processId, subAssIndex, partIndex);			
 		}
 
 		NavigationService.boxCall('MProcessType/getProcessTypeData', function (proTypeData) {
@@ -649,7 +689,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				NavigationService.apiCall('MProcessType/getProcessTypeItem', {
 					_id: tempProcessingObj.processType._id
 				}, function (selecetdProcessItem) {
-					
+	
 					partProcessingObj.processingNumber = tempProcessingObj.processingNumber;
 					partProcessingObj.processingTypeData = proTypeData.data;
 					partProcessingObj.processingItemData = selecetdProcessItem.data.processItems;
