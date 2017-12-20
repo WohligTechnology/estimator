@@ -98,13 +98,21 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     createOrEditEnquiryService.getAllAssemblyNumbers(function (data) {
       $scope.assemblyData = data;
       $scope.assemblyName = '';
+      $scope.version = '';
       $scope.assemlyId = null;
+      $scope.versionData = null;
       $scope.modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'views/content/enquiry/enquiryModal/getAssemblyName.html',
         scope: $scope,
         size: 'md',
       });
+    });
+  }
+  //- get all estimate versions for particular assembly number
+  $scope.getAllEstimateVersionOnAssemblyNo = function (assemblyNumber) {
+    createOrEditEnquiryService.getAllEstimateVersionOnAssemblyNo(assemblyNumber, function (data) {
+      $scope.versionData = data;      
     });
   }
   //- create new assembly
@@ -116,8 +124,8 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     });
   }
   //- import assembly
-  $scope.importAssembly = function (assemblyNumber) {
-    createOrEditEnquiryService.getImportAssemblyData(assemblyNumber, function (data) {
+  $scope.importAssembly = function (assemblyNumber, versionNo) {
+    createOrEditEnquiryService.getImportAssemblyData(assemblyNumber, versionNo, function (data) {
       $state.go('app.createEstimate', {
         'estimateId': data._id,
       });
