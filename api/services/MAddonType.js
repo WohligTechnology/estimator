@@ -219,5 +219,33 @@ var model = {
         });
     },
 
+    //-Get All materials of addon type's material sub cat by passing maddon type id.
+    getSubCatMaterials: function (data, callback) {
+        var materials = {};
+        MAddonType.find({
+            _id: data._id
+        }).lean().deepPopulate('materialSubCat.materials').exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of MAddonType.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                async.eachSeries(found, function (f, callback) {
+                    materials = f.materialSubCat.materials
+                    
+                    callback();
+
+                }, function (err) {
+                    if (err) {
+                        console.log('***** error at final response of async.eachSeries in function_name of MAddonType.js*****', err);
+                    } else {
+                        callback(null, materials);
+                    }
+                });
+            }
+        });
+    },
+
 };
 module.exports = _.assign(module.exports, exports, model);

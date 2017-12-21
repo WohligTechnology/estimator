@@ -123,7 +123,6 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         });
     }
 
-    //- 
     $scope.addNewPreset = function (operation, partTypeId) {
         $scope.presetFormData = {};
         $scope.showPresetSaveForm = true;
@@ -133,6 +132,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         // if sizes.length == 0 then make disableShape-->false
         $scope.disableShape = false;
         masterPartService.addNewPreset(operation, partTypeId, function (data) {
+            debugger;
             $scope.showPartView = true;
             $scope.presetFormData = data;
             $scope.selectedShape = data.selectedShape;
@@ -140,6 +140,9 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             $scope.showEditBtn = data.editBtn;
         });
     }
+
+    // 1149 2065 726
+    // SBIN 000 6625
 
     //- to get/show preset view (with data in case of edit)
     //- called when click on + icon at partType (i.e. to add new preset ) &
@@ -149,8 +152,17 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         presetData.shape.variable = presetData.variable;
         $scope.showPresetUpdateForm = true;
         $scope.showPresetSaveForm = false;
+        debugger;
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
+            debugger;
             $scope.presetFormData = data.presetData;
+            $scope.presetFormData.thickness = data.presetData.shape.thickness;
+            $scope.presetFormData.length = data.presetData.shape.length;
+            $scope.presetFormData.wastage = data.presetData.shape.wastage;
+            $scope.presetFormData.formFactor = data.presetData.shape.formFactor;
+            $scope.presetFormData.sizeFactor = data.presetData.shape.sizeFactor;
+            $scope.presetFormData.presetName = data.presetData.shape.thickness;
+            
             $scope.selectedShape = data.presetData.shape;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;

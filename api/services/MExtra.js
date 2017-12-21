@@ -33,7 +33,27 @@ var model = {
             } else if (_.isEmpty(found)) {
                 callback(null, []);
             } else {
-                callback(null, found);
+                var index = 0;
+                async.eachSeries(found, function (mExtraObj, callback) {
+                        MUom.find({
+                            _id: mExtraObj.rate.uom
+                        }).lean().exec(function (err, foundRateUom) {
+                            if (err) {
+                                console.log('**** error at rate uom of MProcessType.js ****', err);
+                            } else {
+                                found[index].rate.uom = foundRateUom;
+                                index++;
+                                callback();
+                            }
+                        });
+                    },
+                    function (err) {
+                        if (err) {
+                            console.log('***** error at final response of async.eachSeries in function_name of MProcessType.js*****', err);
+                        } else {
+                            callback(null, found);
+                        }
+                    });
             }
         });
     },
