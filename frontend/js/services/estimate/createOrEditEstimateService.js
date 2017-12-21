@@ -938,50 +938,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		bulkArray = [];
 		callback();
 	}
-
-
-
-	//- to add an extra
-	this.createExtra = function (extraObj, level, subAssemblyId, partId, callback) {
-		var id;
-		if (level == 'assembly') {
-			id = this.getExtraNumber(level);
-			extraObj.extraNumber = 'AS1' + 'EX' + id;
-			formData.assembly.extras.push(extraObj);
-		} else if (level == 'subAssembly') {
-			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			id = this.getExtraNumber(level, subAssIndex);
-			extraObj.extraNumber = subAssemblyId + 'EX' + id;
-			formData.assembly.subAssemblies[subAssIndex].extras.push(extraObj);
-		} else if (level == 'part') {
-			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			var partIndex = this.getPartIndex(subAssIndex, partId);
-			id = this.getExtraNumber(level, subAssIndex, partIndex);
-			extraObj.extraNumber = partId + 'EX' + id;
-			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.push(extraObj)
-		}
-		callback();
-	}
-	//- to delete an extra
-	this.deleteExtra = function (extraId, level, subAssemblyId, partId, callback) {
-		if (level == 'assembly') {
-			_.remove(formData.assembly.extras, function (obj) {
-				return obj.extraNumber == extraId
-			});
-		} else if (level == 'subAssembly') {
-			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			_.remove(formData.assembly.subAssemblies[subAssIndex].extras, function (obj) {
-				return obj.extraNumber == extraId
-			});
-		} else if (level == 'part') {
-			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			partIndex = this.getPartIndex(subAssIndex, partId);
-			_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
-				return obj.extraNumber == extraId
-			});
-		}
-		callback();
-	}
+	
 	//- to delete bulk extras
 	this.deleteMultipleExtras = function (level, bulkIds, subAssemblyId, partId, callback) {
 		if (level == 'assembly') {
@@ -1510,4 +1467,72 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback(bulkArray);
 	}
 
+	//**********************************extra ***********************************************
+	//- to update an extra
+	this.updateExtra = function (extraObj, level, subAssemblyId, partId, extraId, callback) {
+		if (level == 'assembly') {
+			var extraIndex = this.getExtraIndex(extraObj.extraNumber);
+			var tempExtraObj = formData.assembly.extras[extraIndex];
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var extraIndex = this.getExtraIndex(extraObj.extraNumber, subAssIndex);
+			var tempExtraObj = formData.assembly.subAssemblies[subAssIndex].extras[extraIndex];
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			var extraIndex = this.getExtraIndex(extraObj.extraNumber, subAssIndex, partIndex);
+			var tempExtraObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras[extraIndex];
+		}
+			tempExtraObj.extraItem = extraObj.selectedExtraItem.extraName,
+			tempExtraObj.extraNumber = extraObj.extraNumber,
+			tempExtraObj.totalCost = extraObj.totalCost,
+			tempExtraObj.remark = extraObj.remark,
+			tempExtraObj.quantity = extraObj.quantity,
+			tempExtraObj.rate = extraObj.rate,
+			tempExtraObj.uom = extraObj.uom
+
+		callback();
+	}
+
+	//- to add an extra
+	this.addExtra = function (extraObj, level, subAssemblyId, partId, callback) {
+		var id;
+		if (level == 'assembly') {
+			id = this.getExtraNumber(level);
+			extraObj.extraNumber = 'AS1' + 'EX' + id;
+			formData.assembly.extras.push(extraObj);
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			id = this.getExtraNumber(level, subAssIndex);
+			extraObj.extraNumber = subAssemblyId + 'EX' + id;
+			formData.assembly.subAssemblies[subAssIndex].extras.push(extraObj);
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			id = this.getExtraNumber(level, subAssIndex, partIndex);
+			extraObj.extraNumber = partId + 'EX' + id;
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.push(extraObj);
+		}
+		callback();
+	}
+	//- to delete an extra
+	this.deleteExtra = function (extraId, level, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			_.remove(formData.assembly.extras, function (obj) {
+				return obj.extraNumber == extraId
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			_.remove(formData.assembly.subAssemblies[subAssIndex].extras, function (obj) {
+				return obj.extraNumber == extraId
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
+				return obj.extraNumber == extraId
+			});
+		}
+		callback();
+	} 
 });

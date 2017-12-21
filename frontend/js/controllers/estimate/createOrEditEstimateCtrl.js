@@ -1078,6 +1078,95 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.modalInstance.dismiss();
   }
 
+ // **********Extra add modal*************************
+
+  $scope.getExtraObj = function(){
+    $scope.extraObj = {
+      allExtraItem: [],
+      selectedExtraItem: {},
+      quantity: 1,
+      remark: "",
+      totalCost: "",
+      rate:"",
+      uom: ""
+    };
+  }
+
+  $scope.getExtraObj();
+
+  $scope.addOrEditExtraModal = function(operation, level, subAssemblyId, partId, extraId){
+    $scope.getExtraObj();
+    $scope.level = level;
+    $scope.subAssemblyId = subAssemblyId;
+    $scope.partId = partId;
+
+    createOrEditEstimateService.getExtraModalData(operation, level, subAssemblyId, partId, extraId, function (data) {
+      if (operation == 'save') {
+        //- get required data to add processing
+        $scope.extraObj.allExtraItem = data.allExtraItem;
+        $scope.showSaveBtn = true;
+        $scope.showEditBtn = false;
+      } else if ('update') {
+        $scope.extraObj.allExtraItem = data.allExtraItem;
+        $scope.extraObj.allExtraItem = data.allExtraItem,
+        $scope.extraObj.selectedExtraItem = data.extraItem,
+        $scope.extraObj.extraNumber = data.extraNumber,
+        $scope.extraObj.totalCost = data.totalCost,
+        $scope.extraObj.remark = data.remark,
+        $scope.extraObj.quantity = data.quantity,
+        $scope.extraObj.rate = data.rate,
+        $scope.extraObj.uom = data.uom
+        $scope.showSaveBtn = false;
+        $scope.showEditBtn = true;
+      }
+
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/createOrEditExtra.html',
+        scope: $scope,
+        size: 'md'
+      });
+    });
+  }
+
+  $scope.getSelectedExtraItem = function (extraObjData) {
+    //- calculate rate
+    $scope.extraObj.selectedExtraItem = extraObjData;
+    $scope.extraObj.totalCost = parseFloat(extraObjData.rate.name) * 1;
+    $scope.extraObj.uom = extraObjData.rate.uom.uomName;
+  }
+
+  $scope.changeQuantity = function(q){
+    $scope.extraObj.totalCost = parseFloat( $scope.extraObj.selectedExtraItem.rate.name) * q;
+  }
+  
+  //- to add Extra at assembly or subssembly or at partLevel
+  $scope.addExtra = function (extraData, level, subAssemblyId, partId) {
+    var extra = {
+      extraItem: extraData.selectedExtraItem.extraName,
+      extraNumber: extraData.extraNumber,
+      totalCost: extraData.totalCost,
+      remark: extraData.remark,
+      quantity: extraData.quantity,
+      rate: extraData.selectedExtraItem.rate.name,
+      uom: extraData.uom
+    }
+    createOrEditEstimateService.addExtra(extra, level, subAssemblyId, partId, function () {
+      $scope.getEstimateView('extras', level, subAssemblyId, partId);
+      toastr.info('Extra added successfully', 'Extra Creation!');
+      $scope.cancelModal();
+    });
+  }
+  //- to edit Extra at assembly or subssembly or at partLevel
+  $scope.updateExtra = function (extraObj,level, subAssemblyId, partId, extraId) {
+    createOrEditEstimateService.updateExtra(extraObj, level, subAssemblyId, partId, extraId, function (data) {
+      $scope.getCurretEstimateObj();
+      toastr.info('Extra updated successfully', 'Extra Updation!');
+      $scope.cancelModal();
+    });
+  }
+
+  // **********************************end extra*********************************************
 
   // **************************************** init all default functions begin here **************************************** //
   //- to initilize the default function 
