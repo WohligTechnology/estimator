@@ -59,7 +59,7 @@ var model = {
         EstimateAddons.aggregate(
             [{
                 $group: {
-                    _id: '$addonsNumber',
+                    _id: '$addonNumber',
                     versionDetail: {
                         $push: {
                             versionNumber: "$estimateVersion",
@@ -77,12 +77,12 @@ var model = {
             } else {
                 var temp = [];
                 var tempObj = {
-                    partNumber: "",
+                    addonNumber: "",
                     versionDetail: []
                 };
                 async.eachSeries(found, function (n, callback) {
                     temp.push({
-                        addonsNumber    : n._id,
+                        addonNumber: n._id,
                         versionDetail: n.versionDetail
                     });
                     callback();
@@ -99,7 +99,7 @@ var model = {
     },
 
 
-    //- import addon by passing addon number and get the last to last addon number no. by giving addon number.
+    //- import addon by passing addon number and get th e last to last addon number no. by giving addon number.
     importAddon: function (data, callback) {
         data.lastAddonNumber = data.lastAddonNumber.replace(/\d+$/, function (n) {
             return ++n
