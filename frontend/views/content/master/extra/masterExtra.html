@@ -109,9 +109,9 @@
                                     </label>
                                 </td>
                                 <td>{{$index}}</td>
-                                <td> {{extra.extraName}}</td>
-                                <td> {{extra.rate.name}}</td>
-                                <td>{{extra.rate.uom.uomName}} </td>
+                                <td>{{extra.extraName}}</td>
+                                <td>{{extra.rate.name}}</td>
+                                <td>{{extra.rate.uom[0].uomName}} </td>
                                 <td class="edit-icon">
                                     <span class="label label-sm label-success" ng-click="addOrEditExtraModal('update', extra)">
                                         <i class="fa fa-pencil" title="Edit Extra"></i>
