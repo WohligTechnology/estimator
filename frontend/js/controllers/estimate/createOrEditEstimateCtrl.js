@@ -890,6 +890,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       if (operation == 'save') {
         //- get required data to add processing
         $scope.partProcessingObj.processingTypeData = data.processingTypeData;
+        $scope.showSaveBtn = true;
+        $scope.showEditBtn = false;
       } else if ('update') {
         $scope.partProcessingObj.processingTypeData = data.processingTypeData;
         $scope.partProcessingObj.processingItemData = data.processingItemData;
@@ -907,7 +909,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
         $scope.partProcessingObj.finalUom = data.finalUom;
         $scope.partProcessingObj.remark = data.remark;
-        $scope.partProcessingObj.currentPartObj = data.currentPartObj;
+        //$scope.partProcessingObj.currentPartObj = data.currentPartObj;
         $scope.partProcessingObj.processingNumber = data.processingNumber;
 
         $scope.showSaveBtn = false;
@@ -1005,14 +1007,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if (operation == 'save') {
       createOrEditEstimateService.createProcessing(processing, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('processing', level, subAssemblyId, partId);
-        toastr.info('Processing added successfully', 'Processing Creation!');
+        toastr.success('Processing added successfully');
         $scope.cancelModal();
       });
     } else if (operation == 'update') {
-      
       createOrEditEstimateService.updateProcessing(processing, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('processing', level, subAssemblyId, partId);
-        toastr.info('Processing updated successfully', 'Processing Creation!');
+        toastr.success('Processing updated successfully');
         $scope.cancelModal();
       });
     }
@@ -1022,13 +1023,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to edit processing at assembly or subssembly or at partLevel
   $scope.editProcessing = function () {
     $scope.getCurretEstimateObj();
-    toastr.info('Processing updated successfully', 'Processing Updation!');
+    toastr.success('Processing updated successfully');
     $scope.cancelModal();
   }
   //- to delete processing
   $scope.deleteProcessing = function (processingId, level, subAssemblyId, partId) {
     createOrEditEstimateService.deleteProcessing(processingId, level, subAssemblyId, partId, function (data) {
-      toastr.info('Processing deleted successfully', 'Processing Deletion!');
+      toastr.success('Processing deleted successfully');
       $scope.getEstimateView('processing', level, subAssemblyId, partId);
       $scope.cancelModal();
     });
@@ -1042,14 +1043,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
       $scope.getEstimateView('processing', level, subAssId, partId);
       $scope.cancelModal();
-      toastr.info('Processing deleted successfully', 'Processing Deletion!');
+      toastr.success('Processing deleted successfully');
     });
   }
   //- import processing
   $scope.importProcessing = function (processingId, level, subAssemblyId, partId) {
     createOrEditEstimateService.getImportProcessingData(processingId, level, subAssemblyId, partId, function () {
       $scope.getCurretEstimateObj();
-      toastr.info('Processing imported successfully', 'Processing Import!');
+      toastr.success('Processing imported successfully');
       $scope.cancelModal();
     });
   }

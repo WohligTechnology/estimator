@@ -40,8 +40,11 @@ var schema = new Schema({
     },
     totalCost: Number,
     remarks: String,
+    addonObj: {},
+    estimateVersion: {
+        type: String,
+    },
 
-    addonObj: {}
 });
 
 schema.plugin(deepPopulate, {});
@@ -52,6 +55,50 @@ module.exports = mongoose.model('EstimateAddons', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
+    getVersionsOfAddonsNo: function (data, callback) {
+        EstimateAddons.aggregate(
+            [{
+                $group: {
+                    _id: '$addonsNumber',
+                    versionDetail: {
+                        $push: {
+                            versionNumber: "$estimateVersion",
+                            _id: "$_id"
+                        }
+                    }
+                },
+            }]
+        ).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                var temp = [];
+                var tempObj = {
+                    partNumber: "",
+                    versionDetail: []
+                };
+                async.eachSeries(found, function (n, callback) {
+                    temp.push({
+                        addonsNumber    : n._id,
+                        versionDetail: n.versionDetail
+                    });
+                    callback();
+
+                }, function (err) {
+                    if (err) {
+                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                    } else {
+                        callback(null, temp);
+                    }
+                });
+            }
+        });
+    },
+
+
     //- import addon by passing addon number and get the last to last addon number no. by giving addon number.
     importAddon: function (data, callback) {
         data.lastAddonNumber = data.lastAddonNumber.replace(/\d+$/, function (n) {
@@ -59,7 +106,7 @@ var model = {
         });
 
         EstimateAddons.findOne({
-            addonNumber: data.addonNumber
+            _id: data._id
         }).lean().exec(function (err, found) {
 
             if (err) {
