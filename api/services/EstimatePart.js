@@ -1,6 +1,6 @@
 var schema = new Schema({
     partName: String,
-    partIcon:String,
+    partIcon: String,
     partNumber: { // a1s1pX where a1 --> assembly name, s1 --> subAssemblyName, X is auto increasing number
         type: String
     },
@@ -17,7 +17,7 @@ var schema = new Schema({
         ref: "MPartPresets",
         index: true,
     },
-    partType:{
+    partType: {
         type: Schema.Types.ObjectId,
         ref: "MPartType",
         index: true,
@@ -29,7 +29,7 @@ var schema = new Schema({
     },
     size: String,
 
-    customMaterial:{
+    customMaterial: {
         type: Schema.Types.ObjectId,
         ref: "MMaterial",
         index: true,
@@ -66,6 +66,10 @@ var schema = new Schema({
         index: true
     }],
     partObj: {},
+    estimateVersion: {
+        type: String,
+    },
+
 });
 
 schema.plugin(deepPopulate, {});
@@ -90,13 +94,57 @@ var model = {
         });
     },
 
+    getVersionsOfPartNo: function (data, callback) {
+        EstimatePart.aggregate(
+            [{
+                $group: {
+                    _id: '$partNumber',
+                    versionDetail: {
+                        $push: {
+                            versionNumber: "$estimateVersion",
+                            _id: "$_id"
+                        }
+                    }
+                },
+            }]
+        ).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                var temp = [];
+                var tempObj = {
+                    partNumber: "",
+                    versionDetail: []
+                };
+                async.eachSeries(found, function (n, callback) {
+                    temp.push({
+                        partNumber: n._id,
+                        versionDetail: n.versionDetail
+                    });
+                    callback();
+
+                }, function (err) {
+                    if (err) {
+                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                    } else {
+                        callback(null, temp);
+                    }
+                });
+            }
+        });
+    },
+
+
     importPart: function (data, callback) {
         data.lastPartNumber = data.lastPartNumber.replace(/\d+$/, function (n) {
             return ++n
         });
 
         EstimatePart.findOne({
-            partNumber: data.partNumber
+            _id: data._id
         }).select('partObj').lean().exec(function (err, found) {
             delete found._id;
             if (err) {
@@ -169,14 +217,14 @@ var model = {
 
     //-Get all parts nos. only from Estimate part table.
     getAllPartsNo: function (data, callback) {
-        EstimatePart.find({},{
-            partNumber:1
+        EstimatePart.find({}, {
+            partNumber: 1
         }).lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of EstimatePart.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
-                callback(null,[]);
+                callback(null, []);
             } else {
                 callback(null, found);
             }
