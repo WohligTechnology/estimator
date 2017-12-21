@@ -35,7 +35,7 @@ var model = {
             } else {
                 var index = 0;
                 async.eachSeries(found, function (mExtraObj, callback) {
-                        MUom.find({
+                        MUom.findOne({
                             _id: mExtraObj.rate.uom
                         }).lean().exec(function (err, foundRateUom) {
                             if (err) {

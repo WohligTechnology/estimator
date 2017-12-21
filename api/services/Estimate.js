@@ -119,8 +119,7 @@ var model = {
                 });
 
                 Estimate.findOne({
-                    assemblyNumber: data.assemblyNumber,
-                    estimateVersion: data.estimateVersion
+                    _id:data._id
                 }).select('assemblyObj').lean().exec(function (err, found) {
                     if (err) {
                         console.log('**** error at importAssembly of Estimate.js ****', err);
@@ -420,6 +419,53 @@ var model = {
                 callback(null, 'noDataFound');
             } else {
                 callback(null, found);
+            }
+        });
+    },
+    // what this function will do ?
+    // req data --> ?
+    getVersionsOfAssNo: function (data, callback) {
+        Estimate.aggregate(
+            [{
+                $group: {
+                    _id: '$assemblyNumber',
+                    versionDetail: {
+                        $push: {
+                            versionNumber: "$estimateVersion",
+                            _id: "$_id"
+                        }
+                    }
+                },
+            }]
+        ).exec(function (err, found) {
+            console.log('**** 111111111111 ****', found);
+            if (err) {
+                console.log('**** error at function_name of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                var temp = [];
+                var tempObj = {
+                    assemblyNumber: "",
+                    versionDetail: []
+                };
+                async.eachSeries(found, function (n, callback) {
+                    console.log('**** 22222222222222****', n);
+                    
+                    temp.push({                    
+                    assemblyNumber : n._id,
+                    versionDetail : n.versionDetail
+                    });
+                    callback();
+
+                }, function (err) {
+                    if (err) {
+                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                    } else {
+                        callback(null, temp);
+                    }
+                });
             }
         });
     },

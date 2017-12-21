@@ -34,8 +34,10 @@ var schema = new Schema({
     },
     totalCost: Number,
     remarks: String,
-
     processingObj: {},
+    estimateVersion: {
+        type: String,
+    },
 });
 
 schema.plugin(deepPopulate, {});
@@ -45,13 +47,56 @@ module.exports = mongoose.model('EstimateProcessing', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+    getVersionsOfProcessingNo: function (data, callback) {
+        EstimateProcessing.aggregate(
+            [{
+                $group: {
+                    _id: '$processingNumber',
+                    versionDetail: {
+                        $push: {
+                            versionNumber: "$estimateVersion",
+                            _id: "$_id"
+                        }
+                    }
+                },
+            }]
+        ).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                var temp = [];
+                var tempObj = {
+                    processingNumber: "",
+                    versionDetail: []
+                };
+                async.eachSeries(found, function (n, callback) {
+                    temp.push({
+                        processingNumber: n._id,
+                        versionDetail: n.versionDetail
+                    });
+                    callback();
+
+                }, function (err) {
+                    if (err) {
+                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                    } else {
+                        callback(null, temp);
+                    }
+                });
+            }
+        });
+    },
+
     importProcessing: function (data, callback) {
         data.lastProcessingNumber = data.lastProcessingNumber.replace(/\d+$/, function (n) {
             return ++n
         });
 
         EstimateProcessing.findOne({
-            processingNumber: data.processingNumber
+            _id: data._id
         }).lean().exec(function (err, found) {
 
             if (err) {
@@ -87,8 +132,8 @@ var model = {
 
     //-Get all estimate processing nos only from Estimate Processing table.
     getAllProcessingsNo: function (data, callback) {
-        EstimateProcessing.find({},{
-            processingNumber:1
+        EstimateProcessing.find({}, {
+            processingNumber: 1
         }).lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of EstimateProcessing.js ****', err);
