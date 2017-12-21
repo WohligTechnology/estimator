@@ -234,9 +234,6 @@ importSubAssembly: function (data, callback) {
             });
         }
     });
-}
-
-});
 },
 
 //-Get all sub Assembly records from Estimate Sub Assembly table.
