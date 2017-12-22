@@ -15,16 +15,24 @@
                         <div class="form-group">
                             <label class="col-md-5 control-label">Enter Part Id :</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-options="p.partNumber for p in partData" ng-model="partId" placeholder="Select Part Id"
+                                <select class="form-control" ng-options="p.partNumber for p in partData" ng-model="partObj" ng-change="getPartVersions(partObj)" placeholder="Select Part Id"
                                     autofocus required>
                                 </select>
                             </div>
                         </div>
                     </div>
+                    <div class="form-group" ng-hide="versionData == null">
+                        <label class="col-md-5 control-label">Select Version :</label>
+                        <div class="col-md-5">
+                            <select class="form-control" style="width: 215px;margin-left: 2px;" ng-options="v.versionNumber for v in versionData" ng-model="versionObj"
+                                autofocus required>
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-disabled="partId == null" ng-click="importPart(subAssId, partId.partNumber)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-disabled="versionObj == null" ng-click="importPart(subAssId, versionObj._id)">Save</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

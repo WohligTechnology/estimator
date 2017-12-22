@@ -71,17 +71,6 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
   }
   //- to bind customer data to formData
   $scope.setCustomerData = function (customerDataObj) {
-    console.log('**** inside setCustomerData of createOrEditEnquiryCtrl.js ****', $scope.formData);
-    // $scope.formData.enquiryDetails = {
-    //   customerLocation:"",
-    //   customerId:"",
-    //   customerName:""
-    // }
-
-    // $scope.formData.commercialRequirement = {
-    //   paymentTerms:""
-    // }
-
     $scope.formData.enquiryDetails.customerLocation = customerDataObj.location;
     $scope.formData.customerId = customerDataObj._id;
     $scope.formData.enquiryDetails.customerName = customerDataObj.customerName;
@@ -95,12 +84,11 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
   $scope.saveAssemblyNameModal = function (enquiryId) {
     $scope.enquiryId = enquiryId;
     //- get assembly name to create 
-    createOrEditEnquiryService.getAllAssemblyNumbers(function (data) {
+    createOrEditEnquiryService.getVersionsOfAssNo(function (data) {
       $scope.assemblyData = data;
-      $scope.assemblyName = '';
-      $scope.version = '';
-      $scope.assemlyId = null;
+      $scope.assemblyName = null;
       $scope.versionData = null;
+      $scope.versionObj = null;
       $scope.modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'views/content/enquiry/enquiryModal/getAssemblyName.html',
@@ -110,10 +98,8 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     });
   }
   //- get all estimate versions for particular assembly number
-  $scope.getAllEstimateVersionOnAssemblyNo = function (assemblyNumber) {
-    createOrEditEnquiryService.getAllEstimateVersionOnAssemblyNo(assemblyNumber, function (data) {
-      $scope.versionData = data;      
-    });
+  $scope.getAssemblyVersionData = function (assemblyObj) {
+      $scope.versionData = assemblyObj.versionDetail;
   }
   //- create new assembly
   $scope.saveAssemblyName = function (assName, enquiryId) {
@@ -124,8 +110,8 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     });
   }
   //- import assembly
-  $scope.importAssembly = function (assemblyNumber, versionNo) {
-    createOrEditEnquiryService.getImportAssemblyData(assemblyNumber, versionNo, function (data) {
+  $scope.importAssembly = function (assemblyId) {
+    createOrEditEnquiryService.getImportAssemblyData(assemblyId, function (data) {
       $state.go('app.createEstimate', {
         'estimateId': data._id,
       });

@@ -15,8 +15,16 @@
                         <div class="form-group">
                             <label class="col-md-5 control-label">Enter Processing Id :</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-options="e.processingNumber for e in itemData" ng-model="itemId" placeholder="Select Extra Id"
+                                <select class="form-control" ng-options="e.processingNumber for e in itemData" ng-model="itemId" ng-change="getProcessingVersions(itemId)" placeholder="Select Extra Id"
                                     autofocus required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="versionData == null">
+                            <label class="col-md-5 control-label">Select Version :</label>
+                            <div class="col-md-5">
+                                <select class="form-control" style="width: 215px;margin-left: 2px;" ng-options="v.versionNumber for v in versionData" ng-model="versionObj"
+                                   autofocus required>
                                 </select>
                             </div>
                         </div>
@@ -24,7 +32,7 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-disabled="itemId == null" ng-click="importProcessing(itemId.processingNumber, level, subAssemblyId, partId)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-disabled="versionObj == null" ng-click="importProcessing(versionObj._id, level, subAssemblyId, partId)">Save</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
