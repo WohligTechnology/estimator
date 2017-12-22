@@ -96,7 +96,7 @@
                                                                 </li>
                                                                 <li>
                                                                     <span ng-click="getEstimateView('extras', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Extras ({{p.extras.length}})</span>
-                                                                    <span ng-click="addItemModal('Extra', 'part', sa.subAssemblyNumber, p.partNumber)" class="partAdd">
+                                                                    <span ng-click="addOrEditExtraModal('save', 'part', sa.subAssemblyNumber, p.partNumber)" class="partAdd">
                                                                         <i class="fa fa-plus btn-info" title="Add Extra"></i>
                                                                     </span>
                                                                 </li>
@@ -116,7 +116,7 @@
                                                         </li>
                                                         <li>
                                                             <span ng-click="getEstimateView('extras', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Extras ({{sa.extras.length}})</span>
-                                                            <span ng-click="addItemModal('Extra', 'subAssembly', sa.subAssemblyNumber)" class="subAssemblyAdd">
+                                                            <span ng-click="addOrEditExtraModal('save', 'subAssembly', sa.subAssemblyNumber)" class="subAssemblyAdd">
                                                                 <i class="fa fa-plus btn-info" title="Add Extra"></i>
                                                             </span>
                                                         </li>
@@ -136,7 +136,7 @@
                                                 </li>
                                                 <li>
                                                     <span ng-click="getEstimateView('extras', 'assembly')" class="tree_label">Extras ({{estimteData.extras.length}})</span>
-                                                    <span ng-click="addItemModal('Extra', 'assembly')" class="assemblyAdd">
+                                                    <span ng-click="addOrEditExtraModal('save', 'assembly')" class="assemblyAdd">
                                                         <i class="fa fa-plus btn-info" title="Add Extra"></i>
                                                     </span>
                                                 </li>

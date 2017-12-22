@@ -37,9 +37,9 @@ var controller = {
             })
         }
     },
-    getVersionsOfExtrassNo: function (req, res) {
+    getVersionsOfExtrasNo: function (req, res) {
         if (req.body) {
-            EstimateExtras.getVersionsOfExtrassNo(req.body, res.callback);
+            EstimateExtras.getVersionsOfExtrasNo(req.body, res.callback);
         } else {
             res.json({
                 value: false,
