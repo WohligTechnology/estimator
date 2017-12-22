@@ -642,52 +642,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
 
 
-
-  //- to add Extra at assembly or subssembly or at partLevel
-  $scope.addExtra = function (extraData, level, subAssemblyId, partId) {
-    createOrEditEstimateService.createExtra(extraData, level, subAssemblyId, partId, function () {
-      $scope.getEstimateView('extras', level, subAssemblyId, partId);
-      toastr.info('Extra added successfully', 'Extra Creation!');
-      $scope.cancelModal();
-    });
-  }
-  //- to edit Extra at assembly or subssembly or at partLevel
-  $scope.editExtra = function () {
-    $scope.getCurretEstimateObj();
-    toastr.info('Extra updated successfully', 'Extra Updation!');
-    $scope.cancelModal();
-  }
-  //- to delete Extra
-  $scope.deleteExtra = function (extraId, level, subAssemblyId, partId) {
-    createOrEditEstimateService.deleteExtra(extraId, level, subAssemblyId, partId, function () {
-      toastr.info('Extra deleted successfully', 'Extra Deletion!');
-      $scope.getEstimateView('extras', level, subAssemblyId, partId);
-      $scope.cancelModal();
-    });
-  }
-  //- to delete bulk extras
-  $scope.deleteMultipleExtras = function (extraId, level, subAssId, partId) {
-    createOrEditEstimateService.deleteMultipleExtras(level, extraId, subAssId, partId, function () {
-      $scope.bulkItems = [];
-      $scope.checkAll = false;
-      $scope.checkboxStatus = false;
-
-      $scope.getEstimateView('extras', level, subAssId, partId);
-      $scope.cancelModal();
-      toastr.info('Extras deleted successfully', 'Extra Deletion!');
-    });
-  }
-  //- Import Extra
-  $scope.importExtra = function (extraId, level, subAssemblyId, partId) {
-    createOrEditEstimateService.getImportExtraData(extraId, level, subAssemblyId, partId, function () {
-      $scope.getCurretEstimateObj();
-      toastr.info('Extra imported successfully');
-      $scope.cancelModal();
-    });
-  }
-
-
-
   //- modal to add or edit custom material
   $scope.addOrEditCustomMaterialModal = function (operation, customMaterial) {
     $scope.arr = [];
@@ -1162,6 +1116,35 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.updateExtra(extraObj, level, subAssemblyId, partId, extraId, function (data) {
       $scope.getCurretEstimateObj();
       toastr.info('Extra updated successfully', 'Extra Updation!');
+      $scope.cancelModal();
+    });
+  }
+
+   //- to delete Extra
+   $scope.deleteExtra = function (extraId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.deleteExtra(extraId, level, subAssemblyId, partId, function () {
+      toastr.info('Extra deleted successfully', 'Extra Deletion!');
+      $scope.getEstimateView('extras', level, subAssemblyId, partId);
+      $scope.cancelModal();
+    });
+  }
+  //- to delete bulk extras
+  $scope.deleteMultipleExtras = function (extraId, level, subAssId, partId) {
+    createOrEditEstimateService.deleteMultipleExtras(level, extraId, subAssId, partId, function () {
+      $scope.bulkItems = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+
+      $scope.getEstimateView('extras', level, subAssId, partId);
+      $scope.cancelModal();
+      toastr.info('Extras deleted successfully', 'Extra Deletion!');
+    });
+  }
+  //- Import Extra
+  $scope.importExtra = function (extraId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.getImportExtraData(extraId, level, subAssemblyId, partId, function () {
+      $scope.getCurretEstimateObj();
+      toastr.info('Extra imported successfully');
       $scope.cancelModal();
     });
   }
