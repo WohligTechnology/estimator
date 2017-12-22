@@ -34,7 +34,7 @@ module.exports = mongoose.model('EstimateExtras', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
-    getVersionsOfExtrassNo: function (data, callback) {
+    getVersionsOfExtrasNo: function (data, callback) {
         EstimateExtras.aggregate(
             [{
                 $group: {

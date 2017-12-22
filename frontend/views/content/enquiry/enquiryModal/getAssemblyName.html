@@ -18,7 +18,7 @@
                         <div class="form-group">
                             <label class="col-md-5 control-label">Enter Assembly Name :</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-disabled="assemlyId != null" placeholder="Enter Assembly Name" ng-model="assemblyName"
+                                <input type="text" class="form-control" ng-disabled="assemlyObj != null" placeholder="Enter Assembly Name" ng-model="assemblyName"
                                     autofocus>
                             </div>
                         </div>
@@ -26,10 +26,9 @@
                     <div class="form-group">
                         <label class="col-md-5 control-label">Import Assembly :</label>
                         <div class="col-md-5">
-                            <select class="form-control" style="width: 215px;margin-left: 5px;" ng-disabled="assemblyName.length != 0" ng-model="assemlyId"
-                                placeholder="Select Assembly Id" ng-change="getAllEstimateVersionOnAssemblyNo(assemlyId)" autofocus
+                            <select class="form-control" style="width: 215px;margin-left: 5px;" ng-options="a.assemblyNumber for a in assemblyData" ng-disabled="assemblyName != null" ng-model="assemlyObj"
+                                ng-change="getAssemblyVersionData(assemlyObj)" autofocus
                                 required>
-                                <option ng-repeat="a in assemblyData">{{a}}</option>
                             </select>
                         </div>
                         <br>
@@ -37,7 +36,7 @@
                         <div class="form-group" ng-hide="versionData == null">
                             <label class="col-md-5 control-label">Select Version :</label>
                             <div class="col-md-5">
-                                <select class="form-control" style="width: 215px;margin-left: 6px;" ng-options="v.estimateVersion for v in versionData" ng-model="version"
+                                <select class="form-control" style="width: 215px;margin-left: 6px;" ng-options="v.versionNumber for v in versionData" ng-model="versionObj"
                                     placeholder="Select Assembly Id" autofocus required>
                                 </select>
                             </div>
@@ -46,8 +45,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-hide="assemblyName.length == 0" ng-click="saveAssemblyName(assemblyName,enquiryId)">Save</button>
-                                <button type="submit" ng-hide="assemlyId == null" class="btn btn-circle green" ng-click="importAssembly(assemlyId, version.estimateVersion)">Add</button>
+                                <button type="submit" class="btn btn-circle green" ng-hide="assemblyName == null" ng-click="saveAssemblyName(assemblyName,enquiryId)">Save</button>
+                                <button type="submit" ng-hide="versionObj == null" class="btn btn-circle green" ng-click="importAssembly(versionObj._id)">Add</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
