@@ -185,9 +185,30 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		// }
 	}
 	//- to set a view of the page
-	this.estimateView = function (estimateView, callback) {
-		getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
-		callback(getEstimateView);
+	this.estimateView = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
+		var checkAccess = 0;
+		if (estimateView == 'processing' || estimateView == 'addons' || estimateView == 'extras') {
+			if (getLevelName == "assembly") {
+				var tempObj = formData.assembly.keyValueCalculations;
+			} else if (getLevelName == "subAssembly") {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var tempObj = formData.assembly.subAssemblies[subAssIndex].keyValueCalculations;
+			} else if (getLevelName == "part") {
+
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var partIndex = this.getPartIndex(subAssIndex, partId);
+				var tempObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
+			}
+			if ((isNaN(parseFloat(tempObj.perimeter))) && (isNaN(parseFloat(tempObj.sheetMetalArea))) && (isNaN(parseFloat(tempObj.surfaceArea))) && (isNaN(parseFloat(tempObj.weight)))) {
+				checkAccess += 1;
+			}
+		}
+		if (checkAccess == 0) {
+			getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
+			callback(getEstimateView);
+		} else {
+			callback('restrictUser');
+		}
 	}
 	//- to get a view of the page
 	this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
@@ -348,6 +369,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 
 	}
+	this.updateAllCalculations = function (obj, subAssNumber, partNumber) {
+
+	}
 	//- to save current estimate object
 	this.saveCurrentEstimate = function () {
 		NavigationService.apiCall('DraftEstimate/save', formData.assembly, function (data) {
@@ -410,6 +434,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempSubAssObj = _.cloneDeep(subAssembly);
 		tempSubAssObj.subAssemblyNumber = formData.assembly.assemblyNumber + "SA" + id;
 		tempSubAssObj.subAssemblyName = subAssObj.subAssemblyName;
+		var tempObj = { 
+			perimeter: "",
+			sheetMetalArea: "",
+			surfaceArea: "",
+			weight: ""
+		}
+		formData.assembly.keyValueCalculations = tempObj; 
 		formData.assembly.subAssemblies.push(tempSubAssObj);
 		callback();
 	}
@@ -459,7 +490,14 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempPartObj = _.cloneDeep(part);
 		tempPartObj.partNumber = subAssId + 'PT' + id;
 		tempPartObj.partName = partObj.partName;
-
+		var tempObj = { 
+			perimeter: "",
+			sheetMetalArea: "",
+			surfaceArea: "",
+			weight: ""
+		}
+		formData.assembly.keyValueCalculations = tempObj;
+		formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = tempObj; 
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(tempPartObj);
 		callback();
 	}
@@ -622,67 +660,84 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (level == 'subAssembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly			
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			var count =  formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.length;
+			var count = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.length;
 			var tempObj = {
 				perimeter: 0,
 				sheetMetalArea: 0,
 				surfaceArea: 0,
 				weight: 0
 			};
+			//- to check access permission
+			var temp = 0;
 			var calculationsObj = formData.assembly.subAssemblies[subAssIndex].keyValueCalculations;
+			debugger;
 			angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts,  function (record) {
-				if (record.keyValueCalculations.perimeter != "" && record.keyValueCalculations.perimeter != NaN) {
+				if (!isNaN(parseFloat(record.keyValueCalculations.perimeter))) {
 					tempObj.perimeter += parseFloat(record.keyValueCalculations.perimeter);
+					temp += 1;
 				}
-				if (record.keyValueCalculations.sheetMetalArea != "" && record.keyValueCalculations.sheetMetalArea != NaN) {
+				if (!isNaN(parseFloat(record.keyValueCalculations.sheetMetalArea))) {
 					tempObj.sheetMetalArea += parseFloat(record.keyValueCalculations.sheetMetalArea);
+					temp += 1;
 				}
-				if (record.keyValueCalculations.surfaceArea != "" && record.keyValueCalculations.surfaceArea != NaN) {
+				if (!isNaN(parseFloat(record.keyValueCalculations.surfaceArea))) {
 					tempObj.surfaceArea += parseFloat(record.keyValueCalculations.surfaceArea);
+					temp += 1;
 				}
-				if (record.keyValueCalculations.weight != "" && record.keyValueCalculations.weight != NaN) {
+				if (!isNaN(parseFloat(record.keyValueCalculations.weight))) {
 					tempObj.weight += parseFloat(record.keyValueCalculations.weight);
+					temp += 1;
 				}
 			});
-			calculationsObj.perimeter = tempObj.perimeter / count;
-			calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
-			calculationsObj.surfaceArea = tempObj.surfaceArea / count;
-			calculationsObj.weight = tempObj.weight / count;
-			
-			partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = calculationsObj;
-			formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = calculationsObj;
+			if (temp != 0) {
+				calculationsObj.perimeter = tempObj.perimeter / count;
+				calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
+				calculationsObj.surfaceArea = tempObj.surfaceArea / count;
+				calculationsObj.weight = tempObj.weight / count;
+
+				partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = calculationsObj;
+				formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = calculationsObj;
+			}
 		} else if (level == 'assembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
 			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation
-			var count =  formData.assembly.subAssemblies.length;
+			var count = formData.assembly.subAssemblies.length;
 			var tempObj = {
 				perimeter: 0,
 				sheetMetalArea: 0,
 				surfaceArea: 0,
 				weight: 0
 			};
+			//- to check access permission
+			var temp = 0;
 			var calculationsObj = formData.assembly.keyValueCalculations;
 			angular.forEach(formData.assembly.subAssemblies,  function (record) {
-				if (record.keyValueCalculations.perimeter != "" && record.keyValueCalculations.perimeter != NaN) {
+				if (!isNaN(parseFloat(record.keyValueCalculations.perimeter))) {
 					tempObj.perimeter += parseFloat(record.keyValueCalculations.perimeter);
+					temp += 1;
 				}
-				if (record.keyValueCalculations.sheetMetalArea != "" && record.keyValueCalculations.sheetMetalArea != NaN) {
+				if (!isNaN(parseFloat(record.keyValueCalculations.sheetMetalArea))) {
 					tempObj.sheetMetalArea += parseFloat(record.keyValueCalculations.sheetMetalArea);
+					temp += 1;
 				}
-				if (record.keyValueCalculations.surfaceArea != "" && record.keyValueCalculations.surfaceArea != NaN) {
+				if (!isNaN(parseFloat(record.keyValueCalculations.surfaceArea))) {
 					tempObj.surfaceArea += parseFloat(record.keyValueCalculations.surfaceArea);
+					temp += 1;
 				}
-				if (record.keyValueCalculations.weight != "" && record.keyValueCalculations.weight != NaN) {
+				if (!isNaN(parseFloat(record.keyValueCalculations.weight))) {
 					tempObj.weight += parseFloat(record.keyValueCalculations.weight);
+					temp += 1;
 				}
-			});		
-			calculationsObj.perimeter = tempObj.perimeter / count;
-			calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
-			calculationsObj.surfaceArea = tempObj.surfaceArea / count;
-			calculationsObj.weight = 	tempObj.weight / count;
-			partProcessingObj.linkedKeyValuesAtAssemblyCalculation = calculationsObj;
-			formData.assembly.keyValueCalculations = calculationsObj;
+			});
+			if (temp != 0) {
+				calculationsObj.perimeter = tempObj.perimeter / count;
+				calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
+				calculationsObj.surfaceArea = tempObj.surfaceArea / count;
+				calculationsObj.weight = tempObj.weight / count;
+				partProcessingObj.linkedKeyValuesAtAssemblyCalculation = calculationsObj;
+				formData.assembly.keyValueCalculations = calculationsObj;
+			}
 		}
 
 		//- to get part index to update it
@@ -709,11 +764,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				callback(partProcessingObj);
 			} else if (operation == 'update') {
 
-				
+
 				NavigationService.apiCall('MProcessType/getProcessTypeItem', {
 					_id: tempProcessingObj.processType._id
 				}, function (selecetdProcessItem) {
-	
+
 					partProcessingObj.processingNumber = tempProcessingObj.processingNumber;
 					partProcessingObj.processingTypeData = proTypeData.data;
 					partProcessingObj.processingItemData = selecetdProcessItem.data.processItems;
@@ -779,11 +834,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback();
 	}
 	//- edit/update created processing 
-	this.updateProcessing = function(processingData, level, subAssemblyId, partId, callback){
+	this.updateProcessing = function (processingData, level, subAssemblyId, partId, callback) {
 		var id;
 		if (level == 'assembly') {
 			var getProcessingIndex = this.getProcessIndex(processingData.processingNumber);
-			var tempProcessOject = formData.assembly.processing[getProcessingIndex];			
+			var tempProcessOject = formData.assembly.processing[getProcessingIndex];
 		} else if (level == 'subAssembly') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var getProcessingIndex = this.getProcessIndex(processingData.processingNumber, subAssIndex);
@@ -794,28 +849,28 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var getProcessingIndex = this.getProcessIndex(processingData.processingNumber, subAssIndex, partIndex);
 			var tempProcessOject = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex];
 		}
-			tempProcessOject.processType = processingData.processType;
-			tempProcessOject.processItem = processingData.processItem;
-			tempProcessOject.rate = processingData.rate;
-			tempProcessOject.quantity = {
-			  linkedKeyValue: {
-				keyVariable: processingData.quantity.linkedKeyValue.keyVariable,
-				keyValue: processingData.quantity.linkedKeyValue.keyValue
-			  },
-			  totalQuantity: processingData.quantity.totalQuantity,
-			  utilization: processingData.quantity.utilization,
-			  contengncyOrWastage: processingData.quantity.contengncyOrWastage
+		tempProcessOject.processType = processingData.processType;
+		tempProcessOject.processItem = processingData.processItem;
+		tempProcessOject.rate = processingData.rate;
+		tempProcessOject.quantity = {
+				linkedKeyValue: {
+					keyVariable: processingData.quantity.linkedKeyValue.keyVariable,
+					keyValue: processingData.quantity.linkedKeyValue.keyValue
+				},
+				totalQuantity: processingData.quantity.totalQuantity,
+				utilization: processingData.quantity.utilization,
+				contengncyOrWastage: processingData.quantity.contengncyOrWastage
 			},
 			tempProcessOject.remark = processingData.remark;
-			tempProcessOject.totalCost = processingData.totalCost;
-		
-			if (level == 'assembly') {
-				formData.assembly.processing[getProcessingIndex] = tempProcessOject;
-			} else if (level == 'subAssembly') {
-				formData.assembly.subAssemblies[subAssIndex].processing[getProcessingIndex] = tempProcessOject;
-			} else if (level == 'part') {
-				formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex] = tempProcessOject;
-			}	
+		tempProcessOject.totalCost = processingData.totalCost;
+
+		if (level == 'assembly') {
+			formData.assembly.processing[getProcessingIndex] = tempProcessOject;
+		} else if (level == 'subAssembly') {
+			formData.assembly.subAssemblies[subAssIndex].processing[getProcessingIndex] = tempProcessOject;
+		} else if (level == 'part') {
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex] = tempProcessOject;
+		}
 		callback();
 	}
 	//- to delete a processing
@@ -937,7 +992,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		bulkArray = [];
 		callback();
 	}
-	
+
 	//- to get customer data
 	this.getCustomMaterialModalData = function (operation, customMaterial, callback) {
 		var custMaterialDataObj = {}
@@ -964,8 +1019,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 
 
-	this.getAddonTypeData = function (callback) {
-	}
+	this.getAddonTypeData = function (callback) {}
 
 	//- to get index of subAssId
 	this.getSubAssemblyIndex = function (subAssId) {
@@ -1158,7 +1212,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 
 	//- to import subAssembly
-	 this.getImportSubAssemblyData = function (subAssId, callback) {
+	this.getImportSubAssemblyData = function (subAssId, callback) {
 		temp = _.last(formData.assembly.subAssemblies).subAssemblyNumber;
 		tempObj = {
 			_id: subAssId,
@@ -1170,7 +1224,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			formData.assembly.subAssemblies.push(subAssObj);
 			callback();
 		});
-	 }
+	}
 	//- to import part
 	this.getImportPartData = function (subAssNumber, partId, callback) {
 		var subAssIndex = this.getSubAssemblyIndex(subAssNumber);
@@ -1438,18 +1492,17 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	//**********************************extra ***********************************************
 
-	this.getExtraModalData = function(operation, level, subAssemblyId, partId, extraId, callback){
+	this.getExtraModalData = function (operation, level, subAssemblyId, partId, extraId, callback) {
 		var extraObj = {
 			selecetdExtraItem: {},
 			allExtraItem: [],
 			quantity: 1,
 			remark: "",
 			totalCost: "",
-			rate:"",
+			rate: "",
 			uom: ""
 		};
-		if (operation == 'update')  {
-			;
+		if (operation == 'update') {;
 			if (level == 'assembly') {
 				var extraIndex = this.getExtraIndex(extraId);
 				var tempExtraObj = formData.assembly.extras[extraIndex];
@@ -1469,16 +1522,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 			if (operation == 'save') {
 				extraObj.allExtraItem = data.data;
-			} else {
-				;
+			} else {;
 				extraObj.allExtraItem = data.data;
 				extraObj.extraItem = tempExtraObj.extraItem,
-				extraObj.extraNumber = tempExtraObj.extraNumber,
-				extraObj.totalCost = tempExtraObj.totalCost,
-				extraObj.remark = tempExtraObj.remark,
-				extraObj.quantity = tempExtraObj.quantity,
-				extraObj.rate = tempExtraObj.rate,
-				extraObj.uom = tempExtraObj.uom
+					extraObj.extraNumber = tempExtraObj.extraNumber,
+					extraObj.totalCost = tempExtraObj.totalCost,
+					extraObj.remark = tempExtraObj.remark,
+					extraObj.quantity = tempExtraObj.quantity,
+					extraObj.rate = tempExtraObj.rate,
+					extraObj.uom = tempExtraObj.uom
 			}
 			callback(extraObj);
 		});
@@ -1500,7 +1552,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var extraIndex = this.getExtraIndex(extraObj.extraNumber, subAssIndex, partIndex);
 			var tempExtraObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras[extraIndex];
 		}
-			tempExtraObj.extraItem = extraObj.selectedExtraItem.extraName,
+		tempExtraObj.extraItem = extraObj.selectedExtraItem.extraName,
 			tempExtraObj.extraNumber = extraObj.extraNumber,
 			tempExtraObj.totalCost = extraObj.totalCost,
 			tempExtraObj.remark = extraObj.remark,
