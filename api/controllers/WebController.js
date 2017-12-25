@@ -54,9 +54,10 @@ module.exports = {
             res.send(view);
         });
     },
+
     delRestrictions: function (req, res) {
+        callback = res.callback;
         var modelName = req.url.split("/").pop();
-        console.log('**** !!!!!!!!!! ****', modelName);
 
         if (modelName == 'Customer') {
             var myModel = [{
@@ -344,69 +345,68 @@ module.exports = {
                 }
             ]
         }
-        console.log('****111111111111****', myModel);
         allDependency = [];
-        async.eachSeries(myModel, function (m, callback) {
-                i = 0;
-                async.eachSeries(m.fieldName, function (f, callback) {
-                        console.log('****@@@@@@@@@@@@@@@@@@ ****', m.models);
-                        this[m.models].find({
-                            [f]: req.body.idsArray
-                            // [f]: {
-                            //     $in: req.body.idsArray
-                            // }
-                        }).select('_id').lean().exec(function (err, found) {
-                            console.log('****&&&&&&&&&&&&& ****', i);
-                            i++;
-                            console.log('****%%%%%%%%% ****', [f]);                            
-                            if (err) {
-                                console.log('**** error at delRestrictions ****', err);
-                                res.callback(err, null);
-                            } else if (_.isEmpty(found)) {
-                                // console.log('****no dependency of the table ' + m.models);
-                                res.callback(null, []);
-                            } else {
-                                var tablesDependency = {
-                                    model: m.models,
-                                    fieldName: f,
-                                    _id: found._id
-                                };
-                                console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
-                                allDependency.push(tablesDependency); 
-                                res.callback(null,tablesDependency);                                
-                            }
-                        });
+        async.eachSeries(req.body.idsArray, function (ids, callback) {
+                async.eachSeries(myModel, function (m, callback) {
+                        async.eachSeries(m.fieldName, function (f, callback) {
+                                this[m.models].findOne({
+                                    [f]: ids
+                                }).select('_id').lean().exec(function (err, found) {
+                                    if (err) {
+                                        console.log('**** error at delRestrictions ****', err);
+                                        callback(err, null);
+                                    } else if (_.isEmpty(found)) {
+                                        // console.log('****no dependency of the table ' + m.models);
+                                        callback(null, []);
+                                    } else {
+                                        allDependency.push({
+                                            model: m.models,
+                                            fieldName: f,
+                                            _id: found,
+                                            for_id: ids
+                                        });
+                                        // console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
+                                        callback();
+                                    }
+                                });
+                            },
+                            function (err) {
+                                if (err) {
+                                    console.log('***** error at final response of async.eachSeries in function_name of MMaterial.js*****', err);
+                                } else {
+                                    callback();
+                                }
+                            });
                     },
                     function (err) {
                         if (err) {
-                            res.callback('***** error at final response of async.eachSeries in function_name of MMaterial.js*****', err);
+                            console.log('**** error at delRestrictions ****', err);
                         } else {
-                            res.callback();
+                            if (_.isEmpty(allDependency)) {
+                                this[modelName].find({
+                                    _id: ids
+                                }).lean().exec(function (err, found1) {
+                                    console.log('**** 111111111111111111 ****',found1);
+                                    if (err) {
+                                        console.log('**** error at function_name of MMaterial.js ****', err);
+                                        callback(err, null);
+                                    } else if (_.isEmpty(found1)) {
+                                        callback(null, []);
+                                    } else {
+                                        callback(null, found1);
+                                    }
+                                });
+                            } else {
+                                callback();
+                            }
                         }
                     });
             },
             function (err) {
                 if (err) {
-                    res.callback('**** error at delRestrictions ****', err);
-                } else if (_.isEmpty(allDependency)) {
-                    console.log('************************ ****', modelName);
-                    this[modelName].find({
-                        _id: req.body.idsArray
-                        // _id: {
-                        //     $in: req.body.idsArray
-                        // }
-                    }).exec(function (err, found) {
-                        if (err) {
-                            console.log('**** error at function_name of MMaterial.js ****', err);
-                            res.callback(err, null);
-                        } else if (_.isEmpty(found)) {
-                            res.callback(null, []);
-                        } else {
-                            res.callback(null, found);
-                        }
-                    });
+                    console.log('***** error at final response of async.eachSeries in function_name of WebController.js*****', err);
                 } else {
-                    res.callback(null, allDependency);
+                    callback(null, allDependency);
                 }
             });
     },
@@ -423,11 +423,11 @@ module.exports = {
             }).exec(function (err, found) {
                 if (err) {
                     console.log('**** error at deleteMultipleMaterials of Material.js ****', err);
-                    res.callback(err, null);
+                    callback(err, null);
                 } else if (_.isEmpty(found)) {
-                    res.callback(null, 'no data found');
+                    callback(null, 'no data found');
                 } else {
-                    res.callback(null, found);
+                    callback(null, found);
                 }
             });
         } else {
@@ -439,5 +439,4 @@ module.exports = {
             })
         }
     },
-
 };

@@ -74,66 +74,70 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to get all views of createOrEdit estimate screen dynamically 
   $scope.getEstimateView = function (getViewName, getLevelName, subAssemblyId, partId) {
 
-    createOrEditEstimateService.estimateView(getViewName, function (data) {
-      $scope.estimateView = data;
-    });
+    createOrEditEstimateService.estimateView(getViewName, getLevelName, subAssemblyId, partId, function (data) {
+      if (data == 'restrictUser') {
+        toastr.warning('You cannot able to access it now');
+      } else {
+        $scope.estimateView = data;
 
-    createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
-        if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
+        createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
+          if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
 
-          $scope.estimatePartObj.allShortcuts = data.allShortcuts;
-          $scope.estimatePartObj.allPartTypes = data.allPartTypes;
-          $scope.estimatePartObj.subAssNumber = data.subAssNumber;
-          $scope.estimatePartObj.partNumber = data.partNumber;
+            $scope.estimatePartObj.allShortcuts = data.allShortcuts;
+            $scope.estimatePartObj.allPartTypes = data.allPartTypes;
+            $scope.estimatePartObj.subAssNumber = data.subAssNumber;
+            $scope.estimatePartObj.partNumber = data.partNumber;
 
 
-          //- here data.partUpdateStatus will be true when admin will update all part calculation data
-          //- so, we can get all the data from formData.assembly of createOrEditEstimateService & bind it with  $scope.estimatePartObj
-          if (data.partUpdateStatus) {
-            $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
-            // $scope.estimatePartObj.allSizes = data.allShortcuts;
-            $scope.estimatePartObj.selectedShortcut = data.selectedShortcut;
-            $scope.estimatePartObj.selectedPartType = data.selectedPartType;
-            $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
-            $scope.estimatePartObj.selectedSize = data.selectedSize;
-            $scope.disablePartFields.displayPresetSize = true;
-            $scope.disablePartFields.disableCustomMaterial = true;
+            //- here data.partUpdateStatus will be true when admin will update all part calculation data
+            //- so, we can get all the data from formData.assembly of createOrEditEstimateService & bind it with  $scope.estimatePartObj
+            if (data.partUpdateStatus) {
+              $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
+              // $scope.estimatePartObj.allSizes = data.allShortcuts;
+              $scope.estimatePartObj.selectedShortcut = data.selectedShortcut;
+              $scope.estimatePartObj.selectedPartType = data.selectedPartType;
+              $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
+              $scope.estimatePartObj.selectedSize = data.selectedSize;
+              $scope.disablePartFields.displayPresetSize = true;
+              $scope.disablePartFields.disableCustomMaterial = true;
 
-            $scope.estimatePartObj.customMaterials = data.customMaterials;
-            $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
+              $scope.estimatePartObj.customMaterials = data.customMaterials;
+              $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
 
-            if (data.quantity) {
-              $scope.estimatePartObj.quantity = data.quantity;
-            } else {
-              $scope.estimatePartObj.quantity = 1;
+              if (data.quantity) {
+                $scope.estimatePartObj.quantity = data.quantity;
+              } else {
+                $scope.estimatePartObj.quantity = 1;
+              }
+
+              $scope.estimatePartObj.variables = data.variable;
+              $scope.estimatePartObj.shapeImage = data.shapeImage;
+              $scope.estimatePartObj.shapeIcon = data.shapeIcon;
+              $scope.estimatePartObj.processingCount = data.processingCount;
+              $scope.estimatePartObj.addonCount = data.addonCount;
+              $scope.estimatePartObj.extraCount = data.extraCount;
+              $scope.estimatePartObj.partName = data.partName;
+              $scope.estimatePartObj.scaleFactor = data.scaleFactor;
+
+              $scope.estimatePartObj.keyValueCalculations.perimeter = data.keyValueCalculations.perimeter;
+              $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = data.keyValueCalculations.sheetMetalArea;
+              $scope.estimatePartObj.keyValueCalculations.surfaceArea = data.keyValueCalculations.surfaceArea;
+              $scope.estimatePartObj.keyValueCalculations.weight = data.keyValueCalculations.weight;
+
+              $scope.estimatePartObj.finalCalculation.materialPrice = data.finalCalculation.materialPrice;
+              $scope.estimatePartObj.finalCalculation.itemUnitPrice = data.finalCalculation.itemUnitPrice;
+              $scope.estimatePartObj.finalCalculation.totalCostForQuantity = data.finalCalculation.totalCostForQuantity;
+
             }
 
-            $scope.estimatePartObj.variables = data.variable;
-            $scope.estimatePartObj.shapeImage = data.shapeImage;
-            $scope.estimatePartObj.shapeIcon = data.shapeIcon;
-            $scope.estimatePartObj.processingCount = data.processingCount;
-            $scope.estimatePartObj.addonCount = data.addonCount;
-            $scope.estimatePartObj.extraCount = data.extraCount;
-            $scope.estimatePartObj.partName = data.partName;
-            $scope.estimatePartObj.scaleFactor = data.scaleFactor;
+          } else {
 
-            $scope.estimatePartObj.keyValueCalculations.perimeter = data.keyValueCalculations.perimeter;
-            $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = data.keyValueCalculations.sheetMetalArea;
-            $scope.estimatePartObj.keyValueCalculations.surfaceArea = data.keyValueCalculations.surfaceArea;
-            $scope.estimatePartObj.keyValueCalculations.weight = data.keyValueCalculations.weight;
-
-            $scope.estimatePartObj.finalCalculation.materialPrice = data.finalCalculation.materialPrice;
-            $scope.estimatePartObj.finalCalculation.itemUnitPrice = data.finalCalculation.itemUnitPrice;
-            $scope.estimatePartObj.finalCalculation.totalCostForQuantity = data.finalCalculation.totalCostForQuantity;
-
+            $scope.level = getLevelName;
+            $scope.estimateViewData = data;
+            $scope.bulkItems = [];
           }
-
-        } else {
-
-          $scope.level = getLevelName;
-          $scope.estimateViewData = data;
-          $scope.bulkItems = [];
-        }
+        });
+      }
     });
   }
 
@@ -309,15 +313,24 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //   }
   // }, true);
 
-  //- to alert user before refreshing the page
-  $scope.$watch('estimteData', function (newValue, oldValue) {
+    //- to alert user before refreshing the page
+    $scope.$watch('estimteData', function (newValue, oldValue) {
+      if (oldValue != undefined) {
+        if (newValue != oldValue) {
+          $scope.changesCounter += 1;
+        }
+      }
+    }, true);
+  //- to update all calculations at processing, addons & extras 
+    $scope.$watch('estimatePartObj.keyValueCalculations', function (newValue, oldValue) {
     if (oldValue != undefined) {
-      if (newValue != oldValue) {
-        $scope.changesCounter += 1;
+      if (newValue != oldValue) {        
+        // createOrEditEstimateService.updateAllCalculations(newValue, $scope.estimatePartObj.subAssNumber, $scope.estimatePartObj.partNumber, function(data) {
+
+        // });
       }
     }
   }, true);
-
   //- to ask user to save changes before redirecting
   $scope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
     if (fromState.name == 'app.createEstimate' && $scope.changesCounter > '0') {
@@ -856,35 +869,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     //- get required data to add processing
     createOrEditEstimateService.getProcessingModalData(operation, level, subAssemblyId, partId, processingId, function (data) {
-      if (operation == 'save') {
-        //- get required data to add processing
-        $scope.partProcessingObj.processingTypeData = data.processingTypeData;
-        $scope.showSaveBtn = true;
-        $scope.showEditBtn = false;
-      } else if ('update') {
-        $scope.partProcessingObj.processingTypeData = data.processingTypeData;
-        $scope.partProcessingObj.processingItemData = data.processingItemData;
-        $scope.partProcessingObj.selectedProcessingType = data.selectedProcessingType;
-        $scope.partProcessingObj.selectedProcessingItem = data.selectedProcessingItem;
-
-        $scope.partProcessingObj.rate.actualRate = data.rate.actualRate;
-        $scope.partProcessingObj.rate.uom = data.selectedProcessingType.rate.uom.uomName;
-
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = data.quantity.linkedKeyValue.keyVariable;
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = data.quantity.linkedKeyValue.keyValue;
-        $scope.partProcessingObj.quantity.utilization = data.quantity.utilization;
-        $scope.partProcessingObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
-        $scope.partProcessingObj.quantity.totalQuantity = data.quantity.totalQuantity;
-
-        $scope.partProcessingObj.finalUom = data.finalUom;
-        $scope.partProcessingObj.remark = data.remark;
-        //$scope.partProcessingObj.currentPartObj = data.currentPartObj;
-        $scope.partProcessingObj.processingNumber = data.processingNumber;
-
-        $scope.showSaveBtn = false;
-        $scope.showEditBtn = true;
-      }
-
       //- get linkedKeyValuesAtPartCalculation objet from service
       if (level == 'part') {
         $scope.partProcessingObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtPartCalculation;
@@ -893,14 +877,47 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       } else if (level == 'assembly') {
         $scope.partProcessingObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtAssemblyCalculation;
       }
+      //- to restrict user
+      var tempObj = $scope.partProcessingObj.linkedKeyValuesCalculation;
+      if ((isNaN(parseFloat(tempObj.perimeter))) && (isNaN(parseFloat(tempObj.sheetMetalArea))) && (isNaN(parseFloat(tempObj.surfaceArea)))  && (isNaN(parseFloat(tempObj.weight)))) {
+        toastr.warning('You cannot able to access it now');
+      } else {
+        if (operation == 'save') {
+          //- get required data to add processing
+          $scope.partProcessingObj.processingTypeData = data.processingTypeData;
+          $scope.showSaveBtn = true;
+          $scope.showEditBtn = false;
+        } else if ('update') {
+          $scope.partProcessingObj.processingTypeData = data.processingTypeData;
+          $scope.partProcessingObj.processingItemData = data.processingItemData;
+          $scope.partProcessingObj.selectedProcessingType = data.selectedProcessingType;
+          $scope.partProcessingObj.selectedProcessingItem = data.selectedProcessingItem;
 
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/estimate/estimateModal/createOrEditProcessing.html',
-        scope: $scope,
-        size: 'md',
-      });
+          $scope.partProcessingObj.rate.actualRate = data.rate.actualRate;
+          $scope.partProcessingObj.rate.uom = data.selectedProcessingType.rate.uom.uomName;
 
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = data.quantity.linkedKeyValue.keyVariable;
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = data.quantity.linkedKeyValue.keyValue;
+          $scope.partProcessingObj.quantity.utilization = data.quantity.utilization;
+          $scope.partProcessingObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
+          $scope.partProcessingObj.quantity.totalQuantity = data.quantity.totalQuantity;
+
+          $scope.partProcessingObj.finalUom = data.finalUom;
+          $scope.partProcessingObj.remark = data.remark;
+          //$scope.partProcessingObj.currentPartObj = data.currentPartObj;
+          $scope.partProcessingObj.processingNumber = data.processingNumber;
+
+          $scope.showSaveBtn = false;
+          $scope.showEditBtn = true;
+        }
+
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/estimate/estimateModal/createOrEditProcessing.html',
+          scope: $scope,
+          size: 'md',
+        });
+      }
     });
 
 
