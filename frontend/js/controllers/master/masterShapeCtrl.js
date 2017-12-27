@@ -5,6 +5,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
     $scope.shapeVariables = [];
+    $scope.disableField = false;
 
     // *************************** default functions begin here  ********************** //
     //- get data to generate material tree structure dynamically 
@@ -47,6 +48,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
             $scope.variablesData = data.shapeVariables;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
+            $scope.disableField = data.disableField;
         });
     }
     $scope.createOrEditShape = function (shape, shapeVariables) {

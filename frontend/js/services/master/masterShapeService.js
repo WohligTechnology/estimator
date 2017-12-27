@@ -37,7 +37,7 @@ myApp.service('masterShapeService', function (
     }
 
     this.createOrEditShapeData = function (operation, shape, callback) {
-        
+        console.log('**** createOrEditShapeData inside function_name of masterShapeService.js ****',shape);
         var shapeDataObj = {};
 
         if (angular.isDefined(shape)) {
@@ -59,19 +59,30 @@ myApp.service('masterShapeService', function (
             callback(shapeDataObj);
 
         } else if (operation == "update") {
-            shapeDataObj.saveBtn = false;
-            shapeDataObj.editBtn = true;
-            var tempArray = _.cloneDeep(this.variableData)
-
-            _.map(tempArray, function (n) {                
-                if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
-                    n.checkboxStatus = false;
-                } else {
-                    n.checkboxStatus = true;
+            var idsArray = [];
+            idsArray.push(shape._id);
+            NavigationService.apiCall('Mshape/restrictShapeVariable', {idsArray}, function(data){
+                shapeDataObj.saveBtn = false;
+                shapeDataObj.editBtn = true;
+                if(!_.isEmpty(data.data)){
+                    shapeDataObj.disableField = true;
                 }
+                else {
+                    shapeDataObj.disableField = false;
+                }
+                var tempArray = _.cloneDeep(this.variableData)
+
+                _.map(tempArray, function (n) {
+                    if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
+                        n.checkboxStatus = false;
+                    } else {
+                        n.checkboxStatus = true;
+                    }
+                });
+                shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
+                callback(shapeDataObj);
+
             });
-            shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
-            callback(shapeDataObj);
         }
 
     }
