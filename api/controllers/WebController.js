@@ -353,6 +353,7 @@ module.exports = {
                                 this[m.models].findOne({
                                     [f]: ids
                                 }).select('_id').lean().exec(function (err, found) {
+                                    console.log('**** !!!!!!!!!!! ****',found);
                                     if (err) {
                                         console.log('**** error at delRestrictions ****', err);
                                         callback(err, null);
@@ -398,19 +399,29 @@ module.exports = {
                                 });
                             } else {
                                 async.eachSeries(myModel, function (m, callback) {
-                                    console.log('***3333333333333 ****', m.base);
                                     callback();
+                                    console.log('***3333333333333 ****', m.base);
                                     if (m.base == true) {
-                                        console.log('**** 11111111 ****', m.base);
-                                        this[modelName].find({
-                                            _id: ids
-                                        }).lean().exec(function (err, found2) {
-                                            console.log('**** 66666666666',found2);
+                                        console.log('**** 7777777777 ****', m);
+                                        // console.log('**** 4444444 ****',found);
+                                        console.log('**** 888888888888****', m.models);
+                                        console.log('**** 00000000000 ****',found);
+                                        console.log('****7777777s ****',ids);
+                                        this[m.models].findOneAndUpdate({
+                                            _id: [found]
+                                        }, {
+                                            $pull: {
+                                                materials: ids
+                                            },
+                                        }).exec(function (err, updatedData) {
                                             if (err) {
-                                                console.log('**** error at function_name of MMaterial.js ****', err);
+                                                console.log('**** error at function_name of WebController.js ****', err);
                                                 callback(err, null);
-                                            } else if (_.isEmpty(found2))
-                                                callback(null, []);
+                                            } else if (_.isEmpty(updatedData)) {
+                                                callback(null, 'noDataFound');
+                                            } else {
+                                                callback(null, updatedData);
+                                            }
                                         });
                                     }
                                 }, function (err) {

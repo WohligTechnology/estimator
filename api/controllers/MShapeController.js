@@ -12,9 +12,9 @@ var controller = {
             })
         }
     },
-    delRestrictionsMultiDeletionMShape: function (req, res) {
+    restrictShapeVariable: function (req, res) {
         if (req.body) {
-            MShape.delRestrictionsMultiDeletionMShape(req.body, res.callback);
+            MShape.restrictShapeVariable(req.body, res.callback);
         } else {
             res.json({
                 value: false,

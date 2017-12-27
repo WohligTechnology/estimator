@@ -67,7 +67,7 @@ var model = {
         });
     },
     //- check the data dependency of MShape record and disable it from frontend accordingly.
-    delRestrictionsMultiDeletionMShape: function (data, callback) {
+    restrictShapeVariable: function (data, callback) {
         allDependency = [];
         async.eachSeries(data.idsArray, function (ids, callback) {
                 MPartPresets.findOne({
