@@ -203,7 +203,8 @@ module.exports = {
                 },
                 {
                     models: "MMaterialSubCat",
-                    fieldName: ["materials"]
+                    fieldName: ["materials"],
+                    base: true
                 },
                 {
                     models: "MPartType",
@@ -365,7 +366,7 @@ module.exports = {
                                             _id: found,
                                             for_id: ids
                                         });
-                                        // console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
+                                        console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
                                         callback();
                                     }
                                 });
@@ -386,7 +387,6 @@ module.exports = {
                                 this[modelName].find({
                                     _id: ids
                                 }).lean().exec(function (err, found1) {
-                                    console.log('**** 111111111111111111 ****',found1);
                                     if (err) {
                                         console.log('**** error at function_name of MMaterial.js ****', err);
                                         callback(err, null);
@@ -397,7 +397,30 @@ module.exports = {
                                     }
                                 });
                             } else {
-                                callback();
+                                async.eachSeries(myModel, function (m, callback) {
+                                    console.log('***3333333333333 ****', m.base);
+                                    callback();
+                                    if (m.base == true) {
+                                        console.log('**** 11111111 ****', m.base);
+                                        this[modelName].find({
+                                            _id: ids
+                                        }).lean().exec(function (err, found2) {
+                                            console.log('**** 66666666666',found2);
+                                            if (err) {
+                                                console.log('**** error at function_name of MMaterial.js ****', err);
+                                                callback(err, null);
+                                            } else if (_.isEmpty(found2))
+                                                callback(null, []);
+                                        });
+                                    }
+                                }, function (err) {
+                                    if (err) {
+                                        console.log('***** error at final response of async.eachSeries in function_name of WebController.js*****', err);
+                                    } else {
+                                        callback();
+                                    }
+                                });
+
                             }
                         }
                     });
