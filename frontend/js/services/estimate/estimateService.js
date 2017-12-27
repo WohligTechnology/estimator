@@ -10,9 +10,9 @@ myApp.service('estimateService', function (NavigationService) {
 
   //- delete estimate
   this.deleteEstimate = function (estimateId, callback) {
-    NavigationService.delete('DraftEstimate/delete', {
-      _id: estimateId
-    }, function (data) {
+    var idsArray = [];
+    idsArray.push(estimateId);
+    NavigationService.delete('Web/delRestrictions/DraftEstimate', {idsArray}, function (data) {
       callback(data);
     });
   }
@@ -69,10 +69,8 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- delete bulk estimates
   this.deleteBulkEstimates = function (estimates, callback) {
-    NavigationService.apiCall('DraftEstimate/deleteMultipleEstimates', {
-      idsArray: estimates
-    }, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/DraftEstimate', {idsArray: estimates}, function (data) {
+      callback(data);
     });
   }
 

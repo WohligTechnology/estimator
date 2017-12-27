@@ -69,7 +69,12 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     }
     $scope.deleteShape = function (shapeId) {
         masterShapeService.deleteShape(shapeId, function (data) {
-            toastr.success('Shape deleted  successfully');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+                }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getShapeData();
         });

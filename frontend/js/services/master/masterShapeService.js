@@ -81,10 +81,9 @@ myApp.service('masterShapeService', function (
         });
     }
     this.deleteShape = function (shapeId, callback) {
-        var deleteShapeObj = {
-            _id: shapeId
-        };
-        NavigationService.delete('MShape/delete', deleteShapeObj, function (data) {
+        idsArray = [];
+        idsArray.push(shapeId);
+        NavigationService.delete('Web/delRestrictions/MShape', {idsArray}, function (data) {
             callback(data);
         });
     }

@@ -80,9 +80,14 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   //- to delete user
   $scope.deleteUser = function (userId) {
     userService.deleteUser(userId, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getUserData();
-      toastr.success('Record deleted successfully');
     });
   }
   //- for pagination of users' records
@@ -135,14 +140,18 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   }
   //-to delete bulk users
   $scope.deleteBulkUsers = function (users) {
-    userService.deleteBulkUsers(users, function () {
-
+    userService.deleteBulkUsers(users, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.bulkUsers = [];
       $scope.checkAll = false;
       $scope.checkboxStatus = false;
       $scope.getUserData();
-      toastr.success('Records deleted successfully');
     });
   }
   //- to get bulk users

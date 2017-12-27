@@ -83,7 +83,7 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Estimator:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control" ng-options="u.name for u in userData track by u._id" ng-model="formData.enquiryDetails.estimator" ng-change="setEstimator(formData.userDataObj)">
+                                                        <select class="form-control" ng-options="u.name for u in userData track by u._id" ng-model="formData.enquiryDetails.estimator" ng-change="setEstimator(formData.enquiryDetails.estimator)">
                                                         </select>
                                                         <div class="form-control-focus"> </div>
                                                     </div>

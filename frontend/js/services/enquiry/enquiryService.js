@@ -17,9 +17,9 @@ myApp.service('enquiryService', function ($http, NavigationService) {
   }
   //- delete enquiry
   this.deleteEnquiry = function (enquiryId, callback) {
-    NavigationService.delete('Enquiry/delete', {
-      _id: enquiryId
-    }, function (data) {
+    var idsArray = [];
+    idsArray.push(enquiryId);
+    NavigationService.delete('Web/delRestrictions/Enquiry', {idsArray}, function (data) {
       callback(data);
     });
   }
@@ -76,8 +76,8 @@ myApp.service('enquiryService', function ($http, NavigationService) {
   }
   //- delete bulk enquiries
   this.deleteBulkEnquiries = function (enquiries, callback) {
-    NavigationService.apiCall('Enquiry/deleteMultipleEnquiry', {idsArray: enquiries}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/Enquiry', {idsArray: enquiries}, function (data) {
+      callback(data);
     });
   }
 });

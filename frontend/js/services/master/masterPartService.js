@@ -253,10 +253,10 @@ myApp.service('masterPartService', function (NavigationService) {
         });
     }
     this.deletePartTypeMaterial = function (materialId, partTypeId, callback) {
-        NavigationService.apiCall('MPartType/deletePartTypeMaterial', {
-            materialId: materialId,
-            _id: partTypeId
-        }, function (data) {
+        idsArray = [];
+        idsArray.push(materialId);
+
+        NavigationService.apiCall('Web/delRestrictions/MPartType', {idsArray}, function (data) {
             callback(data);
         });
     }
