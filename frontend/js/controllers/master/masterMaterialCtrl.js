@@ -59,7 +59,12 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterialCat = function (materialCatId) {
         masterMaterialService.deleteMaterialCat(materialCatId, function (data) {
-            toastr.success('Material Category deleted successfully');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -103,7 +108,12 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterialSubCat = function (materialSubCatId) {
         masterMaterialService.deleteMaterialSubCat(materialSubCatId, function (data) {
-            toastr.success('Material SubCategory added/updated successfully');            
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -164,7 +174,12 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterial = function (materialId) {
         masterMaterialService.deleteMaterial(materialId, function (data) {
-            toastr.Success('Material deleted successfully');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+              }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -239,14 +254,19 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
       }
     //   //-to delete bulk materials
       $scope.deleteBulkMaterials = function (materials) {
-        masterMaterialService.deleteBulkMaterials(materials, function () {
+        masterMaterialService.deleteBulkMaterials(materials, function (data) {
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+              }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
 
-          $scope.cancelModal();
-          $scope.bulkMaterials = [];
-          $scope.checkAll = false;
-          $scope.checkboxStatus = false;
-          $scope.getSubCatMaterials();
-          toastr.success('Record deleted successfully');
+            $scope.cancelModal();
+            $scope.bulkMaterials = [];
+            $scope.checkAll = false;
+            $scope.checkboxStatus = false;
+            $scope.getSubCatMaterials();
         });
       }
     //   //- to get bulk materials

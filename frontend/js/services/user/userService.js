@@ -31,10 +31,9 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
   //- delete user
   this.deleteUser = function (userId, callback) {
-    var deleteUserObj = {
-      _id: userId
-    };
-    NavigationService.delete('User/delete', deleteUserObj, function (data) {
+    var idsArray = [];
+    idsArray.push(userId);
+    NavigationService.delete('Web/delRestrictions/User', {idsArray}, function (data) {
       callback(data);
     });
   }
@@ -91,8 +90,8 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
   //- delete bulk users
   this.deleteBulkUsers = function (users, callback) {
-    NavigationService.apiCall('User/deleteMultipleUsers', {idsArray: users}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/User', {idsArray: users}, function (data) {
+      callback(data);
     });
   }
 

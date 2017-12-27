@@ -81,7 +81,12 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   //- function for addon deletion
   $scope.deleteAddonType = function (addonId) {
     masterAddonService.deleteAddonType(addonId, function (data) {
-      toastr.success('Addon deleted successfully');
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.getAddonData();
       $scope.cancelModal();
     });
@@ -144,11 +149,16 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   }
   //- function to delete addon
   $scope.deleteBulkAddons = function (addons) {
-    masterAddonService.deleteBulkAddons(addons, function () {
+    masterAddonService.deleteBulkAddons(addons, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getAddonData();
       $scope.bulkAddons = [];
-      toastr.success('Addons deleted successfully');
     });
   }
   //- function to get bulk addons

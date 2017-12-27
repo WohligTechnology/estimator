@@ -45,7 +45,12 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   //- to delete enquiry
   $scope.deleteEnquiry = function (enquiryId) {
     enquiryService.deleteEnquiry(enquiryId, function (data) {
-      toastr.success('Record deleted successfully');
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getEnquiryData();
     });
@@ -108,11 +113,16 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   }
   //- to delete enquiry
   $scope.deleteBulkEnquiries = function (enquiries) {
-    enquiryService.deleteBulkEnquiries(enquiries, function () {
+    enquiryService.deleteBulkEnquiries(enquiries, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getEnquiryData();
       $scope.bulkEnquiries = [];
-      toastr.success('Records deleted successfully');
     });
   }
   //- to get bulk enquiries

@@ -174,7 +174,7 @@ module.exports = {
                 }
             ]
         }
-        if (modelName == 'MExtra') {
+        if (modelName == 'MExtras') {
             var myModel = [{
                     models: "EstimateExtra",
                     fieldName: ["extraItem"]
@@ -383,7 +383,7 @@ module.exports = {
                             console.log('**** error at delRestrictions ****', err);
                         } else {
                             if (_.isEmpty(allDependency)) {
-                                this[modelName].find({
+                                this[modelName].remove({
                                     _id: ids
                                 }).lean().exec(function (err, found1) {
                                     console.log('**** 111111111111111111 ****',found1);

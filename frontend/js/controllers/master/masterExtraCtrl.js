@@ -71,7 +71,12 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   //- function for  extra deletion
   $scope.deleteExtra = function (extraId) {
     masterExtraService.deleteExtra(extraId, function (data) {
-      toastr.success('Extra deleted successfully');
+      if(_.isEmpty(data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getMasterExtraData();
     });
@@ -134,11 +139,16 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   }
   //- function to delete extra
   $scope.deleteBulkExtras = function (extras) {
-    masterExtraService.deleteBulkExtras(extras, function () {
+    masterExtraService.deleteBulkExtras(extras, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getMasterExtraData();
       $scope.bulkExtras = [];
-      toastr.success('Extras deleted successfully');
     });
   }
   //- function to get bulk extras

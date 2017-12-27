@@ -46,10 +46,9 @@ myApp.service('masterExtraService', function (NavigationService) {
   }
   //- delete extra
   this.deleteExtra = function (extraId, callback) {
-    var deleteExtraObj = {
-      _id: extraId
-    };
-    NavigationService.delete('MExtra/delete', deleteExtraObj, function (data) {
+    idsArray = [];
+    idsArray.push(extraId);
+    NavigationService.apiCall('Web/delRestrictions/MExtra', {idsArray}, function (data) {
       callback(data);
     });
   }
@@ -115,8 +114,8 @@ myApp.service('masterExtraService', function (NavigationService) {
   }
   //- delete bulk extras
   this.deleteBulkUsers = function (extras, callback) {
-    NavigationService.apiCall('MExtra/deleteMultipleExtras', {idsArray: extras}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/MExtra', {idsArray: extras}, function (data) {
+      callback(data);
     });
   }
 });
