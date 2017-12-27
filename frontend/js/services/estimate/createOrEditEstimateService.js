@@ -75,6 +75,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			surfaceArea: "",
 			weight: ""
 		},
+		processingCost: "",
+		addonCost: "",
+		extrasCost: "",
+		totalCost: "",
 
 		processing: [],
 		addons: [],
@@ -96,6 +100,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			numbers: "",
 			hours: ""
 		},
+		totalWeight: "",
+		materialCost: "",
+		processingCost: "",
+		addonCost: "",
+		extrasCost: "",
+		totalCost: "",
 		subAssemblyParts: [],
 		processing: [],
 		addons: [],
@@ -172,6 +182,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		// 	formData.assembly = $.jStorage.get('estimateObject');
 		// 	callback(formData.assembly);
 		// } else {
+		var temp = this;
 		NavigationService.apiCall('DraftEstimate/getOne', {
 			_id: draftEstimateId
 		}, function (data) {
@@ -179,6 +190,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				callback(data.data);
 			} else {
 				formData.assembly = data.data;
+				temp.totalCostCalculations(function(data) {});
 				callback(data.data);
 			}
 		});
@@ -210,13 +222,103 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			callback('restrictUser');
 		}
 	}
+	//- to calculate total cost of addon/processing/extras
+	this.totalCostCalculations = function (callback) {
+		var costCalculations = {
+			pCost: 0,
+			pCost: 0,
+			aCost: 0,
+			eCost: 0,
+			pCostAtPart: 0,
+			pCostAtSubAssembly: 0,
+			pCostAtAssemby: 0,
+			aCostAtPart: 0,
+			aCostAtSubAssembly: 0,
+			aCostAtAssemby: 0,
+			eCostAtPart: 0,
+			eCostAtSubAssembly: 0,
+			eCostAtAssemby: 0,
+			wtAtPart: 0,
+			wtAtSubAssembly:0,
+			mtAtSubAssembly:0,
+			mtAtAssembly:0
+		}
+		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
+			angular.forEach(subAssembly.subAssemblyParts, function (part) {
+				costCalculations.wtAtPart += parseFloat(part.keyValueCalculations.weight);
+				costCalculations.mtAtSubAssembly += parseFloat(part.finalCalculation.materialPrice);
+				angular.forEach(part.processing, function (processing) {
+					costCalculations.pCostAtPart += processing.rate * processing.quantity.totalQuantity
+				});
+				angular.forEach(part.addons, function (addon) {
+					costCalculations.aCostAtPart += addon.totalCost;
+				});
+				angular.forEach(part.extras,  function (extra) {
+					costCalculations.eCostAtPart += extra.totalCost;
+				});
+				part.processingCost = costCalculations.pCostAtPart;
+				part.addonCost = costCalculations.aCostAtPart;
+				part.extrasCost = costCalculations.eCostAtPart;
+				if (part.processing.length != 0) {
+					costCalculations.pCost += costCalculations.pCostAtPart;
+					costCalculations.pCostAtPart = 0;
+				}
+				if (part.addons.length != 0) {
+					costCalculations.aCost += costCalculations.aCostAtPart;
+					costCalculations.aCostAtPart = 0;
+				}
+				if (part.extras.length != 0) {
+					costCalculations.eCost += costCalculations.eCostAtPart;
+					costCalculations.eCostAtPart = 0;
+				}
+				if (part.processing.length != 0 || part.addons.length != 0 || part.extras.length != 0) {
+					part.totalCost = costCalculations.wtAtPart + costCalculations.mtAtSubAssembly + part.processingCost + part.addonCost + part.extrasCost;
+				}
+			});
+
+			subAssembly.totalWeight = costCalculations.wtAtPart;
+			costCalculations.wtAtSubAssembly += subAssembly.totalWeight; 
+			subAssembly.materialCost = costCalculations.mtAtSubAssembly;
+			costCalculations.mtAtAssembly += subAssembly.materialCost;
+
+			angular.forEach(subAssembly.processing, function (processing) {
+				costCalculations.pCostAtSubAssembly += processing.rate * processing.quantity.totalQuantity
+			});
+			angular.forEach(formData.assembly.addons, function (addon) {
+				costCalculations.aCostAtSubAssembly += addon.totalCost;
+			});
+			angular.forEach(formData.assembly.extras, function (extra) {
+				costCalculations.eCostAtSubAssembly += extra.totalCost;
+			});
+			costCalculations.pCost += costCalculations.pCostAtSubAssembly;
+			costCalculations.aCost += costCalculations.aCostAtSubAssembly;
+			costCalculations.eCost += costCalculations.eCostAtSubAssembly;
+			subAssembly.processingCost = costCalculations.pCost;
+			subAssembly.addonCost = costCalculations.aCost;
+			subAssembly.extrasCost = costCalculations.eCost;
+			costCalculations.pCostAtAssemby += costCalculations.pCost;
+			costCalculations.aCostAtAssemby += costCalculations.aCost;
+			costCalculations.eCostAtAssemby += costCalculations.eCost;
+			subAssembly.totalCost = subAssembly.totalWeight + subAssembly.materialCost +  subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost;
+			costCalculations.pCostAtSubAssembly = costCalculations.aCostAtSubAssembly = costCalculations.eCostAtSubAssembly = 0;
+			costCalculations.pCost = costCalculations.aCost = costCalculations.eCost = 0;
+
+		});
+		formData.assembly.totalWeight = costCalculations.wtAtSubAssembly;
+		formData.assembly.materialCost = costCalculations.mtAtAssembly;
+		formData.assembly.processingCost = costCalculations.pCostAtAssemby;
+		formData.assembly.addonCost = costCalculations.aCostAtAssemby;
+		formData.assembly.extrasCost = costCalculations.eCostAtAssemby;
+		formData.assembly.totalCost = costCalculations.wtAtSubAssembly + costCalculations.mtAtAssembly + costCalculations.pCostAtAssemby + costCalculations.aCostAtAssemby + costCalculations.eCostAtAssemby;
+		callback()
+	}
 	//- to get a view of the page
 	this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
 
 		var getViewData = [];
 
 		if (estimateView == 'assembly') {
-			getViewData = formData.assembly;
+				getViewData = formData.assembly;
 		} else if (estimateView == 'subAssembly') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			getViewData = formData.assembly.subAssemblies[subAssIndex];
@@ -369,9 +471,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 
 	}
-	this.updateAllCalculations = function (obj, subAssNumber, partNumber) {
-
-	}
 	//- to save current estimate object
 	this.saveCurrentEstimate = function () {
 		NavigationService.apiCall('DraftEstimate/save', formData.assembly, function (data) {
@@ -434,13 +533,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempSubAssObj = _.cloneDeep(subAssembly);
 		tempSubAssObj.subAssemblyNumber = formData.assembly.assemblyNumber + "SA" + id;
 		tempSubAssObj.subAssemblyName = subAssObj.subAssemblyName;
-		var tempObj = { 
+		var tempObj = {
 			perimeter: "",
 			sheetMetalArea: "",
 			surfaceArea: "",
 			weight: ""
 		}
-		formData.assembly.keyValueCalculations = tempObj; 
+		formData.assembly.keyValueCalculations = tempObj;
 		formData.assembly.subAssemblies.push(tempSubAssObj);
 		callback();
 	}
@@ -490,21 +589,20 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempPartObj = _.cloneDeep(part);
 		tempPartObj.partNumber = subAssId + 'PT' + id;
 		tempPartObj.partName = partObj.partName;
-		var tempObj = { 
+		var tempObj = {
 			perimeter: "",
 			sheetMetalArea: "",
 			surfaceArea: "",
 			weight: ""
 		}
 		formData.assembly.keyValueCalculations = tempObj;
-		formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = tempObj; 
+		formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = tempObj;
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(tempPartObj);
 		callback();
 	}
 	//- update Part Detail with all calculation & other data
-	this.updatePartDetail = function (partObject, callback) {
+	this.updatePartDetail = function (isEdit, partObject, callback) {
 		//-make proper part Object by removing all unwanted fields 
-
 		var subAssIndex = this.getSubAssemblyIndex(partObject.subAssNumber);
 		var partIndex = this.getPartIndex(subAssIndex, partObject.partNumber);
 
@@ -540,7 +638,62 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		tempPart.partUpdateStatus = true;
 
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex] = tempPart;
+		//- update calculaions at all levels
+		if (isEdit) {
+			this.KeyValueCalculations(formData.assembly.subAssemblies[subAssIndex].keyValueCalculations, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
+				if (!_.isEmpty(data)) {
+					formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = data;
+				}
+			});
+			this.KeyValueCalculations(formData.assembly.keyValueCalculations, formData.assembly.subAssemblies, function (data) {
+				if (!_.isEmpty(data)) {
+					formData.assembly.keyValueCalculations = data;
+				}
+			});
+		}
 		callback(formData.assembly);
+	}
+	//- keyValue calculation
+	this.KeyValueCalculations = function (calculationsObj, records, callback) {
+		var count = records.length;
+		var tempObj = {
+			perimeter: 0,
+			sheetMetalArea: 0,
+			surfaceArea: 0,
+			weight: 0
+		};
+		//- to check access permission
+		var temp = 0;
+		angular.forEach(records,  function (record) {
+			if (!isNaN(parseFloat(record.keyValueCalculations.perimeter))) {
+				tempObj.perimeter += parseFloat(record.keyValueCalculations.perimeter);
+				temp += 1;
+			}
+			if (!isNaN(parseFloat(record.keyValueCalculations.sheetMetalArea))) {
+				tempObj.sheetMetalArea += parseFloat(record.keyValueCalculations.sheetMetalArea);
+				temp += 1;
+			}
+			if (!isNaN(parseFloat(record.keyValueCalculations.surfaceArea))) {
+				tempObj.surfaceArea += parseFloat(record.keyValueCalculations.surfaceArea);
+				temp += 1;
+			}
+			if (!isNaN(parseFloat(record.keyValueCalculations.weight))) {
+				tempObj.weight += parseFloat(record.keyValueCalculations.weight);
+				temp += 1;
+			}
+		});
+		if (temp != 0) {
+			calculationsObj.perimeter = tempObj.perimeter / count;
+			calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
+			calculationsObj.surfaceArea = tempObj.surfaceArea / count;
+			calculationsObj.weight = tempObj.weight / count;
+
+			//partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = calculationsObj;
+			//formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = calculationsObj;
+			callback(calculationsObj);
+		} else {
+			callback();
+		}
 	}
 	//- to delete a part
 	this.deletePart = function (subAssemblyId, partId, callback) {
@@ -658,86 +811,26 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 			partProcessingObj.linkedKeyValuesAtPartCalculation = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
 		} else if (level == 'subAssembly') {
-			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly			
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly		
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			var count = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.length;
-			var tempObj = {
-				perimeter: 0,
-				sheetMetalArea: 0,
-				surfaceArea: 0,
-				weight: 0
-			};
-			//- to check access permission
-			var temp = 0;
-			var calculationsObj = formData.assembly.subAssemblies[subAssIndex].keyValueCalculations;
-			debugger;
-			angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts,  function (record) {
-				if (!isNaN(parseFloat(record.keyValueCalculations.perimeter))) {
-					tempObj.perimeter += parseFloat(record.keyValueCalculations.perimeter);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.sheetMetalArea))) {
-					tempObj.sheetMetalArea += parseFloat(record.keyValueCalculations.sheetMetalArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.surfaceArea))) {
-					tempObj.surfaceArea += parseFloat(record.keyValueCalculations.surfaceArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.weight))) {
-					tempObj.weight += parseFloat(record.keyValueCalculations.weight);
-					temp += 1;
+			this.KeyValueCalculations(formData.assembly.subAssemblies[subAssIndex].keyValueCalculations, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
+				if (!_.isEmpty(data)) {
+					formData.assembly.keyValueCalculations = data;
+					partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = data;
+					formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = data;
 				}
 			});
-			if (temp != 0) {
-				calculationsObj.perimeter = tempObj.perimeter / count;
-				calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
-				calculationsObj.surfaceArea = tempObj.surfaceArea / count;
-				calculationsObj.weight = tempObj.weight / count;
-
-				partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = calculationsObj;
-				formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = calculationsObj;
-			}
 		} else if (level == 'assembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
 			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation
-			var count = formData.assembly.subAssemblies.length;
-			var tempObj = {
-				perimeter: 0,
-				sheetMetalArea: 0,
-				surfaceArea: 0,
-				weight: 0
-			};
-			//- to check access permission
-			var temp = 0;
-			var calculationsObj = formData.assembly.keyValueCalculations;
-			angular.forEach(formData.assembly.subAssemblies,  function (record) {
-				if (!isNaN(parseFloat(record.keyValueCalculations.perimeter))) {
-					tempObj.perimeter += parseFloat(record.keyValueCalculations.perimeter);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.sheetMetalArea))) {
-					tempObj.sheetMetalArea += parseFloat(record.keyValueCalculations.sheetMetalArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.surfaceArea))) {
-					tempObj.surfaceArea += parseFloat(record.keyValueCalculations.surfaceArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.weight))) {
-					tempObj.weight += parseFloat(record.keyValueCalculations.weight);
-					temp += 1;
+			this.KeyValueCalculations(formData.assembly.keyValueCalculations, formData.assembly.subAssemblies, function (data) {
+				if (!_.isEmpty(data)) {
+					formData.assembly.keyValueCalculations = data;
+					partProcessingObj.linkedKeyValuesAtAssemblyCalculation = data;
+					formData.assembly.keyValueCalculations = data;
 				}
 			});
-			if (temp != 0) {
-				calculationsObj.perimeter = tempObj.perimeter / count;
-				calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
-				calculationsObj.surfaceArea = tempObj.surfaceArea / count;
-				calculationsObj.weight = tempObj.weight / count;
-				partProcessingObj.linkedKeyValuesAtAssemblyCalculation = calculationsObj;
-				formData.assembly.keyValueCalculations = calculationsObj;
-			}
 		}
 
 		//- to get part index to update it

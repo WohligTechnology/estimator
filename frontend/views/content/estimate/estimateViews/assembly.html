@@ -109,15 +109,15 @@
                                             <span></span>
                                         </label>
                                     </td>
-                                    <td> 1 </td>
+                                    <td> {{$index + 1}} </td>
                                     <td> {{p.subAssemblyName  | capitalize}} </td>
                                     <td>5 </td>
-                                    <td>24 </td>
-                                    <td>400 </td>
-                                    <td>500 </td>
-                                    <td> 600 </td>
-                                    <td> 900</td>
-                                    <td> 300</td>
+                                    <td> {{p.totalWeight}} </td>
+                                    <td> {{p.materialCost}} </td>
+                                    <td> {{p.processingCost}} </td>
+                                    <td> {{p.addonCost}} </td>
+                                    <td> {{p.extrasCost}} </td>
+                                    <td> {{p.totalCost}}</td>
                                     <td> Approved</td>
                                     <td> Approved </td>
                                     <td class="edit-icon">
