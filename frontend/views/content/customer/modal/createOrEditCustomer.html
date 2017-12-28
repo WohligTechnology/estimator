@@ -12,15 +12,15 @@
                 <form  class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Customer Name:</label>
+                            <label class="col-md-4 control-label">Customer Name:<b class="error">&nbsp;&nbsp;*</b></label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.customerName" autofocus>
+                                <input type="text" class="form-control" ng-model="formData.customerName" required autofocus>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Location:</label>
+                            <label class="col-md-4 control-label">Location:<b class="error">&nbsp;&nbsp;*</b></label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.location">
+                                <input type="text" class="form-control" ng-model="formData.location" required>
                             </div>
                         </div>
                         <div class="form-group">

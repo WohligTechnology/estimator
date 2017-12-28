@@ -13,23 +13,23 @@
                 <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Name :</label>
+                            <label class="col-md-4 control-label">Name :<b class="error">&nbsp;&nbsp;*</b></label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.name" placeholder="Enter User Name">
+                                <input type="text" class="form-control" ng-model="formData.name" placeholder="Enter User Name" required autofocus>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Email Id :</label>
+                            <label class="col-md-4 control-label">Email Id :<b class="error">&nbsp;&nbsp;*</b></label>
                             <div class="col-md-5">
                                 <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" ng-model="formData.email" placeholder="Enter Email-Id Number">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Mobile :</label>
+                            <label class="col-md-4 control-label">Mobile :<b class="error">&nbsp;&nbsp;*</b></label>
                             <div class="col-md-5">
                                 <!-- <input type="text" cleave="options.phone" placeholder="Enter Mobile Number" class="form-control" ng-model="formData.mobile"
                                 /> -->
-                                <input type="mobile" class="form-control" cleave="options.mobile" placeholder="Enter Mobile Number" ng-model="formData.mobile">
+                                <input type="mobile" class="form-control" cleave="options.mobile" placeholder="Enter Mobile Number" ng-model="formData.mobile" required>
                             </div>
                         </div>
                         <div class="form-group">
