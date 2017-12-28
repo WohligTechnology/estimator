@@ -21,7 +21,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Email Id :<b class="error">&nbsp;&nbsp;*</b></label>
                             <div class="col-md-5">
-                                <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" ng-model="formData.email" placeholder="Enter Email-Id Number">
+                                <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" ng-disabled="operation=='update'" ng-model="formData.email" placeholder="Enter Email-Id Number">
                             </div>
                         </div>
                         <div class="form-group">

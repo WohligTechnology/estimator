@@ -19,13 +19,14 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Process Category:</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-options="pc.processCatName for pc in processCats track by pc._id"
-                                    ng-model="selectedProcessCat">
+                                <select class="form-control" ng-options="pc.processCatName for pc in processCats track by pc._id" ng-model="selectedProcessCat">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 "><b>Rate -</b></label>
+                            <label class="col-md-2 ">
+                                <b>Rate -</b>
+                            </label>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Multiplication Factor:</label>
@@ -36,13 +37,14 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">UOM:</label>
                             <div class="col-md-5">
-                               <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
-                                    ng-model="selectedRateMUlFactUom">
+                                <select class="form-control" ng-options="u.uomName for u in uoms track by u._id" ng-model="selectedRateMUlFactUom">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2"><b>Quantity -</b></label>
+                            <label class="col-md-2">
+                                <b>Quantity -</b>
+                            </label>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Linkedkey Value:</label>
@@ -61,7 +63,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">UOM:</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
+                                    <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
                                     ng-model="selectedQuaLinkedKeyUom">
                                 </select>
                             </div>
@@ -73,21 +75,23 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Utilization:</label>
+                            <label class="col-md-4 control-label">Utilization:&nbsp;(%)</label>
                             <div class="col-md-5">
                                 <input type="number" class="form-control" ng-model="formData.quantity.utilization">
+                                <span class="unit">%</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Contegency or Wastage:</label>
+                            <label class="col-md-4 control-label">Contegency or Wastage:&nbsp;(%)</label>
                             <div class="col-md-5">
                                 <input type="number" class="form-control" ng-model="formData.quantity.contengncyOrWastage">
+                                <span class="unit">%</span>
                             </div>
                         </div>
-                          <div class="form-group">
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Final UOM:</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
+                                    <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
                                     ng-model="selectedQuaFinalUom">
                                 </select>
                             </div>
@@ -96,8 +100,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-show="showSaveBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-show="showEditBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
