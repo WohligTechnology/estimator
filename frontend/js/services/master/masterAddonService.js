@@ -41,9 +41,9 @@ myApp.service('masterAddonService', function (NavigationService) {
   }
   //- delete addon
   this.deleteAddonType = function (addonId, callback) {
-    NavigationService.apiCall('MAddonType/delete', {
-      _id: addonId
-    }, function (data) {
+    idsArray = [];
+    idsArray.push(addonId);
+    NavigationService.apiCall('Web/delRestrictions/MAddonType', {idsArray}, function (data) {
       callback(data);
     });
   }
@@ -102,8 +102,8 @@ myApp.service('masterAddonService', function (NavigationService) {
   }
   //- delete bulk addons
   this.deleteBulkAddons = function (addons, callback) {
-    NavigationService.apiCall('MAddonType/deleteMultipleAddonsType', {idsArray: addons}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/MAddonType', {idsArray: addons}, function (data) {
+      callback(data);
     });
   }
 });

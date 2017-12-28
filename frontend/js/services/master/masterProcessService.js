@@ -47,11 +47,10 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessCat = function (processCatId, callback) {
-    var deleteProCat = {
-      _id: processCatId
-    };
+    var idsArray = [];
+    idsArray.push(processCatId);
 
-    NavigationService.apiCall('MProcessCat/delete', deleteProCat, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/MProcessCat', {idsArray}, function (data) {
       callback(data);
     });
   }
@@ -80,11 +79,10 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessItem = function (processItemId, callback) {
-    var deleteProItem = {
-      _id: processItemId
-    };
+    idsArray = [];
+    idsArray.push(processItemId);
 
-    NavigationService.apiCall('MProcessItem/delete', deleteProItem, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/MProcessItem', {idsArray}, function (data) {
       callback(data);
     });
   }
@@ -131,10 +129,9 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessType = function (processId, callback) {
-    var deleteProcessObj = {
-      _id: processId
-    };
-    NavigationService.delete('MProcessType/delete', deleteProcessObj, function (data) {
+    idsArray = [];
+    idsArray.push(processId);
+    NavigationService.delete('Web/delRestrictions/MProcessType', {idsArray}, function (data) {
       callback(data);
     });
   }
@@ -192,8 +189,8 @@ myApp.service('masterProcessService', function (NavigationService) {
   }
   //- delete bulk processes
   this.deleteBulkProcesses = function (processes, callback) {
-    NavigationService.apiCall('MProcessType/deleteMultipleProcessType', {idsArray: processes}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/MProcessType', {idsArray: processes}, function (data) {
+      callback(data);
     });
   }
 

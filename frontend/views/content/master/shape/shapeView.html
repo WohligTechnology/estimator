@@ -55,7 +55,7 @@
                                          -->
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">{{var.varName}}
                                             <input type="checkbox" id="checkAll" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
-                                                ng-checked="var.checkboxStatus" ng-model="checkedVariable" />
+                                                ng-checked="var.checkboxStatus" ng-model="checkedVariable" ng-disabled="disableField" />
                                             <span></span>
                                         </label>
                                     </div>
@@ -65,29 +65,29 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Size Factor (sf)</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " ng-model="formData.sizeFactor" placeholder="">
+                                <input type="text" class="form-control " ng-model="formData.sizeFactor" placeholder="" ng-disabled="disableField">
                             </div>
                             <label class="col-md-3 control-label">Form Factor (ff)</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " ng-model="formData.formFactor" placeholder="">
+                                <input type="text" class="form-control " ng-model="formData.formFactor" placeholder="" ng-disabled="disableField">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Thickness (t)</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " ng-model="formData.thickness" placeholder="">
+                                <input type="text" class="form-control " ng-model="formData.thickness" placeholder="" ng-disabled="disableField">
                                 <span class="unit">mm</span>
                             </div>
                             <label class="col-md-3 control-label">Length (l)</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " ng-model="formData.length" placeholder="">
+                                <input type="text" class="form-control " ng-model="formData.length" placeholder="" ng-disabled="disableField">
                                 <span class="unit">mm</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Wastage (wtg)</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " ng-model="formData.wastage" placeholder="">
+                                <input type="text" class="form-control " ng-model="formData.wastage" placeholder="" ng-disabled="disableField">
                                 <span class="unit">%</span>
                             </div>
                         </div>
@@ -102,24 +102,24 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">Perimeter (p)</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.perimeter" placeholder="">
+                        <input type="text" class="form-control " ng-model="formData.partFormulae.perimeter" placeholder="" ng-disabled="disableField">
                         <span class="unit">m</span>
                     </div>
                     <label class="col-md-2 control-label">Sheet Metal Area (sma)</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.sheetMetalArea" placeholder="">
+                        <input type="text" class="form-control " ng-model="formData.partFormulae.sheetMetalArea" placeholder="" ng-disabled="disableField">
                         <span class="unit">sq. m</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-2 control-label">Surface Area (sa)</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.surfaceArea" placeholder="">
+                        <input type="text" class="form-control " ng-model="formData.partFormulae.surfaceArea" placeholder="" ng-disabled="disableField">
                         <span class="unit">sq. m</span>
                     </div>
                     <label class="col-md-2 control-label">Weight (wt)</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.weight" placeholder="">
+                        <input type="text" class="form-control " ng-model="formData.partFormulae.weight" placeholder="" ng-disabled="disableField">
                         <span class="unit">kg</span>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">Naming Convention</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.namingConvenstion" placeholder="">
+                        <input type="text" class="form-control " ng-model="formData.namingConvenstion" placeholder="" ng-disabled="disableField">
                     </div>
                 </div>
             </div>

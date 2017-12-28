@@ -135,7 +135,7 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <p>{{estimatePartObj.keyValueCalculations.sheetMetalArea}}
-                                                            <span>sq m</span</p>
+                                                            <span>sq m</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -144,7 +144,7 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <p>{{estimatePartObj.keyValueCalculations.surfaceArea}}
-                                                            <span>sq m</span</p>
+                                                            <span>sq m</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -153,7 +153,7 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <p>{{estimatePartObj.keyValueCalculations.weight}}
-                                                            <span>sq m</span</p>
+                                                            <span>sq m</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -165,7 +165,7 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <p>{{estimatePartObj.finalCalculation.materialPrice}}
-                                                            <span>Rs/kg</span</p>
+                                                            <span>Rs/kg</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -174,7 +174,7 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <p>{{estimatePartObj.finalCalculation.itemUnitPrice}}
-                                                            <span>Rs</span</p>
+                                                            <span>Rs</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -191,7 +191,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-circle green" ng-click="updatePartDetail(estimatePartObj)">Save</button>
+                                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="updatePartDetail(estimatePartObj)">Save</button>
+                                        <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="updatePartDetail(estimatePartObj)">Update</button>
                                         <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                                     </div>
                                 </div>

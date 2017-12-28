@@ -57,28 +57,15 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       callback(data.data);
     });
   }
-  this.getAllAssemblyNumbers = function (callback) {
-    NavigationService.boxCall('Estimate/getAllUniqueAssembliesNo', function (data) {
-      callback(data.data);
-    });
-  }
-
-  this.getAllEstimateVersionOnAssemblyNo = function (assemblyNumber, callback) {
-    var tempObj = {
-      assemblyNumber: assemblyNumber
-    }
-    NavigationService.apiCall('Estimate/getAllEstimateVersionOnAssemblyNo', tempObj, function (data) {
+  this.getVersionsOfAssNo = function (callback) {
+    NavigationService.boxCall('Estimate/getVersionsOfAssNo', function (data) {
       callback(data.data);
     });
   }
   //- to import assembly
-  this.getImportAssemblyData = function (assemblyNumber, versionNo, callback) {
-    var tempObj = {
-      assemblyNumber: assemblyNumber,
-      estimateVersion: versionNo
-    }
-    NavigationService.apiCall('Estimate/importAssembly', tempObj, function (data) {
-      tempObj = data.data.assemblyObj;
+  this.getImportAssemblyData = function (assemblyId, callback) {
+    NavigationService.apiCall('Estimate/importAssembly', {"_id":assemblyId}, function (data) {
+      var tempObj = data.data.assemblyObj;
       NavigationService.apiCall('DraftEstimate/save', tempObj, function (data1) {
         callback(data1.data);
       });

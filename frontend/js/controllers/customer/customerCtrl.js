@@ -72,7 +72,12 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   //- to delete customer
   $scope.deleteCustomer = function (customerId) {
     customerService.deleteCustomer(customerId, function (data) {
-      toastr.success('Record deleted successfully');
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getCustomerData();
     });
@@ -128,11 +133,16 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   }
   //- to delete customers
   $scope.deleteBulkCustomers = function (customers) {
-    customerService.deleteBulkCustomers(customers, function () {
+    customerService.deleteBulkCustomers(customers, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getCustomerData();
       $scope.bulkCustomers = [];
-      toastr.success('Record deleted successfully');
     });
   }
   //- to get bulk customers

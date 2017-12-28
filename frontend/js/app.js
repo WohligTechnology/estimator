@@ -42,7 +42,7 @@ myApp.config(function (toastrConfig) {
       toast: 'directives/toast/toast.html',
       progressbar: 'directives/progressbar/progressbar.html'
     },
-    timeOut: 5000,
+    timeOut: 6000,
     titleClass: 'toast-title',
     toastClass: 'toast'
   });
