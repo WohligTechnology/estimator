@@ -15,96 +15,137 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label"> Addon Type:</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-model="formData.addonType" autofocus required>
-                                    <option>Type1</option>
-                                    <option>Type2</option>
-                                    <option>Type3</option>
-                                    <option>Type4</option>
+                                <select class="form-control" ng-options="at.addonTypeName for at in addonObj.allAddonTypes track by at._id" ng-model="addonObj.selectedAddonType"
+                                    placeholder="Select" ng-change="getSelectedAddonType(addonObj.selectedAddonType)">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label"> Material:</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-model="formData.addonItem" required>
-                                    <option>Item1</option>
-                                    <option>Item2</option>
-                                    <option>Item3</option>
-                                    <option>Item4</option>
+                                <select class="form-control" ng-options="m.materialName for m in addonObj.allMaterials track by m._id" ng-model="addonObj.selectedMaterial"
+                                    placeholder="Select" ng-change="getSelectedMaterial(addonObj.selectedMaterial)">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Rate:</label>
                             <div class="col-md-5">
-                                <div><label class="padd-t">895740</label> <span><b>Rs/m</b></span></div>
+                                <div>
+                                    <label class="padd-t">{{addonObj.rate.value}}</label>
+                                    <span>
+                                        <b>{{addonObj.rate.uom}}</b>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 "><b>Quantity -</b></label>
+                            <label class="col-md-2 ">
+                                <b>Quantity -</b>
+                            </label>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Supporting Variables:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" placeholder="" ng-model="formData.quantity.supportingVariable" required>
-                                <span>UOM1</span>
+
+                                <div class="display-inline text-left">
+                                    {{addonObj.quantity.supportingVariable.supportingVariable}}
+                                </div>
+
+                                <div class="display-inline">
+                                    <input type="number" class="form-control" placeholder="" ng-change="changeSVValue()" ng-model="addonObj.quantity.supportingVariable.value">
+                                </div>
+
+                                <div class="display-inline">
+                                    <strong>{{addonObj.quantity.supportingVariable.uom}}</strong>
+                                </div>
+
+
+                                <!-- <span>
+                                    <input type="text" class="form-control" placeholder="" ng-model="addonObj.quantity.supportingVariable.supportingVariable.value"
+                                        required> 
+                                </span> -->
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Key Value:</label>
                             <div class="col-md-5">
-                                <div><label class="padd-t">895740</label><strong>Perimeter (UOM1)</strong></div>
+                                <div>
+                                    <label class="padd-t">{{addonObj.quantity.keyValue.keyVariable}}</label>
+                                    <strong>{{addonObj.quantity.keyValue.keyValue}} ({{addonObj.quantity.keyValue.uom}})</strong>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Multiplication Factor:</label>
                             <div class="col-md-5">
-                                <div><label class="padd-t">895740</label></div>
+                                <div>
+                                    <label class="padd-t">895740</label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Final UOM:</label>
-                            <div class="col-md-5">
-                                <div><label class="padd-t"><strong>UOM1</strong></label></div>
-                            </div>
-                        </div>
+                        </div> -->
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">% Use:</label>
                             <div class="col-md-5">
-                                <div class="display-inline"> <input type="text" class="form-control" placeholder="100" ng-model="formData.quantity.utilization" required></div>
-                                <div class="display-inline"><span>%</span></div>
+                                <div class="display-inline">
+                                    <input type="text" class="form-control" placeholder="100" ng-model="addonObj.quantity.utilization" required>
+                                </div>
+                                <div class="display-inline">
+                                    <span>%</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Contegency or Wastage:</label>
                             <div class="col-md-5">
-                                <div class="display-inline"> <input type="text" class="form-control" placeholder="10" ng-model="formData.quantity.contengncyOrWastage" required></div>
-                                <div class="display-inline"><span>%</span></div>
+                                <div class="display-inline">
+                                    <input type="text" class="form-control" placeholder="10" ng-model="addonObj.quantity.contengncyOrWastage" required>
+                                </div>
+                                <div class="display-inline">
+                                    <span>%</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Total Quantity:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.quantity.total" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Total Cost:</label>
-                            <div class="col-md-5">
-                                <div><label class="padd-t">895740</label></div>
+                                <input type="text" class="form-control" ng-model="addonObj.quantity.total" ng-change="changeAddonQuantity(addonObj.quantity.total)"
+                                    required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Total Weight:</label>
                             <div class="col-md-5">
-                                <div><label class="padd-t">895740</label> </div>
+                                <div>
+                                    <label class="padd-t">{{addonObj.totalWeight}} Kg</label>
+                                </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Total Cost:</label>
+                            <div class="col-md-5">
+                                <div>
+                                    <label class="padd-t">{{addonObj.totalCost}}</label>
+                                    <strong>{{addonObj.finalUom}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label class="col-md-4 control-label">Final UOM:</label>
+                            <div class="col-md-5">
+                                <div>
+                                    <label class="padd-t">
+                                        <strong>{{addonObj.finalUom}}</strong>
+                                    </label>
+                                </div>
+                            </div>
+                        </div> -->
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addAddon(formData, level, subAssemblyId, partId)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addAddon(addonObj, level, subAssemblyId, partId)">Save</button>
                                 <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="editAddon()">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
