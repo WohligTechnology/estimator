@@ -325,7 +325,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }, true);
   //- to update all calculations at processing, addons & extras 
   // $scope.$watch('estimatePartObj.keyValueCalculations', function (newValue, oldValue) {
-  //   debugger;
+  //   
   //   if (oldValue != undefined) {
   //     if (newValue != oldValue) {
   //       createOrEditEstimateService.updateAllCalculations(newValue, function(data) {
@@ -1107,14 +1107,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.showEditBtn = false;
       } else if ('update') {
         $scope.extraObj.allExtraItem = data.allExtraItem;
-        $scope.extraObj.allExtraItem = data.allExtraItem,
-          $scope.extraObj.selectedExtraItem = data.extraItem,
-          $scope.extraObj.extraNumber = data.extraNumber,
-          $scope.extraObj.totalCost = data.totalCost,
-          $scope.extraObj.remark = data.remark,
-          $scope.extraObj.quantity = data.quantity,
-          $scope.extraObj.rate = data.rate,
-          $scope.extraObj.uom = data.uom
+        $scope.extraObj.selectedExtraItem = data.selecetdExtraItem;
+        $scope.extraObj.extraNumber = data.extraNumber;
+        $scope.extraObj.totalCost = data.totalCost;
+        $scope.extraObj.remark = data.remark;
+        $scope.extraObj.quantity = data.quantity;
+        $scope.extraObj.rate = data.rate;
+        $scope.extraObj.uom = data.uom;
         $scope.showSaveBtn = false;
         $scope.showEditBtn = true;
       }
@@ -1130,6 +1129,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   $scope.getSelectedExtraItem = function (extraObjData) {
     //- calculate rate
+    
     $scope.extraObj.selectedExtraItem = extraObjData;
     $scope.extraObj.totalCost = parseFloat(extraObjData.rate.name) * 1;
     $scope.extraObj.uom = extraObjData.rate.uom.uomName;
@@ -1141,8 +1141,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   //- to add Extra at assembly or subssembly or at partLevel
   $scope.addExtra = function (extraData, level, subAssemblyId, partId) {
+    
     var extra = {
-      extraItem: extraData.selectedExtraItem.extraName,
+      extraItem: extraData.selectedExtraItem,
       extraNumber: extraData.extraNumber,
       totalCost: extraData.totalCost,
       remark: extraData.remark,
@@ -1267,7 +1268,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.addOrEditAddonModal = function (operation, level, subAssemblyId, partId, addonId) {
     $scope.getAddonObject();
 
-    debugger;
+    
 
     $scope.level = level;
     $scope.subAssemblyId = subAssemblyId;
@@ -1275,12 +1276,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     //- get required data to add processing
     createOrEditEstimateService.getAddonModalData(operation, level, subAssemblyId, partId, addonId, function (data) {
-      debugger;
+      
       if (operation == 'save') {
         //- get required data to add addon
         $scope.addonObj.allAddonTypes = data.allAddonTypes;
       } else if (operation == 'update') {
-        debugger;
+        
         $scope.addonObj.allAddonTypes = data.allAddonTypes;
         $scope.addonObj.allMaterials = data.allMaterials;
         $scope.addonObj.selectedAddonType = data.selectedAddonType;
@@ -1316,7 +1317,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       }
 
       //- get linkedKeyValuesAtPartCalculation objet from service
-      debugger;
+      
       if (level == 'part') {
         $scope.addonObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtPartCalculation;
       } else if (level == 'subAssembly') {
@@ -1350,7 +1351,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     //- bind all data which is dependent on addonType
     $scope.addonObj.rate.uom = selectedAddonType.rate.uom.uomName;
-    debugger;
+    
 
     //- get it from selecetdAddonType
     $scope.addonObj.quantity.supportingVariable.supportingVariable = selectedAddonType.quantity.additionalInput;
@@ -1388,7 +1389,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     console.log('**** inside getSelectedMaterial of createOrEditEstimateCtrl.js ****');
     //- get rate selectedAddonType-->rate * selectedMaterial --> typicalRatepeKg
     //- 
-    debugger;
+    
     $scope.addonObj.rate.value = $scope.addonObj.selectedAddonType.rate.mulFact * selectedMaterial.typicalRatePerKg;
 
     //- update following after change quantity again
@@ -1408,8 +1409,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
 
   //- to add Addon at assembly or subssembly or at partLevel
-  $scope.addAddon = function (operation,addonData, level, subAssemblyId, partId) {
-    debugger;
+  $scope.addAddon = function (operation, addonData, level, subAssemblyId, partId) {
+    
     var addon = {
       addonNumber: addonData.addonNumber,
       addonType: addonData.selectedAddonType,
@@ -1433,8 +1434,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     };
 
     console.log('**** inside addAddon of createOrEditEstimateCtrl.js ****', addon);
-    debugger;
-   
+    
+
     if (operation == 'save') {
       createOrEditEstimateService.createAddon(addon, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('addons', level, subAssemblyId, partId);

@@ -683,10 +683,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 		});
 		if (temp != 0) {
-			calculationsObj.perimeter = tempObj.perimeter / count;
-			calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
-			calculationsObj.surfaceArea = tempObj.surfaceArea / count;
-			calculationsObj.weight = tempObj.weight / count;
+			calculationsObj.perimeter = tempObj.perimeter;
+			calculationsObj.sheetMetalArea = tempObj.sheetMetalArea;
+			calculationsObj.surfaceArea = tempObj.surfaceArea;
+			calculationsObj.weight = tempObj.weight;
 
 			//partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = calculationsObj;
 			//formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = calculationsObj;
@@ -1017,7 +1017,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	//- to get the required data in order to add / edit addon at any level
 	this.getAddonModalData = function (operation, level, subAssemblyId, partId, addonId, callback) {
-		debugger;
+
 		var addonObject = {
 			allAddonTypes: [],
 			allMaterials: [],
@@ -1068,7 +1068,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		//- to get keyValue calculations
 		if (level == 'part') {
 			//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
-			debugger;
+
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 			var tempPartCal = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
@@ -1095,7 +1095,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			//- to check access permission
 			var temp = 0;
 			var calculationsObj = formData.assembly.subAssemblies[subAssIndex].keyValueCalculations;
-			debugger;
+
 			angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts,  function (record) {
 				if (!isNaN(parseFloat(record.keyValueCalculations.perimeter))) {
 					tempObj.perimeter += parseFloat(record.keyValueCalculations.perimeter);
@@ -1193,7 +1193,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					_id: tempAddonObj.addonType._id
 				}, function (getAllMaterials) {
 
-					debugger;
+
 					addonObject.allAddonTypes = addonTypeData.data;
 					addonObject.allMaterials = getAllMaterials.data;
 					addonObject.selectedAddonType = tempAddonObj.addonType;
@@ -1217,7 +1217,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 					addonObject.addonNumber = tempAddonObj.addonNumber;
 
-					debugger;
+
 
 					callback(addonObject);
 				});
@@ -1226,7 +1226,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- called when user will select a processType while adding a processing at any level
 	this.getSelectedAddonType = function (addonTypeId, callback) {
-		debugger;
+
 		NavigationService.apiCall('MAddonType/getAddonMaterial', {
 			_id: addonTypeId
 		}, function (data) {
@@ -1238,7 +1238,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	//- to add an addon
 	this.createAddon = function (addonObj, level, subAssemblyId, partId, callback) {
-		debugger;
+
 		var id;
 		if (level == 'assembly') {
 			id = this.getAddonNumber(level);
@@ -1296,7 +1296,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		tempAddonObject.totalCost = addonData.totalCost;
 
 
-		console.log('**** inside before adding aadons of createOrEditEstimateService.js ****',formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex]);
+		console.log('**** inside before adding aadons of createOrEditEstimateService.js ****', formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex]);
 		if (level == 'assembly') {
 			formData.assembly.addons[getAddonIndex] = tempAddonObject;
 		} else if (level == 'subAssembly') {
@@ -1305,7 +1305,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex] = tempAddonObject;
 		}
 
-		console.log('**** inside after adding aadons of createOrEditEstimateService.js ****',formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex]);
+		console.log('**** inside after adding aadons of createOrEditEstimateService.js ****', formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex]);
 		callback();
 	}
 	//- to delete an addon
@@ -1888,15 +1888,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 			if (operation == 'save') {
 				extraObj.allExtraItem = data.data;
-			} else {;
+			} else {
 				extraObj.allExtraItem = data.data;
-				extraObj.extraItem = tempExtraObj.extraItem,
-					extraObj.extraNumber = tempExtraObj.extraNumber,
-					extraObj.totalCost = tempExtraObj.totalCost,
-					extraObj.remark = tempExtraObj.remark,
-					extraObj.quantity = tempExtraObj.quantity,
-					extraObj.rate = tempExtraObj.rate,
-					extraObj.uom = tempExtraObj.uom
+				extraObj.selecetdExtraItem = tempExtraObj.extraItem;
+				extraObj.extraNumber = tempExtraObj.extraNumber;
+				extraObj.totalCost = tempExtraObj.totalCost;
+				extraObj.remark = tempExtraObj.remark;
+				extraObj.quantity = tempExtraObj.quantity;
+				extraObj.rate = tempExtraObj.rate;
+				extraObj.uom = tempExtraObj.uom;
 			}
 			callback(extraObj);
 		});
