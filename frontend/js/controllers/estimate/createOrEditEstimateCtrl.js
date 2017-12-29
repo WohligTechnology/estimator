@@ -587,7 +587,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.importPart = function (subAssId, partId) {
     createOrEditEstimateService.getImportPartData(subAssId, partId, function () {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function(data) {}); 
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Part imported successfully');
       $scope.cancelModal();
     });
@@ -600,7 +600,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         if (option == 'import') {
           $scope.cancelModal();
         }
-        createOrEditEstimateService.totalCostCalculations(function(data) {}); 
+        createOrEditEstimateService.totalCostCalculations(function (data) {});
         toastr.success('Part added successfully');
       });
     } else {
@@ -884,7 +884,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       }
       //- to restrict user
       var tempObj = $scope.partProcessingObj.linkedKeyValuesCalculation;
-      if ((isNaN(parseFloat(tempObj.perimeter))) && (isNaN(parseFloat(tempObj.sheetMetalArea))) && (isNaN(parseFloat(tempObj.surfaceArea)))  && (isNaN(parseFloat(tempObj.weight)))) {
+      if ((isNaN(parseFloat(tempObj.perimeter))) && (isNaN(parseFloat(tempObj.sheetMetalArea))) && (isNaN(parseFloat(tempObj.surfaceArea))) && (isNaN(parseFloat(tempObj.weight)))) {
         toastr.warning('You cannot able to access it now');
       } else {
         if (operation == 'save') {
@@ -1008,13 +1008,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.cancelModal();
       });
     }
-    createOrEditEstimateService.totalCostCalculations(function(data) {}); 
+    createOrEditEstimateService.totalCostCalculations(function (data) {});
 
   }
   //- to edit processing at assembly or subssembly or at partLevel
   $scope.editProcessing = function () {
     $scope.getCurretEstimateObj();
-    createOrEditEstimateService.totalCostCalculations(function(data) {}); 
+    createOrEditEstimateService.totalCostCalculations(function (data) {});
     toastr.success('Processing updated successfully');
     $scope.cancelModal();
   }
@@ -1023,7 +1023,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.deleteProcessing(processingId, level, subAssemblyId, partId, function (data) {
       toastr.success('Processing deleted successfully');
       $scope.getEstimateView('processing', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function(data) {}); 
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
     });
   }
@@ -1036,7 +1036,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
       $scope.getEstimateView('processing', level, subAssId, partId);
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function(data) {}); 
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Processing deleted successfully');
     });
   }
@@ -1048,7 +1048,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.importProcessing = function (processingId, level, subAssemblyId, partId) {
     createOrEditEstimateService.getImportProcessingData(processingId, level, subAssemblyId, partId, function () {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function(data) {}); 
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Processing imported successfully');
       $scope.cancelModal();
     });
@@ -1152,7 +1152,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     }
     createOrEditEstimateService.addExtra(extra, level, subAssemblyId, partId, function () {
       $scope.getEstimateView('extras', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function(data) {});
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Extra added successfully');
       $scope.cancelModal();
     });
@@ -1161,7 +1161,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.updateExtra = function (extraObj, level, subAssemblyId, partId, extraId) {
     createOrEditEstimateService.updateExtra(extraObj, level, subAssemblyId, partId, extraId, function (data) {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function(data) {});
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Extra updated successfully');
       $scope.cancelModal();
     });
@@ -1172,7 +1172,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.deleteExtra(extraId, level, subAssemblyId, partId, function () {
       toastr.success('Extra deleted successfully');
       $scope.getEstimateView('extras', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function(data) {});
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
     });
   }
@@ -1184,7 +1184,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.checkboxStatus = false;
 
       $scope.getEstimateView('extras', level, subAssId, partId);
-      createOrEditEstimateService.totalCostCalculations(function(data) {});
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
       toastr.success('Extras deleted successfully');
     });
@@ -1197,7 +1197,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.importExtra = function (extraId, level, subAssemblyId, partId) {
     createOrEditEstimateService.getImportExtraData(extraId, level, subAssemblyId, partId, function () {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function(data) {});
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Extra imported successfully');
       $scope.cancelModal();
     });
@@ -1215,6 +1215,278 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.getCustomMaterialData();
   }
   $scope.init();
+
+
+
+
+  //- ==================================== addon functionality/calculation start ==================================== //
+
+  $scope.getAddonObject = function () {
+    $scope.addonObj = {
+      addonNumber: "",
+      allAddonTypes: [],
+      allMaterials: [],
+      selectedAddonType: {},
+      selectedMaterial: {},
+      rate: {
+        value: "", //- selectedAddonType-->rate-->mulFact *  selectedMaterial-->typicaRatePerKg
+        uom: "" //- selectedAddonType-->rate-->uom
+      },
+      quantity: {
+        supportingVariable: {
+          supportingVariable: "", //- selectedAddonType-->quantity-->additional input field
+          value: 1, //- take from user
+          uom: "" //- selectedAddonType-->quantity-->additionalInputUom
+        },
+        keyValue: {
+          keyVariable: "", //- selectedAddonType-->quantity-->linkedKey 
+          keyValue: "", //- selectedAddonType-->quantity-->mulFact * (selected selectedAddonType-->quantity-->linkedKey) from part calculation
+          uom: "" //- selectedAddonType-->quantity-->linkedKeyUom
+        },
+        utilization: 100, //- get it from user, in default it is 100
+        contengncyOrWastage: 10, //- get it from user, kin default it is 10 
+        total: 1 //- get it from user, in default it is 1
+      },
+      totalCost: "", //- rate-->value * quantity-->total
+      totalWeight: "", //- quantity-->total * selectedMaterial-->typicaRatePerKg
+      remarks: "", //- get it from user
+      finalUom: "", //- selectedAddonType-->quantity-->finalUom 
+      linkedKeyValuesCalculation: { //- get all calculation at part/subAssembly/assembly level
+        perimeter: null,
+        SMA: null,
+        SA: null,
+        Wt: null,
+        Nos: null,
+        Hrs: null
+      }
+    }
+  }
+
+  $scope.getAddonObject();
+
+  $scope.addOrEditAddonModal = function (operation, level, subAssemblyId, partId, addonId) {
+    $scope.getAddonObject();
+
+    debugger;
+
+    $scope.level = level;
+    $scope.subAssemblyId = subAssemblyId;
+    $scope.partId = partId;
+
+    //- get required data to add processing
+    createOrEditEstimateService.getAddonModalData(operation, level, subAssemblyId, partId, addonId, function (data) {
+      debugger;
+      if (operation == 'save') {
+        //- get required data to add addon
+        $scope.addonObj.allAddonTypes = data.allAddonTypes;
+      } else if (operation == 'update') {
+        debugger;
+        $scope.addonObj.allAddonTypes = data.allAddonTypes;
+        $scope.addonObj.allMaterials = data.allMaterials;
+        $scope.addonObj.selectedAddonType = data.selectedAddonType;
+        $scope.addonObj.selectedMaterial = data.selectedMaterial;
+
+        $scope.addonObj.rate.value = data.rate.value;
+        $scope.addonObj.rate.uom = data.rate.uom;
+
+        $scope.addonObj.quantity.supportingVariable.supportingVariable = data.quantity.supportingVariable.supportingVariable;
+        $scope.addonObj.quantity.supportingVariable.value = data.quantity.supportingVariable.value;
+        $scope.addonObj.quantity.supportingVariable.uom = data.quantity.supportingVariable.uom;
+
+        $scope.addonObj.quantity.keyValue.keyVariable = data.quantity.keyValue.keyVariable;
+        $scope.addonObj.quantity.keyValue.keyValue = data.quantity.keyValue.keyValue;
+        $scope.addonObj.quantity.keyValue.uom = data.quantity.keyValue.uom;
+
+        $scope.addonObj.quantity.utilization = data.quantity.utilization;
+        $scope.addonObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
+        $scope.addonObj.quantity.total = data.quantity.total;
+
+        $scope.addonObj.remark = data.remarks;
+        // $scope.addonObj.currentPartObj = data.currentPartObj;
+        $scope.addonObj.addonNumber = data.addonNumber;
+        // $scope.addonObj.totalWeight = data;
+        // $scope.addonObj.totalWeight = ;
+
+        $scope.addonObj.totalCost = parseFloat(data.quantity.total) * parseFloat(data.selectedMaterial.typicalRatePerKg) * parseFloat(data.quantity.supportingVariable.value);
+        $scope.addonObj.totalWeight = parseFloat(data.quantity.total) * parseFloat(data.selectedMaterial.weightPerUnit);
+        $scope.addonObj.finalUom = data.selectedAddonType.quantity.finalUom.uomName;
+
+        $scope.showSaveBtn = false;
+        $scope.showEditBtn = true;
+      }
+
+      //- get linkedKeyValuesAtPartCalculation objet from service
+      debugger;
+      if (level == 'part') {
+        $scope.addonObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtPartCalculation;
+      } else if (level == 'subAssembly') {
+        $scope.addonObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtSubAssemblyCalculation;
+      } else if (level == 'assembly') {
+        $scope.addonObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtAssemblyCalculation;
+      }
+
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/createOrEditAddon.html',
+        scope: $scope,
+        size: 'md',
+      });
+
+    });
+
+
+
+  }
+
+  //- when user select an addonType
+  $scope.getSelectedAddonType = function (selectedAddonType) {
+    //- update selectedAddonType in selectedAddonType
+    $scope.addonObj.selectedAddonType = selectedAddonType;
+
+    //- get all material of corresponding selected addonType
+    createOrEditEstimateService.getSelectedAddonType(selectedAddonType._id, function (data) {
+      $scope.addonObj.allMaterials = data;
+    });
+
+    //- bind all data which is dependent on addonType
+    $scope.addonObj.rate.uom = selectedAddonType.rate.uom.uomName;
+    debugger;
+
+    //- get it from selecetdAddonType
+    $scope.addonObj.quantity.supportingVariable.supportingVariable = selectedAddonType.quantity.additionalInput;
+    $scope.addonObj.quantity.supportingVariable.uom = selectedAddonType.quantity.additionalInputUom.uomName; //- get it from selecetdAddonType
+
+    var tempLinkedKeyValue = $scope.addonObj.selectedAddonType.quantity.linkedKey;
+    $scope.addonObj.quantity.keyValue.keyVariable = tempLinkedKeyValue;
+    $scope.addonObj.quantity.keyValue.uom = selectedAddonType.quantity.linkedKeyUom.uomName; //
+
+
+    if (tempLinkedKeyValue == "Perimeter") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.perimeter) * parseFloat(selectedAddonType.quantity.mulFact);
+    } else if (tempLinkedKeyValue == "SMA") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.SMA) * parseFloat(selectedAddonType.quantity.mulFact);
+    } else if (tempLinkedKeyValue == "SA") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.SA) * parseFloat(selectedAddonType.quantity.mulFact);
+    } else if (tempLinkedKeyValue == "Wt") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.Wt) * parseFloat(selectedAddonType.quantity.mulFact);
+    } else if (tempLinkedKeyValue == "Nos") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.Nos) * parseFloat(selectedAddonType.quantity.mulFact);
+    } else if (tempLinkedKeyValue == "Hrs") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.Hrs) * parseFloat(selectedAddonType.quantity.mulFact);
+    }
+
+
+    $scope.addonObj.finalUom = selectedAddonType.quantity.finalUom.uomName; //- selected selectedAddonType-->quantity-->finalUom 
+
+
+
+    console.log('**** inside function_name of createOrEditEstimateCtrl.js ****', $scope.addonObj);
+  }
+
+  //- when user select an material
+  $scope.getSelectedMaterial = function (selectedMaterial) {
+    console.log('**** inside getSelectedMaterial of createOrEditEstimateCtrl.js ****');
+    //- get rate selectedAddonType-->rate * selectedMaterial --> typicalRatepeKg
+    //- 
+    debugger;
+    $scope.addonObj.rate.value = $scope.addonObj.selectedAddonType.rate.mulFact * selectedMaterial.typicalRatePerKg;
+
+    //- update following after change quantity again
+    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat(selectedMaterial.typicalRatePerKg);
+    $scope.addonObj.totalWeight = parseFloat($scope.addonObj.quantity.total) * parseFloat(selectedMaterial.weightPerUnit);
+
+  }
+
+  $scope.changeAddonQuantity = function (quantity) {
+    $scope.addonObj.totalCost = parseFloat(quantity) * parseFloat($scope.addonObj.selectedMaterial.typicalRatePerKg) * $scope.addonObj.quantity.supportingVariable.value;
+    $scope.addonObj.totalWeight = parseFloat(quantity) * parseFloat($scope.addonObj.selectedMaterial.weightPerUnit);
+  }
+
+  $scope.changeSVValue = function () {
+    // $scope.addonObj.quantity.supportingVariable.value = svValue;
+    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.selectedMaterial.typicalRatePerKg) * $scope.addonObj.quantity.supportingVariable.value;
+  }
+
+  //- to add Addon at assembly or subssembly or at partLevel
+  $scope.addAddon = function (operation,addonData, level, subAssemblyId, partId) {
+    debugger;
+    var addon = {
+      addonNumber: addonData.addonNumber,
+      addonType: addonData.selectedAddonType,
+      addonItem: addonData.selectedMaterial,
+      rate: addonData.rate.value,
+      quantity: {
+        supportingVariable: {
+          supportingVariable: addonData.quantity.supportingVariable.supportingVariable,
+          value: addonData.quantity.supportingVariable.value
+        },
+        keyValue: {
+          keyVariable: addonData.quantity.keyValue.keyVariable,
+          keyValue: addonData.quantity.keyValue.keyValue,
+        },
+        utilization: addonData.quantity.utilization,
+        contengncyOrWastage: addonData.quantity.contengncyOrWastage,
+        total: addonData.quantity.total
+      },
+      totalCost: addonData.totalCost,
+      remarks: addonData.remarks
+    };
+
+    console.log('**** inside addAddon of createOrEditEstimateCtrl.js ****', addon);
+    debugger;
+   
+    if (operation == 'save') {
+      createOrEditEstimateService.createAddon(addon, level, subAssemblyId, partId, function () {
+        $scope.getEstimateView('addons', level, subAssemblyId, partId);
+        toastr.info('Addon added successfully', 'Addon Creation!');
+        $scope.cancelModal();
+      });
+    } else if (operation == 'update') {
+      createOrEditEstimateService.updateAddon(addon, level, subAssemblyId, partId, function () {
+        $scope.getEstimateView('addons', level, subAssemblyId, partId);
+        toastr.info('Addon updated successfully', 'Addon Creation!');
+        $scope.cancelModal();
+      });
+    }
+  }
+  //- to edit Addon at assembly or subssembly or at partLevel
+  $scope.editAddon = function () {
+    $scope.getCurretEstimateObj();
+    toastr.info('Addon updated successfully', 'Addon Updation!');
+    $scope.cancelModal();
+  }
+  //- delete addon
+  $scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
+      toastr.info('Addon deleted successfully', 'Addon Deletion!');
+      $scope.getEstimateView('addons', level, subAssemblyId, partId);
+      $scope.cancelModal();
+    });
+  }
+  //- to delete bulk addons
+  $scope.deleteMultipleAddons = function (addonId, level, subAssId, partId) {
+    createOrEditEstimateService.deleteMultipleAddons(level, addonId, subAssId, partId, function () {
+      $scope.bulkItems = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+      $scope.getEstimateView('addons', level, subAssId, partId);
+      $scope.cancelModal();
+      toastr.info('Addons deleted successfully', 'Addons Deletion!');
+    });
+  }
+  //- Import Addon
+  $scope.importAddon = function (addonId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.getImportAddonData(addonId, level, subAssemblyId, partId, function () {
+      $scope.getCurretEstimateObj();
+      toastr.info('Addon imported successfully', 'Addon Import!');
+      $scope.cancelModal();
+    });
+  }
+
+  //- ==================================== addon functionality/calculation end   ==================================== //
+
+
+
 
 
 });
