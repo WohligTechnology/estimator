@@ -65,7 +65,12 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessCat = function (processCatId) {
         masterProcessService.deleteProcessCat(processCatId, function (data) {
-            toastr.success('Record deleted successfully', 'Process Deletion!');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+                }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -107,7 +112,12 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessItem = function (processItemId) {
         masterProcessService.deleteProcessItem(processItemId, function (data) {
-            toastr.success('Record deleted successfully', 'Process Deletion!');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+                }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -165,7 +175,12 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessType = function (processId) {
         masterProcessService.deleteProcessType(processId, function (data) {
-            toastr.success('Record deleted successfully', 'Process Deletion!');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+                }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getProcessTypeData();
         });
@@ -232,11 +247,16 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     //- function to delete process
     $scope.deleteBulkProcesses = function (processes) {
-        masterProcessService.deleteBulkProcesses(processes, function () {
+        masterProcessService.deleteBulkProcesses(processes, function (data) {
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+                }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getProcessTypeData();
             $scope.bulkProcesses = [];
-            toastr.success('Records deleted successfully', 'Process Deletion!');
         });
     }
     //- function to get bulk processes

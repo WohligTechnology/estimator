@@ -33,7 +33,12 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   //- to delete estimate
   $scope.deleteEstimate = function (estimateId) {
     estimateService.deleteEstimate(estimateId, function (data) {
-      toastr.info('Record deleted successfully');
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getTableData();
     });
@@ -94,11 +99,16 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   }
   //- to delete estimate
   $scope.deleteBulkEstimates = function (estimates) {
-    estimateService.deleteBulkEstimates(estimates, function () {
+    estimateService.deleteBulkEstimates(estimates, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getEstimateData();
       $scope.bulkEstimates = [];
-      toastr.info('Records deleted successfully', 'Estimates Deletion!');
     });
   }
   //- to get bulk estimates

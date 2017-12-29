@@ -73,7 +73,12 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     $scope.deletePartTypeCat = function (partTypeCatId) {
         masterPartService.deletePartTypeCat(partTypeCatId, function (data) {
-            toastr.success('Record deleted successfully');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.getPartData();
             $scope.cancelModal();
         });
@@ -104,7 +109,12 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
 
     $scope.deletePartType = function (partTypeId) {
         masterPartService.deletePartType(partTypeId, function (data) {
-            toastr.success('Part type deleted successfully');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getPartData();
         });
@@ -256,7 +266,12 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     $scope.deletePartTypeMaterial = function (materialId, partTypeId) {
         masterPartService.deletePartTypeMaterial(materialId, partTypeId, function (data) {
-            toastr.success('Material deleted successfully');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getPartTypeSizes(partTypeId);
         });

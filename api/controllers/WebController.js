@@ -174,7 +174,7 @@ module.exports = {
                 }
             ]
         }
-        if (modelName == 'MExtra') {
+        if (modelName == 'MExtras') {
             var myModel = [{
                     models: "EstimateExtra",
                     fieldName: ["extraItem"]
@@ -203,7 +203,8 @@ module.exports = {
                 },
                 {
                     models: "MMaterialSubCat",
-                    fieldName: ["materials"]
+                    fieldName: ["materials"],
+                    base: true
                 },
                 {
                     models: "MPartType",
@@ -352,6 +353,7 @@ module.exports = {
                                 this[m.models].findOne({
                                     [f]: ids
                                 }).select('_id').lean().exec(function (err, found) {
+                                    console.log('**** !!!!!!!!!!! ****',found);
                                     if (err) {
                                         console.log('**** error at delRestrictions ****', err);
                                         callback(err, null);
@@ -365,7 +367,7 @@ module.exports = {
                                             _id: found,
                                             for_id: ids
                                         });
-                                        // console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
+                                        console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
                                         callback();
                                     }
                                 });
@@ -383,10 +385,9 @@ module.exports = {
                             console.log('**** error at delRestrictions ****', err);
                         } else {
                             if (_.isEmpty(allDependency)) {
-                                this[modelName].find({
+                                this[modelName].remove({
                                     _id: ids
                                 }).lean().exec(function (err, found1) {
-                                    console.log('**** 111111111111111111 ****',found1);
                                     if (err) {
                                         console.log('**** error at function_name of MMaterial.js ****', err);
                                         callback(err, null);
@@ -397,7 +398,40 @@ module.exports = {
                                     }
                                 });
                             } else {
-                                callback();
+                                async.eachSeries(myModel, function (m, callback) {
+                                    callback();
+                                    console.log('***3333333333333 ****', m.base);
+                                    if (m.base == true) {
+                                        console.log('**** 7777777777 ****', m);
+                                        // console.log('**** 4444444 ****',found);
+                                        console.log('**** 888888888888****', m.models);
+                                        console.log('**** 00000000000 ****',found);
+                                        console.log('****7777777s ****',ids);
+                                        this[m.models].findOneAndUpdate({
+                                            _id: [found]
+                                        }, {
+                                            $pull: {
+                                                materials: ids
+                                            },
+                                        }).exec(function (err, updatedData) {
+                                            if (err) {
+                                                console.log('**** error at function_name of WebController.js ****', err);
+                                                callback(err, null);
+                                            } else if (_.isEmpty(updatedData)) {
+                                                callback(null, 'noDataFound');
+                                            } else {
+                                                callback(null, updatedData);
+                                            }
+                                        });
+                                    }
+                                }, function (err) {
+                                    if (err) {
+                                        console.log('***** error at final response of async.eachSeries in function_name of WebController.js*****', err);
+                                    } else {
+                                        callback();
+                                    }
+                                });
+
                             }
                         }
                     });

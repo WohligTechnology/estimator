@@ -32,11 +32,9 @@ myApp.service('masterMaterialService', function (NavigationService) {
         });
     }
     this.deleteMaterialCat = function (materialCatId, callback) {
-        var deleteMatCat = {
-            _id: materialCatId
-        };
-
-        NavigationService.apiCall('MMaterialCat/delete', deleteMatCat, function (data) {
+        idsArray = [];
+        idsArray.push(materialCatId);
+        NavigationService.apiCall('Web/delRestrictions/MMaterialCat', {idsArray}, function (data) {
             callback(data);
         });
     }
@@ -65,11 +63,9 @@ myApp.service('masterMaterialService', function (NavigationService) {
         });
     }
     this.deleteMaterialSubCat = function (materialSubCatId, callback) {
-        var deleteMatCat = {
-            _id: materialSubCatId
-        };
-
-        NavigationService.apiCall('MMaterialSubCat/delete', deleteMatCat, function (data) {
+        idsArray = [];
+        idsArray.push(materialSubCatId);
+        NavigationService.apiCall('Web/delRestrictions/MMaterialSubCat', {idsArray}, function (data) {
             callback(data);
         });
     }
@@ -98,11 +94,9 @@ myApp.service('masterMaterialService', function (NavigationService) {
         });
     }
     this.deleteMaterial = function (materialId, callback) {
-        var deleteMat = {
-            _id: materialId
-        };
-
-        NavigationService.apiCall('MMaterial/delete', deleteMat, function (data) {
+        idsArray = [];
+        idsArray.push(materialId);
+        NavigationService.apiCall('Web/delRestrictions/MMaterial', {idsArray}, function (data) {
             callback(data);
         });
     }
@@ -181,8 +175,8 @@ myApp.service('masterMaterialService', function (NavigationService) {
   }
 //   //- delete bulk materials
   this.deleteBulkMaterials = function (materials, callback) {
-    NavigationService.apiCall('MMaterial/deleteMultipleMaterials', {idsArray: materials}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/MMaterial', {idsArray: materials}, function (data) {
+      callback(data);
     });
   }
 });

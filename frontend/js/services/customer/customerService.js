@@ -32,10 +32,9 @@ myApp.service('customerService', function (NavigationService) {
   }
   //- delete customer
   this.deleteCustomer = function (customerId, callback) {
-    var deleteCustomerObj = {
-      _id: customerId
-    };
-    NavigationService.delete('Customer/delete', deleteCustomerObj, function (data) {
+    var idsArray = [];
+    idsArray.push(customerId);
+    NavigationService.delete('Web/delRestrictions/Customer', {idsArray}, function (data) {
       callback(data);
     });
   }
@@ -93,8 +92,8 @@ myApp.service('customerService', function (NavigationService) {
   }
   //- delete bulk customers
   this.deleteBulkCustomers = function (customers, callback) {
-    NavigationService.apiCall('Customer/deleteMultipleCustomers', {idsArray: customers}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/Customer', {idsArray: customers}, function (data) {
+      callback(data);
     });
   }
 

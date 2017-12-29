@@ -1,4 +1,4 @@
-myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uibModal, $interpolate, $state, $scope, createOrEditEnquiryService) {
+myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toastr, $uibModal, $interpolate, $state, $scope, createOrEditEnquiryService) {
 
   // *************************** default variables/tasks begin here ***************** //
 
@@ -21,7 +21,8 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
       phoneRegionCode: 'IN'
     }
   };
-
+  $scope.dateNow = $filter('date')(new Date(), "yyyy-MM-dd");
+  
 
   if (angular.isDefined($stateParams.enquiryId)) {
     $scope.showEstimateBtn = true;
@@ -57,18 +58,18 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
 
   // *************************** functions to be triggered form view begin here ***** //      
   //- add  enquiry data
-  $scope.addEnquiryData = function (formData) {
-    createOrEditEnquiryService.createEnquiry(formData, function (data) {
-      if ($scope.editPermmission) {
-        toastr.success('Enquiry Updated Successfully');
-      } else {
-        toastr.success('Enquiry Added Successfully');
-        $state.go('app.editEnquiry', {
-          'enquiryId': data._id
-        });
-      }
-    });
-  }
+  $scope.addEnquiryData = function (enquiryData) {
+      createOrEditEnquiryService.createEnquiry(enquiryData, function (data) {
+        if ($scope.editPermmission) {
+          toastr.success('Enquiry Updated Successfully');
+        } else {
+          toastr.success('Enquiry Added Successfully');
+          $state.go('app.editEnquiry', {
+            'enquiryId': data._id
+          });
+        }
+      });
+    }
   //- to bind customer data to formData
   $scope.setCustomerData = function (customerDataObj) {
     $scope.formData.enquiryDetails.customerLocation = customerDataObj.location;
