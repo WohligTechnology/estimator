@@ -442,6 +442,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.deleteSubAssembly(subAssemblyId, function () {
       toastr.success('SubAssembly deleted successfully');
       $scope.getEstimateView('assembly');
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
     });
   }
@@ -544,6 +545,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       toastr.success('Part deleted successfully');
       $scope.getEstimateView('subAssembly');
       $scope.getCurretEstimateObj();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
     });
   }
@@ -646,6 +648,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
       toastr.success('Addon deleted successfully');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
     });
   }
@@ -1408,7 +1411,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
 
   //- to add Addon at assembly or subssembly or at partLevel
-  $scope.addAddon = function (operation,addonData, level, subAssemblyId, partId) {
+  $scope.addAddon = function (operation, addonData, level, subAssemblyId, partId) {
     debugger;
     var addon = {
       addonNumber: addonData.addonNumber,
@@ -1434,7 +1437,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     console.log('**** inside addAddon of createOrEditEstimateCtrl.js ****', addon);
     debugger;
-   
+
     if (operation == 'save') {
       createOrEditEstimateService.createAddon(addon, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('addons', level, subAssemblyId, partId);
@@ -1452,7 +1455,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to edit Addon at assembly or subssembly or at partLevel
   $scope.editAddon = function () {
     $scope.getCurretEstimateObj();
-    toastr.info('Addon updated successfully', 'Addon Updation!');
+    toastr.success('Addon updated successfully');
+    createOrEditEstimateService.totalCostCalculations(function (data) {});
     $scope.cancelModal();
   }
   //- delete addon
@@ -1460,6 +1464,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
       toastr.info('Addon deleted successfully', 'Addon Deletion!');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
     });
   }
@@ -1471,7 +1476,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.checkboxStatus = false;
       $scope.getEstimateView('addons', level, subAssId, partId);
       $scope.cancelModal();
-      toastr.info('Addons deleted successfully', 'Addons Deletion!');
+      toastr.success('Addons deleted successfully');
     });
   }
   //- Import Addon
