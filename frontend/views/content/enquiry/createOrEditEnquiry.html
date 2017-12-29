@@ -62,9 +62,10 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Name:<span class="error">&nbsp;&nbsp;*</span></label>
                                                     <div class="col-md-3">
-                                                            <select class="form-control" ng-options="c.customerName for c in customerData track by c._id" ng-model="formData.customerDataObj"
+                                                            <select class="form-control" name="customername" ng-options="c.customerName for c in customerData track by c._id" ng-model="formData.customerDataObj"
                                                             ng-change="setCustomerData(formData.customerDataObj)" required>
-                                                        </select>
+                                                            </select>
+                                                            <span class="error" ng-show="myForm1.customername.$invalid && myForm1.customername.$dirty">Please fill in this field.</span>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Enquiry Type:</label>
@@ -111,7 +112,9 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Delivery Location:<span class="error">&nbsp;&nbsp;*</span></label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.deliveryLocation" required>
+                                                        <input type="text" class="form-control" name="deliverylocation" id="form_control_1" ng-model="formData.enquiryDetails.deliveryLocation" required>
+                                                        <span class="error" ng-show="myForm1.deliverylocation.$invalid && myForm1.deliverylocation.$dirty">Please fill in this field </span>
+
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Delivery Distant:</label>
@@ -181,7 +184,7 @@
                                             <div class="form-actions">
                                                 <div class="row">
                                                     <div class=" col-md-12 text-center">
-                                                        <button type="button" class="btn blue" ng-if="myForm1.$dirty" ng-click="addEnquiryData(formData)">Submit</button>
+                                                        <button type="button" class="btn blue" ng-if="myForm1.$dirty" ng-click="addEnquiryData(formData)" ng-disabled ="myForm1.$dirty && myForm1.$invalid || myForm1.$pristine">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
