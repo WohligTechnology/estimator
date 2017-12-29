@@ -107,7 +107,7 @@
                 </div>
                 <div class="portlet-body" ng-if="showPresetSaveForm">
                     <div class="portlet-body">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" name="myForm">
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Shape :</label>
@@ -134,13 +134,13 @@
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label>
-                                                <b>Variables:</b>
+                                                <b>Variables:</b><span class="error" ng-show="myForm.$invalid && myForm.$dirty">Please enter a number or floating point number</span>
                                             </label>
                                         </div>
                                         <div class="form-group" ng-repeat="v in selectedShape.variable track by $index">
                                             <label class="col-md-3 control-label">{{v.varName}}</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control" ng-change="getPresetFinalData(presetFormData,selectedShape)" ng-model="v.varValue" required>
+                                                <input type="text" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-change="getPresetFinalData(presetFormData,selectedShape)" ng-model="v.varValue" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
