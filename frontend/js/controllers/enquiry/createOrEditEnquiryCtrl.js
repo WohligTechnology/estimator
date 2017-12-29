@@ -59,17 +59,17 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   // *************************** functions to be triggered form view begin here ***** //      
   //- add  enquiry data
   $scope.addEnquiryData = function (enquiryData) {
-      createOrEditEnquiryService.createEnquiry(enquiryData, function (data) {
-        if ($scope.editPermmission) {
-          toastr.success('Enquiry Updated Successfully');
-        } else {
-          toastr.success('Enquiry Added Successfully');
-          $state.go('app.editEnquiry', {
-            'enquiryId': data._id
-          });
-        }
-      });
-    }
+    createOrEditEnquiryService.createEnquiry(enquiryData, function (data) {
+      if ($scope.editPermmission) {
+        toastr.success('Enquiry Updated Successfully');
+      } else {
+        toastr.success('Enquiry Added Successfully');
+        $state.go('app.editEnquiry', {
+          'enquiryId': data._id
+        });
+      }
+    });
+  }
   //- to bind customer data to formData
   $scope.setCustomerData = function (customerDataObj) {
     $scope.formData.enquiryDetails.customerLocation = customerDataObj.location;
