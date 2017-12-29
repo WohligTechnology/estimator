@@ -654,7 +654,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback(formData.assembly);
 	}
 	//- keyValue calculation
-	this.KeyValueCalculations = function (calculationsObj, records, callback) {
+	this.KeyValueCalculations = function (level, records, callback) {
 		var count = records.length;
 		var tempObj = {
 			perimeter: 0,
@@ -664,25 +664,49 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		};
 		//- to check access permission
 		var temp = 0;
-		angular.forEach(records,  function (record) {
-			if (!isNaN(parseFloat(record.keyValueCalculations.perimeter))) {
-				tempObj.perimeter += parseFloat(record.keyValueCalculations.perimeter);
-				temp += 1;
-			}
-			if (!isNaN(parseFloat(record.keyValueCalculations.sheetMetalArea))) {
-				tempObj.sheetMetalArea += parseFloat(record.keyValueCalculations.sheetMetalArea);
-				temp += 1;
-			}
-			if (!isNaN(parseFloat(record.keyValueCalculations.surfaceArea))) {
-				tempObj.surfaceArea += parseFloat(record.keyValueCalculations.surfaceArea);
-				temp += 1;
-			}
-			if (!isNaN(parseFloat(record.keyValueCalculations.weight))) {
-				tempObj.weight += parseFloat(record.keyValueCalculations.weight);
-				temp += 1;
-			}
-		});
+		if (level == 'subAssembly') {
+			angular.forEach(records,  function (part) {
+				if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
+					tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
+					temp += 1;
+				}
+				if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
+					tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
+					temp += 1;
+				}
+				if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
+					tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
+					temp += 1;
+				}
+				if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
+					tempObj.weight += parseFloat(part.keyValueCalculations.weight);
+					temp += 1;
+				}
+			});
+		} else {
+			angular.forEach(records,  function (subAssembly) {
+				angular.forEach(subAssembly.subAssemblyParts,  function (part) {
+					if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
+						tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
+						temp += 1;
+					}
+					if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
+						tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
+						temp += 1;
+					}
+					if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
+						tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
+						temp += 1;
+					}
+					if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
+						tempObj.weight += parseFloat(part.keyValueCalculations.weight);
+						temp += 1;
+					}
+				});	
+			});
+		}
 		if (temp != 0) {
+<<<<<<< HEAD
 			calculationsObj.perimeter = tempObj.perimeter;
 			calculationsObj.sheetMetalArea = tempObj.sheetMetalArea;
 			calculationsObj.surfaceArea = tempObj.surfaceArea;
@@ -691,6 +715,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			//partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = calculationsObj;
 			//formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = calculationsObj;
 			callback(calculationsObj);
+=======
+			callback(tempObj);
+>>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 		} else {
 			callback();
 		}
@@ -813,22 +840,18 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (level == 'subAssembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly		
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			this.KeyValueCalculations(formData.assembly.subAssemblies[subAssIndex].keyValueCalculations, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
+			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
 				if (!_.isEmpty(data)) {
-					formData.assembly.keyValueCalculations = data;
 					partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = data;
-					formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = data;
 				}
 			});
 		} else if (level == 'assembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
 			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation
-			this.KeyValueCalculations(formData.assembly.keyValueCalculations, formData.assembly.subAssemblies, function (data) {
+			this.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
 				if (!_.isEmpty(data)) {
-					formData.assembly.keyValueCalculations = data;
 					partProcessingObj.linkedKeyValuesAtAssemblyCalculation = data;
-					formData.assembly.keyValueCalculations = data;
 				}
 			});
 		}
@@ -1017,7 +1040,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	//- to get the required data in order to add / edit addon at any level
 	this.getAddonModalData = function (operation, level, subAssemblyId, partId, addonId, callback) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 		var addonObject = {
 			allAddonTypes: [],
 			allMaterials: [],
@@ -1068,7 +1094,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		//- to get keyValue calculations
 		if (level == 'part') {
 			//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 			var tempPartCal = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
@@ -1080,11 +1109,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				Nos: null,
 				Hrs: null
 			};
-
-			console.log('**** inside function_name of createOrEditEstimateService.js ****', addonObject);
 		} else if (level == 'subAssembly') {
-			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly			
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+<<<<<<< HEAD
 			var count = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.length;
 			var tempObj = {
 				perimeter: 0,
@@ -1112,57 +1140,36 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				if (!isNaN(parseFloat(record.keyValueCalculations.weight))) {
 					tempObj.weight += parseFloat(record.keyValueCalculations.weight);
 					temp += 1;
+=======
+			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
+				if (!_.isEmpty(data)) {
+					addonObject.linkedKeyValuesAtSubAssemblyCalculation =  {
+						perimeter: data.perimeter,
+						SMA: data.sheetMetalArea,
+						SA: data.surfaceArea,
+						Wt: data.weight,
+						Nos: null,
+						Hrs: null
+					};
+>>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 				}
 			});
-			if (temp != 0) {
-				calculationsObj.perimeter = tempObj.perimeter / count;
-				calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
-				calculationsObj.surfaceArea = tempObj.surfaceArea / count;
-				calculationsObj.weight = tempObj.weight / count;
-
-				addonObject.linkedKeyValuesAtSubAssemblyCalculation = calculationsObj;
-				formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = calculationsObj;
-			}
 		} else if (level == 'assembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
 			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation
-			var count = formData.assembly.subAssemblies.length;
-			var tempObj = {
-				perimeter: 0,
-				sheetMetalArea: 0,
-				surfaceArea: 0,
-				weight: 0
-			};
-			//- to check access permission
-			var temp = 0;
-			var calculationsObj = formData.assembly.keyValueCalculations;
-			angular.forEach(formData.assembly.subAssemblies,  function (record) {
-				if (!isNaN(parseFloat(record.keyValueCalculations.perimeter))) {
-					tempObj.perimeter += parseFloat(record.keyValueCalculations.perimeter);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.sheetMetalArea))) {
-					tempObj.sheetMetalArea += parseFloat(record.keyValueCalculations.sheetMetalArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.surfaceArea))) {
-					tempObj.surfaceArea += parseFloat(record.keyValueCalculations.surfaceArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.weight))) {
-					tempObj.weight += parseFloat(record.keyValueCalculations.weight);
-					temp += 1;
+			this.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
+				if (!_.isEmpty(data)) {
+					addonObject.linkedKeyValuesAtAssemblyCalculation = {
+						perimeter: data.perimeter,
+						SMA: data.sheetMetalArea,
+						SA: data.surfaceArea,
+						Wt: data.weight,
+						Nos: null,
+						Hrs: null
+					};
 				}
 			});
-			if (temp != 0) {
-				calculationsObj.perimeter = tempObj.perimeter / count;
-				calculationsObj.sheetMetalArea = tempObj.sheetMetalArea / count;
-				calculationsObj.surfaceArea = tempObj.surfaceArea / count;
-				calculationsObj.weight = tempObj.weight / count;
-				partProcessingObj.linkedKeyValuesAtAssemblyCalculation = calculationsObj;
-				formData.assembly.keyValueCalculations = calculationsObj;
-			}
 		}
 
 		//- to get part index to update it
@@ -1193,7 +1200,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					_id: tempAddonObj.addonType._id
 				}, function (getAllMaterials) {
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 					addonObject.allAddonTypes = addonTypeData.data;
 					addonObject.allMaterials = getAllMaterials.data;
 					addonObject.selectedAddonType = tempAddonObj.addonType;
@@ -1217,7 +1227,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 					addonObject.addonNumber = tempAddonObj.addonNumber;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 
 					callback(addonObject);
 				});
@@ -1238,7 +1251,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	//- to add an addon
 	this.createAddon = function (addonObj, level, subAssemblyId, partId, callback) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 		var id;
 		if (level == 'assembly') {
 			id = this.getAddonNumber(level);
@@ -1255,7 +1271,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			id = this.getAddonNumber(level, subAssIndex, partIndex);
 			addonObj.addonNumber = partId + 'AD' + id;
 			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.push(addonObj);
-			console.log('**** inside createAddon of createOrEditEstimateService.js ****');
 		}
 		callback();
 	}
@@ -1276,8 +1291,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var tempAddonObject = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex];
 		}
 
-		console.log('**** inside function_name of createOrEditEstimateService.js ****', addonData);
-
 		tempAddonObject.addonNumber = addonData.addonNumber;
 		tempAddonObject.addonType = addonData.addonType;
 		tempAddonObject.addonItem = addonData.addonItem;
@@ -1295,8 +1308,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		tempAddonObject.remark = addonData.remark;
 		tempAddonObject.totalCost = addonData.totalCost;
 
+<<<<<<< HEAD
 
 		console.log('**** inside before adding aadons of createOrEditEstimateService.js ****', formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex]);
+=======
+>>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 		if (level == 'assembly') {
 			formData.assembly.addons[getAddonIndex] = tempAddonObject;
 		} else if (level == 'subAssembly') {
@@ -1305,7 +1321,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex] = tempAddonObject;
 		}
 
+<<<<<<< HEAD
 		console.log('**** inside after adding aadons of createOrEditEstimateService.js ****', formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex]);
+=======
+>>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 		callback();
 	}
 	//- to delete an addon
