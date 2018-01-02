@@ -706,6 +706,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			});
 		}
 		if (temp != 0) {
+
 			calculationsObj.perimeter = tempObj.perimeter;
 			calculationsObj.sheetMetalArea = tempObj.sheetMetalArea;
 			calculationsObj.surfaceArea = tempObj.surfaceArea;
@@ -1159,6 +1160,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				NavigationService.apiCall('MMaterial/getAllMaterials', {
 					_id: tempAddonObj.addonType._id
 				}, function (getAllMaterials) {
+
 					addonObject.allAddonTypes = addonTypeData.data;
 					addonObject.allMaterials = getAllMaterials.data;
 					addonObject.selectedAddonType = tempAddonObj.addonType;
@@ -1182,8 +1184,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 					addonObject.addonNumber = tempAddonObj.addonNumber;
 
-
-
 					callback(addonObject);
 				});
 			}
@@ -1203,8 +1203,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	//- to add an addon
 	this.createAddon = function (addonObj, level, subAssemblyId, partId, callback) {
-
-		var id;
 		if (level == 'assembly') {
 			id = this.getAddonNumber(level);
 			addonObj.addonNumber = formData.assembly.assemblyNumber + 'AD' + id;
@@ -1256,7 +1254,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 		tempAddonObject.remark = addonData.remark;
 		tempAddonObject.totalCost = addonData.totalCost;
-
 
 		if (level == 'assembly') {
 			formData.assembly.addons[getAddonIndex] = tempAddonObject;

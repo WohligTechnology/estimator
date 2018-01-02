@@ -31,8 +31,6 @@ myApp.service('masterExtraService', function (NavigationService) {
       NavigationService.boxCall('MUom/search', function (data) {
         extraDataObj.uoms = data.data.results;
         callback(extraDataObj);
-        callback(extraDataObj);
-
       });
     }
 
@@ -40,8 +38,7 @@ myApp.service('masterExtraService', function (NavigationService) {
   //- add or edit extra
   this.addOrEditExtra = function (extraData, callback) {
     NavigationService.apiCall('MExtra/save', extraData, function (data) {
-      var extra = data.data.results;
-      callback(extra);
+      callback(data);
     });
   }
   //- delete extra

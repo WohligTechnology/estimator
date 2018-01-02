@@ -28,8 +28,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartType(formData,partTypeCatId)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartType(formData,partTypeCatId)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartType(formData,partTypeCatId)" ng-disabled="formData.partTypeName.length == null || formData.partTypeCode.length == null">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartType(formData,partTypeCatId)" ng-disabled="formData.partTypeName.length == null || formData.partTypeCode.length == null">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

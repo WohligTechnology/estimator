@@ -240,7 +240,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- get updated variables 
     //- calculate keyValueCalculations & finalCalculation 
     //- update estimate object --> variable array
-
+    debugger;
+    console.log('**** inside part presetobject of createOrEditEstimateCtrl.js ****',$scope.estimatePartObj.selectedShortcut);
     var partFormulae = $scope.estimatePartObj.selectedShortcut.shape.partFormulae;
 
     _.map($scope.estimatePartObj.variables, function (n) {
@@ -250,6 +251,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       tempVar = varName;
       window[tempVar] = varValue;
     });
+
+    if(true){
+
+    }
 
     $scope.estimatePartObj.keyValueCalculations.perimeter = eval(partFormulae.perimeter);
     $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = eval(partFormulae.sheetMetalArea);
