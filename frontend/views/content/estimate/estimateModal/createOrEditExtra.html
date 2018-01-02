@@ -10,13 +10,13 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form  class="form-horizontal">
+                <form  class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">  Extra Item:</label>
+                            <label class="col-md-4 control-label">Extra Item:</label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="ei.extraName for ei in extraObj.allExtraItem track by ei._id" ng-model="extraObj.selectedExtraItem"
-                                    placeholder="Select" ng-change="getSelectedExtraItem(extraObj.selectedExtraItem)" >
+                                    placeholder="Select" ng-change="getSelectedExtraItem(extraObj.selectedExtraItem)" required>
                                 </select>
                             </div>
                         </div>
@@ -48,8 +48,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addExtra(extraObj,level, subAssemblyId, partId)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="updateExtra(extraObj,level, subAssemblyId, partId, extraId)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addExtra(extraObj,level, subAssemblyId, partId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="updateExtra(extraObj,level, subAssemblyId, partId, extraId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

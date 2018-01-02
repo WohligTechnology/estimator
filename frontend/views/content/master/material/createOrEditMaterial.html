@@ -13,7 +13,7 @@
                 <!-- <pre>{{formData | json}}</pre> -->
                 <form class="form-horizontal" name ="myForm">
                     <div class="form-body">
-                        <div class="form-grou p">
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Material Name:<span class="error">&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="formData.materialName" required autofocus>
@@ -96,7 +96,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditMaterial(formData,subCatId)" ng-disabled ="myForm.$dirty && myForm.$invalid || myForm.$pristine">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditMaterial(formData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditMaterial(formData)" ng-disabled ="myForm.$dirty && myForm.$invalid || myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

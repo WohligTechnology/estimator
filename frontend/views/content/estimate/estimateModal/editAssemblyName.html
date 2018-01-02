@@ -10,19 +10,19 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form class="form-horizontal">
+                <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Enter Assembly Name:</label>
+                            <label class="col-md-4 control-label">Enter Assembly Name:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" placeholder="Enter Assembly Name" ng-model="formData.assemblyName" autofocus>
+                                <input type="text" class="form-control" placeholder="Enter Assembly Name" ng-model="formData.assemblyName" autofocus required>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-click="editAssemblyName(formData.assemblyName)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-disabled="formData.assemblyName.length == null || myForm.$pristine" ng-click="editAssemblyName(formData.assemblyName)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()" >Cancel</button>
                             </div>
                         </div>

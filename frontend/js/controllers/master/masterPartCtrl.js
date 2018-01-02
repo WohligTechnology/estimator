@@ -101,9 +101,9 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     $scope.addOrEditPartType = function (partTypeData, partTypeCatId) {
         masterPartService.addOrEditPartType(partTypeData, partTypeCatId, function (data) {
-            toastr.success('Part type  added/updated successfully');
-            $scope.getPartData();
-            $scope.cancelModal();
+                        toastr.success('Part type  added/updated successfully');
+                        $scope.getPartData();
+                        $scope.cancelModal();
         });
     }
 
@@ -219,10 +219,14 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
 
     }
     $scope.addOrEditPartPreset = function (presetData, action) {
-        // console.log('**** inside addOrEditPartPreset of masterPartCtrl.js ****',partTypeId);
         masterPartService.addOrEditPartPreset(presetData, action, function (data) {
-            toastr.success('Record added successfully');
-        });
+            if (_.isUndefined(data.error)) {
+                toastr.success('Record added successfully');
+            } else {
+                toastr.error('Enter Part Details Properly');
+            }
+            
+        }); 
     }
 
     //- to add material to partType 

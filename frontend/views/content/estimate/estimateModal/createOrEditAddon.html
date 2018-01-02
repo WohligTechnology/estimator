@@ -10,7 +10,7 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form class="form-horizontal">
+                <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-4 control-label"> Addon Type:</label>
@@ -89,21 +89,23 @@
                             <label class="col-md-4 control-label">% Use:</label>
                             <div class="col-md-5">
                                 <div class="display-inline">
-                                    <input type="text" class="form-control" placeholder="100" ng-model="addonObj.quantity.utilization" required>
+                                    <input type="text" class="form-control" placeholder="100" name="utilization" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="addonObj.quantity.utilization" required>
                                 </div>
                                 <div class="display-inline">
                                     <span>%</span>
                                 </div>
+                                <span class="error" ng-show="myForm.utilization.$invalid && myForm.utilization.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Contegency or Wastage:</label>
                             <div class="col-md-5">
                                 <div class="display-inline">
-                                    <input type="text" class="form-control" placeholder="10" ng-model="addonObj.quantity.contengncyOrWastage" required>
+                                    <input type="text" class="form-control" placeholder="10" name="contengncyOrWastage" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="addonObj.quantity.contengncyOrWastage" required>
                                 </div>
                                 <div class="display-inline">
                                     <span>%</span>
+                                        <span class="error" ng-show="myForm.contengncyOrWastage.$invalid && myForm.contengncyOrWastage.$dirty">Please enter a number or floating point number</span>
                                 </div>
                             </div>
                         </div>
@@ -145,8 +147,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addAddon('save', addonObj, level, subAssemblyId, partId)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addAddon('update', addonObj, level, subAssemblyId, partId)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addAddon('save', addonObj, level, subAssemblyId, partId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addAddon('update', addonObj, level, subAssemblyId, partId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

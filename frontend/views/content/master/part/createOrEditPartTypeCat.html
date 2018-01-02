@@ -11,18 +11,18 @@
                 <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Enter Category Name:<span class="error">&nbsp;&nbsp;*</span></label>
-                            <div class="col-md-5">
+                                <label class="col-md-4 control-label">Enter Category Name:<span class="error">&nbsp;&nbsp;*</span></label>
+                                <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="formData.partTypeCatName" autofocus required>
-                                <span class="error">&nbsp;&nbsp;*</span>
+                                <span class="error">&nbsp;&nbsp;*</span>                                
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine" ng-click="addOrEditPartTypeCat(operation, formData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine" ng-click="addOrEditPartTypeCat(operation, formData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="formData.partTypeCatName.length == null" ng-click="addOrEditPartTypeCat(operation, formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="formData.partTypeCatName.length == null" ng-click="addOrEditPartTypeCat(operation, formData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
