@@ -77,3 +77,4 @@ myApp.controller('UserProfileController', function ($scope, toastr, userProfileS
     }
     $scope.init();
 });
+

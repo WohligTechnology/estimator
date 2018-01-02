@@ -1,6 +1,5 @@
 myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, loginService) {
 
-
     // *************************** default variables/tasks begin here ***************** //
     if ($.jStorage.get('loggedInUser') != null) {
         $state.go('app.dashboard');
@@ -102,3 +101,4 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
     }
 
 });
+

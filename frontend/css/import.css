@@ -9729,6 +9729,9 @@ body {
   margin-left: -15px;
   font-family: Arial, Helvetica, sans-serif; }
 
+.error {
+  color: red; }
+
 #fancybox-loading,
 .fancybox-close,
 .fancybox-next span,
