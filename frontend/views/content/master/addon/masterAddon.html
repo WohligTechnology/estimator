@@ -41,7 +41,7 @@
             </div>
             <div class="portlet-body horizontal_scroll">
                 <div class="table-toolbar">
-                    <div class="row">
+                    <div class="row" ng-if="obj.total>obj.count">
                         <div class="col-md-8">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default">Show Records</button>
@@ -92,22 +92,22 @@
                                             <span></span>
                                         </label>
                                     </th>
-                                    <th rowspan="2" class="align-top">Id</th>
-                                    <th rowspan="2" class="align-top">Addon Type Name</th>
-                                    <th rowspan="2" class="align-top">Mat Cat</th>
-                                    <th rowspan="2" class="align-top">Mat Sub Cat</th>
+                                    <th rowspan="2" class="align-left">Id</th>
+                                    <th rowspan="2" class="align-left">Addon Type Name</th>
+                                    <th rowspan="2" class="align-left">Mat Cat</th>
+                                    <th rowspan="2" class="align-left">Mat Sub Cat</th>
                                     <th colspan="2" class="text-center">Rate</th>
-                                    <th colspan="6" class="align-top text-center">Quantity</th>
-                                    <th rowspan="2" class="align-top">% Use</th>
-                                    <th rowspan="2" class="align-top">Action</th>
+                                    <th colspan="6" class="align-left text-center">Quantity</th>
+                                    <th rowspan="2" class="align-left">% Use</th>
+                                    <th rowspan="2" class="align-left">Action</th>
                                 </tr>
                                 <tr>
                                     <th>Multiplication Factor</th>
-                                    <th>UOM</th>
+                                    <th title="Unit Of Measurement">UOM</th>
                                     <th>Input</th>
-                                    <th>UOM</th>
+                                    <th title="Unit Of Measurement">UOM</th>
                                     <th>Linked Key Value</th>
-                                    <th>UOM</th>
+                                    <th title="Unit Of Measurement">UOM</th>
                                     <th>Mulfact</th>
                                     <th>Final UOM</th>
                                 </tr>
@@ -117,22 +117,10 @@
                                     <td>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                             <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
-                                                ng-change="selectBulkAddons(checkboxStatus, addon._id)" />
+                                                ng-click="selectBulkAddons(checkboxStatus, addon._id)" />
                                             <span></span>
                                         </label>
                                     </td>
-                                    <!-- <td>aa</td>
-                                    <td>bb</td>
-                                    <td>cc</td>
-                                    <td>dd</td>
-                                    <td>ee</td>
-                                    <td>ff</td>
-                                    <td>gg</td>
-                                    <td>hh</td>
-                                    <td>ii</td>
-                                    <td>jj</td>
-                                    <td>kk</td>
-                                    <td>ll</td> -->
                                     <td>{{$index}} </td>
                                     <td>{{addon.addonTypeName}}</td>
                                     <td>{{addon.materialCat.materialCatName}} </td>
@@ -147,9 +135,9 @@
                                     <td>{{addon.quantity.finalUom.uomName}} </td>
                                     <td>{{addon.quantity.percentageUse}}</td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" id="add_space" ng-click="addOrEditAddonTypeModal('update',addon)">
+                                        <span class="label label-sm label-success" ng-click="addOrEditAddonTypeModal('update',addon)">
                                             <i class="fa fa-pencil" title="Edit Addon"></i>
-                                        </span>
+                                        </span>&nbsp;
                                         <span class="label label-sm label-danger" ng-click="deleteAddonTypeModal(addon._id,'deleteAddonType')">
                                             <i class="fa fa-trash-o" title="Delete Addon"></i>
                                         </span>

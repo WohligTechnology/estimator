@@ -9284,23 +9284,24 @@ header {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row; }
+  .leftPosition img {
+    margin-right: 0.5em; }
 
-.rightPosition {
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: reverse;
-      -ms-flex-direction: row-reverse;
-          flex-direction: row-reverse; }
-
-.leftPosition,
 .rightPosition {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex; }
-  .leftPosition img,
   .rightPosition img {
     width: 3em;
-    height: 3em;
-    margin-left: 0.5em; }
+    height: 3em; }
+
+.topPosition img {
+  width: 19em;
+  padding-bottom: 1em; }
+
+.iconWidth img {
+  width: 36px !important;
+  height: 36px; }
 
 @media (min-width: 992px) {
   .hideSideBar {
@@ -9702,16 +9703,34 @@ body {
 
 .unit {
   position: absolute;
+  color: #c2c2c2;
   top: 5px;
   right: 22px; }
 
-.select-color {
-  margin-top: 10%;
-  border-color: #32c5d2;
-  color: #32c5d2;
-  background: #FFFF;
-  padding: 3px 8px;
-  font-size: 12px; }
+#table_alignment {
+  text-align: left !important; }
+
+.greenColor {
+  color: green; }
+
+.redColor {
+  color: red; }
+
+.mt-checkbox.mt-checkbox-outline > input:checked ~ span {
+  border-color: #548391 !important;
+  background: #3d4957 !important;
+  position: absolute !important; }
+
+.displayBlock {
+  display: block;
+  padding: 15px;
+  background-color: #e6e5e7;
+  width: 19em;
+  margin-left: -15px;
+  font-family: Arial, Helvetica, sans-serif; }
+
+.error {
+  color: red; }
 
 #fancybox-loading,
 .fancybox-close,

@@ -8,19 +8,19 @@
                             <a href="#" data-target="#tab_1_1" data-toggle="tab">Details</a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_2" data-toggle="tab">Information</a>
+                            <a href="#" data-target="#tab_1_2" data-toggle="tab" ng-if="editPermmission">Information</a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_3" data-toggle="tab">Key Requirements</a>
+                            <a href="#" data-target="#tab_1_3" data-toggle="tab" ng-if="editPermmission">Key Requirements</a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_4" data-toggle="tab">Technical Req</a>
+                            <a href="#" data-target="#tab_1_4" data-toggle="tab" ng-if="editPermmission">Technical Req</a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_5" data-toggle="tab">Commercial Req </a>
+                            <a href="#" data-target="#tab_1_5" data-toggle="tab" ng-if="editPermmission">Commercial Req </a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_6" data-toggle="tab">Pre-qualification Criteria </a>
+                            <a href="#" data-target="#tab_1_6" data-toggle="tab" ng-if="editPermmission">Pre-qualification Criteria </a>
                         </li>
                     </ul>
                 </div>
@@ -40,12 +40,12 @@
                                                 </div> -->
                                             </div>
                                         </div>
-                                        <form role="form" class="form-horizontal">
+                                        <form role="form" class="form-horizontal" name="myForm1">
                                             <div class="portlet-body form">
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Enquiry Id:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_10" ng-model="formData.enquiryId" disabled>
+                                                        <input type="text" class="form-control" id="form_control_10" ng-model="formData.enquiryId" readonly>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Status:</label>
@@ -60,10 +60,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
-                                                    <label class="col-md-2 control-label" for="form_control_1">Customer Name:</label>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Customer Name:<span class="error">&nbsp;&nbsp;*</span></label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control" ng-options="c.customerName for c in customerData track by c._id" ng-model="selectedCustomer">
-                                                        </select>
+                                                            <select class="form-control" name="customername" ng-options="c.customerName for c in customerData track by c._id" ng-model="formData.customerDataObj"
+                                                            ng-change="setCustomerData(formData.customerDataObj)" required>
+                                                            </select>
+                                                            <span class="error" ng-show="myForm1.customername.$invalid && myForm1.customername.$dirty">Please fill in this field.</span>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Enquiry Type:</label>
@@ -82,39 +84,42 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Estimator:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.estimator">
+                                                        <select class="form-control" ng-options="u.name for u in userData track by u._id" ng-model="formData.enquiryDetails.estimator" ng-change="setEstimator(formData.enquiryDetails.estimator)">
+                                                        </select>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Contact:</label>
                                                     <div class="col-md-3">
-                                                        <input type="number" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" cleave="options.mobile" ng-model="formData.enquiryDetails.customerContacts">
                                                         <div class="form-control-focus"></div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Location:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.customerLocation">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.customerLocation" disabled>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Currency:</label>
                                                     <div class="col-md-3">
                                                         <select class="form-control" ng-model="formData.enquiryDetails.currency">
-                                                            <option></option>
-                                                            <option>abc</option>
-                                                            <option>efg</option>
+                                                            <option selected> INR </option>
+                                                            <!-- <option>dollar</option>
+                                                            <option>euro</option> -->
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
-                                                    <label class="col-md-2 control-label" for="form_control_1">Delivery Location:</label>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Delivery Location:<span class="error">&nbsp;&nbsp;*</span></label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.deliveryLocation">
+                                                        <input type="text" class="form-control" name="deliverylocation" id="form_control_1" ng-model="formData.enquiryDetails.deliveryLocation" required>
+                                                        <span class="error" ng-show="myForm1.deliverylocation.$invalid && myForm1.deliverylocation.$dirty">Please fill in this field </span>
+
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Delivery Distant:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.deliveryDistance">
+                                                        <input type="number" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.deliveryDistance">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
@@ -153,32 +158,33 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ No:</label>
                                                     <div class="col-md-3">
-                                                        <input type="tel" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqNo">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqNo">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ Received Date:</label>
                                                     <div class="col-md-3">
-                                                        <input type="date" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqReceiveddDate">
+                                                        <input type="date" class="form-control" id="form_control_1" min="2001-01-01" max="dateNow" ng-model="formData.enquiryDetails.rfqReceiveddDate">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ Due Date:</label>
                                                     <div class="col-md-3">
-                                                        <input type="date" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.rfqDueDate">
+                                                        <input type="date" class="form-control" id="form_control_1"  min="dateNow" max="3000-12-31" ng-model="formData.enquiryDetails.rfqDueDate">
+                                                        <!-- <input-date ng-model="formData.enquiryDetails.rfqDueDate"></input-date> -->
                                                         <div class="form-control-focus"> </div>
                                                     </div>
-                                                    <label class="col-md-2 control-label" for="form_control_1">Saleman:</label>
+                                                    <!-- <label class="col-md-2 control-label" for="form_control_1">Saleman:</label>
                                                     <div class="col-md-3">
                                                         <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.salesman">
                                                         <div class="form-control-focus"> </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                             <div class="form-actions">
                                                 <div class="row">
                                                     <div class=" col-md-12 text-center">
-                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                        <button type="button" class="btn blue" ng-if="myForm1.$dirty" ng-click="addEnquiryData(formData)" ng-disabled ="myForm1.$dirty && myForm1.$invalid || myForm1.$pristine">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -202,30 +208,30 @@
                                                 </div> -->
                                             </div>
                                         </div>
-                                        <form role="form" class="form-horizontal">
+                                        <form role="form" class="form-horizontal" name="myForm2">
                                             <div class="portlet-body form">
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ copy:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.rfqCopy" icon="false" pdf-file="true"></upload-all-files>
-                                                            <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.rfqCopy" icon="false" is-multiple="true" file-location="left"></upload-all-files>
+                                                        <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Drawings / Rev:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.drawings" icon="false" pdf-file="true"></upload-all-files>
-                                                            <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.drawings" icon="false" is-multiple="true" file-location="right"></upload-all-files>
+                                                        <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Photos:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.photos" icon="false" pdf-file="false"></upload-all-files>
-                                                            <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.photos" icon="false" is-multiple="true" file-location="top"></upload-all-files>
+                                                        <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Others docs:</label>
                                                     <div class="col-md-3">
-                                                        <upload-all-files ng-model="formData.enquiryInfo.otherDocs" icon="false" pdf-file="true"></upload-all-files>
-                                                            <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.enquiryInfo.otherDocs" icon="false" is-multiple="true" file-location="right"></upload-all-files>
+                                                        <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
@@ -254,7 +260,7 @@
                                             <div class="form-actions">
                                                 <div class="row">
                                                     <div class=" col-md-12 text-center">
-                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                        <button type="button" class="btn blue"  ng-if="myForm2.$dirty" ng-click="addEnquiryData(formData)">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -278,20 +284,20 @@
                                                 </div> -->
                                             </div>
                                         </div>
-                                        <form role="form" class="form-horizontal">
+                                        <form role="form" class="form-horizontal" name="myForm3">
                                             <div class="portlet-body form">
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-3 control-label" for="form_control_1">NDA agreement:</label>
                                                     <div class="col-md-6">
-                                                            <upload-all-files ng-model="formData.keyRequirement.ndaAgreement"></upload-all-file>  
-                                                        <!--<div class="form-control-focus"> </div>-->
+                                                        <upload-all-files ng-model="formData.keyRequirement.ndaAgreement" is-multiple="true" icon="false" file-location="top"></upload-all-files>
+                                                            <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-actions">
                                                 <div class="row">
                                                     <div class=" col-md-12 text-center">
-                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                        <button type="button" class="btn blue" ng-if="myForm3.$dirty" ng-click="addEnquiryData(formData)">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -315,7 +321,7 @@
                                                 </div> -->
                                             </div>
                                         </div>
-                                        <form role="form" class="form-horizontal">
+                                        <form role="form" class="form-horizontal" name="myForm4">
                                             <div class="portlet-body form">
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Design:</label>
@@ -345,7 +351,7 @@
                                             <div class="form-actions">
                                                 <div class="row">
                                                     <div class=" col-md-12 text-center">
-                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                        <button type="button" class="btn blue" ng-if="myForm4.$dirty" ng-click="addEnquiryData(formData)">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -364,12 +370,12 @@
                                             <div class="padd-t font-green-haze">
                                                 <i class="icon-settings font-green-haze"></i>
                                                 <span class="caption-subject bold uppercase"> Commercial Requirements:</span>
-                                                <div class="pull-right">
+                                                <!-- <div class="pull-right">
                                                     <span class="caption-subject bold"> {{operationStatus}}</span>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
-                                        <form role="form" class="form-horizontal">
+                                        <form role="form" class="form-horizontal" name="myForm5">
                                             <div class="portlet-body form">
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Warranty required:</label>
@@ -379,7 +385,7 @@
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Payment terms:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.commercialRequirement.paymentTerms">
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
@@ -430,7 +436,7 @@
                                             <div class="form-actions">
                                                 <div class="row">
                                                     <div class=" col-md-12 text-center">
-                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                        <button type="button" class="btn blue" ng-if="myForm5.$dirty" ng-click="addEnquiryData(formData)">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -454,7 +460,7 @@
                                                 </div> -->
                                             </div>
                                         </div>
-                                        <form role="form" class="form-horizontal">
+                                        <form role="form" class="form-horizontal" name="myForm6">
                                             <div class="portlet-body form">
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Detail:</label>
@@ -496,7 +502,7 @@
                                             <div class="form-actions">
                                                 <div class="row">
                                                     <div class=" col-md-12 text-center">
-                                                        <button type="button" class="btn blue" ng-click="addEnquiryData(formData)">Submit</button>
+                                                        <button type="button" class="btn blue" ng-if="myForm6.$dirty" ng-click="addEnquiryData(formData)">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -513,64 +519,31 @@
                     <button id="sample_editable_1_new" class="btn green" ng-click="saveAssemblyNameModal(formData._id,enquiryId)" ng-if="showEstimateBtn"> Estimate </button>
                 </div> -->
                 <div class="btn-group pull-right">
-                    <button id="sample_editable_1_new" class="btn green" ng-click="saveAssemblyNameModal(formData._id,enquiryId)"> Estimate </button>
+                    <button id="sample_editable_1_new" class="btn green" ng-click="saveAssemblyNameModal(formData._id,enquiryId)" ng-if="editPermmission">
+                        Estimate </button>
                 </div>
                 <!-- start of table-->
-                <div class="portlet-body">
+                <div class="portlet-body" ng-if="editPermmission">
                     <div class="table-scrollable">
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th> Estimate Id </th>
+                                    <th> ID </th>
                                     <th> Estimate Version </th>
                                     <th> Created By User </th>
                                     <th> Last Updated By User </th>
                                     <th> Created Date </th>
                                     <th> Updated Date </th>
-                                    <th>EC </th>
-                                    <th>EC </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td> 1 </td>
-                                    <td> Mark </td>
-                                    <td> Otto </td>
-                                    <td> makr124 </td>
-                                    <td>20/5/2017 </td>
-                                    <td>20/5/2017</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td> Jacob </td>
-                                    <td> Nilson </td>
-                                    <td> jac123 </td>
-                                    <td>20/5/2017 </td>
-                                    <td>20/5/2017</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td> 3 </td>
-                                    <td> Larry </td>
-                                    <td> Cooper </td>
-                                    <td> lar </td>
-                                    <td>20/5/2017 </td>
-                                    <td>20/5/2017</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td> 3 </td>
-                                    <td> Sandy </td>
-                                    <td> Lim </td>
-                                    <td> sanlim </td>
-                                    <td>20/5/2017 </td>
-                                    <td>20/5/2017</td>
-                                    <td></td>
-                                    <td></td>
+                                <tr ng-repeat="v in versionData track by $index">
+                                    <td> {{$index + 1}} </td>
+                                    <td> {{v.estimateVersion}} </td>
+                                    <td> {{v.estimateCreatedUser.name}} </td>
+                                    <td> {{v.estimateUpdatedUser.name}} </td>
+                                    <td> {{v.createdAt}} </td>
+                                    <td> {{v.updatedAt}} </td>
                                 </tr>
                             </tbody>
                         </table>

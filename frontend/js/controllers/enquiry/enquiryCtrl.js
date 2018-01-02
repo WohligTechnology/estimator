@@ -45,7 +45,12 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   //- to delete enquiry
   $scope.deleteEnquiry = function (enquiryId) {
     enquiryService.deleteEnquiry(enquiryId, function (data) {
-      toastr.info('Record deleted successfully');
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getEnquiryData();
     });
@@ -55,14 +60,14 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        enquiryService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        enquiryService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.tableData = data.results;
           enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        enquiryService.getPaginationDatawithoutKeyword(page, function (data) {
+        enquiryService.getPaginationData(page, null, null, function (data) {
           $scope.tableData = data.results;
           enquiryService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -70,7 +75,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
         });
       }
     } else {
-      enquiryService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      enquiryService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.tableData = data.results;
         enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
@@ -81,7 +86,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
 
   //- to search the text in the table
   $scope.serachText = function (keyword, count) {
-    enquiryService.getSearchResult(keyword, function (data) {
+    enquiryService.getPaginationData(null, null, keyword, function (data) {
       $scope.tableData = data.results;
       enquiryService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
@@ -108,11 +113,16 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   }
   //- to delete enquiry
   $scope.deleteBulkEnquiries = function (enquiries) {
-    enquiryService.deleteBulkEnquiries(enquiries, function () {
+    enquiryService.deleteBulkEnquiries(enquiries, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getEnquiryData();
       $scope.bulkEnquiries = [];
-      toastr.info('Records deleted successfully');
     });
   }
   //- to get bulk enquiries

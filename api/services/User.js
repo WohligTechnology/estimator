@@ -146,6 +146,8 @@ var model = {
     getAllMedia: function (data, callback) {
 
     },
+
+    //-get total count of records from user,customer,enquiry and estimate table.
     getAllDashboardData: function (data, callback) {
 
         async.parallel({
@@ -186,6 +188,7 @@ var model = {
         });
     },
 
+    //-create new user by passing email and name and send the otp to respective emailid of user.
     createUser: function (data, callback) {
         var userData = {};
         async.waterfall([
@@ -239,6 +242,7 @@ var model = {
 
     },
 
+    //-allow the user to login the application through email and password.
     loginUser: function (data, callback) {
         User.findOne({
             email: data.email,
@@ -255,6 +259,7 @@ var model = {
         });
     },
 
+    //-generate random text string mainly used for generating the password.
     generateRandomString: function (number) {
         var text = "";
         var possible = "$ABCDEFGHIJKLMNOPQRS&TUVWXYZabcd#efghijklmnopqrstuvw@xyz01234%56789";
@@ -265,6 +270,7 @@ var model = {
         return text;
     },
 
+    //-allow the system to change the password of already logged in user by given new password.
     changePassword: function (data, callback) {
         User.findOne({
             _id: data._id
@@ -303,6 +309,8 @@ var model = {
             }
         });
     },
+
+    //-allow the system to send the forget password otp to user's emailid.
     sendForgetPasswordOtp: function (data, callback) {
         var userData = {};
         // check whether user is available or not ?
@@ -361,6 +369,8 @@ var model = {
                 callback(err, userData);
             });
     },
+
+    //-confirm the forget password otp which is sent on user's email id.
     confirmForgotPasswordOtp: function (data, callback) {
         User.findOne({
             _id: data._id,
@@ -376,6 +386,8 @@ var model = {
             }
         });
     },
+
+    //-reset password in case if user forgot the password.
     resetPassword: function (data, callback) {
         User.findOneAndUpdate({
             _id: data._id
@@ -393,6 +405,8 @@ var model = {
             }
         });
     },
+
+    //-get all user data from user table.
     getUserData: function (data, callback) {
         User.find().lean().exec(function (err, found) {
             if (err) {
@@ -406,13 +420,12 @@ var model = {
         });
     },
 
-
+    //-serach the user data by passing user name
     search: function (data, callback) {
         var maxRow = 10;
         if (data.totalRecords) {
             maxRow = data.totalRecords;
         }
-
         var page = 1;
         if (data.page) {
             page = data.page;
@@ -422,7 +435,7 @@ var model = {
             field: data.field,
             filters: {
                 keyword: {
-                    fields: ['email', 'name', 'mobile'],
+                    fields: ['name'],
                     term: data.keyword
                 }
             },
@@ -450,8 +463,8 @@ var model = {
                 });
     },
 
+    //-delete multiple users by passing multiple user ids
     deleteMultipleUsers: function (data, callback) {
-
         User.remove({
             _id: {
                 $in: data.idsArray
@@ -467,13 +480,11 @@ var model = {
             }
         });
     },
+
     // upload the avtar 
     // req data --files
     uploadAvtar: function (data, callback) {
-
-
         var uuid = '';
-
         data("file").upload({
             maxBytes: 10000000, // 10 MB Storage 1 MB = 10^6
             dirname: "../../assets/images",
@@ -511,6 +522,7 @@ var model = {
         });
     },
 
+    //-uploadAvtar function calling the function uploadFile from frontend and give back fileId.
     uploadFile: function (file, callback) {
         var d = new Date();
         var extension = file.filename.split('.').pop();
@@ -535,12 +547,32 @@ var model = {
             });
         });
     },
-    // what this function will do ?
-    // req data --> ?
-    AceesControl: function (data, callback) {
 
+    // AceesControl: function (data, callback) {
+    //     PermissionService.createRole({
+    //         roleName: data.roleName,
+    //         permissions: [{
+    //             model: data.modelName,
+    //             action: data.action
+    //         }, ]
+    //     })
+    // },
+
+    //-Get all users' name from user table.
+    getUserName: function (data, callback) {
+        console.log('**** i@@@@@@@2 ****',data);
+        User.find().select('name').lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of User.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
     },
-    
+
 
 };
 module.exports = _.assign(module.exports, exports, model);

@@ -50,5 +50,21 @@ module.exports.policies = {
     // }
     DemoController: {
         demo: "check"
-    }
+    },
+
+    // '*': [
+    //     'basicAuth',
+    //     'passport',
+    //     'sessionAuth',
+    //     'ModelPolicy',
+    //     'AuditPolicy',
+    //     'OwnerPolicy',
+    //     'PermissionPolicy',
+    //     'RolePolicy',
+    //     'CriteriaPolicy'
+    // ],
+
+    // AuthController: {
+    //     '*': ['passport']
+    // }
 };

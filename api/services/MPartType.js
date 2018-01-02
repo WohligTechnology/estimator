@@ -1,7 +1,7 @@
 var schema = new Schema({
     partTypeName: {
         type: String,
-        unique:true
+        unique: true
     },
     partTypeCode: {
         type: String
@@ -45,6 +45,7 @@ module.exports = mongoose.model('MPartType', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'partTypeCat material', 'partTypeCat material'));
 var model = {
 
+    //-Find One record of MPart Type and push the material Id to material array.
     addPartTypeMaterial: function (data, callback) {
         MPartType.findOneAndUpdate({
             _id: data._id,
@@ -62,8 +63,9 @@ var model = {
                 callback(null, updatedData);
             }
         });
-
     },
+
+    //-Find One record of MPart Type and push the proccessingId to proccessing array.
     addPartTypeProcessing: function (data, callback) {
         MPartType.findOneAndUpdate({
             _id: data._id
@@ -82,6 +84,8 @@ var model = {
             }
         });
     },
+
+    //-Find the single record and push the addon Id to addon array.
     addPartTypeAddons: function (data, callback) {
         MPartType.findOneAndUpdate({
             _id: data._id
@@ -100,6 +104,8 @@ var model = {
             }
         });
     },
+
+    //-Find the single record and push extrasId to extra array.
     addPartTypeExtras: function (data, callback) {
         MPartType.findOneAndUpdate({
             _id: data._id
@@ -118,6 +124,8 @@ var model = {
             }
         });
     },
+
+    //-Find single record from MPartType table and remove the material Id from material array.
     deletePartTypeMaterial: function (data, callback) {
         MPartType.findOneAndUpdate({
             _id: data._id,
@@ -138,6 +146,8 @@ var model = {
 
 
     },
+
+    //-Find single record from MPartType table and remove the proccessingId from proccessing array.
     deleteProcessingPartType: function (data, callback) {
         MPartType.findOneAndUpdate({
             _id: data._id
@@ -157,6 +167,8 @@ var model = {
         });
 
     },
+
+    //-Find single record from MPartType table and remove the addonsId from addons array.
     deleteAddonsPartType: function (data, callback) {
         MPartType.findOneAndUpdate({
             _id: data._id
@@ -176,6 +188,8 @@ var model = {
         });
 
     },
+
+    //-Find single record from MPartType table and remove the extrasId from extras array.
     deleteExtrasPartType: function (data, callback) {
         MPartType.findOneAndUpdate({
             _id: data._id
@@ -195,8 +209,10 @@ var model = {
         });
 
     },
+
+    //-Get all records from Mpart type table.
     getPartTypeData: function (data, callback) {
-        MPartType.find().lean().exec(function (err, found) {
+        MPartType.find().lean().deepPopulate('material').exec(function (err, found) {
             if (err) {
                 console.log('**** error at getPartTypeData of MPartType.js ****', err);
                 callback(err, null);
@@ -206,8 +222,6 @@ var model = {
                 callback(null, found);
             }
         });
-    },
-
-
+    }
 };
 module.exports = _.assign(module.exports, exports, model);

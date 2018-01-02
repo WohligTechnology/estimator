@@ -31,8 +31,6 @@ myApp.service('masterExtraService', function (NavigationService) {
       NavigationService.boxCall('MUom/search', function (data) {
         extraDataObj.uoms = data.data.results;
         callback(extraDataObj);
-        callback(extraDataObj);
-
       });
     }
 
@@ -40,50 +38,23 @@ myApp.service('masterExtraService', function (NavigationService) {
   //- add or edit extra
   this.addOrEditExtra = function (extraData, callback) {
     NavigationService.apiCall('MExtra/save', extraData, function (data) {
-      var extra = data.data.results;
-      callback(extra);
+      callback(data);
     });
   }
   //- delete extra
   this.deleteExtra = function (extraId, callback) {
-    var deleteExtraObj = {
-      _id: extraId
-    };
-    NavigationService.delete('MExtra/delete', deleteExtraObj, function (data) {
+    idsArray = [];
+    idsArray.push(extraId);
+    NavigationService.apiCall('Web/delRestrictions/MExtra', {idsArray}, function (data) {
       callback(data);
     });
   }
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('MExtra/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('MExtra/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('MExtra/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results  
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('MExtra/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -140,8 +111,8 @@ myApp.service('masterExtraService', function (NavigationService) {
   }
   //- delete bulk extras
   this.deleteBulkUsers = function (extras, callback) {
-    NavigationService.apiCall('MExtra/deleteMultipleExtras', {idsArray: extras}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/MExtra', {idsArray: extras}, function (data) {
+      callback(data);
     });
   }
 });

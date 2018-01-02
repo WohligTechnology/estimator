@@ -27,7 +27,6 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   $scope.addOrEditAddonTypeModal = function (operation, addonType) {
 
     masterAddonService.getAddonTypeModalData(operation, addonType, function (data) {
-      console.log('**** inside function_name of masterAddonCtrl.js ****', data);
       $scope.formData = data.addonTypeData;
       $scope.mMatCatData = data.mMatData;
       $scope.mUomData = data.mUomData;
@@ -61,7 +60,7 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
     addonTypeData.quantity.finalUom = selectedFinalUomId;
 
     masterAddonService.addOrEditAddonType(addonTypeData, function (data) {
-      toastr.info('Record added successfully', 'Addon Creation!');
+      toastr.success('Addon added/updated successfully');
       $scope.getAddonData();
       $scope.cancelModal();
     });
@@ -82,7 +81,12 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   //- function for addon deletion
   $scope.deleteAddonType = function (addonId) {
     masterAddonService.deleteAddonType(addonId, function (data) {
-      toastr.info('Record deleted successfully', 'Addon Deletion!');
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.getAddonData();
       $scope.cancelModal();
     });
@@ -92,14 +96,14 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        masterAddonService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        masterAddonService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.addonData = data.results;
           masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        masterAddonService.getPaginationDatawithoutKeyword(page, function (data) {
+        masterAddonService.getPaginationData(page, null, null, function (data) {
           $scope.addonData = data.results;
           masterAddonService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -107,7 +111,7 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
         });
       }
     } else {
-      masterAddonService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      masterAddonService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.addonData = data.results;
         masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
@@ -118,7 +122,7 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
 
   //- function to search the text in table
   $scope.serachText = function (keyword, count) {
-    masterAddonService.getSearchResult(keyword, function (data) {
+    masterAddonService.getPaginationData(null, null, keyword, function (data) {
       $scope.addonData = data.results;
       masterAddonService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
@@ -145,11 +149,16 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   }
   //- function to delete addon
   $scope.deleteBulkAddons = function (addons) {
-    masterAddonService.deleteBulkAddons(addons, function () {
+    masterAddonService.deleteBulkAddons(addons, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getAddonData();
       $scope.bulkAddons = [];
-      toastr.info('Records added successfully', 'Addons Deletion!');
     });
   }
   //- function to get bulk addons

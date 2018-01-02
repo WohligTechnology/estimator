@@ -124,7 +124,6 @@ var controller = {
 
     loginUser: function (req, res) {
         if (req.body) {
-            // please remove Controller.js from below line
             User.loginUser(req.body, res.callback);
         } else {
             res.json({
@@ -196,11 +195,9 @@ var controller = {
             })
         }
     },
-
-
-    search: function (req, res) {
+    search1: function (req, res) {
         if (req.body) {
-            User.search(req.body, res.callback);
+            User.search1(req.body, res.callback);
         } else {
             res.json({
                 value: false,
@@ -275,6 +272,18 @@ var controller = {
     AceesControl: function (req, res) {
         if (req.body) {
             User.AceesControl(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    getUserName: function (req, res) {
+        if (req.body) {
+            User.getUserName(req.body, res.callback);
         } else {
             res.json({
                 value: false,

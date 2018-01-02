@@ -47,15 +47,16 @@
     "jimp": "^0.2.27",
     "json2xls": "^0.1.2",
     "lackey-mongoose-ref-validator": "0.0.3",
-    "lodash": "^4.14.2",
+    "lodash": "^4.17.4",
     "md5": "^2.1.0",
     "moment": "^2.14.1",
     "mongod": "^2.0.0",
     "mongodb": "^2.1.7",
-    "mongoose": "^4.5.5",
+    "mongoose": "^4.13.6",
     "mongoose-deep-populate": "^3.0.0",
     "mongoose-middleware": "^0.2.19",
     "mongoose-populate-virtuals": "^1.0.3",
+    "mongoose-ref-validator": "^1.0.21",
     "mongoose-schematypes-extend": "^0.3.2",
     "mongoose-timestamp": "^0.6.0",
     "mongoose-unique-validator": "^1.0.2",
@@ -64,6 +65,7 @@
     "monguurl": "^0.1.0",
     "node-xlsx": "^0.7.4",
     "nodemon": "^1.12.1",
+    "object-path": "^0.11.4",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-google-auth": "^1.0.1",
@@ -98,6 +100,7 @@
     "grunt-ejs-compile": "0.0.1",
     "grunt-ejs-locals": "^0.1.1",
     "grunt-http": "^2.0.1",
-    "grunt-postcss": "^0.8.0"
+    "grunt-postcss": "^0.8.0",
+    "http-server": "^0.10.0"
   }
 }

@@ -3,6 +3,22 @@
 */(function(e,t){var n,r,i=typeof t,o=e.document,a=e.location,s=e.jQuery,u=e.$,l={},c=[],p="1.9.1",f=c.concat,d=c.push,h=c.slice,g=c.indexOf,m=l.toString,y=l.hasOwnProperty,v=p.trim,b=function(e,t){return new b.fn.init(e,t,r)},x=/[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source,w=/\S+/g,T=/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,N=/^(?:(<[\w\W]+>)[^>]*|#([\w-]*))$/,C=/^<(\w+)\s*\/?>(?:<\/\1>|)$/,k=/^[\],:{}\s]*$/,E=/(?:^|:|,)(?:\s*\[)+/g,S=/\\(?:["\\\/bfnrt]|u[\da-fA-F]{4})/g,A=/"[^"\\\r\n]*"|true|false|null|-?(?:\d+\.|)\d+(?:[eE][+-]?\d+|)/g,j=/^-ms-/,D=/-([\da-z])/gi,L=function(e,t){return t.toUpperCase()},H=function(e){(o.addEventListener||"load"===e.type||"complete"===o.readyState)&&(q(),b.ready())},q=function(){o.addEventListener?(o.removeEventListener("DOMContentLoaded",H,!1),e.removeEventListener("load",H,!1)):(o.detachEvent("onreadystatechange",H),e.detachEvent("onload",H))};b.fn=b.prototype={jquery:p,constructor:b,init:function(e,n,r){var i,a;if(!e)return this;if("string"==typeof e){if(i="<"===e.charAt(0)&&">"===e.charAt(e.length-1)&&e.length>=3?[null,e,null]:N.exec(e),!i||!i[1]&&n)return!n||n.jquery?(n||r).find(e):this.constructor(n).find(e);if(i[1]){if(n=n instanceof b?n[0]:n,b.merge(this,b.parseHTML(i[1],n&&n.nodeType?n.ownerDocument||n:o,!0)),C.test(i[1])&&b.isPlainObject(n))for(i in n)b.isFunction(this[i])?this[i](n[i]):this.attr(i,n[i]);return this}if(a=o.getElementById(i[2]),a&&a.parentNode){if(a.id!==i[2])return r.find(e);this.length=1,this[0]=a}return this.context=o,this.selector=e,this}return e.nodeType?(this.context=this[0]=e,this.length=1,this):b.isFunction(e)?r.ready(e):(e.selector!==t&&(this.selector=e.selector,this.context=e.context),b.makeArray(e,this))},selector:"",length:0,size:function(){return this.length},toArray:function(){return h.call(this)},get:function(e){return null==e?this.toArray():0>e?this[this.length+e]:this[e]},pushStack:function(e){var t=b.merge(this.constructor(),e);return t.prevObject=this,t.context=this.context,t},each:function(e,t){return b.each(this,e,t)},ready:function(e){return b.ready.promise().done(e),this},slice:function(){return this.pushStack(h.apply(this,arguments))},first:function(){return this.eq(0)},last:function(){return this.eq(-1)},eq:function(e){var t=this.length,n=+e+(0>e?t:0);return this.pushStack(n>=0&&t>n?[this[n]]:[])},map:function(e){return this.pushStack(b.map(this,function(t,n){return e.call(t,n,t)}))},end:function(){return this.prevObject||this.constructor(null)},push:d,sort:[].sort,splice:[].splice},b.fn.init.prototype=b.fn,b.extend=b.fn.extend=function(){var e,n,r,i,o,a,s=arguments[0]||{},u=1,l=arguments.length,c=!1;for("boolean"==typeof s&&(c=s,s=arguments[1]||{},u=2),"object"==typeof s||b.isFunction(s)||(s={}),l===u&&(s=this,--u);l>u;u++)if(null!=(o=arguments[u]))for(i in o)e=s[i],r=o[i],s!==r&&(c&&r&&(b.isPlainObject(r)||(n=b.isArray(r)))?(n?(n=!1,a=e&&b.isArray(e)?e:[]):a=e&&b.isPlainObject(e)?e:{},s[i]=b.extend(c,a,r)):r!==t&&(s[i]=r));return s},b.extend({noConflict:function(t){return e.$===b&&(e.$=u),t&&e.jQuery===b&&(e.jQuery=s),b},isReady:!1,readyWait:1,holdReady:function(e){e?b.readyWait++:b.ready(!0)},ready:function(e){if(e===!0?!--b.readyWait:!b.isReady){if(!o.body)return setTimeout(b.ready);b.isReady=!0,e!==!0&&--b.readyWait>0||(n.resolveWith(o,[b]),b.fn.trigger&&b(o).trigger("ready").off("ready"))}},isFunction:function(e){return"function"===b.type(e)},isArray:Array.isArray||function(e){return"array"===b.type(e)},isWindow:function(e){return null!=e&&e==e.window},isNumeric:function(e){return!isNaN(parseFloat(e))&&isFinite(e)},type:function(e){return null==e?e+"":"object"==typeof e||"function"==typeof e?l[m.call(e)]||"object":typeof e},isPlainObject:function(e){if(!e||"object"!==b.type(e)||e.nodeType||b.isWindow(e))return!1;try{if(e.constructor&&!y.call(e,"constructor")&&!y.call(e.constructor.prototype,"isPrototypeOf"))return!1}catch(n){return!1}var r;for(r in e);return r===t||y.call(e,r)},isEmptyObject:function(e){var t;for(t in e)return!1;return!0},error:function(e){throw Error(e)},parseHTML:function(e,t,n){if(!e||"string"!=typeof e)return null;"boolean"==typeof t&&(n=t,t=!1),t=t||o;var r=C.exec(e),i=!n&&[];return r?[t.createElement(r[1])]:(r=b.buildFragment([e],t,i),i&&b(i).remove(),b.merge([],r.childNodes))},parseJSON:function(n){return e.JSON&&e.JSON.parse?e.JSON.parse(n):null===n?n:"string"==typeof n&&(n=b.trim(n),n&&k.test(n.replace(S,"@").replace(A,"]").replace(E,"")))?Function("return "+n)():(b.error("Invalid JSON: "+n),t)},parseXML:function(n){var r,i;if(!n||"string"!=typeof n)return null;try{e.DOMParser?(i=new DOMParser,r=i.parseFromString(n,"text/xml")):(r=new ActiveXObject("Microsoft.XMLDOM"),r.async="false",r.loadXML(n))}catch(o){r=t}return r&&r.documentElement&&!r.getElementsByTagName("parsererror").length||b.error("Invalid XML: "+n),r},noop:function(){},globalEval:function(t){t&&b.trim(t)&&(e.execScript||function(t){e.eval.call(e,t)})(t)},camelCase:function(e){return e.replace(j,"ms-").replace(D,L)},nodeName:function(e,t){return e.nodeName&&e.nodeName.toLowerCase()===t.toLowerCase()},each:function(e,t,n){var r,i=0,o=e.length,a=M(e);if(n){if(a){for(;o>i;i++)if(r=t.apply(e[i],n),r===!1)break}else for(i in e)if(r=t.apply(e[i],n),r===!1)break}else if(a){for(;o>i;i++)if(r=t.call(e[i],i,e[i]),r===!1)break}else for(i in e)if(r=t.call(e[i],i,e[i]),r===!1)break;return e},trim:v&&!v.call("\ufeff\u00a0")?function(e){return null==e?"":v.call(e)}:function(e){return null==e?"":(e+"").replace(T,"")},makeArray:function(e,t){var n=t||[];return null!=e&&(M(Object(e))?b.merge(n,"string"==typeof e?[e]:e):d.call(n,e)),n},inArray:function(e,t,n){var r;if(t){if(g)return g.call(t,e,n);for(r=t.length,n=n?0>n?Math.max(0,r+n):n:0;r>n;n++)if(n in t&&t[n]===e)return n}return-1},merge:function(e,n){var r=n.length,i=e.length,o=0;if("number"==typeof r)for(;r>o;o++)e[i++]=n[o];else while(n[o]!==t)e[i++]=n[o++];return e.length=i,e},grep:function(e,t,n){var r,i=[],o=0,a=e.length;for(n=!!n;a>o;o++)r=!!t(e[o],o),n!==r&&i.push(e[o]);return i},map:function(e,t,n){var r,i=0,o=e.length,a=M(e),s=[];if(a)for(;o>i;i++)r=t(e[i],i,n),null!=r&&(s[s.length]=r);else for(i in e)r=t(e[i],i,n),null!=r&&(s[s.length]=r);return f.apply([],s)},guid:1,proxy:function(e,n){var r,i,o;return"string"==typeof n&&(o=e[n],n=e,e=o),b.isFunction(e)?(r=h.call(arguments,2),i=function(){return e.apply(n||this,r.concat(h.call(arguments)))},i.guid=e.guid=e.guid||b.guid++,i):t},access:function(e,n,r,i,o,a,s){var u=0,l=e.length,c=null==r;if("object"===b.type(r)){o=!0;for(u in r)b.access(e,n,u,r[u],!0,a,s)}else if(i!==t&&(o=!0,b.isFunction(i)||(s=!0),c&&(s?(n.call(e,i),n=null):(c=n,n=function(e,t,n){return c.call(b(e),n)})),n))for(;l>u;u++)n(e[u],r,s?i:i.call(e[u],u,n(e[u],r)));return o?e:c?n.call(e):l?n(e[0],r):a},now:function(){return(new Date).getTime()}}),b.ready.promise=function(t){if(!n)if(n=b.Deferred(),"complete"===o.readyState)setTimeout(b.ready);else if(o.addEventListener)o.addEventListener("DOMContentLoaded",H,!1),e.addEventListener("load",H,!1);else{o.attachEvent("onreadystatechange",H),e.attachEvent("onload",H);var r=!1;try{r=null==e.frameElement&&o.documentElement}catch(i){}r&&r.doScroll&&function a(){if(!b.isReady){try{r.doScroll("left")}catch(e){return setTimeout(a,50)}q(),b.ready()}}()}return n.promise(t)},b.each("Boolean Number String Function Array Date RegExp Object Error".split(" "),function(e,t){l["[object "+t+"]"]=t.toLowerCase()});function M(e){var t=e.length,n=b.type(e);return b.isWindow(e)?!1:1===e.nodeType&&t?!0:"array"===n||"function"!==n&&(0===t||"number"==typeof t&&t>0&&t-1 in e)}r=b(o);var _={};function F(e){var t=_[e]={};return b.each(e.match(w)||[],function(e,n){t[n]=!0}),t}b.Callbacks=function(e){e="string"==typeof e?_[e]||F(e):b.extend({},e);var n,r,i,o,a,s,u=[],l=!e.once&&[],c=function(t){for(r=e.memory&&t,i=!0,a=s||0,s=0,o=u.length,n=!0;u&&o>a;a++)if(u[a].apply(t[0],t[1])===!1&&e.stopOnFalse){r=!1;break}n=!1,u&&(l?l.length&&c(l.shift()):r?u=[]:p.disable())},p={add:function(){if(u){var t=u.length;(function i(t){b.each(t,function(t,n){var r=b.type(n);"function"===r?e.unique&&p.has(n)||u.push(n):n&&n.length&&"string"!==r&&i(n)})})(arguments),n?o=u.length:r&&(s=t,c(r))}return this},remove:function(){return u&&b.each(arguments,function(e,t){var r;while((r=b.inArray(t,u,r))>-1)u.splice(r,1),n&&(o>=r&&o--,a>=r&&a--)}),this},has:function(e){return e?b.inArray(e,u)>-1:!(!u||!u.length)},empty:function(){return u=[],this},disable:function(){return u=l=r=t,this},disabled:function(){return!u},lock:function(){return l=t,r||p.disable(),this},locked:function(){return!l},fireWith:function(e,t){return t=t||[],t=[e,t.slice?t.slice():t],!u||i&&!l||(n?l.push(t):c(t)),this},fire:function(){return p.fireWith(this,arguments),this},fired:function(){return!!i}};return p},b.extend({Deferred:function(e){var t=[["resolve","done",b.Callbacks("once memory"),"resolved"],["reject","fail",b.Callbacks("once memory"),"rejected"],["notify","progress",b.Callbacks("memory")]],n="pending",r={state:function(){return n},always:function(){return i.done(arguments).fail(arguments),this},then:function(){var e=arguments;return b.Deferred(function(n){b.each(t,function(t,o){var a=o[0],s=b.isFunction(e[t])&&e[t];i[o[1]](function(){var e=s&&s.apply(this,arguments);e&&b.isFunction(e.promise)?e.promise().done(n.resolve).fail(n.reject).progress(n.notify):n[a+"With"](this===r?n.promise():this,s?[e]:arguments)})}),e=null}).promise()},promise:function(e){return null!=e?b.extend(e,r):r}},i={};return r.pipe=r.then,b.each(t,function(e,o){var a=o[2],s=o[3];r[o[1]]=a.add,s&&a.add(function(){n=s},t[1^e][2].disable,t[2][2].lock),i[o[0]]=function(){return i[o[0]+"With"](this===i?r:this,arguments),this},i[o[0]+"With"]=a.fireWith}),r.promise(i),e&&e.call(i,i),i},when:function(e){var t=0,n=h.call(arguments),r=n.length,i=1!==r||e&&b.isFunction(e.promise)?r:0,o=1===i?e:b.Deferred(),a=function(e,t,n){return function(r){t[e]=this,n[e]=arguments.length>1?h.call(arguments):r,n===s?o.notifyWith(t,n):--i||o.resolveWith(t,n)}},s,u,l;if(r>1)for(s=Array(r),u=Array(r),l=Array(r);r>t;t++)n[t]&&b.isFunction(n[t].promise)?n[t].promise().done(a(t,l,n)).fail(o.reject).progress(a(t,u,s)):--i;return i||o.resolveWith(l,n),o.promise()}}),b.support=function(){var t,n,r,a,s,u,l,c,p,f,d=o.createElement("div");if(d.setAttribute("className","t"),d.innerHTML="  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>",n=d.getElementsByTagName("*"),r=d.getElementsByTagName("a")[0],!n||!r||!n.length)return{};s=o.createElement("select"),l=s.appendChild(o.createElement("option")),a=d.getElementsByTagName("input")[0],r.style.cssText="top:1px;float:left;opacity:.5",t={getSetAttribute:"t"!==d.className,leadingWhitespace:3===d.firstChild.nodeType,tbody:!d.getElementsByTagName("tbody").length,htmlSerialize:!!d.getElementsByTagName("link").length,style:/top/.test(r.getAttribute("style")),hrefNormalized:"/a"===r.getAttribute("href"),opacity:/^0.5/.test(r.style.opacity),cssFloat:!!r.style.cssFloat,checkOn:!!a.value,optSelected:l.selected,enctype:!!o.createElement("form").enctype,html5Clone:"<:nav></:nav>"!==o.createElement("nav").cloneNode(!0).outerHTML,boxModel:"CSS1Compat"===o.compatMode,deleteExpando:!0,noCloneEvent:!0,inlineBlockNeedsLayout:!1,shrinkWrapBlocks:!1,reliableMarginRight:!0,boxSizingReliable:!0,pixelPosition:!1},a.checked=!0,t.noCloneChecked=a.cloneNode(!0).checked,s.disabled=!0,t.optDisabled=!l.disabled;try{delete d.test}catch(h){t.deleteExpando=!1}a=o.createElement("input"),a.setAttribute("value",""),t.input=""===a.getAttribute("value"),a.value="t",a.setAttribute("type","radio"),t.radioValue="t"===a.value,a.setAttribute("checked","t"),a.setAttribute("name","t"),u=o.createDocumentFragment(),u.appendChild(a),t.appendChecked=a.checked,t.checkClone=u.cloneNode(!0).cloneNode(!0).lastChild.checked,d.attachEvent&&(d.attachEvent("onclick",function(){t.noCloneEvent=!1}),d.cloneNode(!0).click());for(f in{submit:!0,change:!0,focusin:!0})d.setAttribute(c="on"+f,"t"),t[f+"Bubbles"]=c in e||d.attributes[c].expando===!1;return d.style.backgroundClip="content-box",d.cloneNode(!0).style.backgroundClip="",t.clearCloneStyle="content-box"===d.style.backgroundClip,b(function(){var n,r,a,s="padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;",u=o.getElementsByTagName("body")[0];u&&(n=o.createElement("div"),n.style.cssText="border:0;width:0;height:0;position:absolute;top:0;left:-9999px;margin-top:1px",u.appendChild(n).appendChild(d),d.innerHTML="<table><tr><td></td><td>t</td></tr></table>",a=d.getElementsByTagName("td"),a[0].style.cssText="padding:0;margin:0;border:0;display:none",p=0===a[0].offsetHeight,a[0].style.display="",a[1].style.display="none",t.reliableHiddenOffsets=p&&0===a[0].offsetHeight,d.innerHTML="",d.style.cssText="box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;padding:1px;border:1px;display:block;width:4px;margin-top:1%;position:absolute;top:1%;",t.boxSizing=4===d.offsetWidth,t.doesNotIncludeMarginInBodyOffset=1!==u.offsetTop,e.getComputedStyle&&(t.pixelPosition="1%"!==(e.getComputedStyle(d,null)||{}).top,t.boxSizingReliable="4px"===(e.getComputedStyle(d,null)||{width:"4px"}).width,r=d.appendChild(o.createElement("div")),r.style.cssText=d.style.cssText=s,r.style.marginRight=r.style.width="0",d.style.width="1px",t.reliableMarginRight=!parseFloat((e.getComputedStyle(r,null)||{}).marginRight)),typeof d.style.zoom!==i&&(d.innerHTML="",d.style.cssText=s+"width:1px;padding:1px;display:inline;zoom:1",t.inlineBlockNeedsLayout=3===d.offsetWidth,d.style.display="block",d.innerHTML="<div></div>",d.firstChild.style.width="5px",t.shrinkWrapBlocks=3!==d.offsetWidth,t.inlineBlockNeedsLayout&&(u.style.zoom=1)),u.removeChild(n),n=d=a=r=null)}),n=s=u=l=r=a=null,t}();var O=/(?:\{[\s\S]*\}|\[[\s\S]*\])$/,B=/([A-Z])/g;function P(e,n,r,i){if(b.acceptData(e)){var o,a,s=b.expando,u="string"==typeof n,l=e.nodeType,p=l?b.cache:e,f=l?e[s]:e[s]&&s;if(f&&p[f]&&(i||p[f].data)||!u||r!==t)return f||(l?e[s]=f=c.pop()||b.guid++:f=s),p[f]||(p[f]={},l||(p[f].toJSON=b.noop)),("object"==typeof n||"function"==typeof n)&&(i?p[f]=b.extend(p[f],n):p[f].data=b.extend(p[f].data,n)),o=p[f],i||(o.data||(o.data={}),o=o.data),r!==t&&(o[b.camelCase(n)]=r),u?(a=o[n],null==a&&(a=o[b.camelCase(n)])):a=o,a}}function R(e,t,n){if(b.acceptData(e)){var r,i,o,a=e.nodeType,s=a?b.cache:e,u=a?e[b.expando]:b.expando;if(s[u]){if(t&&(o=n?s[u]:s[u].data)){b.isArray(t)?t=t.concat(b.map(t,b.camelCase)):t in o?t=[t]:(t=b.camelCase(t),t=t in o?[t]:t.split(" "));for(r=0,i=t.length;i>r;r++)delete o[t[r]];if(!(n?$:b.isEmptyObject)(o))return}(n||(delete s[u].data,$(s[u])))&&(a?b.cleanData([e],!0):b.support.deleteExpando||s!=s.window?delete s[u]:s[u]=null)}}}b.extend({cache:{},expando:"jQuery"+(p+Math.random()).replace(/\D/g,""),noData:{embed:!0,object:"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000",applet:!0},hasData:function(e){return e=e.nodeType?b.cache[e[b.expando]]:e[b.expando],!!e&&!$(e)},data:function(e,t,n){return P(e,t,n)},removeData:function(e,t){return R(e,t)},_data:function(e,t,n){return P(e,t,n,!0)},_removeData:function(e,t){return R(e,t,!0)},acceptData:function(e){if(e.nodeType&&1!==e.nodeType&&9!==e.nodeType)return!1;var t=e.nodeName&&b.noData[e.nodeName.toLowerCase()];return!t||t!==!0&&e.getAttribute("classid")===t}}),b.fn.extend({data:function(e,n){var r,i,o=this[0],a=0,s=null;if(e===t){if(this.length&&(s=b.data(o),1===o.nodeType&&!b._data(o,"parsedAttrs"))){for(r=o.attributes;r.length>a;a++)i=r[a].name,i.indexOf("data-")||(i=b.camelCase(i.slice(5)),W(o,i,s[i]));b._data(o,"parsedAttrs",!0)}return s}return"object"==typeof e?this.each(function(){b.data(this,e)}):b.access(this,function(n){return n===t?o?W(o,e,b.data(o,e)):null:(this.each(function(){b.data(this,e,n)}),t)},null,n,arguments.length>1,null,!0)},removeData:function(e){return this.each(function(){b.removeData(this,e)})}});function W(e,n,r){if(r===t&&1===e.nodeType){var i="data-"+n.replace(B,"-$1").toLowerCase();if(r=e.getAttribute(i),"string"==typeof r){try{r="true"===r?!0:"false"===r?!1:"null"===r?null:+r+""===r?+r:O.test(r)?b.parseJSON(r):r}catch(o){}b.data(e,n,r)}else r=t}return r}function $(e){var t;for(t in e)if(("data"!==t||!b.isEmptyObject(e[t]))&&"toJSON"!==t)return!1;return!0}b.extend({queue:function(e,n,r){var i;return e?(n=(n||"fx")+"queue",i=b._data(e,n),r&&(!i||b.isArray(r)?i=b._data(e,n,b.makeArray(r)):i.push(r)),i||[]):t},dequeue:function(e,t){t=t||"fx";var n=b.queue(e,t),r=n.length,i=n.shift(),o=b._queueHooks(e,t),a=function(){b.dequeue(e,t)};"inprogress"===i&&(i=n.shift(),r--),o.cur=i,i&&("fx"===t&&n.unshift("inprogress"),delete o.stop,i.call(e,a,o)),!r&&o&&o.empty.fire()},_queueHooks:function(e,t){var n=t+"queueHooks";return b._data(e,n)||b._data(e,n,{empty:b.Callbacks("once memory").add(function(){b._removeData(e,t+"queue"),b._removeData(e,n)})})}}),b.fn.extend({queue:function(e,n){var r=2;return"string"!=typeof e&&(n=e,e="fx",r--),r>arguments.length?b.queue(this[0],e):n===t?this:this.each(function(){var t=b.queue(this,e,n);b._queueHooks(this,e),"fx"===e&&"inprogress"!==t[0]&&b.dequeue(this,e)})},dequeue:function(e){return this.each(function(){b.dequeue(this,e)})},delay:function(e,t){return e=b.fx?b.fx.speeds[e]||e:e,t=t||"fx",this.queue(t,function(t,n){var r=setTimeout(t,e);n.stop=function(){clearTimeout(r)}})},clearQueue:function(e){return this.queue(e||"fx",[])},promise:function(e,n){var r,i=1,o=b.Deferred(),a=this,s=this.length,u=function(){--i||o.resolveWith(a,[a])};"string"!=typeof e&&(n=e,e=t),e=e||"fx";while(s--)r=b._data(a[s],e+"queueHooks"),r&&r.empty&&(i++,r.empty.add(u));return u(),o.promise(n)}});var I,z,X=/[\t\r\n]/g,U=/\r/g,V=/^(?:input|select|textarea|button|object)$/i,Y=/^(?:a|area)$/i,J=/^(?:checked|selected|autofocus|autoplay|async|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped)$/i,G=/^(?:checked|selected)$/i,Q=b.support.getSetAttribute,K=b.support.input;b.fn.extend({attr:function(e,t){return b.access(this,b.attr,e,t,arguments.length>1)},removeAttr:function(e){return this.each(function(){b.removeAttr(this,e)})},prop:function(e,t){return b.access(this,b.prop,e,t,arguments.length>1)},removeProp:function(e){return e=b.propFix[e]||e,this.each(function(){try{this[e]=t,delete this[e]}catch(n){}})},addClass:function(e){var t,n,r,i,o,a=0,s=this.length,u="string"==typeof e&&e;if(b.isFunction(e))return this.each(function(t){b(this).addClass(e.call(this,t,this.className))});if(u)for(t=(e||"").match(w)||[];s>a;a++)if(n=this[a],r=1===n.nodeType&&(n.className?(" "+n.className+" ").replace(X," "):" ")){o=0;while(i=t[o++])0>r.indexOf(" "+i+" ")&&(r+=i+" ");n.className=b.trim(r)}return this},removeClass:function(e){var t,n,r,i,o,a=0,s=this.length,u=0===arguments.length||"string"==typeof e&&e;if(b.isFunction(e))return this.each(function(t){b(this).removeClass(e.call(this,t,this.className))});if(u)for(t=(e||"").match(w)||[];s>a;a++)if(n=this[a],r=1===n.nodeType&&(n.className?(" "+n.className+" ").replace(X," "):"")){o=0;while(i=t[o++])while(r.indexOf(" "+i+" ")>=0)r=r.replace(" "+i+" "," ");n.className=e?b.trim(r):""}return this},toggleClass:function(e,t){var n=typeof e,r="boolean"==typeof t;return b.isFunction(e)?this.each(function(n){b(this).toggleClass(e.call(this,n,this.className,t),t)}):this.each(function(){if("string"===n){var o,a=0,s=b(this),u=t,l=e.match(w)||[];while(o=l[a++])u=r?u:!s.hasClass(o),s[u?"addClass":"removeClass"](o)}else(n===i||"boolean"===n)&&(this.className&&b._data(this,"__className__",this.className),this.className=this.className||e===!1?"":b._data(this,"__className__")||"")})},hasClass:function(e){var t=" "+e+" ",n=0,r=this.length;for(;r>n;n++)if(1===this[n].nodeType&&(" "+this[n].className+" ").replace(X," ").indexOf(t)>=0)return!0;return!1},val:function(e){var n,r,i,o=this[0];{if(arguments.length)return i=b.isFunction(e),this.each(function(n){var o,a=b(this);1===this.nodeType&&(o=i?e.call(this,n,a.val()):e,null==o?o="":"number"==typeof o?o+="":b.isArray(o)&&(o=b.map(o,function(e){return null==e?"":e+""})),r=b.valHooks[this.type]||b.valHooks[this.nodeName.toLowerCase()],r&&"set"in r&&r.set(this,o,"value")!==t||(this.value=o))});if(o)return r=b.valHooks[o.type]||b.valHooks[o.nodeName.toLowerCase()],r&&"get"in r&&(n=r.get(o,"value"))!==t?n:(n=o.value,"string"==typeof n?n.replace(U,""):null==n?"":n)}}}),b.extend({valHooks:{option:{get:function(e){var t=e.attributes.value;return!t||t.specified?e.value:e.text}},select:{get:function(e){var t,n,r=e.options,i=e.selectedIndex,o="select-one"===e.type||0>i,a=o?null:[],s=o?i+1:r.length,u=0>i?s:o?i:0;for(;s>u;u++)if(n=r[u],!(!n.selected&&u!==i||(b.support.optDisabled?n.disabled:null!==n.getAttribute("disabled"))||n.parentNode.disabled&&b.nodeName(n.parentNode,"optgroup"))){if(t=b(n).val(),o)return t;a.push(t)}return a},set:function(e,t){var n=b.makeArray(t);return b(e).find("option").each(function(){this.selected=b.inArray(b(this).val(),n)>=0}),n.length||(e.selectedIndex=-1),n}}},attr:function(e,n,r){var o,a,s,u=e.nodeType;if(e&&3!==u&&8!==u&&2!==u)return typeof e.getAttribute===i?b.prop(e,n,r):(a=1!==u||!b.isXMLDoc(e),a&&(n=n.toLowerCase(),o=b.attrHooks[n]||(J.test(n)?z:I)),r===t?o&&a&&"get"in o&&null!==(s=o.get(e,n))?s:(typeof e.getAttribute!==i&&(s=e.getAttribute(n)),null==s?t:s):null!==r?o&&a&&"set"in o&&(s=o.set(e,r,n))!==t?s:(e.setAttribute(n,r+""),r):(b.removeAttr(e,n),t))},removeAttr:function(e,t){var n,r,i=0,o=t&&t.match(w);if(o&&1===e.nodeType)while(n=o[i++])r=b.propFix[n]||n,J.test(n)?!Q&&G.test(n)?e[b.camelCase("default-"+n)]=e[r]=!1:e[r]=!1:b.attr(e,n,""),e.removeAttribute(Q?n:r)},attrHooks:{type:{set:function(e,t){if(!b.support.radioValue&&"radio"===t&&b.nodeName(e,"input")){var n=e.value;return e.setAttribute("type",t),n&&(e.value=n),t}}}},propFix:{tabindex:"tabIndex",readonly:"readOnly","for":"htmlFor","class":"className",maxlength:"maxLength",cellspacing:"cellSpacing",cellpadding:"cellPadding",rowspan:"rowSpan",colspan:"colSpan",usemap:"useMap",frameborder:"frameBorder",contenteditable:"contentEditable"},prop:function(e,n,r){var i,o,a,s=e.nodeType;if(e&&3!==s&&8!==s&&2!==s)return a=1!==s||!b.isXMLDoc(e),a&&(n=b.propFix[n]||n,o=b.propHooks[n]),r!==t?o&&"set"in o&&(i=o.set(e,r,n))!==t?i:e[n]=r:o&&"get"in o&&null!==(i=o.get(e,n))?i:e[n]},propHooks:{tabIndex:{get:function(e){var n=e.getAttributeNode("tabindex");return n&&n.specified?parseInt(n.value,10):V.test(e.nodeName)||Y.test(e.nodeName)&&e.href?0:t}}}}),z={get:function(e,n){var r=b.prop(e,n),i="boolean"==typeof r&&e.getAttribute(n),o="boolean"==typeof r?K&&Q?null!=i:G.test(n)?e[b.camelCase("default-"+n)]:!!i:e.getAttributeNode(n);return o&&o.value!==!1?n.toLowerCase():t},set:function(e,t,n){return t===!1?b.removeAttr(e,n):K&&Q||!G.test(n)?e.setAttribute(!Q&&b.propFix[n]||n,n):e[b.camelCase("default-"+n)]=e[n]=!0,n}},K&&Q||(b.attrHooks.value={get:function(e,n){var r=e.getAttributeNode(n);return b.nodeName(e,"input")?e.defaultValue:r&&r.specified?r.value:t},set:function(e,n,r){return b.nodeName(e,"input")?(e.defaultValue=n,t):I&&I.set(e,n,r)}}),Q||(I=b.valHooks.button={get:function(e,n){var r=e.getAttributeNode(n);return r&&("id"===n||"name"===n||"coords"===n?""!==r.value:r.specified)?r.value:t},set:function(e,n,r){var i=e.getAttributeNode(r);return i||e.setAttributeNode(i=e.ownerDocument.createAttribute(r)),i.value=n+="","value"===r||n===e.getAttribute(r)?n:t}},b.attrHooks.contenteditable={get:I.get,set:function(e,t,n){I.set(e,""===t?!1:t,n)}},b.each(["width","height"],function(e,n){b.attrHooks[n]=b.extend(b.attrHooks[n],{set:function(e,r){return""===r?(e.setAttribute(n,"auto"),r):t}})})),b.support.hrefNormalized||(b.each(["href","src","width","height"],function(e,n){b.attrHooks[n]=b.extend(b.attrHooks[n],{get:function(e){var r=e.getAttribute(n,2);return null==r?t:r}})}),b.each(["href","src"],function(e,t){b.propHooks[t]={get:function(e){return e.getAttribute(t,4)}}})),b.support.style||(b.attrHooks.style={get:function(e){return e.style.cssText||t},set:function(e,t){return e.style.cssText=t+""}}),b.support.optSelected||(b.propHooks.selected=b.extend(b.propHooks.selected,{get:function(e){var t=e.parentNode;return t&&(t.selectedIndex,t.parentNode&&t.parentNode.selectedIndex),null}})),b.support.enctype||(b.propFix.enctype="encoding"),b.support.checkOn||b.each(["radio","checkbox"],function(){b.valHooks[this]={get:function(e){return null===e.getAttribute("value")?"on":e.value}}}),b.each(["radio","checkbox"],function(){b.valHooks[this]=b.extend(b.valHooks[this],{set:function(e,n){return b.isArray(n)?e.checked=b.inArray(b(e).val(),n)>=0:t}})});var Z=/^(?:input|select|textarea)$/i,et=/^key/,tt=/^(?:mouse|contextmenu)|click/,nt=/^(?:focusinfocus|focusoutblur)$/,rt=/^([^.]*)(?:\.(.+)|)$/;function it(){return!0}function ot(){return!1}b.event={global:{},add:function(e,n,r,o,a){var s,u,l,c,p,f,d,h,g,m,y,v=b._data(e);if(v){r.handler&&(c=r,r=c.handler,a=c.selector),r.guid||(r.guid=b.guid++),(u=v.events)||(u=v.events={}),(f=v.handle)||(f=v.handle=function(e){return typeof b===i||e&&b.event.triggered===e.type?t:b.event.dispatch.apply(f.elem,arguments)},f.elem=e),n=(n||"").match(w)||[""],l=n.length;while(l--)s=rt.exec(n[l])||[],g=y=s[1],m=(s[2]||"").split(".").sort(),p=b.event.special[g]||{},g=(a?p.delegateType:p.bindType)||g,p=b.event.special[g]||{},d=b.extend({type:g,origType:y,data:o,handler:r,guid:r.guid,selector:a,needsContext:a&&b.expr.match.needsContext.test(a),namespace:m.join(".")},c),(h=u[g])||(h=u[g]=[],h.delegateCount=0,p.setup&&p.setup.call(e,o,m,f)!==!1||(e.addEventListener?e.addEventListener(g,f,!1):e.attachEvent&&e.attachEvent("on"+g,f))),p.add&&(p.add.call(e,d),d.handler.guid||(d.handler.guid=r.guid)),a?h.splice(h.delegateCount++,0,d):h.push(d),b.event.global[g]=!0;e=null}},remove:function(e,t,n,r,i){var o,a,s,u,l,c,p,f,d,h,g,m=b.hasData(e)&&b._data(e);if(m&&(c=m.events)){t=(t||"").match(w)||[""],l=t.length;while(l--)if(s=rt.exec(t[l])||[],d=g=s[1],h=(s[2]||"").split(".").sort(),d){p=b.event.special[d]||{},d=(r?p.delegateType:p.bindType)||d,f=c[d]||[],s=s[2]&&RegExp("(^|\\.)"+h.join("\\.(?:.*\\.|)")+"(\\.|$)"),u=o=f.length;while(o--)a=f[o],!i&&g!==a.origType||n&&n.guid!==a.guid||s&&!s.test(a.namespace)||r&&r!==a.selector&&("**"!==r||!a.selector)||(f.splice(o,1),a.selector&&f.delegateCount--,p.remove&&p.remove.call(e,a));u&&!f.length&&(p.teardown&&p.teardown.call(e,h,m.handle)!==!1||b.removeEvent(e,d,m.handle),delete c[d])}else for(d in c)b.event.remove(e,d+t[l],n,r,!0);b.isEmptyObject(c)&&(delete m.handle,b._removeData(e,"events"))}},trigger:function(n,r,i,a){var s,u,l,c,p,f,d,h=[i||o],g=y.call(n,"type")?n.type:n,m=y.call(n,"namespace")?n.namespace.split("."):[];if(l=f=i=i||o,3!==i.nodeType&&8!==i.nodeType&&!nt.test(g+b.event.triggered)&&(g.indexOf(".")>=0&&(m=g.split("."),g=m.shift(),m.sort()),u=0>g.indexOf(":")&&"on"+g,n=n[b.expando]?n:new b.Event(g,"object"==typeof n&&n),n.isTrigger=!0,n.namespace=m.join("."),n.namespace_re=n.namespace?RegExp("(^|\\.)"+m.join("\\.(?:.*\\.|)")+"(\\.|$)"):null,n.result=t,n.target||(n.target=i),r=null==r?[n]:b.makeArray(r,[n]),p=b.event.special[g]||{},a||!p.trigger||p.trigger.apply(i,r)!==!1)){if(!a&&!p.noBubble&&!b.isWindow(i)){for(c=p.delegateType||g,nt.test(c+g)||(l=l.parentNode);l;l=l.parentNode)h.push(l),f=l;f===(i.ownerDocument||o)&&h.push(f.defaultView||f.parentWindow||e)}d=0;while((l=h[d++])&&!n.isPropagationStopped())n.type=d>1?c:p.bindType||g,s=(b._data(l,"events")||{})[n.type]&&b._data(l,"handle"),s&&s.apply(l,r),s=u&&l[u],s&&b.acceptData(l)&&s.apply&&s.apply(l,r)===!1&&n.preventDefault();if(n.type=g,!(a||n.isDefaultPrevented()||p._default&&p._default.apply(i.ownerDocument,r)!==!1||"click"===g&&b.nodeName(i,"a")||!b.acceptData(i)||!u||!i[g]||b.isWindow(i))){f=i[u],f&&(i[u]=null),b.event.triggered=g;try{i[g]()}catch(v){}b.event.triggered=t,f&&(i[u]=f)}return n.result}},dispatch:function(e){e=b.event.fix(e);var n,r,i,o,a,s=[],u=h.call(arguments),l=(b._data(this,"events")||{})[e.type]||[],c=b.event.special[e.type]||{};if(u[0]=e,e.delegateTarget=this,!c.preDispatch||c.preDispatch.call(this,e)!==!1){s=b.event.handlers.call(this,e,l),n=0;while((o=s[n++])&&!e.isPropagationStopped()){e.currentTarget=o.elem,a=0;while((i=o.handlers[a++])&&!e.isImmediatePropagationStopped())(!e.namespace_re||e.namespace_re.test(i.namespace))&&(e.handleObj=i,e.data=i.data,r=((b.event.special[i.origType]||{}).handle||i.handler).apply(o.elem,u),r!==t&&(e.result=r)===!1&&(e.preventDefault(),e.stopPropagation()))}return c.postDispatch&&c.postDispatch.call(this,e),e.result}},handlers:function(e,n){var r,i,o,a,s=[],u=n.delegateCount,l=e.target;if(u&&l.nodeType&&(!e.button||"click"!==e.type))for(;l!=this;l=l.parentNode||this)if(1===l.nodeType&&(l.disabled!==!0||"click"!==e.type)){for(o=[],a=0;u>a;a++)i=n[a],r=i.selector+" ",o[r]===t&&(o[r]=i.needsContext?b(r,this).index(l)>=0:b.find(r,this,null,[l]).length),o[r]&&o.push(i);o.length&&s.push({elem:l,handlers:o})}return n.length>u&&s.push({elem:this,handlers:n.slice(u)}),s},fix:function(e){if(e[b.expando])return e;var t,n,r,i=e.type,a=e,s=this.fixHooks[i];s||(this.fixHooks[i]=s=tt.test(i)?this.mouseHooks:et.test(i)?this.keyHooks:{}),r=s.props?this.props.concat(s.props):this.props,e=new b.Event(a),t=r.length;while(t--)n=r[t],e[n]=a[n];return e.target||(e.target=a.srcElement||o),3===e.target.nodeType&&(e.target=e.target.parentNode),e.metaKey=!!e.metaKey,s.filter?s.filter(e,a):e},props:"altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(" "),fixHooks:{},keyHooks:{props:"char charCode key keyCode".split(" "),filter:function(e,t){return null==e.which&&(e.which=null!=t.charCode?t.charCode:t.keyCode),e}},mouseHooks:{props:"button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement".split(" "),filter:function(e,n){var r,i,a,s=n.button,u=n.fromElement;return null==e.pageX&&null!=n.clientX&&(i=e.target.ownerDocument||o,a=i.documentElement,r=i.body,e.pageX=n.clientX+(a&&a.scrollLeft||r&&r.scrollLeft||0)-(a&&a.clientLeft||r&&r.clientLeft||0),e.pageY=n.clientY+(a&&a.scrollTop||r&&r.scrollTop||0)-(a&&a.clientTop||r&&r.clientTop||0)),!e.relatedTarget&&u&&(e.relatedTarget=u===e.target?n.toElement:u),e.which||s===t||(e.which=1&s?1:2&s?3:4&s?2:0),e}},special:{load:{noBubble:!0},click:{trigger:function(){return b.nodeName(this,"input")&&"checkbox"===this.type&&this.click?(this.click(),!1):t}},focus:{trigger:function(){if(this!==o.activeElement&&this.focus)try{return this.focus(),!1}catch(e){}},delegateType:"focusin"},blur:{trigger:function(){return this===o.activeElement&&this.blur?(this.blur(),!1):t},delegateType:"focusout"},beforeunload:{postDispatch:function(e){e.result!==t&&(e.originalEvent.returnValue=e.result)}}},simulate:function(e,t,n,r){var i=b.extend(new b.Event,n,{type:e,isSimulated:!0,originalEvent:{}});r?b.event.trigger(i,null,t):b.event.dispatch.call(t,i),i.isDefaultPrevented()&&n.preventDefault()}},b.removeEvent=o.removeEventListener?function(e,t,n){e.removeEventListener&&e.removeEventListener(t,n,!1)}:function(e,t,n){var r="on"+t;e.detachEvent&&(typeof e[r]===i&&(e[r]=null),e.detachEvent(r,n))},b.Event=function(e,n){return this instanceof b.Event?(e&&e.type?(this.originalEvent=e,this.type=e.type,this.isDefaultPrevented=e.defaultPrevented||e.returnValue===!1||e.getPreventDefault&&e.getPreventDefault()?it:ot):this.type=e,n&&b.extend(this,n),this.timeStamp=e&&e.timeStamp||b.now(),this[b.expando]=!0,t):new b.Event(e,n)},b.Event.prototype={isDefaultPrevented:ot,isPropagationStopped:ot,isImmediatePropagationStopped:ot,preventDefault:function(){var e=this.originalEvent;this.isDefaultPrevented=it,e&&(e.preventDefault?e.preventDefault():e.returnValue=!1)},stopPropagation:function(){var e=this.originalEvent;this.isPropagationStopped=it,e&&(e.stopPropagation&&e.stopPropagation(),e.cancelBubble=!0)},stopImmediatePropagation:function(){this.isImmediatePropagationStopped=it,this.stopPropagation()}},b.each({mouseenter:"mouseover",mouseleave:"mouseout"},function(e,t){b.event.special[e]={delegateType:t,bindType:t,handle:function(e){var n,r=this,i=e.relatedTarget,o=e.handleObj;
 return(!i||i!==r&&!b.contains(r,i))&&(e.type=o.origType,n=o.handler.apply(this,arguments),e.type=t),n}}}),b.support.submitBubbles||(b.event.special.submit={setup:function(){return b.nodeName(this,"form")?!1:(b.event.add(this,"click._submit keypress._submit",function(e){var n=e.target,r=b.nodeName(n,"input")||b.nodeName(n,"button")?n.form:t;r&&!b._data(r,"submitBubbles")&&(b.event.add(r,"submit._submit",function(e){e._submit_bubble=!0}),b._data(r,"submitBubbles",!0))}),t)},postDispatch:function(e){e._submit_bubble&&(delete e._submit_bubble,this.parentNode&&!e.isTrigger&&b.event.simulate("submit",this.parentNode,e,!0))},teardown:function(){return b.nodeName(this,"form")?!1:(b.event.remove(this,"._submit"),t)}}),b.support.changeBubbles||(b.event.special.change={setup:function(){return Z.test(this.nodeName)?(("checkbox"===this.type||"radio"===this.type)&&(b.event.add(this,"propertychange._change",function(e){"checked"===e.originalEvent.propertyName&&(this._just_changed=!0)}),b.event.add(this,"click._change",function(e){this._just_changed&&!e.isTrigger&&(this._just_changed=!1),b.event.simulate("change",this,e,!0)})),!1):(b.event.add(this,"beforeactivate._change",function(e){var t=e.target;Z.test(t.nodeName)&&!b._data(t,"changeBubbles")&&(b.event.add(t,"change._change",function(e){!this.parentNode||e.isSimulated||e.isTrigger||b.event.simulate("change",this.parentNode,e,!0)}),b._data(t,"changeBubbles",!0))}),t)},handle:function(e){var n=e.target;return this!==n||e.isSimulated||e.isTrigger||"radio"!==n.type&&"checkbox"!==n.type?e.handleObj.handler.apply(this,arguments):t},teardown:function(){return b.event.remove(this,"._change"),!Z.test(this.nodeName)}}),b.support.focusinBubbles||b.each({focus:"focusin",blur:"focusout"},function(e,t){var n=0,r=function(e){b.event.simulate(t,e.target,b.event.fix(e),!0)};b.event.special[t]={setup:function(){0===n++&&o.addEventListener(e,r,!0)},teardown:function(){0===--n&&o.removeEventListener(e,r,!0)}}}),b.fn.extend({on:function(e,n,r,i,o){var a,s;if("object"==typeof e){"string"!=typeof n&&(r=r||n,n=t);for(a in e)this.on(a,n,r,e[a],o);return this}if(null==r&&null==i?(i=n,r=n=t):null==i&&("string"==typeof n?(i=r,r=t):(i=r,r=n,n=t)),i===!1)i=ot;else if(!i)return this;return 1===o&&(s=i,i=function(e){return b().off(e),s.apply(this,arguments)},i.guid=s.guid||(s.guid=b.guid++)),this.each(function(){b.event.add(this,e,i,r,n)})},one:function(e,t,n,r){return this.on(e,t,n,r,1)},off:function(e,n,r){var i,o;if(e&&e.preventDefault&&e.handleObj)return i=e.handleObj,b(e.delegateTarget).off(i.namespace?i.origType+"."+i.namespace:i.origType,i.selector,i.handler),this;if("object"==typeof e){for(o in e)this.off(o,n,e[o]);return this}return(n===!1||"function"==typeof n)&&(r=n,n=t),r===!1&&(r=ot),this.each(function(){b.event.remove(this,e,r,n)})},bind:function(e,t,n){return this.on(e,null,t,n)},unbind:function(e,t){return this.off(e,null,t)},delegate:function(e,t,n,r){return this.on(t,e,n,r)},undelegate:function(e,t,n){return 1===arguments.length?this.off(e,"**"):this.off(t,e||"**",n)},trigger:function(e,t){return this.each(function(){b.event.trigger(e,t,this)})},triggerHandler:function(e,n){var r=this[0];return r?b.event.trigger(e,n,r,!0):t}}),function(e,t){var n,r,i,o,a,s,u,l,c,p,f,d,h,g,m,y,v,x="sizzle"+-new Date,w=e.document,T={},N=0,C=0,k=it(),E=it(),S=it(),A=typeof t,j=1<<31,D=[],L=D.pop,H=D.push,q=D.slice,M=D.indexOf||function(e){var t=0,n=this.length;for(;n>t;t++)if(this[t]===e)return t;return-1},_="[\\x20\\t\\r\\n\\f]",F="(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+",O=F.replace("w","w#"),B="([*^$|!~]?=)",P="\\["+_+"*("+F+")"+_+"*(?:"+B+_+"*(?:(['\"])((?:\\\\.|[^\\\\])*?)\\3|("+O+")|)|)"+_+"*\\]",R=":("+F+")(?:\\(((['\"])((?:\\\\.|[^\\\\])*?)\\3|((?:\\\\.|[^\\\\()[\\]]|"+P.replace(3,8)+")*)|.*)\\)|)",W=RegExp("^"+_+"+|((?:^|[^\\\\])(?:\\\\.)*)"+_+"+$","g"),$=RegExp("^"+_+"*,"+_+"*"),I=RegExp("^"+_+"*([\\x20\\t\\r\\n\\f>+~])"+_+"*"),z=RegExp(R),X=RegExp("^"+O+"$"),U={ID:RegExp("^#("+F+")"),CLASS:RegExp("^\\.("+F+")"),NAME:RegExp("^\\[name=['\"]?("+F+")['\"]?\\]"),TAG:RegExp("^("+F.replace("w","w*")+")"),ATTR:RegExp("^"+P),PSEUDO:RegExp("^"+R),CHILD:RegExp("^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\("+_+"*(even|odd|(([+-]|)(\\d*)n|)"+_+"*(?:([+-]|)"+_+"*(\\d+)|))"+_+"*\\)|)","i"),needsContext:RegExp("^"+_+"*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\("+_+"*((?:-\\d)?\\d*)"+_+"*\\)|)(?=[^-]|$)","i")},V=/[\x20\t\r\n\f]*[+~]/,Y=/^[^{]+\{\s*\[native code/,J=/^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,G=/^(?:input|select|textarea|button)$/i,Q=/^h\d$/i,K=/'|\\/g,Z=/\=[\x20\t\r\n\f]*([^'"\]]*)[\x20\t\r\n\f]*\]/g,et=/\\([\da-fA-F]{1,6}[\x20\t\r\n\f]?|.)/g,tt=function(e,t){var n="0x"+t-65536;return n!==n?t:0>n?String.fromCharCode(n+65536):String.fromCharCode(55296|n>>10,56320|1023&n)};try{q.call(w.documentElement.childNodes,0)[0].nodeType}catch(nt){q=function(e){var t,n=[];while(t=this[e++])n.push(t);return n}}function rt(e){return Y.test(e+"")}function it(){var e,t=[];return e=function(n,r){return t.push(n+=" ")>i.cacheLength&&delete e[t.shift()],e[n]=r}}function ot(e){return e[x]=!0,e}function at(e){var t=p.createElement("div");try{return e(t)}catch(n){return!1}finally{t=null}}function st(e,t,n,r){var i,o,a,s,u,l,f,g,m,v;if((t?t.ownerDocument||t:w)!==p&&c(t),t=t||p,n=n||[],!e||"string"!=typeof e)return n;if(1!==(s=t.nodeType)&&9!==s)return[];if(!d&&!r){if(i=J.exec(e))if(a=i[1]){if(9===s){if(o=t.getElementById(a),!o||!o.parentNode)return n;if(o.id===a)return n.push(o),n}else if(t.ownerDocument&&(o=t.ownerDocument.getElementById(a))&&y(t,o)&&o.id===a)return n.push(o),n}else{if(i[2])return H.apply(n,q.call(t.getElementsByTagName(e),0)),n;if((a=i[3])&&T.getByClassName&&t.getElementsByClassName)return H.apply(n,q.call(t.getElementsByClassName(a),0)),n}if(T.qsa&&!h.test(e)){if(f=!0,g=x,m=t,v=9===s&&e,1===s&&"object"!==t.nodeName.toLowerCase()){l=ft(e),(f=t.getAttribute("id"))?g=f.replace(K,"\\$&"):t.setAttribute("id",g),g="[id='"+g+"'] ",u=l.length;while(u--)l[u]=g+dt(l[u]);m=V.test(e)&&t.parentNode||t,v=l.join(",")}if(v)try{return H.apply(n,q.call(m.querySelectorAll(v),0)),n}catch(b){}finally{f||t.removeAttribute("id")}}}return wt(e.replace(W,"$1"),t,n,r)}a=st.isXML=function(e){var t=e&&(e.ownerDocument||e).documentElement;return t?"HTML"!==t.nodeName:!1},c=st.setDocument=function(e){var n=e?e.ownerDocument||e:w;return n!==p&&9===n.nodeType&&n.documentElement?(p=n,f=n.documentElement,d=a(n),T.tagNameNoComments=at(function(e){return e.appendChild(n.createComment("")),!e.getElementsByTagName("*").length}),T.attributes=at(function(e){e.innerHTML="<select></select>";var t=typeof e.lastChild.getAttribute("multiple");return"boolean"!==t&&"string"!==t}),T.getByClassName=at(function(e){return e.innerHTML="<div class='hidden e'></div><div class='hidden'></div>",e.getElementsByClassName&&e.getElementsByClassName("e").length?(e.lastChild.className="e",2===e.getElementsByClassName("e").length):!1}),T.getByName=at(function(e){e.id=x+0,e.innerHTML="<a name='"+x+"'></a><div name='"+x+"'></div>",f.insertBefore(e,f.firstChild);var t=n.getElementsByName&&n.getElementsByName(x).length===2+n.getElementsByName(x+0).length;return T.getIdNotName=!n.getElementById(x),f.removeChild(e),t}),i.attrHandle=at(function(e){return e.innerHTML="<a href='#'></a>",e.firstChild&&typeof e.firstChild.getAttribute!==A&&"#"===e.firstChild.getAttribute("href")})?{}:{href:function(e){return e.getAttribute("href",2)},type:function(e){return e.getAttribute("type")}},T.getIdNotName?(i.find.ID=function(e,t){if(typeof t.getElementById!==A&&!d){var n=t.getElementById(e);return n&&n.parentNode?[n]:[]}},i.filter.ID=function(e){var t=e.replace(et,tt);return function(e){return e.getAttribute("id")===t}}):(i.find.ID=function(e,n){if(typeof n.getElementById!==A&&!d){var r=n.getElementById(e);return r?r.id===e||typeof r.getAttributeNode!==A&&r.getAttributeNode("id").value===e?[r]:t:[]}},i.filter.ID=function(e){var t=e.replace(et,tt);return function(e){var n=typeof e.getAttributeNode!==A&&e.getAttributeNode("id");return n&&n.value===t}}),i.find.TAG=T.tagNameNoComments?function(e,n){return typeof n.getElementsByTagName!==A?n.getElementsByTagName(e):t}:function(e,t){var n,r=[],i=0,o=t.getElementsByTagName(e);if("*"===e){while(n=o[i++])1===n.nodeType&&r.push(n);return r}return o},i.find.NAME=T.getByName&&function(e,n){return typeof n.getElementsByName!==A?n.getElementsByName(name):t},i.find.CLASS=T.getByClassName&&function(e,n){return typeof n.getElementsByClassName===A||d?t:n.getElementsByClassName(e)},g=[],h=[":focus"],(T.qsa=rt(n.querySelectorAll))&&(at(function(e){e.innerHTML="<select><option selected=''></option></select>",e.querySelectorAll("[selected]").length||h.push("\\["+_+"*(?:checked|disabled|ismap|multiple|readonly|selected|value)"),e.querySelectorAll(":checked").length||h.push(":checked")}),at(function(e){e.innerHTML="<input type='hidden' i=''/>",e.querySelectorAll("[i^='']").length&&h.push("[*^$]="+_+"*(?:\"\"|'')"),e.querySelectorAll(":enabled").length||h.push(":enabled",":disabled"),e.querySelectorAll("*,:x"),h.push(",.*:")})),(T.matchesSelector=rt(m=f.matchesSelector||f.mozMatchesSelector||f.webkitMatchesSelector||f.oMatchesSelector||f.msMatchesSelector))&&at(function(e){T.disconnectedMatch=m.call(e,"div"),m.call(e,"[s!='']:x"),g.push("!=",R)}),h=RegExp(h.join("|")),g=RegExp(g.join("|")),y=rt(f.contains)||f.compareDocumentPosition?function(e,t){var n=9===e.nodeType?e.documentElement:e,r=t&&t.parentNode;return e===r||!(!r||1!==r.nodeType||!(n.contains?n.contains(r):e.compareDocumentPosition&&16&e.compareDocumentPosition(r)))}:function(e,t){if(t)while(t=t.parentNode)if(t===e)return!0;return!1},v=f.compareDocumentPosition?function(e,t){var r;return e===t?(u=!0,0):(r=t.compareDocumentPosition&&e.compareDocumentPosition&&e.compareDocumentPosition(t))?1&r||e.parentNode&&11===e.parentNode.nodeType?e===n||y(w,e)?-1:t===n||y(w,t)?1:0:4&r?-1:1:e.compareDocumentPosition?-1:1}:function(e,t){var r,i=0,o=e.parentNode,a=t.parentNode,s=[e],l=[t];if(e===t)return u=!0,0;if(!o||!a)return e===n?-1:t===n?1:o?-1:a?1:0;if(o===a)return ut(e,t);r=e;while(r=r.parentNode)s.unshift(r);r=t;while(r=r.parentNode)l.unshift(r);while(s[i]===l[i])i++;return i?ut(s[i],l[i]):s[i]===w?-1:l[i]===w?1:0},u=!1,[0,0].sort(v),T.detectDuplicates=u,p):p},st.matches=function(e,t){return st(e,null,null,t)},st.matchesSelector=function(e,t){if((e.ownerDocument||e)!==p&&c(e),t=t.replace(Z,"='$1']"),!(!T.matchesSelector||d||g&&g.test(t)||h.test(t)))try{var n=m.call(e,t);if(n||T.disconnectedMatch||e.document&&11!==e.document.nodeType)return n}catch(r){}return st(t,p,null,[e]).length>0},st.contains=function(e,t){return(e.ownerDocument||e)!==p&&c(e),y(e,t)},st.attr=function(e,t){var n;return(e.ownerDocument||e)!==p&&c(e),d||(t=t.toLowerCase()),(n=i.attrHandle[t])?n(e):d||T.attributes?e.getAttribute(t):((n=e.getAttributeNode(t))||e.getAttribute(t))&&e[t]===!0?t:n&&n.specified?n.value:null},st.error=function(e){throw Error("Syntax error, unrecognized expression: "+e)},st.uniqueSort=function(e){var t,n=[],r=1,i=0;if(u=!T.detectDuplicates,e.sort(v),u){for(;t=e[r];r++)t===e[r-1]&&(i=n.push(r));while(i--)e.splice(n[i],1)}return e};function ut(e,t){var n=t&&e,r=n&&(~t.sourceIndex||j)-(~e.sourceIndex||j);if(r)return r;if(n)while(n=n.nextSibling)if(n===t)return-1;return e?1:-1}function lt(e){return function(t){var n=t.nodeName.toLowerCase();return"input"===n&&t.type===e}}function ct(e){return function(t){var n=t.nodeName.toLowerCase();return("input"===n||"button"===n)&&t.type===e}}function pt(e){return ot(function(t){return t=+t,ot(function(n,r){var i,o=e([],n.length,t),a=o.length;while(a--)n[i=o[a]]&&(n[i]=!(r[i]=n[i]))})})}o=st.getText=function(e){var t,n="",r=0,i=e.nodeType;if(i){if(1===i||9===i||11===i){if("string"==typeof e.textContent)return e.textContent;for(e=e.firstChild;e;e=e.nextSibling)n+=o(e)}else if(3===i||4===i)return e.nodeValue}else for(;t=e[r];r++)n+=o(t);return n},i=st.selectors={cacheLength:50,createPseudo:ot,match:U,find:{},relative:{">":{dir:"parentNode",first:!0}," ":{dir:"parentNode"},"+":{dir:"previousSibling",first:!0},"~":{dir:"previousSibling"}},preFilter:{ATTR:function(e){return e[1]=e[1].replace(et,tt),e[3]=(e[4]||e[5]||"").replace(et,tt),"~="===e[2]&&(e[3]=" "+e[3]+" "),e.slice(0,4)},CHILD:function(e){return e[1]=e[1].toLowerCase(),"nth"===e[1].slice(0,3)?(e[3]||st.error(e[0]),e[4]=+(e[4]?e[5]+(e[6]||1):2*("even"===e[3]||"odd"===e[3])),e[5]=+(e[7]+e[8]||"odd"===e[3])):e[3]&&st.error(e[0]),e},PSEUDO:function(e){var t,n=!e[5]&&e[2];return U.CHILD.test(e[0])?null:(e[4]?e[2]=e[4]:n&&z.test(n)&&(t=ft(n,!0))&&(t=n.indexOf(")",n.length-t)-n.length)&&(e[0]=e[0].slice(0,t),e[2]=n.slice(0,t)),e.slice(0,3))}},filter:{TAG:function(e){return"*"===e?function(){return!0}:(e=e.replace(et,tt).toLowerCase(),function(t){return t.nodeName&&t.nodeName.toLowerCase()===e})},CLASS:function(e){var t=k[e+" "];return t||(t=RegExp("(^|"+_+")"+e+"("+_+"|$)"))&&k(e,function(e){return t.test(e.className||typeof e.getAttribute!==A&&e.getAttribute("class")||"")})},ATTR:function(e,t,n){return function(r){var i=st.attr(r,e);return null==i?"!="===t:t?(i+="","="===t?i===n:"!="===t?i!==n:"^="===t?n&&0===i.indexOf(n):"*="===t?n&&i.indexOf(n)>-1:"$="===t?n&&i.slice(-n.length)===n:"~="===t?(" "+i+" ").indexOf(n)>-1:"|="===t?i===n||i.slice(0,n.length+1)===n+"-":!1):!0}},CHILD:function(e,t,n,r,i){var o="nth"!==e.slice(0,3),a="last"!==e.slice(-4),s="of-type"===t;return 1===r&&0===i?function(e){return!!e.parentNode}:function(t,n,u){var l,c,p,f,d,h,g=o!==a?"nextSibling":"previousSibling",m=t.parentNode,y=s&&t.nodeName.toLowerCase(),v=!u&&!s;if(m){if(o){while(g){p=t;while(p=p[g])if(s?p.nodeName.toLowerCase()===y:1===p.nodeType)return!1;h=g="only"===e&&!h&&"nextSibling"}return!0}if(h=[a?m.firstChild:m.lastChild],a&&v){c=m[x]||(m[x]={}),l=c[e]||[],d=l[0]===N&&l[1],f=l[0]===N&&l[2],p=d&&m.childNodes[d];while(p=++d&&p&&p[g]||(f=d=0)||h.pop())if(1===p.nodeType&&++f&&p===t){c[e]=[N,d,f];break}}else if(v&&(l=(t[x]||(t[x]={}))[e])&&l[0]===N)f=l[1];else while(p=++d&&p&&p[g]||(f=d=0)||h.pop())if((s?p.nodeName.toLowerCase()===y:1===p.nodeType)&&++f&&(v&&((p[x]||(p[x]={}))[e]=[N,f]),p===t))break;return f-=i,f===r||0===f%r&&f/r>=0}}},PSEUDO:function(e,t){var n,r=i.pseudos[e]||i.setFilters[e.toLowerCase()]||st.error("unsupported pseudo: "+e);return r[x]?r(t):r.length>1?(n=[e,e,"",t],i.setFilters.hasOwnProperty(e.toLowerCase())?ot(function(e,n){var i,o=r(e,t),a=o.length;while(a--)i=M.call(e,o[a]),e[i]=!(n[i]=o[a])}):function(e){return r(e,0,n)}):r}},pseudos:{not:ot(function(e){var t=[],n=[],r=s(e.replace(W,"$1"));return r[x]?ot(function(e,t,n,i){var o,a=r(e,null,i,[]),s=e.length;while(s--)(o=a[s])&&(e[s]=!(t[s]=o))}):function(e,i,o){return t[0]=e,r(t,null,o,n),!n.pop()}}),has:ot(function(e){return function(t){return st(e,t).length>0}}),contains:ot(function(e){return function(t){return(t.textContent||t.innerText||o(t)).indexOf(e)>-1}}),lang:ot(function(e){return X.test(e||"")||st.error("unsupported lang: "+e),e=e.replace(et,tt).toLowerCase(),function(t){var n;do if(n=d?t.getAttribute("xml:lang")||t.getAttribute("lang"):t.lang)return n=n.toLowerCase(),n===e||0===n.indexOf(e+"-");while((t=t.parentNode)&&1===t.nodeType);return!1}}),target:function(t){var n=e.location&&e.location.hash;return n&&n.slice(1)===t.id},root:function(e){return e===f},focus:function(e){return e===p.activeElement&&(!p.hasFocus||p.hasFocus())&&!!(e.type||e.href||~e.tabIndex)},enabled:function(e){return e.disabled===!1},disabled:function(e){return e.disabled===!0},checked:function(e){var t=e.nodeName.toLowerCase();return"input"===t&&!!e.checked||"option"===t&&!!e.selected},selected:function(e){return e.parentNode&&e.parentNode.selectedIndex,e.selected===!0},empty:function(e){for(e=e.firstChild;e;e=e.nextSibling)if(e.nodeName>"@"||3===e.nodeType||4===e.nodeType)return!1;return!0},parent:function(e){return!i.pseudos.empty(e)},header:function(e){return Q.test(e.nodeName)},input:function(e){return G.test(e.nodeName)},button:function(e){var t=e.nodeName.toLowerCase();return"input"===t&&"button"===e.type||"button"===t},text:function(e){var t;return"input"===e.nodeName.toLowerCase()&&"text"===e.type&&(null==(t=e.getAttribute("type"))||t.toLowerCase()===e.type)},first:pt(function(){return[0]}),last:pt(function(e,t){return[t-1]}),eq:pt(function(e,t,n){return[0>n?n+t:n]}),even:pt(function(e,t){var n=0;for(;t>n;n+=2)e.push(n);return e}),odd:pt(function(e,t){var n=1;for(;t>n;n+=2)e.push(n);return e}),lt:pt(function(e,t,n){var r=0>n?n+t:n;for(;--r>=0;)e.push(r);return e}),gt:pt(function(e,t,n){var r=0>n?n+t:n;for(;t>++r;)e.push(r);return e})}};for(n in{radio:!0,checkbox:!0,file:!0,password:!0,image:!0})i.pseudos[n]=lt(n);for(n in{submit:!0,reset:!0})i.pseudos[n]=ct(n);function ft(e,t){var n,r,o,a,s,u,l,c=E[e+" "];if(c)return t?0:c.slice(0);s=e,u=[],l=i.preFilter;while(s){(!n||(r=$.exec(s)))&&(r&&(s=s.slice(r[0].length)||s),u.push(o=[])),n=!1,(r=I.exec(s))&&(n=r.shift(),o.push({value:n,type:r[0].replace(W," ")}),s=s.slice(n.length));for(a in i.filter)!(r=U[a].exec(s))||l[a]&&!(r=l[a](r))||(n=r.shift(),o.push({value:n,type:a,matches:r}),s=s.slice(n.length));if(!n)break}return t?s.length:s?st.error(e):E(e,u).slice(0)}function dt(e){var t=0,n=e.length,r="";for(;n>t;t++)r+=e[t].value;return r}function ht(e,t,n){var i=t.dir,o=n&&"parentNode"===i,a=C++;return t.first?function(t,n,r){while(t=t[i])if(1===t.nodeType||o)return e(t,n,r)}:function(t,n,s){var u,l,c,p=N+" "+a;if(s){while(t=t[i])if((1===t.nodeType||o)&&e(t,n,s))return!0}else while(t=t[i])if(1===t.nodeType||o)if(c=t[x]||(t[x]={}),(l=c[i])&&l[0]===p){if((u=l[1])===!0||u===r)return u===!0}else if(l=c[i]=[p],l[1]=e(t,n,s)||r,l[1]===!0)return!0}}function gt(e){return e.length>1?function(t,n,r){var i=e.length;while(i--)if(!e[i](t,n,r))return!1;return!0}:e[0]}function mt(e,t,n,r,i){var o,a=[],s=0,u=e.length,l=null!=t;for(;u>s;s++)(o=e[s])&&(!n||n(o,r,i))&&(a.push(o),l&&t.push(s));return a}function yt(e,t,n,r,i,o){return r&&!r[x]&&(r=yt(r)),i&&!i[x]&&(i=yt(i,o)),ot(function(o,a,s,u){var l,c,p,f=[],d=[],h=a.length,g=o||xt(t||"*",s.nodeType?[s]:s,[]),m=!e||!o&&t?g:mt(g,f,e,s,u),y=n?i||(o?e:h||r)?[]:a:m;if(n&&n(m,y,s,u),r){l=mt(y,d),r(l,[],s,u),c=l.length;while(c--)(p=l[c])&&(y[d[c]]=!(m[d[c]]=p))}if(o){if(i||e){if(i){l=[],c=y.length;while(c--)(p=y[c])&&l.push(m[c]=p);i(null,y=[],l,u)}c=y.length;while(c--)(p=y[c])&&(l=i?M.call(o,p):f[c])>-1&&(o[l]=!(a[l]=p))}}else y=mt(y===a?y.splice(h,y.length):y),i?i(null,a,y,u):H.apply(a,y)})}function vt(e){var t,n,r,o=e.length,a=i.relative[e[0].type],s=a||i.relative[" "],u=a?1:0,c=ht(function(e){return e===t},s,!0),p=ht(function(e){return M.call(t,e)>-1},s,!0),f=[function(e,n,r){return!a&&(r||n!==l)||((t=n).nodeType?c(e,n,r):p(e,n,r))}];for(;o>u;u++)if(n=i.relative[e[u].type])f=[ht(gt(f),n)];else{if(n=i.filter[e[u].type].apply(null,e[u].matches),n[x]){for(r=++u;o>r;r++)if(i.relative[e[r].type])break;return yt(u>1&&gt(f),u>1&&dt(e.slice(0,u-1)).replace(W,"$1"),n,r>u&&vt(e.slice(u,r)),o>r&&vt(e=e.slice(r)),o>r&&dt(e))}f.push(n)}return gt(f)}function bt(e,t){var n=0,o=t.length>0,a=e.length>0,s=function(s,u,c,f,d){var h,g,m,y=[],v=0,b="0",x=s&&[],w=null!=d,T=l,C=s||a&&i.find.TAG("*",d&&u.parentNode||u),k=N+=null==T?1:Math.random()||.1;for(w&&(l=u!==p&&u,r=n);null!=(h=C[b]);b++){if(a&&h){g=0;while(m=e[g++])if(m(h,u,c)){f.push(h);break}w&&(N=k,r=++n)}o&&((h=!m&&h)&&v--,s&&x.push(h))}if(v+=b,o&&b!==v){g=0;while(m=t[g++])m(x,y,u,c);if(s){if(v>0)while(b--)x[b]||y[b]||(y[b]=L.call(f));y=mt(y)}H.apply(f,y),w&&!s&&y.length>0&&v+t.length>1&&st.uniqueSort(f)}return w&&(N=k,l=T),x};return o?ot(s):s}s=st.compile=function(e,t){var n,r=[],i=[],o=S[e+" "];if(!o){t||(t=ft(e)),n=t.length;while(n--)o=vt(t[n]),o[x]?r.push(o):i.push(o);o=S(e,bt(i,r))}return o};function xt(e,t,n){var r=0,i=t.length;for(;i>r;r++)st(e,t[r],n);return n}function wt(e,t,n,r){var o,a,u,l,c,p=ft(e);if(!r&&1===p.length){if(a=p[0]=p[0].slice(0),a.length>2&&"ID"===(u=a[0]).type&&9===t.nodeType&&!d&&i.relative[a[1].type]){if(t=i.find.ID(u.matches[0].replace(et,tt),t)[0],!t)return n;e=e.slice(a.shift().value.length)}o=U.needsContext.test(e)?0:a.length;while(o--){if(u=a[o],i.relative[l=u.type])break;if((c=i.find[l])&&(r=c(u.matches[0].replace(et,tt),V.test(a[0].type)&&t.parentNode||t))){if(a.splice(o,1),e=r.length&&dt(a),!e)return H.apply(n,q.call(r,0)),n;break}}}return s(e,p)(r,t,d,n,V.test(e)),n}i.pseudos.nth=i.pseudos.eq;function Tt(){}i.filters=Tt.prototype=i.pseudos,i.setFilters=new Tt,c(),st.attr=b.attr,b.find=st,b.expr=st.selectors,b.expr[":"]=b.expr.pseudos,b.unique=st.uniqueSort,b.text=st.getText,b.isXMLDoc=st.isXML,b.contains=st.contains}(e);var at=/Until$/,st=/^(?:parents|prev(?:Until|All))/,ut=/^.[^:#\[\.,]*$/,lt=b.expr.match.needsContext,ct={children:!0,contents:!0,next:!0,prev:!0};b.fn.extend({find:function(e){var t,n,r,i=this.length;if("string"!=typeof e)return r=this,this.pushStack(b(e).filter(function(){for(t=0;i>t;t++)if(b.contains(r[t],this))return!0}));for(n=[],t=0;i>t;t++)b.find(e,this[t],n);return n=this.pushStack(i>1?b.unique(n):n),n.selector=(this.selector?this.selector+" ":"")+e,n},has:function(e){var t,n=b(e,this),r=n.length;return this.filter(function(){for(t=0;r>t;t++)if(b.contains(this,n[t]))return!0})},not:function(e){return this.pushStack(ft(this,e,!1))},filter:function(e){return this.pushStack(ft(this,e,!0))},is:function(e){return!!e&&("string"==typeof e?lt.test(e)?b(e,this.context).index(this[0])>=0:b.filter(e,this).length>0:this.filter(e).length>0)},closest:function(e,t){var n,r=0,i=this.length,o=[],a=lt.test(e)||"string"!=typeof e?b(e,t||this.context):0;for(;i>r;r++){n=this[r];while(n&&n.ownerDocument&&n!==t&&11!==n.nodeType){if(a?a.index(n)>-1:b.find.matchesSelector(n,e)){o.push(n);break}n=n.parentNode}}return this.pushStack(o.length>1?b.unique(o):o)},index:function(e){return e?"string"==typeof e?b.inArray(this[0],b(e)):b.inArray(e.jquery?e[0]:e,this):this[0]&&this[0].parentNode?this.first().prevAll().length:-1},add:function(e,t){var n="string"==typeof e?b(e,t):b.makeArray(e&&e.nodeType?[e]:e),r=b.merge(this.get(),n);return this.pushStack(b.unique(r))},addBack:function(e){return this.add(null==e?this.prevObject:this.prevObject.filter(e))}}),b.fn.andSelf=b.fn.addBack;function pt(e,t){do e=e[t];while(e&&1!==e.nodeType);return e}b.each({parent:function(e){var t=e.parentNode;return t&&11!==t.nodeType?t:null},parents:function(e){return b.dir(e,"parentNode")},parentsUntil:function(e,t,n){return b.dir(e,"parentNode",n)},next:function(e){return pt(e,"nextSibling")},prev:function(e){return pt(e,"previousSibling")},nextAll:function(e){return b.dir(e,"nextSibling")},prevAll:function(e){return b.dir(e,"previousSibling")},nextUntil:function(e,t,n){return b.dir(e,"nextSibling",n)},prevUntil:function(e,t,n){return b.dir(e,"previousSibling",n)},siblings:function(e){return b.sibling((e.parentNode||{}).firstChild,e)},children:function(e){return b.sibling(e.firstChild)},contents:function(e){return b.nodeName(e,"iframe")?e.contentDocument||e.contentWindow.document:b.merge([],e.childNodes)}},function(e,t){b.fn[e]=function(n,r){var i=b.map(this,t,n);return at.test(e)||(r=n),r&&"string"==typeof r&&(i=b.filter(r,i)),i=this.length>1&&!ct[e]?b.unique(i):i,this.length>1&&st.test(e)&&(i=i.reverse()),this.pushStack(i)}}),b.extend({filter:function(e,t,n){return n&&(e=":not("+e+")"),1===t.length?b.find.matchesSelector(t[0],e)?[t[0]]:[]:b.find.matches(e,t)},dir:function(e,n,r){var i=[],o=e[n];while(o&&9!==o.nodeType&&(r===t||1!==o.nodeType||!b(o).is(r)))1===o.nodeType&&i.push(o),o=o[n];return i},sibling:function(e,t){var n=[];for(;e;e=e.nextSibling)1===e.nodeType&&e!==t&&n.push(e);return n}});function ft(e,t,n){if(t=t||0,b.isFunction(t))return b.grep(e,function(e,r){var i=!!t.call(e,r,e);return i===n});if(t.nodeType)return b.grep(e,function(e){return e===t===n});if("string"==typeof t){var r=b.grep(e,function(e){return 1===e.nodeType});if(ut.test(t))return b.filter(t,r,!n);t=b.filter(t,r)}return b.grep(e,function(e){return b.inArray(e,t)>=0===n})}function dt(e){var t=ht.split("|"),n=e.createDocumentFragment();if(n.createElement)while(t.length)n.createElement(t.pop());return n}var ht="abbr|article|aside|audio|bdi|canvas|data|datalist|details|figcaption|figure|footer|header|hgroup|mark|meter|nav|output|progress|section|summary|time|video",gt=/ jQuery\d+="(?:null|\d+)"/g,mt=RegExp("<(?:"+ht+")[\\s/>]","i"),yt=/^\s+/,vt=/<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,bt=/<([\w:]+)/,xt=/<tbody/i,wt=/<|&#?\w+;/,Tt=/<(?:script|style|link)/i,Nt=/^(?:checkbox|radio)$/i,Ct=/checked\s*(?:[^=]|=\s*.checked.)/i,kt=/^$|\/(?:java|ecma)script/i,Et=/^true\/(.*)/,St=/^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g,At={option:[1,"<select multiple='multiple'>","</select>"],legend:[1,"<fieldset>","</fieldset>"],area:[1,"<map>","</map>"],param:[1,"<object>","</object>"],thead:[1,"<table>","</table>"],tr:[2,"<table><tbody>","</tbody></table>"],col:[2,"<table><tbody></tbody><colgroup>","</colgroup></table>"],td:[3,"<table><tbody><tr>","</tr></tbody></table>"],_default:b.support.htmlSerialize?[0,"",""]:[1,"X<div>","</div>"]},jt=dt(o),Dt=jt.appendChild(o.createElement("div"));At.optgroup=At.option,At.tbody=At.tfoot=At.colgroup=At.caption=At.thead,At.th=At.td,b.fn.extend({text:function(e){return b.access(this,function(e){return e===t?b.text(this):this.empty().append((this[0]&&this[0].ownerDocument||o).createTextNode(e))},null,e,arguments.length)},wrapAll:function(e){if(b.isFunction(e))return this.each(function(t){b(this).wrapAll(e.call(this,t))});if(this[0]){var t=b(e,this[0].ownerDocument).eq(0).clone(!0);this[0].parentNode&&t.insertBefore(this[0]),t.map(function(){var e=this;while(e.firstChild&&1===e.firstChild.nodeType)e=e.firstChild;return e}).append(this)}return this},wrapInner:function(e){return b.isFunction(e)?this.each(function(t){b(this).wrapInner(e.call(this,t))}):this.each(function(){var t=b(this),n=t.contents();n.length?n.wrapAll(e):t.append(e)})},wrap:function(e){var t=b.isFunction(e);return this.each(function(n){b(this).wrapAll(t?e.call(this,n):e)})},unwrap:function(){return this.parent().each(function(){b.nodeName(this,"body")||b(this).replaceWith(this.childNodes)}).end()},append:function(){return this.domManip(arguments,!0,function(e){(1===this.nodeType||11===this.nodeType||9===this.nodeType)&&this.appendChild(e)})},prepend:function(){return this.domManip(arguments,!0,function(e){(1===this.nodeType||11===this.nodeType||9===this.nodeType)&&this.insertBefore(e,this.firstChild)})},before:function(){return this.domManip(arguments,!1,function(e){this.parentNode&&this.parentNode.insertBefore(e,this)})},after:function(){return this.domManip(arguments,!1,function(e){this.parentNode&&this.parentNode.insertBefore(e,this.nextSibling)})},remove:function(e,t){var n,r=0;for(;null!=(n=this[r]);r++)(!e||b.filter(e,[n]).length>0)&&(t||1!==n.nodeType||b.cleanData(Ot(n)),n.parentNode&&(t&&b.contains(n.ownerDocument,n)&&Mt(Ot(n,"script")),n.parentNode.removeChild(n)));return this},empty:function(){var e,t=0;for(;null!=(e=this[t]);t++){1===e.nodeType&&b.cleanData(Ot(e,!1));while(e.firstChild)e.removeChild(e.firstChild);e.options&&b.nodeName(e,"select")&&(e.options.length=0)}return this},clone:function(e,t){return e=null==e?!1:e,t=null==t?e:t,this.map(function(){return b.clone(this,e,t)})},html:function(e){return b.access(this,function(e){var n=this[0]||{},r=0,i=this.length;if(e===t)return 1===n.nodeType?n.innerHTML.replace(gt,""):t;if(!("string"!=typeof e||Tt.test(e)||!b.support.htmlSerialize&&mt.test(e)||!b.support.leadingWhitespace&&yt.test(e)||At[(bt.exec(e)||["",""])[1].toLowerCase()])){e=e.replace(vt,"<$1></$2>");try{for(;i>r;r++)n=this[r]||{},1===n.nodeType&&(b.cleanData(Ot(n,!1)),n.innerHTML=e);n=0}catch(o){}}n&&this.empty().append(e)},null,e,arguments.length)},replaceWith:function(e){var t=b.isFunction(e);return t||"string"==typeof e||(e=b(e).not(this).detach()),this.domManip([e],!0,function(e){var t=this.nextSibling,n=this.parentNode;n&&(b(this).remove(),n.insertBefore(e,t))})},detach:function(e){return this.remove(e,!0)},domManip:function(e,n,r){e=f.apply([],e);var i,o,a,s,u,l,c=0,p=this.length,d=this,h=p-1,g=e[0],m=b.isFunction(g);if(m||!(1>=p||"string"!=typeof g||b.support.checkClone)&&Ct.test(g))return this.each(function(i){var o=d.eq(i);m&&(e[0]=g.call(this,i,n?o.html():t)),o.domManip(e,n,r)});if(p&&(l=b.buildFragment(e,this[0].ownerDocument,!1,this),i=l.firstChild,1===l.childNodes.length&&(l=i),i)){for(n=n&&b.nodeName(i,"tr"),s=b.map(Ot(l,"script"),Ht),a=s.length;p>c;c++)o=l,c!==h&&(o=b.clone(o,!0,!0),a&&b.merge(s,Ot(o,"script"))),r.call(n&&b.nodeName(this[c],"table")?Lt(this[c],"tbody"):this[c],o,c);if(a)for(u=s[s.length-1].ownerDocument,b.map(s,qt),c=0;a>c;c++)o=s[c],kt.test(o.type||"")&&!b._data(o,"globalEval")&&b.contains(u,o)&&(o.src?b.ajax({url:o.src,type:"GET",dataType:"script",async:!1,global:!1,"throws":!0}):b.globalEval((o.text||o.textContent||o.innerHTML||"").replace(St,"")));l=i=null}return this}});function Lt(e,t){return e.getElementsByTagName(t)[0]||e.appendChild(e.ownerDocument.createElement(t))}function Ht(e){var t=e.getAttributeNode("type");return e.type=(t&&t.specified)+"/"+e.type,e}function qt(e){var t=Et.exec(e.type);return t?e.type=t[1]:e.removeAttribute("type"),e}function Mt(e,t){var n,r=0;for(;null!=(n=e[r]);r++)b._data(n,"globalEval",!t||b._data(t[r],"globalEval"))}function _t(e,t){if(1===t.nodeType&&b.hasData(e)){var n,r,i,o=b._data(e),a=b._data(t,o),s=o.events;if(s){delete a.handle,a.events={};for(n in s)for(r=0,i=s[n].length;i>r;r++)b.event.add(t,n,s[n][r])}a.data&&(a.data=b.extend({},a.data))}}function Ft(e,t){var n,r,i;if(1===t.nodeType){if(n=t.nodeName.toLowerCase(),!b.support.noCloneEvent&&t[b.expando]){i=b._data(t);for(r in i.events)b.removeEvent(t,r,i.handle);t.removeAttribute(b.expando)}"script"===n&&t.text!==e.text?(Ht(t).text=e.text,qt(t)):"object"===n?(t.parentNode&&(t.outerHTML=e.outerHTML),b.support.html5Clone&&e.innerHTML&&!b.trim(t.innerHTML)&&(t.innerHTML=e.innerHTML)):"input"===n&&Nt.test(e.type)?(t.defaultChecked=t.checked=e.checked,t.value!==e.value&&(t.value=e.value)):"option"===n?t.defaultSelected=t.selected=e.defaultSelected:("input"===n||"textarea"===n)&&(t.defaultValue=e.defaultValue)}}b.each({appendTo:"append",prependTo:"prepend",insertBefore:"before",insertAfter:"after",replaceAll:"replaceWith"},function(e,t){b.fn[e]=function(e){var n,r=0,i=[],o=b(e),a=o.length-1;for(;a>=r;r++)n=r===a?this:this.clone(!0),b(o[r])[t](n),d.apply(i,n.get());return this.pushStack(i)}});function Ot(e,n){var r,o,a=0,s=typeof e.getElementsByTagName!==i?e.getElementsByTagName(n||"*"):typeof e.querySelectorAll!==i?e.querySelectorAll(n||"*"):t;if(!s)for(s=[],r=e.childNodes||e;null!=(o=r[a]);a++)!n||b.nodeName(o,n)?s.push(o):b.merge(s,Ot(o,n));return n===t||n&&b.nodeName(e,n)?b.merge([e],s):s}function Bt(e){Nt.test(e.type)&&(e.defaultChecked=e.checked)}b.extend({clone:function(e,t,n){var r,i,o,a,s,u=b.contains(e.ownerDocument,e);if(b.support.html5Clone||b.isXMLDoc(e)||!mt.test("<"+e.nodeName+">")?o=e.cloneNode(!0):(Dt.innerHTML=e.outerHTML,Dt.removeChild(o=Dt.firstChild)),!(b.support.noCloneEvent&&b.support.noCloneChecked||1!==e.nodeType&&11!==e.nodeType||b.isXMLDoc(e)))for(r=Ot(o),s=Ot(e),a=0;null!=(i=s[a]);++a)r[a]&&Ft(i,r[a]);if(t)if(n)for(s=s||Ot(e),r=r||Ot(o),a=0;null!=(i=s[a]);a++)_t(i,r[a]);else _t(e,o);return r=Ot(o,"script"),r.length>0&&Mt(r,!u&&Ot(e,"script")),r=s=i=null,o},buildFragment:function(e,t,n,r){var i,o,a,s,u,l,c,p=e.length,f=dt(t),d=[],h=0;for(;p>h;h++)if(o=e[h],o||0===o)if("object"===b.type(o))b.merge(d,o.nodeType?[o]:o);else if(wt.test(o)){s=s||f.appendChild(t.createElement("div")),u=(bt.exec(o)||["",""])[1].toLowerCase(),c=At[u]||At._default,s.innerHTML=c[1]+o.replace(vt,"<$1></$2>")+c[2],i=c[0];while(i--)s=s.lastChild;if(!b.support.leadingWhitespace&&yt.test(o)&&d.push(t.createTextNode(yt.exec(o)[0])),!b.support.tbody){o="table"!==u||xt.test(o)?"<table>"!==c[1]||xt.test(o)?0:s:s.firstChild,i=o&&o.childNodes.length;while(i--)b.nodeName(l=o.childNodes[i],"tbody")&&!l.childNodes.length&&o.removeChild(l)
 }b.merge(d,s.childNodes),s.textContent="";while(s.firstChild)s.removeChild(s.firstChild);s=f.lastChild}else d.push(t.createTextNode(o));s&&f.removeChild(s),b.support.appendChecked||b.grep(Ot(d,"input"),Bt),h=0;while(o=d[h++])if((!r||-1===b.inArray(o,r))&&(a=b.contains(o.ownerDocument,o),s=Ot(f.appendChild(o),"script"),a&&Mt(s),n)){i=0;while(o=s[i++])kt.test(o.type||"")&&n.push(o)}return s=null,f},cleanData:function(e,t){var n,r,o,a,s=0,u=b.expando,l=b.cache,p=b.support.deleteExpando,f=b.event.special;for(;null!=(n=e[s]);s++)if((t||b.acceptData(n))&&(o=n[u],a=o&&l[o])){if(a.events)for(r in a.events)f[r]?b.event.remove(n,r):b.removeEvent(n,r,a.handle);l[o]&&(delete l[o],p?delete n[u]:typeof n.removeAttribute!==i?n.removeAttribute(u):n[u]=null,c.push(o))}}});var Pt,Rt,Wt,$t=/alpha\([^)]*\)/i,It=/opacity\s*=\s*([^)]*)/,zt=/^(top|right|bottom|left)$/,Xt=/^(none|table(?!-c[ea]).+)/,Ut=/^margin/,Vt=RegExp("^("+x+")(.*)$","i"),Yt=RegExp("^("+x+")(?!px)[a-z%]+$","i"),Jt=RegExp("^([+-])=("+x+")","i"),Gt={BODY:"block"},Qt={position:"absolute",visibility:"hidden",display:"block"},Kt={letterSpacing:0,fontWeight:400},Zt=["Top","Right","Bottom","Left"],en=["Webkit","O","Moz","ms"];function tn(e,t){if(t in e)return t;var n=t.charAt(0).toUpperCase()+t.slice(1),r=t,i=en.length;while(i--)if(t=en[i]+n,t in e)return t;return r}function nn(e,t){return e=t||e,"none"===b.css(e,"display")||!b.contains(e.ownerDocument,e)}function rn(e,t){var n,r,i,o=[],a=0,s=e.length;for(;s>a;a++)r=e[a],r.style&&(o[a]=b._data(r,"olddisplay"),n=r.style.display,t?(o[a]||"none"!==n||(r.style.display=""),""===r.style.display&&nn(r)&&(o[a]=b._data(r,"olddisplay",un(r.nodeName)))):o[a]||(i=nn(r),(n&&"none"!==n||!i)&&b._data(r,"olddisplay",i?n:b.css(r,"display"))));for(a=0;s>a;a++)r=e[a],r.style&&(t&&"none"!==r.style.display&&""!==r.style.display||(r.style.display=t?o[a]||"":"none"));return e}b.fn.extend({css:function(e,n){return b.access(this,function(e,n,r){var i,o,a={},s=0;if(b.isArray(n)){for(o=Rt(e),i=n.length;i>s;s++)a[n[s]]=b.css(e,n[s],!1,o);return a}return r!==t?b.style(e,n,r):b.css(e,n)},e,n,arguments.length>1)},show:function(){return rn(this,!0)},hide:function(){return rn(this)},toggle:function(e){var t="boolean"==typeof e;return this.each(function(){(t?e:nn(this))?b(this).show():b(this).hide()})}}),b.extend({cssHooks:{opacity:{get:function(e,t){if(t){var n=Wt(e,"opacity");return""===n?"1":n}}}},cssNumber:{columnCount:!0,fillOpacity:!0,fontWeight:!0,lineHeight:!0,opacity:!0,orphans:!0,widows:!0,zIndex:!0,zoom:!0},cssProps:{"float":b.support.cssFloat?"cssFloat":"styleFloat"},style:function(e,n,r,i){if(e&&3!==e.nodeType&&8!==e.nodeType&&e.style){var o,a,s,u=b.camelCase(n),l=e.style;if(n=b.cssProps[u]||(b.cssProps[u]=tn(l,u)),s=b.cssHooks[n]||b.cssHooks[u],r===t)return s&&"get"in s&&(o=s.get(e,!1,i))!==t?o:l[n];if(a=typeof r,"string"===a&&(o=Jt.exec(r))&&(r=(o[1]+1)*o[2]+parseFloat(b.css(e,n)),a="number"),!(null==r||"number"===a&&isNaN(r)||("number"!==a||b.cssNumber[u]||(r+="px"),b.support.clearCloneStyle||""!==r||0!==n.indexOf("background")||(l[n]="inherit"),s&&"set"in s&&(r=s.set(e,r,i))===t)))try{l[n]=r}catch(c){}}},css:function(e,n,r,i){var o,a,s,u=b.camelCase(n);return n=b.cssProps[u]||(b.cssProps[u]=tn(e.style,u)),s=b.cssHooks[n]||b.cssHooks[u],s&&"get"in s&&(a=s.get(e,!0,r)),a===t&&(a=Wt(e,n,i)),"normal"===a&&n in Kt&&(a=Kt[n]),""===r||r?(o=parseFloat(a),r===!0||b.isNumeric(o)?o||0:a):a},swap:function(e,t,n,r){var i,o,a={};for(o in t)a[o]=e.style[o],e.style[o]=t[o];i=n.apply(e,r||[]);for(o in t)e.style[o]=a[o];return i}}),e.getComputedStyle?(Rt=function(t){return e.getComputedStyle(t,null)},Wt=function(e,n,r){var i,o,a,s=r||Rt(e),u=s?s.getPropertyValue(n)||s[n]:t,l=e.style;return s&&(""!==u||b.contains(e.ownerDocument,e)||(u=b.style(e,n)),Yt.test(u)&&Ut.test(n)&&(i=l.width,o=l.minWidth,a=l.maxWidth,l.minWidth=l.maxWidth=l.width=u,u=s.width,l.width=i,l.minWidth=o,l.maxWidth=a)),u}):o.documentElement.currentStyle&&(Rt=function(e){return e.currentStyle},Wt=function(e,n,r){var i,o,a,s=r||Rt(e),u=s?s[n]:t,l=e.style;return null==u&&l&&l[n]&&(u=l[n]),Yt.test(u)&&!zt.test(n)&&(i=l.left,o=e.runtimeStyle,a=o&&o.left,a&&(o.left=e.currentStyle.left),l.left="fontSize"===n?"1em":u,u=l.pixelLeft+"px",l.left=i,a&&(o.left=a)),""===u?"auto":u});function on(e,t,n){var r=Vt.exec(t);return r?Math.max(0,r[1]-(n||0))+(r[2]||"px"):t}function an(e,t,n,r,i){var o=n===(r?"border":"content")?4:"width"===t?1:0,a=0;for(;4>o;o+=2)"margin"===n&&(a+=b.css(e,n+Zt[o],!0,i)),r?("content"===n&&(a-=b.css(e,"padding"+Zt[o],!0,i)),"margin"!==n&&(a-=b.css(e,"border"+Zt[o]+"Width",!0,i))):(a+=b.css(e,"padding"+Zt[o],!0,i),"padding"!==n&&(a+=b.css(e,"border"+Zt[o]+"Width",!0,i)));return a}function sn(e,t,n){var r=!0,i="width"===t?e.offsetWidth:e.offsetHeight,o=Rt(e),a=b.support.boxSizing&&"border-box"===b.css(e,"boxSizing",!1,o);if(0>=i||null==i){if(i=Wt(e,t,o),(0>i||null==i)&&(i=e.style[t]),Yt.test(i))return i;r=a&&(b.support.boxSizingReliable||i===e.style[t]),i=parseFloat(i)||0}return i+an(e,t,n||(a?"border":"content"),r,o)+"px"}function un(e){var t=o,n=Gt[e];return n||(n=ln(e,t),"none"!==n&&n||(Pt=(Pt||b("<iframe frameborder='0' width='0' height='0'/>").css("cssText","display:block !important")).appendTo(t.documentElement),t=(Pt[0].contentWindow||Pt[0].contentDocument).document,t.write("<!doctype html><html><body>"),t.close(),n=ln(e,t),Pt.detach()),Gt[e]=n),n}function ln(e,t){var n=b(t.createElement(e)).appendTo(t.body),r=b.css(n[0],"display");return n.remove(),r}b.each(["height","width"],function(e,n){b.cssHooks[n]={get:function(e,r,i){return r?0===e.offsetWidth&&Xt.test(b.css(e,"display"))?b.swap(e,Qt,function(){return sn(e,n,i)}):sn(e,n,i):t},set:function(e,t,r){var i=r&&Rt(e);return on(e,t,r?an(e,n,r,b.support.boxSizing&&"border-box"===b.css(e,"boxSizing",!1,i),i):0)}}}),b.support.opacity||(b.cssHooks.opacity={get:function(e,t){return It.test((t&&e.currentStyle?e.currentStyle.filter:e.style.filter)||"")?.01*parseFloat(RegExp.$1)+"":t?"1":""},set:function(e,t){var n=e.style,r=e.currentStyle,i=b.isNumeric(t)?"alpha(opacity="+100*t+")":"",o=r&&r.filter||n.filter||"";n.zoom=1,(t>=1||""===t)&&""===b.trim(o.replace($t,""))&&n.removeAttribute&&(n.removeAttribute("filter"),""===t||r&&!r.filter)||(n.filter=$t.test(o)?o.replace($t,i):o+" "+i)}}),b(function(){b.support.reliableMarginRight||(b.cssHooks.marginRight={get:function(e,n){return n?b.swap(e,{display:"inline-block"},Wt,[e,"marginRight"]):t}}),!b.support.pixelPosition&&b.fn.position&&b.each(["top","left"],function(e,n){b.cssHooks[n]={get:function(e,r){return r?(r=Wt(e,n),Yt.test(r)?b(e).position()[n]+"px":r):t}}})}),b.expr&&b.expr.filters&&(b.expr.filters.hidden=function(e){return 0>=e.offsetWidth&&0>=e.offsetHeight||!b.support.reliableHiddenOffsets&&"none"===(e.style&&e.style.display||b.css(e,"display"))},b.expr.filters.visible=function(e){return!b.expr.filters.hidden(e)}),b.each({margin:"",padding:"",border:"Width"},function(e,t){b.cssHooks[e+t]={expand:function(n){var r=0,i={},o="string"==typeof n?n.split(" "):[n];for(;4>r;r++)i[e+Zt[r]+t]=o[r]||o[r-2]||o[0];return i}},Ut.test(e)||(b.cssHooks[e+t].set=on)});var cn=/%20/g,pn=/\[\]$/,fn=/\r?\n/g,dn=/^(?:submit|button|image|reset|file)$/i,hn=/^(?:input|select|textarea|keygen)/i;b.fn.extend({serialize:function(){return b.param(this.serializeArray())},serializeArray:function(){return this.map(function(){var e=b.prop(this,"elements");return e?b.makeArray(e):this}).filter(function(){var e=this.type;return this.name&&!b(this).is(":disabled")&&hn.test(this.nodeName)&&!dn.test(e)&&(this.checked||!Nt.test(e))}).map(function(e,t){var n=b(this).val();return null==n?null:b.isArray(n)?b.map(n,function(e){return{name:t.name,value:e.replace(fn,"\r\n")}}):{name:t.name,value:n.replace(fn,"\r\n")}}).get()}}),b.param=function(e,n){var r,i=[],o=function(e,t){t=b.isFunction(t)?t():null==t?"":t,i[i.length]=encodeURIComponent(e)+"="+encodeURIComponent(t)};if(n===t&&(n=b.ajaxSettings&&b.ajaxSettings.traditional),b.isArray(e)||e.jquery&&!b.isPlainObject(e))b.each(e,function(){o(this.name,this.value)});else for(r in e)gn(r,e[r],n,o);return i.join("&").replace(cn,"+")};function gn(e,t,n,r){var i;if(b.isArray(t))b.each(t,function(t,i){n||pn.test(e)?r(e,i):gn(e+"["+("object"==typeof i?t:"")+"]",i,n,r)});else if(n||"object"!==b.type(t))r(e,t);else for(i in t)gn(e+"["+i+"]",t[i],n,r)}b.each("blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu".split(" "),function(e,t){b.fn[t]=function(e,n){return arguments.length>0?this.on(t,null,e,n):this.trigger(t)}}),b.fn.hover=function(e,t){return this.mouseenter(e).mouseleave(t||e)};var mn,yn,vn=b.now(),bn=/\?/,xn=/#.*$/,wn=/([?&])_=[^&]*/,Tn=/^(.*?):[ \t]*([^\r\n]*)\r?$/gm,Nn=/^(?:about|app|app-storage|.+-extension|file|res|widget):$/,Cn=/^(?:GET|HEAD)$/,kn=/^\/\//,En=/^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,Sn=b.fn.load,An={},jn={},Dn="*/".concat("*");try{yn=a.href}catch(Ln){yn=o.createElement("a"),yn.href="",yn=yn.href}mn=En.exec(yn.toLowerCase())||[];function Hn(e){return function(t,n){"string"!=typeof t&&(n=t,t="*");var r,i=0,o=t.toLowerCase().match(w)||[];if(b.isFunction(n))while(r=o[i++])"+"===r[0]?(r=r.slice(1)||"*",(e[r]=e[r]||[]).unshift(n)):(e[r]=e[r]||[]).push(n)}}function qn(e,n,r,i){var o={},a=e===jn;function s(u){var l;return o[u]=!0,b.each(e[u]||[],function(e,u){var c=u(n,r,i);return"string"!=typeof c||a||o[c]?a?!(l=c):t:(n.dataTypes.unshift(c),s(c),!1)}),l}return s(n.dataTypes[0])||!o["*"]&&s("*")}function Mn(e,n){var r,i,o=b.ajaxSettings.flatOptions||{};for(i in n)n[i]!==t&&((o[i]?e:r||(r={}))[i]=n[i]);return r&&b.extend(!0,e,r),e}b.fn.load=function(e,n,r){if("string"!=typeof e&&Sn)return Sn.apply(this,arguments);var i,o,a,s=this,u=e.indexOf(" ");return u>=0&&(i=e.slice(u,e.length),e=e.slice(0,u)),b.isFunction(n)?(r=n,n=t):n&&"object"==typeof n&&(a="POST"),s.length>0&&b.ajax({url:e,type:a,dataType:"html",data:n}).done(function(e){o=arguments,s.html(i?b("<div>").append(b.parseHTML(e)).find(i):e)}).complete(r&&function(e,t){s.each(r,o||[e.responseText,t,e])}),this},b.each(["ajaxStart","ajaxStop","ajaxComplete","ajaxError","ajaxSuccess","ajaxSend"],function(e,t){b.fn[t]=function(e){return this.on(t,e)}}),b.each(["get","post"],function(e,n){b[n]=function(e,r,i,o){return b.isFunction(r)&&(o=o||i,i=r,r=t),b.ajax({url:e,type:n,dataType:o,data:r,success:i})}}),b.extend({active:0,lastModified:{},etag:{},ajaxSettings:{url:yn,type:"GET",isLocal:Nn.test(mn[1]),global:!0,processData:!0,async:!0,contentType:"application/x-www-form-urlencoded; charset=UTF-8",accepts:{"*":Dn,text:"text/plain",html:"text/html",xml:"application/xml, text/xml",json:"application/json, text/javascript"},contents:{xml:/xml/,html:/html/,json:/json/},responseFields:{xml:"responseXML",text:"responseText"},converters:{"* text":e.String,"text html":!0,"text json":b.parseJSON,"text xml":b.parseXML},flatOptions:{url:!0,context:!0}},ajaxSetup:function(e,t){return t?Mn(Mn(e,b.ajaxSettings),t):Mn(b.ajaxSettings,e)},ajaxPrefilter:Hn(An),ajaxTransport:Hn(jn),ajax:function(e,n){"object"==typeof e&&(n=e,e=t),n=n||{};var r,i,o,a,s,u,l,c,p=b.ajaxSetup({},n),f=p.context||p,d=p.context&&(f.nodeType||f.jquery)?b(f):b.event,h=b.Deferred(),g=b.Callbacks("once memory"),m=p.statusCode||{},y={},v={},x=0,T="canceled",N={readyState:0,getResponseHeader:function(e){var t;if(2===x){if(!c){c={};while(t=Tn.exec(a))c[t[1].toLowerCase()]=t[2]}t=c[e.toLowerCase()]}return null==t?null:t},getAllResponseHeaders:function(){return 2===x?a:null},setRequestHeader:function(e,t){var n=e.toLowerCase();return x||(e=v[n]=v[n]||e,y[e]=t),this},overrideMimeType:function(e){return x||(p.mimeType=e),this},statusCode:function(e){var t;if(e)if(2>x)for(t in e)m[t]=[m[t],e[t]];else N.always(e[N.status]);return this},abort:function(e){var t=e||T;return l&&l.abort(t),k(0,t),this}};if(h.promise(N).complete=g.add,N.success=N.done,N.error=N.fail,p.url=((e||p.url||yn)+"").replace(xn,"").replace(kn,mn[1]+"//"),p.type=n.method||n.type||p.method||p.type,p.dataTypes=b.trim(p.dataType||"*").toLowerCase().match(w)||[""],null==p.crossDomain&&(r=En.exec(p.url.toLowerCase()),p.crossDomain=!(!r||r[1]===mn[1]&&r[2]===mn[2]&&(r[3]||("http:"===r[1]?80:443))==(mn[3]||("http:"===mn[1]?80:443)))),p.data&&p.processData&&"string"!=typeof p.data&&(p.data=b.param(p.data,p.traditional)),qn(An,p,n,N),2===x)return N;u=p.global,u&&0===b.active++&&b.event.trigger("ajaxStart"),p.type=p.type.toUpperCase(),p.hasContent=!Cn.test(p.type),o=p.url,p.hasContent||(p.data&&(o=p.url+=(bn.test(o)?"&":"?")+p.data,delete p.data),p.cache===!1&&(p.url=wn.test(o)?o.replace(wn,"$1_="+vn++):o+(bn.test(o)?"&":"?")+"_="+vn++)),p.ifModified&&(b.lastModified[o]&&N.setRequestHeader("If-Modified-Since",b.lastModified[o]),b.etag[o]&&N.setRequestHeader("If-None-Match",b.etag[o])),(p.data&&p.hasContent&&p.contentType!==!1||n.contentType)&&N.setRequestHeader("Content-Type",p.contentType),N.setRequestHeader("Accept",p.dataTypes[0]&&p.accepts[p.dataTypes[0]]?p.accepts[p.dataTypes[0]]+("*"!==p.dataTypes[0]?", "+Dn+"; q=0.01":""):p.accepts["*"]);for(i in p.headers)N.setRequestHeader(i,p.headers[i]);if(p.beforeSend&&(p.beforeSend.call(f,N,p)===!1||2===x))return N.abort();T="abort";for(i in{success:1,error:1,complete:1})N[i](p[i]);if(l=qn(jn,p,n,N)){N.readyState=1,u&&d.trigger("ajaxSend",[N,p]),p.async&&p.timeout>0&&(s=setTimeout(function(){N.abort("timeout")},p.timeout));try{x=1,l.send(y,k)}catch(C){if(!(2>x))throw C;k(-1,C)}}else k(-1,"No Transport");function k(e,n,r,i){var c,y,v,w,T,C=n;2!==x&&(x=2,s&&clearTimeout(s),l=t,a=i||"",N.readyState=e>0?4:0,r&&(w=_n(p,N,r)),e>=200&&300>e||304===e?(p.ifModified&&(T=N.getResponseHeader("Last-Modified"),T&&(b.lastModified[o]=T),T=N.getResponseHeader("etag"),T&&(b.etag[o]=T)),204===e?(c=!0,C="nocontent"):304===e?(c=!0,C="notmodified"):(c=Fn(p,w),C=c.state,y=c.data,v=c.error,c=!v)):(v=C,(e||!C)&&(C="error",0>e&&(e=0))),N.status=e,N.statusText=(n||C)+"",c?h.resolveWith(f,[y,C,N]):h.rejectWith(f,[N,C,v]),N.statusCode(m),m=t,u&&d.trigger(c?"ajaxSuccess":"ajaxError",[N,p,c?y:v]),g.fireWith(f,[N,C]),u&&(d.trigger("ajaxComplete",[N,p]),--b.active||b.event.trigger("ajaxStop")))}return N},getScript:function(e,n){return b.get(e,t,n,"script")},getJSON:function(e,t,n){return b.get(e,t,n,"json")}});function _n(e,n,r){var i,o,a,s,u=e.contents,l=e.dataTypes,c=e.responseFields;for(s in c)s in r&&(n[c[s]]=r[s]);while("*"===l[0])l.shift(),o===t&&(o=e.mimeType||n.getResponseHeader("Content-Type"));if(o)for(s in u)if(u[s]&&u[s].test(o)){l.unshift(s);break}if(l[0]in r)a=l[0];else{for(s in r){if(!l[0]||e.converters[s+" "+l[0]]){a=s;break}i||(i=s)}a=a||i}return a?(a!==l[0]&&l.unshift(a),r[a]):t}function Fn(e,t){var n,r,i,o,a={},s=0,u=e.dataTypes.slice(),l=u[0];if(e.dataFilter&&(t=e.dataFilter(t,e.dataType)),u[1])for(i in e.converters)a[i.toLowerCase()]=e.converters[i];for(;r=u[++s];)if("*"!==r){if("*"!==l&&l!==r){if(i=a[l+" "+r]||a["* "+r],!i)for(n in a)if(o=n.split(" "),o[1]===r&&(i=a[l+" "+o[0]]||a["* "+o[0]])){i===!0?i=a[n]:a[n]!==!0&&(r=o[0],u.splice(s--,0,r));break}if(i!==!0)if(i&&e["throws"])t=i(t);else try{t=i(t)}catch(c){return{state:"parsererror",error:i?c:"No conversion from "+l+" to "+r}}}l=r}return{state:"success",data:t}}b.ajaxSetup({accepts:{script:"text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"},contents:{script:/(?:java|ecma)script/},converters:{"text script":function(e){return b.globalEval(e),e}}}),b.ajaxPrefilter("script",function(e){e.cache===t&&(e.cache=!1),e.crossDomain&&(e.type="GET",e.global=!1)}),b.ajaxTransport("script",function(e){if(e.crossDomain){var n,r=o.head||b("head")[0]||o.documentElement;return{send:function(t,i){n=o.createElement("script"),n.async=!0,e.scriptCharset&&(n.charset=e.scriptCharset),n.src=e.url,n.onload=n.onreadystatechange=function(e,t){(t||!n.readyState||/loaded|complete/.test(n.readyState))&&(n.onload=n.onreadystatechange=null,n.parentNode&&n.parentNode.removeChild(n),n=null,t||i(200,"success"))},r.insertBefore(n,r.firstChild)},abort:function(){n&&n.onload(t,!0)}}}});var On=[],Bn=/(=)\?(?=&|$)|\?\?/;b.ajaxSetup({jsonp:"callback",jsonpCallback:function(){var e=On.pop()||b.expando+"_"+vn++;return this[e]=!0,e}}),b.ajaxPrefilter("json jsonp",function(n,r,i){var o,a,s,u=n.jsonp!==!1&&(Bn.test(n.url)?"url":"string"==typeof n.data&&!(n.contentType||"").indexOf("application/x-www-form-urlencoded")&&Bn.test(n.data)&&"data");return u||"jsonp"===n.dataTypes[0]?(o=n.jsonpCallback=b.isFunction(n.jsonpCallback)?n.jsonpCallback():n.jsonpCallback,u?n[u]=n[u].replace(Bn,"$1"+o):n.jsonp!==!1&&(n.url+=(bn.test(n.url)?"&":"?")+n.jsonp+"="+o),n.converters["script json"]=function(){return s||b.error(o+" was not called"),s[0]},n.dataTypes[0]="json",a=e[o],e[o]=function(){s=arguments},i.always(function(){e[o]=a,n[o]&&(n.jsonpCallback=r.jsonpCallback,On.push(o)),s&&b.isFunction(a)&&a(s[0]),s=a=t}),"script"):t});var Pn,Rn,Wn=0,$n=e.ActiveXObject&&function(){var e;for(e in Pn)Pn[e](t,!0)};function In(){try{return new e.XMLHttpRequest}catch(t){}}function zn(){try{return new e.ActiveXObject("Microsoft.XMLHTTP")}catch(t){}}b.ajaxSettings.xhr=e.ActiveXObject?function(){return!this.isLocal&&In()||zn()}:In,Rn=b.ajaxSettings.xhr(),b.support.cors=!!Rn&&"withCredentials"in Rn,Rn=b.support.ajax=!!Rn,Rn&&b.ajaxTransport(function(n){if(!n.crossDomain||b.support.cors){var r;return{send:function(i,o){var a,s,u=n.xhr();if(n.username?u.open(n.type,n.url,n.async,n.username,n.password):u.open(n.type,n.url,n.async),n.xhrFields)for(s in n.xhrFields)u[s]=n.xhrFields[s];n.mimeType&&u.overrideMimeType&&u.overrideMimeType(n.mimeType),n.crossDomain||i["X-Requested-With"]||(i["X-Requested-With"]="XMLHttpRequest");try{for(s in i)u.setRequestHeader(s,i[s])}catch(l){}u.send(n.hasContent&&n.data||null),r=function(e,i){var s,l,c,p;try{if(r&&(i||4===u.readyState))if(r=t,a&&(u.onreadystatechange=b.noop,$n&&delete Pn[a]),i)4!==u.readyState&&u.abort();else{p={},s=u.status,l=u.getAllResponseHeaders(),"string"==typeof u.responseText&&(p.text=u.responseText);try{c=u.statusText}catch(f){c=""}s||!n.isLocal||n.crossDomain?1223===s&&(s=204):s=p.text?200:404}}catch(d){i||o(-1,d)}p&&o(s,c,p,l)},n.async?4===u.readyState?setTimeout(r):(a=++Wn,$n&&(Pn||(Pn={},b(e).unload($n)),Pn[a]=r),u.onreadystatechange=r):r()},abort:function(){r&&r(t,!0)}}}});var Xn,Un,Vn=/^(?:toggle|show|hide)$/,Yn=RegExp("^(?:([+-])=|)("+x+")([a-z%]*)$","i"),Jn=/queueHooks$/,Gn=[nr],Qn={"*":[function(e,t){var n,r,i=this.createTween(e,t),o=Yn.exec(t),a=i.cur(),s=+a||0,u=1,l=20;if(o){if(n=+o[2],r=o[3]||(b.cssNumber[e]?"":"px"),"px"!==r&&s){s=b.css(i.elem,e,!0)||n||1;do u=u||".5",s/=u,b.style(i.elem,e,s+r);while(u!==(u=i.cur()/a)&&1!==u&&--l)}i.unit=r,i.start=s,i.end=o[1]?s+(o[1]+1)*n:n}return i}]};function Kn(){return setTimeout(function(){Xn=t}),Xn=b.now()}function Zn(e,t){b.each(t,function(t,n){var r=(Qn[t]||[]).concat(Qn["*"]),i=0,o=r.length;for(;o>i;i++)if(r[i].call(e,t,n))return})}function er(e,t,n){var r,i,o=0,a=Gn.length,s=b.Deferred().always(function(){delete u.elem}),u=function(){if(i)return!1;var t=Xn||Kn(),n=Math.max(0,l.startTime+l.duration-t),r=n/l.duration||0,o=1-r,a=0,u=l.tweens.length;for(;u>a;a++)l.tweens[a].run(o);return s.notifyWith(e,[l,o,n]),1>o&&u?n:(s.resolveWith(e,[l]),!1)},l=s.promise({elem:e,props:b.extend({},t),opts:b.extend(!0,{specialEasing:{}},n),originalProperties:t,originalOptions:n,startTime:Xn||Kn(),duration:n.duration,tweens:[],createTween:function(t,n){var r=b.Tween(e,l.opts,t,n,l.opts.specialEasing[t]||l.opts.easing);return l.tweens.push(r),r},stop:function(t){var n=0,r=t?l.tweens.length:0;if(i)return this;for(i=!0;r>n;n++)l.tweens[n].run(1);return t?s.resolveWith(e,[l,t]):s.rejectWith(e,[l,t]),this}}),c=l.props;for(tr(c,l.opts.specialEasing);a>o;o++)if(r=Gn[o].call(l,e,c,l.opts))return r;return Zn(l,c),b.isFunction(l.opts.start)&&l.opts.start.call(e,l),b.fx.timer(b.extend(u,{elem:e,anim:l,queue:l.opts.queue})),l.progress(l.opts.progress).done(l.opts.done,l.opts.complete).fail(l.opts.fail).always(l.opts.always)}function tr(e,t){var n,r,i,o,a;for(i in e)if(r=b.camelCase(i),o=t[r],n=e[i],b.isArray(n)&&(o=n[1],n=e[i]=n[0]),i!==r&&(e[r]=n,delete e[i]),a=b.cssHooks[r],a&&"expand"in a){n=a.expand(n),delete e[r];for(i in n)i in e||(e[i]=n[i],t[i]=o)}else t[r]=o}b.Animation=b.extend(er,{tweener:function(e,t){b.isFunction(e)?(t=e,e=["*"]):e=e.split(" ");var n,r=0,i=e.length;for(;i>r;r++)n=e[r],Qn[n]=Qn[n]||[],Qn[n].unshift(t)},prefilter:function(e,t){t?Gn.unshift(e):Gn.push(e)}});function nr(e,t,n){var r,i,o,a,s,u,l,c,p,f=this,d=e.style,h={},g=[],m=e.nodeType&&nn(e);n.queue||(c=b._queueHooks(e,"fx"),null==c.unqueued&&(c.unqueued=0,p=c.empty.fire,c.empty.fire=function(){c.unqueued||p()}),c.unqueued++,f.always(function(){f.always(function(){c.unqueued--,b.queue(e,"fx").length||c.empty.fire()})})),1===e.nodeType&&("height"in t||"width"in t)&&(n.overflow=[d.overflow,d.overflowX,d.overflowY],"inline"===b.css(e,"display")&&"none"===b.css(e,"float")&&(b.support.inlineBlockNeedsLayout&&"inline"!==un(e.nodeName)?d.zoom=1:d.display="inline-block")),n.overflow&&(d.overflow="hidden",b.support.shrinkWrapBlocks||f.always(function(){d.overflow=n.overflow[0],d.overflowX=n.overflow[1],d.overflowY=n.overflow[2]}));for(i in t)if(a=t[i],Vn.exec(a)){if(delete t[i],u=u||"toggle"===a,a===(m?"hide":"show"))continue;g.push(i)}if(o=g.length){s=b._data(e,"fxshow")||b._data(e,"fxshow",{}),"hidden"in s&&(m=s.hidden),u&&(s.hidden=!m),m?b(e).show():f.done(function(){b(e).hide()}),f.done(function(){var t;b._removeData(e,"fxshow");for(t in h)b.style(e,t,h[t])});for(i=0;o>i;i++)r=g[i],l=f.createTween(r,m?s[r]:0),h[r]=s[r]||b.style(e,r),r in s||(s[r]=l.start,m&&(l.end=l.start,l.start="width"===r||"height"===r?1:0))}}function rr(e,t,n,r,i){return new rr.prototype.init(e,t,n,r,i)}b.Tween=rr,rr.prototype={constructor:rr,init:function(e,t,n,r,i,o){this.elem=e,this.prop=n,this.easing=i||"swing",this.options=t,this.start=this.now=this.cur(),this.end=r,this.unit=o||(b.cssNumber[n]?"":"px")},cur:function(){var e=rr.propHooks[this.prop];return e&&e.get?e.get(this):rr.propHooks._default.get(this)},run:function(e){var t,n=rr.propHooks[this.prop];return this.pos=t=this.options.duration?b.easing[this.easing](e,this.options.duration*e,0,1,this.options.duration):e,this.now=(this.end-this.start)*t+this.start,this.options.step&&this.options.step.call(this.elem,this.now,this),n&&n.set?n.set(this):rr.propHooks._default.set(this),this}},rr.prototype.init.prototype=rr.prototype,rr.propHooks={_default:{get:function(e){var t;return null==e.elem[e.prop]||e.elem.style&&null!=e.elem.style[e.prop]?(t=b.css(e.elem,e.prop,""),t&&"auto"!==t?t:0):e.elem[e.prop]},set:function(e){b.fx.step[e.prop]?b.fx.step[e.prop](e):e.elem.style&&(null!=e.elem.style[b.cssProps[e.prop]]||b.cssHooks[e.prop])?b.style(e.elem,e.prop,e.now+e.unit):e.elem[e.prop]=e.now}}},rr.propHooks.scrollTop=rr.propHooks.scrollLeft={set:function(e){e.elem.nodeType&&e.elem.parentNode&&(e.elem[e.prop]=e.now)}},b.each(["toggle","show","hide"],function(e,t){var n=b.fn[t];b.fn[t]=function(e,r,i){return null==e||"boolean"==typeof e?n.apply(this,arguments):this.animate(ir(t,!0),e,r,i)}}),b.fn.extend({fadeTo:function(e,t,n,r){return this.filter(nn).css("opacity",0).show().end().animate({opacity:t},e,n,r)},animate:function(e,t,n,r){var i=b.isEmptyObject(e),o=b.speed(t,n,r),a=function(){var t=er(this,b.extend({},e),o);a.finish=function(){t.stop(!0)},(i||b._data(this,"finish"))&&t.stop(!0)};return a.finish=a,i||o.queue===!1?this.each(a):this.queue(o.queue,a)},stop:function(e,n,r){var i=function(e){var t=e.stop;delete e.stop,t(r)};return"string"!=typeof e&&(r=n,n=e,e=t),n&&e!==!1&&this.queue(e||"fx",[]),this.each(function(){var t=!0,n=null!=e&&e+"queueHooks",o=b.timers,a=b._data(this);if(n)a[n]&&a[n].stop&&i(a[n]);else for(n in a)a[n]&&a[n].stop&&Jn.test(n)&&i(a[n]);for(n=o.length;n--;)o[n].elem!==this||null!=e&&o[n].queue!==e||(o[n].anim.stop(r),t=!1,o.splice(n,1));(t||!r)&&b.dequeue(this,e)})},finish:function(e){return e!==!1&&(e=e||"fx"),this.each(function(){var t,n=b._data(this),r=n[e+"queue"],i=n[e+"queueHooks"],o=b.timers,a=r?r.length:0;for(n.finish=!0,b.queue(this,e,[]),i&&i.cur&&i.cur.finish&&i.cur.finish.call(this),t=o.length;t--;)o[t].elem===this&&o[t].queue===e&&(o[t].anim.stop(!0),o.splice(t,1));for(t=0;a>t;t++)r[t]&&r[t].finish&&r[t].finish.call(this);delete n.finish})}});function ir(e,t){var n,r={height:e},i=0;for(t=t?1:0;4>i;i+=2-t)n=Zt[i],r["margin"+n]=r["padding"+n]=e;return t&&(r.opacity=r.width=e),r}b.each({slideDown:ir("show"),slideUp:ir("hide"),slideToggle:ir("toggle"),fadeIn:{opacity:"show"},fadeOut:{opacity:"hide"},fadeToggle:{opacity:"toggle"}},function(e,t){b.fn[e]=function(e,n,r){return this.animate(t,e,n,r)}}),b.speed=function(e,t,n){var r=e&&"object"==typeof e?b.extend({},e):{complete:n||!n&&t||b.isFunction(e)&&e,duration:e,easing:n&&t||t&&!b.isFunction(t)&&t};return r.duration=b.fx.off?0:"number"==typeof r.duration?r.duration:r.duration in b.fx.speeds?b.fx.speeds[r.duration]:b.fx.speeds._default,(null==r.queue||r.queue===!0)&&(r.queue="fx"),r.old=r.complete,r.complete=function(){b.isFunction(r.old)&&r.old.call(this),r.queue&&b.dequeue(this,r.queue)},r},b.easing={linear:function(e){return e},swing:function(e){return.5-Math.cos(e*Math.PI)/2}},b.timers=[],b.fx=rr.prototype.init,b.fx.tick=function(){var e,n=b.timers,r=0;for(Xn=b.now();n.length>r;r++)e=n[r],e()||n[r]!==e||n.splice(r--,1);n.length||b.fx.stop(),Xn=t},b.fx.timer=function(e){e()&&b.timers.push(e)&&b.fx.start()},b.fx.interval=13,b.fx.start=function(){Un||(Un=setInterval(b.fx.tick,b.fx.interval))},b.fx.stop=function(){clearInterval(Un),Un=null},b.fx.speeds={slow:600,fast:200,_default:400},b.fx.step={},b.expr&&b.expr.filters&&(b.expr.filters.animated=function(e){return b.grep(b.timers,function(t){return e===t.elem}).length}),b.fn.offset=function(e){if(arguments.length)return e===t?this:this.each(function(t){b.offset.setOffset(this,e,t)});var n,r,o={top:0,left:0},a=this[0],s=a&&a.ownerDocument;if(s)return n=s.documentElement,b.contains(n,a)?(typeof a.getBoundingClientRect!==i&&(o=a.getBoundingClientRect()),r=or(s),{top:o.top+(r.pageYOffset||n.scrollTop)-(n.clientTop||0),left:o.left+(r.pageXOffset||n.scrollLeft)-(n.clientLeft||0)}):o},b.offset={setOffset:function(e,t,n){var r=b.css(e,"position");"static"===r&&(e.style.position="relative");var i=b(e),o=i.offset(),a=b.css(e,"top"),s=b.css(e,"left"),u=("absolute"===r||"fixed"===r)&&b.inArray("auto",[a,s])>-1,l={},c={},p,f;u?(c=i.position(),p=c.top,f=c.left):(p=parseFloat(a)||0,f=parseFloat(s)||0),b.isFunction(t)&&(t=t.call(e,n,o)),null!=t.top&&(l.top=t.top-o.top+p),null!=t.left&&(l.left=t.left-o.left+f),"using"in t?t.using.call(e,l):i.css(l)}},b.fn.extend({position:function(){if(this[0]){var e,t,n={top:0,left:0},r=this[0];return"fixed"===b.css(r,"position")?t=r.getBoundingClientRect():(e=this.offsetParent(),t=this.offset(),b.nodeName(e[0],"html")||(n=e.offset()),n.top+=b.css(e[0],"borderTopWidth",!0),n.left+=b.css(e[0],"borderLeftWidth",!0)),{top:t.top-n.top-b.css(r,"marginTop",!0),left:t.left-n.left-b.css(r,"marginLeft",!0)}}},offsetParent:function(){return this.map(function(){var e=this.offsetParent||o.documentElement;while(e&&!b.nodeName(e,"html")&&"static"===b.css(e,"position"))e=e.offsetParent;return e||o.documentElement})}}),b.each({scrollLeft:"pageXOffset",scrollTop:"pageYOffset"},function(e,n){var r=/Y/.test(n);b.fn[e]=function(i){return b.access(this,function(e,i,o){var a=or(e);return o===t?a?n in a?a[n]:a.document.documentElement[i]:e[i]:(a?a.scrollTo(r?b(a).scrollLeft():o,r?o:b(a).scrollTop()):e[i]=o,t)},e,i,arguments.length,null)}});function or(e){return b.isWindow(e)?e:9===e.nodeType?e.defaultView||e.parentWindow:!1}b.each({Height:"height",Width:"width"},function(e,n){b.each({padding:"inner"+e,content:n,"":"outer"+e},function(r,i){b.fn[i]=function(i,o){var a=arguments.length&&(r||"boolean"!=typeof i),s=r||(i===!0||o===!0?"margin":"border");return b.access(this,function(n,r,i){var o;return b.isWindow(n)?n.document.documentElement["client"+e]:9===n.nodeType?(o=n.documentElement,Math.max(n.body["scroll"+e],o["scroll"+e],n.body["offset"+e],o["offset"+e],o["client"+e])):i===t?b.css(n,r,s):b.style(n,r,i,s)},n,a?i:t,a,null)}})}),e.jQuery=e.$=b,"function"==typeof define&&define.amd&&define.amd.jQuery&&define("jquery",[],function(){return b})})(window);
+(function(){function C(){var a="{}";if("userDataBehavior"==f){g.load("jStorage");try{a=g.getAttribute("jStorage")}catch(b){}try{r=g.getAttribute("jStorage_update")}catch(c){}h.jStorage=a}D();x();E()}function u(){var a;clearTimeout(F);F=setTimeout(function(){if("localStorage"==f||"globalStorage"==f)a=h.jStorage_update;else if("userDataBehavior"==f){g.load("jStorage");try{a=g.getAttribute("jStorage_update")}catch(b){}}if(a&&a!=r){r=a;var l=p.parse(p.stringify(c.__jstorage_meta.CRC32)),k;C();k=p.parse(p.stringify(c.__jstorage_meta.CRC32));
+var d,n=[],e=[];for(d in l)l.hasOwnProperty(d)&&(k[d]?l[d]!=k[d]&&"2."==String(l[d]).substr(0,2)&&n.push(d):e.push(d));for(d in k)k.hasOwnProperty(d)&&(l[d]||n.push(d));s(n,"updated");s(e,"deleted")}},25)}function s(a,b){a=[].concat(a||[]);var c,k,d,n;if("flushed"==b){a=[];for(c in m)m.hasOwnProperty(c)&&a.push(c);b="deleted"}c=0;for(d=a.length;c<d;c++){if(m[a[c]])for(k=0,n=m[a[c]].length;k<n;k++)m[a[c]][k](a[c],b);if(m["*"])for(k=0,n=m["*"].length;k<n;k++)m["*"][k](a[c],b)}}function v(){var a=(+new Date).toString();
+if("localStorage"==f||"globalStorage"==f)try{h.jStorage_update=a}catch(b){f=!1}else"userDataBehavior"==f&&(g.setAttribute("jStorage_update",a),g.save("jStorage"));u()}function D(){if(h.jStorage)try{c=p.parse(String(h.jStorage))}catch(a){h.jStorage="{}"}else h.jStorage="{}";z=h.jStorage?String(h.jStorage).length:0;c.__jstorage_meta||(c.__jstorage_meta={});c.__jstorage_meta.CRC32||(c.__jstorage_meta.CRC32={})}function w(){if(c.__jstorage_meta.PubSub){for(var a=+new Date-2E3,b=0,l=c.__jstorage_meta.PubSub.length;b<
+l;b++)if(c.__jstorage_meta.PubSub[b][0]<=a){c.__jstorage_meta.PubSub.splice(b,c.__jstorage_meta.PubSub.length-b);break}c.__jstorage_meta.PubSub.length||delete c.__jstorage_meta.PubSub}try{h.jStorage=p.stringify(c),g&&(g.setAttribute("jStorage",h.jStorage),g.save("jStorage")),z=h.jStorage?String(h.jStorage).length:0}catch(k){}}function q(a){if("string"!=typeof a&&"number"!=typeof a)throw new TypeError("Key name must be string or numeric");if("__jstorage_meta"==a)throw new TypeError("Reserved key name");
+return!0}function x(){var a,b,l,k,d=Infinity,n=!1,e=[];clearTimeout(G);if(c.__jstorage_meta&&"object"==typeof c.__jstorage_meta.TTL){a=+new Date;l=c.__jstorage_meta.TTL;k=c.__jstorage_meta.CRC32;for(b in l)l.hasOwnProperty(b)&&(l[b]<=a?(delete l[b],delete k[b],delete c[b],n=!0,e.push(b)):l[b]<d&&(d=l[b]));Infinity!=d&&(G=setTimeout(x,Math.min(d-a,2147483647)));n&&(w(),v(),s(e,"deleted"))}}function E(){var a;if(c.__jstorage_meta.PubSub){var b,l=A,k=[];for(a=c.__jstorage_meta.PubSub.length-1;0<=a;a--)b=
+c.__jstorage_meta.PubSub[a],b[0]>A&&(l=b[0],k.unshift(b));for(a=k.length-1;0<=a;a--){b=k[a][1];var d=k[a][2];if(t[b])for(var n=0,e=t[b].length;n<e;n++)try{t[b][n](b,p.parse(p.stringify(d)))}catch(g){}}A=l}}var y=window.jQuery||window.$||(window.$={}),p={parse:window.JSON&&(window.JSON.parse||window.JSON.decode)||String.prototype.evalJSON&&function(a){return String(a).evalJSON()}||y.parseJSON||y.evalJSON,stringify:Object.toJSON||window.JSON&&(window.JSON.stringify||window.JSON.encode)||y.toJSON};if("function"!==
+typeof p.parse||"function"!==typeof p.stringify)throw Error("No JSON support found, include //cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js to page");var c={__jstorage_meta:{CRC32:{}}},h={jStorage:"{}"},g=null,z=0,f=!1,m={},F=!1,r=0,t={},A=+new Date,G,B={isXML:function(a){return(a=(a?a.ownerDocument||a:0).documentElement)?"HTML"!==a.nodeName:!1},encode:function(a){if(!this.isXML(a))return!1;try{return(new XMLSerializer).serializeToString(a)}catch(b){try{return a.xml}catch(c){}}return!1},
+decode:function(a){var b="DOMParser"in window&&(new DOMParser).parseFromString||window.ActiveXObject&&function(a){var b=new ActiveXObject("Microsoft.XMLDOM");b.async="false";b.loadXML(a);return b};if(!b)return!1;a=b.call("DOMParser"in window&&new DOMParser||window,a,"text/xml");return this.isXML(a)?a:!1}};y.jStorage={version:"0.4.12",set:function(a,b,l){q(a);l=l||{};if("undefined"==typeof b)return this.deleteKey(a),b;if(B.isXML(b))b={_is_xml:!0,xml:B.encode(b)};else{if("function"==typeof b)return;
+b&&"object"==typeof b&&(b=p.parse(p.stringify(b)))}c[a]=b;for(var k=c.__jstorage_meta.CRC32,d=p.stringify(b),g=d.length,e=2538058380^g,h=0,f;4<=g;)f=d.charCodeAt(h)&255|(d.charCodeAt(++h)&255)<<8|(d.charCodeAt(++h)&255)<<16|(d.charCodeAt(++h)&255)<<24,f=1540483477*(f&65535)+((1540483477*(f>>>16)&65535)<<16),f^=f>>>24,f=1540483477*(f&65535)+((1540483477*(f>>>16)&65535)<<16),e=1540483477*(e&65535)+((1540483477*(e>>>16)&65535)<<16)^f,g-=4,++h;switch(g){case 3:e^=(d.charCodeAt(h+2)&255)<<16;case 2:e^=
+(d.charCodeAt(h+1)&255)<<8;case 1:e^=d.charCodeAt(h)&255,e=1540483477*(e&65535)+((1540483477*(e>>>16)&65535)<<16)}e^=e>>>13;e=1540483477*(e&65535)+((1540483477*(e>>>16)&65535)<<16);k[a]="2."+((e^e>>>15)>>>0);this.setTTL(a,l.TTL||0);s(a,"updated");return b},get:function(a,b){q(a);return a in c?c[a]&&"object"==typeof c[a]&&c[a]._is_xml?B.decode(c[a].xml):c[a]:"undefined"==typeof b?null:b},deleteKey:function(a){q(a);return a in c?(delete c[a],"object"==typeof c.__jstorage_meta.TTL&&a in c.__jstorage_meta.TTL&&
+delete c.__jstorage_meta.TTL[a],delete c.__jstorage_meta.CRC32[a],w(),v(),s(a,"deleted"),!0):!1},setTTL:function(a,b){var l=+new Date;q(a);b=Number(b)||0;return a in c?(c.__jstorage_meta.TTL||(c.__jstorage_meta.TTL={}),0<b?c.__jstorage_meta.TTL[a]=l+b:delete c.__jstorage_meta.TTL[a],w(),x(),v(),!0):!1},getTTL:function(a){var b=+new Date;q(a);return a in c&&c.__jstorage_meta.TTL&&c.__jstorage_meta.TTL[a]?(a=c.__jstorage_meta.TTL[a]-b)||0:0},flush:function(){c={__jstorage_meta:{CRC32:{}}};w();v();s(null,
+"flushed");return!0},storageObj:function(){function a(){}a.prototype=c;return new a},index:function(){var a=[],b;for(b in c)c.hasOwnProperty(b)&&"__jstorage_meta"!=b&&a.push(b);return a},storageSize:function(){return z},currentBackend:function(){return f},storageAvailable:function(){return!!f},listenKeyChange:function(a,b){q(a);m[a]||(m[a]=[]);m[a].push(b)},stopListening:function(a,b){q(a);if(m[a])if(b)for(var c=m[a].length-1;0<=c;c--)m[a][c]==b&&m[a].splice(c,1);else delete m[a]},subscribe:function(a,
+b){a=(a||"").toString();if(!a)throw new TypeError("Channel not defined");t[a]||(t[a]=[]);t[a].push(b)},publish:function(a,b){a=(a||"").toString();if(!a)throw new TypeError("Channel not defined");c.__jstorage_meta||(c.__jstorage_meta={});c.__jstorage_meta.PubSub||(c.__jstorage_meta.PubSub=[]);c.__jstorage_meta.PubSub.unshift([+new Date,a,b]);w();v()},reInit:function(){C()},noConflict:function(a){delete window.$.jStorage;a&&(window.jStorage=this);return this}};(function(){var a=!1;if("localStorage"in
+window)try{window.localStorage.setItem("_tmptest","tmpval"),a=!0,window.localStorage.removeItem("_tmptest")}catch(b){}if(a)try{window.localStorage&&(h=window.localStorage,f="localStorage",r=h.jStorage_update)}catch(c){}else if("globalStorage"in window)try{window.globalStorage&&(h="localhost"==window.location.hostname?window.globalStorage["localhost.localdomain"]:window.globalStorage[window.location.hostname],f="globalStorage",r=h.jStorage_update)}catch(k){}else if(g=document.createElement("link"),
+g.addBehavior){g.style.behavior="url(#default#userData)";document.getElementsByTagName("head")[0].appendChild(g);try{g.load("jStorage")}catch(d){g.setAttribute("jStorage","{}"),g.save("jStorage"),g.load("jStorage")}a="{}";try{a=g.getAttribute("jStorage")}catch(m){}try{r=g.getAttribute("jStorage_update")}catch(e){}h.jStorage=a;f="userDataBehavior"}else{g=null;return}D();x();"localStorage"==f||"globalStorage"==f?"addEventListener"in window?window.addEventListener("storage",u,!1):document.attachEvent("onstorage",
+u):"userDataBehavior"==f&&setInterval(u,1E3);E();"addEventListener"in window&&window.addEventListener("pageshow",function(a){a.persisted&&u()},!1)})()})();
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -10,13 +26,8 @@ return(!i||i!==r&&!b.contains(r,i))&&(e.type=o.origType,n=o.handler.apply(this,a
  */
 if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires jQuery");+function(a){"use strict";var b=a.fn.jquery.split(" ")[0].split(".");if(b[0]<2&&b[1]<9||1==b[0]&&9==b[1]&&b[2]<1||b[0]>3)throw new Error("Bootstrap's JavaScript requires jQuery version 1.9.1 or higher, but lower than version 4")}(jQuery),+function(a){"use strict";function b(){var a=document.createElement("bootstrap"),b={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var c in b)if(void 0!==a.style[c])return{end:b[c]};return!1}a.fn.emulateTransitionEnd=function(b){var c=!1,d=this;a(this).one("bsTransitionEnd",function(){c=!0});var e=function(){c||a(d).trigger(a.support.transition.end)};return setTimeout(e,b),this},a(function(){a.support.transition=b(),a.support.transition&&(a.event.special.bsTransitionEnd={bindType:a.support.transition.end,delegateType:a.support.transition.end,handle:function(b){if(a(b.target).is(this))return b.handleObj.handler.apply(this,arguments)}})})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var c=a(this),e=c.data("bs.alert");e||c.data("bs.alert",e=new d(this)),"string"==typeof b&&e[b].call(c)})}var c='[data-dismiss="alert"]',d=function(b){a(b).on("click",c,this.close)};d.VERSION="3.3.7",d.TRANSITION_DURATION=150,d.prototype.close=function(b){function c(){g.detach().trigger("closed.bs.alert").remove()}var e=a(this),f=e.attr("data-target");f||(f=e.attr("href"),f=f&&f.replace(/.*(?=#[^\s]*$)/,""));var g=a("#"===f?[]:f);b&&b.preventDefault(),g.length||(g=e.closest(".alert")),g.trigger(b=a.Event("close.bs.alert")),b.isDefaultPrevented()||(g.removeClass("in"),a.support.transition&&g.hasClass("fade")?g.one("bsTransitionEnd",c).emulateTransitionEnd(d.TRANSITION_DURATION):c())};var e=a.fn.alert;a.fn.alert=b,a.fn.alert.Constructor=d,a.fn.alert.noConflict=function(){return a.fn.alert=e,this},a(document).on("click.bs.alert.data-api",c,d.prototype.close)}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.button"),f="object"==typeof b&&b;e||d.data("bs.button",e=new c(this,f)),"toggle"==b?e.toggle():b&&e.setState(b)})}var c=function(b,d){this.$element=a(b),this.options=a.extend({},c.DEFAULTS,d),this.isLoading=!1};c.VERSION="3.3.7",c.DEFAULTS={loadingText:"loading..."},c.prototype.setState=function(b){var c="disabled",d=this.$element,e=d.is("input")?"val":"html",f=d.data();b+="Text",null==f.resetText&&d.data("resetText",d[e]()),setTimeout(a.proxy(function(){d[e](null==f[b]?this.options[b]:f[b]),"loadingText"==b?(this.isLoading=!0,d.addClass(c).attr(c,c).prop(c,!0)):this.isLoading&&(this.isLoading=!1,d.removeClass(c).removeAttr(c).prop(c,!1))},this),0)},c.prototype.toggle=function(){var a=!0,b=this.$element.closest('[data-toggle="buttons"]');if(b.length){var c=this.$element.find("input");"radio"==c.prop("type")?(c.prop("checked")&&(a=!1),b.find(".active").removeClass("active"),this.$element.addClass("active")):"checkbox"==c.prop("type")&&(c.prop("checked")!==this.$element.hasClass("active")&&(a=!1),this.$element.toggleClass("active")),c.prop("checked",this.$element.hasClass("active")),a&&c.trigger("change")}else this.$element.attr("aria-pressed",!this.$element.hasClass("active")),this.$element.toggleClass("active")};var d=a.fn.button;a.fn.button=b,a.fn.button.Constructor=c,a.fn.button.noConflict=function(){return a.fn.button=d,this},a(document).on("click.bs.button.data-api",'[data-toggle^="button"]',function(c){var d=a(c.target).closest(".btn");b.call(d,"toggle"),a(c.target).is('input[type="radio"], input[type="checkbox"]')||(c.preventDefault(),d.is("input,button")?d.trigger("focus"):d.find("input:visible,button:visible").first().trigger("focus"))}).on("focus.bs.button.data-api blur.bs.button.data-api",'[data-toggle^="button"]',function(b){a(b.target).closest(".btn").toggleClass("focus",/^focus(in)?$/.test(b.type))})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.carousel"),f=a.extend({},c.DEFAULTS,d.data(),"object"==typeof b&&b),g="string"==typeof b?b:f.slide;e||d.data("bs.carousel",e=new c(this,f)),"number"==typeof b?e.to(b):g?e[g]():f.interval&&e.pause().cycle()})}var c=function(b,c){this.$element=a(b),this.$indicators=this.$element.find(".carousel-indicators"),this.options=c,this.paused=null,this.sliding=null,this.interval=null,this.$active=null,this.$items=null,this.options.keyboard&&this.$element.on("keydown.bs.carousel",a.proxy(this.keydown,this)),"hover"==this.options.pause&&!("ontouchstart"in document.documentElement)&&this.$element.on("mouseenter.bs.carousel",a.proxy(this.pause,this)).on("mouseleave.bs.carousel",a.proxy(this.cycle,this))};c.VERSION="3.3.7",c.TRANSITION_DURATION=600,c.DEFAULTS={interval:5e3,pause:"hover",wrap:!0,keyboard:!0},c.prototype.keydown=function(a){if(!/input|textarea/i.test(a.target.tagName)){switch(a.which){case 37:this.prev();break;case 39:this.next();break;default:return}a.preventDefault()}},c.prototype.cycle=function(b){return b||(this.paused=!1),this.interval&&clearInterval(this.interval),this.options.interval&&!this.paused&&(this.interval=setInterval(a.proxy(this.next,this),this.options.interval)),this},c.prototype.getItemIndex=function(a){return this.$items=a.parent().children(".item"),this.$items.index(a||this.$active)},c.prototype.getItemForDirection=function(a,b){var c=this.getItemIndex(b),d="prev"==a&&0===c||"next"==a&&c==this.$items.length-1;if(d&&!this.options.wrap)return b;var e="prev"==a?-1:1,f=(c+e)%this.$items.length;return this.$items.eq(f)},c.prototype.to=function(a){var b=this,c=this.getItemIndex(this.$active=this.$element.find(".item.active"));if(!(a>this.$items.length-1||a<0))return this.sliding?this.$element.one("slid.bs.carousel",function(){b.to(a)}):c==a?this.pause().cycle():this.slide(a>c?"next":"prev",this.$items.eq(a))},c.prototype.pause=function(b){return b||(this.paused=!0),this.$element.find(".next, .prev").length&&a.support.transition&&(this.$element.trigger(a.support.transition.end),this.cycle(!0)),this.interval=clearInterval(this.interval),this},c.prototype.next=function(){if(!this.sliding)return this.slide("next")},c.prototype.prev=function(){if(!this.sliding)return this.slide("prev")},c.prototype.slide=function(b,d){var e=this.$element.find(".item.active"),f=d||this.getItemForDirection(b,e),g=this.interval,h="next"==b?"left":"right",i=this;if(f.hasClass("active"))return this.sliding=!1;var j=f[0],k=a.Event("slide.bs.carousel",{relatedTarget:j,direction:h});if(this.$element.trigger(k),!k.isDefaultPrevented()){if(this.sliding=!0,g&&this.pause(),this.$indicators.length){this.$indicators.find(".active").removeClass("active");var l=a(this.$indicators.children()[this.getItemIndex(f)]);l&&l.addClass("active")}var m=a.Event("slid.bs.carousel",{relatedTarget:j,direction:h});return a.support.transition&&this.$element.hasClass("slide")?(f.addClass(b),f[0].offsetWidth,e.addClass(h),f.addClass(h),e.one("bsTransitionEnd",function(){f.removeClass([b,h].join(" ")).addClass("active"),e.removeClass(["active",h].join(" ")),i.sliding=!1,setTimeout(function(){i.$element.trigger(m)},0)}).emulateTransitionEnd(c.TRANSITION_DURATION)):(e.removeClass("active"),f.addClass("active"),this.sliding=!1,this.$element.trigger(m)),g&&this.cycle(),this}};var d=a.fn.carousel;a.fn.carousel=b,a.fn.carousel.Constructor=c,a.fn.carousel.noConflict=function(){return a.fn.carousel=d,this};var e=function(c){var d,e=a(this),f=a(e.attr("data-target")||(d=e.attr("href"))&&d.replace(/.*(?=#[^\s]+$)/,""));if(f.hasClass("carousel")){var g=a.extend({},f.data(),e.data()),h=e.attr("data-slide-to");h&&(g.interval=!1),b.call(f,g),h&&f.data("bs.carousel").to(h),c.preventDefault()}};a(document).on("click.bs.carousel.data-api","[data-slide]",e).on("click.bs.carousel.data-api","[data-slide-to]",e),a(window).on("load",function(){a('[data-ride="carousel"]').each(function(){var c=a(this);b.call(c,c.data())})})}(jQuery),+function(a){"use strict";function b(b){var c,d=b.attr("data-target")||(c=b.attr("href"))&&c.replace(/.*(?=#[^\s]+$)/,"");return a(d)}function c(b){return this.each(function(){var c=a(this),e=c.data("bs.collapse"),f=a.extend({},d.DEFAULTS,c.data(),"object"==typeof b&&b);!e&&f.toggle&&/show|hide/.test(b)&&(f.toggle=!1),e||c.data("bs.collapse",e=new d(this,f)),"string"==typeof b&&e[b]()})}var d=function(b,c){this.$element=a(b),this.options=a.extend({},d.DEFAULTS,c),this.$trigger=a('[data-toggle="collapse"][href="#'+b.id+'"],[data-toggle="collapse"][data-target="#'+b.id+'"]'),this.transitioning=null,this.options.parent?this.$parent=this.getParent():this.addAriaAndCollapsedClass(this.$element,this.$trigger),this.options.toggle&&this.toggle()};d.VERSION="3.3.7",d.TRANSITION_DURATION=350,d.DEFAULTS={toggle:!0},d.prototype.dimension=function(){var a=this.$element.hasClass("width");return a?"width":"height"},d.prototype.show=function(){if(!this.transitioning&&!this.$element.hasClass("in")){var b,e=this.$parent&&this.$parent.children(".panel").children(".in, .collapsing");if(!(e&&e.length&&(b=e.data("bs.collapse"),b&&b.transitioning))){var f=a.Event("show.bs.collapse");if(this.$element.trigger(f),!f.isDefaultPrevented()){e&&e.length&&(c.call(e,"hide"),b||e.data("bs.collapse",null));var g=this.dimension();this.$element.removeClass("collapse").addClass("collapsing")[g](0).attr("aria-expanded",!0),this.$trigger.removeClass("collapsed").attr("aria-expanded",!0),this.transitioning=1;var h=function(){this.$element.removeClass("collapsing").addClass("collapse in")[g](""),this.transitioning=0,this.$element.trigger("shown.bs.collapse")};if(!a.support.transition)return h.call(this);var i=a.camelCase(["scroll",g].join("-"));this.$element.one("bsTransitionEnd",a.proxy(h,this)).emulateTransitionEnd(d.TRANSITION_DURATION)[g](this.$element[0][i])}}}},d.prototype.hide=function(){if(!this.transitioning&&this.$element.hasClass("in")){var b=a.Event("hide.bs.collapse");if(this.$element.trigger(b),!b.isDefaultPrevented()){var c=this.dimension();this.$element[c](this.$element[c]())[0].offsetHeight,this.$element.addClass("collapsing").removeClass("collapse in").attr("aria-expanded",!1),this.$trigger.addClass("collapsed").attr("aria-expanded",!1),this.transitioning=1;var e=function(){this.transitioning=0,this.$element.removeClass("collapsing").addClass("collapse").trigger("hidden.bs.collapse")};return a.support.transition?void this.$element[c](0).one("bsTransitionEnd",a.proxy(e,this)).emulateTransitionEnd(d.TRANSITION_DURATION):e.call(this)}}},d.prototype.toggle=function(){this[this.$element.hasClass("in")?"hide":"show"]()},d.prototype.getParent=function(){return a(this.options.parent).find('[data-toggle="collapse"][data-parent="'+this.options.parent+'"]').each(a.proxy(function(c,d){var e=a(d);this.addAriaAndCollapsedClass(b(e),e)},this)).end()},d.prototype.addAriaAndCollapsedClass=function(a,b){var c=a.hasClass("in");a.attr("aria-expanded",c),b.toggleClass("collapsed",!c).attr("aria-expanded",c)};var e=a.fn.collapse;a.fn.collapse=c,a.fn.collapse.Constructor=d,a.fn.collapse.noConflict=function(){return a.fn.collapse=e,this},a(document).on("click.bs.collapse.data-api",'[data-toggle="collapse"]',function(d){var e=a(this);e.attr("data-target")||d.preventDefault();var f=b(e),g=f.data("bs.collapse"),h=g?"toggle":e.data();c.call(f,h)})}(jQuery),+function(a){"use strict";function b(b){var c=b.attr("data-target");c||(c=b.attr("href"),c=c&&/#[A-Za-z]/.test(c)&&c.replace(/.*(?=#[^\s]*$)/,""));var d=c&&a(c);return d&&d.length?d:b.parent()}function c(c){c&&3===c.which||(a(e).remove(),a(f).each(function(){var d=a(this),e=b(d),f={relatedTarget:this};e.hasClass("open")&&(c&&"click"==c.type&&/input|textarea/i.test(c.target.tagName)&&a.contains(e[0],c.target)||(e.trigger(c=a.Event("hide.bs.dropdown",f)),c.isDefaultPrevented()||(d.attr("aria-expanded","false"),e.removeClass("open").trigger(a.Event("hidden.bs.dropdown",f)))))}))}function d(b){return this.each(function(){var c=a(this),d=c.data("bs.dropdown");d||c.data("bs.dropdown",d=new g(this)),"string"==typeof b&&d[b].call(c)})}var e=".dropdown-backdrop",f='[data-toggle="dropdown"]',g=function(b){a(b).on("click.bs.dropdown",this.toggle)};g.VERSION="3.3.7",g.prototype.toggle=function(d){var e=a(this);if(!e.is(".disabled, :disabled")){var f=b(e),g=f.hasClass("open");if(c(),!g){"ontouchstart"in document.documentElement&&!f.closest(".navbar-nav").length&&a(document.createElement("div")).addClass("dropdown-backdrop").insertAfter(a(this)).on("click",c);var h={relatedTarget:this};if(f.trigger(d=a.Event("show.bs.dropdown",h)),d.isDefaultPrevented())return;e.trigger("focus").attr("aria-expanded","true"),f.toggleClass("open").trigger(a.Event("shown.bs.dropdown",h))}return!1}},g.prototype.keydown=function(c){if(/(38|40|27|32)/.test(c.which)&&!/input|textarea/i.test(c.target.tagName)){var d=a(this);if(c.preventDefault(),c.stopPropagation(),!d.is(".disabled, :disabled")){var e=b(d),g=e.hasClass("open");if(!g&&27!=c.which||g&&27==c.which)return 27==c.which&&e.find(f).trigger("focus"),d.trigger("click");var h=" li:not(.disabled):visible a",i=e.find(".dropdown-menu"+h);if(i.length){var j=i.index(c.target);38==c.which&&j>0&&j--,40==c.which&&j<i.length-1&&j++,~j||(j=0),i.eq(j).trigger("focus")}}}};var h=a.fn.dropdown;a.fn.dropdown=d,a.fn.dropdown.Constructor=g,a.fn.dropdown.noConflict=function(){return a.fn.dropdown=h,this},a(document).on("click.bs.dropdown.data-api",c).on("click.bs.dropdown.data-api",".dropdown form",function(a){a.stopPropagation()}).on("click.bs.dropdown.data-api",f,g.prototype.toggle).on("keydown.bs.dropdown.data-api",f,g.prototype.keydown).on("keydown.bs.dropdown.data-api",".dropdown-menu",g.prototype.keydown)}(jQuery),+function(a){"use strict";function b(b,d){return this.each(function(){var e=a(this),f=e.data("bs.modal"),g=a.extend({},c.DEFAULTS,e.data(),"object"==typeof b&&b);f||e.data("bs.modal",f=new c(this,g)),"string"==typeof b?f[b](d):g.show&&f.show(d)})}var c=function(b,c){this.options=c,this.$body=a(document.body),this.$element=a(b),this.$dialog=this.$element.find(".modal-dialog"),this.$backdrop=null,this.isShown=null,this.originalBodyPad=null,this.scrollbarWidth=0,this.ignoreBackdropClick=!1,this.options.remote&&this.$element.find(".modal-content").load(this.options.remote,a.proxy(function(){this.$element.trigger("loaded.bs.modal")},this))};c.VERSION="3.3.7",c.TRANSITION_DURATION=300,c.BACKDROP_TRANSITION_DURATION=150,c.DEFAULTS={backdrop:!0,keyboard:!0,show:!0},c.prototype.toggle=function(a){return this.isShown?this.hide():this.show(a)},c.prototype.show=function(b){var d=this,e=a.Event("show.bs.modal",{relatedTarget:b});this.$element.trigger(e),this.isShown||e.isDefaultPrevented()||(this.isShown=!0,this.checkScrollbar(),this.setScrollbar(),this.$body.addClass("modal-open"),this.escape(),this.resize(),this.$element.on("click.dismiss.bs.modal",'[data-dismiss="modal"]',a.proxy(this.hide,this)),this.$dialog.on("mousedown.dismiss.bs.modal",function(){d.$element.one("mouseup.dismiss.bs.modal",function(b){a(b.target).is(d.$element)&&(d.ignoreBackdropClick=!0)})}),this.backdrop(function(){var e=a.support.transition&&d.$element.hasClass("fade");d.$element.parent().length||d.$element.appendTo(d.$body),d.$element.show().scrollTop(0),d.adjustDialog(),e&&d.$element[0].offsetWidth,d.$element.addClass("in"),d.enforceFocus();var f=a.Event("shown.bs.modal",{relatedTarget:b});e?d.$dialog.one("bsTransitionEnd",function(){d.$element.trigger("focus").trigger(f)}).emulateTransitionEnd(c.TRANSITION_DURATION):d.$element.trigger("focus").trigger(f)}))},c.prototype.hide=function(b){b&&b.preventDefault(),b=a.Event("hide.bs.modal"),this.$element.trigger(b),this.isShown&&!b.isDefaultPrevented()&&(this.isShown=!1,this.escape(),this.resize(),a(document).off("focusin.bs.modal"),this.$element.removeClass("in").off("click.dismiss.bs.modal").off("mouseup.dismiss.bs.modal"),this.$dialog.off("mousedown.dismiss.bs.modal"),a.support.transition&&this.$element.hasClass("fade")?this.$element.one("bsTransitionEnd",a.proxy(this.hideModal,this)).emulateTransitionEnd(c.TRANSITION_DURATION):this.hideModal())},c.prototype.enforceFocus=function(){a(document).off("focusin.bs.modal").on("focusin.bs.modal",a.proxy(function(a){document===a.target||this.$element[0]===a.target||this.$element.has(a.target).length||this.$element.trigger("focus")},this))},c.prototype.escape=function(){this.isShown&&this.options.keyboard?this.$element.on("keydown.dismiss.bs.modal",a.proxy(function(a){27==a.which&&this.hide()},this)):this.isShown||this.$element.off("keydown.dismiss.bs.modal")},c.prototype.resize=function(){this.isShown?a(window).on("resize.bs.modal",a.proxy(this.handleUpdate,this)):a(window).off("resize.bs.modal")},c.prototype.hideModal=function(){var a=this;this.$element.hide(),this.backdrop(function(){a.$body.removeClass("modal-open"),a.resetAdjustments(),a.resetScrollbar(),a.$element.trigger("hidden.bs.modal")})},c.prototype.removeBackdrop=function(){this.$backdrop&&this.$backdrop.remove(),this.$backdrop=null},c.prototype.backdrop=function(b){var d=this,e=this.$element.hasClass("fade")?"fade":"";if(this.isShown&&this.options.backdrop){var f=a.support.transition&&e;if(this.$backdrop=a(document.createElement("div")).addClass("modal-backdrop "+e).appendTo(this.$body),this.$element.on("click.dismiss.bs.modal",a.proxy(function(a){return this.ignoreBackdropClick?void(this.ignoreBackdropClick=!1):void(a.target===a.currentTarget&&("static"==this.options.backdrop?this.$element[0].focus():this.hide()))},this)),f&&this.$backdrop[0].offsetWidth,this.$backdrop.addClass("in"),!b)return;f?this.$backdrop.one("bsTransitionEnd",b).emulateTransitionEnd(c.BACKDROP_TRANSITION_DURATION):b()}else if(!this.isShown&&this.$backdrop){this.$backdrop.removeClass("in");var g=function(){d.removeBackdrop(),b&&b()};a.support.transition&&this.$element.hasClass("fade")?this.$backdrop.one("bsTransitionEnd",g).emulateTransitionEnd(c.BACKDROP_TRANSITION_DURATION):g()}else b&&b()},c.prototype.handleUpdate=function(){this.adjustDialog()},c.prototype.adjustDialog=function(){var a=this.$element[0].scrollHeight>document.documentElement.clientHeight;this.$element.css({paddingLeft:!this.bodyIsOverflowing&&a?this.scrollbarWidth:"",paddingRight:this.bodyIsOverflowing&&!a?this.scrollbarWidth:""})},c.prototype.resetAdjustments=function(){this.$element.css({paddingLeft:"",paddingRight:""})},c.prototype.checkScrollbar=function(){var a=window.innerWidth;if(!a){var b=document.documentElement.getBoundingClientRect();a=b.right-Math.abs(b.left)}this.bodyIsOverflowing=document.body.clientWidth<a,this.scrollbarWidth=this.measureScrollbar()},c.prototype.setScrollbar=function(){var a=parseInt(this.$body.css("padding-right")||0,10);this.originalBodyPad=document.body.style.paddingRight||"",this.bodyIsOverflowing&&this.$body.css("padding-right",a+this.scrollbarWidth)},c.prototype.resetScrollbar=function(){this.$body.css("padding-right",this.originalBodyPad)},c.prototype.measureScrollbar=function(){var a=document.createElement("div");a.className="modal-scrollbar-measure",this.$body.append(a);var b=a.offsetWidth-a.clientWidth;return this.$body[0].removeChild(a),b};var d=a.fn.modal;a.fn.modal=b,a.fn.modal.Constructor=c,a.fn.modal.noConflict=function(){return a.fn.modal=d,this},a(document).on("click.bs.modal.data-api",'[data-toggle="modal"]',function(c){var d=a(this),e=d.attr("href"),f=a(d.attr("data-target")||e&&e.replace(/.*(?=#[^\s]+$)/,"")),g=f.data("bs.modal")?"toggle":a.extend({remote:!/#/.test(e)&&e},f.data(),d.data());d.is("a")&&c.preventDefault(),f.one("show.bs.modal",function(a){a.isDefaultPrevented()||f.one("hidden.bs.modal",function(){d.is(":visible")&&d.trigger("focus")})}),b.call(f,g,this)})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.tooltip"),f="object"==typeof b&&b;!e&&/destroy|hide/.test(b)||(e||d.data("bs.tooltip",e=new c(this,f)),"string"==typeof b&&e[b]())})}var c=function(a,b){this.type=null,this.options=null,this.enabled=null,this.timeout=null,this.hoverState=null,this.$element=null,this.inState=null,this.init("tooltip",a,b)};c.VERSION="3.3.7",c.TRANSITION_DURATION=150,c.DEFAULTS={animation:!0,placement:"top",selector:!1,template:'<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',trigger:"hover focus",title:"",delay:0,html:!1,container:!1,viewport:{selector:"body",padding:0}},c.prototype.init=function(b,c,d){if(this.enabled=!0,this.type=b,this.$element=a(c),this.options=this.getOptions(d),this.$viewport=this.options.viewport&&a(a.isFunction(this.options.viewport)?this.options.viewport.call(this,this.$element):this.options.viewport.selector||this.options.viewport),this.inState={click:!1,hover:!1,focus:!1},this.$element[0]instanceof document.constructor&&!this.options.selector)throw new Error("`selector` option must be specified when initializing "+this.type+" on the window.document object!");for(var e=this.options.trigger.split(" "),f=e.length;f--;){var g=e[f];if("click"==g)this.$element.on("click."+this.type,this.options.selector,a.proxy(this.toggle,this));else if("manual"!=g){var h="hover"==g?"mouseenter":"focusin",i="hover"==g?"mouseleave":"focusout";this.$element.on(h+"."+this.type,this.options.selector,a.proxy(this.enter,this)),this.$element.on(i+"."+this.type,this.options.selector,a.proxy(this.leave,this))}}this.options.selector?this._options=a.extend({},this.options,{trigger:"manual",selector:""}):this.fixTitle()},c.prototype.getDefaults=function(){return c.DEFAULTS},c.prototype.getOptions=function(b){return b=a.extend({},this.getDefaults(),this.$element.data(),b),b.delay&&"number"==typeof b.delay&&(b.delay={show:b.delay,hide:b.delay}),b},c.prototype.getDelegateOptions=function(){var b={},c=this.getDefaults();return this._options&&a.each(this._options,function(a,d){c[a]!=d&&(b[a]=d)}),b},c.prototype.enter=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget).data("bs."+this.type);return c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c)),b instanceof a.Event&&(c.inState["focusin"==b.type?"focus":"hover"]=!0),c.tip().hasClass("in")||"in"==c.hoverState?void(c.hoverState="in"):(clearTimeout(c.timeout),c.hoverState="in",c.options.delay&&c.options.delay.show?void(c.timeout=setTimeout(function(){"in"==c.hoverState&&c.show()},c.options.delay.show)):c.show())},c.prototype.isInStateTrue=function(){for(var a in this.inState)if(this.inState[a])return!0;return!1},c.prototype.leave=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget).data("bs."+this.type);if(c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c)),b instanceof a.Event&&(c.inState["focusout"==b.type?"focus":"hover"]=!1),!c.isInStateTrue())return clearTimeout(c.timeout),c.hoverState="out",c.options.delay&&c.options.delay.hide?void(c.timeout=setTimeout(function(){"out"==c.hoverState&&c.hide()},c.options.delay.hide)):c.hide()},c.prototype.show=function(){var b=a.Event("show.bs."+this.type);if(this.hasContent()&&this.enabled){this.$element.trigger(b);var d=a.contains(this.$element[0].ownerDocument.documentElement,this.$element[0]);if(b.isDefaultPrevented()||!d)return;var e=this,f=this.tip(),g=this.getUID(this.type);this.setContent(),f.attr("id",g),this.$element.attr("aria-describedby",g),this.options.animation&&f.addClass("fade");var h="function"==typeof this.options.placement?this.options.placement.call(this,f[0],this.$element[0]):this.options.placement,i=/\s?auto?\s?/i,j=i.test(h);j&&(h=h.replace(i,"")||"top"),f.detach().css({top:0,left:0,display:"block"}).addClass(h).data("bs."+this.type,this),this.options.container?f.appendTo(this.options.container):f.insertAfter(this.$element),this.$element.trigger("inserted.bs."+this.type);var k=this.getPosition(),l=f[0].offsetWidth,m=f[0].offsetHeight;if(j){var n=h,o=this.getPosition(this.$viewport);h="bottom"==h&&k.bottom+m>o.bottom?"top":"top"==h&&k.top-m<o.top?"bottom":"right"==h&&k.right+l>o.width?"left":"left"==h&&k.left-l<o.left?"right":h,f.removeClass(n).addClass(h)}var p=this.getCalculatedOffset(h,k,l,m);this.applyPlacement(p,h);var q=function(){var a=e.hoverState;e.$element.trigger("shown.bs."+e.type),e.hoverState=null,"out"==a&&e.leave(e)};a.support.transition&&this.$tip.hasClass("fade")?f.one("bsTransitionEnd",q).emulateTransitionEnd(c.TRANSITION_DURATION):q()}},c.prototype.applyPlacement=function(b,c){var d=this.tip(),e=d[0].offsetWidth,f=d[0].offsetHeight,g=parseInt(d.css("margin-top"),10),h=parseInt(d.css("margin-left"),10);isNaN(g)&&(g=0),isNaN(h)&&(h=0),b.top+=g,b.left+=h,a.offset.setOffset(d[0],a.extend({using:function(a){d.css({top:Math.round(a.top),left:Math.round(a.left)})}},b),0),d.addClass("in");var i=d[0].offsetWidth,j=d[0].offsetHeight;"top"==c&&j!=f&&(b.top=b.top+f-j);var k=this.getViewportAdjustedDelta(c,b,i,j);k.left?b.left+=k.left:b.top+=k.top;var l=/top|bottom/.test(c),m=l?2*k.left-e+i:2*k.top-f+j,n=l?"offsetWidth":"offsetHeight";d.offset(b),this.replaceArrow(m,d[0][n],l)},c.prototype.replaceArrow=function(a,b,c){this.arrow().css(c?"left":"top",50*(1-a/b)+"%").css(c?"top":"left","")},c.prototype.setContent=function(){var a=this.tip(),b=this.getTitle();a.find(".tooltip-inner")[this.options.html?"html":"text"](b),a.removeClass("fade in top bottom left right")},c.prototype.hide=function(b){function d(){"in"!=e.hoverState&&f.detach(),e.$element&&e.$element.removeAttr("aria-describedby").trigger("hidden.bs."+e.type),b&&b()}var e=this,f=a(this.$tip),g=a.Event("hide.bs."+this.type);if(this.$element.trigger(g),!g.isDefaultPrevented())return f.removeClass("in"),a.support.transition&&f.hasClass("fade")?f.one("bsTransitionEnd",d).emulateTransitionEnd(c.TRANSITION_DURATION):d(),this.hoverState=null,this},c.prototype.fixTitle=function(){var a=this.$element;(a.attr("title")||"string"!=typeof a.attr("data-original-title"))&&a.attr("data-original-title",a.attr("title")||"").attr("title","")},c.prototype.hasContent=function(){return this.getTitle()},c.prototype.getPosition=function(b){b=b||this.$element;var c=b[0],d="BODY"==c.tagName,e=c.getBoundingClientRect();null==e.width&&(e=a.extend({},e,{width:e.right-e.left,height:e.bottom-e.top}));var f=window.SVGElement&&c instanceof window.SVGElement,g=d?{top:0,left:0}:f?null:b.offset(),h={scroll:d?document.documentElement.scrollTop||document.body.scrollTop:b.scrollTop()},i=d?{width:a(window).width(),height:a(window).height()}:null;return a.extend({},e,h,i,g)},c.prototype.getCalculatedOffset=function(a,b,c,d){return"bottom"==a?{top:b.top+b.height,left:b.left+b.width/2-c/2}:"top"==a?{top:b.top-d,left:b.left+b.width/2-c/2}:"left"==a?{top:b.top+b.height/2-d/2,left:b.left-c}:{top:b.top+b.height/2-d/2,left:b.left+b.width}},c.prototype.getViewportAdjustedDelta=function(a,b,c,d){var e={top:0,left:0};if(!this.$viewport)return e;var f=this.options.viewport&&this.options.viewport.padding||0,g=this.getPosition(this.$viewport);if(/right|left/.test(a)){var h=b.top-f-g.scroll,i=b.top+f-g.scroll+d;h<g.top?e.top=g.top-h:i>g.top+g.height&&(e.top=g.top+g.height-i)}else{var j=b.left-f,k=b.left+f+c;j<g.left?e.left=g.left-j:k>g.right&&(e.left=g.left+g.width-k)}return e},c.prototype.getTitle=function(){var a,b=this.$element,c=this.options;return a=b.attr("data-original-title")||("function"==typeof c.title?c.title.call(b[0]):c.title)},c.prototype.getUID=function(a){do a+=~~(1e6*Math.random());while(document.getElementById(a));return a},c.prototype.tip=function(){if(!this.$tip&&(this.$tip=a(this.options.template),1!=this.$tip.length))throw new Error(this.type+" `template` option must consist of exactly 1 top-level element!");return this.$tip},c.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".tooltip-arrow")},c.prototype.enable=function(){this.enabled=!0},c.prototype.disable=function(){this.enabled=!1},c.prototype.toggleEnabled=function(){this.enabled=!this.enabled},c.prototype.toggle=function(b){var c=this;b&&(c=a(b.currentTarget).data("bs."+this.type),c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c))),b?(c.inState.click=!c.inState.click,c.isInStateTrue()?c.enter(c):c.leave(c)):c.tip().hasClass("in")?c.leave(c):c.enter(c)},c.prototype.destroy=function(){var a=this;clearTimeout(this.timeout),this.hide(function(){a.$element.off("."+a.type).removeData("bs."+a.type),a.$tip&&a.$tip.detach(),a.$tip=null,a.$arrow=null,a.$viewport=null,a.$element=null})};var d=a.fn.tooltip;a.fn.tooltip=b,a.fn.tooltip.Constructor=c,a.fn.tooltip.noConflict=function(){return a.fn.tooltip=d,this}}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.popover"),f="object"==typeof b&&b;!e&&/destroy|hide/.test(b)||(e||d.data("bs.popover",e=new c(this,f)),"string"==typeof b&&e[b]())})}var c=function(a,b){this.init("popover",a,b)};if(!a.fn.tooltip)throw new Error("Popover requires tooltip.js");c.VERSION="3.3.7",c.DEFAULTS=a.extend({},a.fn.tooltip.Constructor.DEFAULTS,{placement:"right",trigger:"click",content:"",template:'<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'}),c.prototype=a.extend({},a.fn.tooltip.Constructor.prototype),c.prototype.constructor=c,c.prototype.getDefaults=function(){return c.DEFAULTS},c.prototype.setContent=function(){var a=this.tip(),b=this.getTitle(),c=this.getContent();a.find(".popover-title")[this.options.html?"html":"text"](b),a.find(".popover-content").children().detach().end()[this.options.html?"string"==typeof c?"html":"append":"text"](c),a.removeClass("fade top bottom left right in"),a.find(".popover-title").html()||a.find(".popover-title").hide()},c.prototype.hasContent=function(){return this.getTitle()||this.getContent()},c.prototype.getContent=function(){var a=this.$element,b=this.options;return a.attr("data-content")||("function"==typeof b.content?b.content.call(a[0]):b.content)},c.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".arrow")};var d=a.fn.popover;a.fn.popover=b,a.fn.popover.Constructor=c,a.fn.popover.noConflict=function(){return a.fn.popover=d,this}}(jQuery),+function(a){"use strict";function b(c,d){this.$body=a(document.body),this.$scrollElement=a(a(c).is(document.body)?window:c),this.options=a.extend({},b.DEFAULTS,d),this.selector=(this.options.target||"")+" .nav li > a",this.offsets=[],this.targets=[],this.activeTarget=null,this.scrollHeight=0,this.$scrollElement.on("scroll.bs.scrollspy",a.proxy(this.process,this)),this.refresh(),this.process()}function c(c){return this.each(function(){var d=a(this),e=d.data("bs.scrollspy"),f="object"==typeof c&&c;e||d.data("bs.scrollspy",e=new b(this,f)),"string"==typeof c&&e[c]()})}b.VERSION="3.3.7",b.DEFAULTS={offset:10},b.prototype.getScrollHeight=function(){return this.$scrollElement[0].scrollHeight||Math.max(this.$body[0].scrollHeight,document.documentElement.scrollHeight)},b.prototype.refresh=function(){var b=this,c="offset",d=0;this.offsets=[],this.targets=[],this.scrollHeight=this.getScrollHeight(),a.isWindow(this.$scrollElement[0])||(c="position",d=this.$scrollElement.scrollTop()),this.$body.find(this.selector).map(function(){var b=a(this),e=b.data("target")||b.attr("href"),f=/^#./.test(e)&&a(e);return f&&f.length&&f.is(":visible")&&[[f[c]().top+d,e]]||null}).sort(function(a,b){return a[0]-b[0]}).each(function(){b.offsets.push(this[0]),b.targets.push(this[1])})},b.prototype.process=function(){var a,b=this.$scrollElement.scrollTop()+this.options.offset,c=this.getScrollHeight(),d=this.options.offset+c-this.$scrollElement.height(),e=this.offsets,f=this.targets,g=this.activeTarget;if(this.scrollHeight!=c&&this.refresh(),b>=d)return g!=(a=f[f.length-1])&&this.activate(a);if(g&&b<e[0])return this.activeTarget=null,this.clear();for(a=e.length;a--;)g!=f[a]&&b>=e[a]&&(void 0===e[a+1]||b<e[a+1])&&this.activate(f[a])},b.prototype.activate=function(b){
 this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+this.selector+'[href="'+b+'"]',d=a(c).parents("li").addClass("active");d.parent(".dropdown-menu").length&&(d=d.closest("li.dropdown").addClass("active")),d.trigger("activate.bs.scrollspy")},b.prototype.clear=function(){a(this.selector).parentsUntil(this.options.target,".active").removeClass("active")};var d=a.fn.scrollspy;a.fn.scrollspy=c,a.fn.scrollspy.Constructor=b,a.fn.scrollspy.noConflict=function(){return a.fn.scrollspy=d,this},a(window).on("load.bs.scrollspy.data-api",function(){a('[data-spy="scroll"]').each(function(){var b=a(this);c.call(b,b.data())})})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.tab");e||d.data("bs.tab",e=new c(this)),"string"==typeof b&&e[b]()})}var c=function(b){this.element=a(b)};c.VERSION="3.3.7",c.TRANSITION_DURATION=150,c.prototype.show=function(){var b=this.element,c=b.closest("ul:not(.dropdown-menu)"),d=b.data("target");if(d||(d=b.attr("href"),d=d&&d.replace(/.*(?=#[^\s]*$)/,"")),!b.parent("li").hasClass("active")){var e=c.find(".active:last a"),f=a.Event("hide.bs.tab",{relatedTarget:b[0]}),g=a.Event("show.bs.tab",{relatedTarget:e[0]});if(e.trigger(f),b.trigger(g),!g.isDefaultPrevented()&&!f.isDefaultPrevented()){var h=a(d);this.activate(b.closest("li"),c),this.activate(h,h.parent(),function(){e.trigger({type:"hidden.bs.tab",relatedTarget:b[0]}),b.trigger({type:"shown.bs.tab",relatedTarget:e[0]})})}}},c.prototype.activate=function(b,d,e){function f(){g.removeClass("active").find("> .dropdown-menu > .active").removeClass("active").end().find('[data-toggle="tab"]').attr("aria-expanded",!1),b.addClass("active").find('[data-toggle="tab"]').attr("aria-expanded",!0),h?(b[0].offsetWidth,b.addClass("in")):b.removeClass("fade"),b.parent(".dropdown-menu").length&&b.closest("li.dropdown").addClass("active").end().find('[data-toggle="tab"]').attr("aria-expanded",!0),e&&e()}var g=d.find("> .active"),h=e&&a.support.transition&&(g.length&&g.hasClass("fade")||!!d.find("> .fade").length);g.length&&h?g.one("bsTransitionEnd",f).emulateTransitionEnd(c.TRANSITION_DURATION):f(),g.removeClass("in")};var d=a.fn.tab;a.fn.tab=b,a.fn.tab.Constructor=c,a.fn.tab.noConflict=function(){return a.fn.tab=d,this};var e=function(c){c.preventDefault(),b.call(a(this),"show")};a(document).on("click.bs.tab.data-api",'[data-toggle="tab"]',e).on("click.bs.tab.data-api",'[data-toggle="pill"]',e)}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.affix"),f="object"==typeof b&&b;e||d.data("bs.affix",e=new c(this,f)),"string"==typeof b&&e[b]()})}var c=function(b,d){this.options=a.extend({},c.DEFAULTS,d),this.$target=a(this.options.target).on("scroll.bs.affix.data-api",a.proxy(this.checkPosition,this)).on("click.bs.affix.data-api",a.proxy(this.checkPositionWithEventLoop,this)),this.$element=a(b),this.affixed=null,this.unpin=null,this.pinnedOffset=null,this.checkPosition()};c.VERSION="3.3.7",c.RESET="affix affix-top affix-bottom",c.DEFAULTS={offset:0,target:window},c.prototype.getState=function(a,b,c,d){var e=this.$target.scrollTop(),f=this.$element.offset(),g=this.$target.height();if(null!=c&&"top"==this.affixed)return e<c&&"top";if("bottom"==this.affixed)return null!=c?!(e+this.unpin<=f.top)&&"bottom":!(e+g<=a-d)&&"bottom";var h=null==this.affixed,i=h?e:f.top,j=h?g:b;return null!=c&&e<=c?"top":null!=d&&i+j>=a-d&&"bottom"},c.prototype.getPinnedOffset=function(){if(this.pinnedOffset)return this.pinnedOffset;this.$element.removeClass(c.RESET).addClass("affix");var a=this.$target.scrollTop(),b=this.$element.offset();return this.pinnedOffset=b.top-a},c.prototype.checkPositionWithEventLoop=function(){setTimeout(a.proxy(this.checkPosition,this),1)},c.prototype.checkPosition=function(){if(this.$element.is(":visible")){var b=this.$element.height(),d=this.options.offset,e=d.top,f=d.bottom,g=Math.max(a(document).height(),a(document.body).height());"object"!=typeof d&&(f=e=d),"function"==typeof e&&(e=d.top(this.$element)),"function"==typeof f&&(f=d.bottom(this.$element));var h=this.getState(g,b,e,f);if(this.affixed!=h){null!=this.unpin&&this.$element.css("top","");var i="affix"+(h?"-"+h:""),j=a.Event(i+".bs.affix");if(this.$element.trigger(j),j.isDefaultPrevented())return;this.affixed=h,this.unpin="bottom"==h?this.getPinnedOffset():null,this.$element.removeClass(c.RESET).addClass(i).trigger(i.replace("affix","affixed")+".bs.affix")}"bottom"==h&&this.$element.offset({top:g-b-f})}};var d=a.fn.affix;a.fn.affix=b,a.fn.affix.Constructor=c,a.fn.affix.noConflict=function(){return a.fn.affix=d,this},a(window).on("load",function(){a('[data-spy="affix"]').each(function(){var c=a(this),d=c.data();d.offset=d.offset||{},null!=d.offsetBottom&&(d.offset.bottom=d.offsetBottom),null!=d.offsetTop&&(d.offset.top=d.offsetTop),b.call(c,d)})})}(jQuery);
-/*
- * jQuery FlexSlider v2.6.4
- * Copyright 2012 WooThemes
- * Contributing Author: Tyler Smith
- */!function($){var e=!0;$.flexslider=function(t,a){var n=$(t);n.vars=$.extend({},$.flexslider.defaults,a);var i=n.vars.namespace,r=window.navigator&&window.navigator.msPointerEnabled&&window.MSGesture,s=("ontouchstart"in window||r||window.DocumentTouch&&document instanceof DocumentTouch)&&n.vars.touch,o="click touchend MSPointerUp keyup",l="",c,d="vertical"===n.vars.direction,u=n.vars.reverse,v=n.vars.itemWidth>0,p="fade"===n.vars.animation,m=""!==n.vars.asNavFor,f={};$.data(t,"flexslider",n),f={init:function(){n.animating=!1,n.currentSlide=parseInt(n.vars.startAt?n.vars.startAt:0,10),isNaN(n.currentSlide)&&(n.currentSlide=0),n.animatingTo=n.currentSlide,n.atEnd=0===n.currentSlide||n.currentSlide===n.last,n.containerSelector=n.vars.selector.substr(0,n.vars.selector.search(" ")),n.slides=$(n.vars.selector,n),n.container=$(n.containerSelector,n),n.count=n.slides.length,n.syncExists=$(n.vars.sync).length>0,"slide"===n.vars.animation&&(n.vars.animation="swing"),n.prop=d?"top":"marginLeft",n.args={},n.manualPause=!1,n.stopped=!1,n.started=!1,n.startTimeout=null,n.transitions=!n.vars.video&&!p&&n.vars.useCSS&&function(){var e=document.createElement("div"),t=["perspectiveProperty","WebkitPerspective","MozPerspective","OPerspective","msPerspective"];for(var a in t)if(void 0!==e.style[t[a]])return n.pfx=t[a].replace("Perspective","").toLowerCase(),n.prop="-"+n.pfx+"-transform",!0;return!1}(),n.ensureAnimationEnd="",""!==n.vars.controlsContainer&&(n.controlsContainer=$(n.vars.controlsContainer).length>0&&$(n.vars.controlsContainer)),""!==n.vars.manualControls&&(n.manualControls=$(n.vars.manualControls).length>0&&$(n.vars.manualControls)),""!==n.vars.customDirectionNav&&(n.customDirectionNav=2===$(n.vars.customDirectionNav).length&&$(n.vars.customDirectionNav)),n.vars.randomize&&(n.slides.sort(function(){return Math.round(Math.random())-.5}),n.container.empty().append(n.slides)),n.doMath(),n.setup("init"),n.vars.controlNav&&f.controlNav.setup(),n.vars.directionNav&&f.directionNav.setup(),n.vars.keyboard&&(1===$(n.containerSelector).length||n.vars.multipleKeyboard)&&$(document).bind("keyup",function(e){var t=e.keyCode;if(!n.animating&&(39===t||37===t)){var a=39===t?n.getTarget("next"):37===t&&n.getTarget("prev");n.flexAnimate(a,n.vars.pauseOnAction)}}),n.vars.mousewheel&&n.bind("mousewheel",function(e,t,a,i){e.preventDefault();var r=t<0?n.getTarget("next"):n.getTarget("prev");n.flexAnimate(r,n.vars.pauseOnAction)}),n.vars.pausePlay&&f.pausePlay.setup(),n.vars.slideshow&&n.vars.pauseInvisible&&f.pauseInvisible.init(),n.vars.slideshow&&(n.vars.pauseOnHover&&n.hover(function(){n.manualPlay||n.manualPause||n.pause()},function(){n.manualPause||n.manualPlay||n.stopped||n.play()}),n.vars.pauseInvisible&&f.pauseInvisible.isHidden()||(n.vars.initDelay>0?n.startTimeout=setTimeout(n.play,n.vars.initDelay):n.play())),m&&f.asNav.setup(),s&&n.vars.touch&&f.touch(),(!p||p&&n.vars.smoothHeight)&&$(window).bind("resize orientationchange focus",f.resize()),n.find("img").attr("draggable","false"),setTimeout(function(){n.vars.start(n)},200)},asNav:{setup:function(){n.asNav=!0,n.animatingTo=Math.floor(n.currentSlide/n.move),n.currentItem=n.currentSlide,n.slides.removeClass(i+"active-slide").eq(n.currentItem).addClass(i+"active-slide"),r?(t._slider=n,n.slides.each(function(){var e=this;e._gesture=new MSGesture,e._gesture.target=e,e.addEventListener("MSPointerDown",function(e){e.preventDefault(),e.currentTarget._gesture&&e.currentTarget._gesture.addPointer(e.pointerId)},!1),e.addEventListener("MSGestureTap",function(e){e.preventDefault();var t=$(this),a=t.index();$(n.vars.asNavFor).data("flexslider").animating||t.hasClass("active")||(n.direction=n.currentItem<a?"next":"prev",n.flexAnimate(a,n.vars.pauseOnAction,!1,!0,!0))})})):n.slides.on(o,function(e){e.preventDefault();var t=$(this),a=t.index();t.offset().left-$(n).scrollLeft()<=0&&t.hasClass(i+"active-slide")?n.flexAnimate(n.getTarget("prev"),!0):$(n.vars.asNavFor).data("flexslider").animating||t.hasClass(i+"active-slide")||(n.direction=n.currentItem<a?"next":"prev",n.flexAnimate(a,n.vars.pauseOnAction,!1,!0,!0))})}},controlNav:{setup:function(){n.manualControls?f.controlNav.setupManual():f.controlNav.setupPaging()},setupPaging:function(){var e="thumbnails"===n.vars.controlNav?"control-thumbs":"control-paging",t=1,a,r;if(n.controlNavScaffold=$('<ol class="'+i+"control-nav "+i+e+'"></ol>'),n.pagingCount>1)for(var s=0;s<n.pagingCount;s++){r=n.slides.eq(s),void 0===r.attr("data-thumb-alt")&&r.attr("data-thumb-alt","");var c=""!==r.attr("data-thumb-alt")?c=' alt="'+r.attr("data-thumb-alt")+'"':"";if(a="thumbnails"===n.vars.controlNav?'<img src="'+r.attr("data-thumb")+'"'+c+"/>":'<a href="#">'+t+"</a>","thumbnails"===n.vars.controlNav&&!0===n.vars.thumbCaptions){var d=r.attr("data-thumbcaption");""!==d&&void 0!==d&&(a+='<span class="'+i+'caption">'+d+"</span>")}n.controlNavScaffold.append("<li>"+a+"</li>"),t++}n.controlsContainer?$(n.controlsContainer).append(n.controlNavScaffold):n.append(n.controlNavScaffold),f.controlNav.set(),f.controlNav.active(),n.controlNavScaffold.delegate("a, img",o,function(e){if(e.preventDefault(),""===l||l===e.type){var t=$(this),a=n.controlNav.index(t);t.hasClass(i+"active")||(n.direction=a>n.currentSlide?"next":"prev",n.flexAnimate(a,n.vars.pauseOnAction))}""===l&&(l=e.type),f.setToClearWatchedEvent()})},setupManual:function(){n.controlNav=n.manualControls,f.controlNav.active(),n.controlNav.bind(o,function(e){if(e.preventDefault(),""===l||l===e.type){var t=$(this),a=n.controlNav.index(t);t.hasClass(i+"active")||(a>n.currentSlide?n.direction="next":n.direction="prev",n.flexAnimate(a,n.vars.pauseOnAction))}""===l&&(l=e.type),f.setToClearWatchedEvent()})},set:function(){var e="thumbnails"===n.vars.controlNav?"img":"a";n.controlNav=$("."+i+"control-nav li "+e,n.controlsContainer?n.controlsContainer:n)},active:function(){n.controlNav.removeClass(i+"active").eq(n.animatingTo).addClass(i+"active")},update:function(e,t){n.pagingCount>1&&"add"===e?n.controlNavScaffold.append($('<li><a href="#">'+n.count+"</a></li>")):1===n.pagingCount?n.controlNavScaffold.find("li").remove():n.controlNav.eq(t).closest("li").remove(),f.controlNav.set(),n.pagingCount>1&&n.pagingCount!==n.controlNav.length?n.update(t,e):f.controlNav.active()}},directionNav:{setup:function(){var e=$('<ul class="'+i+'direction-nav"><li class="'+i+'nav-prev"><a class="'+i+'prev" href="#">'+n.vars.prevText+'</a></li><li class="'+i+'nav-next"><a class="'+i+'next" href="#">'+n.vars.nextText+"</a></li></ul>");n.customDirectionNav?n.directionNav=n.customDirectionNav:n.controlsContainer?($(n.controlsContainer).append(e),n.directionNav=$("."+i+"direction-nav li a",n.controlsContainer)):(n.append(e),n.directionNav=$("."+i+"direction-nav li a",n)),f.directionNav.update(),n.directionNav.bind(o,function(e){e.preventDefault();var t;""!==l&&l!==e.type||(t=$(this).hasClass(i+"next")?n.getTarget("next"):n.getTarget("prev"),n.flexAnimate(t,n.vars.pauseOnAction)),""===l&&(l=e.type),f.setToClearWatchedEvent()})},update:function(){var e=i+"disabled";1===n.pagingCount?n.directionNav.addClass(e).attr("tabindex","-1"):n.vars.animationLoop?n.directionNav.removeClass(e).removeAttr("tabindex"):0===n.animatingTo?n.directionNav.removeClass(e).filter("."+i+"prev").addClass(e).attr("tabindex","-1"):n.animatingTo===n.last?n.directionNav.removeClass(e).filter("."+i+"next").addClass(e).attr("tabindex","-1"):n.directionNav.removeClass(e).removeAttr("tabindex")}},pausePlay:{setup:function(){var e=$('<div class="'+i+'pauseplay"><a href="#"></a></div>');n.controlsContainer?(n.controlsContainer.append(e),n.pausePlay=$("."+i+"pauseplay a",n.controlsContainer)):(n.append(e),n.pausePlay=$("."+i+"pauseplay a",n)),f.pausePlay.update(n.vars.slideshow?i+"pause":i+"play"),n.pausePlay.bind(o,function(e){e.preventDefault(),""!==l&&l!==e.type||($(this).hasClass(i+"pause")?(n.manualPause=!0,n.manualPlay=!1,n.pause()):(n.manualPause=!1,n.manualPlay=!0,n.play())),""===l&&(l=e.type),f.setToClearWatchedEvent()})},update:function(e){"play"===e?n.pausePlay.removeClass(i+"pause").addClass(i+"play").html(n.vars.playText):n.pausePlay.removeClass(i+"play").addClass(i+"pause").html(n.vars.pauseText)}},touch:function(){function e(e){e.stopPropagation(),n.animating?e.preventDefault():(n.pause(),t._gesture.addPointer(e.pointerId),T=0,c=d?n.h:n.w,f=Number(new Date),l=v&&u&&n.animatingTo===n.last?0:v&&u?n.limit-(n.itemW+n.vars.itemMargin)*n.move*n.animatingTo:v&&n.currentSlide===n.last?n.limit:v?(n.itemW+n.vars.itemMargin)*n.move*n.currentSlide:u?(n.last-n.currentSlide+n.cloneOffset)*c:(n.currentSlide+n.cloneOffset)*c)}function a(e){e.stopPropagation();var a=e.target._slider;if(a){var n=-e.translationX,i=-e.translationY;if(T+=d?i:n,m=T,y=d?Math.abs(T)<Math.abs(-n):Math.abs(T)<Math.abs(-i),e.detail===e.MSGESTURE_FLAG_INERTIA)return void setImmediate(function(){t._gesture.stop()});(!y||Number(new Date)-f>500)&&(e.preventDefault(),!p&&a.transitions&&(a.vars.animationLoop||(m=T/(0===a.currentSlide&&T<0||a.currentSlide===a.last&&T>0?Math.abs(T)/c+2:1)),a.setProps(l+m,"setTouch")))}}function i(e){e.stopPropagation();var t=e.target._slider;if(t){if(t.animatingTo===t.currentSlide&&!y&&null!==m){var a=u?-m:m,n=a>0?t.getTarget("next"):t.getTarget("prev");t.canAdvance(n)&&(Number(new Date)-f<550&&Math.abs(a)>50||Math.abs(a)>c/2)?t.flexAnimate(n,t.vars.pauseOnAction):p||t.flexAnimate(t.currentSlide,t.vars.pauseOnAction,!0)}s=null,o=null,m=null,l=null,T=0}}var s,o,l,c,m,f,g,h,S,y=!1,x=0,b=0,T=0;r?(t.style.msTouchAction="none",t._gesture=new MSGesture,t._gesture.target=t,t.addEventListener("MSPointerDown",e,!1),t._slider=n,t.addEventListener("MSGestureChange",a,!1),t.addEventListener("MSGestureEnd",i,!1)):(g=function(e){n.animating?e.preventDefault():(window.navigator.msPointerEnabled||1===e.touches.length)&&(n.pause(),c=d?n.h:n.w,f=Number(new Date),x=e.touches[0].pageX,b=e.touches[0].pageY,l=v&&u&&n.animatingTo===n.last?0:v&&u?n.limit-(n.itemW+n.vars.itemMargin)*n.move*n.animatingTo:v&&n.currentSlide===n.last?n.limit:v?(n.itemW+n.vars.itemMargin)*n.move*n.currentSlide:u?(n.last-n.currentSlide+n.cloneOffset)*c:(n.currentSlide+n.cloneOffset)*c,s=d?b:x,o=d?x:b,t.addEventListener("touchmove",h,!1),t.addEventListener("touchend",S,!1))},h=function(e){x=e.touches[0].pageX,b=e.touches[0].pageY,m=d?s-b:s-x,y=d?Math.abs(m)<Math.abs(x-o):Math.abs(m)<Math.abs(b-o);var t=500;(!y||Number(new Date)-f>500)&&(e.preventDefault(),!p&&n.transitions&&(n.vars.animationLoop||(m/=0===n.currentSlide&&m<0||n.currentSlide===n.last&&m>0?Math.abs(m)/c+2:1),n.setProps(l+m,"setTouch")))},S=function(e){if(t.removeEventListener("touchmove",h,!1),n.animatingTo===n.currentSlide&&!y&&null!==m){var a=u?-m:m,i=a>0?n.getTarget("next"):n.getTarget("prev");n.canAdvance(i)&&(Number(new Date)-f<550&&Math.abs(a)>50||Math.abs(a)>c/2)?n.flexAnimate(i,n.vars.pauseOnAction):p||n.flexAnimate(n.currentSlide,n.vars.pauseOnAction,!0)}t.removeEventListener("touchend",S,!1),s=null,o=null,m=null,l=null},t.addEventListener("touchstart",g,!1))},resize:function(){!n.animating&&n.is(":visible")&&(v||n.doMath(),p?f.smoothHeight():v?(n.slides.width(n.computedW),n.update(n.pagingCount),n.setProps()):d?(n.viewport.height(n.h),n.setProps(n.h,"setTotal")):(n.vars.smoothHeight&&f.smoothHeight(),n.newSlides.width(n.computedW),n.setProps(n.computedW,"setTotal")))},smoothHeight:function(e){if(!d||p){var t=p?n:n.viewport;e?t.animate({height:n.slides.eq(n.animatingTo).innerHeight()},e):t.innerHeight(n.slides.eq(n.animatingTo).innerHeight())}},sync:function(e){var t=$(n.vars.sync).data("flexslider"),a=n.animatingTo;switch(e){case"animate":t.flexAnimate(a,n.vars.pauseOnAction,!1,!0);break;case"play":t.playing||t.asNav||t.play();break;case"pause":t.pause();break}},uniqueID:function(e){return e.filter("[id]").add(e.find("[id]")).each(function(){var e=$(this);e.attr("id",e.attr("id")+"_clone")}),e},pauseInvisible:{visProp:null,init:function(){var e=f.pauseInvisible.getHiddenProp();if(e){var t=e.replace(/[H|h]idden/,"")+"visibilitychange";document.addEventListener(t,function(){f.pauseInvisible.isHidden()?n.startTimeout?clearTimeout(n.startTimeout):n.pause():n.started?n.play():n.vars.initDelay>0?setTimeout(n.play,n.vars.initDelay):n.play()})}},isHidden:function(){var e=f.pauseInvisible.getHiddenProp();return!!e&&document[e]},getHiddenProp:function(){var e=["webkit","moz","ms","o"];if("hidden"in document)return"hidden";for(var t=0;t<e.length;t++)if(e[t]+"Hidden"in document)return e[t]+"Hidden";return null}},setToClearWatchedEvent:function(){clearTimeout(c),c=setTimeout(function(){l=""},3e3)}},n.flexAnimate=function(e,t,a,r,o){if(n.vars.animationLoop||e===n.currentSlide||(n.direction=e>n.currentSlide?"next":"prev"),m&&1===n.pagingCount&&(n.direction=n.currentItem<e?"next":"prev"),!n.animating&&(n.canAdvance(e,o)||a)&&n.is(":visible")){if(m&&r){var l=$(n.vars.asNavFor).data("flexslider");if(n.atEnd=0===e||e===n.count-1,l.flexAnimate(e,!0,!1,!0,o),n.direction=n.currentItem<e?"next":"prev",l.direction=n.direction,Math.ceil((e+1)/n.visible)-1===n.currentSlide||0===e)return n.currentItem=e,n.slides.removeClass(i+"active-slide").eq(e).addClass(i+"active-slide"),!1;n.currentItem=e,n.slides.removeClass(i+"active-slide").eq(e).addClass(i+"active-slide"),e=Math.floor(e/n.visible)}if(n.animating=!0,n.animatingTo=e,t&&n.pause(),n.vars.before(n),n.syncExists&&!o&&f.sync("animate"),n.vars.controlNav&&f.controlNav.active(),v||n.slides.removeClass(i+"active-slide").eq(e).addClass(i+"active-slide"),n.atEnd=0===e||e===n.last,n.vars.directionNav&&f.directionNav.update(),e===n.last&&(n.vars.end(n),n.vars.animationLoop||n.pause()),p)s?(n.slides.eq(n.currentSlide).css({opacity:0,zIndex:1}),n.slides.eq(e).css({opacity:1,zIndex:2}),n.wrapup(c)):(n.slides.eq(n.currentSlide).css({zIndex:1}).animate({opacity:0},n.vars.animationSpeed,n.vars.easing),n.slides.eq(e).css({zIndex:2}).animate({opacity:1},n.vars.animationSpeed,n.vars.easing,n.wrapup));else{var c=d?n.slides.filter(":first").height():n.computedW,g,h,S;v?(g=n.vars.itemMargin,S=(n.itemW+g)*n.move*n.animatingTo,h=S>n.limit&&1!==n.visible?n.limit:S):h=0===n.currentSlide&&e===n.count-1&&n.vars.animationLoop&&"next"!==n.direction?u?(n.count+n.cloneOffset)*c:0:n.currentSlide===n.last&&0===e&&n.vars.animationLoop&&"prev"!==n.direction?u?0:(n.count+1)*c:u?(n.count-1-e+n.cloneOffset)*c:(e+n.cloneOffset)*c,n.setProps(h,"",n.vars.animationSpeed),n.transitions?(n.vars.animationLoop&&n.atEnd||(n.animating=!1,n.currentSlide=n.animatingTo),n.container.unbind("webkitTransitionEnd transitionend"),n.container.bind("webkitTransitionEnd transitionend",function(){clearTimeout(n.ensureAnimationEnd),n.wrapup(c)}),clearTimeout(n.ensureAnimationEnd),n.ensureAnimationEnd=setTimeout(function(){n.wrapup(c)},n.vars.animationSpeed+100)):n.container.animate(n.args,n.vars.animationSpeed,n.vars.easing,function(){n.wrapup(c)})}n.vars.smoothHeight&&f.smoothHeight(n.vars.animationSpeed)}},n.wrapup=function(e){p||v||(0===n.currentSlide&&n.animatingTo===n.last&&n.vars.animationLoop?n.setProps(e,"jumpEnd"):n.currentSlide===n.last&&0===n.animatingTo&&n.vars.animationLoop&&n.setProps(e,"jumpStart")),n.animating=!1,n.currentSlide=n.animatingTo,n.vars.after(n)},n.animateSlides=function(){!n.animating&&e&&n.flexAnimate(n.getTarget("next"))},n.pause=function(){clearInterval(n.animatedSlides),n.animatedSlides=null,n.playing=!1,n.vars.pausePlay&&f.pausePlay.update("play"),n.syncExists&&f.sync("pause")},n.play=function(){n.playing&&clearInterval(n.animatedSlides),n.animatedSlides=n.animatedSlides||setInterval(n.animateSlides,n.vars.slideshowSpeed),n.started=n.playing=!0,n.vars.pausePlay&&f.pausePlay.update("pause"),n.syncExists&&f.sync("play")},n.stop=function(){n.pause(),n.stopped=!0},n.canAdvance=function(e,t){var a=m?n.pagingCount-1:n.last;return!!t||(!(!m||n.currentItem!==n.count-1||0!==e||"prev"!==n.direction)||(!m||0!==n.currentItem||e!==n.pagingCount-1||"next"===n.direction)&&(!(e===n.currentSlide&&!m)&&(!!n.vars.animationLoop||(!n.atEnd||0!==n.currentSlide||e!==a||"next"===n.direction)&&(!n.atEnd||n.currentSlide!==a||0!==e||"next"!==n.direction))))},n.getTarget=function(e){return n.direction=e,"next"===e?n.currentSlide===n.last?0:n.currentSlide+1:0===n.currentSlide?n.last:n.currentSlide-1},n.setProps=function(e,t,a){var i=function(){var a=e||(n.itemW+n.vars.itemMargin)*n.move*n.animatingTo;return-1*function(){if(v)return"setTouch"===t?e:u&&n.animatingTo===n.last?0:u?n.limit-(n.itemW+n.vars.itemMargin)*n.move*n.animatingTo:n.animatingTo===n.last?n.limit:a;switch(t){case"setTotal":return u?(n.count-1-n.currentSlide+n.cloneOffset)*e:(n.currentSlide+n.cloneOffset)*e;case"setTouch":return e;case"jumpEnd":return u?e:n.count*e;case"jumpStart":return u?n.count*e:e;default:return e}}()+"px"}();n.transitions&&(i=d?"translate3d(0,"+i+",0)":"translate3d("+i+",0,0)",a=void 0!==a?a/1e3+"s":"0s",n.container.css("-"+n.pfx+"-transition-duration",a),n.container.css("transition-duration",a)),n.args[n.prop]=i,(n.transitions||void 0===a)&&n.container.css(n.args),n.container.css("transform",i)},n.setup=function(e){if(p)n.slides.css({width:"100%",float:"left",marginRight:"-100%",position:"relative"}),"init"===e&&(s?n.slides.css({opacity:0,display:"block",webkitTransition:"opacity "+n.vars.animationSpeed/1e3+"s ease",zIndex:1}).eq(n.currentSlide).css({opacity:1,zIndex:2}):0==n.vars.fadeFirstSlide?n.slides.css({opacity:0,display:"block",zIndex:1}).eq(n.currentSlide).css({zIndex:2}).css({opacity:1}):n.slides.css({opacity:0,display:"block",zIndex:1}).eq(n.currentSlide).css({zIndex:2}).animate({opacity:1},n.vars.animationSpeed,n.vars.easing)),n.vars.smoothHeight&&f.smoothHeight();else{var t,a;"init"===e&&(n.viewport=$('<div class="'+i+'viewport"></div>').css({overflow:"hidden",position:"relative"}).appendTo(n).append(n.container),n.cloneCount=0,n.cloneOffset=0,u&&(a=$.makeArray(n.slides).reverse(),n.slides=$(a),n.container.empty().append(n.slides))),n.vars.animationLoop&&!v&&(n.cloneCount=2,n.cloneOffset=1,"init"!==e&&n.container.find(".clone").remove(),n.container.append(f.uniqueID(n.slides.first().clone().addClass("clone")).attr("aria-hidden","true")).prepend(f.uniqueID(n.slides.last().clone().addClass("clone")).attr("aria-hidden","true"))),n.newSlides=$(n.vars.selector,n),t=u?n.count-1-n.currentSlide+n.cloneOffset:n.currentSlide+n.cloneOffset,d&&!v?(n.container.height(200*(n.count+n.cloneCount)+"%").css("position","absolute").width("100%"),setTimeout(function(){n.newSlides.css({display:"block"}),n.doMath(),n.viewport.height(n.h),n.setProps(t*n.h,"init")},"init"===e?100:0)):(n.container.width(200*(n.count+n.cloneCount)+"%"),n.setProps(t*n.computedW,"init"),setTimeout(function(){n.doMath(),n.newSlides.css({width:n.computedW,marginRight:n.computedM,float:"left",display:"block"}),n.vars.smoothHeight&&f.smoothHeight()},"init"===e?100:0))}v||n.slides.removeClass(i+"active-slide").eq(n.currentSlide).addClass(i+"active-slide"),n.vars.init(n)},n.doMath=function(){var e=n.slides.first(),t=n.vars.itemMargin,a=n.vars.minItems,i=n.vars.maxItems;n.w=void 0===n.viewport?n.width():n.viewport.width(),n.h=e.height(),n.boxPadding=e.outerWidth()-e.width(),v?(n.itemT=n.vars.itemWidth+t,n.itemM=t,n.minW=a?a*n.itemT:n.w,n.maxW=i?i*n.itemT-t:n.w,n.itemW=n.minW>n.w?(n.w-t*(a-1))/a:n.maxW<n.w?(n.w-t*(i-1))/i:n.vars.itemWidth>n.w?n.w:n.vars.itemWidth,n.visible=Math.floor(n.w/n.itemW),n.move=n.vars.move>0&&n.vars.move<n.visible?n.vars.move:n.visible,n.pagingCount=Math.ceil((n.count-n.visible)/n.move+1),n.last=n.pagingCount-1,n.limit=1===n.pagingCount?0:n.vars.itemWidth>n.w?n.itemW*(n.count-1)+t*(n.count-1):(n.itemW+t)*n.count-n.w-t):(n.itemW=n.w,n.itemM=t,n.pagingCount=n.count,n.last=n.count-1),n.computedW=n.itemW-n.boxPadding,n.computedM=n.itemM},n.update=function(e,t){n.doMath(),v||(e<n.currentSlide?n.currentSlide+=1:e<=n.currentSlide&&0!==e&&(n.currentSlide-=1),n.animatingTo=n.currentSlide),n.vars.controlNav&&!n.manualControls&&("add"===t&&!v||n.pagingCount>n.controlNav.length?f.controlNav.update("add"):("remove"===t&&!v||n.pagingCount<n.controlNav.length)&&(v&&n.currentSlide>n.last&&(n.currentSlide-=1,n.animatingTo-=1),f.controlNav.update("remove",n.last))),n.vars.directionNav&&f.directionNav.update()},n.addSlide=function(e,t){var a=$(e);n.count+=1,n.last=n.count-1,d&&u?void 0!==t?n.slides.eq(n.count-t).after(a):n.container.prepend(a):void 0!==t?n.slides.eq(t).before(a):n.container.append(a),n.update(t,"add"),n.slides=$(n.vars.selector+":not(.clone)",n),n.setup(),n.vars.added(n)},n.removeSlide=function(e){var t=isNaN(e)?n.slides.index($(e)):e;n.count-=1,n.last=n.count-1,isNaN(e)?$(e,n.slides).remove():d&&u?n.slides.eq(n.last).remove():n.slides.eq(e).remove(),n.doMath(),n.update(t,"remove"),n.slides=$(n.vars.selector+":not(.clone)",n),n.setup(),n.vars.removed(n)},f.init()},$(window).blur(function(t){e=!1}).focus(function(t){e=!0}),$.flexslider.defaults={namespace:"flex-",selector:".slides > li",animation:"fade",easing:"swing",direction:"horizontal",reverse:!1,animationLoop:!0,smoothHeight:!1,startAt:0,slideshow:!0,slideshowSpeed:7e3,animationSpeed:600,initDelay:0,randomize:!1,fadeFirstSlide:!0,thumbCaptions:!1,pauseOnAction:!0,pauseOnHover:!1,pauseInvisible:!0,useCSS:!0,touch:!0,video:!1,controlNav:!0,directionNav:!0,prevText:"Previous",nextText:"Next",keyboard:!0,multipleKeyboard:!1,mousewheel:!1,pausePlay:!1,pauseText:"Pause",playText:"Play",controlsContainer:"",manualControls:"",customDirectionNav:"",sync:"",asNavFor:"",itemWidth:0,itemMargin:0,minItems:1,maxItems:0,move:0,allowOneSlide:!0,start:function(){},before:function(){},after:function(){},end:function(){},added:function(){},removed:function(){},init:function(){}},$.fn.flexslider=function(e){if(void 0===e&&(e={}),"object"==typeof e)return this.each(function(){var t=$(this),a=e.selector?e.selector:".slides > li",n=t.find(a);1===n.length&&!1===e.allowOneSlide||0===n.length?(n.fadeIn(400),e.start&&e.start(t)):void 0===t.data("flexslider")&&new $.flexslider(this,e)});var t=$(this).data("flexslider");switch(e){case"play":t.play();break;case"pause":t.pause();break;case"stop":t.stop();break;case"next":t.flexAnimate(t.getTarget("next"),!0);break;case"prev":case"previous":t.flexAnimate(t.getTarget("prev"),!0);break;default:"number"==typeof e&&t.flexAnimate(e,!0)}}}(jQuery);
 // ==================================================
-// fancyBox v3.1.20
+// fancyBox v3.1.25
 //
 // Licensed GPLv3 for open source use
 // or fancyBox Commercial License for commercial use
@@ -1981,7 +1992,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
             slide.$content = $( content ).appendTo( slide.$slide );
 
             if ( slide.opts.smallBtn && !slide.$smallBtn ) {
-                slide.$smallBtn = $( self.translate( slide, slide.opts.btnTpl.smallBtn ) ).appendTo( slide.$content );
+                slide.$smallBtn = $( self.translate( slide, slide.opts.btnTpl.smallBtn ) ).appendTo( slide.$content.filter('div').first() );
             }
 
             this.afterLoad( slide );
@@ -2109,8 +2120,8 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
             if ( effect === 'zoom' ) {
                 end = self.getFitPos( slide );
 
-                end.scaleX = Math.round( (end.width  / start.width)  * 100 ) / 100;
-                end.scaleY = Math.round( (end.height / start.height) * 100 ) / 100;
+                end.scaleX = end.width  / start.width;
+                end.scaleY = end.height / start.height;
 
                 delete end.width;
                 delete end.height;
@@ -2499,7 +2510,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
             self.trigger( 'afterClose', e );
 
             // Place back focus
-            if ( self.$lastFocus && !!!self.current.focusBack ) {
+            if ( self.$lastFocus && !!self.current.opts.backFocus ) {
                 self.$lastFocus.focus();
             }
 
@@ -2646,7 +2657,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 
     $.fancybox = {
 
-        version  : "3.1.20",
+        version  : "3.1.25",
         defaults : defaults,
 
 
@@ -2872,8 +2883,8 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
                     if ( to.scaleX !== undefined && to.scaleY !== undefined ) {
                         $el.css( 'transition-duration', '0ms' );
 
-                        to.width  = $el.width()  * to.scaleX;
-                        to.height = $el.height() * to.scaleY;
+                        to.width  = Math.round( $el.width()  * to.scaleX );
+                        to.height = Math.round( $el.height() * to.scaleY );
 
                         to.scaleX = 1;
                         to.scaleY = 1;
@@ -2923,12 +2934,18 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
     function _run( e ) {
         var target	= e.currentTarget,
             opts	= e.data ? e.data.options : {},
-            items	= e.data ? e.data.items : [],
+            items	= opts.selector ? $( opts.selector ) : ( e.data ? e.data.items : [] ),
             value	= $(target).attr( 'data-fancybox' ) || '',
-            index	= 0;
+            index	= 0,
+            active  = $.fancybox.getInstance();
 
         e.preventDefault();
         e.stopPropagation();
+
+        // Avoid opening multiple times
+        if ( active && active.current.opts.$orig.is( target ) ) {
+            return;
+        }
 
         // Get all related items and find index for clicked one
         if ( value ) {
@@ -2961,7 +2978,6 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
         if ( selector ) {
 
             $( 'body' ).off( 'click.fb-start', selector ).on( 'click.fb-start', selector, {
-                items   : $( selector ),
                 options : options
             }, _run );
 
@@ -2983,7 +2999,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 
     $D.on( 'click.fb-start', '[data-fancybox]', _run );
 
-}( window, document, window.jQuery ));
+}( window, document, window.jQuery || jQuery ));
 
 // ==========================================================================
 //
@@ -3086,13 +3102,25 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 
 		// Examples:
 		// http://maps.google.com/?ll=48.857995,2.294297&spn=0.007666,0.021136&t=m&z=16
-		// http://maps.google.com/?ll=48.857995,2.294297&spn=0.007666,0.021136&t=m&z=16
-		// https://www.google.lv/maps/place/Googleplex/@37.4220041,-122.0833494,17z/data=!4m5!3m4!1s0x0:0x6c296c66619367e0!8m2!3d37.4219998!4d-122.0840572
-		google_maps : {
+		// https://www.google.com/maps/@37.7852006,-122.4146355,14.65z
+		// https://www.google.com/maps/place/Googleplex/@37.4220041,-122.0833494,17z/data=!4m5!3m4!1s0x0:0x6c296c66619367e0!8m2!3d37.4219998!4d-122.0840572
+		gmap_place : {
 			matcher : /(maps\.)?google\.([a-z]{2,3}(\.[a-z]{2})?)\/(((maps\/(place\/(.*)\/)?\@(.*),(\d+.?\d+?)z))|(\?ll=))(.*)?/i,
 			type    : 'iframe',
 			url     : function (rez) {
 				return '//maps.google.' + rez[2] + '/?ll=' + ( rez[9] ? rez[9] + '&z=' + Math.floor(  rez[10]  ) + ( rez[12] ? rez[12].replace(/^\//, "&") : '' )  : rez[12] ) + '&output=' + ( rez[12] && rez[12].indexOf('layer=c') > 0 ? 'svembed' : 'embed' );
+			}
+		},
+
+		// Examples:
+		// https://www.google.com/maps/search/Empire+State+Building/
+		// https://www.google.com/maps/search/?api=1&query=centurylink+field
+		// https://www.google.com/maps/search/?api=1&query=47.5951518,-122.3316393
+		gmap_search : {
+			matcher : /(maps\.)?google\.([a-z]{2,3}(\.[a-z]{2})?)\/(maps\/search\/)(.*)/i,
+			type    : 'iframe',
+			url     : function (rez) {
+				return '//maps.google.' + rez[2] + '/maps?q=' + rez[5].replace('query=', 'q=').replace('api=1', '') + '&output=embed';
 			}
 		}
 	};
@@ -3182,7 +3210,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 
 					item.contentProvider = provider;
 
-					item.opts.slideClass += ' fancybox-slide--' + ( provider == 'google_maps' ? 'map' : 'video' );
+					item.opts.slideClass += ' fancybox-slide--' + ( provider == 'gmap_place' || provider == 'gmap_search' ? 'map' : 'video' );
 				}
 
 			} else {
@@ -3264,7 +3292,8 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 	};
 
 	var isClickable = function( $el ) {
-		if ( $el.is('a,button,input,select,textarea') || $.isFunction( $el.get(0).onclick ) ) {
+
+		if ( $el.is('a,button,input,select,textarea') || $.isFunction( $el.get(0).onclick ) || $el.data('selectable') ) {
 			return true;
 		}
 
@@ -3381,8 +3410,6 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 		$(document).on( isTouchDevice ? 'touchend.fb.touch touchcancel.fb.touch' : 'mouseup.fb.touch mouseleave.fb.touch',  $.proxy(self, "ontouchend"));
 		$(document).on( isTouchDevice ? 'touchmove.fb.touch' : 'mousemove.fb.touch',  $.proxy(self, "ontouchmove"));
 
-		e.stopPropagation();
-
 		if ( !(instance.current.opts.touch || instance.canPan() ) || !( $target.is( self.$stage ) || self.$stage.find( $target ).length ) ) {
 
 			// Prevent ghosting
@@ -3392,6 +3419,8 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 
 			return;
 		}
+
+		e.stopPropagation();
 
 		if ( !( $.fancybox.isMobile && ( isScrollable( self.$target ) || isScrollable( self.$target.parent() ) ) ) ) {
 			e.preventDefault();
@@ -4369,12 +4398,16 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 
 	// If browser does not have Full Screen API, then simply unset default button template and stop
 	if ( !fn ) {
-		$.fancybox.defaults.btnTpl.fullScreen = false;
+
+		if ( $ && $.fancybox ) {
+			$.fancybox.defaults.btnTpl.fullScreen = false;
+		}
 
 		return;
 	}
 
 	var FullScreen = {
+
 		request : function ( elem ) {
 
 			elem = elem || document.documentElement;
@@ -4471,6 +4504,8 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 
 			instance.update( true, true, 0 );
 		}
+
+		instance.trigger('onFullscreenChange', FullScreen.isFullscreen() );
 
 	});
 
@@ -4740,11 +4775,14 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 		};
 	}
 
+	// Create new history entry only once
+	var shouldCreateHistory = true;
+
 	// Variable containing last hash value set by fancyBox
 	// It will be used to determine if fancyBox needs to close after hash change is detected
     var currentHash = null;
 
-	// Throtlling the history change
+	// Throttling the history change
 	var timerID = null;
 
 	// Get info about gallery name and current index from url
@@ -4775,21 +4813,22 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 			// If we can find element matching 'data-fancybox' atribute, then trigger click event for that ..
 			$el = $( "[data-fancybox='" + $.escapeSelector( url.gallery ) + "']" ).eq( url.index - 1 );
 
-            if ( $el.length ) {
-				$el.trigger( 'click' );
-
-			} else {
-
+            if ( !$el.length ) {
 				// .. if not, try finding element by ID
-				$( "#" + $.escapeSelector( url.gallery ) + "" ).trigger( 'click' );
+				$el = $( "#" + $.escapeSelector( url.gallery ) + "" );
+			}
 
+			if ( $el.length ) {
+				shouldCreateHistory = false;
+
+				$el.trigger( 'click' );
 			}
 
         }
 	}
 
 	// Get gallery name from current instance
-	function getGallery( instance ) {
+	function getGalleryID( instance ) {
 		var opts;
 
 		if ( !instance ) {
@@ -4798,7 +4837,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 
 		opts = instance.current ? instance.current.opts : instance.opts;
 
-		return opts.$orig ? opts.$orig.data( 'fancybox' ) : ( opts.hash || '' );
+		return opts.hash || ( opts.$orig ? opts.$orig.data( 'fancybox' ) : ''  );
 	}
 
 	// Star when DOM becomes ready
@@ -4822,7 +4861,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 					}
 
 					url     = parseUrl();
-					gallery = getGallery( instance );
+					gallery = getGalleryID( instance );
 
 					// Make sure gallery start index matches index from hash
 					if ( gallery && url.gallery && gallery == url.gallery ) {
@@ -4831,14 +4870,14 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 
 				},
 
-				'beforeShow.fb' : function( e, instance, current, firstRun ) {
+				'beforeShow.fb' : function( e, instance, current ) {
 					var gallery;
 
-					if ( current.opts.hash === false ) {
+					if ( !current || current.opts.hash === false ) {
 						return;
 					}
 
-		            gallery = getGallery( instance );
+		            gallery = getGalleryID( instance );
 
 		            // Update window hash
 		            if ( gallery && gallery !== '' ) {
@@ -4855,9 +4894,11 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 							}
 
 							timerID = setTimeout(function() {
-								window.history[ firstRun ? 'pushState' : 'replaceState' ]( {} , document.title, window.location.pathname + window.location.search + '#' +  currentHash );
+								window.history[ shouldCreateHistory ? 'pushState' : 'replaceState' ]( {} , document.title, window.location.pathname + window.location.search + '#' +  currentHash );
 
 								timerID = null;
+
+								shouldCreateHistory = false;
 
 							}, 300);
 
@@ -4880,7 +4921,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 						return;
 					}
 
-					gallery  = getGallery( instance );
+					gallery  = getGalleryID( instance );
 					origHash = instance && instance.opts.origHash ? instance.opts.origHash : '';
 
 		            // Remove hash from location bar
@@ -4917,18 +4958,12 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 				}
 			});
 
-			// If navigating away from current page
-			$(window).one('unload.fb popstate.fb', function() {
-				$.fancybox.getInstance( 'close', true, 0 );
-			});
-
 			// Check current hash and trigger click event on matching element to start fancyBox, if needed
 			triggerFromUrl( parseUrl() );
 
 		}, 50);
 
     });
-
 
 }(document, window, window.jQuery));
 
@@ -4967,13 +5002,7 @@ g.os)};this.getResult=function(){return{ua:this.getUA(),browser:this.getBrowser(
 EMBEDDED:"embedded"};l.ENGINE={NAME:"name",VERSION:"version"};l.OS={NAME:"name",VERSION:"version"};"undefined"!==typeof f?("undefined"!==typeof g&&g.exports&&(f=g.exports=l),f.UAParser=l):e.UAParser=l;var m=e.jQuery||e.Zepto;if("undefined"!==typeof m){var q=new l;m.ua=q.getResult();m.ua.get=function(){return q.getUA()};m.ua.set=function(a){q.setUA(a);a=q.getResult();for(var b in a)m.ua[b]=a[b]}}})("object"===typeof window?window:this)},{}],7:[function(b,g,f){g.exports=function(b){for(var c=1;c<arguments.length;c++){var a=
 arguments[c],d;for(d in a)a.hasOwnProperty(d)&&(b[d]=a[d])}return b}},{}]},{},[1])(1)});
 
-//! moment.js
-//! version : 2.18.1
-//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
-//! license : MIT
-//! momentjs.com
-!function(a,b){"object"==typeof exports&&"undefined"!=typeof module?module.exports=b():"function"==typeof define&&define.amd?define(b):a.moment=b()}(this,function(){"use strict";function a(){return sd.apply(null,arguments)}function b(a){sd=a}function c(a){return a instanceof Array||"[object Array]"===Object.prototype.toString.call(a)}function d(a){return null!=a&&"[object Object]"===Object.prototype.toString.call(a)}function e(a){var b;for(b in a)return!1;return!0}function f(a){return void 0===a}function g(a){return"number"==typeof a||"[object Number]"===Object.prototype.toString.call(a)}function h(a){return a instanceof Date||"[object Date]"===Object.prototype.toString.call(a)}function i(a,b){var c,d=[];for(c=0;c<a.length;++c)d.push(b(a[c],c));return d}function j(a,b){return Object.prototype.hasOwnProperty.call(a,b)}function k(a,b){for(var c in b)j(b,c)&&(a[c]=b[c]);return j(b,"toString")&&(a.toString=b.toString),j(b,"valueOf")&&(a.valueOf=b.valueOf),a}function l(a,b,c,d){return sb(a,b,c,d,!0).utc()}function m(){return{empty:!1,unusedTokens:[],unusedInput:[],overflow:-2,charsLeftOver:0,nullInput:!1,invalidMonth:null,invalidFormat:!1,userInvalidated:!1,iso:!1,parsedDateParts:[],meridiem:null,rfc2822:!1,weekdayMismatch:!1}}function n(a){return null==a._pf&&(a._pf=m()),a._pf}function o(a){if(null==a._isValid){var b=n(a),c=ud.call(b.parsedDateParts,function(a){return null!=a}),d=!isNaN(a._d.getTime())&&b.overflow<0&&!b.empty&&!b.invalidMonth&&!b.invalidWeekday&&!b.nullInput&&!b.invalidFormat&&!b.userInvalidated&&(!b.meridiem||b.meridiem&&c);if(a._strict&&(d=d&&0===b.charsLeftOver&&0===b.unusedTokens.length&&void 0===b.bigHour),null!=Object.isFrozen&&Object.isFrozen(a))return d;a._isValid=d}return a._isValid}function p(a){var b=l(NaN);return null!=a?k(n(b),a):n(b).userInvalidated=!0,b}function q(a,b){var c,d,e;if(f(b._isAMomentObject)||(a._isAMomentObject=b._isAMomentObject),f(b._i)||(a._i=b._i),f(b._f)||(a._f=b._f),f(b._l)||(a._l=b._l),f(b._strict)||(a._strict=b._strict),f(b._tzm)||(a._tzm=b._tzm),f(b._isUTC)||(a._isUTC=b._isUTC),f(b._offset)||(a._offset=b._offset),f(b._pf)||(a._pf=n(b)),f(b._locale)||(a._locale=b._locale),vd.length>0)for(c=0;c<vd.length;c++)d=vd[c],e=b[d],f(e)||(a[d]=e);return a}function r(b){q(this,b),this._d=new Date(null!=b._d?b._d.getTime():NaN),this.isValid()||(this._d=new Date(NaN)),wd===!1&&(wd=!0,a.updateOffset(this),wd=!1)}function s(a){return a instanceof r||null!=a&&null!=a._isAMomentObject}function t(a){return a<0?Math.ceil(a)||0:Math.floor(a)}function u(a){var b=+a,c=0;return 0!==b&&isFinite(b)&&(c=t(b)),c}function v(a,b,c){var d,e=Math.min(a.length,b.length),f=Math.abs(a.length-b.length),g=0;for(d=0;d<e;d++)(c&&a[d]!==b[d]||!c&&u(a[d])!==u(b[d]))&&g++;return g+f}function w(b){a.suppressDeprecationWarnings===!1&&"undefined"!=typeof console&&console.warn&&console.warn("Deprecation warning: "+b)}function x(b,c){var d=!0;return k(function(){if(null!=a.deprecationHandler&&a.deprecationHandler(null,b),d){for(var e,f=[],g=0;g<arguments.length;g++){if(e="","object"==typeof arguments[g]){e+="\n["+g+"] ";for(var h in arguments[0])e+=h+": "+arguments[0][h]+", ";e=e.slice(0,-2)}else e=arguments[g];f.push(e)}w(b+"\nArguments: "+Array.prototype.slice.call(f).join("")+"\n"+(new Error).stack),d=!1}return c.apply(this,arguments)},c)}function y(b,c){null!=a.deprecationHandler&&a.deprecationHandler(b,c),xd[b]||(w(c),xd[b]=!0)}function z(a){return a instanceof Function||"[object Function]"===Object.prototype.toString.call(a)}function A(a){var b,c;for(c in a)b=a[c],z(b)?this[c]=b:this["_"+c]=b;this._config=a,this._dayOfMonthOrdinalParseLenient=new RegExp((this._dayOfMonthOrdinalParse.source||this._ordinalParse.source)+"|"+/\d{1,2}/.source)}function B(a,b){var c,e=k({},a);for(c in b)j(b,c)&&(d(a[c])&&d(b[c])?(e[c]={},k(e[c],a[c]),k(e[c],b[c])):null!=b[c]?e[c]=b[c]:delete e[c]);for(c in a)j(a,c)&&!j(b,c)&&d(a[c])&&(e[c]=k({},e[c]));return e}function C(a){null!=a&&this.set(a)}function D(a,b,c){var d=this._calendar[a]||this._calendar.sameElse;return z(d)?d.call(b,c):d}function E(a){var b=this._longDateFormat[a],c=this._longDateFormat[a.toUpperCase()];return b||!c?b:(this._longDateFormat[a]=c.replace(/MMMM|MM|DD|dddd/g,function(a){return a.slice(1)}),this._longDateFormat[a])}function F(){return this._invalidDate}function G(a){return this._ordinal.replace("%d",a)}function H(a,b,c,d){var e=this._relativeTime[c];return z(e)?e(a,b,c,d):e.replace(/%d/i,a)}function I(a,b){var c=this._relativeTime[a>0?"future":"past"];return z(c)?c(b):c.replace(/%s/i,b)}function J(a,b){var c=a.toLowerCase();Hd[c]=Hd[c+"s"]=Hd[b]=a}function K(a){return"string"==typeof a?Hd[a]||Hd[a.toLowerCase()]:void 0}function L(a){var b,c,d={};for(c in a)j(a,c)&&(b=K(c),b&&(d[b]=a[c]));return d}function M(a,b){Id[a]=b}function N(a){var b=[];for(var c in a)b.push({unit:c,priority:Id[c]});return b.sort(function(a,b){return a.priority-b.priority}),b}function O(b,c){return function(d){return null!=d?(Q(this,b,d),a.updateOffset(this,c),this):P(this,b)}}function P(a,b){return a.isValid()?a._d["get"+(a._isUTC?"UTC":"")+b]():NaN}function Q(a,b,c){a.isValid()&&a._d["set"+(a._isUTC?"UTC":"")+b](c)}function R(a){return a=K(a),z(this[a])?this[a]():this}function S(a,b){if("object"==typeof a){a=L(a);for(var c=N(a),d=0;d<c.length;d++)this[c[d].unit](a[c[d].unit])}else if(a=K(a),z(this[a]))return this[a](b);return this}function T(a,b,c){var d=""+Math.abs(a),e=b-d.length,f=a>=0;return(f?c?"+":"":"-")+Math.pow(10,Math.max(0,e)).toString().substr(1)+d}function U(a,b,c,d){var e=d;"string"==typeof d&&(e=function(){return this[d]()}),a&&(Md[a]=e),b&&(Md[b[0]]=function(){return T(e.apply(this,arguments),b[1],b[2])}),c&&(Md[c]=function(){return this.localeData().ordinal(e.apply(this,arguments),a)})}function V(a){return a.match(/\[[\s\S]/)?a.replace(/^\[|\]$/g,""):a.replace(/\\/g,"")}function W(a){var b,c,d=a.match(Jd);for(b=0,c=d.length;b<c;b++)Md[d[b]]?d[b]=Md[d[b]]:d[b]=V(d[b]);return function(b){var e,f="";for(e=0;e<c;e++)f+=z(d[e])?d[e].call(b,a):d[e];return f}}function X(a,b){return a.isValid()?(b=Y(b,a.localeData()),Ld[b]=Ld[b]||W(b),Ld[b](a)):a.localeData().invalidDate()}function Y(a,b){function c(a){return b.longDateFormat(a)||a}var d=5;for(Kd.lastIndex=0;d>=0&&Kd.test(a);)a=a.replace(Kd,c),Kd.lastIndex=0,d-=1;return a}function Z(a,b,c){ce[a]=z(b)?b:function(a,d){return a&&c?c:b}}function $(a,b){return j(ce,a)?ce[a](b._strict,b._locale):new RegExp(_(a))}function _(a){return aa(a.replace("\\","").replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g,function(a,b,c,d,e){return b||c||d||e}))}function aa(a){return a.replace(/[-\/\\^$*+?.()|[\]{}]/g,"\\$&")}function ba(a,b){var c,d=b;for("string"==typeof a&&(a=[a]),g(b)&&(d=function(a,c){c[b]=u(a)}),c=0;c<a.length;c++)de[a[c]]=d}function ca(a,b){ba(a,function(a,c,d,e){d._w=d._w||{},b(a,d._w,d,e)})}function da(a,b,c){null!=b&&j(de,a)&&de[a](b,c._a,c,a)}function ea(a,b){return new Date(Date.UTC(a,b+1,0)).getUTCDate()}function fa(a,b){return a?c(this._months)?this._months[a.month()]:this._months[(this._months.isFormat||oe).test(b)?"format":"standalone"][a.month()]:c(this._months)?this._months:this._months.standalone}function ga(a,b){return a?c(this._monthsShort)?this._monthsShort[a.month()]:this._monthsShort[oe.test(b)?"format":"standalone"][a.month()]:c(this._monthsShort)?this._monthsShort:this._monthsShort.standalone}function ha(a,b,c){var d,e,f,g=a.toLocaleLowerCase();if(!this._monthsParse)for(this._monthsParse=[],this._longMonthsParse=[],this._shortMonthsParse=[],d=0;d<12;++d)f=l([2e3,d]),this._shortMonthsParse[d]=this.monthsShort(f,"").toLocaleLowerCase(),this._longMonthsParse[d]=this.months(f,"").toLocaleLowerCase();return c?"MMM"===b?(e=ne.call(this._shortMonthsParse,g),e!==-1?e:null):(e=ne.call(this._longMonthsParse,g),e!==-1?e:null):"MMM"===b?(e=ne.call(this._shortMonthsParse,g),e!==-1?e:(e=ne.call(this._longMonthsParse,g),e!==-1?e:null)):(e=ne.call(this._longMonthsParse,g),e!==-1?e:(e=ne.call(this._shortMonthsParse,g),e!==-1?e:null))}function ia(a,b,c){var d,e,f;if(this._monthsParseExact)return ha.call(this,a,b,c);for(this._monthsParse||(this._monthsParse=[],this._longMonthsParse=[],this._shortMonthsParse=[]),d=0;d<12;d++){if(e=l([2e3,d]),c&&!this._longMonthsParse[d]&&(this._longMonthsParse[d]=new RegExp("^"+this.months(e,"").replace(".","")+"$","i"),this._shortMonthsParse[d]=new RegExp("^"+this.monthsShort(e,"").replace(".","")+"$","i")),c||this._monthsParse[d]||(f="^"+this.months(e,"")+"|^"+this.monthsShort(e,""),this._monthsParse[d]=new RegExp(f.replace(".",""),"i")),c&&"MMMM"===b&&this._longMonthsParse[d].test(a))return d;if(c&&"MMM"===b&&this._shortMonthsParse[d].test(a))return d;if(!c&&this._monthsParse[d].test(a))return d}}function ja(a,b){var c;if(!a.isValid())return a;if("string"==typeof b)if(/^\d+$/.test(b))b=u(b);else if(b=a.localeData().monthsParse(b),!g(b))return a;return c=Math.min(a.date(),ea(a.year(),b)),a._d["set"+(a._isUTC?"UTC":"")+"Month"](b,c),a}function ka(b){return null!=b?(ja(this,b),a.updateOffset(this,!0),this):P(this,"Month")}function la(){return ea(this.year(),this.month())}function ma(a){return this._monthsParseExact?(j(this,"_monthsRegex")||oa.call(this),a?this._monthsShortStrictRegex:this._monthsShortRegex):(j(this,"_monthsShortRegex")||(this._monthsShortRegex=re),this._monthsShortStrictRegex&&a?this._monthsShortStrictRegex:this._monthsShortRegex)}function na(a){return this._monthsParseExact?(j(this,"_monthsRegex")||oa.call(this),a?this._monthsStrictRegex:this._monthsRegex):(j(this,"_monthsRegex")||(this._monthsRegex=se),this._monthsStrictRegex&&a?this._monthsStrictRegex:this._monthsRegex)}function oa(){function a(a,b){return b.length-a.length}var b,c,d=[],e=[],f=[];for(b=0;b<12;b++)c=l([2e3,b]),d.push(this.monthsShort(c,"")),e.push(this.months(c,"")),f.push(this.months(c,"")),f.push(this.monthsShort(c,""));for(d.sort(a),e.sort(a),f.sort(a),b=0;b<12;b++)d[b]=aa(d[b]),e[b]=aa(e[b]);for(b=0;b<24;b++)f[b]=aa(f[b]);this._monthsRegex=new RegExp("^("+f.join("|")+")","i"),this._monthsShortRegex=this._monthsRegex,this._monthsStrictRegex=new RegExp("^("+e.join("|")+")","i"),this._monthsShortStrictRegex=new RegExp("^("+d.join("|")+")","i")}function pa(a){return qa(a)?366:365}function qa(a){return a%4===0&&a%100!==0||a%400===0}function ra(){return qa(this.year())}function sa(a,b,c,d,e,f,g){var h=new Date(a,b,c,d,e,f,g);return a<100&&a>=0&&isFinite(h.getFullYear())&&h.setFullYear(a),h}function ta(a){var b=new Date(Date.UTC.apply(null,arguments));return a<100&&a>=0&&isFinite(b.getUTCFullYear())&&b.setUTCFullYear(a),b}function ua(a,b,c){var d=7+b-c,e=(7+ta(a,0,d).getUTCDay()-b)%7;return-e+d-1}function va(a,b,c,d,e){var f,g,h=(7+c-d)%7,i=ua(a,d,e),j=1+7*(b-1)+h+i;return j<=0?(f=a-1,g=pa(f)+j):j>pa(a)?(f=a+1,g=j-pa(a)):(f=a,g=j),{year:f,dayOfYear:g}}function wa(a,b,c){var d,e,f=ua(a.year(),b,c),g=Math.floor((a.dayOfYear()-f-1)/7)+1;return g<1?(e=a.year()-1,d=g+xa(e,b,c)):g>xa(a.year(),b,c)?(d=g-xa(a.year(),b,c),e=a.year()+1):(e=a.year(),d=g),{week:d,year:e}}function xa(a,b,c){var d=ua(a,b,c),e=ua(a+1,b,c);return(pa(a)-d+e)/7}function ya(a){return wa(a,this._week.dow,this._week.doy).week}function za(){return this._week.dow}function Aa(){return this._week.doy}function Ba(a){var b=this.localeData().week(this);return null==a?b:this.add(7*(a-b),"d")}function Ca(a){var b=wa(this,1,4).week;return null==a?b:this.add(7*(a-b),"d")}function Da(a,b){return"string"!=typeof a?a:isNaN(a)?(a=b.weekdaysParse(a),"number"==typeof a?a:null):parseInt(a,10)}function Ea(a,b){return"string"==typeof a?b.weekdaysParse(a)%7||7:isNaN(a)?null:a}function Fa(a,b){return a?c(this._weekdays)?this._weekdays[a.day()]:this._weekdays[this._weekdays.isFormat.test(b)?"format":"standalone"][a.day()]:c(this._weekdays)?this._weekdays:this._weekdays.standalone}function Ga(a){return a?this._weekdaysShort[a.day()]:this._weekdaysShort}function Ha(a){return a?this._weekdaysMin[a.day()]:this._weekdaysMin}function Ia(a,b,c){var d,e,f,g=a.toLocaleLowerCase();if(!this._weekdaysParse)for(this._weekdaysParse=[],this._shortWeekdaysParse=[],this._minWeekdaysParse=[],d=0;d<7;++d)f=l([2e3,1]).day(d),this._minWeekdaysParse[d]=this.weekdaysMin(f,"").toLocaleLowerCase(),this._shortWeekdaysParse[d]=this.weekdaysShort(f,"").toLocaleLowerCase(),this._weekdaysParse[d]=this.weekdays(f,"").toLocaleLowerCase();return c?"dddd"===b?(e=ne.call(this._weekdaysParse,g),e!==-1?e:null):"ddd"===b?(e=ne.call(this._shortWeekdaysParse,g),e!==-1?e:null):(e=ne.call(this._minWeekdaysParse,g),e!==-1?e:null):"dddd"===b?(e=ne.call(this._weekdaysParse,g),e!==-1?e:(e=ne.call(this._shortWeekdaysParse,g),e!==-1?e:(e=ne.call(this._minWeekdaysParse,g),e!==-1?e:null))):"ddd"===b?(e=ne.call(this._shortWeekdaysParse,g),e!==-1?e:(e=ne.call(this._weekdaysParse,g),e!==-1?e:(e=ne.call(this._minWeekdaysParse,g),e!==-1?e:null))):(e=ne.call(this._minWeekdaysParse,g),e!==-1?e:(e=ne.call(this._weekdaysParse,g),e!==-1?e:(e=ne.call(this._shortWeekdaysParse,g),e!==-1?e:null)))}function Ja(a,b,c){var d,e,f;if(this._weekdaysParseExact)return Ia.call(this,a,b,c);for(this._weekdaysParse||(this._weekdaysParse=[],this._minWeekdaysParse=[],this._shortWeekdaysParse=[],this._fullWeekdaysParse=[]),d=0;d<7;d++){if(e=l([2e3,1]).day(d),c&&!this._fullWeekdaysParse[d]&&(this._fullWeekdaysParse[d]=new RegExp("^"+this.weekdays(e,"").replace(".",".?")+"$","i"),this._shortWeekdaysParse[d]=new RegExp("^"+this.weekdaysShort(e,"").replace(".",".?")+"$","i"),this._minWeekdaysParse[d]=new RegExp("^"+this.weekdaysMin(e,"").replace(".",".?")+"$","i")),this._weekdaysParse[d]||(f="^"+this.weekdays(e,"")+"|^"+this.weekdaysShort(e,"")+"|^"+this.weekdaysMin(e,""),this._weekdaysParse[d]=new RegExp(f.replace(".",""),"i")),c&&"dddd"===b&&this._fullWeekdaysParse[d].test(a))return d;if(c&&"ddd"===b&&this._shortWeekdaysParse[d].test(a))return d;if(c&&"dd"===b&&this._minWeekdaysParse[d].test(a))return d;if(!c&&this._weekdaysParse[d].test(a))return d}}function Ka(a){if(!this.isValid())return null!=a?this:NaN;var b=this._isUTC?this._d.getUTCDay():this._d.getDay();return null!=a?(a=Da(a,this.localeData()),this.add(a-b,"d")):b}function La(a){if(!this.isValid())return null!=a?this:NaN;var b=(this.day()+7-this.localeData()._week.dow)%7;return null==a?b:this.add(a-b,"d")}function Ma(a){if(!this.isValid())return null!=a?this:NaN;if(null!=a){var b=Ea(a,this.localeData());return this.day(this.day()%7?b:b-7)}return this.day()||7}function Na(a){return this._weekdaysParseExact?(j(this,"_weekdaysRegex")||Qa.call(this),a?this._weekdaysStrictRegex:this._weekdaysRegex):(j(this,"_weekdaysRegex")||(this._weekdaysRegex=ye),this._weekdaysStrictRegex&&a?this._weekdaysStrictRegex:this._weekdaysRegex)}function Oa(a){return this._weekdaysParseExact?(j(this,"_weekdaysRegex")||Qa.call(this),a?this._weekdaysShortStrictRegex:this._weekdaysShortRegex):(j(this,"_weekdaysShortRegex")||(this._weekdaysShortRegex=ze),this._weekdaysShortStrictRegex&&a?this._weekdaysShortStrictRegex:this._weekdaysShortRegex)}function Pa(a){return this._weekdaysParseExact?(j(this,"_weekdaysRegex")||Qa.call(this),a?this._weekdaysMinStrictRegex:this._weekdaysMinRegex):(j(this,"_weekdaysMinRegex")||(this._weekdaysMinRegex=Ae),this._weekdaysMinStrictRegex&&a?this._weekdaysMinStrictRegex:this._weekdaysMinRegex)}function Qa(){function a(a,b){return b.length-a.length}var b,c,d,e,f,g=[],h=[],i=[],j=[];for(b=0;b<7;b++)c=l([2e3,1]).day(b),d=this.weekdaysMin(c,""),e=this.weekdaysShort(c,""),f=this.weekdays(c,""),g.push(d),h.push(e),i.push(f),j.push(d),j.push(e),j.push(f);for(g.sort(a),h.sort(a),i.sort(a),j.sort(a),b=0;b<7;b++)h[b]=aa(h[b]),i[b]=aa(i[b]),j[b]=aa(j[b]);this._weekdaysRegex=new RegExp("^("+j.join("|")+")","i"),this._weekdaysShortRegex=this._weekdaysRegex,this._weekdaysMinRegex=this._weekdaysRegex,this._weekdaysStrictRegex=new RegExp("^("+i.join("|")+")","i"),this._weekdaysShortStrictRegex=new RegExp("^("+h.join("|")+")","i"),this._weekdaysMinStrictRegex=new RegExp("^("+g.join("|")+")","i")}function Ra(){return this.hours()%12||12}function Sa(){return this.hours()||24}function Ta(a,b){U(a,0,0,function(){return this.localeData().meridiem(this.hours(),this.minutes(),b)})}function Ua(a,b){return b._meridiemParse}function Va(a){return"p"===(a+"").toLowerCase().charAt(0)}function Wa(a,b,c){return a>11?c?"pm":"PM":c?"am":"AM"}function Xa(a){return a?a.toLowerCase().replace("_","-"):a}function Ya(a){for(var b,c,d,e,f=0;f<a.length;){for(e=Xa(a[f]).split("-"),b=e.length,c=Xa(a[f+1]),c=c?c.split("-"):null;b>0;){if(d=Za(e.slice(0,b).join("-")))return d;if(c&&c.length>=b&&v(e,c,!0)>=b-1)break;b--}f++}return null}function Za(a){var b=null;if(!Fe[a]&&"undefined"!=typeof module&&module&&module.exports)try{b=Be._abbr,require("./locale/"+a),$a(b)}catch(a){}return Fe[a]}function $a(a,b){var c;return a&&(c=f(b)?bb(a):_a(a,b),c&&(Be=c)),Be._abbr}function _a(a,b){if(null!==b){var c=Ee;if(b.abbr=a,null!=Fe[a])y("defineLocaleOverride","use moment.updateLocale(localeName, config) to change an existing locale. moment.defineLocale(localeName, config) should only be used for creating a new locale See http://momentjs.com/guides/#/warnings/define-locale/ for more info."),c=Fe[a]._config;else if(null!=b.parentLocale){if(null==Fe[b.parentLocale])return Ge[b.parentLocale]||(Ge[b.parentLocale]=[]),Ge[b.parentLocale].push({name:a,config:b}),null;c=Fe[b.parentLocale]._config}return Fe[a]=new C(B(c,b)),Ge[a]&&Ge[a].forEach(function(a){_a(a.name,a.config)}),$a(a),Fe[a]}return delete Fe[a],null}function ab(a,b){if(null!=b){var c,d=Ee;null!=Fe[a]&&(d=Fe[a]._config),b=B(d,b),c=new C(b),c.parentLocale=Fe[a],Fe[a]=c,$a(a)}else null!=Fe[a]&&(null!=Fe[a].parentLocale?Fe[a]=Fe[a].parentLocale:null!=Fe[a]&&delete Fe[a]);return Fe[a]}function bb(a){var b;if(a&&a._locale&&a._locale._abbr&&(a=a._locale._abbr),!a)return Be;if(!c(a)){if(b=Za(a))return b;a=[a]}return Ya(a)}function cb(){return Ad(Fe)}function db(a){var b,c=a._a;return c&&n(a).overflow===-2&&(b=c[fe]<0||c[fe]>11?fe:c[ge]<1||c[ge]>ea(c[ee],c[fe])?ge:c[he]<0||c[he]>24||24===c[he]&&(0!==c[ie]||0!==c[je]||0!==c[ke])?he:c[ie]<0||c[ie]>59?ie:c[je]<0||c[je]>59?je:c[ke]<0||c[ke]>999?ke:-1,n(a)._overflowDayOfYear&&(b<ee||b>ge)&&(b=ge),n(a)._overflowWeeks&&b===-1&&(b=le),n(a)._overflowWeekday&&b===-1&&(b=me),n(a).overflow=b),a}function eb(a){var b,c,d,e,f,g,h=a._i,i=He.exec(h)||Ie.exec(h);if(i){for(n(a).iso=!0,b=0,c=Ke.length;b<c;b++)if(Ke[b][1].exec(i[1])){e=Ke[b][0],d=Ke[b][2]!==!1;break}if(null==e)return void(a._isValid=!1);if(i[3]){for(b=0,c=Le.length;b<c;b++)if(Le[b][1].exec(i[3])){f=(i[2]||" ")+Le[b][0];break}if(null==f)return void(a._isValid=!1)}if(!d&&null!=f)return void(a._isValid=!1);if(i[4]){if(!Je.exec(i[4]))return void(a._isValid=!1);g="Z"}a._f=e+(f||"")+(g||""),lb(a)}else a._isValid=!1}function fb(a){var b,c,d,e,f,g,h,i,j={" GMT":" +0000"," EDT":" -0400"," EST":" -0500"," CDT":" -0500"," CST":" -0600"," MDT":" -0600"," MST":" -0700"," PDT":" -0700"," PST":" -0800"},k="YXWVUTSRQPONZABCDEFGHIKLM";if(b=a._i.replace(/\([^\)]*\)|[\n\t]/g," ").replace(/(\s\s+)/g," ").replace(/^\s|\s$/g,""),c=Ne.exec(b)){if(d=c[1]?"ddd"+(5===c[1].length?", ":" "):"",e="D MMM "+(c[2].length>10?"YYYY ":"YY "),f="HH:mm"+(c[4]?":ss":""),c[1]){var l=new Date(c[2]),m=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][l.getDay()];if(c[1].substr(0,3)!==m)return n(a).weekdayMismatch=!0,void(a._isValid=!1)}switch(c[5].length){case 2:0===i?h=" +0000":(i=k.indexOf(c[5][1].toUpperCase())-12,h=(i<0?" -":" +")+(""+i).replace(/^-?/,"0").match(/..$/)[0]+"00");break;case 4:h=j[c[5]];break;default:h=j[" GMT"]}c[5]=h,a._i=c.splice(1).join(""),g=" ZZ",a._f=d+e+f+g,lb(a),n(a).rfc2822=!0}else a._isValid=!1}function gb(b){var c=Me.exec(b._i);return null!==c?void(b._d=new Date(+c[1])):(eb(b),void(b._isValid===!1&&(delete b._isValid,fb(b),b._isValid===!1&&(delete b._isValid,a.createFromInputFallback(b)))))}function hb(a,b,c){return null!=a?a:null!=b?b:c}function ib(b){var c=new Date(a.now());return b._useUTC?[c.getUTCFullYear(),c.getUTCMonth(),c.getUTCDate()]:[c.getFullYear(),c.getMonth(),c.getDate()]}function jb(a){var b,c,d,e,f=[];if(!a._d){for(d=ib(a),a._w&&null==a._a[ge]&&null==a._a[fe]&&kb(a),null!=a._dayOfYear&&(e=hb(a._a[ee],d[ee]),(a._dayOfYear>pa(e)||0===a._dayOfYear)&&(n(a)._overflowDayOfYear=!0),c=ta(e,0,a._dayOfYear),a._a[fe]=c.getUTCMonth(),a._a[ge]=c.getUTCDate()),b=0;b<3&&null==a._a[b];++b)a._a[b]=f[b]=d[b];for(;b<7;b++)a._a[b]=f[b]=null==a._a[b]?2===b?1:0:a._a[b];24===a._a[he]&&0===a._a[ie]&&0===a._a[je]&&0===a._a[ke]&&(a._nextDay=!0,a._a[he]=0),a._d=(a._useUTC?ta:sa).apply(null,f),null!=a._tzm&&a._d.setUTCMinutes(a._d.getUTCMinutes()-a._tzm),a._nextDay&&(a._a[he]=24)}}function kb(a){var b,c,d,e,f,g,h,i;if(b=a._w,null!=b.GG||null!=b.W||null!=b.E)f=1,g=4,c=hb(b.GG,a._a[ee],wa(tb(),1,4).year),d=hb(b.W,1),e=hb(b.E,1),(e<1||e>7)&&(i=!0);else{f=a._locale._week.dow,g=a._locale._week.doy;var j=wa(tb(),f,g);c=hb(b.gg,a._a[ee],j.year),d=hb(b.w,j.week),null!=b.d?(e=b.d,(e<0||e>6)&&(i=!0)):null!=b.e?(e=b.e+f,(b.e<0||b.e>6)&&(i=!0)):e=f}d<1||d>xa(c,f,g)?n(a)._overflowWeeks=!0:null!=i?n(a)._overflowWeekday=!0:(h=va(c,d,e,f,g),a._a[ee]=h.year,a._dayOfYear=h.dayOfYear)}function lb(b){if(b._f===a.ISO_8601)return void eb(b);if(b._f===a.RFC_2822)return void fb(b);b._a=[],n(b).empty=!0;var c,d,e,f,g,h=""+b._i,i=h.length,j=0;for(e=Y(b._f,b._locale).match(Jd)||[],c=0;c<e.length;c++)f=e[c],d=(h.match($(f,b))||[])[0],d&&(g=h.substr(0,h.indexOf(d)),g.length>0&&n(b).unusedInput.push(g),h=h.slice(h.indexOf(d)+d.length),j+=d.length),Md[f]?(d?n(b).empty=!1:n(b).unusedTokens.push(f),da(f,d,b)):b._strict&&!d&&n(b).unusedTokens.push(f);n(b).charsLeftOver=i-j,h.length>0&&n(b).unusedInput.push(h),b._a[he]<=12&&n(b).bigHour===!0&&b._a[he]>0&&(n(b).bigHour=void 0),n(b).parsedDateParts=b._a.slice(0),n(b).meridiem=b._meridiem,b._a[he]=mb(b._locale,b._a[he],b._meridiem),jb(b),db(b)}function mb(a,b,c){var d;return null==c?b:null!=a.meridiemHour?a.meridiemHour(b,c):null!=a.isPM?(d=a.isPM(c),d&&b<12&&(b+=12),d||12!==b||(b=0),b):b}function nb(a){var b,c,d,e,f;if(0===a._f.length)return n(a).invalidFormat=!0,void(a._d=new Date(NaN));for(e=0;e<a._f.length;e++)f=0,b=q({},a),null!=a._useUTC&&(b._useUTC=a._useUTC),b._f=a._f[e],lb(b),o(b)&&(f+=n(b).charsLeftOver,f+=10*n(b).unusedTokens.length,n(b).score=f,(null==d||f<d)&&(d=f,c=b));k(a,c||b)}function ob(a){if(!a._d){var b=L(a._i);a._a=i([b.year,b.month,b.day||b.date,b.hour,b.minute,b.second,b.millisecond],function(a){return a&&parseInt(a,10)}),jb(a)}}function pb(a){var b=new r(db(qb(a)));return b._nextDay&&(b.add(1,"d"),b._nextDay=void 0),b}function qb(a){var b=a._i,d=a._f;return a._locale=a._locale||bb(a._l),null===b||void 0===d&&""===b?p({nullInput:!0}):("string"==typeof b&&(a._i=b=a._locale.preparse(b)),s(b)?new r(db(b)):(h(b)?a._d=b:c(d)?nb(a):d?lb(a):rb(a),o(a)||(a._d=null),a))}function rb(b){var e=b._i;f(e)?b._d=new Date(a.now()):h(e)?b._d=new Date(e.valueOf()):"string"==typeof e?gb(b):c(e)?(b._a=i(e.slice(0),function(a){return parseInt(a,10)}),jb(b)):d(e)?ob(b):g(e)?b._d=new Date(e):a.createFromInputFallback(b)}function sb(a,b,f,g,h){var i={};return f!==!0&&f!==!1||(g=f,f=void 0),(d(a)&&e(a)||c(a)&&0===a.length)&&(a=void 0),i._isAMomentObject=!0,i._useUTC=i._isUTC=h,i._l=f,i._i=a,i._f=b,i._strict=g,pb(i)}function tb(a,b,c,d){return sb(a,b,c,d,!1)}function ub(a,b){var d,e;if(1===b.length&&c(b[0])&&(b=b[0]),!b.length)return tb();for(d=b[0],e=1;e<b.length;++e)b[e].isValid()&&!b[e][a](d)||(d=b[e]);return d}function vb(){var a=[].slice.call(arguments,0);return ub("isBefore",a)}function wb(){var a=[].slice.call(arguments,0);return ub("isAfter",a)}function xb(a){for(var b in a)if(Re.indexOf(b)===-1||null!=a[b]&&isNaN(a[b]))return!1;for(var c=!1,d=0;d<Re.length;++d)if(a[Re[d]]){if(c)return!1;parseFloat(a[Re[d]])!==u(a[Re[d]])&&(c=!0)}return!0}function yb(){return this._isValid}function zb(){return Sb(NaN)}function Ab(a){var b=L(a),c=b.year||0,d=b.quarter||0,e=b.month||0,f=b.week||0,g=b.day||0,h=b.hour||0,i=b.minute||0,j=b.second||0,k=b.millisecond||0;this._isValid=xb(b),this._milliseconds=+k+1e3*j+6e4*i+1e3*h*60*60,this._days=+g+7*f,this._months=+e+3*d+12*c,this._data={},this._locale=bb(),this._bubble()}function Bb(a){return a instanceof Ab}function Cb(a){return a<0?Math.round(-1*a)*-1:Math.round(a)}function Db(a,b){U(a,0,0,function(){var a=this.utcOffset(),c="+";return a<0&&(a=-a,c="-"),c+T(~~(a/60),2)+b+T(~~a%60,2)})}function Eb(a,b){var c=(b||"").match(a);if(null===c)return null;var d=c[c.length-1]||[],e=(d+"").match(Se)||["-",0,0],f=+(60*e[1])+u(e[2]);return 0===f?0:"+"===e[0]?f:-f}function Fb(b,c){var d,e;return c._isUTC?(d=c.clone(),e=(s(b)||h(b)?b.valueOf():tb(b).valueOf())-d.valueOf(),d._d.setTime(d._d.valueOf()+e),a.updateOffset(d,!1),d):tb(b).local()}function Gb(a){return 15*-Math.round(a._d.getTimezoneOffset()/15)}function Hb(b,c,d){var e,f=this._offset||0;if(!this.isValid())return null!=b?this:NaN;if(null!=b){if("string"==typeof b){if(b=Eb(_d,b),null===b)return this}else Math.abs(b)<16&&!d&&(b=60*b);return!this._isUTC&&c&&(e=Gb(this)),this._offset=b,this._isUTC=!0,null!=e&&this.add(e,"m"),f!==b&&(!c||this._changeInProgress?Xb(this,Sb(b-f,"m"),1,!1):this._changeInProgress||(this._changeInProgress=!0,a.updateOffset(this,!0),this._changeInProgress=null)),this}return this._isUTC?f:Gb(this)}function Ib(a,b){return null!=a?("string"!=typeof a&&(a=-a),this.utcOffset(a,b),this):-this.utcOffset()}function Jb(a){return this.utcOffset(0,a)}function Kb(a){return this._isUTC&&(this.utcOffset(0,a),this._isUTC=!1,a&&this.subtract(Gb(this),"m")),this}function Lb(){if(null!=this._tzm)this.utcOffset(this._tzm,!1,!0);else if("string"==typeof this._i){var a=Eb($d,this._i);null!=a?this.utcOffset(a):this.utcOffset(0,!0)}return this}function Mb(a){return!!this.isValid()&&(a=a?tb(a).utcOffset():0,(this.utcOffset()-a)%60===0)}function Nb(){return this.utcOffset()>this.clone().month(0).utcOffset()||this.utcOffset()>this.clone().month(5).utcOffset()}function Ob(){if(!f(this._isDSTShifted))return this._isDSTShifted;var a={};if(q(a,this),a=qb(a),a._a){var b=a._isUTC?l(a._a):tb(a._a);this._isDSTShifted=this.isValid()&&v(a._a,b.toArray())>0}else this._isDSTShifted=!1;return this._isDSTShifted}function Pb(){return!!this.isValid()&&!this._isUTC}function Qb(){return!!this.isValid()&&this._isUTC}function Rb(){return!!this.isValid()&&(this._isUTC&&0===this._offset)}function Sb(a,b){var c,d,e,f=a,h=null;return Bb(a)?f={ms:a._milliseconds,d:a._days,M:a._months}:g(a)?(f={},b?f[b]=a:f.milliseconds=a):(h=Te.exec(a))?(c="-"===h[1]?-1:1,f={y:0,d:u(h[ge])*c,h:u(h[he])*c,m:u(h[ie])*c,s:u(h[je])*c,ms:u(Cb(1e3*h[ke]))*c}):(h=Ue.exec(a))?(c="-"===h[1]?-1:1,f={y:Tb(h[2],c),M:Tb(h[3],c),w:Tb(h[4],c),d:Tb(h[5],c),h:Tb(h[6],c),m:Tb(h[7],c),s:Tb(h[8],c)}):null==f?f={}:"object"==typeof f&&("from"in f||"to"in f)&&(e=Vb(tb(f.from),tb(f.to)),f={},f.ms=e.milliseconds,f.M=e.months),d=new Ab(f),Bb(a)&&j(a,"_locale")&&(d._locale=a._locale),d}function Tb(a,b){var c=a&&parseFloat(a.replace(",","."));return(isNaN(c)?0:c)*b}function Ub(a,b){var c={milliseconds:0,months:0};return c.months=b.month()-a.month()+12*(b.year()-a.year()),a.clone().add(c.months,"M").isAfter(b)&&--c.months,c.milliseconds=+b-+a.clone().add(c.months,"M"),c}function Vb(a,b){var c;return a.isValid()&&b.isValid()?(b=Fb(b,a),a.isBefore(b)?c=Ub(a,b):(c=Ub(b,a),c.milliseconds=-c.milliseconds,c.months=-c.months),c):{milliseconds:0,months:0}}function Wb(a,b){return function(c,d){var e,f;return null===d||isNaN(+d)||(y(b,"moment()."+b+"(period, number) is deprecated. Please use moment()."+b+"(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."),f=c,c=d,d=f),c="string"==typeof c?+c:c,e=Sb(c,d),Xb(this,e,a),this}}function Xb(b,c,d,e){var f=c._milliseconds,g=Cb(c._days),h=Cb(c._months);b.isValid()&&(e=null==e||e,f&&b._d.setTime(b._d.valueOf()+f*d),g&&Q(b,"Date",P(b,"Date")+g*d),h&&ja(b,P(b,"Month")+h*d),e&&a.updateOffset(b,g||h))}function Yb(a,b){var c=a.diff(b,"days",!0);return c<-6?"sameElse":c<-1?"lastWeek":c<0?"lastDay":c<1?"sameDay":c<2?"nextDay":c<7?"nextWeek":"sameElse"}function Zb(b,c){var d=b||tb(),e=Fb(d,this).startOf("day"),f=a.calendarFormat(this,e)||"sameElse",g=c&&(z(c[f])?c[f].call(this,d):c[f]);return this.format(g||this.localeData().calendar(f,this,tb(d)))}function $b(){return new r(this)}function _b(a,b){var c=s(a)?a:tb(a);return!(!this.isValid()||!c.isValid())&&(b=K(f(b)?"millisecond":b),"millisecond"===b?this.valueOf()>c.valueOf():c.valueOf()<this.clone().startOf(b).valueOf())}function ac(a,b){var c=s(a)?a:tb(a);return!(!this.isValid()||!c.isValid())&&(b=K(f(b)?"millisecond":b),"millisecond"===b?this.valueOf()<c.valueOf():this.clone().endOf(b).valueOf()<c.valueOf())}function bc(a,b,c,d){return d=d||"()",("("===d[0]?this.isAfter(a,c):!this.isBefore(a,c))&&(")"===d[1]?this.isBefore(b,c):!this.isAfter(b,c))}function cc(a,b){var c,d=s(a)?a:tb(a);return!(!this.isValid()||!d.isValid())&&(b=K(b||"millisecond"),"millisecond"===b?this.valueOf()===d.valueOf():(c=d.valueOf(),this.clone().startOf(b).valueOf()<=c&&c<=this.clone().endOf(b).valueOf()))}function dc(a,b){return this.isSame(a,b)||this.isAfter(a,b)}function ec(a,b){return this.isSame(a,b)||this.isBefore(a,b)}function fc(a,b,c){var d,e,f,g;return this.isValid()?(d=Fb(a,this),d.isValid()?(e=6e4*(d.utcOffset()-this.utcOffset()),b=K(b),"year"===b||"month"===b||"quarter"===b?(g=gc(this,d),"quarter"===b?g/=3:"year"===b&&(g/=12)):(f=this-d,g="second"===b?f/1e3:"minute"===b?f/6e4:"hour"===b?f/36e5:"day"===b?(f-e)/864e5:"week"===b?(f-e)/6048e5:f),c?g:t(g)):NaN):NaN}function gc(a,b){var c,d,e=12*(b.year()-a.year())+(b.month()-a.month()),f=a.clone().add(e,"months");return b-f<0?(c=a.clone().add(e-1,"months"),d=(b-f)/(f-c)):(c=a.clone().add(e+1,"months"),d=(b-f)/(c-f)),-(e+d)||0}function hc(){return this.clone().locale("en").format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ")}function ic(){if(!this.isValid())return null;var a=this.clone().utc();return a.year()<0||a.year()>9999?X(a,"YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]"):z(Date.prototype.toISOString)?this.toDate().toISOString():X(a,"YYYY-MM-DD[T]HH:mm:ss.SSS[Z]")}function jc(){if(!this.isValid())return"moment.invalid(/* "+this._i+" */)";var a="moment",b="";this.isLocal()||(a=0===this.utcOffset()?"moment.utc":"moment.parseZone",b="Z");var c="["+a+'("]',d=0<=this.year()&&this.year()<=9999?"YYYY":"YYYYYY",e="-MM-DD[T]HH:mm:ss.SSS",f=b+'[")]';return this.format(c+d+e+f)}function kc(b){b||(b=this.isUtc()?a.defaultFormatUtc:a.defaultFormat);var c=X(this,b);return this.localeData().postformat(c)}function lc(a,b){return this.isValid()&&(s(a)&&a.isValid()||tb(a).isValid())?Sb({to:this,from:a}).locale(this.locale()).humanize(!b):this.localeData().invalidDate()}function mc(a){return this.from(tb(),a)}function nc(a,b){return this.isValid()&&(s(a)&&a.isValid()||tb(a).isValid())?Sb({from:this,to:a}).locale(this.locale()).humanize(!b):this.localeData().invalidDate()}function oc(a){return this.to(tb(),a)}function pc(a){var b;return void 0===a?this._locale._abbr:(b=bb(a),null!=b&&(this._locale=b),this)}function qc(){return this._locale}function rc(a){switch(a=K(a)){case"year":this.month(0);case"quarter":case"month":this.date(1);case"week":case"isoWeek":case"day":case"date":this.hours(0);case"hour":this.minutes(0);case"minute":this.seconds(0);case"second":this.milliseconds(0)}return"week"===a&&this.weekday(0),"isoWeek"===a&&this.isoWeekday(1),"quarter"===a&&this.month(3*Math.floor(this.month()/3)),this}function sc(a){return a=K(a),void 0===a||"millisecond"===a?this:("date"===a&&(a="day"),this.startOf(a).add(1,"isoWeek"===a?"week":a).subtract(1,"ms"))}function tc(){return this._d.valueOf()-6e4*(this._offset||0)}function uc(){return Math.floor(this.valueOf()/1e3)}function vc(){return new Date(this.valueOf())}function wc(){var a=this;return[a.year(),a.month(),a.date(),a.hour(),a.minute(),a.second(),a.millisecond()]}function xc(){var a=this;return{years:a.year(),months:a.month(),date:a.date(),hours:a.hours(),minutes:a.minutes(),seconds:a.seconds(),milliseconds:a.milliseconds()}}function yc(){return this.isValid()?this.toISOString():null}function zc(){return o(this)}function Ac(){
-return k({},n(this))}function Bc(){return n(this).overflow}function Cc(){return{input:this._i,format:this._f,locale:this._locale,isUTC:this._isUTC,strict:this._strict}}function Dc(a,b){U(0,[a,a.length],0,b)}function Ec(a){return Ic.call(this,a,this.week(),this.weekday(),this.localeData()._week.dow,this.localeData()._week.doy)}function Fc(a){return Ic.call(this,a,this.isoWeek(),this.isoWeekday(),1,4)}function Gc(){return xa(this.year(),1,4)}function Hc(){var a=this.localeData()._week;return xa(this.year(),a.dow,a.doy)}function Ic(a,b,c,d,e){var f;return null==a?wa(this,d,e).year:(f=xa(a,d,e),b>f&&(b=f),Jc.call(this,a,b,c,d,e))}function Jc(a,b,c,d,e){var f=va(a,b,c,d,e),g=ta(f.year,0,f.dayOfYear);return this.year(g.getUTCFullYear()),this.month(g.getUTCMonth()),this.date(g.getUTCDate()),this}function Kc(a){return null==a?Math.ceil((this.month()+1)/3):this.month(3*(a-1)+this.month()%3)}function Lc(a){var b=Math.round((this.clone().startOf("day")-this.clone().startOf("year"))/864e5)+1;return null==a?b:this.add(a-b,"d")}function Mc(a,b){b[ke]=u(1e3*("0."+a))}function Nc(){return this._isUTC?"UTC":""}function Oc(){return this._isUTC?"Coordinated Universal Time":""}function Pc(a){return tb(1e3*a)}function Qc(){return tb.apply(null,arguments).parseZone()}function Rc(a){return a}function Sc(a,b,c,d){var e=bb(),f=l().set(d,b);return e[c](f,a)}function Tc(a,b,c){if(g(a)&&(b=a,a=void 0),a=a||"",null!=b)return Sc(a,b,c,"month");var d,e=[];for(d=0;d<12;d++)e[d]=Sc(a,d,c,"month");return e}function Uc(a,b,c,d){"boolean"==typeof a?(g(b)&&(c=b,b=void 0),b=b||""):(b=a,c=b,a=!1,g(b)&&(c=b,b=void 0),b=b||"");var e=bb(),f=a?e._week.dow:0;if(null!=c)return Sc(b,(c+f)%7,d,"day");var h,i=[];for(h=0;h<7;h++)i[h]=Sc(b,(h+f)%7,d,"day");return i}function Vc(a,b){return Tc(a,b,"months")}function Wc(a,b){return Tc(a,b,"monthsShort")}function Xc(a,b,c){return Uc(a,b,c,"weekdays")}function Yc(a,b,c){return Uc(a,b,c,"weekdaysShort")}function Zc(a,b,c){return Uc(a,b,c,"weekdaysMin")}function $c(){var a=this._data;return this._milliseconds=df(this._milliseconds),this._days=df(this._days),this._months=df(this._months),a.milliseconds=df(a.milliseconds),a.seconds=df(a.seconds),a.minutes=df(a.minutes),a.hours=df(a.hours),a.months=df(a.months),a.years=df(a.years),this}function _c(a,b,c,d){var e=Sb(b,c);return a._milliseconds+=d*e._milliseconds,a._days+=d*e._days,a._months+=d*e._months,a._bubble()}function ad(a,b){return _c(this,a,b,1)}function bd(a,b){return _c(this,a,b,-1)}function cd(a){return a<0?Math.floor(a):Math.ceil(a)}function dd(){var a,b,c,d,e,f=this._milliseconds,g=this._days,h=this._months,i=this._data;return f>=0&&g>=0&&h>=0||f<=0&&g<=0&&h<=0||(f+=864e5*cd(fd(h)+g),g=0,h=0),i.milliseconds=f%1e3,a=t(f/1e3),i.seconds=a%60,b=t(a/60),i.minutes=b%60,c=t(b/60),i.hours=c%24,g+=t(c/24),e=t(ed(g)),h+=e,g-=cd(fd(e)),d=t(h/12),h%=12,i.days=g,i.months=h,i.years=d,this}function ed(a){return 4800*a/146097}function fd(a){return 146097*a/4800}function gd(a){if(!this.isValid())return NaN;var b,c,d=this._milliseconds;if(a=K(a),"month"===a||"year"===a)return b=this._days+d/864e5,c=this._months+ed(b),"month"===a?c:c/12;switch(b=this._days+Math.round(fd(this._months)),a){case"week":return b/7+d/6048e5;case"day":return b+d/864e5;case"hour":return 24*b+d/36e5;case"minute":return 1440*b+d/6e4;case"second":return 86400*b+d/1e3;case"millisecond":return Math.floor(864e5*b)+d;default:throw new Error("Unknown unit "+a)}}function hd(){return this.isValid()?this._milliseconds+864e5*this._days+this._months%12*2592e6+31536e6*u(this._months/12):NaN}function id(a){return function(){return this.as(a)}}function jd(a){return a=K(a),this.isValid()?this[a+"s"]():NaN}function kd(a){return function(){return this.isValid()?this._data[a]:NaN}}function ld(){return t(this.days()/7)}function md(a,b,c,d,e){return e.relativeTime(b||1,!!c,a,d)}function nd(a,b,c){var d=Sb(a).abs(),e=uf(d.as("s")),f=uf(d.as("m")),g=uf(d.as("h")),h=uf(d.as("d")),i=uf(d.as("M")),j=uf(d.as("y")),k=e<=vf.ss&&["s",e]||e<vf.s&&["ss",e]||f<=1&&["m"]||f<vf.m&&["mm",f]||g<=1&&["h"]||g<vf.h&&["hh",g]||h<=1&&["d"]||h<vf.d&&["dd",h]||i<=1&&["M"]||i<vf.M&&["MM",i]||j<=1&&["y"]||["yy",j];return k[2]=b,k[3]=+a>0,k[4]=c,md.apply(null,k)}function od(a){return void 0===a?uf:"function"==typeof a&&(uf=a,!0)}function pd(a,b){return void 0!==vf[a]&&(void 0===b?vf[a]:(vf[a]=b,"s"===a&&(vf.ss=b-1),!0))}function qd(a){if(!this.isValid())return this.localeData().invalidDate();var b=this.localeData(),c=nd(this,!a,b);return a&&(c=b.pastFuture(+this,c)),b.postformat(c)}function rd(){if(!this.isValid())return this.localeData().invalidDate();var a,b,c,d=wf(this._milliseconds)/1e3,e=wf(this._days),f=wf(this._months);a=t(d/60),b=t(a/60),d%=60,a%=60,c=t(f/12),f%=12;var g=c,h=f,i=e,j=b,k=a,l=d,m=this.asSeconds();return m?(m<0?"-":"")+"P"+(g?g+"Y":"")+(h?h+"M":"")+(i?i+"D":"")+(j||k||l?"T":"")+(j?j+"H":"")+(k?k+"M":"")+(l?l+"S":""):"P0D"}var sd,td;td=Array.prototype.some?Array.prototype.some:function(a){for(var b=Object(this),c=b.length>>>0,d=0;d<c;d++)if(d in b&&a.call(this,b[d],d,b))return!0;return!1};var ud=td,vd=a.momentProperties=[],wd=!1,xd={};a.suppressDeprecationWarnings=!1,a.deprecationHandler=null;var yd;yd=Object.keys?Object.keys:function(a){var b,c=[];for(b in a)j(a,b)&&c.push(b);return c};var zd,Ad=yd,Bd={sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},Cd={LTS:"h:mm:ss A",LT:"h:mm A",L:"MM/DD/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY h:mm A",LLLL:"dddd, MMMM D, YYYY h:mm A"},Dd="Invalid date",Ed="%d",Fd=/\d{1,2}/,Gd={future:"in %s",past:"%s ago",s:"a few seconds",ss:"%d seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},Hd={},Id={},Jd=/(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g,Kd=/(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g,Ld={},Md={},Nd=/\d/,Od=/\d\d/,Pd=/\d{3}/,Qd=/\d{4}/,Rd=/[+-]?\d{6}/,Sd=/\d\d?/,Td=/\d\d\d\d?/,Ud=/\d\d\d\d\d\d?/,Vd=/\d{1,3}/,Wd=/\d{1,4}/,Xd=/[+-]?\d{1,6}/,Yd=/\d+/,Zd=/[+-]?\d+/,$d=/Z|[+-]\d\d:?\d\d/gi,_d=/Z|[+-]\d\d(?::?\d\d)?/gi,ae=/[+-]?\d+(\.\d{1,3})?/,be=/[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i,ce={},de={},ee=0,fe=1,ge=2,he=3,ie=4,je=5,ke=6,le=7,me=8;zd=Array.prototype.indexOf?Array.prototype.indexOf:function(a){var b;for(b=0;b<this.length;++b)if(this[b]===a)return b;return-1};var ne=zd;U("M",["MM",2],"Mo",function(){return this.month()+1}),U("MMM",0,0,function(a){return this.localeData().monthsShort(this,a)}),U("MMMM",0,0,function(a){return this.localeData().months(this,a)}),J("month","M"),M("month",8),Z("M",Sd),Z("MM",Sd,Od),Z("MMM",function(a,b){return b.monthsShortRegex(a)}),Z("MMMM",function(a,b){return b.monthsRegex(a)}),ba(["M","MM"],function(a,b){b[fe]=u(a)-1}),ba(["MMM","MMMM"],function(a,b,c,d){var e=c._locale.monthsParse(a,d,c._strict);null!=e?b[fe]=e:n(c).invalidMonth=a});var oe=/D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/,pe="January_February_March_April_May_June_July_August_September_October_November_December".split("_"),qe="Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),re=be,se=be;U("Y",0,0,function(){var a=this.year();return a<=9999?""+a:"+"+a}),U(0,["YY",2],0,function(){return this.year()%100}),U(0,["YYYY",4],0,"year"),U(0,["YYYYY",5],0,"year"),U(0,["YYYYYY",6,!0],0,"year"),J("year","y"),M("year",1),Z("Y",Zd),Z("YY",Sd,Od),Z("YYYY",Wd,Qd),Z("YYYYY",Xd,Rd),Z("YYYYYY",Xd,Rd),ba(["YYYYY","YYYYYY"],ee),ba("YYYY",function(b,c){c[ee]=2===b.length?a.parseTwoDigitYear(b):u(b)}),ba("YY",function(b,c){c[ee]=a.parseTwoDigitYear(b)}),ba("Y",function(a,b){b[ee]=parseInt(a,10)}),a.parseTwoDigitYear=function(a){return u(a)+(u(a)>68?1900:2e3)};var te=O("FullYear",!0);U("w",["ww",2],"wo","week"),U("W",["WW",2],"Wo","isoWeek"),J("week","w"),J("isoWeek","W"),M("week",5),M("isoWeek",5),Z("w",Sd),Z("ww",Sd,Od),Z("W",Sd),Z("WW",Sd,Od),ca(["w","ww","W","WW"],function(a,b,c,d){b[d.substr(0,1)]=u(a)});var ue={dow:0,doy:6};U("d",0,"do","day"),U("dd",0,0,function(a){return this.localeData().weekdaysMin(this,a)}),U("ddd",0,0,function(a){return this.localeData().weekdaysShort(this,a)}),U("dddd",0,0,function(a){return this.localeData().weekdays(this,a)}),U("e",0,0,"weekday"),U("E",0,0,"isoWeekday"),J("day","d"),J("weekday","e"),J("isoWeekday","E"),M("day",11),M("weekday",11),M("isoWeekday",11),Z("d",Sd),Z("e",Sd),Z("E",Sd),Z("dd",function(a,b){return b.weekdaysMinRegex(a)}),Z("ddd",function(a,b){return b.weekdaysShortRegex(a)}),Z("dddd",function(a,b){return b.weekdaysRegex(a)}),ca(["dd","ddd","dddd"],function(a,b,c,d){var e=c._locale.weekdaysParse(a,d,c._strict);null!=e?b.d=e:n(c).invalidWeekday=a}),ca(["d","e","E"],function(a,b,c,d){b[d]=u(a)});var ve="Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),we="Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),xe="Su_Mo_Tu_We_Th_Fr_Sa".split("_"),ye=be,ze=be,Ae=be;U("H",["HH",2],0,"hour"),U("h",["hh",2],0,Ra),U("k",["kk",2],0,Sa),U("hmm",0,0,function(){return""+Ra.apply(this)+T(this.minutes(),2)}),U("hmmss",0,0,function(){return""+Ra.apply(this)+T(this.minutes(),2)+T(this.seconds(),2)}),U("Hmm",0,0,function(){return""+this.hours()+T(this.minutes(),2)}),U("Hmmss",0,0,function(){return""+this.hours()+T(this.minutes(),2)+T(this.seconds(),2)}),Ta("a",!0),Ta("A",!1),J("hour","h"),M("hour",13),Z("a",Ua),Z("A",Ua),Z("H",Sd),Z("h",Sd),Z("k",Sd),Z("HH",Sd,Od),Z("hh",Sd,Od),Z("kk",Sd,Od),Z("hmm",Td),Z("hmmss",Ud),Z("Hmm",Td),Z("Hmmss",Ud),ba(["H","HH"],he),ba(["k","kk"],function(a,b,c){var d=u(a);b[he]=24===d?0:d}),ba(["a","A"],function(a,b,c){c._isPm=c._locale.isPM(a),c._meridiem=a}),ba(["h","hh"],function(a,b,c){b[he]=u(a),n(c).bigHour=!0}),ba("hmm",function(a,b,c){var d=a.length-2;b[he]=u(a.substr(0,d)),b[ie]=u(a.substr(d)),n(c).bigHour=!0}),ba("hmmss",function(a,b,c){var d=a.length-4,e=a.length-2;b[he]=u(a.substr(0,d)),b[ie]=u(a.substr(d,2)),b[je]=u(a.substr(e)),n(c).bigHour=!0}),ba("Hmm",function(a,b,c){var d=a.length-2;b[he]=u(a.substr(0,d)),b[ie]=u(a.substr(d))}),ba("Hmmss",function(a,b,c){var d=a.length-4,e=a.length-2;b[he]=u(a.substr(0,d)),b[ie]=u(a.substr(d,2)),b[je]=u(a.substr(e))});var Be,Ce=/[ap]\.?m?\.?/i,De=O("Hours",!0),Ee={calendar:Bd,longDateFormat:Cd,invalidDate:Dd,ordinal:Ed,dayOfMonthOrdinalParse:Fd,relativeTime:Gd,months:pe,monthsShort:qe,week:ue,weekdays:ve,weekdaysMin:xe,weekdaysShort:we,meridiemParse:Ce},Fe={},Ge={},He=/^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,Ie=/^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,Je=/Z|[+-]\d\d(?::?\d\d)?/,Ke=[["YYYYYY-MM-DD",/[+-]\d{6}-\d\d-\d\d/],["YYYY-MM-DD",/\d{4}-\d\d-\d\d/],["GGGG-[W]WW-E",/\d{4}-W\d\d-\d/],["GGGG-[W]WW",/\d{4}-W\d\d/,!1],["YYYY-DDD",/\d{4}-\d{3}/],["YYYY-MM",/\d{4}-\d\d/,!1],["YYYYYYMMDD",/[+-]\d{10}/],["YYYYMMDD",/\d{8}/],["GGGG[W]WWE",/\d{4}W\d{3}/],["GGGG[W]WW",/\d{4}W\d{2}/,!1],["YYYYDDD",/\d{7}/]],Le=[["HH:mm:ss.SSSS",/\d\d:\d\d:\d\d\.\d+/],["HH:mm:ss,SSSS",/\d\d:\d\d:\d\d,\d+/],["HH:mm:ss",/\d\d:\d\d:\d\d/],["HH:mm",/\d\d:\d\d/],["HHmmss.SSSS",/\d\d\d\d\d\d\.\d+/],["HHmmss,SSSS",/\d\d\d\d\d\d,\d+/],["HHmmss",/\d\d\d\d\d\d/],["HHmm",/\d\d\d\d/],["HH",/\d\d/]],Me=/^\/?Date\((\-?\d+)/i,Ne=/^((?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s)?(\d?\d\s(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(?:\d\d)?\d\d\s)(\d\d:\d\d)(\:\d\d)?(\s(?:UT|GMT|[ECMP][SD]T|[A-IK-Za-ik-z]|[+-]\d{4}))$/;a.createFromInputFallback=x("value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are discouraged and will be removed in an upcoming major release. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.",function(a){a._d=new Date(a._i+(a._useUTC?" UTC":""))}),a.ISO_8601=function(){},a.RFC_2822=function(){};var Oe=x("moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/",function(){var a=tb.apply(null,arguments);return this.isValid()&&a.isValid()?a<this?this:a:p()}),Pe=x("moment().max is deprecated, use moment.min instead. http://momentjs.com/guides/#/warnings/min-max/",function(){var a=tb.apply(null,arguments);return this.isValid()&&a.isValid()?a>this?this:a:p()}),Qe=function(){return Date.now?Date.now():+new Date},Re=["year","quarter","month","week","day","hour","minute","second","millisecond"];Db("Z",":"),Db("ZZ",""),Z("Z",_d),Z("ZZ",_d),ba(["Z","ZZ"],function(a,b,c){c._useUTC=!0,c._tzm=Eb(_d,a)});var Se=/([\+\-]|\d\d)/gi;a.updateOffset=function(){};var Te=/^(\-)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)(\.\d*)?)?$/,Ue=/^(-)?P(?:(-?[0-9,.]*)Y)?(?:(-?[0-9,.]*)M)?(?:(-?[0-9,.]*)W)?(?:(-?[0-9,.]*)D)?(?:T(?:(-?[0-9,.]*)H)?(?:(-?[0-9,.]*)M)?(?:(-?[0-9,.]*)S)?)?$/;Sb.fn=Ab.prototype,Sb.invalid=zb;var Ve=Wb(1,"add"),We=Wb(-1,"subtract");a.defaultFormat="YYYY-MM-DDTHH:mm:ssZ",a.defaultFormatUtc="YYYY-MM-DDTHH:mm:ss[Z]";var Xe=x("moment().lang() is deprecated. Instead, use moment().localeData() to get the language configuration. Use moment().locale() to change languages.",function(a){return void 0===a?this.localeData():this.locale(a)});U(0,["gg",2],0,function(){return this.weekYear()%100}),U(0,["GG",2],0,function(){return this.isoWeekYear()%100}),Dc("gggg","weekYear"),Dc("ggggg","weekYear"),Dc("GGGG","isoWeekYear"),Dc("GGGGG","isoWeekYear"),J("weekYear","gg"),J("isoWeekYear","GG"),M("weekYear",1),M("isoWeekYear",1),Z("G",Zd),Z("g",Zd),Z("GG",Sd,Od),Z("gg",Sd,Od),Z("GGGG",Wd,Qd),Z("gggg",Wd,Qd),Z("GGGGG",Xd,Rd),Z("ggggg",Xd,Rd),ca(["gggg","ggggg","GGGG","GGGGG"],function(a,b,c,d){b[d.substr(0,2)]=u(a)}),ca(["gg","GG"],function(b,c,d,e){c[e]=a.parseTwoDigitYear(b)}),U("Q",0,"Qo","quarter"),J("quarter","Q"),M("quarter",7),Z("Q",Nd),ba("Q",function(a,b){b[fe]=3*(u(a)-1)}),U("D",["DD",2],"Do","date"),J("date","D"),M("date",9),Z("D",Sd),Z("DD",Sd,Od),Z("Do",function(a,b){return a?b._dayOfMonthOrdinalParse||b._ordinalParse:b._dayOfMonthOrdinalParseLenient}),ba(["D","DD"],ge),ba("Do",function(a,b){b[ge]=u(a.match(Sd)[0],10)});var Ye=O("Date",!0);U("DDD",["DDDD",3],"DDDo","dayOfYear"),J("dayOfYear","DDD"),M("dayOfYear",4),Z("DDD",Vd),Z("DDDD",Pd),ba(["DDD","DDDD"],function(a,b,c){c._dayOfYear=u(a)}),U("m",["mm",2],0,"minute"),J("minute","m"),M("minute",14),Z("m",Sd),Z("mm",Sd,Od),ba(["m","mm"],ie);var Ze=O("Minutes",!1);U("s",["ss",2],0,"second"),J("second","s"),M("second",15),Z("s",Sd),Z("ss",Sd,Od),ba(["s","ss"],je);var $e=O("Seconds",!1);U("S",0,0,function(){return~~(this.millisecond()/100)}),U(0,["SS",2],0,function(){return~~(this.millisecond()/10)}),U(0,["SSS",3],0,"millisecond"),U(0,["SSSS",4],0,function(){return 10*this.millisecond()}),U(0,["SSSSS",5],0,function(){return 100*this.millisecond()}),U(0,["SSSSSS",6],0,function(){return 1e3*this.millisecond()}),U(0,["SSSSSSS",7],0,function(){return 1e4*this.millisecond()}),U(0,["SSSSSSSS",8],0,function(){return 1e5*this.millisecond()}),U(0,["SSSSSSSSS",9],0,function(){return 1e6*this.millisecond()}),J("millisecond","ms"),M("millisecond",16),Z("S",Vd,Nd),Z("SS",Vd,Od),Z("SSS",Vd,Pd);var _e;for(_e="SSSS";_e.length<=9;_e+="S")Z(_e,Yd);for(_e="S";_e.length<=9;_e+="S")ba(_e,Mc);var af=O("Milliseconds",!1);U("z",0,0,"zoneAbbr"),U("zz",0,0,"zoneName");var bf=r.prototype;bf.add=Ve,bf.calendar=Zb,bf.clone=$b,bf.diff=fc,bf.endOf=sc,bf.format=kc,bf.from=lc,bf.fromNow=mc,bf.to=nc,bf.toNow=oc,bf.get=R,bf.invalidAt=Bc,bf.isAfter=_b,bf.isBefore=ac,bf.isBetween=bc,bf.isSame=cc,bf.isSameOrAfter=dc,bf.isSameOrBefore=ec,bf.isValid=zc,bf.lang=Xe,bf.locale=pc,bf.localeData=qc,bf.max=Pe,bf.min=Oe,bf.parsingFlags=Ac,bf.set=S,bf.startOf=rc,bf.subtract=We,bf.toArray=wc,bf.toObject=xc,bf.toDate=vc,bf.toISOString=ic,bf.inspect=jc,bf.toJSON=yc,bf.toString=hc,bf.unix=uc,bf.valueOf=tc,bf.creationData=Cc,bf.year=te,bf.isLeapYear=ra,bf.weekYear=Ec,bf.isoWeekYear=Fc,bf.quarter=bf.quarters=Kc,bf.month=ka,bf.daysInMonth=la,bf.week=bf.weeks=Ba,bf.isoWeek=bf.isoWeeks=Ca,bf.weeksInYear=Hc,bf.isoWeeksInYear=Gc,bf.date=Ye,bf.day=bf.days=Ka,bf.weekday=La,bf.isoWeekday=Ma,bf.dayOfYear=Lc,bf.hour=bf.hours=De,bf.minute=bf.minutes=Ze,bf.second=bf.seconds=$e,bf.millisecond=bf.milliseconds=af,bf.utcOffset=Hb,bf.utc=Jb,bf.local=Kb,bf.parseZone=Lb,bf.hasAlignedHourOffset=Mb,bf.isDST=Nb,bf.isLocal=Pb,bf.isUtcOffset=Qb,bf.isUtc=Rb,bf.isUTC=Rb,bf.zoneAbbr=Nc,bf.zoneName=Oc,bf.dates=x("dates accessor is deprecated. Use date instead.",Ye),bf.months=x("months accessor is deprecated. Use month instead",ka),bf.years=x("years accessor is deprecated. Use year instead",te),bf.zone=x("moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/",Ib),bf.isDSTShifted=x("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information",Ob);var cf=C.prototype;cf.calendar=D,cf.longDateFormat=E,cf.invalidDate=F,cf.ordinal=G,cf.preparse=Rc,cf.postformat=Rc,cf.relativeTime=H,cf.pastFuture=I,cf.set=A,cf.months=fa,cf.monthsShort=ga,cf.monthsParse=ia,cf.monthsRegex=na,cf.monthsShortRegex=ma,cf.week=ya,cf.firstDayOfYear=Aa,cf.firstDayOfWeek=za,cf.weekdays=Fa,cf.weekdaysMin=Ha,cf.weekdaysShort=Ga,cf.weekdaysParse=Ja,cf.weekdaysRegex=Na,cf.weekdaysShortRegex=Oa,cf.weekdaysMinRegex=Pa,cf.isPM=Va,cf.meridiem=Wa,$a("en",{dayOfMonthOrdinalParse:/\d{1,2}(th|st|nd|rd)/,ordinal:function(a){var b=a%10,c=1===u(a%100/10)?"th":1===b?"st":2===b?"nd":3===b?"rd":"th";return a+c}}),a.lang=x("moment.lang is deprecated. Use moment.locale instead.",$a),a.langData=x("moment.langData is deprecated. Use moment.localeData instead.",bb);var df=Math.abs,ef=id("ms"),ff=id("s"),gf=id("m"),hf=id("h"),jf=id("d"),kf=id("w"),lf=id("M"),mf=id("y"),nf=kd("milliseconds"),of=kd("seconds"),pf=kd("minutes"),qf=kd("hours"),rf=kd("days"),sf=kd("months"),tf=kd("years"),uf=Math.round,vf={ss:44,s:45,m:45,h:22,d:26,M:11},wf=Math.abs,xf=Ab.prototype;return xf.isValid=yb,xf.abs=$c,xf.add=ad,xf.subtract=bd,xf.as=gd,xf.asMilliseconds=ef,xf.asSeconds=ff,xf.asMinutes=gf,xf.asHours=hf,xf.asDays=jf,xf.asWeeks=kf,xf.asMonths=lf,xf.asYears=mf,xf.valueOf=hd,xf._bubble=dd,xf.get=jd,xf.milliseconds=nf,xf.seconds=of,xf.minutes=pf,xf.hours=qf,xf.days=rf,xf.weeks=ld,xf.months=sf,xf.years=tf,xf.humanize=qd,xf.toISOString=rd,xf.toString=rd,xf.toJSON=rd,xf.locale=pc,xf.localeData=qc,xf.toIsoString=x("toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)",rd),xf.lang=Xe,U("X",0,0,"unix"),U("x",0,0,"valueOf"),Z("x",Zd),Z("X",ae),ba("X",function(a,b,c){c._d=new Date(1e3*parseFloat(a,10))}),ba("x",function(a,b,c){c._d=new Date(u(a))}),a.version="2.18.1",b(tb),a.fn=bf,a.min=vb,a.max=wb,a.now=Qe,a.utc=l,a.unix=Pc,a.months=Vc,a.isDate=h,a.locale=$a,a.invalid=p,a.duration=Sb,a.isMoment=s,a.weekdays=Xc,a.parseZone=Qc,a.localeData=bb,a.isDuration=Bb,a.monthsShort=Wc,a.weekdaysMin=Zc,a.defineLocale=_a,a.updateLocale=ab,a.locales=cb,a.weekdaysShort=Yc,a.normalizeUnits=K,a.relativeTimeRounding=od,a.relativeTimeThreshold=pd,a.calendarFormat=Yb,a.prototype=bf,a});
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):e.moment=t()}(this,function(){"use strict";function e(){return Yt.apply(null,arguments)}function t(e){return e instanceof Array||"[object Array]"===Object.prototype.toString.call(e)}function n(e){return null!=e&&"[object Object]"===Object.prototype.toString.call(e)}function s(e){if(Object.getOwnPropertyNames)return 0===Object.getOwnPropertyNames(e).length;var t;for(t in e)if(e.hasOwnProperty(t))return!1;return!0}function i(e){return void 0===e}function r(e){return"number"==typeof e||"[object Number]"===Object.prototype.toString.call(e)}function a(e){return e instanceof Date||"[object Date]"===Object.prototype.toString.call(e)}function o(e,t){var n,s=[];for(n=0;n<e.length;++n)s.push(t(e[n],n));return s}function u(e,t){return Object.prototype.hasOwnProperty.call(e,t)}function l(e,t){for(var n in t)u(t,n)&&(e[n]=t[n]);return u(t,"toString")&&(e.toString=t.toString),u(t,"valueOf")&&(e.valueOf=t.valueOf),e}function d(e,t,n,s){return je(e,t,n,s,!0).utc()}function h(){return{empty:!1,unusedTokens:[],unusedInput:[],overflow:-2,charsLeftOver:0,nullInput:!1,invalidMonth:null,invalidFormat:!1,userInvalidated:!1,iso:!1,parsedDateParts:[],meridiem:null,rfc2822:!1,weekdayMismatch:!1}}function c(e){return null==e._pf&&(e._pf=h()),e._pf}function f(e){if(null==e._isValid){var t=c(e),n=Ot.call(t.parsedDateParts,function(e){return null!=e}),s=!isNaN(e._d.getTime())&&t.overflow<0&&!t.empty&&!t.invalidMonth&&!t.invalidWeekday&&!t.weekdayMismatch&&!t.nullInput&&!t.invalidFormat&&!t.userInvalidated&&(!t.meridiem||t.meridiem&&n);if(e._strict&&(s=s&&0===t.charsLeftOver&&0===t.unusedTokens.length&&void 0===t.bigHour),null!=Object.isFrozen&&Object.isFrozen(e))return s;e._isValid=s}return e._isValid}function m(e){var t=d(NaN);return null!=e?l(c(t),e):c(t).userInvalidated=!0,t}function _(e,t){var n,s,r;if(i(t._isAMomentObject)||(e._isAMomentObject=t._isAMomentObject),i(t._i)||(e._i=t._i),i(t._f)||(e._f=t._f),i(t._l)||(e._l=t._l),i(t._strict)||(e._strict=t._strict),i(t._tzm)||(e._tzm=t._tzm),i(t._isUTC)||(e._isUTC=t._isUTC),i(t._offset)||(e._offset=t._offset),i(t._pf)||(e._pf=c(t)),i(t._locale)||(e._locale=t._locale),xt.length>0)for(n=0;n<xt.length;n++)i(r=t[s=xt[n]])||(e[s]=r);return e}function y(t){_(this,t),this._d=new Date(null!=t._d?t._d.getTime():NaN),this.isValid()||(this._d=new Date(NaN)),!1===Tt&&(Tt=!0,e.updateOffset(this),Tt=!1)}function g(e){return e instanceof y||null!=e&&null!=e._isAMomentObject}function p(e){return e<0?Math.ceil(e)||0:Math.floor(e)}function w(e){var t=+e,n=0;return 0!==t&&isFinite(t)&&(n=p(t)),n}function v(e,t,n){var s,i=Math.min(e.length,t.length),r=Math.abs(e.length-t.length),a=0;for(s=0;s<i;s++)(n&&e[s]!==t[s]||!n&&w(e[s])!==w(t[s]))&&a++;return a+r}function M(t){!1===e.suppressDeprecationWarnings&&"undefined"!=typeof console&&console.warn&&console.warn("Deprecation warning: "+t)}function k(t,n){var s=!0;return l(function(){if(null!=e.deprecationHandler&&e.deprecationHandler(null,t),s){for(var i,r=[],a=0;a<arguments.length;a++){if(i="","object"==typeof arguments[a]){i+="\n["+a+"] ";for(var o in arguments[0])i+=o+": "+arguments[0][o]+", ";i=i.slice(0,-2)}else i=arguments[a];r.push(i)}M(t+"\nArguments: "+Array.prototype.slice.call(r).join("")+"\n"+(new Error).stack),s=!1}return n.apply(this,arguments)},n)}function S(t,n){null!=e.deprecationHandler&&e.deprecationHandler(t,n),bt[t]||(M(n),bt[t]=!0)}function D(e){return e instanceof Function||"[object Function]"===Object.prototype.toString.call(e)}function Y(e,t){var s,i=l({},e);for(s in t)u(t,s)&&(n(e[s])&&n(t[s])?(i[s]={},l(i[s],e[s]),l(i[s],t[s])):null!=t[s]?i[s]=t[s]:delete i[s]);for(s in e)u(e,s)&&!u(t,s)&&n(e[s])&&(i[s]=l({},i[s]));return i}function O(e){null!=e&&this.set(e)}function x(e,t){var n=e.toLowerCase();Ut[n]=Ut[n+"s"]=Ut[t]=e}function T(e){return"string"==typeof e?Ut[e]||Ut[e.toLowerCase()]:void 0}function b(e){var t,n,s={};for(n in e)u(e,n)&&(t=T(n))&&(s[t]=e[n]);return s}function P(e,t){Nt[e]=t}function W(e){var t=[];for(var n in e)t.push({unit:n,priority:Nt[n]});return t.sort(function(e,t){return e.priority-t.priority}),t}function R(e,t,n){var s=""+Math.abs(e),i=t-s.length;return(e>=0?n?"+":"":"-")+Math.pow(10,Math.max(0,i)).toString().substr(1)+s}function C(e,t,n,s){var i=s;"string"==typeof s&&(i=function(){return this[s]()}),e&&(Vt[e]=i),t&&(Vt[t[0]]=function(){return R(i.apply(this,arguments),t[1],t[2])}),n&&(Vt[n]=function(){return this.localeData().ordinal(i.apply(this,arguments),e)})}function F(e){return e.match(/\[[\s\S]/)?e.replace(/^\[|\]$/g,""):e.replace(/\\/g,"")}function U(e){var t,n,s=e.match(Ht);for(t=0,n=s.length;t<n;t++)Vt[s[t]]?s[t]=Vt[s[t]]:s[t]=F(s[t]);return function(t){var i,r="";for(i=0;i<n;i++)r+=D(s[i])?s[i].call(t,e):s[i];return r}}function N(e,t){return e.isValid()?(t=H(t,e.localeData()),Gt[t]=Gt[t]||U(t),Gt[t](e)):e.localeData().invalidDate()}function H(e,t){var n=5;for(Lt.lastIndex=0;n>=0&&Lt.test(e);)e=e.replace(Lt,function(e){return t.longDateFormat(e)||e}),Lt.lastIndex=0,n-=1;return e}function L(e,t,n){rn[e]=D(t)?t:function(e,s){return e&&n?n:t}}function G(e,t){return u(rn,e)?rn[e](t._strict,t._locale):new RegExp(V(e))}function V(e){return j(e.replace("\\","").replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g,function(e,t,n,s,i){return t||n||s||i}))}function j(e){return e.replace(/[-\/\\^$*+?.()|[\]{}]/g,"\\$&")}function I(e,t){var n,s=t;for("string"==typeof e&&(e=[e]),r(t)&&(s=function(e,n){n[t]=w(e)}),n=0;n<e.length;n++)an[e[n]]=s}function E(e,t){I(e,function(e,n,s,i){s._w=s._w||{},t(e,s._w,s,i)})}function A(e,t,n){null!=t&&u(an,e)&&an[e](t,n._a,n,e)}function z(e){return Z(e)?366:365}function Z(e){return e%4==0&&e%100!=0||e%400==0}function $(t,n){return function(s){return null!=s?(J(this,t,s),e.updateOffset(this,n),this):q(this,t)}}function q(e,t){return e.isValid()?e._d["get"+(e._isUTC?"UTC":"")+t]():NaN}function J(e,t,n){e.isValid()&&!isNaN(n)&&("FullYear"===t&&Z(e.year())?e._d["set"+(e._isUTC?"UTC":"")+t](n,e.month(),Q(n,e.month())):e._d["set"+(e._isUTC?"UTC":"")+t](n))}function B(e,t){return(e%t+t)%t}function Q(e,t){if(isNaN(e)||isNaN(t))return NaN;var n=B(t,12);return e+=(t-n)/12,1===n?Z(e)?29:28:31-n%7%2}function X(e,t,n){var s,i,r,a=e.toLocaleLowerCase();if(!this._monthsParse)for(this._monthsParse=[],this._longMonthsParse=[],this._shortMonthsParse=[],s=0;s<12;++s)r=d([2e3,s]),this._shortMonthsParse[s]=this.monthsShort(r,"").toLocaleLowerCase(),this._longMonthsParse[s]=this.months(r,"").toLocaleLowerCase();return n?"MMM"===t?-1!==(i=yn.call(this._shortMonthsParse,a))?i:null:-1!==(i=yn.call(this._longMonthsParse,a))?i:null:"MMM"===t?-1!==(i=yn.call(this._shortMonthsParse,a))?i:-1!==(i=yn.call(this._longMonthsParse,a))?i:null:-1!==(i=yn.call(this._longMonthsParse,a))?i:-1!==(i=yn.call(this._shortMonthsParse,a))?i:null}function K(e,t){var n;if(!e.isValid())return e;if("string"==typeof t)if(/^\d+$/.test(t))t=w(t);else if(t=e.localeData().monthsParse(t),!r(t))return e;return n=Math.min(e.date(),Q(e.year(),t)),e._d["set"+(e._isUTC?"UTC":"")+"Month"](t,n),e}function ee(t){return null!=t?(K(this,t),e.updateOffset(this,!0),this):q(this,"Month")}function te(){function e(e,t){return t.length-e.length}var t,n,s=[],i=[],r=[];for(t=0;t<12;t++)n=d([2e3,t]),s.push(this.monthsShort(n,"")),i.push(this.months(n,"")),r.push(this.months(n,"")),r.push(this.monthsShort(n,""));for(s.sort(e),i.sort(e),r.sort(e),t=0;t<12;t++)s[t]=j(s[t]),i[t]=j(i[t]);for(t=0;t<24;t++)r[t]=j(r[t]);this._monthsRegex=new RegExp("^("+r.join("|")+")","i"),this._monthsShortRegex=this._monthsRegex,this._monthsStrictRegex=new RegExp("^("+i.join("|")+")","i"),this._monthsShortStrictRegex=new RegExp("^("+s.join("|")+")","i")}function ne(e,t,n,s,i,r,a){var o=new Date(e,t,n,s,i,r,a);return e<100&&e>=0&&isFinite(o.getFullYear())&&o.setFullYear(e),o}function se(e){var t=new Date(Date.UTC.apply(null,arguments));return e<100&&e>=0&&isFinite(t.getUTCFullYear())&&t.setUTCFullYear(e),t}function ie(e,t,n){var s=7+t-n;return-((7+se(e,0,s).getUTCDay()-t)%7)+s-1}function re(e,t,n,s,i){var r,a,o=1+7*(t-1)+(7+n-s)%7+ie(e,s,i);return o<=0?a=z(r=e-1)+o:o>z(e)?(r=e+1,a=o-z(e)):(r=e,a=o),{year:r,dayOfYear:a}}function ae(e,t,n){var s,i,r=ie(e.year(),t,n),a=Math.floor((e.dayOfYear()-r-1)/7)+1;return a<1?s=a+oe(i=e.year()-1,t,n):a>oe(e.year(),t,n)?(s=a-oe(e.year(),t,n),i=e.year()+1):(i=e.year(),s=a),{week:s,year:i}}function oe(e,t,n){var s=ie(e,t,n),i=ie(e+1,t,n);return(z(e)-s+i)/7}function ue(e,t){return"string"!=typeof e?e:isNaN(e)?"number"==typeof(e=t.weekdaysParse(e))?e:null:parseInt(e,10)}function le(e,t){return"string"==typeof e?t.weekdaysParse(e)%7||7:isNaN(e)?null:e}function de(e,t,n){var s,i,r,a=e.toLocaleLowerCase();if(!this._weekdaysParse)for(this._weekdaysParse=[],this._shortWeekdaysParse=[],this._minWeekdaysParse=[],s=0;s<7;++s)r=d([2e3,1]).day(s),this._minWeekdaysParse[s]=this.weekdaysMin(r,"").toLocaleLowerCase(),this._shortWeekdaysParse[s]=this.weekdaysShort(r,"").toLocaleLowerCase(),this._weekdaysParse[s]=this.weekdays(r,"").toLocaleLowerCase();return n?"dddd"===t?-1!==(i=yn.call(this._weekdaysParse,a))?i:null:"ddd"===t?-1!==(i=yn.call(this._shortWeekdaysParse,a))?i:null:-1!==(i=yn.call(this._minWeekdaysParse,a))?i:null:"dddd"===t?-1!==(i=yn.call(this._weekdaysParse,a))?i:-1!==(i=yn.call(this._shortWeekdaysParse,a))?i:-1!==(i=yn.call(this._minWeekdaysParse,a))?i:null:"ddd"===t?-1!==(i=yn.call(this._shortWeekdaysParse,a))?i:-1!==(i=yn.call(this._weekdaysParse,a))?i:-1!==(i=yn.call(this._minWeekdaysParse,a))?i:null:-1!==(i=yn.call(this._minWeekdaysParse,a))?i:-1!==(i=yn.call(this._weekdaysParse,a))?i:-1!==(i=yn.call(this._shortWeekdaysParse,a))?i:null}function he(){function e(e,t){return t.length-e.length}var t,n,s,i,r,a=[],o=[],u=[],l=[];for(t=0;t<7;t++)n=d([2e3,1]).day(t),s=this.weekdaysMin(n,""),i=this.weekdaysShort(n,""),r=this.weekdays(n,""),a.push(s),o.push(i),u.push(r),l.push(s),l.push(i),l.push(r);for(a.sort(e),o.sort(e),u.sort(e),l.sort(e),t=0;t<7;t++)o[t]=j(o[t]),u[t]=j(u[t]),l[t]=j(l[t]);this._weekdaysRegex=new RegExp("^("+l.join("|")+")","i"),this._weekdaysShortRegex=this._weekdaysRegex,this._weekdaysMinRegex=this._weekdaysRegex,this._weekdaysStrictRegex=new RegExp("^("+u.join("|")+")","i"),this._weekdaysShortStrictRegex=new RegExp("^("+o.join("|")+")","i"),this._weekdaysMinStrictRegex=new RegExp("^("+a.join("|")+")","i")}function ce(){return this.hours()%12||12}function fe(e,t){C(e,0,0,function(){return this.localeData().meridiem(this.hours(),this.minutes(),t)})}function me(e,t){return t._meridiemParse}function _e(e){return e?e.toLowerCase().replace("_","-"):e}function ye(e){for(var t,n,s,i,r=0;r<e.length;){for(t=(i=_e(e[r]).split("-")).length,n=(n=_e(e[r+1]))?n.split("-"):null;t>0;){if(s=ge(i.slice(0,t).join("-")))return s;if(n&&n.length>=t&&v(i,n,!0)>=t-1)break;t--}r++}return null}function ge(e){var t=null;if(!Fn[e]&&"undefined"!=typeof module&&module&&module.exports)try{t=Pn._abbr,require("./locale/"+e),pe(t)}catch(e){}return Fn[e]}function pe(e,t){var n;return e&&(n=i(t)?ve(e):we(e,t))&&(Pn=n),Pn._abbr}function we(e,t){if(null!==t){var n=Cn;if(t.abbr=e,null!=Fn[e])S("defineLocaleOverride","use moment.updateLocale(localeName, config) to change an existing locale. moment.defineLocale(localeName, config) should only be used for creating a new locale See http://momentjs.com/guides/#/warnings/define-locale/ for more info."),n=Fn[e]._config;else if(null!=t.parentLocale){if(null==Fn[t.parentLocale])return Un[t.parentLocale]||(Un[t.parentLocale]=[]),Un[t.parentLocale].push({name:e,config:t}),null;n=Fn[t.parentLocale]._config}return Fn[e]=new O(Y(n,t)),Un[e]&&Un[e].forEach(function(e){we(e.name,e.config)}),pe(e),Fn[e]}return delete Fn[e],null}function ve(e){var n;if(e&&e._locale&&e._locale._abbr&&(e=e._locale._abbr),!e)return Pn;if(!t(e)){if(n=ge(e))return n;e=[e]}return ye(e)}function Me(e){var t,n=e._a;return n&&-2===c(e).overflow&&(t=n[un]<0||n[un]>11?un:n[ln]<1||n[ln]>Q(n[on],n[un])?ln:n[dn]<0||n[dn]>24||24===n[dn]&&(0!==n[hn]||0!==n[cn]||0!==n[fn])?dn:n[hn]<0||n[hn]>59?hn:n[cn]<0||n[cn]>59?cn:n[fn]<0||n[fn]>999?fn:-1,c(e)._overflowDayOfYear&&(t<on||t>ln)&&(t=ln),c(e)._overflowWeeks&&-1===t&&(t=mn),c(e)._overflowWeekday&&-1===t&&(t=_n),c(e).overflow=t),e}function ke(e,t,n){return null!=e?e:null!=t?t:n}function Se(t){var n=new Date(e.now());return t._useUTC?[n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate()]:[n.getFullYear(),n.getMonth(),n.getDate()]}function De(e){var t,n,s,i,r=[];if(!e._d){for(s=Se(e),e._w&&null==e._a[ln]&&null==e._a[un]&&Ye(e),null!=e._dayOfYear&&(i=ke(e._a[on],s[on]),(e._dayOfYear>z(i)||0===e._dayOfYear)&&(c(e)._overflowDayOfYear=!0),n=se(i,0,e._dayOfYear),e._a[un]=n.getUTCMonth(),e._a[ln]=n.getUTCDate()),t=0;t<3&&null==e._a[t];++t)e._a[t]=r[t]=s[t];for(;t<7;t++)e._a[t]=r[t]=null==e._a[t]?2===t?1:0:e._a[t];24===e._a[dn]&&0===e._a[hn]&&0===e._a[cn]&&0===e._a[fn]&&(e._nextDay=!0,e._a[dn]=0),e._d=(e._useUTC?se:ne).apply(null,r),null!=e._tzm&&e._d.setUTCMinutes(e._d.getUTCMinutes()-e._tzm),e._nextDay&&(e._a[dn]=24),e._w&&void 0!==e._w.d&&e._w.d!==e._d.getDay()&&(c(e).weekdayMismatch=!0)}}function Ye(e){var t,n,s,i,r,a,o,u;if(null!=(t=e._w).GG||null!=t.W||null!=t.E)r=1,a=4,n=ke(t.GG,e._a[on],ae(Ie(),1,4).year),s=ke(t.W,1),((i=ke(t.E,1))<1||i>7)&&(u=!0);else{r=e._locale._week.dow,a=e._locale._week.doy;var l=ae(Ie(),r,a);n=ke(t.gg,e._a[on],l.year),s=ke(t.w,l.week),null!=t.d?((i=t.d)<0||i>6)&&(u=!0):null!=t.e?(i=t.e+r,(t.e<0||t.e>6)&&(u=!0)):i=r}s<1||s>oe(n,r,a)?c(e)._overflowWeeks=!0:null!=u?c(e)._overflowWeekday=!0:(o=re(n,s,i,r,a),e._a[on]=o.year,e._dayOfYear=o.dayOfYear)}function Oe(e){var t,n,s,i,r,a,o=e._i,u=Nn.exec(o)||Hn.exec(o);if(u){for(c(e).iso=!0,t=0,n=Gn.length;t<n;t++)if(Gn[t][1].exec(u[1])){i=Gn[t][0],s=!1!==Gn[t][2];break}if(null==i)return void(e._isValid=!1);if(u[3]){for(t=0,n=Vn.length;t<n;t++)if(Vn[t][1].exec(u[3])){r=(u[2]||" ")+Vn[t][0];break}if(null==r)return void(e._isValid=!1)}if(!s&&null!=r)return void(e._isValid=!1);if(u[4]){if(!Ln.exec(u[4]))return void(e._isValid=!1);a="Z"}e._f=i+(r||"")+(a||""),Fe(e)}else e._isValid=!1}function xe(e,t,n,s,i,r){var a=[Te(e),vn.indexOf(t),parseInt(n,10),parseInt(s,10),parseInt(i,10)];return r&&a.push(parseInt(r,10)),a}function Te(e){var t=parseInt(e,10);return t<=49?2e3+t:t<=999?1900+t:t}function be(e){return e.replace(/\([^)]*\)|[\n\t]/g," ").replace(/(\s\s+)/g," ").trim()}function Pe(e,t,n){return!e||Yn.indexOf(e)===new Date(t[0],t[1],t[2]).getDay()||(c(n).weekdayMismatch=!0,n._isValid=!1,!1)}function We(e,t,n){if(e)return En[e];if(t)return 0;var s=parseInt(n,10),i=s%100;return 60*((s-i)/100)+i}function Re(e){var t=In.exec(be(e._i));if(t){var n=xe(t[4],t[3],t[2],t[5],t[6],t[7]);if(!Pe(t[1],n,e))return;e._a=n,e._tzm=We(t[8],t[9],t[10]),e._d=se.apply(null,e._a),e._d.setUTCMinutes(e._d.getUTCMinutes()-e._tzm),c(e).rfc2822=!0}else e._isValid=!1}function Ce(t){var n=jn.exec(t._i);null===n?(Oe(t),!1===t._isValid&&(delete t._isValid,Re(t),!1===t._isValid&&(delete t._isValid,e.createFromInputFallback(t)))):t._d=new Date(+n[1])}function Fe(t){if(t._f!==e.ISO_8601)if(t._f!==e.RFC_2822){t._a=[],c(t).empty=!0;var n,s,i,r,a,o=""+t._i,u=o.length,l=0;for(i=H(t._f,t._locale).match(Ht)||[],n=0;n<i.length;n++)r=i[n],(s=(o.match(G(r,t))||[])[0])&&((a=o.substr(0,o.indexOf(s))).length>0&&c(t).unusedInput.push(a),o=o.slice(o.indexOf(s)+s.length),l+=s.length),Vt[r]?(s?c(t).empty=!1:c(t).unusedTokens.push(r),A(r,s,t)):t._strict&&!s&&c(t).unusedTokens.push(r);c(t).charsLeftOver=u-l,o.length>0&&c(t).unusedInput.push(o),t._a[dn]<=12&&!0===c(t).bigHour&&t._a[dn]>0&&(c(t).bigHour=void 0),c(t).parsedDateParts=t._a.slice(0),c(t).meridiem=t._meridiem,t._a[dn]=Ue(t._locale,t._a[dn],t._meridiem),De(t),Me(t)}else Re(t);else Oe(t)}function Ue(e,t,n){var s;return null==n?t:null!=e.meridiemHour?e.meridiemHour(t,n):null!=e.isPM?((s=e.isPM(n))&&t<12&&(t+=12),s||12!==t||(t=0),t):t}function Ne(e){var t,n,s,i,r;if(0===e._f.length)return c(e).invalidFormat=!0,void(e._d=new Date(NaN));for(i=0;i<e._f.length;i++)r=0,t=_({},e),null!=e._useUTC&&(t._useUTC=e._useUTC),t._f=e._f[i],Fe(t),f(t)&&(r+=c(t).charsLeftOver,r+=10*c(t).unusedTokens.length,c(t).score=r,(null==s||r<s)&&(s=r,n=t));l(e,n||t)}function He(e){if(!e._d){var t=b(e._i);e._a=o([t.year,t.month,t.day||t.date,t.hour,t.minute,t.second,t.millisecond],function(e){return e&&parseInt(e,10)}),De(e)}}function Le(e){var t=new y(Me(Ge(e)));return t._nextDay&&(t.add(1,"d"),t._nextDay=void 0),t}function Ge(e){var n=e._i,s=e._f;return e._locale=e._locale||ve(e._l),null===n||void 0===s&&""===n?m({nullInput:!0}):("string"==typeof n&&(e._i=n=e._locale.preparse(n)),g(n)?new y(Me(n)):(a(n)?e._d=n:t(s)?Ne(e):s?Fe(e):Ve(e),f(e)||(e._d=null),e))}function Ve(s){var u=s._i;i(u)?s._d=new Date(e.now()):a(u)?s._d=new Date(u.valueOf()):"string"==typeof u?Ce(s):t(u)?(s._a=o(u.slice(0),function(e){return parseInt(e,10)}),De(s)):n(u)?He(s):r(u)?s._d=new Date(u):e.createFromInputFallback(s)}function je(e,i,r,a,o){var u={};return!0!==r&&!1!==r||(a=r,r=void 0),(n(e)&&s(e)||t(e)&&0===e.length)&&(e=void 0),u._isAMomentObject=!0,u._useUTC=u._isUTC=o,u._l=r,u._i=e,u._f=i,u._strict=a,Le(u)}function Ie(e,t,n,s){return je(e,t,n,s,!1)}function Ee(e,n){var s,i;if(1===n.length&&t(n[0])&&(n=n[0]),!n.length)return Ie();for(s=n[0],i=1;i<n.length;++i)n[i].isValid()&&!n[i][e](s)||(s=n[i]);return s}function Ae(e){for(var t in e)if(-1===yn.call(Zn,t)||null!=e[t]&&isNaN(e[t]))return!1;for(var n=!1,s=0;s<Zn.length;++s)if(e[Zn[s]]){if(n)return!1;parseFloat(e[Zn[s]])!==w(e[Zn[s]])&&(n=!0)}return!0}function ze(e){var t=b(e),n=t.year||0,s=t.quarter||0,i=t.month||0,r=t.week||0,a=t.day||0,o=t.hour||0,u=t.minute||0,l=t.second||0,d=t.millisecond||0;this._isValid=Ae(t),this._milliseconds=+d+1e3*l+6e4*u+1e3*o*60*60,this._days=+a+7*r,this._months=+i+3*s+12*n,this._data={},this._locale=ve(),this._bubble()}function Ze(e){return e instanceof ze}function $e(e){return e<0?-1*Math.round(-1*e):Math.round(e)}function qe(e,t){C(e,0,0,function(){var e=this.utcOffset(),n="+";return e<0&&(e=-e,n="-"),n+R(~~(e/60),2)+t+R(~~e%60,2)})}function Je(e,t){var n=(t||"").match(e);if(null===n)return null;var s=((n[n.length-1]||[])+"").match($n)||["-",0,0],i=60*s[1]+w(s[2]);return 0===i?0:"+"===s[0]?i:-i}function Be(t,n){var s,i;return n._isUTC?(s=n.clone(),i=(g(t)||a(t)?t.valueOf():Ie(t).valueOf())-s.valueOf(),s._d.setTime(s._d.valueOf()+i),e.updateOffset(s,!1),s):Ie(t).local()}function Qe(e){return 15*-Math.round(e._d.getTimezoneOffset()/15)}function Xe(){return!!this.isValid()&&(this._isUTC&&0===this._offset)}function Ke(e,t){var n,s,i,a=e,o=null;return Ze(e)?a={ms:e._milliseconds,d:e._days,M:e._months}:r(e)?(a={},t?a[t]=e:a.milliseconds=e):(o=qn.exec(e))?(n="-"===o[1]?-1:1,a={y:0,d:w(o[ln])*n,h:w(o[dn])*n,m:w(o[hn])*n,s:w(o[cn])*n,ms:w($e(1e3*o[fn]))*n}):(o=Jn.exec(e))?(n="-"===o[1]?-1:(o[1],1),a={y:et(o[2],n),M:et(o[3],n),w:et(o[4],n),d:et(o[5],n),h:et(o[6],n),m:et(o[7],n),s:et(o[8],n)}):null==a?a={}:"object"==typeof a&&("from"in a||"to"in a)&&(i=nt(Ie(a.from),Ie(a.to)),(a={}).ms=i.milliseconds,a.M=i.months),s=new ze(a),Ze(e)&&u(e,"_locale")&&(s._locale=e._locale),s}function et(e,t){var n=e&&parseFloat(e.replace(",","."));return(isNaN(n)?0:n)*t}function tt(e,t){var n={milliseconds:0,months:0};return n.months=t.month()-e.month()+12*(t.year()-e.year()),e.clone().add(n.months,"M").isAfter(t)&&--n.months,n.milliseconds=+t-+e.clone().add(n.months,"M"),n}function nt(e,t){var n;return e.isValid()&&t.isValid()?(t=Be(t,e),e.isBefore(t)?n=tt(e,t):((n=tt(t,e)).milliseconds=-n.milliseconds,n.months=-n.months),n):{milliseconds:0,months:0}}function st(e,t){return function(n,s){var i,r;return null===s||isNaN(+s)||(S(t,"moment()."+t+"(period, number) is deprecated. Please use moment()."+t+"(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."),r=n,n=s,s=r),n="string"==typeof n?+n:n,i=Ke(n,s),it(this,i,e),this}}function it(t,n,s,i){var r=n._milliseconds,a=$e(n._days),o=$e(n._months);t.isValid()&&(i=null==i||i,o&&K(t,q(t,"Month")+o*s),a&&J(t,"Date",q(t,"Date")+a*s),r&&t._d.setTime(t._d.valueOf()+r*s),i&&e.updateOffset(t,a||o))}function rt(e,t){var n,s=12*(t.year()-e.year())+(t.month()-e.month()),i=e.clone().add(s,"months");return n=t-i<0?(t-i)/(i-e.clone().add(s-1,"months")):(t-i)/(e.clone().add(s+1,"months")-i),-(s+n)||0}function at(e){var t;return void 0===e?this._locale._abbr:(null!=(t=ve(e))&&(this._locale=t),this)}function ot(){return this._locale}function ut(e,t){C(0,[e,e.length],0,t)}function lt(e,t,n,s,i){var r;return null==e?ae(this,s,i).year:(r=oe(e,s,i),t>r&&(t=r),dt.call(this,e,t,n,s,i))}function dt(e,t,n,s,i){var r=re(e,t,n,s,i),a=se(r.year,0,r.dayOfYear);return this.year(a.getUTCFullYear()),this.month(a.getUTCMonth()),this.date(a.getUTCDate()),this}function ht(e){return e}function ct(e,t,n,s){var i=ve(),r=d().set(s,t);return i[n](r,e)}function ft(e,t,n){if(r(e)&&(t=e,e=void 0),e=e||"",null!=t)return ct(e,t,n,"month");var s,i=[];for(s=0;s<12;s++)i[s]=ct(e,s,n,"month");return i}function mt(e,t,n,s){"boolean"==typeof e?(r(t)&&(n=t,t=void 0),t=t||""):(n=t=e,e=!1,r(t)&&(n=t,t=void 0),t=t||"");var i=ve(),a=e?i._week.dow:0;if(null!=n)return ct(t,(n+a)%7,s,"day");var o,u=[];for(o=0;o<7;o++)u[o]=ct(t,(o+a)%7,s,"day");return u}function _t(e,t,n,s){var i=Ke(t,n);return e._milliseconds+=s*i._milliseconds,e._days+=s*i._days,e._months+=s*i._months,e._bubble()}function yt(e){return e<0?Math.floor(e):Math.ceil(e)}function gt(e){return 4800*e/146097}function pt(e){return 146097*e/4800}function wt(e){return function(){return this.as(e)}}function vt(e){return function(){return this.isValid()?this._data[e]:NaN}}function Mt(e,t,n,s,i){return i.relativeTime(t||1,!!n,e,s)}function kt(e,t,n){var s=Ke(e).abs(),i=ks(s.as("s")),r=ks(s.as("m")),a=ks(s.as("h")),o=ks(s.as("d")),u=ks(s.as("M")),l=ks(s.as("y")),d=i<=Ss.ss&&["s",i]||i<Ss.s&&["ss",i]||r<=1&&["m"]||r<Ss.m&&["mm",r]||a<=1&&["h"]||a<Ss.h&&["hh",a]||o<=1&&["d"]||o<Ss.d&&["dd",o]||u<=1&&["M"]||u<Ss.M&&["MM",u]||l<=1&&["y"]||["yy",l];return d[2]=t,d[3]=+e>0,d[4]=n,Mt.apply(null,d)}function St(e){return(e>0)-(e<0)||+e}function Dt(){if(!this.isValid())return this.localeData().invalidDate();var e,t,n,s=Ds(this._milliseconds)/1e3,i=Ds(this._days),r=Ds(this._months);t=p((e=p(s/60))/60),s%=60,e%=60;var a=n=p(r/12),o=r%=12,u=i,l=t,d=e,h=s?s.toFixed(3).replace(/\.?0+$/,""):"",c=this.asSeconds();if(!c)return"P0D";var f=c<0?"-":"",m=St(this._months)!==St(c)?"-":"",_=St(this._days)!==St(c)?"-":"",y=St(this._milliseconds)!==St(c)?"-":"";return f+"P"+(a?m+a+"Y":"")+(o?m+o+"M":"")+(u?_+u+"D":"")+(l||d||h?"T":"")+(l?y+l+"H":"")+(d?y+d+"M":"")+(h?y+h+"S":"")}var Yt,Ot;Ot=Array.prototype.some?Array.prototype.some:function(e){for(var t=Object(this),n=t.length>>>0,s=0;s<n;s++)if(s in t&&e.call(this,t[s],s,t))return!0;return!1};var xt=e.momentProperties=[],Tt=!1,bt={};e.suppressDeprecationWarnings=!1,e.deprecationHandler=null;var Pt;Pt=Object.keys?Object.keys:function(e){var t,n=[];for(t in e)u(e,t)&&n.push(t);return n};var Wt={sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},Rt={LTS:"h:mm:ss A",LT:"h:mm A",L:"MM/DD/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY h:mm A",LLLL:"dddd, MMMM D, YYYY h:mm A"},Ct=/\d{1,2}/,Ft={future:"in %s",past:"%s ago",s:"a few seconds",ss:"%d seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},Ut={},Nt={},Ht=/(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g,Lt=/(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g,Gt={},Vt={},jt=/\d/,It=/\d\d/,Et=/\d{3}/,At=/\d{4}/,zt=/[+-]?\d{6}/,Zt=/\d\d?/,$t=/\d\d\d\d?/,qt=/\d\d\d\d\d\d?/,Jt=/\d{1,3}/,Bt=/\d{1,4}/,Qt=/[+-]?\d{1,6}/,Xt=/\d+/,Kt=/[+-]?\d+/,en=/Z|[+-]\d\d:?\d\d/gi,tn=/Z|[+-]\d\d(?::?\d\d)?/gi,nn=/[+-]?\d+(\.\d{1,3})?/,sn=/[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i,rn={},an={},on=0,un=1,ln=2,dn=3,hn=4,cn=5,fn=6,mn=7,_n=8;C("Y",0,0,function(){var e=this.year();return e<=9999?""+e:"+"+e}),C(0,["YY",2],0,function(){return this.year()%100}),C(0,["YYYY",4],0,"year"),C(0,["YYYYY",5],0,"year"),C(0,["YYYYYY",6,!0],0,"year"),x("year","y"),P("year",1),L("Y",Kt),L("YY",Zt,It),L("YYYY",Bt,At),L("YYYYY",Qt,zt),L("YYYYYY",Qt,zt),I(["YYYYY","YYYYYY"],on),I("YYYY",function(t,n){n[on]=2===t.length?e.parseTwoDigitYear(t):w(t)}),I("YY",function(t,n){n[on]=e.parseTwoDigitYear(t)}),I("Y",function(e,t){t[on]=parseInt(e,10)}),e.parseTwoDigitYear=function(e){return w(e)+(w(e)>68?1900:2e3)};var yn,gn=$("FullYear",!0);yn=Array.prototype.indexOf?Array.prototype.indexOf:function(e){var t;for(t=0;t<this.length;++t)if(this[t]===e)return t;return-1},C("M",["MM",2],"Mo",function(){return this.month()+1}),C("MMM",0,0,function(e){return this.localeData().monthsShort(this,e)}),C("MMMM",0,0,function(e){return this.localeData().months(this,e)}),x("month","M"),P("month",8),L("M",Zt),L("MM",Zt,It),L("MMM",function(e,t){return t.monthsShortRegex(e)}),L("MMMM",function(e,t){return t.monthsRegex(e)}),I(["M","MM"],function(e,t){t[un]=w(e)-1}),I(["MMM","MMMM"],function(e,t,n,s){var i=n._locale.monthsParse(e,s,n._strict);null!=i?t[un]=i:c(n).invalidMonth=e});var pn=/D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/,wn="January_February_March_April_May_June_July_August_September_October_November_December".split("_"),vn="Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),Mn=sn,kn=sn;C("w",["ww",2],"wo","week"),C("W",["WW",2],"Wo","isoWeek"),x("week","w"),x("isoWeek","W"),P("week",5),P("isoWeek",5),L("w",Zt),L("ww",Zt,It),L("W",Zt),L("WW",Zt,It),E(["w","ww","W","WW"],function(e,t,n,s){t[s.substr(0,1)]=w(e)});var Sn={dow:0,doy:6};C("d",0,"do","day"),C("dd",0,0,function(e){return this.localeData().weekdaysMin(this,e)}),C("ddd",0,0,function(e){return this.localeData().weekdaysShort(this,e)}),C("dddd",0,0,function(e){return this.localeData().weekdays(this,e)}),C("e",0,0,"weekday"),C("E",0,0,"isoWeekday"),x("day","d"),x("weekday","e"),x("isoWeekday","E"),P("day",11),P("weekday",11),P("isoWeekday",11),L("d",Zt),L("e",Zt),L("E",Zt),L("dd",function(e,t){return t.weekdaysMinRegex(e)}),L("ddd",function(e,t){return t.weekdaysShortRegex(e)}),L("dddd",function(e,t){return t.weekdaysRegex(e)}),E(["dd","ddd","dddd"],function(e,t,n,s){var i=n._locale.weekdaysParse(e,s,n._strict);null!=i?t.d=i:c(n).invalidWeekday=e}),E(["d","e","E"],function(e,t,n,s){t[s]=w(e)});var Dn="Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),Yn="Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),On="Su_Mo_Tu_We_Th_Fr_Sa".split("_"),xn=sn,Tn=sn,bn=sn;C("H",["HH",2],0,"hour"),C("h",["hh",2],0,ce),C("k",["kk",2],0,function(){return this.hours()||24}),C("hmm",0,0,function(){return""+ce.apply(this)+R(this.minutes(),2)}),C("hmmss",0,0,function(){return""+ce.apply(this)+R(this.minutes(),2)+R(this.seconds(),2)}),C("Hmm",0,0,function(){return""+this.hours()+R(this.minutes(),2)}),C("Hmmss",0,0,function(){return""+this.hours()+R(this.minutes(),2)+R(this.seconds(),2)}),fe("a",!0),fe("A",!1),x("hour","h"),P("hour",13),L("a",me),L("A",me),L("H",Zt),L("h",Zt),L("k",Zt),L("HH",Zt,It),L("hh",Zt,It),L("kk",Zt,It),L("hmm",$t),L("hmmss",qt),L("Hmm",$t),L("Hmmss",qt),I(["H","HH"],dn),I(["k","kk"],function(e,t,n){var s=w(e);t[dn]=24===s?0:s}),I(["a","A"],function(e,t,n){n._isPm=n._locale.isPM(e),n._meridiem=e}),I(["h","hh"],function(e,t,n){t[dn]=w(e),c(n).bigHour=!0}),I("hmm",function(e,t,n){var s=e.length-2;t[dn]=w(e.substr(0,s)),t[hn]=w(e.substr(s)),c(n).bigHour=!0}),I("hmmss",function(e,t,n){var s=e.length-4,i=e.length-2;t[dn]=w(e.substr(0,s)),t[hn]=w(e.substr(s,2)),t[cn]=w(e.substr(i)),c(n).bigHour=!0}),I("Hmm",function(e,t,n){var s=e.length-2;t[dn]=w(e.substr(0,s)),t[hn]=w(e.substr(s))}),I("Hmmss",function(e,t,n){var s=e.length-4,i=e.length-2;t[dn]=w(e.substr(0,s)),t[hn]=w(e.substr(s,2)),t[cn]=w(e.substr(i))});var Pn,Wn=/[ap]\.?m?\.?/i,Rn=$("Hours",!0),Cn={calendar:Wt,longDateFormat:Rt,invalidDate:"Invalid date",ordinal:"%d",dayOfMonthOrdinalParse:Ct,relativeTime:Ft,months:wn,monthsShort:vn,week:Sn,weekdays:Dn,weekdaysMin:On,weekdaysShort:Yn,meridiemParse:Wn},Fn={},Un={},Nn=/^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,Hn=/^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,Ln=/Z|[+-]\d\d(?::?\d\d)?/,Gn=[["YYYYYY-MM-DD",/[+-]\d{6}-\d\d-\d\d/],["YYYY-MM-DD",/\d{4}-\d\d-\d\d/],["GGGG-[W]WW-E",/\d{4}-W\d\d-\d/],["GGGG-[W]WW",/\d{4}-W\d\d/,!1],["YYYY-DDD",/\d{4}-\d{3}/],["YYYY-MM",/\d{4}-\d\d/,!1],["YYYYYYMMDD",/[+-]\d{10}/],["YYYYMMDD",/\d{8}/],["GGGG[W]WWE",/\d{4}W\d{3}/],["GGGG[W]WW",/\d{4}W\d{2}/,!1],["YYYYDDD",/\d{7}/]],Vn=[["HH:mm:ss.SSSS",/\d\d:\d\d:\d\d\.\d+/],["HH:mm:ss,SSSS",/\d\d:\d\d:\d\d,\d+/],["HH:mm:ss",/\d\d:\d\d:\d\d/],["HH:mm",/\d\d:\d\d/],["HHmmss.SSSS",/\d\d\d\d\d\d\.\d+/],["HHmmss,SSSS",/\d\d\d\d\d\d,\d+/],["HHmmss",/\d\d\d\d\d\d/],["HHmm",/\d\d\d\d/],["HH",/\d\d/]],jn=/^\/?Date\((\-?\d+)/i,In=/^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/,En={UT:0,GMT:0,EDT:-240,EST:-300,CDT:-300,CST:-360,MDT:-360,MST:-420,PDT:-420,PST:-480};e.createFromInputFallback=k("value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are discouraged and will be removed in an upcoming major release. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.",function(e){e._d=new Date(e._i+(e._useUTC?" UTC":""))}),e.ISO_8601=function(){},e.RFC_2822=function(){};var An=k("moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/",function(){var e=Ie.apply(null,arguments);return this.isValid()&&e.isValid()?e<this?this:e:m()}),zn=k("moment().max is deprecated, use moment.min instead. http://momentjs.com/guides/#/warnings/min-max/",function(){var e=Ie.apply(null,arguments);return this.isValid()&&e.isValid()?e>this?this:e:m()}),Zn=["year","quarter","month","week","day","hour","minute","second","millisecond"];qe("Z",":"),qe("ZZ",""),L("Z",tn),L("ZZ",tn),I(["Z","ZZ"],function(e,t,n){n._useUTC=!0,n._tzm=Je(tn,e)});var $n=/([\+\-]|\d\d)/gi;e.updateOffset=function(){};var qn=/^(\-|\+)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)(\.\d*)?)?$/,Jn=/^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;Ke.fn=ze.prototype,Ke.invalid=function(){return Ke(NaN)};var Bn=st(1,"add"),Qn=st(-1,"subtract");e.defaultFormat="YYYY-MM-DDTHH:mm:ssZ",e.defaultFormatUtc="YYYY-MM-DDTHH:mm:ss[Z]";var Xn=k("moment().lang() is deprecated. Instead, use moment().localeData() to get the language configuration. Use moment().locale() to change languages.",function(e){return void 0===e?this.localeData():this.locale(e)});C(0,["gg",2],0,function(){return this.weekYear()%100}),C(0,["GG",2],0,function(){return this.isoWeekYear()%100}),ut("gggg","weekYear"),ut("ggggg","weekYear"),ut("GGGG","isoWeekYear"),ut("GGGGG","isoWeekYear"),x("weekYear","gg"),x("isoWeekYear","GG"),P("weekYear",1),P("isoWeekYear",1),L("G",Kt),L("g",Kt),L("GG",Zt,It),L("gg",Zt,It),L("GGGG",Bt,At),L("gggg",Bt,At),L("GGGGG",Qt,zt),L("ggggg",Qt,zt),E(["gggg","ggggg","GGGG","GGGGG"],function(e,t,n,s){t[s.substr(0,2)]=w(e)}),E(["gg","GG"],function(t,n,s,i){n[i]=e.parseTwoDigitYear(t)}),C("Q",0,"Qo","quarter"),x("quarter","Q"),P("quarter",7),L("Q",jt),I("Q",function(e,t){t[un]=3*(w(e)-1)}),C("D",["DD",2],"Do","date"),x("date","D"),P("date",9),L("D",Zt),L("DD",Zt,It),L("Do",function(e,t){return e?t._dayOfMonthOrdinalParse||t._ordinalParse:t._dayOfMonthOrdinalParseLenient}),I(["D","DD"],ln),I("Do",function(e,t){t[ln]=w(e.match(Zt)[0],10)});var Kn=$("Date",!0);C("DDD",["DDDD",3],"DDDo","dayOfYear"),x("dayOfYear","DDD"),P("dayOfYear",4),L("DDD",Jt),L("DDDD",Et),I(["DDD","DDDD"],function(e,t,n){n._dayOfYear=w(e)}),C("m",["mm",2],0,"minute"),x("minute","m"),P("minute",14),L("m",Zt),L("mm",Zt,It),I(["m","mm"],hn);var es=$("Minutes",!1);C("s",["ss",2],0,"second"),x("second","s"),P("second",15),L("s",Zt),L("ss",Zt,It),I(["s","ss"],cn);var ts=$("Seconds",!1);C("S",0,0,function(){return~~(this.millisecond()/100)}),C(0,["SS",2],0,function(){return~~(this.millisecond()/10)}),C(0,["SSS",3],0,"millisecond"),C(0,["SSSS",4],0,function(){return 10*this.millisecond()}),C(0,["SSSSS",5],0,function(){return 100*this.millisecond()}),C(0,["SSSSSS",6],0,function(){return 1e3*this.millisecond()}),C(0,["SSSSSSS",7],0,function(){return 1e4*this.millisecond()}),C(0,["SSSSSSSS",8],0,function(){return 1e5*this.millisecond()}),C(0,["SSSSSSSSS",9],0,function(){return 1e6*this.millisecond()}),x("millisecond","ms"),P("millisecond",16),L("S",Jt,jt),L("SS",Jt,It),L("SSS",Jt,Et);var ns;for(ns="SSSS";ns.length<=9;ns+="S")L(ns,Xt);for(ns="S";ns.length<=9;ns+="S")I(ns,function(e,t){t[fn]=w(1e3*("0."+e))});var ss=$("Milliseconds",!1);C("z",0,0,"zoneAbbr"),C("zz",0,0,"zoneName");var is=y.prototype;is.add=Bn,is.calendar=function(t,n){var s=t||Ie(),i=Be(s,this).startOf("day"),r=e.calendarFormat(this,i)||"sameElse",a=n&&(D(n[r])?n[r].call(this,s):n[r]);return this.format(a||this.localeData().calendar(r,this,Ie(s)))},is.clone=function(){return new y(this)},is.diff=function(e,t,n){var s,i,r;if(!this.isValid())return NaN;if(!(s=Be(e,this)).isValid())return NaN;switch(i=6e4*(s.utcOffset()-this.utcOffset()),t=T(t)){case"year":r=rt(this,s)/12;break;case"month":r=rt(this,s);break;case"quarter":r=rt(this,s)/3;break;case"second":r=(this-s)/1e3;break;case"minute":r=(this-s)/6e4;break;case"hour":r=(this-s)/36e5;break;case"day":r=(this-s-i)/864e5;break;case"week":r=(this-s-i)/6048e5;break;default:r=this-s}return n?r:p(r)},is.endOf=function(e){return void 0===(e=T(e))||"millisecond"===e?this:("date"===e&&(e="day"),this.startOf(e).add(1,"isoWeek"===e?"week":e).subtract(1,"ms"))},is.format=function(t){t||(t=this.isUtc()?e.defaultFormatUtc:e.defaultFormat);var n=N(this,t);return this.localeData().postformat(n)},is.from=function(e,t){return this.isValid()&&(g(e)&&e.isValid()||Ie(e).isValid())?Ke({to:this,from:e}).locale(this.locale()).humanize(!t):this.localeData().invalidDate()},is.fromNow=function(e){return this.from(Ie(),e)},is.to=function(e,t){return this.isValid()&&(g(e)&&e.isValid()||Ie(e).isValid())?Ke({from:this,to:e}).locale(this.locale()).humanize(!t):this.localeData().invalidDate()},is.toNow=function(e){return this.to(Ie(),e)},is.get=function(e){return e=T(e),D(this[e])?this[e]():this},is.invalidAt=function(){return c(this).overflow},is.isAfter=function(e,t){var n=g(e)?e:Ie(e);return!(!this.isValid()||!n.isValid())&&("millisecond"===(t=T(i(t)?"millisecond":t))?this.valueOf()>n.valueOf():n.valueOf()<this.clone().startOf(t).valueOf())},is.isBefore=function(e,t){var n=g(e)?e:Ie(e);return!(!this.isValid()||!n.isValid())&&("millisecond"===(t=T(i(t)?"millisecond":t))?this.valueOf()<n.valueOf():this.clone().endOf(t).valueOf()<n.valueOf())},is.isBetween=function(e,t,n,s){return("("===(s=s||"()")[0]?this.isAfter(e,n):!this.isBefore(e,n))&&(")"===s[1]?this.isBefore(t,n):!this.isAfter(t,n))},is.isSame=function(e,t){var n,s=g(e)?e:Ie(e);return!(!this.isValid()||!s.isValid())&&("millisecond"===(t=T(t||"millisecond"))?this.valueOf()===s.valueOf():(n=s.valueOf(),this.clone().startOf(t).valueOf()<=n&&n<=this.clone().endOf(t).valueOf()))},is.isSameOrAfter=function(e,t){return this.isSame(e,t)||this.isAfter(e,t)},is.isSameOrBefore=function(e,t){return this.isSame(e,t)||this.isBefore(e,t)},is.isValid=function(){return f(this)},is.lang=Xn,is.locale=at,is.localeData=ot,is.max=zn,is.min=An,is.parsingFlags=function(){return l({},c(this))},is.set=function(e,t){if("object"==typeof e)for(var n=W(e=b(e)),s=0;s<n.length;s++)this[n[s].unit](e[n[s].unit]);else if(e=T(e),D(this[e]))return this[e](t);return this},is.startOf=function(e){switch(e=T(e)){case"year":this.month(0);case"quarter":case"month":this.date(1);case"week":case"isoWeek":case"day":case"date":this.hours(0);case"hour":this.minutes(0);case"minute":this.seconds(0);case"second":this.milliseconds(0)}return"week"===e&&this.weekday(0),"isoWeek"===e&&this.isoWeekday(1),"quarter"===e&&this.month(3*Math.floor(this.month()/3)),this},is.subtract=Qn,is.toArray=function(){var e=this;return[e.year(),e.month(),e.date(),e.hour(),e.minute(),e.second(),e.millisecond()]},is.toObject=function(){var e=this;return{years:e.year(),months:e.month(),date:e.date(),hours:e.hours(),minutes:e.minutes(),seconds:e.seconds(),milliseconds:e.milliseconds()}},is.toDate=function(){return new Date(this.valueOf())},is.toISOString=function(){if(!this.isValid())return null;var e=this.clone().utc();return e.year()<0||e.year()>9999?N(e,"YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]"):D(Date.prototype.toISOString)?this.toDate().toISOString():N(e,"YYYY-MM-DD[T]HH:mm:ss.SSS[Z]")},is.inspect=function(){if(!this.isValid())return"moment.invalid(/* "+this._i+" */)";var e="moment",t="";this.isLocal()||(e=0===this.utcOffset()?"moment.utc":"moment.parseZone",t="Z");var n="["+e+'("]',s=0<=this.year()&&this.year()<=9999?"YYYY":"YYYYYY",i=t+'[")]';return this.format(n+s+"-MM-DD[T]HH:mm:ss.SSS"+i)},is.toJSON=function(){return this.isValid()?this.toISOString():null},is.toString=function(){return this.clone().locale("en").format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ")},is.unix=function(){return Math.floor(this.valueOf()/1e3)},is.valueOf=function(){return this._d.valueOf()-6e4*(this._offset||0)},is.creationData=function(){return{input:this._i,format:this._f,locale:this._locale,isUTC:this._isUTC,strict:this._strict}},is.year=gn,is.isLeapYear=function(){return Z(this.year())},is.weekYear=function(e){return lt.call(this,e,this.week(),this.weekday(),this.localeData()._week.dow,this.localeData()._week.doy)},is.isoWeekYear=function(e){return lt.call(this,e,this.isoWeek(),this.isoWeekday(),1,4)},is.quarter=is.quarters=function(e){return null==e?Math.ceil((this.month()+1)/3):this.month(3*(e-1)+this.month()%3)},is.month=ee,is.daysInMonth=function(){return Q(this.year(),this.month())},is.week=is.weeks=function(e){var t=this.localeData().week(this);return null==e?t:this.add(7*(e-t),"d")},is.isoWeek=is.isoWeeks=function(e){var t=ae(this,1,4).week;return null==e?t:this.add(7*(e-t),"d")},is.weeksInYear=function(){var e=this.localeData()._week;return oe(this.year(),e.dow,e.doy)},is.isoWeeksInYear=function(){return oe(this.year(),1,4)},is.date=Kn,is.day=is.days=function(e){if(!this.isValid())return null!=e?this:NaN;var t=this._isUTC?this._d.getUTCDay():this._d.getDay();return null!=e?(e=ue(e,this.localeData()),this.add(e-t,"d")):t},is.weekday=function(e){if(!this.isValid())return null!=e?this:NaN;var t=(this.day()+7-this.localeData()._week.dow)%7;return null==e?t:this.add(e-t,"d")},is.isoWeekday=function(e){if(!this.isValid())return null!=e?this:NaN;if(null!=e){var t=le(e,this.localeData());return this.day(this.day()%7?t:t-7)}return this.day()||7},is.dayOfYear=function(e){var t=Math.round((this.clone().startOf("day")-this.clone().startOf("year"))/864e5)+1;return null==e?t:this.add(e-t,"d")},is.hour=is.hours=Rn,is.minute=is.minutes=es,is.second=is.seconds=ts,is.millisecond=is.milliseconds=ss,is.utcOffset=function(t,n,s){var i,r=this._offset||0;if(!this.isValid())return null!=t?this:NaN;if(null!=t){if("string"==typeof t){if(null===(t=Je(tn,t)))return this}else Math.abs(t)<16&&!s&&(t*=60);return!this._isUTC&&n&&(i=Qe(this)),this._offset=t,this._isUTC=!0,null!=i&&this.add(i,"m"),r!==t&&(!n||this._changeInProgress?it(this,Ke(t-r,"m"),1,!1):this._changeInProgress||(this._changeInProgress=!0,e.updateOffset(this,!0),this._changeInProgress=null)),this}return this._isUTC?r:Qe(this)},is.utc=function(e){return this.utcOffset(0,e)},is.local=function(e){return this._isUTC&&(this.utcOffset(0,e),this._isUTC=!1,e&&this.subtract(Qe(this),"m")),this},is.parseZone=function(){if(null!=this._tzm)this.utcOffset(this._tzm,!1,!0);else if("string"==typeof this._i){var e=Je(en,this._i);null!=e?this.utcOffset(e):this.utcOffset(0,!0)}return this},is.hasAlignedHourOffset=function(e){return!!this.isValid()&&(e=e?Ie(e).utcOffset():0,(this.utcOffset()-e)%60==0)},is.isDST=function(){return this.utcOffset()>this.clone().month(0).utcOffset()||this.utcOffset()>this.clone().month(5).utcOffset()},is.isLocal=function(){return!!this.isValid()&&!this._isUTC},is.isUtcOffset=function(){return!!this.isValid()&&this._isUTC},is.isUtc=Xe,is.isUTC=Xe,is.zoneAbbr=function(){return this._isUTC?"UTC":""},is.zoneName=function(){return this._isUTC?"Coordinated Universal Time":""},is.dates=k("dates accessor is deprecated. Use date instead.",Kn),is.months=k("months accessor is deprecated. Use month instead",ee),is.years=k("years accessor is deprecated. Use year instead",gn),is.zone=k("moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/",function(e,t){return null!=e?("string"!=typeof e&&(e=-e),this.utcOffset(e,t),this):-this.utcOffset()}),is.isDSTShifted=k("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information",function(){if(!i(this._isDSTShifted))return this._isDSTShifted;var e={};if(_(e,this),(e=Ge(e))._a){var t=e._isUTC?d(e._a):Ie(e._a);this._isDSTShifted=this.isValid()&&v(e._a,t.toArray())>0}else this._isDSTShifted=!1;return this._isDSTShifted});var rs=O.prototype;rs.calendar=function(e,t,n){var s=this._calendar[e]||this._calendar.sameElse;return D(s)?s.call(t,n):s},rs.longDateFormat=function(e){var t=this._longDateFormat[e],n=this._longDateFormat[e.toUpperCase()];return t||!n?t:(this._longDateFormat[e]=n.replace(/MMMM|MM|DD|dddd/g,function(e){return e.slice(1)}),this._longDateFormat[e])},rs.invalidDate=function(){return this._invalidDate},rs.ordinal=function(e){return this._ordinal.replace("%d",e)},rs.preparse=ht,rs.postformat=ht,rs.relativeTime=function(e,t,n,s){var i=this._relativeTime[n];return D(i)?i(e,t,n,s):i.replace(/%d/i,e)},rs.pastFuture=function(e,t){var n=this._relativeTime[e>0?"future":"past"];return D(n)?n(t):n.replace(/%s/i,t)},rs.set=function(e){var t,n;for(n in e)D(t=e[n])?this[n]=t:this["_"+n]=t;this._config=e,this._dayOfMonthOrdinalParseLenient=new RegExp((this._dayOfMonthOrdinalParse.source||this._ordinalParse.source)+"|"+/\d{1,2}/.source)},rs.months=function(e,n){return e?t(this._months)?this._months[e.month()]:this._months[(this._months.isFormat||pn).test(n)?"format":"standalone"][e.month()]:t(this._months)?this._months:this._months.standalone},rs.monthsShort=function(e,n){return e?t(this._monthsShort)?this._monthsShort[e.month()]:this._monthsShort[pn.test(n)?"format":"standalone"][e.month()]:t(this._monthsShort)?this._monthsShort:this._monthsShort.standalone},rs.monthsParse=function(e,t,n){var s,i,r;if(this._monthsParseExact)return X.call(this,e,t,n);for(this._monthsParse||(this._monthsParse=[],this._longMonthsParse=[],this._shortMonthsParse=[]),s=0;s<12;s++){if(i=d([2e3,s]),n&&!this._longMonthsParse[s]&&(this._longMonthsParse[s]=new RegExp("^"+this.months(i,"").replace(".","")+"$","i"),this._shortMonthsParse[s]=new RegExp("^"+this.monthsShort(i,"").replace(".","")+"$","i")),n||this._monthsParse[s]||(r="^"+this.months(i,"")+"|^"+this.monthsShort(i,""),this._monthsParse[s]=new RegExp(r.replace(".",""),"i")),n&&"MMMM"===t&&this._longMonthsParse[s].test(e))return s;if(n&&"MMM"===t&&this._shortMonthsParse[s].test(e))return s;if(!n&&this._monthsParse[s].test(e))return s}},rs.monthsRegex=function(e){return this._monthsParseExact?(u(this,"_monthsRegex")||te.call(this),e?this._monthsStrictRegex:this._monthsRegex):(u(this,"_monthsRegex")||(this._monthsRegex=kn),this._monthsStrictRegex&&e?this._monthsStrictRegex:this._monthsRegex)},rs.monthsShortRegex=function(e){return this._monthsParseExact?(u(this,"_monthsRegex")||te.call(this),e?this._monthsShortStrictRegex:this._monthsShortRegex):(u(this,"_monthsShortRegex")||(this._monthsShortRegex=Mn),this._monthsShortStrictRegex&&e?this._monthsShortStrictRegex:this._monthsShortRegex)},rs.week=function(e){return ae(e,this._week.dow,this._week.doy).week},rs.firstDayOfYear=function(){return this._week.doy},rs.firstDayOfWeek=function(){return this._week.dow},rs.weekdays=function(e,n){return e?t(this._weekdays)?this._weekdays[e.day()]:this._weekdays[this._weekdays.isFormat.test(n)?"format":"standalone"][e.day()]:t(this._weekdays)?this._weekdays:this._weekdays.standalone},rs.weekdaysMin=function(e){return e?this._weekdaysMin[e.day()]:this._weekdaysMin},rs.weekdaysShort=function(e){return e?this._weekdaysShort[e.day()]:this._weekdaysShort},rs.weekdaysParse=function(e,t,n){var s,i,r;if(this._weekdaysParseExact)return de.call(this,e,t,n);for(this._weekdaysParse||(this._weekdaysParse=[],this._minWeekdaysParse=[],this._shortWeekdaysParse=[],this._fullWeekdaysParse=[]),s=0;s<7;s++){if(i=d([2e3,1]).day(s),n&&!this._fullWeekdaysParse[s]&&(this._fullWeekdaysParse[s]=new RegExp("^"+this.weekdays(i,"").replace(".",".?")+"$","i"),this._shortWeekdaysParse[s]=new RegExp("^"+this.weekdaysShort(i,"").replace(".",".?")+"$","i"),this._minWeekdaysParse[s]=new RegExp("^"+this.weekdaysMin(i,"").replace(".",".?")+"$","i")),this._weekdaysParse[s]||(r="^"+this.weekdays(i,"")+"|^"+this.weekdaysShort(i,"")+"|^"+this.weekdaysMin(i,""),this._weekdaysParse[s]=new RegExp(r.replace(".",""),"i")),n&&"dddd"===t&&this._fullWeekdaysParse[s].test(e))return s;if(n&&"ddd"===t&&this._shortWeekdaysParse[s].test(e))return s;if(n&&"dd"===t&&this._minWeekdaysParse[s].test(e))return s;if(!n&&this._weekdaysParse[s].test(e))return s}},rs.weekdaysRegex=function(e){return this._weekdaysParseExact?(u(this,"_weekdaysRegex")||he.call(this),e?this._weekdaysStrictRegex:this._weekdaysRegex):(u(this,"_weekdaysRegex")||(this._weekdaysRegex=xn),this._weekdaysStrictRegex&&e?this._weekdaysStrictRegex:this._weekdaysRegex)},rs.weekdaysShortRegex=function(e){return this._weekdaysParseExact?(u(this,"_weekdaysRegex")||he.call(this),e?this._weekdaysShortStrictRegex:this._weekdaysShortRegex):(u(this,"_weekdaysShortRegex")||(this._weekdaysShortRegex=Tn),this._weekdaysShortStrictRegex&&e?this._weekdaysShortStrictRegex:this._weekdaysShortRegex)},rs.weekdaysMinRegex=function(e){return this._weekdaysParseExact?(u(this,"_weekdaysRegex")||he.call(this),e?this._weekdaysMinStrictRegex:this._weekdaysMinRegex):(u(this,"_weekdaysMinRegex")||(this._weekdaysMinRegex=bn),this._weekdaysMinStrictRegex&&e?this._weekdaysMinStrictRegex:this._weekdaysMinRegex)},rs.isPM=function(e){return"p"===(e+"").toLowerCase().charAt(0)},rs.meridiem=function(e,t,n){return e>11?n?"pm":"PM":n?"am":"AM"},pe("en",{dayOfMonthOrdinalParse:/\d{1,2}(th|st|nd|rd)/,ordinal:function(e){var t=e%10;return e+(1===w(e%100/10)?"th":1===t?"st":2===t?"nd":3===t?"rd":"th")}}),e.lang=k("moment.lang is deprecated. Use moment.locale instead.",pe),e.langData=k("moment.langData is deprecated. Use moment.localeData instead.",ve);var as=Math.abs,os=wt("ms"),us=wt("s"),ls=wt("m"),ds=wt("h"),hs=wt("d"),cs=wt("w"),fs=wt("M"),ms=wt("y"),_s=vt("milliseconds"),ys=vt("seconds"),gs=vt("minutes"),ps=vt("hours"),ws=vt("days"),vs=vt("months"),Ms=vt("years"),ks=Math.round,Ss={ss:44,s:45,m:45,h:22,d:26,M:11},Ds=Math.abs,Ys=ze.prototype;return Ys.isValid=function(){return this._isValid},Ys.abs=function(){var e=this._data;return this._milliseconds=as(this._milliseconds),this._days=as(this._days),this._months=as(this._months),e.milliseconds=as(e.milliseconds),e.seconds=as(e.seconds),e.minutes=as(e.minutes),e.hours=as(e.hours),e.months=as(e.months),e.years=as(e.years),this},Ys.add=function(e,t){return _t(this,e,t,1)},Ys.subtract=function(e,t){return _t(this,e,t,-1)},Ys.as=function(e){if(!this.isValid())return NaN;var t,n,s=this._milliseconds;if("month"===(e=T(e))||"year"===e)return t=this._days+s/864e5,n=this._months+gt(t),"month"===e?n:n/12;switch(t=this._days+Math.round(pt(this._months)),e){case"week":return t/7+s/6048e5;case"day":return t+s/864e5;case"hour":return 24*t+s/36e5;case"minute":return 1440*t+s/6e4;case"second":return 86400*t+s/1e3;case"millisecond":return Math.floor(864e5*t)+s;default:throw new Error("Unknown unit "+e)}},Ys.asMilliseconds=os,Ys.asSeconds=us,Ys.asMinutes=ls,Ys.asHours=ds,Ys.asDays=hs,Ys.asWeeks=cs,Ys.asMonths=fs,Ys.asYears=ms,Ys.valueOf=function(){return this.isValid()?this._milliseconds+864e5*this._days+this._months%12*2592e6+31536e6*w(this._months/12):NaN},Ys._bubble=function(){var e,t,n,s,i,r=this._milliseconds,a=this._days,o=this._months,u=this._data;return r>=0&&a>=0&&o>=0||r<=0&&a<=0&&o<=0||(r+=864e5*yt(pt(o)+a),a=0,o=0),u.milliseconds=r%1e3,e=p(r/1e3),u.seconds=e%60,t=p(e/60),u.minutes=t%60,n=p(t/60),u.hours=n%24,a+=p(n/24),i=p(gt(a)),o+=i,a-=yt(pt(i)),s=p(o/12),o%=12,u.days=a,u.months=o,u.years=s,this},Ys.clone=function(){return Ke(this)},Ys.get=function(e){return e=T(e),this.isValid()?this[e+"s"]():NaN},Ys.milliseconds=_s,Ys.seconds=ys,Ys.minutes=gs,Ys.hours=ps,Ys.days=ws,Ys.weeks=function(){return p(this.days()/7)},Ys.months=vs,Ys.years=Ms,Ys.humanize=function(e){if(!this.isValid())return this.localeData().invalidDate();var t=this.localeData(),n=kt(this,!e,t);return e&&(n=t.pastFuture(+this,n)),t.postformat(n)},Ys.toISOString=Dt,Ys.toString=Dt,Ys.toJSON=Dt,Ys.locale=at,Ys.localeData=ot,Ys.toIsoString=k("toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)",Dt),Ys.lang=Xn,C("X",0,0,"unix"),C("x",0,0,"valueOf"),L("x",Kt),L("X",nn),I("X",function(e,t,n){n._d=new Date(1e3*parseFloat(e,10))}),I("x",function(e,t,n){n._d=new Date(w(e))}),e.version="2.19.1",function(e){Yt=e}(Ie),e.fn=is,e.min=function(){return Ee("isBefore",[].slice.call(arguments,0))},e.max=function(){return Ee("isAfter",[].slice.call(arguments,0))},e.now=function(){return Date.now?Date.now():+new Date},e.utc=d,e.unix=function(e){return Ie(1e3*e)},e.months=function(e,t){return ft(e,t,"months")},e.isDate=a,e.locale=pe,e.invalid=m,e.duration=Ke,e.isMoment=g,e.weekdays=function(e,t,n){return mt(e,t,n,"weekdays")},e.parseZone=function(){return Ie.apply(null,arguments).parseZone()},e.localeData=ve,e.isDuration=Ze,e.monthsShort=function(e,t){return ft(e,t,"monthsShort")},e.weekdaysMin=function(e,t,n){return mt(e,t,n,"weekdaysMin")},e.defineLocale=we,e.updateLocale=function(e,t){if(null!=t){var n,s=Cn;null!=Fn[e]&&(s=Fn[e]._config),(n=new O(t=Y(s,t))).parentLocale=Fn[e],Fn[e]=n,pe(e)}else null!=Fn[e]&&(null!=Fn[e].parentLocale?Fn[e]=Fn[e].parentLocale:null!=Fn[e]&&delete Fn[e]);return Fn[e]},e.locales=function(){return Pt(Fn)},e.weekdaysShort=function(e,t,n){return mt(e,t,n,"weekdaysShort")},e.normalizeUnits=T,e.relativeTimeRounding=function(e){return void 0===e?ks:"function"==typeof e&&(ks=e,!0)},e.relativeTimeThreshold=function(e,t){return void 0!==Ss[e]&&(void 0===t?Ss[e]:(Ss[e]=t,"s"===e&&(Ss.ss=t-1),!0))},e.calendarFormat=function(e,t){var n=e.diff(t,"days",!0);return n<-6?"sameElse":n<-1?"lastWeek":n<0?"lastDay":n<1?"sameDay":n<2?"nextDay":n<7?"nextWeek":"sameElse"},e.prototype=is,e});
 /**
  * @license AngularJS v1.6.0
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -37869,6 +37898,14 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+/*!
+ * cleave.js - 0.7.23
+ * https://github.com/nosir/cleave.js
+ * Apache License Version 2.0
+ *
+ * Copyright (C) 2012-2017 Max Huang https://github.com/nosir/
+ */
+!function(root,factory){"object"==typeof exports&&"object"==typeof module?module.exports=factory():"function"==typeof define&&define.amd?define([],factory):"object"==typeof exports?exports.Cleave=factory():root.Cleave=factory()}(this,function(){return function(modules){function __webpack_require__(moduleId){if(installedModules[moduleId])return installedModules[moduleId].exports;var module=installedModules[moduleId]={exports:{},id:moduleId,loaded:!1};return modules[moduleId].call(module.exports,module,module.exports,__webpack_require__),module.loaded=!0,module.exports}var installedModules={};return __webpack_require__.m=modules,__webpack_require__.c=installedModules,__webpack_require__.p="",__webpack_require__(0)}([function(module,exports,__webpack_require__){(function(global){"use strict";var Cleave=function(element,opts){var owner=this;if("string"==typeof element?owner.element=document.querySelector(element):owner.element="undefined"!=typeof element.length&&element.length>0?element[0]:element,!owner.element)throw new Error("[cleave.js] Please check the element");opts.initValue=owner.element.value,owner.properties=Cleave.DefaultProperties.assign({},opts),owner.init()};Cleave.prototype={init:function(){var owner=this,pps=owner.properties;(pps.numeral||pps.phone||pps.creditCard||pps.date||0!==pps.blocksLength||pps.prefix)&&(pps.maxLength=Cleave.Util.getMaxLength(pps.blocks),owner.isAndroid=Cleave.Util.isAndroid(),owner.lastInputValue="",owner.onChangeListener=owner.onChange.bind(owner),owner.onKeyDownListener=owner.onKeyDown.bind(owner),owner.onCutListener=owner.onCut.bind(owner),owner.onCopyListener=owner.onCopy.bind(owner),owner.element.addEventListener("input",owner.onChangeListener),owner.element.addEventListener("keydown",owner.onKeyDownListener),owner.element.addEventListener("cut",owner.onCutListener),owner.element.addEventListener("copy",owner.onCopyListener),owner.initPhoneFormatter(),owner.initDateFormatter(),owner.initNumeralFormatter(),owner.onInput(pps.initValue))},initNumeralFormatter:function(){var owner=this,pps=owner.properties;pps.numeral&&(pps.numeralFormatter=new Cleave.NumeralFormatter(pps.numeralDecimalMark,pps.numeralIntegerScale,pps.numeralDecimalScale,pps.numeralThousandsGroupStyle,pps.numeralPositiveOnly,pps.delimiter))},initDateFormatter:function(){var owner=this,pps=owner.properties;pps.date&&(pps.dateFormatter=new Cleave.DateFormatter(pps.datePattern),pps.blocks=pps.dateFormatter.getBlocks(),pps.blocksLength=pps.blocks.length,pps.maxLength=Cleave.Util.getMaxLength(pps.blocks))},initPhoneFormatter:function(){var owner=this,pps=owner.properties;if(pps.phone)try{pps.phoneFormatter=new Cleave.PhoneFormatter(new pps.root.Cleave.AsYouTypeFormatter(pps.phoneRegionCode),pps.delimiter)}catch(ex){throw new Error("[cleave.js] Please include phone-type-formatter.{country}.js lib")}},onKeyDown:function(event){var owner=this,pps=owner.properties,charCode=event.which||event.keyCode,Util=Cleave.Util,currentValue=owner.element.value;return Util.isAndroidBackspaceKeydown(owner.lastInputValue,currentValue)&&(charCode=8),owner.lastInputValue=currentValue,8===charCode&&Util.isDelimiter(currentValue.slice(-pps.delimiterLength),pps.delimiter,pps.delimiters)?void(pps.backspace=!0):void(pps.backspace=!1)},onChange:function(){this.onInput(this.element.value)},onCut:function(e){this.copyClipboardData(e),this.onInput("")},onCopy:function(e){this.copyClipboardData(e)},copyClipboardData:function(e){var owner=this,pps=owner.properties,Util=Cleave.Util,inputValue=owner.element.value,textToCopy="";textToCopy=pps.copyDelimiter?inputValue:Util.stripDelimiters(inputValue,pps.delimiter,pps.delimiters);try{e.clipboardData?e.clipboardData.setData("Text",textToCopy):window.clipboardData.setData("Text",textToCopy),e.preventDefault()}catch(ex){}},onInput:function(value){var owner=this,pps=owner.properties,prev=value,Util=Cleave.Util;return pps.numeral||!pps.backspace||Util.isDelimiter(value.slice(-pps.delimiterLength),pps.delimiter,pps.delimiters)||(value=Util.headStr(value,value.length-pps.delimiterLength)),pps.phone?(pps.result=pps.phoneFormatter.format(value),void owner.updateValueState()):pps.numeral?(pps.result=pps.prefix+pps.numeralFormatter.format(value),void owner.updateValueState()):(pps.date&&(value=pps.dateFormatter.getValidatedDate(value)),value=Util.stripDelimiters(value,pps.delimiter,pps.delimiters),value=Util.getPrefixStrippedValue(value,pps.prefix,pps.prefixLength),value=pps.numericOnly?Util.strip(value,/[^\d]/g):value,value=pps.uppercase?value.toUpperCase():value,value=pps.lowercase?value.toLowerCase():value,pps.prefix&&(value=pps.prefix+value,0===pps.blocksLength)?(pps.result=value,void owner.updateValueState()):(pps.creditCard&&owner.updateCreditCardPropsByValue(value),value=Util.headStr(value,pps.maxLength),pps.result=Util.getFormattedValue(value,pps.blocks,pps.blocksLength,pps.delimiter,pps.delimiters),void(prev===pps.result&&prev!==pps.prefix||owner.updateValueState())))},updateCreditCardPropsByValue:function(value){var creditCardInfo,owner=this,pps=owner.properties,Util=Cleave.Util;Util.headStr(pps.result,4)!==Util.headStr(value,4)&&(creditCardInfo=Cleave.CreditCardDetector.getInfo(value,pps.creditCardStrictMode),pps.blocks=creditCardInfo.blocks,pps.blocksLength=pps.blocks.length,pps.maxLength=Util.getMaxLength(pps.blocks),pps.creditCardType!==creditCardInfo.type&&(pps.creditCardType=creditCardInfo.type,pps.onCreditCardTypeChanged.call(owner,pps.creditCardType)))},updateValueState:function(){var owner=this;return owner.isAndroid?void window.setTimeout(function(){owner.element.value=owner.properties.result},1):void(owner.element.value=owner.properties.result)},setPhoneRegionCode:function(phoneRegionCode){var owner=this,pps=owner.properties;pps.phoneRegionCode=phoneRegionCode,owner.initPhoneFormatter(),owner.onChange()},setRawValue:function(value){var owner=this,pps=owner.properties;value=void 0!==value&&null!==value?value.toString():"",pps.numeral&&(value=value.replace(".",pps.numeralDecimalMark)),owner.element.value=value,owner.onInput(value)},getRawValue:function(){var owner=this,pps=owner.properties,Util=Cleave.Util,rawValue=owner.element.value;return pps.rawValueTrimPrefix&&(rawValue=Util.getPrefixStrippedValue(rawValue,pps.prefix,pps.prefixLength)),rawValue=pps.numeral?pps.numeralFormatter.getRawValue(rawValue):Util.stripDelimiters(rawValue,pps.delimiter,pps.delimiters)},getFormattedValue:function(){return this.element.value},destroy:function(){var owner=this;owner.element.removeEventListener("input",owner.onChangeListener),owner.element.removeEventListener("keydown",owner.onKeyDownListener),owner.element.removeEventListener("cut",owner.onCutListener),owner.element.removeEventListener("copy",owner.onCopyListener)},toString:function(){return"[Cleave Object]"}},Cleave.NumeralFormatter=__webpack_require__(1),Cleave.DateFormatter=__webpack_require__(2),Cleave.PhoneFormatter=__webpack_require__(3),Cleave.CreditCardDetector=__webpack_require__(4),Cleave.Util=__webpack_require__(5),Cleave.DefaultProperties=__webpack_require__(6),("object"==typeof global&&global?global:window).Cleave=Cleave,module.exports=Cleave}).call(exports,function(){return this}())},function(module,exports){"use strict";var NumeralFormatter=function(numeralDecimalMark,numeralIntegerScale,numeralDecimalScale,numeralThousandsGroupStyle,numeralPositiveOnly,delimiter){var owner=this;owner.numeralDecimalMark=numeralDecimalMark||".",owner.numeralIntegerScale=numeralIntegerScale>=0?numeralIntegerScale:10,owner.numeralDecimalScale=numeralDecimalScale>=0?numeralDecimalScale:2,owner.numeralThousandsGroupStyle=numeralThousandsGroupStyle||NumeralFormatter.groupStyle.thousand,owner.numeralPositiveOnly=!!numeralPositiveOnly,owner.delimiter=delimiter||""===delimiter?delimiter:",",owner.delimiterRE=delimiter?new RegExp("\\"+delimiter,"g"):""};NumeralFormatter.groupStyle={thousand:"thousand",lakh:"lakh",wan:"wan"},NumeralFormatter.prototype={getRawValue:function(value){return value.replace(this.delimiterRE,"").replace(this.numeralDecimalMark,".")},format:function(value){var parts,partInteger,owner=this,partDecimal="";switch(value=value.replace(/[A-Za-z]/g,"").replace(owner.numeralDecimalMark,"M").replace(/[^\dM-]/g,"").replace(/^\-/,"N").replace(/\-/g,"").replace("N",owner.numeralPositiveOnly?"":"-").replace("M",owner.numeralDecimalMark).replace(/^(-)?0+(?=\d)/,"$1"),partInteger=value,value.indexOf(owner.numeralDecimalMark)>=0&&(parts=value.split(owner.numeralDecimalMark),partInteger=parts[0],partDecimal=owner.numeralDecimalMark+parts[1].slice(0,owner.numeralDecimalScale)),owner.numeralIntegerScale>0&&(partInteger=partInteger.slice(0,owner.numeralIntegerScale+("-"===value.slice(0,1)?1:0))),owner.numeralThousandsGroupStyle){case NumeralFormatter.groupStyle.lakh:partInteger=partInteger.replace(/(\d)(?=(\d\d)+\d$)/g,"$1"+owner.delimiter);break;case NumeralFormatter.groupStyle.wan:partInteger=partInteger.replace(/(\d)(?=(\d{4})+$)/g,"$1"+owner.delimiter);break;default:partInteger=partInteger.replace(/(\d)(?=(\d{3})+$)/g,"$1"+owner.delimiter)}return partInteger.toString()+(owner.numeralDecimalScale>0?partDecimal.toString():"")}},module.exports=NumeralFormatter},function(module,exports){"use strict";var DateFormatter=function(datePattern){var owner=this;owner.blocks=[],owner.datePattern=datePattern,owner.initBlocks()};DateFormatter.prototype={initBlocks:function(){var owner=this;owner.datePattern.forEach(function(value){"Y"===value?owner.blocks.push(4):owner.blocks.push(2)})},getBlocks:function(){return this.blocks},getValidatedDate:function(value){var owner=this,result="";return value=value.replace(/[^\d]/g,""),owner.blocks.forEach(function(length,index){if(value.length>0){var sub=value.slice(0,length),sub0=sub.slice(0,1),rest=value.slice(length);switch(owner.datePattern[index]){case"d":"00"===sub?sub="01":parseInt(sub0,10)>3?sub="0"+sub0:parseInt(sub,10)>31&&(sub="31");break;case"m":"00"===sub?sub="01":parseInt(sub0,10)>1?sub="0"+sub0:parseInt(sub,10)>12&&(sub="12")}result+=sub,value=rest}}),result}},module.exports=DateFormatter},function(module,exports){"use strict";var PhoneFormatter=function(formatter,delimiter){var owner=this;owner.delimiter=delimiter||""===delimiter?delimiter:" ",owner.delimiterRE=delimiter?new RegExp("\\"+delimiter,"g"):"",owner.formatter=formatter};PhoneFormatter.prototype={setFormatter:function(formatter){this.formatter=formatter},format:function(phoneNumber){var owner=this;owner.formatter.clear(),phoneNumber=phoneNumber.replace(/[^\d+]/g,""),phoneNumber=phoneNumber.replace(owner.delimiterRE,"");for(var current,result="",validated=!1,i=0,iMax=phoneNumber.length;iMax>i;i++)current=owner.formatter.inputDigit(phoneNumber.charAt(i)),/[\s()-]/g.test(current)?(result=current,validated=!0):validated||(result=current);return result=result.replace(/[()]/g,""),result=result.replace(/[\s-]/g,owner.delimiter)}},module.exports=PhoneFormatter},function(module,exports){"use strict";var CreditCardDetector={blocks:{uatp:[4,5,6],amex:[4,6,5],diners:[4,6,4],discover:[4,4,4,4],mastercard:[4,4,4,4],dankort:[4,4,4,4],instapayment:[4,4,4,4],jcb:[4,4,4,4],maestro:[4,4,4,4],visa:[4,4,4,4],general:[4,4,4,4],generalStrict:[4,4,4,7]},re:{uatp:/^(?!1800)1\d{0,14}/,amex:/^3[47]\d{0,13}/,discover:/^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,diners:/^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,mastercard:/^(5[1-5]|2[2-7])\d{0,14}/,dankort:/^(5019|4175|4571)\d{0,12}/,instapayment:/^63[7-9]\d{0,13}/,jcb:/^(?:2131|1800|35\d{0,2})\d{0,12}/,maestro:/^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,visa:/^4\d{0,15}/},getInfo:function(value,strictMode){var blocks=CreditCardDetector.blocks,re=CreditCardDetector.re;return strictMode=!!strictMode,re.amex.test(value)?{type:"amex",blocks:blocks.amex}:re.uatp.test(value)?{type:"uatp",blocks:blocks.uatp}:re.diners.test(value)?{type:"diners",blocks:blocks.diners}:re.discover.test(value)?{type:"discover",blocks:strictMode?blocks.generalStrict:blocks.discover}:re.mastercard.test(value)?{type:"mastercard",blocks:blocks.mastercard}:re.dankort.test(value)?{type:"dankort",blocks:blocks.dankort}:re.instapayment.test(value)?{type:"instapayment",blocks:blocks.instapayment}:re.jcb.test(value)?{type:"jcb",blocks:blocks.jcb}:re.maestro.test(value)?{type:"maestro",blocks:strictMode?blocks.generalStrict:blocks.maestro}:re.visa.test(value)?{type:"visa",blocks:strictMode?blocks.generalStrict:blocks.visa}:{type:"unknown",blocks:strictMode?blocks.generalStrict:blocks.general}}};module.exports=CreditCardDetector},function(module,exports){"use strict";var Util={noop:function(){},strip:function(value,re){return value.replace(re,"")},isDelimiter:function(letter,delimiter,delimiters){return 0===delimiters.length?letter===delimiter:delimiters.some(function(current){return letter===current?!0:void 0})},getDelimiterREByDelimiter:function(delimiter){return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g,"\\$1"),"g")},stripDelimiters:function(value,delimiter,delimiters){var owner=this;if(0===delimiters.length){var delimiterRE=delimiter?owner.getDelimiterREByDelimiter(delimiter):"";return value.replace(delimiterRE,"")}return delimiters.forEach(function(current){value=value.replace(owner.getDelimiterREByDelimiter(current),"")}),value},headStr:function(str,length){return str.slice(0,length)},getMaxLength:function(blocks){return blocks.reduce(function(previous,current){return previous+current},0)},getPrefixStrippedValue:function(value,prefix,prefixLength){if(value.slice(0,prefixLength)!==prefix){var diffIndex=this.getFirstDiffIndex(prefix,value.slice(0,prefixLength));value=prefix+value.slice(diffIndex,diffIndex+1)+value.slice(prefixLength+1)}return value.slice(prefixLength)},getFirstDiffIndex:function(prev,current){for(var index=0;prev.charAt(index)===current.charAt(index);)if(""===prev.charAt(index++))return-1;return index},getFormattedValue:function(value,blocks,blocksLength,delimiter,delimiters){var currentDelimiter,result="",multipleDelimiters=delimiters.length>0;return 0===blocksLength?value:(blocks.forEach(function(length,index){if(value.length>0){var sub=value.slice(0,length),rest=value.slice(length);result+=sub,currentDelimiter=multipleDelimiters?delimiters[index]||currentDelimiter:delimiter,sub.length===length&&blocksLength-1>index&&(result+=currentDelimiter),value=rest}}),result)},isAndroid:function(){return!(!navigator||!/android/i.test(navigator.userAgent))},isAndroidBackspaceKeydown:function(lastInputValue,currentInputValue){return this.isAndroid()?currentInputValue===lastInputValue.slice(0,-1):!1}};module.exports=Util},function(module,exports){(function(global){"use strict";var DefaultProperties={assign:function(target,opts){return target=target||{},opts=opts||{},target.creditCard=!!opts.creditCard,target.creditCardStrictMode=!!opts.creditCardStrictMode,target.creditCardType="",target.onCreditCardTypeChanged=opts.onCreditCardTypeChanged||function(){},target.phone=!!opts.phone,target.phoneRegionCode=opts.phoneRegionCode||"AU",target.phoneFormatter={},target.date=!!opts.date,target.datePattern=opts.datePattern||["d","m","Y"],target.dateFormatter={},target.numeral=!!opts.numeral,target.numeralIntegerScale=opts.numeralIntegerScale>=0?opts.numeralIntegerScale:10,target.numeralDecimalScale=opts.numeralDecimalScale>=0?opts.numeralDecimalScale:2,target.numeralDecimalMark=opts.numeralDecimalMark||".",target.numeralThousandsGroupStyle=opts.numeralThousandsGroupStyle||"thousand",target.numeralPositiveOnly=!!opts.numeralPositiveOnly,target.numericOnly=target.creditCard||target.date||!!opts.numericOnly,target.uppercase=!!opts.uppercase,target.lowercase=!!opts.lowercase,target.prefix=target.creditCard||target.phone||target.date?"":opts.prefix||"",target.prefixLength=target.prefix.length,target.rawValueTrimPrefix=!!opts.rawValueTrimPrefix,target.copyDelimiter=!!opts.copyDelimiter,target.initValue=void 0===opts.initValue?"":opts.initValue.toString(),target.delimiter=opts.delimiter||""===opts.delimiter?opts.delimiter:opts.date?"/":opts.numeral?",":(opts.phone," "),target.delimiterLength=target.delimiter.length,target.delimiters=opts.delimiters||[],target.blocks=opts.blocks||[],target.blocksLength=target.blocks.length,target.root="object"==typeof global&&global?global:window,target.maxLength=0,target.backspace=!1,target.result="",target}};module.exports=DefaultProperties}).call(exports,function(){return this}())}])}),angular.module("cleave.js",[]).directive("cleave",function(){return{restrict:"A",require:"ngModel",scope:{cleave:"&",onValueChange:"&?"},compile:function(){return{pre:function($scope,$element,attrs,ngModelCtrl){$scope.cleave=new window.Cleave($element[0],$scope.cleave()),ngModelCtrl.$formatters.push(function(val){return $scope.cleave.setRawValue(val),$scope.cleave.getFormattedValue()}),ngModelCtrl.$parsers.push(function(newFormattedValue){return $scope.onValueChange&&$scope.onValueChange()(newFormattedValue),$scope.cleave.getRawValue()})}}}}});
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -58871,46 +58908,6 @@ return 'pascalprecht.translate';
   }
 }.call(this));
 
-/**
- * @license Angulartics
- * (c) 2013 Luis Farzati http://angulartics.github.io/
- * License: MIT
- */
-!function(a,b){"use strict";function c(){
-// General buffering handler
-function b(a){return function(){k.waitForVendorCount&&(m[a]||(m[a]=[]),m[a].push(arguments))}}
-// As handlers are installed by plugins, they get pushed into a list and invoked in order.
-function c(b,c,d){return n[b]||(n[b]=[]),n[b].push(c),o[c]=d,function(){if(!this.settings.optOut){var c=Array.prototype.slice.apply(arguments);return this.$inject(["$q",a.bind(this,function(d){return d.all(n[b].map(function(b){var e=o[b]||{};if(e.async){var f=d.defer(),g=a.copy(c);return g.unshift(f.resolve),b.apply(this,g),f.promise}return d.when(b.apply(this,c))},this))})])}}}
-// Will run setTimeout if delay is > 0
-// Runs immediately if no delay to make sure cache/buffer is flushed before anything else.
-// Plugins should take care to register handlers by order of precedence.
-function d(a,b){b?setTimeout(a,b):a()}
-// General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
-function e(b,e,f){
-// Do not add a handler if developerMode is true
-if(!j.developerMode){p[b]=c(b,e,f);var g=j[b],h=g?g.bufferFlushDelay:null,i=null!==h?h:j.bufferFlushDelay;a.forEach(m[b],function(a,b){d(function(){e.apply(this,a)},b*i)})}}function f(a){return a.replace(/^./,function(a){return a.toUpperCase()})}
-// Adds to the provider a 'register#{handlerName}' function that manages multiple plugins and buffer flushing.
-function g(a){var d="register"+f(a);q[d]=function(b,c){e(a,b,c)},p[a]=c(a,b(a))}function h(b,c,d){a.forEach(c,d);for(var e in b)i[e]=b[e]}var i=this,j={pageTracking:{autoTrackFirstPage:!0,autoTrackVirtualPages:!0,trackRelativePath:!1,trackRoutes:!0,trackStates:!0,autoBasePath:!1,basePath:"",excludedRoutes:[],queryKeysWhitelisted:[],queryKeysBlacklisted:[]},eventTracking:{},bufferFlushDelay:1e3,// Support only one configuration for buffer flush delay to simplify buffering
-trackExceptions:!1,optOut:!1,developerMode:!1},l=["pageTrack","eventTrack","exceptionTrack","transactionTrack","setAlias","setUsername","setUserProperties","setUserPropertiesOnce","setSuperProperties","setSuperPropertiesOnce","incrementProperty","userTimings","clearCookies"],m={},n={},o={},p={settings:j};
-// Opt in and opt out functions
-p.setOptOut=function(a){this.settings.optOut=a,s()},p.getOptOut=function(){return this.settings.optOut};var q={$get:["$injector",function(a){return r(a)}],api:p,settings:j,virtualPageviews:function(a){this.settings.pageTracking.autoTrackVirtualPages=a},trackStates:function(a){this.settings.pageTracking.trackStates=a},trackRoutes:function(a){this.settings.pageTracking.trackRoutes=a},excludeRoutes:function(a){this.settings.pageTracking.excludedRoutes=a},queryKeysWhitelist:function(a){this.settings.pageTracking.queryKeysWhitelisted=a},queryKeysBlacklist:function(a){this.settings.pageTracking.queryKeysBlacklisted=a},firstPageview:function(a){this.settings.pageTracking.autoTrackFirstPage=a},withBase:function(b){this.settings.pageTracking.basePath=b?a.element(document).find("base").attr("href"):""},withAutoBase:function(a){this.settings.pageTracking.autoBasePath=a},trackExceptions:function(a){this.settings.trackExceptions=a},developerMode:function(a){this.settings.developerMode=a}},r=function(b){return a.extend(p,{$inject:b.invoke})},s=function(){h(q,l,g)};
-// Initial register
-h(q,l,g)}function d(b,c,d,e){function f(a){for(var b=0;b<d.settings.pageTracking.excludedRoutes.length;b++){var c=d.settings.pageTracking.excludedRoutes[b];if(c instanceof RegExp&&c.test(a)||a.indexOf(c)>-1)return!0}return!1}function g(a,b){for(var c=[],d=0;d<a.length;d++)b.indexOf(a[d])===-1&&c.push(a[d]);return c}function h(a,b,c){if(/\?/.test(a)&&b.length>0){for(var d=a.split("?"),e=d[0],f=d[1].split("&"),h=[],i=0;i<b.length;i++)for(var j=b[i],k=0;k<f.length;k++)(j instanceof RegExp&&j.test(f[k])||f[k].indexOf(j)>-1)&&h.push(f[k]);var l="white"==c?h:g(f,h);return l.length>0?e+"?"+l.join("&"):e}return a}function i(a){return h(a,d.settings.pageTracking.queryKeysWhitelisted,"white")}function j(a){return h(a,d.settings.pageTracking.queryKeysBlacklisted,"black")}function k(a,b){f(a)||(a=i(a),a=j(a),d.pageTrack(a,b))}d.settings.pageTracking.autoTrackFirstPage&&e.invoke(["$location",function(a){/* Only track the 'first page' if there are no routes or states on the page */
-var b=!0;if(e.has("$route")){var f=e.get("$route");if(f)for(var g in f.routes){b=!1;break}else null===f&&(b=!1)}else if(e.has("$state")){var h=e.get("$state");for(var i in h.get()){b=!1;break}}if(b)if(d.settings.pageTracking.autoBasePath&&(d.settings.pageTracking.basePath=c.location.pathname),d.settings.pageTracking.trackRelativePath){var j=d.settings.pageTracking.basePath+a.url();k(j,a)}else k(a.absUrl(),a)}]),d.settings.pageTracking.autoTrackVirtualPages&&e.invoke(["$location",function(a){d.settings.pageTracking.autoBasePath&&(/* Add the full route to the base. */
-d.settings.pageTracking.basePath=c.location.pathname+"#");var f=!0;if(d.settings.pageTracking.trackRoutes&&e.has("$route")){var g=e.get("$route");if(g)for(var h in g.routes){f=!1;break}else null===g&&(f=!1);b.$on("$routeChangeSuccess",function(b,c){if(!c||!(c.$$route||c).redirectTo){var e=d.settings.pageTracking.basePath+a.url();k(e,a)}})}d.settings.pageTracking.trackStates&&(e.has("$state")&&!e.has("$transitions")&&(f=!1,b.$on("$stateChangeSuccess",function(b,c){var e=d.settings.pageTracking.basePath+a.url();k(e,a)})),e.has("$state")&&e.has("$transitions")&&(f=!1,e.invoke(["$transitions",function(b){b.onSuccess({},function(b){var c=b.options();
-// only track for transitions that would have triggered $stateChangeSuccess
-if(c.notify){var e=d.settings.pageTracking.basePath+a.url();k(e,a)}})}]))),f&&b.$on("$locationChangeSuccess",function(b,c){if(!c||!(c.$$route||c).redirectTo)if(d.settings.pageTracking.trackRelativePath){var e=d.settings.pageTracking.basePath+a.url();k(e,a)}else k(a.absUrl(),a)})}]),d.settings.developerMode&&a.forEach(d,function(a,b){"function"==typeof a&&(d[b]=function(){})})}function e(b){return{restrict:"A",link:function(c,d,e){var f=e.analyticsOn||"click",g={};a.forEach(e.$attr,function(a,b){i(b)&&(g[j(b)]=e[b],e.$observe(b,function(a){g[j(b)]=a}))}),a.element(d[0]).bind(f,function(f){var i=e.analyticsEvent||h(d[0]);g.eventType=f.type,e.analyticsIf&&!c.$eval(e.analyticsIf)||(
-// Allow components to pass through an expression that gets merged on to the event properties
-// eg. analytics-properites='myComponentScope.someConfigExpression.$analyticsProperties'
-e.analyticsProperties&&a.extend(g,c.$eval(e.analyticsProperties)),b.eventTrack(i,g))})}}}function f(a){a.decorator("$exceptionHandler",["$delegate","$injector",function(a,b){return function(c,d){var e=a(c,d),f=b.get("$analytics");return f.settings.trackExceptions&&f.exceptionTrack(c,d),e}}])}function g(a){return["a:","button:","button:button","button:submit","input:button","input:submit"].indexOf(a.tagName.toLowerCase()+":"+(a.type||""))>=0}function h(a){return g(a)?a.innerText||a.value:a.id||a.name||a.tagName}function i(a){return"analytics"===a.substr(0,9)&&["On","Event","If","Properties","EventType"].indexOf(a.substr(9))===-1}function j(a){var b=a.slice(9);// slice off the 'analytics' prefix
-// slice off the 'analytics' prefix
-return"undefined"!=typeof b&&null!==b&&b.length>0?b.substring(0,1).toLowerCase()+b.substring(1):b}var k=window.angulartics||(window.angulartics={});k.waitForVendorCount=0,k.waitForVendorApi=function(a,b,c,d,e){e||k.waitForVendorCount++,d||(d=c,c=void 0),!Object.prototype.hasOwnProperty.call(window,a)||void 0!==c&&void 0===window[a][c]?setTimeout(function(){k.waitForVendorApi(a,b,c,d,!0)},b):(k.waitForVendorCount--,d(window[a]))},/**
- * @ngdoc overview
- * @name angulartics
- */
-a.module("angulartics",[]).provider("$analytics",c).run(["$rootScope","$window","$analytics","$injector",d]).directive("analyticsOn",["$analytics",e]).config(["$provide",f])}(angular);
-!function(window,angular,undefined){"use strict";angular.module("angulartics.google.analytics",["angulartics"]).config(["$analyticsProvider",function($analyticsProvider){function dimensionsAndMetrics(properties){if(window.ga){for(var customData={},idx=1;idx<=200;idx++)"undefined"!=typeof properties["dimension"+idx]&&(customData["dimension"+idx]=properties["dimension"+idx]),"undefined"!=typeof properties["metric"+idx]&&(customData["metric"+idx]=properties["metric"+idx]);return customData}}function eventTrack(action,properties){if(!$analyticsProvider.settings.ga.disableEventTracking){if(properties&&properties.category||(properties=properties||{},properties.category="Event"),properties.value){var parsed=parseInt(properties.value,10);properties.value=isNaN(parsed)?0:parsed}if(properties.hitCallback&&"function"!=typeof properties.hitCallback&&(properties.hitCallback=null),properties.hasOwnProperty("nonInteraction")||(properties.nonInteraction=properties.noninteraction),window.ga){var eventOptions={eventCategory:properties.category,eventAction:action,eventLabel:properties.label,eventValue:properties.value,nonInteraction:properties.nonInteraction,page:properties.page||window.location.hash.substring(1)||window.location.pathname,userId:$analyticsProvider.settings.ga.userId,hitCallback:properties.hitCallback},dimsAndMets=dimensionsAndMetrics(properties);angular.extend(eventOptions,dimsAndMets),$analyticsProvider.settings.ga.transport&&angular.extend(eventOptions,$analyticsProvider.settings.ga.transport),ga("send","event",eventOptions),angular.forEach($analyticsProvider.settings.ga.additionalAccountNames,function(accountName){ga(accountName+".send","event",eventOptions)})}else window._gaq&&_gaq.push(["_trackEvent",properties.category,action,properties.label,properties.value,properties.nonInteraction])}}$analyticsProvider.settings.pageTracking.trackRelativePath=!0,$analyticsProvider.settings.ga={additionalAccountNames:undefined,disableEventTracking:null,disablePageTracking:null,userId:null},$analyticsProvider.registerPageTrack(function(path){$analyticsProvider.settings.ga.disablePageTracking||(window._gaq&&(_gaq.push(["_trackPageview",path]),angular.forEach($analyticsProvider.settings.ga.additionalAccountNames,function(accountName){_gaq.push([accountName+"._trackPageview",path])})),window.ga&&($analyticsProvider.settings.ga.userId&&ga("set","userId",$analyticsProvider.settings.ga.userId),ga("send","pageview",path),angular.forEach($analyticsProvider.settings.ga.additionalAccountNames,function(accountName){ga(accountName+".send","pageview",path)})))}),$analyticsProvider.registerEventTrack(eventTrack),$analyticsProvider.registerExceptionTrack(function(error,cause){eventTrack(error.toString(),{category:"Exceptions",label:error.stack,nonInteraction:!0})}),$analyticsProvider.registerSetUsername(function(userId){$analyticsProvider.settings.ga.userId=userId}),$analyticsProvider.registerSetUserProperties(function(properties){if(properties){var dimsAndMets=dimensionsAndMetrics(properties);ga("set",dimsAndMets)}}),$analyticsProvider.registerUserTimings(function(properties){return properties&&properties.timingCategory&&properties.timingVar&&"undefined"!=typeof properties.timingValue?void(window.ga&&ga("send","timing",properties)):void console.log("Properties timingCategory, timingVar, and timingValue are required to be set.")})}])}(window,window.angular);
-//# sourceMappingURL=../dist/angulartics-ga.min.js.map
 'use strict';
 
 angular
@@ -59190,6 +59187,12 @@ function SwiperFactory (Dom7) {
           if (!s.params.breakpoints) return false;
           var breakpoint = false;
           var points = [], point;
+
+          // If params are passed as a string, parse to a JSON object
+          if( typeof(s.params.breakpoints) === 'string' ){
+            s.params.breakpoints = JSON.parse(s.params.breakpoints);
+          }
+
           for ( point in s.params.breakpoints ) {
               if (s.params.breakpoints.hasOwnProperty(point)) {
                   points.push(point);
@@ -60854,6 +60857,7 @@ function SwiperFactory (Dom7) {
           s.setWrapperTransition(0);
           if (typeof runCallbacks === 'undefined') runCallbacks = true;
           if (s.lazy) s.lazy.onTransitionEnd();
+          s.update();
           if (runCallbacks) {
               s.emit('onTransitionEnd', s);
               if (s.activeIndex !== s.previousIndex) {
@@ -62737,6 +62741,7 @@ function SwiperDirective (Swiper, $rootScope, $timeout) {
       $attribute.prevButton = '.' + $scope.uuid + ' .swiper-button-prev';
 
       $timeout(function() {
+        ($attribute && $attribute.speed) && ($attribute.speed = parseInt($attribute.speed));
         $scope.instance = new Swiper ('.' + $scope.uuid, $attribute);
       });
 
@@ -64550,318 +64555,6 @@ function Dom7Service () {
 
 angular.module("toastr").run(["$templateCache", function($templateCache) {$templateCache.put("directives/progressbar/progressbar.html","<div class=\"toast-progress\"></div>\n");
 $templateCache.put("directives/toast/toast.html","<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">\n  <div ng-switch on=\"allowHtml\">\n    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\" aria-label=\"{{title}}\">{{title}}</div>\n    <div ng-switch-default class=\"{{messageClass}}\" aria-label=\"{{message}}\">{{message}}</div>\n    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div>\n    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div>\n  </div>\n  <progress-bar ng-if=\"progressBar\"></progress-bar>\n</div>\n");}]);
-angular.module('angularPromiseButtons', []);
-
-angular.module('angularPromiseButtons')
-    .directive('promiseBtn', ['angularPromiseButtons', '$parse', '$timeout', '$compile', function(angularPromiseButtons, $parse, $timeout, $compile) {
-        'use strict';
-
-        return {
-            restrict: 'EA',
-            priority: angularPromiseButtons.config.priority,
-            scope: {
-                promiseBtn: '=',
-                promiseBtnOptions: '=?'
-            },
-            link: function(scope, el, attrs) {
-                // provide configuration
-                var cfg = angularPromiseButtons.config;
-                // later initialized via initPromiseWatcher()
-                var promiseWatcher;
-                //  timeout used
-                var minDurationTimeout;
-                // boolean to determine minDurationTimeout state
-                var minDurationTimeoutDone;
-                // boolean to determine if promise was resolved
-                var promiseDone;
-
-
-                /**
-                 * Handles everything to be triggered when the button is set
-                 * to loading state.
-                 * @param {Object}btnEl
-                 */
-                function initLoadingState(btnEl) {
-                    if (cfg.btnLoadingClass && !cfg.addClassToCurrentBtnOnly) {
-                        btnEl.addClass(cfg.btnLoadingClass);
-                    }
-                    if (cfg.disableBtn && !cfg.disableCurrentBtnOnly) {
-                        btnEl.attr('disabled', 'disabled');
-                    }
-                }
-
-                /**
-                 * Handles everything to be triggered when loading is finished
-                 * @param {Object}btnEl
-                 */
-                function handleLoadingFinished(btnEl) {
-                    if ((!cfg.minDuration || minDurationTimeoutDone) && promiseDone) {
-                        if (cfg.btnLoadingClass) {
-                            btnEl.removeClass(cfg.btnLoadingClass);
-                        }
-                        if (cfg.disableBtn) {
-                            btnEl.removeAttr('disabled');
-                        }
-                    }
-                }
-
-                /**
-                 * Initializes a watcher for the promise. Also takes
-                 * cfg.minDuration into account if given.
-                 * @param {Function}watchExpressionForPromise
-                 * @param {Object}btnEl
-                 */
-                function initPromiseWatcher(watchExpressionForPromise, btnEl) {
-                    // watch promise to resolve or fail
-                    scope.$watch(watchExpressionForPromise, function(mVal) {
-                        minDurationTimeoutDone = false;
-                        promiseDone = false;
-
-                        // create timeout if option is set
-                        if (cfg.minDuration) {
-                            minDurationTimeout = $timeout(function() {
-                                minDurationTimeoutDone = true;
-                                handleLoadingFinished(btnEl);
-                            }, cfg.minDuration);
-                        }
-
-                        // for regular promises
-                        if (mVal && mVal.then) {
-                            initLoadingState(btnEl);
-
-                            // angular promise
-                            if (mVal.finally) {
-                                mVal.finally(function() {
-                                    promiseDone = true;
-                                    handleLoadingFinished(btnEl);
-                                });
-                            }
-                            // ES6 promises
-                            else {
-                                mVal.then(function() {
-                                    promiseDone = true;
-                                    handleLoadingFinished(btnEl);
-                                })
-                                .catch(function() {
-                                    promiseDone = true;
-                                    handleLoadingFinished(btnEl);
-                                });
-                            }
-
-                        }
-                        // for $resource
-                        else if (mVal && mVal.$promise) {
-                            initLoadingState(btnEl);
-                            mVal.$promise.finally(function() {
-                                promiseDone = true;
-                                handleLoadingFinished(btnEl);
-                            });
-                        }
-                    });
-                }
-
-
-                /**
-                 * Get the callbacks from the (String) expression given.
-                 * @param {String}expression
-                 * @returns {Array}
-                 */
-                function getCallbacks(expression) {
-                    return expression
-                    // split by ; to get different functions if any
-                        .split(';')
-                        .map(function(callback) {
-                            // return getter function
-                            return $parse(callback);
-                        });
-                }
-
-                /**
-                 * $compile and append the spinner template to the button.
-                 * @param {Object}btnEl
-                 */
-                function appendSpinnerTpl(btnEl) {
-                    btnEl.append($compile(cfg.spinnerTpl)(scope));
-                }
-
-                /**
-                 * Used to limit loading state to show only for the currently
-                 * clicked button.
-                 * @param {Object}btnEl
-                 */
-                function addHandlersForCurrentBtnOnly(btnEl) {
-                    // handle current button only options via click
-                    if (cfg.addClassToCurrentBtnOnly) {
-                        btnEl.on(cfg.CLICK_EVENT, function() {
-                            btnEl.addClass(cfg.btnLoadingClass);
-                        });
-                    }
-
-                    if (cfg.disableCurrentBtnOnly) {
-                        btnEl.on(cfg.CLICK_EVENT, function() {
-                            btnEl.attr('disabled', 'disabled');
-                        });
-                    }
-                }
-
-                /**
-                 * Used for the function syntax of the promise button directive by
-                 * parsing the expressions provided by the attribute via getCallbacks().
-                 * Unbinds the default event handlers, which is why it might sometimes
-                 * be required to use the promise syntax.
-                 * @param {Object}eventToHandle
-                 * @param {String}attrToParse
-                 * @param {Object}btnEl
-                 */
-                function initHandlingOfViewFunctionsReturningAPromise(eventToHandle, attrToParse, btnEl) {
-                    // we need to use evalAsync here, as
-                    // otherwise the click or submit event
-                    // won't be ready to be replaced
-                    scope.$evalAsync(function() {
-                        var callbacks = getCallbacks(attrs[attrToParse]);
-
-                        // unbind original click event
-                        el.unbind(eventToHandle);
-
-                        // rebind, but this time watching it's return value
-                        el.bind(eventToHandle, function(event) {
-                            // Make sure we run the $digest cycle
-                            scope.$apply(function() {
-                                callbacks.forEach(function(cb) {
-                                    // execute function on parent scope
-                                    // as we're in an isolate scope here
-                                    var promise = cb(scope.$parent, {$event: event});
-
-                                    // only init watcher if not done before
-                                    if (!promiseWatcher) {
-                                        promiseWatcher = initPromiseWatcher(function() {
-                                            return promise;
-                                        }, btnEl);
-                                    }
-                                });
-                            });
-                        });
-                    });
-                }
-
-                /**
-                 * Get's all submit button children of the given element
-                 * @param {Object}formEl
-                 * @returns {Object}
-                 */
-                function getSubmitBtnChildren(formEl) {
-                    var submitBtnEls = [];
-                    var allButtonEls = formEl.find(angularPromiseButtons.config.BTN_SELECTOR);
-
-                    for (var i = 0; i < allButtonEls.length; i++) {
-                        var btnEl = allButtonEls[i];
-                        if (angular.element(btnEl)
-                                .attr('type') === 'submit') {
-                            submitBtnEls.push(btnEl);
-                        }
-                    }
-                    return angular.element(submitBtnEls);
-                }
-
-
-                // INIT
-                // ---------
-
-                // check if there is any value given via attrs.promiseBtn
-                if (!attrs.promiseBtn) {
-                    // handle ngClick function directly returning a promise
-                    if (attrs.hasOwnProperty(cfg.CLICK_ATTR)) {
-                        appendSpinnerTpl(el);
-                        addHandlersForCurrentBtnOnly(el);
-                        initHandlingOfViewFunctionsReturningAPromise(cfg.CLICK_EVENT, cfg.CLICK_ATTR, el);
-                    }
-                    // handle ngSubmit function directly returning a promise
-                    else if (attrs.hasOwnProperty(cfg.SUBMIT_ATTR)) {
-                        // get child submits for form elements
-                        var btnElements = getSubmitBtnChildren(el);
-
-                        appendSpinnerTpl(btnElements);
-                        addHandlersForCurrentBtnOnly(btnElements);
-                        initHandlingOfViewFunctionsReturningAPromise(cfg.SUBMIT_EVENT, cfg.SUBMIT_ATTR, btnElements);
-                    }
-                }
-                // handle promises passed via scope.promiseBtn
-                else {
-                    appendSpinnerTpl(el);
-                    addHandlersForCurrentBtnOnly(el);
-                    // handle promise passed directly via attribute as variable
-                    initPromiseWatcher(function() {
-                        return scope.promiseBtn;
-                    }, el);
-                }
-
-
-                // watch and update options being changed
-                scope.$watch('promiseBtnOptions', function(newVal) {
-                    if (angular.isObject(newVal)) {
-                        cfg = angular.extend({}, cfg, newVal);
-                    }
-                }, true);
-
-                // cleanup
-                scope.$on('$destroy', function() {
-                    $timeout.cancel(minDurationTimeout);
-                });
-            }
-        };
-    }]);
-
-angular.module('angularPromiseButtons')
-    .provider('angularPromiseButtons', function angularPromiseButtonsProvider() {
-        'use strict';
-
-        // *****************
-        // DEFAULTS & CONFIG
-        // *****************
-
-        var config = {
-            spinnerTpl: '<span class="btn-spinner"></span>',
-            priority: 0,
-            disableBtn: true,
-            btnLoadingClass: 'is-loading',
-            addClassToCurrentBtnOnly: false,
-            disableCurrentBtnOnly: false,
-            minDuration: false,
-            CLICK_EVENT: 'click',
-            CLICK_ATTR: 'ngClick',
-            SUBMIT_EVENT: 'submit',
-            SUBMIT_ATTR: 'ngSubmit',
-            BTN_SELECTOR: 'button'
-        };
-
-        // *****************
-        // SERVICE-FUNCTIONS
-        // *****************
-
-
-        // *************************
-        // PROVIDER-CONFIG-FUNCTIONS
-        // *************************
-
-        return {
-            extendConfig: function(newConfig) {
-                config = angular.extend(config, newConfig);
-            },
-
-
-            // ************************************************
-            // ACTUAL FACTORY FUNCTION - used by the directive
-            // ************************************************
-
-            $get: function() {
-                return {
-                    config: config
-                };
-            }
-        };
-    });
-
-
 /**
  * Project: Bootstrap Hover Dropdown
  * Author: Cameron Spear
@@ -65108,7 +64801,7 @@ var Layout = function () {
         // end: handle active state
  
         el.parents('li').each(function () {
-            $(this).addClass('active');
+            // $(this).addClass('active');
             $(this).find('> a > span.arrow').addClass('open');
  
             if ($(this).parent('ul.page-sidebar-menu').size() === 1) {
@@ -65406,16 +65099,16 @@ var Layout = function () {
     // Handles the horizontal menu
     var handleHorizontalMenu = function () {
         //handle tab click
-        $('.page-header').on('click', '.hor-menu a[data-toggle="tab"]', function (e) {
-            e.preventDefault();
-            var nav = $(".hor-menu .nav");
-            var active_link = nav.find('li.current');
-            $('li.active', active_link).removeClass("active");
-            $('.selected', active_link).remove();
-            var new_link = $(this).parents('li').last();
-            new_link.addClass("current");
-            new_link.find("a:first").append('<span class="selected"></span>');
-        });
+        // $('.page-header').on('click', '.hor-menu a[data-toggle="tab"]', function (e) {
+        //     e.preventDefault();
+        //     var nav = $(".hor-menu .nav");
+        //     var active_link = nav.find('li.current');
+        //     $('li.active', active_link).removeClass("active");
+        //     $('.selected', active_link).remove();
+        //     var new_link = $(this).parents('li').last();
+        //     new_link.addClass("current");
+        //     new_link.find("a:first").append('<span class="selected"></span>');
+        // });
 
         // handle search box expand/collapse        
         $('.page-header').on('click', '.search-form', function (e) {
@@ -65656,39 +65349,76 @@ if (App.isAngularJsApp() === false) {
 var QuickSidebar=function(){var i=function(){$(".dropdown-quick-sidebar-toggler a, .page-quick-sidebar-toggler, .quick-sidebar-toggler").click(function(i){$("body").toggleClass("page-quick-sidebar-open")})},a=function(){var i=$(".page-quick-sidebar-wrapper"),a=i.find(".page-quick-sidebar-chat"),e=function(){var e,t=i.find(".page-quick-sidebar-chat-users");e=i.height()-i.find(".nav-tabs").outerHeight(!0),App.destroySlimScroll(t),t.attr("data-height",e),App.initSlimScroll(t);var r=a.find(".page-quick-sidebar-chat-user-messages"),s=e-a.find(".page-quick-sidebar-chat-user-form").outerHeight(!0);s-=a.find(".page-quick-sidebar-nav").outerHeight(!0),App.destroySlimScroll(r),r.attr("data-height",s),App.initSlimScroll(r)};e(),App.addResizeHandler(e),i.find(".page-quick-sidebar-chat-users .media-list > .media").click(function(){a.addClass("page-quick-sidebar-content-item-shown")}),i.find(".page-quick-sidebar-chat-user .page-quick-sidebar-back-to-list").click(function(){a.removeClass("page-quick-sidebar-content-item-shown")});var t=function(i){i.preventDefault();var e=a.find(".page-quick-sidebar-chat-user-messages"),t=a.find(".page-quick-sidebar-chat-user-form .form-control"),r=t.val();if(0!==r.length){var s=function(i,a,e,t,r){var s="";return s+='<div class="post '+i+'">',s+='<img class="avatar" alt="" src="'+Layout.getLayoutImgPath()+t+'.jpg"/>',s+='<div class="message">',s+='<span class="arrow"></span>',s+='<a href="#" class="name">Bob Nilson</a>&nbsp;',s+='<span class="datetime">'+a+"</span>",s+='<span class="body">',s+=r,s+="</span>",s+="</div>",s+="</div>"},n=new Date,c=s("out",n.getHours()+":"+n.getMinutes(),"Bob Nilson","avatar3",r);c=$(c),e.append(c),e.slimScroll({scrollTo:"1000000px"}),t.val(""),setTimeout(function(){var i=new Date,a=s("in",i.getHours()+":"+i.getMinutes(),"Ella Wong","avatar2","Lorem ipsum doloriam nibh...");a=$(a),e.append(a),e.slimScroll({scrollTo:"1000000px"})},3e3)}};a.find(".page-quick-sidebar-chat-user-form .btn").click(t),a.find(".page-quick-sidebar-chat-user-form .form-control").keypress(function(i){if(13==i.which)return t(i),!1})},e=function(){var i=$(".page-quick-sidebar-wrapper"),a=function(){var a,e=i.find(".page-quick-sidebar-alerts-list");a=i.height()-80-i.find(".nav-justified > .nav-tabs").outerHeight(),App.destroySlimScroll(e),e.attr("data-height",a),App.initSlimScroll(e)};a(),App.addResizeHandler(a)},t=function(){var i=$(".page-quick-sidebar-wrapper"),a=function(){var a,e=i.find(".page-quick-sidebar-settings-list");a=i.height()-80-i.find(".nav-justified > .nav-tabs").outerHeight(),App.destroySlimScroll(e),e.attr("data-height",a),App.initSlimScroll(e)};a(),App.addResizeHandler(a)};return{init:function(){i(),a(),e(),t()}}}();App.isAngularJsApp()===!1&&jQuery(document).ready(function(){QuickSidebar.init()});
 var QuickNav=function(){return{init:function(){if($(".quick-nav").length>0){var i=$(".quick-nav");i.each(function(){var i=$(this),n=i.find(".quick-nav-trigger");n.on("click",function(n){n.preventDefault(),i.toggleClass("nav-is-visible")})}),$(document).on("click",function(n){!$(n.target).is(".quick-nav-trigger")&&!$(n.target).is(".quick-nav-trigger span")&&i.removeClass("nav-is-visible")})}}}}();QuickNav.init();
 var Demo=function(){var e=function(){var e=$(".theme-panel");$("body").hasClass("page-boxed")===!1&&$(".layout-option",e).val("fluid"),$(".sidebar-option",e).val("default"),$(".page-header-option",e).val("fixed"),$(".page-footer-option",e).val("default"),$(".sidebar-pos-option").attr("disabled")===!1&&$(".sidebar-pos-option",e).val(App.isRTL()?"right":"left");var a=function(){$("body").removeClass("page-boxed").removeClass("page-footer-fixed").removeClass("page-sidebar-fixed").removeClass("page-header-fixed").removeClass("page-sidebar-reversed"),$(".page-header > .page-header-inner").removeClass("container"),1===$(".page-container").parent(".container").size()&&$(".page-container").insertAfter("body >.page-wrapper > .clearfix"),1===$(".page-footer > .container").size()?$(".page-footer").html($(".page-footer > .container").html()):1===$(".page-footer").parent(".container").size()&&($(".page-footer").insertAfter(".page-container"),$(".scroll-to-top").insertAfter(".page-footer")),$(".top-menu > .navbar-nav > li.dropdown").removeClass("dropdown-dark"),$("body > .page-wrapper > .container").remove()},o="",t=function(){var t=$(".layout-option",e).val(),i=$(".sidebar-option",e).val(),r=$(".page-header-option",e).val(),d=$(".page-footer-option",e).val(),s=$(".sidebar-pos-option",e).val(),n=$(".sidebar-style-option",e).val(),p=$(".sidebar-menu-option",e).val(),l=$(".page-header-top-dropdown-style-option",e).val();if("fixed"==i&&"default"==r&&(alert("Default Header with Fixed Sidebar option is not supported. Proceed with Fixed Header with Fixed Sidebar."),$(".page-header-option",e).val("fixed"),$(".sidebar-option",e).val("fixed"),i="fixed",r="fixed"),a(),"boxed"===t){$("body").addClass("page-boxed"),$(".page-header > .page-header-inner").addClass("container");$("body > .page-wrapper > .clearfix").after('<div class="container"></div>');$(".page-container").appendTo("body > .page-wrapper > .container"),"fixed"===d?$(".page-footer").html('<div class="container">'+$(".page-footer").html()+"</div>"):$(".page-footer").appendTo("body > .page-wrapper > .container")}o!=t&&App.runResizeHandlers(),o=t,"fixed"===r?($("body").addClass("page-header-fixed"),$(".page-header").removeClass("navbar-static-top").addClass("navbar-fixed-top")):($("body").removeClass("page-header-fixed"),$(".page-header").removeClass("navbar-fixed-top").addClass("navbar-static-top")),$("body").hasClass("page-full-width")===!1&&("fixed"===i?($("body").addClass("page-sidebar-fixed"),$("page-sidebar-menu").addClass("page-sidebar-menu-fixed"),$("page-sidebar-menu").removeClass("page-sidebar-menu-default"),Layout.initFixedSidebarHoverEffect()):($("body").removeClass("page-sidebar-fixed"),$("page-sidebar-menu").addClass("page-sidebar-menu-default"),$("page-sidebar-menu").removeClass("page-sidebar-menu-fixed"),$(".page-sidebar-menu").unbind("mouseenter").unbind("mouseleave"))),"dark"===l?$(".top-menu > .navbar-nav > li.dropdown").addClass("dropdown-dark"):$(".top-menu > .navbar-nav > li.dropdown").removeClass("dropdown-dark"),"fixed"===d?$("body").addClass("page-footer-fixed"):$("body").removeClass("page-footer-fixed"),"light"===n?$(".page-sidebar-menu").addClass("page-sidebar-menu-light"):$(".page-sidebar-menu").removeClass("page-sidebar-menu-light"),"hover"===p?"fixed"==i?($(".sidebar-menu-option",e).val("accordion"),alert("Hover Sidebar Menu is not compatible with Fixed Sidebar Mode. Select Default Sidebar Mode Instead.")):$(".page-sidebar-menu").addClass("page-sidebar-menu-hover-submenu"):$(".page-sidebar-menu").removeClass("page-sidebar-menu-hover-submenu"),App.isRTL()?"left"===s?($("body").addClass("page-sidebar-reversed"),$("#frontend-link").tooltip("destroy").tooltip({placement:"right"})):($("body").removeClass("page-sidebar-reversed"),$("#frontend-link").tooltip("destroy").tooltip({placement:"left"})):"right"===s?($("body").addClass("page-sidebar-reversed"),$("#frontend-link").tooltip("destroy").tooltip({placement:"left"})):($("body").removeClass("page-sidebar-reversed"),$("#frontend-link").tooltip("destroy").tooltip({placement:"right"})),Layout.fixContentHeight(),Layout.initFixedSidebar()},i=function(e){var a=App.isRTL()?e+"-rtl":e;$("#style_color").attr("href",Layout.getLayoutCssPath()+"themes/"+a+".min.css"),"light2"==e?$(".page-logo img").attr("src",Layout.getLayoutImgPath()+"logo-invert.png"):$(".page-logo img").attr("src",Layout.getLayoutImgPath()+"logo.png")};$(".toggler",e).click(function(){$(".toggler").hide(),$(".toggler-close").show(),$(".theme-panel > .theme-options").show()}),$(".toggler-close",e).click(function(){$(".toggler").show(),$(".toggler-close").hide(),$(".theme-panel > .theme-options").hide()}),$(".theme-colors > ul > li",e).click(function(){var a=$(this).attr("data-style");i(a),$("ul > li",e).removeClass("current"),$(this).addClass("current")}),$("body").hasClass("page-boxed")&&$(".layout-option",e).val("boxed"),$("body").hasClass("page-sidebar-fixed")&&$(".sidebar-option",e).val("fixed"),$("body").hasClass("page-header-fixed")&&$(".page-header-option",e).val("fixed"),$("body").hasClass("page-footer-fixed")&&$(".page-footer-option",e).val("fixed"),$("body").hasClass("page-sidebar-reversed")&&$(".sidebar-pos-option",e).val("right"),$(".page-sidebar-menu").hasClass("page-sidebar-menu-light")&&$(".sidebar-style-option",e).val("light"),$(".page-sidebar-menu").hasClass("page-sidebar-menu-hover-submenu")&&$(".sidebar-menu-option",e).val("hover");$(".sidebar-option",e).val(),$(".page-header-option",e).val(),$(".page-footer-option",e).val(),$(".sidebar-pos-option",e).val(),$(".sidebar-style-option",e).val(),$(".sidebar-menu-option",e).val();$(".layout-option, .page-header-option, .page-header-top-dropdown-style-option, .sidebar-option, .page-footer-option, .sidebar-pos-option, .sidebar-style-option, .sidebar-menu-option",e).change(t)},a=function(e){var a="rounded"===e?"components-rounded":"components";a=App.isRTL()?a+"-rtl":a,$("#style_components").attr("href",App.getGlobalCssPath()+a+".min.css"),"undefined"!=typeof Cookies&&Cookies.set("layout-style-option",e)};return{init:function(){e(),$(".theme-panel .layout-style-option").change(function(){a($(this).val())}),"undefined"!=typeof Cookies&&"rounded"===Cookies.get("layout-style-option")&&(a(Cookies.get("layout-style-option")),$(".theme-panel .layout-style-option").val(Cookies.get("layout-style-option")))}}}();App.isAngularJsApp()===!1&&jQuery(document).ready(function(){Demo.init()});
+/*! jQuery Validation Plugin - v1.14.0 - 6/30/2015
+ * http://jqueryvalidation.org/
+ * Copyright (c) 2015 Jörn Zaefferer; Licensed MIT */
+!function(a){"function"==typeof define&&define.amd?define(["jquery"],a):a(jQuery)}(function(a){a.extend(a.fn,{validate:function(b){if(!this.length)return void(b&&b.debug&&window.console&&console.warn("Nothing selected, can't validate, returning nothing."));var c=a.data(this[0],"validator");return c?c:(this.attr("novalidate","novalidate"),c=new a.validator(b,this[0]),a.data(this[0],"validator",c),c.settings.onsubmit&&(this.on("click.validate",":submit",function(b){c.settings.submitHandler&&(c.submitButton=b.target),a(this).hasClass("cancel")&&(c.cancelSubmit=!0),void 0!==a(this).attr("formnovalidate")&&(c.cancelSubmit=!0)}),this.on("submit.validate",function(b){function d(){var d,e;return c.settings.submitHandler?(c.submitButton&&(d=a("<input type='hidden'/>").attr("name",c.submitButton.name).val(a(c.submitButton).val()).appendTo(c.currentForm)),e=c.settings.submitHandler.call(c,c.currentForm,b),c.submitButton&&d.remove(),void 0!==e?e:!1):!0}return c.settings.debug&&b.preventDefault(),c.cancelSubmit?(c.cancelSubmit=!1,d()):c.form()?c.pendingRequest?(c.formSubmitted=!0,!1):d():(c.focusInvalid(),!1)})),c)},valid:function(){var b,c,d;return a(this[0]).is("form")?b=this.validate().form():(d=[],b=!0,c=a(this[0].form).validate(),this.each(function(){b=c.element(this)&&b,d=d.concat(c.errorList)}),c.errorList=d),b},rules:function(b,c){var d,e,f,g,h,i,j=this[0];if(b)switch(d=a.data(j.form,"validator").settings,e=d.rules,f=a.validator.staticRules(j),b){case"add":a.extend(f,a.validator.normalizeRule(c)),delete f.messages,e[j.name]=f,c.messages&&(d.messages[j.name]=a.extend(d.messages[j.name],c.messages));break;case"remove":return c?(i={},a.each(c.split(/\s/),function(b,c){i[c]=f[c],delete f[c],"required"===c&&a(j).removeAttr("aria-required")}),i):(delete e[j.name],f)}return g=a.validator.normalizeRules(a.extend({},a.validator.classRules(j),a.validator.attributeRules(j),a.validator.dataRules(j),a.validator.staticRules(j)),j),g.required&&(h=g.required,delete g.required,g=a.extend({required:h},g),a(j).attr("aria-required","true")),g.remote&&(h=g.remote,delete g.remote,g=a.extend(g,{remote:h})),g}}),a.extend(a.expr[":"],{blank:function(b){return!a.trim(""+a(b).val())},filled:function(b){return!!a.trim(""+a(b).val())},unchecked:function(b){return!a(b).prop("checked")}}),a.validator=function(b,c){this.settings=a.extend(!0,{},a.validator.defaults,b),this.currentForm=c,this.init()},a.validator.format=function(b,c){return 1===arguments.length?function(){var c=a.makeArray(arguments);return c.unshift(b),a.validator.format.apply(this,c)}:(arguments.length>2&&c.constructor!==Array&&(c=a.makeArray(arguments).slice(1)),c.constructor!==Array&&(c=[c]),a.each(c,function(a,c){b=b.replace(new RegExp("\\{"+a+"\\}","g"),function(){return c})}),b)},a.extend(a.validator,{defaults:{messages:{},groups:{},rules:{},errorClass:"error",validClass:"valid",errorElement:"label",focusCleanup:!1,focusInvalid:!0,errorContainer:a([]),errorLabelContainer:a([]),onsubmit:!0,ignore:":hidden",ignoreTitle:!1,onfocusin:function(a){this.lastActive=a,this.settings.focusCleanup&&(this.settings.unhighlight&&this.settings.unhighlight.call(this,a,this.settings.errorClass,this.settings.validClass),this.hideThese(this.errorsFor(a)))},onfocusout:function(a){this.checkable(a)||!(a.name in this.submitted)&&this.optional(a)||this.element(a)},onkeyup:function(b,c){var d=[16,17,18,20,35,36,37,38,39,40,45,144,225];9===c.which&&""===this.elementValue(b)||-1!==a.inArray(c.keyCode,d)||(b.name in this.submitted||b===this.lastElement)&&this.element(b)},onclick:function(a){a.name in this.submitted?this.element(a):a.parentNode.name in this.submitted&&this.element(a.parentNode)},highlight:function(b,c,d){"radio"===b.type?this.findByName(b.name).addClass(c).removeClass(d):a(b).addClass(c).removeClass(d)},unhighlight:function(b,c,d){"radio"===b.type?this.findByName(b.name).removeClass(c).addClass(d):a(b).removeClass(c).addClass(d)}},setDefaults:function(b){a.extend(a.validator.defaults,b)},messages:{required:"This field is required.",remote:"Please fix this field.",email:"Please enter a valid email address.",url:"Please enter a valid URL.",date:"Please enter a valid date.",dateISO:"Please enter a valid date ( ISO ).",number:"Please enter a valid number.",digits:"Please enter only digits.",creditcard:"Please enter a valid credit card number.",equalTo:"Please enter the same value again.",maxlength:a.validator.format("Please enter no more than {0} characters."),minlength:a.validator.format("Please enter at least {0} characters."),rangelength:a.validator.format("Please enter a value between {0} and {1} characters long."),range:a.validator.format("Please enter a value between {0} and {1}."),max:a.validator.format("Please enter a value less than or equal to {0}."),min:a.validator.format("Please enter a value greater than or equal to {0}.")},autoCreateRanges:!1,prototype:{init:function(){function b(b){var c=a.data(this.form,"validator"),d="on"+b.type.replace(/^validate/,""),e=c.settings;e[d]&&!a(this).is(e.ignore)&&e[d].call(c,this,b)}this.labelContainer=a(this.settings.errorLabelContainer),this.errorContext=this.labelContainer.length&&this.labelContainer||a(this.currentForm),this.containers=a(this.settings.errorContainer).add(this.settings.errorLabelContainer),this.submitted={},this.valueCache={},this.pendingRequest=0,this.pending={},this.invalid={},this.reset();var c,d=this.groups={};a.each(this.settings.groups,function(b,c){"string"==typeof c&&(c=c.split(/\s/)),a.each(c,function(a,c){d[c]=b})}),c=this.settings.rules,a.each(c,function(b,d){c[b]=a.validator.normalizeRule(d)}),a(this.currentForm).on("focusin.validate focusout.validate keyup.validate",":text, [type='password'], [type='file'], select, textarea, [type='number'], [type='search'], [type='tel'], [type='url'], [type='email'], [type='datetime'], [type='date'], [type='month'], [type='week'], [type='time'], [type='datetime-local'], [type='range'], [type='color'], [type='radio'], [type='checkbox']",b).on("click.validate","select, option, [type='radio'], [type='checkbox']",b),this.settings.invalidHandler&&a(this.currentForm).on("invalid-form.validate",this.settings.invalidHandler),a(this.currentForm).find("[required], [data-rule-required], .required").attr("aria-required","true")},form:function(){return this.checkForm(),a.extend(this.submitted,this.errorMap),this.invalid=a.extend({},this.errorMap),this.valid()||a(this.currentForm).triggerHandler("invalid-form",[this]),this.showErrors(),this.valid()},checkForm:function(){this.prepareForm();for(var a=0,b=this.currentElements=this.elements();b[a];a++)this.check(b[a]);return this.valid()},element:function(b){var c=this.clean(b),d=this.validationTargetFor(c),e=!0;return this.lastElement=d,void 0===d?delete this.invalid[c.name]:(this.prepareElement(d),this.currentElements=a(d),e=this.check(d)!==!1,e?delete this.invalid[d.name]:this.invalid[d.name]=!0),a(b).attr("aria-invalid",!e),this.numberOfInvalids()||(this.toHide=this.toHide.add(this.containers)),this.showErrors(),e},showErrors:function(b){if(b){a.extend(this.errorMap,b),this.errorList=[];for(var c in b)this.errorList.push({message:b[c],element:this.findByName(c)[0]});this.successList=a.grep(this.successList,function(a){return!(a.name in b)})}this.settings.showErrors?this.settings.showErrors.call(this,this.errorMap,this.errorList):this.defaultShowErrors()},resetForm:function(){a.fn.resetForm&&a(this.currentForm).resetForm(),this.submitted={},this.lastElement=null,this.prepareForm(),this.hideErrors();var b,c=this.elements().removeData("previousValue").removeAttr("aria-invalid");if(this.settings.unhighlight)for(b=0;c[b];b++)this.settings.unhighlight.call(this,c[b],this.settings.errorClass,"");else c.removeClass(this.settings.errorClass)},numberOfInvalids:function(){return this.objectLength(this.invalid)},objectLength:function(a){var b,c=0;for(b in a)c++;return c},hideErrors:function(){this.hideThese(this.toHide)},hideThese:function(a){a.not(this.containers).text(""),this.addWrapper(a).hide()},valid:function(){return 0===this.size()},size:function(){return this.errorList.length},focusInvalid:function(){if(this.settings.focusInvalid)try{a(this.findLastActive()||this.errorList.length&&this.errorList[0].element||[]).filter(":visible").focus().trigger("focusin")}catch(b){}},findLastActive:function(){var b=this.lastActive;return b&&1===a.grep(this.errorList,function(a){return a.element.name===b.name}).length&&b},elements:function(){var b=this,c={};return a(this.currentForm).find("input, select, textarea").not(":submit, :reset, :image, :disabled").not(this.settings.ignore).filter(function(){return!this.name&&b.settings.debug&&window.console&&console.error("%o has no name assigned",this),this.name in c||!b.objectLength(a(this).rules())?!1:(c[this.name]=!0,!0)})},clean:function(b){return a(b)[0]},errors:function(){var b=this.settings.errorClass.split(" ").join(".");return a(this.settings.errorElement+"."+b,this.errorContext)},reset:function(){this.successList=[],this.errorList=[],this.errorMap={},this.toShow=a([]),this.toHide=a([]),this.currentElements=a([])},prepareForm:function(){this.reset(),this.toHide=this.errors().add(this.containers)},prepareElement:function(a){this.reset(),this.toHide=this.errorsFor(a)},elementValue:function(b){var c,d=a(b),e=b.type;return"radio"===e||"checkbox"===e?this.findByName(b.name).filter(":checked").val():"number"===e&&"undefined"!=typeof b.validity?b.validity.badInput?!1:d.val():(c=d.val(),"string"==typeof c?c.replace(/\r/g,""):c)},check:function(b){b=this.validationTargetFor(this.clean(b));var c,d,e,f=a(b).rules(),g=a.map(f,function(a,b){return b}).length,h=!1,i=this.elementValue(b);for(d in f){e={method:d,parameters:f[d]};try{if(c=a.validator.methods[d].call(this,i,b,e.parameters),"dependency-mismatch"===c&&1===g){h=!0;continue}if(h=!1,"pending"===c)return void(this.toHide=this.toHide.not(this.errorsFor(b)));if(!c)return this.formatAndAdd(b,e),!1}catch(j){throw this.settings.debug&&window.console&&console.log("Exception occurred when checking element "+b.id+", check the '"+e.method+"' method.",j),j instanceof TypeError&&(j.message+=".  Exception occurred when checking element "+b.id+", check the '"+e.method+"' method."),j}}if(!h)return this.objectLength(f)&&this.successList.push(b),!0},customDataMessage:function(b,c){return a(b).data("msg"+c.charAt(0).toUpperCase()+c.substring(1).toLowerCase())||a(b).data("msg")},customMessage:function(a,b){var c=this.settings.messages[a];return c&&(c.constructor===String?c:c[b])},findDefined:function(){for(var a=0;a<arguments.length;a++)if(void 0!==arguments[a])return arguments[a];return void 0},defaultMessage:function(b,c){return this.findDefined(this.customMessage(b.name,c),this.customDataMessage(b,c),!this.settings.ignoreTitle&&b.title||void 0,a.validator.messages[c],"<strong>Warning: No message defined for "+b.name+"</strong>")},formatAndAdd:function(b,c){var d=this.defaultMessage(b,c.method),e=/\$?\{(\d+)\}/g;"function"==typeof d?d=d.call(this,c.parameters,b):e.test(d)&&(d=a.validator.format(d.replace(e,"{$1}"),c.parameters)),this.errorList.push({message:d,element:b,method:c.method}),this.errorMap[b.name]=d,this.submitted[b.name]=d},addWrapper:function(a){return this.settings.wrapper&&(a=a.add(a.parent(this.settings.wrapper))),a},defaultShowErrors:function(){var a,b,c;for(a=0;this.errorList[a];a++)c=this.errorList[a],this.settings.highlight&&this.settings.highlight.call(this,c.element,this.settings.errorClass,this.settings.validClass),this.showLabel(c.element,c.message);if(this.errorList.length&&(this.toShow=this.toShow.add(this.containers)),this.settings.success)for(a=0;this.successList[a];a++)this.showLabel(this.successList[a]);if(this.settings.unhighlight)for(a=0,b=this.validElements();b[a];a++)this.settings.unhighlight.call(this,b[a],this.settings.errorClass,this.settings.validClass);this.toHide=this.toHide.not(this.toShow),this.hideErrors(),this.addWrapper(this.toShow).show()},validElements:function(){return this.currentElements.not(this.invalidElements())},invalidElements:function(){return a(this.errorList).map(function(){return this.element})},showLabel:function(b,c){var d,e,f,g=this.errorsFor(b),h=this.idOrName(b),i=a(b).attr("aria-describedby");g.length?(g.removeClass(this.settings.validClass).addClass(this.settings.errorClass),g.html(c)):(g=a("<"+this.settings.errorElement+">").attr("id",h+"-error").addClass(this.settings.errorClass).html(c||""),d=g,this.settings.wrapper&&(d=g.hide().show().wrap("<"+this.settings.wrapper+"/>").parent()),this.labelContainer.length?this.labelContainer.append(d):this.settings.errorPlacement?this.settings.errorPlacement(d,a(b)):d.insertAfter(b),g.is("label")?g.attr("for",h):0===g.parents("label[for='"+h+"']").length&&(f=g.attr("id").replace(/(:|\.|\[|\]|\$)/g,"\\$1"),i?i.match(new RegExp("\\b"+f+"\\b"))||(i+=" "+f):i=f,a(b).attr("aria-describedby",i),e=this.groups[b.name],e&&a.each(this.groups,function(b,c){c===e&&a("[name='"+b+"']",this.currentForm).attr("aria-describedby",g.attr("id"))}))),!c&&this.settings.success&&(g.text(""),"string"==typeof this.settings.success?g.addClass(this.settings.success):this.settings.success(g,b)),this.toShow=this.toShow.add(g)},errorsFor:function(b){var c=this.idOrName(b),d=a(b).attr("aria-describedby"),e="label[for='"+c+"'], label[for='"+c+"'] *";return d&&(e=e+", #"+d.replace(/\s+/g,", #")),this.errors().filter(e)},idOrName:function(a){return this.groups[a.name]||(this.checkable(a)?a.name:a.id||a.name)},validationTargetFor:function(b){return this.checkable(b)&&(b=this.findByName(b.name)),a(b).not(this.settings.ignore)[0]},checkable:function(a){return/radio|checkbox/i.test(a.type)},findByName:function(b){return a(this.currentForm).find("[name='"+b+"']")},getLength:function(b,c){switch(c.nodeName.toLowerCase()){case"select":return a("option:selected",c).length;case"input":if(this.checkable(c))return this.findByName(c.name).filter(":checked").length}return b.length},depend:function(a,b){return this.dependTypes[typeof a]?this.dependTypes[typeof a](a,b):!0},dependTypes:{"boolean":function(a){return a},string:function(b,c){return!!a(b,c.form).length},"function":function(a,b){return a(b)}},optional:function(b){var c=this.elementValue(b);return!a.validator.methods.required.call(this,c,b)&&"dependency-mismatch"},startRequest:function(a){this.pending[a.name]||(this.pendingRequest++,this.pending[a.name]=!0)},stopRequest:function(b,c){this.pendingRequest--,this.pendingRequest<0&&(this.pendingRequest=0),delete this.pending[b.name],c&&0===this.pendingRequest&&this.formSubmitted&&this.form()?(a(this.currentForm).submit(),this.formSubmitted=!1):!c&&0===this.pendingRequest&&this.formSubmitted&&(a(this.currentForm).triggerHandler("invalid-form",[this]),this.formSubmitted=!1)},previousValue:function(b){return a.data(b,"previousValue")||a.data(b,"previousValue",{old:null,valid:!0,message:this.defaultMessage(b,"remote")})},destroy:function(){this.resetForm(),a(this.currentForm).off(".validate").removeData("validator")}},classRuleSettings:{required:{required:!0},email:{email:!0},url:{url:!0},date:{date:!0},dateISO:{dateISO:!0},number:{number:!0},digits:{digits:!0},creditcard:{creditcard:!0}},addClassRules:function(b,c){b.constructor===String?this.classRuleSettings[b]=c:a.extend(this.classRuleSettings,b)},classRules:function(b){var c={},d=a(b).attr("class");return d&&a.each(d.split(" "),function(){this in a.validator.classRuleSettings&&a.extend(c,a.validator.classRuleSettings[this])}),c},normalizeAttributeRule:function(a,b,c,d){/min|max/.test(c)&&(null===b||/number|range|text/.test(b))&&(d=Number(d),isNaN(d)&&(d=void 0)),d||0===d?a[c]=d:b===c&&"range"!==b&&(a[c]=!0)},attributeRules:function(b){var c,d,e={},f=a(b),g=b.getAttribute("type");for(c in a.validator.methods)"required"===c?(d=b.getAttribute(c),""===d&&(d=!0),d=!!d):d=f.attr(c),this.normalizeAttributeRule(e,g,c,d);return e.maxlength&&/-1|2147483647|524288/.test(e.maxlength)&&delete e.maxlength,e},dataRules:function(b){var c,d,e={},f=a(b),g=b.getAttribute("type");for(c in a.validator.methods)d=f.data("rule"+c.charAt(0).toUpperCase()+c.substring(1).toLowerCase()),this.normalizeAttributeRule(e,g,c,d);return e},staticRules:function(b){var c={},d=a.data(b.form,"validator");return d.settings.rules&&(c=a.validator.normalizeRule(d.settings.rules[b.name])||{}),c},normalizeRules:function(b,c){return a.each(b,function(d,e){if(e===!1)return void delete b[d];if(e.param||e.depends){var f=!0;switch(typeof e.depends){case"string":f=!!a(e.depends,c.form).length;break;case"function":f=e.depends.call(c,c)}f?b[d]=void 0!==e.param?e.param:!0:delete b[d]}}),a.each(b,function(d,e){b[d]=a.isFunction(e)?e(c):e}),a.each(["minlength","maxlength"],function(){b[this]&&(b[this]=Number(b[this]))}),a.each(["rangelength","range"],function(){var c;b[this]&&(a.isArray(b[this])?b[this]=[Number(b[this][0]),Number(b[this][1])]:"string"==typeof b[this]&&(c=b[this].replace(/[\[\]]/g,"").split(/[\s,]+/),b[this]=[Number(c[0]),Number(c[1])]))}),a.validator.autoCreateRanges&&(null!=b.min&&null!=b.max&&(b.range=[b.min,b.max],delete b.min,delete b.max),null!=b.minlength&&null!=b.maxlength&&(b.rangelength=[b.minlength,b.maxlength],delete b.minlength,delete b.maxlength)),b},normalizeRule:function(b){if("string"==typeof b){var c={};a.each(b.split(/\s/),function(){c[this]=!0}),b=c}return b},addMethod:function(b,c,d){a.validator.methods[b]=c,a.validator.messages[b]=void 0!==d?d:a.validator.messages[b],c.length<3&&a.validator.addClassRules(b,a.validator.normalizeRule(b))},methods:{required:function(b,c,d){if(!this.depend(d,c))return"dependency-mismatch";if("select"===c.nodeName.toLowerCase()){var e=a(c).val();return e&&e.length>0}return this.checkable(c)?this.getLength(b,c)>0:b.length>0},email:function(a,b){return this.optional(b)||/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(a)},url:function(a,b){return this.optional(b)||/^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(a)},date:function(a,b){return this.optional(b)||!/Invalid|NaN/.test(new Date(a).toString())},dateISO:function(a,b){return this.optional(b)||/^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(a)},number:function(a,b){return this.optional(b)||/^(?:-?\d+|-?\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(a)},digits:function(a,b){return this.optional(b)||/^\d+$/.test(a)},creditcard:function(a,b){if(this.optional(b))return"dependency-mismatch";if(/[^0-9 \-]+/.test(a))return!1;var c,d,e=0,f=0,g=!1;if(a=a.replace(/\D/g,""),a.length<13||a.length>19)return!1;for(c=a.length-1;c>=0;c--)d=a.charAt(c),f=parseInt(d,10),g&&(f*=2)>9&&(f-=9),e+=f,g=!g;return e%10===0},minlength:function(b,c,d){var e=a.isArray(b)?b.length:this.getLength(b,c);return this.optional(c)||e>=d},maxlength:function(b,c,d){var e=a.isArray(b)?b.length:this.getLength(b,c);return this.optional(c)||d>=e},rangelength:function(b,c,d){var e=a.isArray(b)?b.length:this.getLength(b,c);return this.optional(c)||e>=d[0]&&e<=d[1]},min:function(a,b,c){return this.optional(b)||a>=c},max:function(a,b,c){return this.optional(b)||c>=a},range:function(a,b,c){return this.optional(b)||a>=c[0]&&a<=c[1]},equalTo:function(b,c,d){var e=a(d);return this.settings.onfocusout&&e.off(".validate-equalTo").on("blur.validate-equalTo",function(){a(c).valid()}),b===e.val()},remote:function(b,c,d){if(this.optional(c))return"dependency-mismatch";var e,f,g=this.previousValue(c);return this.settings.messages[c.name]||(this.settings.messages[c.name]={}),g.originalMessage=this.settings.messages[c.name].remote,this.settings.messages[c.name].remote=g.message,d="string"==typeof d&&{url:d}||d,g.old===b?g.valid:(g.old=b,e=this,this.startRequest(c),f={},f[c.name]=b,a.ajax(a.extend(!0,{mode:"abort",port:"validate"+c.name,dataType:"json",data:f,context:e.currentForm,success:function(d){var f,h,i,j=d===!0||"true"===d;e.settings.messages[c.name].remote=g.originalMessage,j?(i=e.formSubmitted,e.prepareElement(c),e.formSubmitted=i,e.successList.push(c),delete e.invalid[c.name],e.showErrors()):(f={},h=d||e.defaultMessage(c,"remote"),f[c.name]=g.message=a.isFunction(h)?h(b):h,e.invalid[c.name]=!0,e.showErrors(f)),g.valid=j,e.stopRequest(c,j)}},d)),"pending")}}});var b,c={};a.ajaxPrefilter?a.ajaxPrefilter(function(a,b,d){var e=a.port;"abort"===a.mode&&(c[e]&&c[e].abort(),c[e]=d)}):(b=a.ajax,a.ajax=function(d){var e=("mode"in d?d:a.ajaxSettings).mode,f=("port"in d?d:a.ajaxSettings).port;return"abort"===e?(c[f]&&c[f].abort(),c[f]=b.apply(this,arguments),c[f]):b.apply(this,arguments)})});
+/*! Backstretch - v2.0.4 - 2013-06-19
+* http://srobbin.com/jquery-plugins/backstretch/
+* Copyright (c) 2013 Scott Robbin; Licensed MIT */
+(function(a,d,p){a.fn.backstretch=function(c,b){(c===p||0===c.length)&&a.error("No images were supplied for Backstretch");0===a(d).scrollTop()&&d.scrollTo(0,0);return this.each(function(){var d=a(this),g=d.data("backstretch");if(g){if("string"==typeof c&&"function"==typeof g[c]){g[c](b);return}b=a.extend(g.options,b);g.destroy(!0)}g=new q(this,c,b);d.data("backstretch",g)})};a.backstretch=function(c,b){return a("body").backstretch(c,b).data("backstretch")};a.expr[":"].backstretch=function(c){return a(c).data("backstretch")!==p};a.fn.backstretch.defaults={centeredX:!0,centeredY:!0,duration:5E3,fade:0};var r={left:0,top:0,overflow:"hidden",margin:0,padding:0,height:"100%",width:"100%",zIndex:-999999},s={position:"absolute",display:"none",margin:0,padding:0,border:"none",width:"auto",height:"auto",maxHeight:"none",maxWidth:"none",zIndex:-999999},q=function(c,b,e){this.options=a.extend({},a.fn.backstretch.defaults,e||{});this.images=a.isArray(b)?b:[b];a.each(this.images,function(){a("<img />")[0].src=this});this.isBody=c===document.body;this.$container=a(c);this.$root=this.isBody?l?a(d):a(document):this.$container;c=this.$container.children(".backstretch").first();this.$wrap=c.length?c:a('<div class="backstretch"></div>').css(r).appendTo(this.$container);this.isBody||(c=this.$container.css("position"),b=this.$container.css("zIndex"),this.$container.css({position:"static"===c?"relative":c,zIndex:"auto"===b?0:b,background:"none"}),this.$wrap.css({zIndex:-999998}));this.$wrap.css({position:this.isBody&&l?"fixed":"absolute"});this.index=0;this.show(this.index);a(d).on("resize.backstretch",a.proxy(this.resize,this)).on("orientationchange.backstretch",a.proxy(function(){this.isBody&&0===d.pageYOffset&&(d.scrollTo(0,1),this.resize())},this))};q.prototype={resize:function(){try{var a={left:0,top:0},b=this.isBody?this.$root.width():this.$root.innerWidth(),e=b,g=this.isBody?d.innerHeight?d.innerHeight:this.$root.height():this.$root.innerHeight(),j=e/this.$img.data("ratio"),f;j>=g?(f=(j-g)/2,this.options.centeredY&&(a.top="-"+f+"px")):(j=g,e=j*this.$img.data("ratio"),f=(e-b)/2,this.options.centeredX&&(a.left="-"+f+"px"));this.$wrap.css({width:b,height:g}).find("img:not(.deleteable)").css({width:e,height:j}).css(a)}catch(h){}return this},show:function(c){if(!(Math.abs(c)>this.images.length-1)){var b=this,e=b.$wrap.find("img").addClass("deleteable"),d={relatedTarget:b.$container[0]};b.$container.trigger(a.Event("backstretch.before",d),[b,c]);this.index=c;clearInterval(b.interval);b.$img=a("<img />").css(s).bind("load",function(f){var h=this.width||a(f.target).width();f=this.height||a(f.target).height();a(this).data("ratio",h/f);a(this).fadeIn(b.options.speed||b.options.fade,function(){e.remove();b.paused||b.cycle();a(["after","show"]).each(function(){b.$container.trigger(a.Event("backstretch."+this,d),[b,c])})});b.resize()}).appendTo(b.$wrap);b.$img.attr("src",b.images[c]);return b}},next:function(){return this.show(this.index<this.images.length-1?this.index+1:0)},prev:function(){return this.show(0===this.index?this.images.length-1:this.index-1)},pause:function(){this.paused=!0;return this},resume:function(){this.paused=!1;this.next();return this},cycle:function(){1<this.images.length&&(clearInterval(this.interval),this.interval=setInterval(a.proxy(function(){this.paused||this.next()},this),this.options.duration));return this},destroy:function(c){a(d).off("resize.backstretch orientationchange.backstretch");clearInterval(this.interval);c||this.$wrap.remove();this.$container.removeData("backstretch")}};var l,f=navigator.userAgent,m=navigator.platform,e=f.match(/AppleWebKit\/([0-9]+)/),e=!!e&&e[1],h=f.match(/Fennec\/([0-9]+)/),h=!!h&&h[1],n=f.match(/Opera Mobi\/([0-9]+)/),t=!!n&&n[1],k=f.match(/MSIE ([0-9]+)/),k=!!k&&k[1];l=!((-1<m.indexOf("iPhone")||-1<m.indexOf("iPad")||-1<m.indexOf("iPod"))&&e&&534>e||d.operamini&&"[object OperaMini]"==={}.toString.call(d.operamini)||n&&7458>t||-1<f.indexOf("Android")&&e&&533>e||h&&6>h||"palmGetResource"in d&&e&&534>e||-1<f.indexOf("MeeGo")&&-1<f.indexOf("NokiaBrowser/8.5.0")||k&&6>=k)})(jQuery,window);
+var Login=function(){var e=function(){$(".login-form").validate({errorElement:"span",errorClass:"help-block",focusInvalid:!1,rules:{username:{required:!0},password:{required:!0},remember:{required:!1}},messages:{username:{required:"Username is required."},password:{required:"Password is required."}},invalidHandler:function(e,r){$(".alert-danger",$(".login-form")).show()},highlight:function(e){$(e).closest(".form-group").addClass("has-error")},success:function(e){e.closest(".form-group").removeClass("has-error"),e.remove()},errorPlacement:function(e,r){e.insertAfter(r.closest(".input-icon"))},submitHandler:function(e){e.submit()}}),$(".login-form input").keypress(function(e){if(13==e.which)return $(".login-form").validate().form()&&$(".login-form").submit(),!1})},r=function(){$(".forget-form").validate({errorElement:"span",errorClass:"help-block",focusInvalid:!1,ignore:"",rules:{email:{required:!0,email:!0}},messages:{email:{required:"Email is required."}},invalidHandler:function(e,r){},highlight:function(e){$(e).closest(".form-group").addClass("has-error")},success:function(e){e.closest(".form-group").removeClass("has-error"),e.remove()},errorPlacement:function(e,r){e.insertAfter(r.closest(".input-icon"))},submitHandler:function(e){e.submit()}}),$(".forget-form input").keypress(function(e){if(13==e.which)return $(".forget-form").validate().form()&&$(".forget-form").submit(),!1}),jQuery("#forget-password").click(function(){jQuery(".login-form").hide(),jQuery(".forget-form").show()}),jQuery("#back-btn").click(function(){jQuery(".login-form").show(),jQuery(".forget-form").hide()})},s=function(){function e(e){if(!e.id)return e.text;var r=$('<span><img src="../assets/global/img/flags/'+e.element.value.toLowerCase()+'.png" class="img-flag" /> '+e.text+"</span>");return r}jQuery().select2&&$("#country_list").size()>0&&($("#country_list").select2({placeholder:'<i class="fa fa-map-marker"></i>&nbsp;Select a Country',templateResult:e,templateSelection:e,width:"auto",escapeMarkup:function(e){return e}}),$("#country_list").change(function(){$(".register-form").validate().element($(this))})),$(".register-form").validate({errorElement:"span",errorClass:"help-block",focusInvalid:!1,ignore:"",rules:{fullname:{required:!0},email:{required:!0,email:!0},address:{required:!0},city:{required:!0},country:{required:!0},username:{required:!0},password:{required:!0},rpassword:{equalTo:"#register_password"},tnc:{required:!0}},messages:{tnc:{required:"Please accept TNC first."}},invalidHandler:function(e,r){},highlight:function(e){$(e).closest(".form-group").addClass("has-error")},success:function(e){e.closest(".form-group").removeClass("has-error"),e.remove()},errorPlacement:function(e,r){"tnc"==r.attr("name")?e.insertAfter($("#register_tnc_error")):1===r.closest(".input-icon").size()?e.insertAfter(r.closest(".input-icon")):e.insertAfter(r)},submitHandler:function(e){e.submit()}}),$(".register-form input").keypress(function(e){if(13==e.which)return $(".register-form").validate().form()&&$(".register-form").submit(),!1}),jQuery("#register-btn").click(function(){jQuery(".login-form").hide(),jQuery(".register-form").show()}),jQuery("#register-back-btn").click(function(){jQuery(".login-form").show(),jQuery(".register-form").hide()})};return{init:function(){e(),r(),s(),$.backstretch(["../assets/pages/media/bg/1.jpg","../assets/pages/media/bg/2.jpg","../assets/pages/media/bg/3.jpg","../assets/pages/media/bg/4.jpg"],{fade:1e3,duration:8e3})}}}();jQuery(document).ready(function(){Login.init()});
 // Link all the JS Docs here
 var myApp = angular.module('myApp', [
-    'ui.router',
-    'pascalprecht.translate',
-    'angulartics',
-    'angulartics.google.analytics',
-    'ui.bootstrap',
-    'angular-flexslider',
-    'ui.swiper',
-    'angularPromiseButtons',
-    'toastr',
-    "oc.lazyLoad"
+  'ui.router',
+  'ui.bootstrap',
+  // 'ngAnimate',
+  // 'ngSanitize',
+  'angular-flexslider',
+  'ui.swiper',
+  'toastr',
+  'cleave.js',
+  "oc.lazyLoad"
 ]);
 
 // For Language JS
-myApp.config(function ($translateProvider) {
-    $translateProvider.translations('en', LanguageEnglish);
-    $translateProvider.translations('hi', LanguageHindi);
-    $translateProvider.preferredLanguage('en');
+////
+// myApp.config(function ($translateProvider) {
+//     $translateProvider.translations('en', LanguageEnglish);
+//     $translateProvider.translations('hi', LanguageHindi);
+//     $translateProvider.preferredLanguage('en');
+// });
+////
+myApp.config(function (toastrConfig) {
+  angular.extend(toastrConfig, {
+    allowHtml: false,
+    closeButton: false,
+    closeHtml: '<button>&times;</button>',
+    extendedTimeOut: 1000,
+    iconClasses: {
+      error: 'toast-error',
+      info: 'toast-info',
+      success: 'toast-success',
+      warning: 'toast-warning'
+    },
+    positionClass: 'toast-bottom-center',
+    messageClass: 'toast-message',
+    onHidden: null,
+    onShown: null,
+    onTap: null,
+    progressBar: false,
+    tapToDismiss: true,
+    templates: {
+      toast: 'directives/toast/toast.html',
+      progressbar: 'directives/progressbar/progressbar.html'
+    },
+    timeOut: 5000,
+    titleClass: 'toast-title',
+    toastClass: 'toast'
+  });
 });
 
-
 myApp.config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
-    $ocLazyLoadProvider.config({
-        // global configs go here
-    });
+  $ocLazyLoadProvider.config({
+    // global configs go here
+  });
 }]);
 
 // AngularJS v1.3.x workaround for old style controller declarition in HTML
 myApp.config(['$controllerProvider', function ($controllerProvider) {
-    // this option might be handy for migrating old apps, but please don't use it
-    // in new ones!
-    $controllerProvider.allowGlobals();
+  // this option might be handy for migrating old apps, but please don't use it
+  // in new ones!
+  $controllerProvider.allowGlobals();
 }]);
 
 /********************************************
@@ -65698,30 +65428,37 @@ myApp.config(['$controllerProvider', function ($controllerProvider) {
 /* Setup global settings */
 // 
 myApp.factory('settings', ['$rootScope', function ($rootScope) {
-    // supported languages
-    var settings = {
-        layout: {
-            pageSidebarClosed: false, // sidebar menu state
-            pageContentWhite: true, // set page content layout
-            pageBodySolid: false, // solid body color state
-            pageAutoScrollOnLoad: 1000 // auto scroll to top on page load
-        },
-        assetsPath: '../frontend/themeassets',
-        globalPath: '../frontend/themeassets/global',
-        layoutPath: '../frontend/themeassets/layouts/layout',
-    };
+  // supported languages
+  var settings = {
+    layout: {
+      pageSidebarClosed: false, // sidebar menu state
+      pageContentWhite: true, // set page content layout
+      pageBodySolid: false, // solid body color state
+      pageAutoScrollOnLoad: 1000 // auto scroll to top on page load
+    },
+    assetsPath: 'themeassets',
+    globalPath: 'themeassets/global',
+    layoutPath: 'themeassets/layouts/layout',
+  };
 
-    $rootScope.settings = settings;
+  $rootScope.settings = settings;
 
-    return settings;
+  return settings;
 }]);
 
 /* Setup App Main Controller */
-myApp.controller('AppController', ['$scope', '$rootScope', function ($scope, $rootScope) {
-    $scope.$on('$viewContentLoaded', function () {
-        App.initComponents(); // init core components
-        Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
-    });
+myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
+  $scope.$on('$viewContentLoaded', function () {
+    App.initComponents(); // init core components
+    Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
+  });
+  $scope.loginTemplate = true;
+  $scope.themeColor = '#32c5d3';
+
+
+  // console.log("*********************************************************************",window.location.href );
+  // console.log("*********************************************************************",$state.current);
+
 }]);
 
 /***
@@ -65732,838 +65469,1137 @@ initialization can be disabled and Layout.init() should be called on page load c
 
 /* Setup Layout Part - Header */
 myApp.controller('HeaderController', ['$scope', function ($scope) {
-    $scope.$on('$includeContentLoaded', function () {
-        Layout.initHeader(); // init header
-    });
+  $scope.$on('$includeContentLoaded', function () {
+    Layout.initHeader(); // init header
+  });
 }]);
 
-/* Setup Layout Part - Sidebar */
-myApp.controller('SidebarController', ['$state', '$scope', function ($state, $scope) {
-    $scope.$on('$includeContentLoaded', function () {
-        Layout.initSidebar($state); // init sidebar
-    });
-}]);
 
 /* Setup Layout Part - Quick Sidebar */
 myApp.controller('QuickSidebarController', ['$scope', function ($scope) {
-    $scope.$on('$includeContentLoaded', function () {
-        setTimeout(function () {
-            QuickSidebar.init(); // init quick sidebar        
-        }, 2000)
-    });
+  $scope.$on('$includeContentLoaded', function () {
+    setTimeout(function () {
+      QuickSidebar.init(); // init quick sidebar        
+    }, 2000)
+  });
 }]);
 
 /* Setup Layout Part - Theme Panel */
 myApp.controller('ThemePanelController', ['$scope', function ($scope) {
-    $scope.$on('$includeContentLoaded', function () {
-        Demo.init(); // init theme panel
-    });
+  $scope.$on('$includeContentLoaded', function () {
+    Demo.init(); // init theme panel
+  });
 }]);
 
 /* Setup Layout Part - Footer */
 myApp.controller('FooterController', ['$scope', function ($scope) {
-    $scope.$on('$includeContentLoaded', function () {
-        Layout.initFooter(); // init footer
-    });
+  $scope.$on('$includeContentLoaded', function () {
+    Layout.initFooter(); // init footer
+  });
 }]);
 
 /* Init global settings and run the app */
 myApp.run(["$rootScope", "settings", "$state", function ($rootScope, settings, $state) {
-    $rootScope.$state = $state; // state to be accessed from view
-    $rootScope.$settings = settings; // state to be accessed from view
+  $rootScope.$state = $state; // state to be accessed from view
+  $rootScope.$settings = settings; // state to be accessed from view
 }]);
 
 
 // Define all the routes below
 myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
-    var tempateURL = "views/template/template.html"; //Default Template URL
+  var tempateURL = "views/template/template.html"; //Default Template URL
 
-    // for http request with session
-    $httpProvider.defaults.withCredentials = false;
-    $stateProvider
-
-        .state('app', {
-            abstract: true,
-            url: "/app",
-            templateUrl: "views/tpl/template.html",
-            controller: "appCtrl"
-        })
-
-        // ********************************** login module ********************************** //
-        .state('app.login', {
-            url: "/login",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/login/login.html",
-                    controller: "loginCtrl"
-                }
-            }
-        })
-
-        // ******************************** dashboard module ******************************** //
-        .state('app.dashboard', {
-            url: "/dashboard",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/dashboard.html",
-                    controller: "DashboardController"
-                }
-            }
-        })
-
-        // ********************************* enquiry module ********************************* //
-        .state('app.enquiry', {
-            url: "/enquiry",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/enquiry/allEnquies.html",
-                    controller: "enquiryCtrl"
-                }
-            }
-        })
-        .state('app.createEnquiry', {
-            url: "/enquiry/create",
-            views: {
-                "mainView": {
-                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
-                    controller: "createOrEditEnquiryCtrl"
-                }
-            }
-        })
-        .state('app.editEnquiry', {
-            url: "/enquiry/edit/:enquiryId",
-            views: {
-                "mainView": {
-                    templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
-                    controller: "createOrEditEnquiryCtrl"
-                }
-            }
-        })
-
-        // ******************************** estimate module ******************************** //
-        .state('app.estimate', {
-            url: "/estimate",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/estimate/allEstimates.html",
-                    controller: "estimateCtrl"
-                }
-            }
-        })
-        .state('app.createEstimate', {
-            url: "/estimate/create/:enquiryId",
-            views: {
-                "mainView": {
-                    templateUrl: "views/content/estimate/createOrEditEstimate.html",
-                    controller: "createOrEditEstimateCtrl"
-                }
-            },
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                            './themeassets/global/plugins/jstree/dist/jstree.js',
-                            './themeassets/pages/scripts/ui-tree.js'
-                        ]
-                    });
-                }]
-            }
-        })
-        .state('app.editEstimate', {
-            url: "/estimate/edit/:estimateId",
-            data: {
-                isSidebActive: true
-            },
-            views: {
-                "mainView": {
-                    templateUrl: "views/createOrEditEstimate.html",
-                    controller: "createOrEditEstimateCtrl"
-                }
-            },
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                            './themeassets/global/plugins/jstree/dist/jstree.js',
-                            './themeassets/pages/scripts/ui-tree.js',
-                        ]
-                    });
-                }]
-            }
-        })
-
-        // ********************************** user module ********************************* //
-        .state('app.users', {
-            url: "/user",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/user/allUsers.html",
-                    controller: "userCtrl"
-                }
-            }
-        })
-
-        // ******************************** customer module ******************************* //
-        .state('app.customer', {
-            url: "/customer",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/customer/allCustomers.html",
-                    controller: "customerCtrl"
-                }
-            }
-        })
-
-        // ******************************** master module ******************************** // 
-
-        .state('app.baseMatser', {
-            url: "/master/baseMatser",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/master/base/baseMatser.html",
-                    controller: "baseMasterCtrl"
-                }
-            }
-        })
-        .state('app.masterAddon', {
-            url: "/master/addon",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/master/addon/masterAddon.html",
-                    controller: "masterAddonCtrl"
-                }
-            }
-        })
-        .state('app.masterExtra', {
-            url: "/master/extra",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/master/extra/masterExtra.html",
-                    controller: "masterExtraCtrl"
-                }
-            }
-        })
-        .state('app.masterMaterial', {
-            url: "/master/material",
-            views: {
-                "mainView": {
-                    templateUrl: "views/content/master/material/masterMaterial.html",
-                    controller: "masterMaterialCtrl"
-                }
-            }
-        })
-        .state('app.masterPart', {
-            url: "/master/part",
-            views: {
-                // "sidebar": {
-                //     templateUrl: "views/tpl/sidebar.html",
-                //     controller: "SidebarController"
-                // },
-                "mainView": {
-                    templateUrl: "views/content/master/part/masterPart.html",
-                    controller: "masterPartCtrl"
-                }
-            }
-        })
-        .state('app.masterProcess', {
-            url: "/master/process",
-            views: {
-                "mainView": {
-                    templateUrl: "views/content/master/process/masterProcess.html",
-                    controller: "masterProcessCtrl"
-                }
-            }
-        })
-        .state('app.masterShape', {
-            url: "/master/shape",
-            views: {
-                "mainView": {
-                    templateUrl: "views/content/master/shape/masterShape.html",
-                    controller: "masterShapeCtrl"
-                }
-            }
-        })
-
-        // ******************************** settings module ******************************** // 
-        .state('app.settings', {
-            url: "/settings",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "",
-                    controller: ""
-                }
-            }
-        })
+  var routeResolve = function (accessApp) {
+    accessApp.isLoggedIn();
+  }
 
 
 
+  // for http request with session
+  $httpProvider.defaults.withCredentials = true;
+  $stateProvider
+
+    .state('app', {
+      abstract: true,
+      url: "/app",
+      templateUrl: "views/tpl/template.html",
+      controller: "appCtrl",
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+
+    // ********************************** login module ********************************** //
+    .state('login', {
+      url: "/login",
+      templateUrl: "views/content/login/estimatorLogin.html",
+      controller: "loginCtrl",
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+
+    // ********************************** logout module ********************************** //
+    .state('logout', {
+      url: "/login",
+      templateUrl: "views/content/login/estimatorLogin.html",
+      controller: "loginCtrl",
+      resolve: {
+        logoutUser: function () {
+          $.jStorage.deleteKey("loggedInUser")
+          //- // $.jStorage.deleteKey("estimateObject");	
+        }
+      }
+    })
+
+    // ******************************** dashboard module ******************************** //
+    .state('app.dashboard', {
+      url: "/dashboard",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/dashboard.html",
+          controller: "DashboardController"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+
+    // ********************************* enquiry module ********************************* //
+    .state('app.enquiry', {
+      url: "/enquiry",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/enquiry/allEnquies.html",
+          controller: "enquiryCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.createEnquiry', {
+      url: "/enquiry/create",
+      views: {
+        "mainView": {
+          templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
+          controller: "createOrEditEnquiryCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.editEnquiry', {
+      url: "/enquiry/edit/:enquiryId",
+      views: {
+        "mainView": {
+          templateUrl: "views/content/enquiry/createOrEditEnquiry.html",
+          controller: "createOrEditEnquiryCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+
+    // ******************************** estimate module ******************************** //
+    .state('app.estimate', {
+      url: "/estimate",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/estimate/allEstimates.html",
+          controller: "estimateCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.createEstimate', {
+      url: "/estimate/create/:estimateId",
+      views: {
+        "mainView": {
+          templateUrl: "views/content/estimate/createOrEditEstimate.html",
+          controller: "createOrEditEstimateCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.editEstimate', {
+      url: "/estimate/edit/:estimateId",
+      data: {
+        isSidebActive: true
+      },
+      views: {
+        "mainView": {
+          templateUrl: "views/createOrEditEstimate.html",
+          controller: "createOrEditEstimateCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+
+    // ********************************** user module ********************************* //
+    .state('app.users', {
+      url: "/user",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/user/allUsers.html",
+          controller: "userCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state("app.userProfile", {
+      url: "/userProfile",
+      views: {
+        "mainView": {
+          templateUrl: "views/profile/userProfile.html",
+          controller: "UserProfileController"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+
+    // ******************************** customer module ******************************* //
+    .state('app.customer', {
+      url: "/customer",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/customer/allCustomers.html",
+          controller: "customerCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+
+    // ******************************** master module ******************************** // 
+
+    .state('app.baseMatser', {
+      url: "/master/baseMatser",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/master/base/baseMatser.html",
+          controller: "baseMasterCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.masterAddon', {
+      url: "/master/addon",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/master/addon/masterAddon.html",
+          controller: "masterAddonCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.masterExtra', {
+      url: "/master/extra",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/master/extra/masterExtra.html",
+          controller: "masterExtraCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.masterMaterial', {
+      url: "/master/material",
+      views: {
+        "mainView": {
+          templateUrl: "views/content/master/material/masterMaterial.html",
+          controller: "masterMaterialCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.masterPart', {
+      url: "/master/part",
+      views: {
+        // "sidebar": {
+        //     templateUrl: "views/tpl/sidebar.html",
+        //     controller: "SidebarController"
+        // },
+        "mainView": {
+          templateUrl: "views/content/master/part/masterPart.html",
+          controller: "masterPartCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.masterProcess', {
+      url: "/master/process",
+      views: {
+        "mainView": {
+          templateUrl: "views/content/master/process/masterProcess.html",
+          controller: "masterProcessCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.masterShape', {
+      url: "/master/shape",
+      views: {
+        "mainView": {
+          templateUrl: "views/content/master/shape/masterShape.html",
+          controller: "masterShapeCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+
+    // ******************************** settings module ******************************** // 
+    .state('app.settings', {
+      url: "/settings",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "",
+          controller: ""
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.roles', {
+      url: "/roles",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/settings/allRoles.html",
+          controller: "roleCtrl"
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
 
 
 
 
 
 
-        // ******************************** extra unwanted states ************************ // 
-        // delete all following states after complete the project
-
-        // estimate
-        .state("estimate", {
-            url: "/estimate",
-            templateUrl: "views/estimate.html",
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            './themeassets/apps/css/todo-2.css',
-                            './themeassets/global/plugins/select2/css/select2.min.css',
-                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
-                            './themeassets/global/plugins/select2/js/select2.full.min.js',
-                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            './themeassets/apps/scripts/todo-2.min.js',
-                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                            './themeassets/global/plugins/jstree/dist/jstree.js',
-                            './themeassets/pages/scripts/ui-tree.js',
-                            // 'controllers/TodoController.js'
-                        ]
-                    });
-                }]
-            }
-        })
-        //estimate assembly
-        .state('app.assembly', {
-            url: "/assembly",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/insideestimate/assembly.html",
-                    controller: ""
-                }
-            }
-        })
-        //subasembly
-        .state('app.subassembly', {
-            url: "/subassembly",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/insideestimate/subassembly.html",
-                    controller: ""
-                }
-            }
-        })
-        //processing view
-        .state('app.processing', {
-            url: "/processing",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/insideestimate/processing.html",
-                    controller: ""
-                }
-            }
-        })
-        //part
-
-        .state('app.part', {
-            url: "/part",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/insideestimate/part.html",
-                    controller: ""
-                }
-            }
-        })
-        //addore
-        .state('app.addons', {
-            url: "/addons",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/insideestimate/addons.html",
-                    controller: ""
-                }
-            }
-        })
-        //extras
-        .state('app.extras', {
-            url: "/extras",
-            views: {
-                "sidebar": {
-                    templateUrl: "views/tpl/sidebar.html",
-                    controller: "SidebarController"
-                },
-                "mainView": {
-                    templateUrl: "views/content/insideestimate/extras.html",
-                    controller: ""
-                }
-            }
-        })
 
 
-        .state('enquiries', {
-            url: "/enquiries",
-            templateUrl: "views/enquiries.html",
-            controller: "EnquiriesController",
-        })
-        //  .state('subasembly', {
-        //     url: "/subasembly",
-        //     templateUrl: "views/content/insideestimate/subasembly.html",
-        //     controller: "",
-        // })
 
-        // Blank Page
-        .state('blank', {
-            url: "/blank",
-            templateUrl: "views/blank.html",
-            data: {
-                pageTitle: 'Blank Page Template'
-            },
-            controller: "BlankController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            'controllers/BlankController.js'
-                        ]
-                    });
-                }]
-            }
-        })
+    // ******************************** extra unwanted states ************************ // 
+    // delete all following states after complete the project
 
-        // AngularJS plugins
-        .state('fileupload', {
-            url: "/file_upload.html",
-            templateUrl: "views/file_upload.html",
-            data: {
-                pageTitle: 'AngularJS File Upload'
-            },
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'angularFileUpload',
-                        files: [
-                            './themeassets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
-                        ]
-                    }, {
-                        name: 'myApp',
-                        files: [
-                            // 'controllers/GeneralPageController.js'
-                        ]
-                    }]);
-                }]
-            }
-        })
+    // estimate
+    .state("estimate", {
+      url: "/estimate",
+      templateUrl: "views/estimate.html",
+      controller: "GeneralPageController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name: 'myApp',
+            insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+            files: [
+              './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+              './themeassets/apps/css/todo-2.css',
+              './themeassets/global/plugins/select2/css/select2.min.css',
+              './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
+              './themeassets/global/plugins/select2/js/select2.full.min.js',
+              './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+              './themeassets/apps/scripts/todo-2.min.js',
+              './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
+              './themeassets/global/plugins/jstree/dist/jstree.js',
+              './themeassets/pages/scripts/ui-tree.js',
+              // 'controllers/TodoController.js'
+            ]
+          });
+        }]
+      }
+    })
+    //estimate assembly
+    .state('app.assembly', {
+      url: "/assembly",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/insideestimate/assembly.html",
+          controller: ""
+        }
+      }
+    })
+    //subasembly
+    .state('app.subassembly', {
+      url: "/subassembly",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/insideestimate/subassembly.html",
+          controller: ""
+        }
+      }
+    })
+    //processing view
+    .state('app.processing', {
+      url: "/processing",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/insideestimate/processing.html",
+          controller: ""
+        }
+      }
+    })
+    //part
 
-        // UI Select
-        .state('uiselect', {
-            url: "/ui_select",
-            templateUrl: "views/ui_select.html",
-            data: {
-                pageTitle: 'AngularJS Ui Select'
-            },
-            controller: "UISelectController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'ui.select',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/angularjs/plugins/ui-select/select.min.css',
-                            './themeassets/global/plugins/angularjs/plugins/ui-select/select.min.js'
-                        ]
-                    }, {
-                        name: 'myApp',
-                        files: [
-                            // 'controllers/UISelectController.js'
-                        ]
-                    }]);
-                }]
-            }
-        })
+    .state('app.part', {
+      url: "/part",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/insideestimate/part.html",
+          controller: ""
+        }
+      }
+    })
+    //addore
+    .state('app.addons', {
+      url: "/addons",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/insideestimate/addons.html",
+          controller: ""
+        }
+      }
+    })
+    //extras
+    .state('app.extras', {
+      url: "/extras",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/insideestimate/extras.html",
+          controller: ""
+        }
+      }
+    })
 
-        // UI Bootstrap
-        .state('uibootstrap', {
-            url: "/ui_bootstrap.html",
-            templateUrl: "views/ui_bootstrap.html",
-            data: {
-                pageTitle: 'AngularJS UI Bootstrap'
-            },
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'myApp',
-                        files: [
-                            'js/controllers/GeneralPageController.js'
-                        ]
-                    }]);
-                }]
-            }
-        })
 
-        // Tree View
-        .state('tree', {
-            url: "/tree",
-            templateUrl: "views/tree.html",
-            data: {
-                pageTitle: 'jQuery Tree View'
-            },
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
-                            './themeassets/global/plugins/jstree/dist/jstree.js',
-                            './themeassets/pages/scripts/ui-tree.js',
-                            // 'controllers/GeneralPageController.js'
-                        ]
-                    }]);
-                }]
-            }
-        })
+    .state('enquiries', {
+      url: "/enquiries",
+      templateUrl: "views/enquiries.html",
+      controller: "EnquiriesController",
+    })
+    //  .state('subasembly', {
+    //     url: "/subasembly",
+    //     templateUrl: "views/content/insideestimate/subasembly.html",
+    //     controller: "",
+    // })
 
-        // Form Tools
-        .state('formtools', {
-            url: "/form-tools",
-            templateUrl: "views/form_tools.html",
-            data: {
-                pageTitle: 'Form Tools'
-            },
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            './themeassets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
-                            './themeassets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
-                            './themeassets/global/plugins/typeahead/typeahead.css',
+    // Blank Page
+    .state('blank', {
+      url: "/blank",
+      templateUrl: "views/blank.html",
+      data: {
+        pageTitle: 'Blank Page Template'
+      },
+      controller: "BlankController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name: 'myApp',
+            insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+            files: [
+              'controllers/BlankController.js'
+            ]
+          });
+        }]
+      }
+    })
 
-                            './themeassets/global/plugins/fuelux/js/spinner.min.js',
-                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-                            './themeassets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
-                            './themeassets/global/plugins/jquery.input-ip-address-control-1.0.min.js',
-                            './themeassets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js',
-                            './themeassets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js',
-                            './themeassets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js',
-                            './themeassets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js',
-                            './themeassets/global/plugins/typeahead/handlebars.min.js',
-                            './themeassets/global/plugins/typeahead/typeahead.bundle.min.js',
-                            './themeassets/pages/scripts/components-form-tools-2.min.js',
+    // AngularJS plugins
+    .state('fileupload', {
+      url: "/file_upload.html",
+      templateUrl: "views/file_upload.html",
+      data: {
+        pageTitle: 'AngularJS File Upload'
+      },
+      controller: "GeneralPageController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load([{
+            name: 'angularFileUpload',
+            files: [
+              './themeassets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
+            ]
+          }, {
+            name: 'myApp',
+            files: [
+              // 'controllers/GeneralPageController.js'
+            ]
+          }]);
+        }]
+      }
+    })
 
-                            // 'controllers/GeneralPageController.js'
-                        ]
-                    }]);
-                }]
-            }
-        })
+    // UI Select
+    .state('uiselect', {
+      url: "/ui_select",
+      templateUrl: "views/ui_select.html",
+      data: {
+        pageTitle: 'AngularJS Ui Select'
+      },
+      controller: "UISelectController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load([{
+            name: 'ui.select',
+            insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+            files: [
+              './themeassets/global/plugins/angularjs/plugins/ui-select/select.min.css',
+              './themeassets/global/plugins/angularjs/plugins/ui-select/select.min.js'
+            ]
+          }, {
+            name: 'myApp',
+            files: [
+              // 'controllers/UISelectController.js'
+            ]
+          }]);
+        }]
+      }
+    })
 
-        // Date & Time Pickers
-        .state('pickers', {
-            url: "/pickers",
-            templateUrl: "views/pickers.html",
-            data: {
-                pageTitle: 'Date & Time Pickers'
-            },
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/clockface/css/clockface.css',
-                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            './themeassets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
-                            './themeassets/global/plugins/bootstrap-colorpicker/css/colorpicker.css',
-                            './themeassets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css',
+    // UI Bootstrap
+    .state('uibootstrap', {
+      url: "/ui_bootstrap.html",
+      templateUrl: "views/ui_bootstrap.html",
+      data: {
+        pageTitle: 'AngularJS UI Bootstrap'
+      },
+      controller: "GeneralPageController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load([{
+            name: 'myApp',
+            files: [
+              'js/controllers/GeneralPageController.js'
+            ]
+          }]);
+        }]
+      }
+    })
 
-                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            './themeassets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
-                            './themeassets/global/plugins/clockface/js/clockface.js',
-                            './themeassets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js',
-                            './themeassets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js',
+    // Tree View
+    .state('tree', {
+      url: "/tree",
+      templateUrl: "views/tree.html",
+      data: {
+        pageTitle: 'jQuery Tree View'
+      },
+      controller: "GeneralPageController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load([{
+            name: 'myApp',
+            insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+            files: [
+              './themeassets/global/plugins/jstree/dist/themes/default/style.min.css',
+              './themeassets/global/plugins/jstree/dist/jstree.js',
+              './themeassets/pages/scripts/ui-tree.js',
+              // 'controllers/GeneralPageController.js'
+            ]
+          }]);
+        }]
+      }
+    })
 
-                            './themeassets/pages/scripts/components-date-time-pickers.min.js',
+    // Form Tools
+    .state('formtools', {
+      url: "/form-tools",
+      templateUrl: "views/form_tools.html",
+      data: {
+        pageTitle: 'Form Tools'
+      },
+      controller: "GeneralPageController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load([{
+            name: 'myApp',
+            insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+            files: [
+              './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+              './themeassets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
+              './themeassets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
+              './themeassets/global/plugins/typeahead/typeahead.css',
 
-                            // 'controllers/GeneralPageController.js'
-                        ]
-                    }]);
-                }]
-            }
-        })
+              './themeassets/global/plugins/fuelux/js/spinner.min.js',
+              './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+              './themeassets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
+              './themeassets/global/plugins/jquery.input-ip-address-control-1.0.min.js',
+              './themeassets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js',
+              './themeassets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js',
+              './themeassets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js',
+              './themeassets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js',
+              './themeassets/global/plugins/typeahead/handlebars.min.js',
+              './themeassets/global/plugins/typeahead/typeahead.bundle.min.js',
+              './themeassets/pages/scripts/components-form-tools-2.min.js',
 
-        // Custom Dropdowns
-        .state('dropdowns', {
-            url: "/dropdowns",
-            templateUrl: "views/dropdowns.html",
-            data: {
-                pageTitle: 'Custom Dropdowns'
-            },
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            './themeassets/global/plugins/select2/css/select2.min.css',
-                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
+              // 'controllers/GeneralPageController.js'
+            ]
+          }]);
+        }]
+      }
+    })
 
-                            './themeassets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            './themeassets/global/plugins/select2/js/select2.full.min.js',
+    // Date & Time Pickers
+    .state('pickers', {
+      url: "/pickers",
+      templateUrl: "views/pickers.html",
+      data: {
+        pageTitle: 'Date & Time Pickers'
+      },
+      controller: "GeneralPageController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load([{
+            name: 'myApp',
+            insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+            files: [
+              './themeassets/global/plugins/clockface/css/clockface.css',
+              './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+              './themeassets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
+              './themeassets/global/plugins/bootstrap-colorpicker/css/colorpicker.css',
+              './themeassets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css',
 
-                            './themeassets/pages/scripts/components-bootstrap-select.min.js',
-                            './themeassets/pages/scripts/components-select2.min.js',
+              './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+              './themeassets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
+              './themeassets/global/plugins/clockface/js/clockface.js',
+              './themeassets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js',
+              './themeassets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js',
 
-                            // 'controllers/GeneralPageController.js'
-                        ]
-                    }]);
-                }]
-            }
-        })
+              './themeassets/pages/scripts/components-date-time-pickers.min.js',
 
-        // Advanced Datatables
-        .state('datatablesmanaged', {
-            url: "/datatables",
-            templateUrl: "views/datatables/managed.html",
-            data: {
-                pageTitle: 'Advanced Datatables'
-            },
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/datatables/datatables.min.css',
-                            './themeassets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            './themeassets/global/plugins/datatables/datatables.all.min.js',
-                            './themeassets/pages/scripts/table-datatables-managed.min.js',
-                            // 'controllers/GeneralPageController.js'
-                        ]
-                    });
-                }]
-            }
-        })
+              // 'controllers/GeneralPageController.js'
+            ]
+          }]);
+        }]
+      }
+    })
 
-        // Ajax Datetables
-        .state('datatablesajax', {
-            url: "/datatables",
-            templateUrl: "views/datatables/ajax.html",
-            data: {
-                pageTitle: 'Ajax Datatables'
-            },
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/datatables/datatables.min.css',
-                            './themeassets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+    // Custom Dropdowns
+    .state('dropdowns', {
+      url: "/dropdowns",
+      templateUrl: "views/dropdowns.html",
+      data: {
+        pageTitle: 'Custom Dropdowns'
+      },
+      controller: "GeneralPageController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load([{
+            name: 'myApp',
+            insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+            files: [
+              './themeassets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
+              './themeassets/global/plugins/select2/css/select2.min.css',
+              './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
 
-                            './themeassets/global/plugins/datatables/datatables.all.min.js',
-                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            './themeassets/global/scripts/datatable.js',
+              './themeassets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
+              './themeassets/global/plugins/select2/js/select2.full.min.js',
 
-                            'scripts/table-ajax.js',
-                            // 'controllers/GeneralPageController.js'
-                        ]
-                    });
-                }]
-            }
-        })
+              './themeassets/pages/scripts/components-bootstrap-select.min.js',
+              './themeassets/pages/scripts/components-select2.min.js',
 
-        // User Profile
-        .state("profile", {
-            url: "/profile",
-            templateUrl: "views/profile/main.html",
-            data: {
-                pageTitle: 'User Profile'
-            },
-            controller: "UserProfileController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            './themeassets/pages/css/profile.css',
+              // 'controllers/GeneralPageController.js'
+            ]
+          }]);
+        }]
+      }
+    })
 
-                            './themeassets/global/plugins/jquery.sparkline.min.js',
-                            './themeassets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+    // Advanced Datatables
+    .state('datatablesmanaged', {
+      url: "/datatables",
+      templateUrl: "views/datatables/managed.html",
+      data: {
+        pageTitle: 'Advanced Datatables'
+      },
+      controller: "GeneralPageController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name: 'myApp',
+            insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+            files: [
+              './themeassets/global/plugins/datatables/datatables.min.css',
+              './themeassets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+              './themeassets/global/plugins/datatables/datatables.all.min.js',
+              './themeassets/pages/scripts/table-datatables-managed.min.js',
+              // 'controllers/GeneralPageController.js'
+            ]
+          });
+        }]
+      }
+    })
 
-                            './themeassets/pages/scripts/profile.min.js',
+    // Ajax Datetables
+    .state('datatablesajax', {
+      url: "/datatables",
+      templateUrl: "views/datatables/ajax.html",
+      data: {
+        pageTitle: 'Ajax Datatables'
+      },
+      controller: "GeneralPageController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name: 'myApp',
+            insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+            files: [
+              './themeassets/global/plugins/datatables/datatables.min.css',
+              './themeassets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+              './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
 
-                            // 'controllers/UserProfileController.js'
-                        ]
-                    });
-                }]
-            }
-        })
+              './themeassets/global/plugins/datatables/datatables.all.min.js',
+              './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+              './themeassets/global/scripts/datatable.js',
 
-        // User Profile Dashboard
-        .state("profile.dashboard", {
-            url: "/profileDashboard",
-            templateUrl: "views/profile/dashboard.html",
-            data: {
-                pageTitle: 'User Profile'
-            }
-        })
+              'scripts/table-ajax.js',
+              // 'controllers/GeneralPageController.js'
+            ]
+          });
+        }]
+      }
+    })
 
-        // User Profile Account
-        .state("profile.account", {
-            url: "/account",
-            templateUrl: "views/profile/account.html",
-            data: {
-                pageTitle: 'User Account'
-            }
-        })
 
-        // User Profile Help
-        .state("profile.help", {
-            url: "/help",
-            templateUrl: "views/profile/help.html",
-            data: {
-                pageTitle: 'User Help'
-            }
-        })
 
-        // Todo
-        .state('todo', {
-            url: "/todo",
-            templateUrl: "views/todo.html",
-            data: {
-                pageTitle: 'Todo'
-            },
-            controller: "TodoController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            './themeassets/apps/css/todo-2.css',
-                            './themeassets/global/plugins/select2/css/select2.min.css',
-                            './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
-                            './themeassets/global/plugins/select2/js/select2.full.min.js',
-                            './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            './themeassets/apps/scripts/todo-2.min.js',
-                            // 'controllers/TodoController.js'
-                        ]
-                    });
-                }]
-            }
-        });
+    // User Profile Dashboard
+    .state("profile.dashboard", {
+      url: "/profileDashboard",
+      templateUrl: "views/profile/dashboard.html",
+      controller: "UserProfileController",
+      data: {
+        pageTitle: 'User Profile'
+      }
+    })
 
-    $urlRouterProvider.otherwise("/app/dashboard");
-    $locationProvider.html5Mode(false);
+
+
+    // User Profile Help
+    .state("profile.help", {
+      url: "/help",
+      templateUrl: "views/profile/help.html",
+      data: {
+        pageTitle: 'User Help'
+      }
+    })
+
+    // Todo
+    .state('todo', {
+      url: "/todo",
+      templateUrl: "views/todo.html",
+      data: {
+        pageTitle: 'Todo'
+      },
+      controller: "TodoController",
+      resolve: {
+        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name: 'myApp',
+            insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+            files: [
+              './themeassets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+              './themeassets/apps/css/todo-2.css',
+              './themeassets/global/plugins/select2/css/select2.min.css',
+              './themeassets/global/plugins/select2/css/select2-bootstrap.min.css',
+              './themeassets/global/plugins/select2/js/select2.full.min.js',
+              './themeassets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+              './themeassets/apps/scripts/todo-2.min.js',
+              // 'controllers/TodoController.js'
+            ]
+          });
+        }]
+      }
+    });
+
+  $urlRouterProvider.otherwise("/login");
+  $locationProvider.html5Mode(false);
 });
 
 
+
+/* Setup Layout Part - Sidebar */
+myApp.controller('SidebarController', ['$state', '$scope', function ($state, $scope) {
+  $scope.$on('$includeContentLoaded', function () {
+    Layout.initSidebar($state); // init sidebar
+  });
+
+  // var str = window.location.href;
+  // var url = str.split('/');
+  // var getState = url[url.length - 1];
+  var getState = $state.current.name;
+
+  // get current state & set a class to li
+  if (getState == 'app.dashboard') {
+    $scope.currentState = 'dashboard';
+  } else if (getState == 'app.enquiry') {
+    $scope.currentState = 'enquiry';
+  } else if (getState == 'app.estimate') {
+    $scope.currentState = 'estimate';
+  } else if (getState == 'app.customer') {
+    $scope.currentState = 'customer';
+  } else if (getState == 'app.users') {
+    $scope.currentState = 'user';
+  } else if (getState == 'app.masterAddon') {
+    $scope.currentState = 'master';
+    $scope.subMenuState = 'masterAddon';
+  } else if (getState == 'app.baseMatser') {
+    $scope.currentState = 'master';
+    $scope.subMenuState = 'masterBaseMaster';
+  } else if (getState == 'app.masterExtra') {
+    $scope.currentState = 'master';
+    $scope.subMenuState = 'masterExtra';
+  } else if (getState == 'app.settings') {
+    $scope.currentState = 'setting';
+  }
+
+}]);
+
 myApp.directive('inputDate', function ($compile, $parse) {
-    return {
-        restrict: 'E',
-        replace: false,
-        scope: {
-            value: "=ngModel",
-        },
-        templateUrl: 'frontend/views/directive/date.html',
-        link: function ($scope, element, attrs) {
-            $scope.data = {};
-            $scope.dateOptions = {
-                dateFormat: "dd/mm/yy"
-            };
-            if (!_.isEmpty($scope.value)) {
-                $scope.data.model = moment($scope.value).toDate();
+  return {
+    restrict: 'E',
+    replace: false,
+    scope: {
+      value: "=ngModel",
+    },
+    templateUrl: 'frontend/views/directive/date.html',
+    link: function ($scope, element, attrs) {
+      $scope.data = {};
+      $scope.dateOptions = {
+        dateFormat: "dd/mm/yy"
+      };
+      if (!_.isEmpty($scope.value)) {
+        $scope.data.model = moment($scope.value).toDate();
+      }
+      $scope.changeDate = function (data) {
+        // $scope.value = $scope.data.model;
+        $scope.value = data;
+      };
+    }
+  };
+});
+
+myApp.factory('accessApp', function ($location) {
+  console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
+  return {
+    isLoggedIn: function () {
+      if ($.jStorage.get("loggedInUser")) {
+        return true;
+      } else {
+        return $location.path('/');
+      }
+    }
+  }
+});
+
+myApp.directive('fileModelOld', ['$parse', function ($parse) {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      var model = $parse(attrs.fileModel);
+      var modelSetter = model.assign;
+
+      element.bind('change', function () {
+        console.log("*** element **", element);
+        scope.$apply(function () {
+          modelSetter(scope, element[0].files[0]);
+        });
+      });
+
+
+
+      // $scope.$parent.formData.uploadedFiles = [];
+      // $scope.formData.uploadedFiles = [];
+
+      // $scope.uploadImage = function (file) {
+      //     var fd = new FormData();
+      //     fd.append('file', file);
+
+      //     $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+      //             transformRequest: angular.identity,
+      //             headers: {
+      //                 'Content-Type': undefined
+      //             }
+      //         })
+      //         .then(function () {
+
+      //             console.log('**** inside its working of userProfileService.js ****');
+      //         });
+      // }
+    }
+  };
+}]);
+
+myApp.directive('fileModel', ['$parse', '$http', function ($parse, $http) {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      var model = $parse(attrs.fileModel);
+      var modelSetter = model.assign;
+
+      element.bind('change', function () {
+        // angular.element(event.target).file('model') = element[0].files[0];
+        // modelSetter(scope, element[0].files[0]);
+        // scope.uploadImage(scope.myFile);
+
+        scope.$apply(function () {
+          modelSetter(scope, element[0].files[0]);
+
+          var fd = new FormData();
+          fd.append('file', file);
+
+          $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+              transformRequest: angular.identity,
+              headers: {
+                'Content-Type': undefined
+              }
+            })
+            .then(function () {
+
+              console.log('**** inside its working of userProfileService.js ****');
+            });
+
+        });
+      });
+
+
+
+      scope.uploadImage = function (file) {
+        var fd = new FormData();
+        fd.append('file', file);
+
+        $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+            transformRequest: angular.identity,
+            headers: {
+              'Content-Type': undefined
             }
-            $scope.changeDate = function (data) {
-                // $scope.value = $scope.data.model;
-                $scope.value = data;
-            };
+          })
+          .then(function () {
+
+            console.log('**** inside its working of userProfileService.js ****');
+          });
+      }
+
+
+    }
+  };
+}]);
+
+
+myApp.directive('uploadAllFiles', function ($http) {
+  return {
+    restrict: 'E',
+    scope: {
+      model: '=ngModel',
+      icon: '=icon',
+      pdfFile: '=pdfFile',
+      fileLocation: '@fileLocation'
+    },
+    templateUrl: '/views/directive/uploadAllFiles.html',
+
+    link: function (scope, element, attrs) {
+      scope.isMultiple = false;
+      //scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
+      
+      scope.uploadImage = function (files) {
+        scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
+        console.log("*** scope.isNoFile...!scope.model...... ***", scope.isNoFile, !scope.model);
+        var fileName = _.split(files[0].name, '.');
+        var fileType = fileName[1];
+        console.log('**** fileType......... ****',fileType);
+        scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png') && !scope.pdfFile;
+        scope.isPdf = (fileType == 'pdf') && !scope.icon && scope.pdfFile;
+        scope.isDocs = (fileType == 'doc' || fileType == 'docx') && !scope.icon && scope.pdfFile;
+        scope.isOtherFile = fileType != 'pdf' && fileType != 'doc' && fileType != 'docx' && fileType != 'jpg' && fileType != 'jpeg' && fileType != 'png';
+
+        console.log('**** ,scope.isPhoto,  scope.isPdf, scope.isDocs, scope.isOtherFile,scope.isNoFile ****',scope.isPhoto,  scope.isPdf, scope.isDocs, scope.isOtherFile,scope.isNoFile);
+        if (_.isArray(scope.model)) {
+          scope.isMultiple = true;
+          angular.forEach(files, function (file) {
+            var fd = new FormData();
+            fd.append('file', file);
+
+            $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+                headers: {
+                  'Content-Type': undefined
+                },
+                transformRequest: angular.identity
+              })
+              .then(function (data) {
+                console.log('**** inside its working of userProfileService.js ****', data);
+                scope.model.push(data.data.data[0]);;
+              });
+          });
+
+        } else {
+          var fd = new FormData();
+          fd.append('file', files[0]);
+
+          $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+              headers: {
+                'Content-Type': undefined
+              },
+              transformRequest: angular.identity
+            })
+            .then(function (data) {
+              scope.model = data.data.data[0];
+              console.log('**** inside its working of userProfileService.js ****', data);
+            });
         }
-    };
+      };
+    }
+  };
+});
+
+
+myApp.filter('uploadpath', function () {
+  return function (input, width, height, style) {
+    var other = "";
+    if (input.search(".pdf") >= 0) {
+      return "frontend/img/pdf.jpg";
+    } else {
+      if (input.search(".jpg") >= 0 || input.search(".png") >= 0) {
+        return "frontend/img/image.png";
+      } else {
+        if (input.search(".doc") >= 0 || input.search(".docx") >= 0) {
+          return "frontend/img/doc.png";
+        } else if (input == 'broken') {
+          return "frontend/img/nofile.png";
+        }
+      }
+    }
+    if (width && width !== "") {
+      other += "&width=" + width;
+    }
+    if (height && height !== "") {
+      other += "&height=" + height;
+    }
+    if (style && style !== "") {
+      other += "&style=" + style;
+    }
+    if (input) {
+      if (input.indexOf('https://') == -1) {
+        return imgpath + "?file=" + input + other;
+      } else {
+        return input;
+      }
+    }
+  };
+});
+
+myApp.filter('downloadpath', function () {
+  return function (input, width, height, style) {
+    var other = "";
+    if (width && width !== "") {
+      other += "&width=" + width;
+    }
+    if (height && height !== "") {
+      other += "&height=" + height;
+    }
+    if (style && style !== "") {
+      other += "&style=" + style;
+    }
+    if (input) {
+      if (input.indexOf('https://') == -1) {
+        return adminurl + "User/download/" + input;
+      } else {
+        return adminurl;
+      }
+    }
+  };
 });
 var LanguageEnglish = {
   "ABOUT": "About",
@@ -66626,7 +66662,7 @@ myApp
                 } else {
                     target = element;
                 }
-
+   
                 target.fancybox({
                     openEffect: 'fade',
                     closeEffect: 'fade',
@@ -66738,163 +66774,6 @@ myApp
         };
     })
 
-    //upload image
-    .directive('uploadImage', function ($http, $filter, $timeout) {
-     return {
-       templateUrl: './frontend/views/directive/uploadFile.html',
-       scope: {
-         model: '=ngModel',
-         type: "@type",
-         callback: "&ngCallback"
-       },
-       link: function ($scope, element, attrs) {
-         console.log("***************** $scope.model *********************", $scope.model);
-         $scope.showImage = function () {};
-         $scope.check = true;
-         $scope.length = 0;
-         if (!$scope.type) {
-           $scope.type = "image";
-         }
-         $scope.isMultiple = true;
-         $scope.inObject = false;
-         if (attrs.multiple == "true") {
-           $scope.isMultiple = true;
-           $("#inputImage").attr("multiple", "ADD");
-         }
-         if (attrs.noView || attrs.noView === "") {
-           $scope.noShow = true;
-         }
-         // if (attrs.required) {
-         //     $scope.required = true;
-         // } else {
-         //     $scope.required = false;
-         // }
-
-         $scope.$watch("image", function (newVal, oldVal) {
-           console.log("************************* inside watch 1st console *******************", newVal, oldVal);
-           var isArr = _.isArray(newVal);
-           if (!isArr && newVal && newVal.file) {
-             $scope.uploadNow(newVal);
-           } else if (isArr && newVal.length > 0 && newVal[0].file) {
-
-             $timeout(function () {
-               console.log("********** inside watch 2nd console ****************", oldVal, newVal);
-               $scope.length = newVal.length;
-               //  console.log(newVal.length);
-               _.each(newVal, function (newV, key) {
-                 if (newV && newV.file) {
-                   $scope.uploadNow(newV);
-                 }
-               });
-             }, 100);
-
-           }
-         });
-
-         if ($scope.model) {
-           if (_.isArray($scope.model)) {
-             $scope.image = [];
-             _.each($scope.model, function (n) {
-               $scope.image.push({
-                 url: n
-               });
-             });
-           } else {
-             if (_.endsWith($scope.model, ".pdf")) {
-               $scope.type = "pdf";
-             }
-           }
-
-         }
-         if (attrs.inobj || attrs.inobj === "") {
-           $scope.inObject = true;
-         }
-         $scope.clearOld = function () {
-           $scope.model = [];
-           $scope.uploadStatus = "removed";
-         };
-         $scope.removeImage = function (index) {
-           $scope.image = [];
-           $scope.model.splice(index, 1);
-           _.each($scope.model, function (n) {
-             $scope.image.push({
-               url: n
-             });
-           });
-         }
-         $scope.uploadNow = function (image) {
-
-           console.log("*********** Inside upload now function ************** & image data is:", image);
-           $scope.uploadStatus = "uploading";
-
-           var Template = this;
-           image.hide = true;
-           var formData = new FormData();
-           formData.append('file', image.file, image.file.name);
-           $http.post(uploadurl, formData, {
-             headers: {
-               'Content-Type': undefined
-             },
-             transformRequest: angular.identity
-           }).then(function (data) {
-
-             console.log("data is here", data);
-             data = data.data.data;
-             console.log("inside http success", data);
-
-             var sendFileObj = {
-               fileName: image.file.name,
-               fileType: image.file.type,
-               fileUrl: data[0]
-             };
-
-             console.log("################## final fie Object ##################", sendFileObj);
-
-             if ($scope.isMultiple) {
-
-               if ($scope.inObject) {
-                 $scope.model.push({
-                   "image": data[0]
-                 });
-
-                 console.log("&&&&&&&&&&&& $scope.model &&&&&&&&&&&&&", $scope.model);
-               } else {
-                 if (!$scope.model) {
-                   $scope.clearOld();
-                 }
-
-                 //  $scope.model.push(data[0]);
-                 $scope.model.push(sendFileObj);
-                 $scope.length--;
-                 console.log("length: ", $scope.length);
-                 if ($scope.length == 0) {
-                   $scope.uploadStatus = "uploaded";
-                 } else {
-                   $scope.uploadStatus = 'uploading';
-                 }
-                 console.log("************ $scope.model **************", $scope.model);
-               }
-             } else {
-               $scope.uploadStatus = 'uploaded';
-               if (_.endsWith(data[0], ".pdf")) {
-                 $scope.type = "pdf";
-               } else {
-                 $scope.type = "image";
-               }
-
-               $scope.model = data[0];
-               console.log($scope.model, 'model means blob');
-             }
-             $timeout(function () {
-               $scope.callback();
-             }, 100);
-           });
-         };
-       }
-     };
-   })
-
-   
 // JavaScript Document
 myApp.filter('myFilter', function () {
     // In the return function, we must pass in a single parameter which will be the data we will work on.
@@ -66956,7 +66835,10 @@ myApp.service('TemplateService', function () {
 });
 myApp.factory('NavigationService', function ($http) {
 
-    // var adminurl ="http://wohlig.io:1337/api/"
+    // var adminurl ="http://192.168.0.24/api/"
+    var adminurl ="http://wohlig.io/api/"
+
+    // console.log('**** inside admin URL of navigation.js ****',adminurl);
     var navigation = [{
             name: "Home",
             classis: "active",
@@ -67165,17 +67047,6 @@ myApp.controller('TodoController', function($rootScope, $scope, $http, $timeout)
     $rootScope.settings.layout.pageBodySolid = true;
     $rootScope.settings.layout.pageSidebarClosed = true;
 });
-myApp.controller('UserProfileController', function($rootScope, $scope, $http, $timeout, $state) {
-    $scope.$on('$viewContentLoaded', function() {   
-        App.initAjax(); // initialize core components
-        Layout.setAngularJsSidebarMenuActiveLink('set', $('#sidebar_menu_link_profile'), $state); // set profile link active in sidebar menu 
-    });
-
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageBodySolid = true;
-    $rootScope.settings.layout.pageSidebarClosed = true;
-}); 
-
 /**
  * AngularJS default filter with the following expression:
  * "person in people | filter: {name: $select.search, age: $select.search}"
@@ -68269,29 +68140,39 @@ myApp.controller('appCtrl', function($rootScope, $scope, $http, $timeout,$uibMod
 
 });
 
-myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerService) {
+myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerService) {
+
 
   // *************************** default variables/tasks begin here ***************** //
   //- to show/hide sidebar of dashboard 
-
   $scope.$parent.isSidebarActive = true;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
+  $scope.bulkCustomers = []; // for multiple records deletion
+  $scope.checkAll = false; //- for all records selection
+  $scope.checkboxStatus = false; //- for multiple records selection
+
 
   // *************************** default functions begin here  ********************** //
+  //- function to get all customers data
   $scope.getCustomerData = function () {
     customerService.getCustomerData(function (data) {
-      $scope.customerData = data;
+      $scope.customerData = data.results;
+      customerService.getPaginationDetails(1, 10, data, function (obj) {
+        $scope.obj = obj;
+      });
     });
   }
 
-  // *************************** functions to be triggered form view begin here ***** // 
 
+  // *************************** functions to be triggered form view begin here ***** // 
+  //- modal to addd or edit customer 
   $scope.addOrEditCustomerModal = function (operation, customer) {
     customerService.getCustomerModalData(operation, customer, function (data) {
       $scope.formData = data.customer;
       $scope.showSaveBtn = data.saveBtn;
       $scope.showEditBtn = data.editBtn;
+      $scope.operation = operation;
 
       $scope.modalInstance = $uibModal.open({
         animation: true,
@@ -68302,17 +68183,19 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
 
     });
   }
-
-  $scope.addOrEditCustomer = function (customerData) {
-     customerService.addOrEditCustomer(customerData, function (data) {
-
-      $scope.operationStatus = "Record added successfully";
+  //- to add or edit customer
+  $scope.addOrEditCustomer = function (operation, customerData) {
+    customerService.addOrEditCustomer(customerData, function (data) {
+      if (operation == 'save') {
+        toastr.success('Record added successfully');
+      } else {
+        toastr.success('Record updated successfully');
+      }
       $scope.getCustomerData();
       $scope.cancelModal();
     });
   }
-
-  //- modal to confirm customer deletion
+  //- customer deletion modal
   $scope.deleteCustomerModal = function (customerId, getFunction) {
     $scope.idToDelete = customerId;
     $scope.functionToCall = getFunction;
@@ -68324,18 +68207,90 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
       size: 'md'
     });
   }
+  //- to delete customer
   $scope.deleteCustomer = function (customerId) {
     customerService.deleteCustomer(customerId, function (data) {
-      $scope.operationStatus = "Record deleted successfully";
+      toastr.success('Record deleted successfully');
       $scope.cancelModal();
       $scope.getCustomerData();
     });
   }
+  //- for pagination of cusomers' records
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+    if (angular.isUndefined(keyword) || keyword == '') {
+      if (numberOfRecords != '10') {
+        customerService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+          $scope.customerData = data.results;
+          customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      } else {
+        customerService.getPaginationDatawithoutKeyword(page, function (data) {
+          $scope.customerData = data.results;
+          customerService.getPaginationDetails(page, 10, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      }
+    } else {
+      customerService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+        $scope.customerData = data.results;
+        customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+          $scope.obj = obj;
+        });
+      });
+    }
+  }
 
+  //- to search the text in table
+  $scope.serachText = function (keyword, count) {
+    customerService.getSearchResult(keyword, function (data) {
+      $scope.customerData = data.results;
+      customerService.getPaginationDetails(1, count, data, function (obj) {
+        $scope.obj = obj;
+      });
+    });
+  }
+  //- modal to delete bulk customers
+  $scope.deleteBulkCustomersModal = function (customerIdArray, getFunction) {
+    $scope.idsToDelete = customerIdArray;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/deleteBulkModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- to delete customers
+  $scope.deleteBulkCustomers = function (customers) {
+    customerService.deleteBulkCustomers(customers, function () {
+      $scope.cancelModal();
+      $scope.getCustomerData();
+      $scope.bulkCustomers = [];
+      toastr.success('Record deleted successfully');
+    });
+  }
+  //- to get bulk customers
+  $scope.selectBulkCustomers = function (checkboxStatus, customerId) {
+    customerService.selectBulkCustomers(checkboxStatus, customerId, function (data) {
+      if (data.length >= 1) {
+      $scope.bulkCustomers = data;
+      }
+    });
+  }
+  //- to select all records
+  $scope.selectAll = function (customers, checkboxStatus) {
+    customerService.selectAll(customers, checkboxStatus, function (data) {
+      $scope.bulkCustomers = data;
+    });
+  }
   //- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
-  };
+  }
 
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 
@@ -68343,72 +68298,114 @@ myApp.controller('customerCtrl', function ($scope, $http, $uibModal, customerSer
     // to get customer Data
     $scope.getCustomerData();
   }
-
   $scope.init();
+
 });
+myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uibModal, $interpolate, $state, $scope, createOrEditEnquiryService) {
 
-myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $timeout, $state, $scope, $http, createOrEditEnquiryService) {
+  // *************************** default variables/tasks begin here ***************** //
 
-    // *************************** default variables/tasks begin here ***************** //
- 
-    //- to show/hide sidebar of dashboard 
-    $scope.$parent.isSidebarActive = false;  
+  //- to show/hide sidebar of dashboard 
+  $scope.$parent.isSidebarActive = false;
+  $scope.showEstimateBtn = false;
+  $scope.formData = {
+    enquiryDetails: {},
+    enquiryInfo: {},
+    keyRequirement: {},
+    technicalRequirement: {},
+    commercialRequirement: {},
+    preQualificationCriteria: {}
+  };
 
-    
-    // *************************** default functions begin here  ********************** //
 
-    $scope.getEnquiryObj = function(){
-      createOrEditEnquiryService.getEnquiryObj($stateParams.enquiryId, function(data){
-        $scope.formData = data;
-      });
-    }
-    $scope.getCustomerData = function () {
-      createOrEditEnquiryService.getCustomerData(function (data) {
-        $scope.customerData = data;     
-      });
-    }
-    $scope.getDefaultStatusMessage = function(){
-      $scope.operationStatus = "";
-    }
+  if (angular.isDefined($stateParams.enquiryId)) {
+    $scope.showEstimateBtn = true;
+    $scope.enquiryId = $stateParams.enquiryId;
+  }
 
-    
-    // *************************** functions to be triggered form view begin here ***** //      
-       
-  $scope.addEnquiryData = function(formData, operation){  
-    createOrEditEnquiryService.createEnquiry(formData, function(data){
-      $scope.operationStatus = "Record Added Successfully";
-      console.log('**** formData ****',formData); 
-      if(angular.isUndefined(formData._id)){
-        $state.go('app.editEnquiry', {enquiryId:data._id});
-      }      
-      $timeout(function () {
-        $scope.operationStatus="";
-      }, 5000);
+
+  // *************************** default functions begin here  ********************** //
+
+  $scope.getEnquiryObj = function () {
+    createOrEditEnquiryService.getEnquiryObj($stateParams.enquiryId, function (data) {
+      $scope.formData = data;
+    });
+  }
+  $scope.getCustomerData = function () {
+    createOrEditEnquiryService.getCustomerData(function (data) {
+      $scope.customerData = data;
     });
   }
 
-  $scope.init = function () {
-  $scope.getEnquiryObj(); 
-  $scope.getCustomerData();  
-  $scope.getDefaultStatusMessage();  
+
+  // *************************** functions to be triggered form view begin here ***** //      
+  //- add form data
+  $scope.addEnquiryData = function (operation, formData {
+    createOrEditEnquiryService.createEnquiry(formData, function (data) {
+      toastr.success('Record Added Successfully', 'EnquiryData Added!');
+      if (angular.isUndefined(formData._id)) {}
+    });
   }
-  
+  //- to add assembly or to import assembly
+  $scope.saveAssemblyNameModal = function (enquiryId) {
+    $scope.enquiryId = enquiryId;
+    //- get assembly name to create 
+    createOrEditEnquiryService.getAllAssemblyNumbers(function (data) {
+      $scope.assemblyData = data;
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/enquiry/enquiryModal/getAssemblyName.html',
+        scope: $scope,
+        size: 'md',
+      });
+    });
+  }
+  //- create new assembly
+  $scope.saveAssemblyName = function (assName, enquiryId) {
+    createOrEditEnquiryService.saveAssemblyName(assName, enquiryId, function (data) {
+      $state.go('app.createEstimate', {
+        'estimateId': data._id
+      });
+    });
+  }
+  //- import assembly
+  $scope.importAssembly = function (assemblyNumber) {
+    createOrEditEnquiryService.getImportAssemblyData(assemblyNumber, function (data) {
+      $state.go('app.createEstimate', {
+        'estimateId': data._id,
+      });
+    });
+  }
+  //- dismiss current modalInstance
+  $scope.cancelModal = function () {
+    $scope.modalInstance.dismiss();
+  }
+
+  // *************************** init all default functions begin here ************** //
+  //- to initilize the default function  
+  $scope.init = function () {
+    $scope.getEnquiryObj();
+    $scope.getCustomerData();
+  }
+
   $scope.init();
-  
+
 
 
 });
-myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryService) {
+myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryService) {
 
 
-    // *************************** default variables/tasks begin here ***************** //
-  
-    //- to show/hide sidebar of dashboard   
+  // *************************** default variables/tasks begin here ***************** //
+  //- to show/hide sidebar of dashboard   
   $scope.$parent.isSidebarActive = true;
+  $scope.bulkEnquiries = []; //- for multiple records deletion
+  $scope.checkAll = false; //- for all records selection
+  $scope.checkboxStatus = false; //- for multiple records selection
 
-    // *************************** default functions begin here  ********************** //
   
-    //to get all enquiries 
+  // *************************** default functions begin here  ********************** //
+  //- function to get all enquiries data 
   $scope.getEnquiryData = function () {
     enquiryService.getEnquiryData(function (data, obj) {
       $scope.detailsActive = obj.detailsActive;
@@ -68417,14 +68414,17 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryServ
       $scope.techReqsActive = obj.techReqsActive;
       $scope.CommReqActive = obj.CommReqActive;
       $scope.PreQuaCriteriaActive = obj.PreQuaCriteriaActive;
-      
-      $scope.tableData = data; 
+
+      $scope.tableData = data.results;
+      enquiryService.getPaginationDetails(1, 10, data, function (obj) {
+        $scope.obj = obj;
+      });
     });
   }
 
-    // *************************** functions to be triggered form view begin here ***** //      
-  
-    //- modal to confirm Enquiry deletion
+
+  // *************************** functions to be triggered form view begin here ***** //      
+  //- modal to delete enquiry
   $scope.deleteEnquiryModal = function (enquiryId, getFunction) {
     $scope.idToDelete = enquiryId;
     $scope.functionToCall = getFunction;
@@ -68435,457 +68435,846 @@ myApp.controller('enquiryCtrl', function ($scope, $state, $uibModal, enquiryServ
       scope: $scope,
       size: 'md'
     });
+
   }
+  //- to delete enquiry
   $scope.deleteEnquiry = function (enquiryId) {
     enquiryService.deleteEnquiry(enquiryId, function (data) {
-      $scope.operationStatus = "Record deleted successfully";
+      toastr.info('Record deleted successfully');
       $scope.cancelModal();
       $scope.getEnquiryData();
     });
   }
 
-  //cancel modal
-  $scope.cancelModal = function () {
-      $scope.modalInstance.dismiss();
+  //- for pagination of enquiries' records
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+    if (angular.isUndefined(keyword) || keyword == '') {
+      if (numberOfRecords != '10') {
+        enquiryService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+          $scope.tableData = data.results;
+          enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      } else {
+        enquiryService.getPaginationDatawithoutKeyword(page, function (data) {
+          $scope.tableData = data.results;
+          enquiryService.getPaginationDetails(page, 10, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      }
+    } else {
+      enquiryService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+        $scope.tableData = data.results;
+        enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+          $scope.obj = obj;
+        });
+      });
+    }
   }
-  
+
+  //- to search the text in the table
+  $scope.serachText = function (keyword, count) {
+    enquiryService.getSearchResult(keyword, function (data) {
+      $scope.tableData = data.results;
+      enquiryService.getPaginationDetails(1, count, data, function (obj) {
+        $scope.obj = obj;
+      });
+    });
+  }
+
+  //- to dismiss modal instance
+  $scope.cancelModal = function () {
+    $scope.modalInstance.dismiss();
+  }
+
+  //- modal to delete bulk enquiries
+  $scope.deleteBulkEnquiriesModal = function (enquiryIdArray, getFunction) {
+    $scope.idsToDelete = enquiryIdArray;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/deleteBulkModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- to delete enquiry
+  $scope.deleteBulkEnquiries = function (enquiries) {
+    enquiryService.deleteBulkEnquiries(enquiries, function () {
+      $scope.cancelModal();
+      $scope.getEnquiryData();
+      $scope.bulkEnquiries = [];
+      toastr.info('Records deleted successfully');
+    });
+  }
+  //- to get bulk enquiries
+  $scope.selectBulkEnquiries = function (checkboxStatus, enquiryId) {
+    enquiryService.selectBulkEnquiries(checkboxStatus, enquiryId, function (data) {
+      if (data.length >= 1) {
+        $scope.recordSelected = true;
+      } else {
+        $scope.recordSelected = false;
+      }
+      $scope.bulkEnquiries = data;
+    });
+  }
+  //- to select all records
+  $scope.selectAll = function (enquiries, checkboxStatus) {
+    enquiryService.selectAll(enquiries, checkboxStatus, function (data) {
+      $scope.bulkEnquiries = data;
+    });
+  }
+
+
+  // *************************** init all default functions begin here ************** //
+  //- to initilize the default function   
   $scope.init = function () {
-    $scope.getEnquiryData();   
+    $scope.getEnquiryData();
   }
   $scope.init();
 
 });
-myApp.controller('createOrEditEstimateCtrl', function ($scope, createOrEditEstimateService, $uibModal) {
+myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $stateParams, createOrEditEstimateService, $uibModal) {
 
 
-    // *************************** default variables/tasks begin here ***************** //
-    //- to show/hide sidebar of dashboard 
-    $scope.$parent.isSidebarActive = false;
+  // *************************** default variables/tasks begin here ***************** //
+  //- to show/hide sidebar of dashboard 
+  $scope.$parent.isSidebarActive = false;
+  $scope.showSaveBtn = true;
+  $scope.showEditBtn = false;
+  $scope.bulkItems = []; //- for multiple deletion
+  $scope.checkboxStatus = false; //- for multiple records selection
+  $scope.checkAll = false; //- for all records selection
+  $scope.hardFacingAlloys = []; //- for dynamic addition of Hard Facing Alloys
+
+  $scope.estimatePartObj = {
+    allShortcuts: [], //- get all presets name from API
+    allPartTypeNames: [], //- get all part type from API
+    allMaterial: [], //- get all material of selected partType
+    allSizes: [], //- get data from selected preset
+
+    selectedShortcut: {}, //- selected partType presets 
+    selectedPartType: {}, //- selected partType
+    selectedMaterial: {}, //- selected material     
+    selectedSize: {}, //- slected size
+
+    customMaterials: [], //- get all custom material from  API
+    selectedCustomMaterial: [], //-selecetd custom materail  
+
+    quality: null,
+    variables: [],
+    shapeImage:null,
+    shapeIcon:null,
+    processingCount:null,
+    addonCount:null,
+    extraCount:null, 
+
+    keyValueCalculation: {
+      perimeter: null,
+      sma: null,
+      sa: null,
+      weight: null
+    },
+
+    materialPrice: null,
+    itemUnitPrice: null,
+    totalPrice: null
+  };
+
+  //- to enable & disable partType fields while creating/updating 
+  $scope.disablePartFields = {
+    disableField: true,
+    disableShortcut: false,
+    disablePartTypeName: false,
+    disableMaterial: true,
+    disableSize: true,
+    disableCustomMaterial: false,
+  };
+
+  if (angular.isDefined($stateParams.estimateId)) {
+    $scope.draftEstimateId = $stateParams.estimateId;
+  }
+  // *************************** default functions begin here  ********************** //
+  //- to get all views of createOrEdit estimate screen dynamically 
+  $scope.getEstimateView = function (getViewName, getLevelName, subAssemblyId, partId) {
+    createOrEditEstimateService.estimateView(getViewName, function (data) {
+      $scope.estimateView = data;
+    });
+    createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
+
+      if (getViewName == 'editPartItemDetail') {
+        // get all data from API & put it into $scope.estimatePartObj
+        $scope.estimatePartObj.allShortcuts = data.allShortcuts;
+        $scope.estimatePartObj.allPartTypeNames = data.allPartTypeNames;
+      } else {
+        $scope.level = getLevelName;
+        $scope.estimateViewData = data;
+        $scope.bulkItems = [];
+      }
+    });
+  }
+
+  //- =================== part functionality/calculation start =================== //
+
+  //- call when user will select shortcut/preset name 
+  //- update dependent data on the base of  selected shortcut data
+  $scope.getSelectedShortcutData = function (shortcutObj) {
+
+    //- update selectedShortcut
+    //- get part type (update selectedPartType) & disable it
+    //- get material data to select 
+    //- get size & disable it
+    //- custom material --> disable it
+    //- get shape data from selected shortcut (i.e part presetName)
+    //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
+    
+    $scope.estimatePartObj.selectedShortcut = shortcutObj;       /////-
+    $scope.estimatePartObj.selectedPartType = selectedPartType;  /////-
+    $scope.estimatePartObj.allMaterial = allMaterial;            /////-
+    $scope.estimatePartObj.selectedSize = selectedSize;          /////-
+    
+    //- update shape related data
+    $scope.estimatePartObj.variables = shapeData.variables;      /////-
+    $scope.estimatePartObj.keyValueCalculation.perimeter = shapeData.perimeter;  /////-
+    $scope.estimatePartObj.keyValueCalculation.sma = shapeData.sma;              /////-
+    $scope.estimatePartObj.keyValueCalculation.sa = shapeData.sa;                /////-
+    $scope.estimatePartObj.keyValueCalculation.weight = shapeData.weight;        /////-
+    $scope.estimatePartObj.shapeIcon = shapeData.shapeIcon;                      /////-
+    $scope.estimatePartObj.shapeImage = shapeData.shapeImage;                    /////-
+
+    //- update PAE count
+    $scope.estimatePartObj.processingCount = part.processing.length;             /////-
+    $scope.estimatePartObj.addonCount = part.addons.length;                      /////-
+    $scope.estimatePartObj.extraCount = part.extras.length;                      /////-
+          
+    //- disable fields
+    $scope.disablePartFields.disablePartTypeName = true;
+    $scope.disablePartFields.disableSize = true;
+    $scope.disablePartFields.disableCustomMaterial = true;
+    
+  }
+
+  //- call when user will select part type name 
+  //- update dependent data on the base of selected part type data
+  $scope.getSelectedPartTypeData = function (partTypeObj) {
+    
+    //- all shortcuts data is already there (so, don't  update it corresponding to selected part Type), let user select size to get shortcut
+    //- get all materials (corresponding to selected part Type) data to select 
+    //- get/update all sizes (corresponding to selected part Type) data to select
+    //- custom material --> disable it 
+
+    //- $scope.estimatePartObj.allShortcuts = allShortcuts;      /////-  
+    $scope.estimatePartObj.selectedPartType = selectedPartType;  /////-
+    $scope.estimatePartObj.allMaterial = allMaterial;            /////-
+    $scope.estimatePartObj.allSizes = allSizes;                  /////-
+
+    //- disable fields
+    $scope.disablePartFields.disableCustomMaterial = true;
+
+  }
+
+  //- call when user will select material (only in case of either shortcut OR part type is selected)
+  //- update dependent data on the base of selcted material data
+  $scope.getSelectedMaterialData = function(materialObj){
+    $scope.estimatePartObj.selectedMaterial = selectedMaterial;          /////-
+  }
+
+  //- call when user will select size (only in case when user selected part type)
+  //- update dependent data on the base of selected size data
+  $scope.getSelectedSizeData = function(size){
+    //- get shortcut corresponding to the selected partType & size
+    //- get all material data to select 
+    //- get shape data from selected partType & size 
+    //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
+
+    $scope.estimatePartObj.selectedShortcut = shortcutObj;     /////-
+    
+    //- update shape related data
+    $scope.estimatePartObj.variables = shapeData.variables;      /////-
+    $scope.estimatePartObj.keyValueCalculation.perimeter = shapeData.perimeter;  /////-
+    $scope.estimatePartObj.keyValueCalculation.sma = shapeData.sma;              /////-
+    $scope.estimatePartObj.keyValueCalculation.sa = shapeData.sa;                /////-
+    $scope.estimatePartObj.keyValueCalculation.weight = shapeData.weight;        /////-
+
+  }
+
+  //- =================== part functionality/calculation end =================== //
+
+
+  //- get data to generate tree structure dynamically i.e. get assembly stucture
+  $scope.getEstimateData = function () {
+    createOrEditEstimateService.getEstimateData($scope.draftEstimateId, function (data) {
+      $scope.estimteData = data;
+    });
+  }
+  $scope.getCurretEstimateObj = function () {
+    createOrEditEstimateService.getCurretEstimateObj(function (data) {
+      $scope.estimteData = data;
+    });
+  }
+  $scope.getCustomMaterialData = function () {
+    createOrEditEstimateService.getCustomMaterialData(function (customData) {
+      $scope.customData = customData;
+    });
+  }
+  //- save estimate object in jStorage
+  $scope.$watch('estimteData', function (newValue, oldValue) {
+    if (newValue != oldValue) {
+      // $.jStorage.set("estimateObject", $scope.estimteData);
+    }
+  }, true);
+
+
+
+  // *************************** functions to be triggered form view begin here ***** //
+  //- to edit assembly name
+  //- Edit Assembly Name modal start
+  $scope.editAssemblyNameModal = function (assembly) {
+    $scope.formData = assembly;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/estimate/estimateModal/editAssemblyName.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- to edit assembly name
+  $scope.editAssemblyName = function (assemblyName) {
+    createOrEditEstimateService.editAssemblyName(assemblyName, $scope.draftEstimateId, function (data) {
+      $scope.getEstimateData();
+      $scope.cancelModal();
+    });
+  }
+  //- to update estimate object in draftEstimate table
+  $scope.saveCurrentEstimate = function () {
+    createOrEditEstimateService.saveCurrentEstimate(function (data) {
+      $scope.getEstimateData();
+      toastr.info('Estimate data updated successfully');
+    });
+  }
+  //- import subAssembly modal
+  $scope.importAssemblyModal = function () {
+    $scope.subAssId;
+    createOrEditEstimateService.getAllAssemblyNumbers(function (data) {
+      $scope.assemblyData = data;
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/importAssembly.html',
+        scope: $scope,
+        size: 'md',
+      });
+    });
+  }
+
+  //- to add or edit subAssembly data modal
+  $scope.addOrEditSubAssemblyModal = function (operation, subAssembly) {
+    createOrEditEstimateService.getAllSubAssModalData(operation, subAssembly, function (data) {
+
+      $scope.formData = data.subAssObj;
+      $scope.showSaveBtn = data.saveBtn;
+      $scope.showEditBtn = data.editBtn;
+
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/createOrEditSubAssemblyName.html',
+        scope: $scope,
+        size: 'md'
+      });
+    });
+  }
+  //- to add subAssembly data
+  $scope.addSubAssembly = function (subAssemblyData) {
+
+    createOrEditEstimateService.createSubAssembly(subAssemblyData, function () {
+      $scope.getCurretEstimateObj();
+      $scope.cancelModal();
+    });
+  }
+  //- to edit subAssembly data
+  $scope.editSubAssembly = function (number) {
+    $scope.getCurretEstimateObj();
+    $scope.cancelModal();
+  }
+  //- modal to confirm subssembly deletion
+  $scope.deleteSubAssemblyModal = function (subAssemblyId, getFunction) {
+    $scope.idToDelete = subAssemblyId;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- to delete subAssembly
+  $scope.deleteSubAssembly = function (subAssemblyId) {
+    createOrEditEstimateService.deleteSubAssembly(subAssemblyId, function () {
+      toastr.info('SubAssembly deleted successfully');
+      $scope.getEstimateView('assembly');
+      $scope.cancelModal();
+    });
+  }
+  //- to delete bulk subAssemblies
+  $scope.deleteMultipleSubAssemblies = function (subAssIds) {
+    createOrEditEstimateService.deleteMultipleSubAssemblies(subAssIds, function () {
+      $scope.bulkItems = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+
+      $scope.getEstimateView('assembly');
+      $scope.cancelModal();
+      toastr.info('SubAssemblies deleted successfully');
+    });
+  }
+  //- import subAssembly modal
+  $scope.importSubAssemblyModal = function () {
+    $scope.subAssId;
+    createOrEditEstimateService.getAllSubAssNumbers(function (data) {
+      $scope.subAssemblyData = data;
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/importSubAssembly.html',
+        scope: $scope,
+        size: 'md',
+      });
+    });
+  }
+  //- to import subAssembly
+  $scope.importSubAssembly = function (subAssId) {
+    createOrEditEstimateService.getImportSubAssemblyData(subAssId, function () {
+      $scope.getCurretEstimateObj();
+      toastr.info('SubAssembly imported successfully');
+      $scope.cancelModal();
+    });
+  }
+
+  //- to add or edit part data modal
+  $scope.addOrEditPartModal = function (operation, subAssId, part) {
+    createOrEditEstimateService.getAllPartModalData(operation, subAssId, part, function (data) {
+      $scope.showSaveBtn = data.saveBtn;
+      $scope.showEditBtn = data.editBtn;
+      $scope.subAssId = data.subAssId;
+      if (operation == 'save') {
+        $scope.formData = createOrEditEstimateService.generatePartName(subAssId);
+      } else {
+        $scope.formData = data.partObj;
+      }
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/createOrEditPartName.html',
+        scope: $scope,
+        size: 'md',
+      });
+
+    });
+  }
+  //- to add part data
+  $scope.addPart = function (partData, subAssId) {
+    createOrEditEstimateService.createPart(partData, subAssId, function () {
+      $scope.getCurretEstimateObj();
+      toastr.info('Part added successfully', 'Part Creation!');
+      $scope.cancelModal();
+    });
+  }
+  //- to edit part data 
+  $scope.editPart = function () {
+    $scope.getCurretEstimateObj();
+    toastr.info('Part updated successfully', 'Part Updation!');
+    $scope.cancelModal();
+
+  }
+  //- to add or edit part detail
+  $scope.editPartItemDetails = function (subAssemblyId, partId) {
+    $scope.getEstimateView('estimatePartItemDetail');
+  }
+  //- modal to confirm part deletion
+  $scope.deletePartModal = function (getFunction, subAssemblyId, partId) {
+    $scope.idToDelete = partId;
+    $scope.functionToCall = getFunction;
+
+    $scope.subAssemblyId = subAssemblyId;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/estimate/estimateModal/deletePartModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- to  delete part
+  $scope.deletePart = function (subAssemblyId, partId) {
+    createOrEditEstimateService.deletePart(subAssemblyId, partId, function () {
+      toastr.info('Part deleted successfully');
+      $scope.getEstimateView('subAssembly');
+      $scope.getCurretEstimateObj();
+      $scope.cancelModal();
+    });
+  }
+  //- to delete multiple parts
+  $scope.deleteMultipleParts = function (subAssId, partIds) {
+    createOrEditEstimateService.deleteMultipleParts(subAssId, partIds, function () {
+      $scope.bulkItems = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+      $scope.getEstimateView('subAssembly');
+      $scope.getCurretEstimateObj();
+      $scope.cancelModal();
+      toastr.info('Parts deleted successfully');
+      // $scope.operationStatus = "***   Records deleted successfully   ***";
+
+      // $timeout(function () {
+      // 	$scope.operationStatus = "";
+      // }, 3000);
+    });
+  }
+  //- import part modal
+  $scope.importPartModal = function (subAssId) {
+    $scope.subAssId = subAssId;
+    createOrEditEstimateService.getAllPartNumbers(function (data) {
+      $scope.partData = data;
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/importPart.html',
+        scope: $scope,
+        size: 'md',
+      });
+    });
+  }
+  //- to import part
+  $scope.importPart = function (subAssId, partId) {
+    createOrEditEstimateService.getImportPartData(subAssId, partId, function () {
+      $scope.getCurretEstimateObj();
+      toastr.info('Part imported successfully');
+      $scope.cancelModal();
+    });
+  }
+  //- to create a duplicate part for same subAssembly or different subAssembly
+  $scope.duplicatePart = function (subAssId, part, option) {
+    if (createOrEditEstimateService.getSubAssemblyIndex(subAssId) != -1) {
+      //$scope.message = '';
+      createOrEditEstimateService.formDuplicatePart(subAssId, part, function () {
+        if (option == 'import') {
+          $scope.cancelModal();
+        }
+        toastr.info('Part duplicated successfully');
+      });
+    } else {
+      //$scope.message = 'Please Enter Valid SubAssembly Number';
+      toastr.warning('Please Enter Valid SubAssembly Number');
+    }
+  }
+  //- to import current part to  different subAssembly 
+  $scope.importPartToDifferentSubAssemblyModal = function (part) {
+    $scope.partData = part;
+    createOrEditEstimateService.getAllSubAssNumbers(function (data) {
+      $scope.subAssemblyData = data;
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/importPartToDifferentSubAssemblyModal.html',
+        scope: $scope,
+        size: 'md'
+      });
+    });
+  }
+
+  //- to add processing at assembly or subssembly or at partLevel
+  $scope.addProcessing = function (processingData, level, subAssemblyId, partId) {
+    createOrEditEstimateService.createProcessing(processingData, level, subAssemblyId, partId, function () {
+      $scope.getEstimateView('processing', level, subAssemblyId, partId);
+      toastr.info('Processing added successfully', 'Processing Creation!');
+      $scope.cancelModal();
+    });
+  }
+  //- to edit processing at assembly or subssembly or at partLevel
+  $scope.editProcessing = function () {
+    $scope.getCurretEstimateObj();
+    toastr.info('Processing updated successfully', 'Processing Updation!');
+    $scope.cancelModal();
+  }
+  //- to delete processing
+  $scope.deleteProcessing = function (processingId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.deleteProcessing(processingId, level, subAssemblyId, partId, function (data) {
+      toastr.info('Processing deleted successfully', 'Processing Deletion!');
+      $scope.getEstimateView('processing', level, subAssemblyId, partId);
+      $scope.cancelModal();
+    });
+  }
+  //- to delete bulk processing
+  $scope.deleteMultipleProcessing = function (processingIds, level, subAssId, partId) {
+    createOrEditEstimateService.deleteMultipleProcessing(level, processingIds, subAssId, partId, function () {
+      $scope.bulkItems = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+
+      $scope.getEstimateView('processing', level, subAssId, partId);
+      $scope.cancelModal();
+      toastr.info('Processing deleted successfully', 'Processing Deletion!');
+    });
+  }
+  //- import processing
+  $scope.importProcessing = function (processingId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.getImportProcessingData(processingId, level, subAssemblyId, partId, function () {
+      $scope.getCurretEstimateObj();
+      toastr.info('Processing imported successfully', 'Processing Import!');
+      $scope.cancelModal();
+    });
+  }
+
+
+  //- to add Addon at assembly or subssembly or at partLevel
+  $scope.addAddon = function (addonData, level, subAssemblyId, partId) {
+    createOrEditEstimateService.createAddon(addonData, level, subAssemblyId, partId, function () {
+      $scope.getEstimateView('addons', level, subAssemblyId, partId);
+      toastr.info('Addon added successfully', 'Addon Creation!');
+      $scope.cancelModal();
+    });
+  }
+  //- to edit Addon at assembly or subssembly or at partLevel
+  $scope.editAddon = function () {
+    $scope.getCurretEstimateObj();
+    toastr.info('Addon updated successfully', 'Addon Updation!');
+    $scope.cancelModal();
+  }
+  //- delete addon
+  $scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
+      toastr.info('Addon deleted successfully', 'Addon Deletion!');
+      $scope.getEstimateView('addons', level, subAssemblyId, partId);
+      $scope.cancelModal();
+    });
+  }
+  //- to delete bulk addons
+  $scope.deleteMultipleAddons = function (addonId, level, subAssId, partId) {
+    createOrEditEstimateService.deleteMultipleAddons(level, addonId, subAssId, partId, function () {
+      $scope.bulkItems = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+      $scope.getEstimateView('addons', level, subAssId, partId);
+      $scope.cancelModal();
+      toastr.info('Addons deleted successfully', 'Addons Deletion!');
+    });
+  }
+  //- Import Addon
+  $scope.importAddon = function (addonId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.getImportAddonData(addonId, level, subAssemblyId, partId, function () {
+      $scope.getCurretEstimateObj();
+      toastr.info('Addon imported successfully', 'Addon Import!');
+      $scope.cancelModal();
+    });
+  }
+
+
+  //- to add Extra at assembly or subssembly or at partLevel
+  $scope.addExtra = function (extraData, level, subAssemblyId, partId) {
+    createOrEditEstimateService.createExtra(extraData, level, subAssemblyId, partId, function () {
+      $scope.getEstimateView('extras', level, subAssemblyId, partId);
+      toastr.info('Extra added successfully', 'Extra Creation!');
+      $scope.cancelModal();
+    });
+  }
+  //- to edit Extra at assembly or subssembly or at partLevel
+  $scope.editExtra = function () {
+    $scope.getCurretEstimateObj();
+    toastr.info('Extra updated successfully', 'Extra Updation!');
+    $scope.cancelModal();
+  }
+  //- to delete Extra
+  $scope.deleteExtra = function (extraId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.deleteExtra(extraId, level, subAssemblyId, partId, function () {
+      toastr.info('Extra deleted successfully', 'Extra Deletion!');
+      $scope.getEstimateView('extras', level, subAssemblyId, partId);
+      $scope.cancelModal();
+    });
+  }
+  //- to delete bulk extras
+  $scope.deleteMultipleExtras = function (extraId, level, subAssId, partId) {
+    createOrEditEstimateService.deleteMultipleExtras(level, extraId, subAssId, partId, function () {
+      $scope.bulkItems = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+
+      $scope.getEstimateView('extras', level, subAssId, partId);
+      $scope.cancelModal();
+      toastr.info('Extras deleted successfully', 'Extra Deletion!');
+    });
+  }
+  //- Import Extra
+  $scope.importExtra = function (extraId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.getImportExtraData(extraId, level, subAssemblyId, partId, function () {
+      $scope.getCurretEstimateObj();
+      toastr.info('Extra imported successfully');
+      $scope.cancelModal();
+    });
+  }
+
+  //- modal to add or edit custom material
+  $scope.addOrEditCustomMaterialModal = function (operation, customMaterial) {
+    $scope.arr = [];
+    $scope.addMe = {};
+    createOrEditEstimateService.getCustomMaterialModalData(operation, customMaterial, function (data) {
+
+      $scope.formData = data.custMaterialObj;
+      $scope.showSaveBtn = data.saveBtn;
+      $scope.showEditBtn = data.editBtn;
+
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/createOrEditCustomMaterial.html',
+        scope: $scope,
+        size: 'lg',
+      });
+    });
+
+
+  }
+  //- to add or edit custom material
+  $scope.addOrEditCustomMaterial = function (customMaterialdata) {
+    customMaterialdata.hardFacingAlloys = $scope.hardFacingAlloys;
+    createOrEditEstimateService.createCustomMaterial(customMaterialdata, function () {
+      $scope.cancelModal();
+    });
+  }
+  //-to add hard facing alloy
+  $scope.addHardFacingAlloy = function () {
+    $scope.hardFacingAlloys.push($scope.addMe);
+    $scope.addMe = {};
+  }
+  //- modal to delete custom material
+  $scope.deleteCustomMaterialModal = function (customMaterialId, getFunction) {
+    $scope.idToDelete = customMaterialId;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //-to delete CustomMterial
+  $scope.deleteCustomMaterial = function () {}
+
+
+  //- commmon add modal for processing, addons & extras    
+  $scope.addItemModal = function (itemType, level, subAssemblyId, partId) {
+    $scope.formData = undefined;
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
+    $scope.level = level;
+    $scope.subAssemblyId = subAssemblyId;
+    $scope.partId = partId;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
+      scope: $scope,
+      size: 'md',
+    });
+  }
+  //- commmon edit modal for processing, addons & extras
+  $scope.editItemModal = function (itemType, extraObj) {
+    $scope.formData = extraObj;
+    $scope.showSaveBtn = false;
+    $scope.showEditBtn = true;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
+      scope: $scope,
+      size: 'md',
+    });
+  }
+  //- commmon delete modal for processing, addons & extras
+  $scope.deleteItemModal = function (getFunction, itemId, level, subAssemblyId, partId) {
+    $scope.idToDelete = itemId;
+    $scope.functionToCall = getFunction;
+    $scope.level = level;
+    $scope.subAssemblyId = subAssemblyId;
+    $scope.partId = partId;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/estimate/estimateModal/deleteItemModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- Common Import Item Modal for Processing, Addons & Extras
+  $scope.importItemModal = function (type, level, subAssemblyId, partId) {
+    $scope.itemId;
+    $scope.level = level;
+    $scope.subAssemblyId = subAssemblyId;
+    $scope.partId = partId;
+    createOrEditEstimateService.getAllItemNumbers(type, function (data) {
+      $scope.itemData = data;
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/import' + type + '.html',
+        scope: $scope,
+        size: 'md',
+      });
+    });
+  }
+  //- common modal to confirm bulk items deletion
+  $scope.deleteMultipleItemsModal = function (level, itemId, getFunction, subAssemblyId, partId) {
+    $scope.idToDelete = itemId;
+    $scope.functionToCall = getFunction;
+    $scope.level = level;
+    $scope.subAssemblyId = subAssemblyId;
+    $scope.partId = partId;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/estimate/estimateModal/deleteMultipleItemsModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+
+  //- function to get bulk processing, addons & extras
+  $scope.selectBulkItems = function (checkboxStatus, itemId) {
+    $scope.bulkItems;
+    createOrEditEstimateService.selectBulkItems(checkboxStatus, itemId, function (data) {
+      $scope.bulkItems = data;
+    });
+  }
+  //- to select all records of processing/addons/extras
+  $scope.selectAll = function (type, level, itemData, checkboxStatus, subAssId, partId) {
+    createOrEditEstimateService.selectAll(type, level, itemData, checkboxStatus, subAssId, partId, function (data) {
+      $scope.bulkItems = data;
+    });
+  }
+
+  //- dismiss current modalInstance
+  $scope.cancelModal = function () {
+    $scope.modalInstance.dismiss();
+  }
 
 
-
-    // *************************** default functions begin here  ********************** //
-    //- to get all views of createOrEdit estimate screen dynamically 
-    $scope.getEstimateView = function (getViewName, getLevelName, subAssemblyId, partId) {
-        createOrEditEstimateService.estimateView(getViewName, function (data) {
-            $scope.estimateView = data;
-        });
-        createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
-            $scope.level = getLevelName;
-            $scope.estimateViewData = data;            
-        });
-    }
-    //- get data to generate tree structure dynamically i.e. get assembly stucture
-    $scope.getEstimateData = function () {
-        createOrEditEstimateService.getEstimateData(function (data) {
-            $scope.estimteData = data.assembly;
-        });
-    }
-
-
-
-    // *************************** functions to be triggered form view begin here ***** //
-    //- to edit assembly name
-    //Edit Assembly Name modal start
-    $scope.editAssemblyNameModal = function (assembly) {
-        $scope.formData= assembly;
-        
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/estimate/estimateModal/editAssemblyName.html',
-            scope: $scope,
-            size: 'md'
-        });
-    }
-    $scope.editAssemblyName = function (obj) {
-        $scope.getEstimateData();
-        $scope.cancelModal();    
-    }
-
-
-    //- to add or edit subAssembly data
-    $scope.addOrEditSubAssemblyModal = function (operation, subAssembly) {
-        createOrEditEstimateService.getAllSubAssModalData(operation, subAssembly, function (data) {
-
-            $scope.formData = data.subAssObj;
-            $scope.showSaveBtn = data.saveBtn;
-            $scope.showEditBtn = data.editBtn;
-
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/content/estimate/estimateModal/createOrEditSubAssemblyName.html',
-                scope: $scope,
-                size: 'md',
-            });
-        });
-    }
-    $scope.addSubAssembly = function (subAssemblyData) {
-    
-        createOrEditEstimateService.createSubAssembly(subAssemblyData, function () {
-            $scope.getEstimateData();
-            $scope.cancelModal();
-        });
-    }
-    $scope.editSubAssembly = function (number) {
-        $scope.getEstimateData();
-        $scope.cancelModal();
-    }
-    //- modal to confirm subssembly deletion
-    $scope.deleteSubAssemblyModal = function (subAssemblyId, getFunction) {
-        $scope.idToDelete = subAssemblyId;
-        $scope.functionToCall = getFunction;
-
-        $scope.modalInstance = $uibModal.open({
-          animation: true,   
-          templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
-          scope: $scope,
-          size: 'md'
-        });
-    }
-    $scope.deleteSubAssembly = function (subAssemblyId) {
-        createOrEditEstimateService.deleteSubAssembly(subAssemblyId, function () {
-            $scope.operationStatus = "Record deleted successfully";
-            $scope.getEstimateView('assembly');
-            $scope.cancelModal();
-        });
-    }
-
-    //- to add or edit part name
-    $scope.addOrEditPartModal = function (operation, subAssId, part) {
-        createOrEditEstimateService.getAllPartModalData(operation, subAssId, part, function (data) {
-
-            $scope.formData = data.partObj;
-            $scope.showSaveBtn = data.saveBtn;
-            $scope.showEditBtn = data.editBtn;
-            $scope.subAssId = data.subAssId;
-
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/content/estimate/estimateModal/createOrEditPartName.html',
-                scope: $scope,
-                size: 'md',
-            });
-
-        });
-    }
-    $scope.addPart = function (partData, subAssId) {
-        createOrEditEstimateService.createPart(partData, subAssId, function () {
-            $scope.getEstimateData();
-            $scope.cancelModal();
-        });
-    }
-    $scope.editPart = function () {
-        $scope.getEstimateData();
-        $scope.cancelModal();
-
-    }
-    //- to add or edit part detail
-    $scope.editPartItemDetails = function (subAssemblyId, partId) {
-        $scope.getEstimateView('estimatePartItemDetail');
-    }
-    //- modal to confirm part deletion
-    $scope.deletePartModal = function (subAssemblyId, partId) {
-        $scope.idToDelete = partId;
-        $scope.subAssemblyId =subAssemblyId;
-
-        $scope.modalInstance = $uibModal.open({
-          animation: true,
-          templateUrl: 'views/content/estimate/estimateModal/deletePartModal.html',
-          scope: $scope,
-          size: 'md'
-        });
-    }
-    $scope.deletePart = function (subAssemblyId, partId) {  
-        createOrEditEstimateService.deletePart(subAssemblyId, partId, function () {
-            $scope.operationStatus = "Record deleted successfully";
-            $scope.getEstimateView('subAssembly');            
-            $scope.cancelModal();
-        });
-    }
-
-    //- to add Proccessing at assembly or subssembly or at partLevel
-    $scope.addProcessing = function (processingData, level, subAssemblyId, partId) {
-        createOrEditEstimateService.createProcessing(processingData, level, subAssemblyId, partId, function () {
-            
-            $scope.getEstimateView('processing', level, subAssemblyId, partId);
-            $scope.cancelModal();
-        });
-    }
-        //- to edit Proccessing at assembly or subssembly or at partLevel
-    $scope.editProcessing = function () { 
-        $scope.getEstimateData();
-        $scope.cancelModal();
-    }
-    //- function to confirm delete Processings
-    $scope.deleteProcessing = function (processingId, level, subAssemblyId, partId) {
-        createOrEditEstimateService.deleteProcessing(processingId, level, subAssemblyId, partId, function (data) {            
-            $scope.operationStatus = "Record deleted successfully";
-            $scope.getEstimateView('processing', level, subAssemblyId, partId);
-            $scope.cancelModal();
-        });
-    }
-
-    //- to add Addon at assembly or subssembly or at partLevel
-    $scope.addAddon = function (addonData, level, subAssemblyId, partId) {
-        createOrEditEstimateService.createAddon(addonData, level, subAssemblyId, partId, function () {  
-            $scope.getEstimateView('addons', level, subAssemblyId, partId);
-            $scope.cancelModal();
-        });
-    }
-        //- to edit Addon at assembly or subssembly or at partLevel
-    $scope.editAddon = function () { 
-            $scope.getEstimateData();
-            $scope.cancelModal();
-    }
-        //- function to confirm delete Addons
-    $scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {        
-        createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
-            $scope.operationStatus = "Record deleted successfully";
-            $scope.getEstimateView('addons', level, subAssemblyId, partId);
-            $scope.cancelModal();
-        });
-    }
-
-
-    //- to add Extra at assembly or subssembly or at partLevel
-    $scope.addExtra = function (extraData, level, subAssemblyId, partId) {
-        createOrEditEstimateService.createExtra(extraData, level, subAssemblyId, partId, function () {            
-            $scope.getEstimateView('extras', level, subAssemblyId, partId);
-            $scope.cancelModal();
-        });
-    }
-        //- to edit Extra at assembly or subssembly or at partLevel
-    $scope.editExtra = function () { 
-        $scope.getEstimateData();
-        $scope.cancelModal();
-    }
-    //- function to confirm delete Extras
-    $scope.deleteExtra = function (extraId, level, subAssemblyId, partId) {
-        createOrEditEstimateService.deleteExtra(extraId, level, subAssemblyId, partId, function () {
-            $scope.operationStatus = "Record deleted successfully";
-            $scope.getEstimateView('extras', level, subAssemblyId, partId);
-            $scope.cancelModal();
-        });    
-    }
-
-
-    //- to add or edit custom material 
-    $scope.addOrEditCustomMaterialModal = function (operation, customMaterial) {
-        createOrEditEstimateService.getCustomMaterialModalData(operation, customMaterial, function (data) {
-
-            $scope.formData = data.custMaterialObj;
-            $scope.showSaveBtn = data.saveBtn;
-            $scope.showEditBtn = data.editBtn;
-
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/content/estimate/estimateModal/createOrEditCustomMaterial.html',
-                scope: $scope,
-                size: 'md',
-            });
-        });
-    }
-    //- modal to confirm delete custome materialss 
-    $scope.deleteCustomMaterialModal = function (customMaterialId, getFunction) {
-        $scope.idToDelete = customMaterialId;
-        $scope.functionToCall = getFunction;
-
-        $scope.modalInstance = $uibModal.open({
-          animation: true,   
-          templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
-          scope: $scope,
-          size: 'md'
-        });
-    }
-    //- function to confirm delete CustomMterial
-    $scope.deleteCustomMaterial = function () {
-    }
-
-
-    $scope.cancelModal = function () {
-        $scope.modalInstance.dismiss();
-    }
-
-
-    // commmon add modal for processing, addons & extras    
-    $scope.addItemModal = function (itemType, level, subAssemblyId, partId) {            
-        $scope.formData = undefined;            
-        $scope.showSaveBtn = true;
-        $scope.showEditBtn = false;
-        $scope.level = level;
-        $scope.subAssemblyId = subAssemblyId;
-        $scope.partId = partId;
-
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
-            scope: $scope,
-            size: 'md',
-        });
-    }
-    // commmon edit modal for processing, addons & extras
-    $scope.editItemModal = function (itemType, extraObj) {            
-        $scope.formData = extraObj;
-        $scope.showSaveBtn = false;
-        $scope.showEditBtn = true;
-
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
-            scope: $scope,
-            size: 'md',
-        });
-    }
-    // commmon delete modal for processing, addons & extras
-    $scope.deleteItemModal = function (getFunction, itemId, level, subAssemblyId, partId) {
-        $scope.idToDelete = itemId;
-        $scope.functionToCall = getFunction;
-        $scope.level = level;
-        $scope.subAssemblyId = subAssemblyId;
-        $scope.partId = partId;
-
-        $scope.modalInstance = $uibModal.open({
-          animation: true,
-          templateUrl: 'views/content/estimate/estimateModal/deleteItemModal.html',
-          scope: $scope,
-          size: 'md'
-        });
-    }
-
-
-    // *************************** init all default functions begin here ************** //
-    //- to initilize the default function 
-    $scope.init = function () {
-        // to get default view
-        $scope.getEstimateView('assembly');
-        //to get estimate tree structure data 
-        $scope.getEstimateData();
-    }
-
-    $scope.init();
-
-
-
-    //custom material 
-    $scope.customMaterial = [{
-            "id": "1",
-            "baseMaterial": {
-                "thickness": "kishori",
-                "grade": "1",
-            },
-            "hardfacing": {
-                "thickness": "20",
-                "depositeGrade": "A"
-            },
-            "customization": "1",
-            "price": {
-                "kg": "67",
-                "m": "98",
-            },
-            "efficiency": "45",
-        },
-        {
-            "id": "1",
-            "baseMaterial": {
-                "thickness": "kishori",
-                "grade": "1",
-            },
-            "hardfacing": {
-                "thickness": "20",
-                "depositeGrade": "A"
-            },
-            "customization": "1",
-            "price": {
-                "kg": "67",
-                "m": "98",
-            },
-            "efficiency": "45",
-        }
-    ]
-
-
-    //Import SubAssembly
-    $scope.importSubAssemblyModal = function () {
-        $scope.subAssId;        
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/estimate/estimateModal/importSubAssembly.html',
-            scope: $scope,
-            size: 'md',
-        });
-    };
-    $scope.importSubAssembly = function (subAssId) {
-        createOrEditEstimateService.getSubAssemblyData(subAssId, function () {
-            $scope.getEstimateData();
-            $scope.cancelModal();   
-        });            
-    };
-    //Import Part
-    $scope.importPartModal = function () {
-        $scope.partId;
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/estimate/estimateModal/importPart.html',
-            scope: $scope,
-            size: 'md',
-        });
-    };
-    $scope.importPart = function (partId) {
-        createOrEditEstimateService.getPartData(partId, function () {
-            $scope.getEstimateData();
-            $scope.cancelModal();   
-        });
-    };
-
-    //Common Import Item Modal for Processing, Addons & Extras
-    $scope.importItemModal = function (type, level, subAssemblyId, partId) {
-        $scope.itemId;
-        $scope.level=level;
-        $scope.subAssemblyId= subAssemblyId;
-        $scope.partId=partId;
-
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/estimate/estimateModal/import' + type + '.html',
-            scope: $scope,
-            size: 'md',
-        });
-    };
-
-    //Import Processing
-    $scope.importProcessing = function (processingId, level, subAssemblyId, partId) {
-        console.log('**** level, subAssemblyId, partId ****', level, subAssemblyId, partId);
-        
-       createOrEditEstimateService.getProcessingData(processingId, level, subAssemblyId, partId, function () {
-            $scope.getEstimateData();
-            $scope.cancelModal();   
-        });
-    };
-
-    //Import Addon
-    $scope.importAddon = function (addonId, level, subAssemblyId, partId) {
-        createOrEditEstimateService.getAddonData(addonId, level, subAssemblyId, partId, function () {
-            $scope.getEstimateData();
-            $scope.cancelModal();   
-        });
-    };
-
-    //Import Extra
-    $scope.importExtra = function (extraId, level, subAssemblyId, partId) {
-       createOrEditEstimateService.getExtraData(extraId, level, subAssemblyId, partId, function () {
-            $scope.getEstimateData();
-            $scope.cancelModal();   
-        });
-    };
-
+  // *************************** init all default functions begin here ************** //
+  //- to initilize the default function 
+  $scope.init = function () {
+    // to get default view
+    $scope.getEstimateView('assembly');
+    //to get estimate tree structure data 
+    $scope.getEstimateData();
+    $scope.getCustomMaterialData();
+  }
+  $scope.init();
 
 
 });
-myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
+myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $uibModal, estimateService) {
   $scope.$parent.isSidebarActive = true;
-  //table data
+  $scope.bulkEstimates = []; //- for multiple records deletion
+  $scope.checkAll = false; //- for all records selection
+  $scope.checkboxStatus = false; //- for multiple records selection
+  //- table data
   $scope.tableData = [{
       "id": "1",
       "name": "kishori",
@@ -68914,33 +69303,180 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, $timeout, 
     }
   ]
 
-// Delete modal start
-    $scope.deleteItem = function () {
-        $scope.modalInstance  = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/modal/delete.html',
-            scope: $scope,
-            size: 'sm',
-        });
-    };
-    //end of modal
+  //- to delete estimate 
+  $scope.deleteItem = function () {
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/modal/delete.html',
+      scope: $scope,
+      size: 'sm',
+    });
+  }
 
-//Edit Estimate modal start
-    $scope.allEstimateEdit = function () {
-        $scope.modalInstance  = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/estimate/estimateModal/allEstimateEdit.html',
-            scope: $scope,
-            size: 'md',
-        });
-    };
-    //end of modal
+  //- to edit estimate
+  $scope.allEstimateEdit = function () {
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/estimate/estimateModal/allEstimateEdit.html',
+      scope: $scope,
+      size: 'md',
+    });
+  }
+
+  //- to dismiss modal instance
+  $scope.cancelModal = function () {
+    $scope.modalInstance.dismiss();
+  }
+
+  //- modal to delete bulk estimates
+  $scope.deleteBulkEstimatesModal = function (estimateIdArray, getFunction) {
+    $scope.idsToDelete = estimateIdArray;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/deleteBulkModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- to delete estimate
+  $scope.deleteBulkEstimates = function (estimates) {
+    estimateService.deleteBulkEstimates(estimates, function () {
+      $scope.cancelModal();
+      $scope.getEstimateData();
+      $scope.bulkEstimates = [];
+      toastr.info('Records deleted successfully', 'Estimates Deletion!');
+    });
+  }
+  //- to get bulk estimates
+  $scope.selectBulkEstimates = function (checkboxStatus, estimateId) {
+    estimateService.selectBulkEstimates(checkboxStatus, estimateId, function (data) {
+      $scope.bulkEstimates = data;
+    });
+  }
+  //- to select all records
+  $scope.selectAll = function (estimates, checkboxStatus) {
+    estimateService.selectAll(estimates, checkboxStatus, function (data) {
+      $scope.bulkEstimates = data;
+    });
+  }
+
+
+  // *************************** init all default functions begin here ************** //
+  //- to initilize the default function 
+  $scope.init = function () {
+    // $scope.getEstimateData();
+  }
+  $scope.init();
+
 
 });
-myApp.controller('loginCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
-    
+myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, loginService) {
+
+
+    // *************************** default variables/tasks begin here ***************** //
+    if ($.jStorage.get('loggedInUser') != null) {
+        $state.go('app.dashboard');
+     } else {
+        $scope.$parent.loginTemplate = false;
+        $scope.formData = {};
+        $scope.userValidationError = '';
+        $scope.error = '';
+
+    }
+
+    // *************************** functions to be triggered form view begin here ***** //
+    $scope.verifyUser = function (username, password) {
+        loginService.verifyUser(username, password, function (data) {
+            $scope.userData = data;
+
+            // if user is not available --> api will send --> []
+            if (!_.isEmpty($scope.userData)) {
+                $scope.loggedInUser = {};
+                $scope.loggedInUser._id = $scope.userData._id;
+                $scope.loggedInUser.email = $scope.userData.email;
+                $scope.loggedInUser.name = $scope.userData.name;
+                $scope.loggedInUser.photo = $scope.userData.photo;
+                $.jStorage.set("loggedInUser", $scope.loggedInUser);
+                $state.go('app.dashboard');
+                $scope.$parent.loginTemplate = true;
+            } else {
+                $timeout(function () {
+                    $scope.error = "Invalid username or password !!!";
+                }, 100);
+            }
+        });
+        //$scope.userData = $.jStorage.get("loggedInUser"); 
+    }
+    //to verify username in case of forgot password
+    $scope.verifyUserId = function (username) {
+        loginService.verifyUserId(username, function (data) {
+            if (!_.isEmpty(data)) {
+                $scope.showForgotPassModal = false;
+                $scope.showOtpModal = true;
+                $scope.formData.id = data.userId;
+                $scope.modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'views/content/login/loginModal/forgotPasswordModal.html',
+                    scope: $scope,
+                    size: 'md'
+                });
+            } else {
+                $scope.userValidationError = "Please Enter Correct UserName";
+                $timeout(function () {
+                    $scope.userValidationError = "";
+                }, 3000);
+            }
+        });
+
+    }
+    //to verify otp in case of forgot password
+    $scope.verifyOtp = function (id, otp) {
+        loginService.verifyOtp(id, otp, function (data) {
+            if (!_.isEmpty(data)) {
+                $scope.changePasswordAccess = true;
+                $scope.showOtpModal = false;
+
+                $scope.modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'views/content/login/loginModal/forgotPasswordModal.html',
+                    scope: $scope,
+                    size: 'md'
+                });
+            } else {
+                $scope.userValidationError = "Please Enter Correct OTP";
+                $timeout(function () {
+                    $scope.userValidationError = "";
+                }, 3000);
+            }
+
+        });
+    }
+    //reset password 
+    $scope.setPassword = function (id, password) {
+        loginService.resetPassword(id, password, function (data) {
+            $scope.cancelModal();
+            $state.go('login');
+        });
+    }
+    //forgot password modal
+    $scope.forgotPasswordModal = function () {
+        $scope.showForgotPassModal = true;
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/login/loginModal/forgotPasswordModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
+    //cancel modal
+    $scope.cancelModal = function () {
+        $scope.modalInstance.dismiss();
+    }
+
 });
-myApp.controller('baseMasterCtrl', function ($scope, $http, $uibModal, baseMatserService) {
+myApp.controller('baseMasterCtrl', function ($scope,$uibModal, baseMatserService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -69171,226 +69707,405 @@ myApp.controller('baseMasterCtrl', function ($scope, $http, $uibModal, baseMatse
     $scope.init();
 
 });
-myApp.controller('masterAddonCtrl', function ($scope, $http, $uibModal, masterAddonService) {
-
-    // *************************** default variables/tasks begin here ***************** //
-    //- to show/hide sidebar of dashboard 
-    $scope.$parent.isSidebarActive = true;
-    $scope.showSaveBtn = true;
-    $scope.showEditBtn = false;
-    $scope.mMatSubCatData = [];
-    var addonTypeSelectedData = {
-        addonTypeCat: "",
-        addonTypeSubCat: "",
-        addonTypeRateMulUom: "",
-        addonTypeQualAddInputUom: "",
-        addonTypeQualKeyValueUom: "",
-        addonTypeQualFinalUom: ""
-    };
-
-    // *************************** default functions begin here  ********************** //
-    $scope.getAddonData = function () {
-        masterAddonService.getAddonData(function (data) {
-            $scope.addonData = data;
-        });
-    }
-
-    // *************************** functions to be triggered form view begin here ***** //
-    $scope.addOrEditAddonTypeModal = function (operation, addonType) {
-        console.log('**** inside function_name of masterAddonCtrl.js ****',addonType);
-        masterAddonService.getAddonTypeModalData(operation, addonType, function (data) {
-            $scope.formData = data.addonTypeData;
-            $scope.mMatCatData = data.mMatData;
-            $scope.mUomData = data.mUomData;
-            $scope.showSaveBtn = data.saveBtn;
-            $scope.showEditBtn = data.editBtn;
-
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/content/master/addon/createOrEditAddonType.html',
-                scope: $scope,
-                size: 'lg',
-            });
-        });
-    }
-
-    $scope.addOrEditAddonType = function (addonTypeData,selectedMatCatId,selectedMatSubCatId,selectedRateUomId,selectedAdditionalUomId,selectedKinkedKeyUomId,selectedFinalUomId) {
-        console.log('**** inside addonTypeData of masterAddonCtrl.js ****',addonTypeData);
-        console.log('**** inside selectedMatCatId of masterAddonCtrl.js ****',selectedMatCatId);
-        console.log('**** inside selectedMatSubCatId of masterAddonCtrl.js ****',selectedMatSubCatId);
-        console.log('**** inside selectedRateUomId of masterAddonCtrl.js ****',selectedRateUomId);
-        console.log('**** inside selectedAdditionalUomId of masterAddonCtrl.js ****',selectedAdditionalUomId);
-        console.log('**** inside selectedKinkedKeyUomId of masterAddonCtrl.js ****',selectedKinkedKeyUomId);
-        console.log('**** inside selectedFinalUomId of masterAddonCtrl.js ****',selectedFinalUomId);
-        
-        // masterAddonService.addOrEditAddonType(addonTypeData,);
-    }
-    $scope.deleteAddonTypeModal = function (addonId, getFunction) { }
-    $scope.deleteAddonType = function (addonId) {}
+myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAddonService) {
 
 
-
-    //- to push changed value in 
-    $scope.valueChanged = function () {
-
-    }
-
-
-
-    // *************************** init all default functions begin here ************** //
-    //- to initilize the default function 
-    $scope.init = function () {
-        $scope.getAddonData();
-    }
-    $scope.init();
+  // *************************** default variables/tasks begin here ***************** //
+  //- to show/hide sidebar of dashboard 
+  $scope.$parent.isSidebarActive = true;
+  $scope.showSaveBtn = true;
+  $scope.showEditBtn = false;
+  $scope.mMatSubCatData = [];
+  $scope.bulkAddons = [];
 
 
+  // *************************** default functions begin here  ********************** //
+  //- function to get all addons data
+  $scope.getAddonData = function () {
+    masterAddonService.getAddonData(function (data) {
+      $scope.addonData = data.results;
+      masterAddonService.getPaginationDetails(1, 10, data, function (obj) {
+        $scope.obj = obj;
+      });
+    });
+  }
 
 
+  // *************************** functions to be triggered form view begin here ***** //
+  //- modal to create new addon  
+  $scope.addOrEditAddonTypeModal = function (operation, addonType) {
 
+    masterAddonService.getAddonTypeModalData(operation, addonType, function (data) {
+      console.log('**** inside function_name of masterAddonCtrl.js ****', data);
+      $scope.formData = data.addonTypeData;
+      $scope.mMatCatData = data.mMatData;
+      $scope.mUomData = data.mUomData;
+      $scope.showSaveBtn = data.saveBtn;
+      $scope.showEditBtn = data.editBtn;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //modal start
-    $scope.addon = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/addon/createOrEditAddonType.html',
-            scope: $scope,
-            size: 'lg',
-        });
-    };
-    //end of modal
-    // Delete modal start
-    $scope.deleteItem = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/modal/delete.html',
-            scope: $scope,
-            size: 'sm',
-        });
-    };
-    //end of modal
-});
-myApp.controller('masterExtraCtrl', function ($scope, $http, $uibModal, masterExtraService) {
-
-
-    // *************************** default variables/tasks begin here ***************** //
-    //- to show/hide sidebar of dashboard 
-    $scope.$parent.isSidebarActive = true;
-    $scope.showSaveBtn = true;
-    $scope.showEditBtn = false;
-  
-
-    // *************************** default functions begin here  ********************** //
-    $scope.getMasterExtraData = function () {
-        masterExtraService.getMasterExtraData(function (data) {
-            $scope.extraData = data;
-        });
-    }
-
-    // *************************** functions to be triggered form view begin here ***** // 
-    $scope.addOrEditExtraModal = function (operation, extra) {
-
-        masterExtraService.getExtraModalData(operation, extra, function (data) {
-
-            $scope.formData = data.extra;
-            $scope.uoms = data.uoms;
-            
-               if (angular.isDefined(data.extra)) {
-               $scope.selectedRateUom = data.extra.rate.uom;
-            }
-
-            $scope.showSaveBtn = data.saveBtn;
-            $scope.showEditBtn = data.editBtn;
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/content/master/extra/createOrEditExtra.html',
-                scope: $scope,
-                size: 'md'
-            });
-        });
-    }
-
-    $scope.addOrEditExtra = function (extraData, selectedRateUom) {
-        extraData.rate.uom = selectedRateUom;
-
-         masterExtraService.addOrEditExtra(extraData, function (data) {
-
-            $scope.operationStatus = "Record added successfully";
-            $scope.getMasterExtraData();
-            $scope.cancelModal();
-        });
-    }
-
-   //- modal to confirm extra deletion
-    $scope.deleteExtraModal = function (extraId, getFunction) {
-      $scope.idToDelete = extraId;
-      $scope.functionToCall = getFunction;
+      if (angular.isDefined(data.addonTypeData)) {
+        $scope.selectedMatCat = $scope.formData.materialCat;
+        $scope.selectedMatSubCat = $scope.formData.materialSubCat;
+        $scope.selectedRateUom = $scope.formData.rate.uom;
+        $scope.selectedAdditionalUom = $scope.formData.quantity.additionalInputUom;
+        $scope.selectedKinkedKeyUom = $scope.formData.quantity.linkedKeyUom;
+        $scope.selectedFinalUom = $scope.formData.quantity.finalUom;
+      }
 
       $scope.modalInstance = $uibModal.open({
         animation: true,
-        templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+        templateUrl: 'views/content/master/addon/createOrEditAddonType.html',
+        scope: $scope,
+        size: 'lg',
+      });
+    });
+  }
+  //- function to  create new addon     
+  $scope.addOrEditAddonType = function (addonTypeData, selectedMatCatId, selectedMatSubCatId, selectedRateUomId, selectedAdditionalUomId, selectedKinkedKeyUomId, selectedFinalUomId) {
+    addonTypeData.materialCat = selectedMatCatId;
+    addonTypeData.materialSubCat = selectedMatSubCatId;
+    addonTypeData.rate.uom = selectedRateUomId;
+    addonTypeData.quantity.additionalInputUom = selectedAdditionalUomId;
+    addonTypeData.quantity.linkedKeyUom = selectedKinkedKeyUomId;
+    addonTypeData.quantity.finalUom = selectedFinalUomId;
+
+    masterAddonService.addOrEditAddonType(addonTypeData, function (data) {
+      toastr.info('Record added successfully', 'Addon Creation!');
+      $scope.getAddonData();
+      $scope.cancelModal();
+    });
+
+  }
+
+  //- modal to confirm addon deletion
+  $scope.deleteAddonTypeModal = function (addonId, getFunction) {
+    $scope.idToDelete = addonId;
+    $scope.functionToCall = getFunction;
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- function for addon deletion
+  $scope.deleteAddonType = function (addonId) {
+    masterAddonService.deleteAddonType(addonId, function (data) {
+      toastr.info('Record deleted successfully', 'Addon Deletion!');
+      $scope.getAddonData();
+      $scope.cancelModal();
+    });
+  }
+
+  //- function for pagination of master addons' records
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+    if (angular.isUndefined(keyword) || keyword == '') {
+      if (numberOfRecords != '10') {
+        masterAddonService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+          $scope.addonData = data.results;
+          masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      } else {
+        masterAddonService.getPaginationDatawithoutKeyword(page, function (data) {
+          $scope.addonData = data.results;
+          masterAddonService.getPaginationDetails(page, 10, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      }
+    } else {
+      masterAddonService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+        $scope.addonData = data.results;
+        masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+          $scope.obj = obj;
+        });
+      });
+    }
+  }
+
+  //- function to search the text in table
+  $scope.serachText = function (keyword, count) {
+    masterAddonService.getSearchResult(keyword, function (data) {
+      $scope.addonData = data.results;
+      masterAddonService.getPaginationDetails(1, count, data, function (obj) {
+        $scope.obj = obj;
+      });
+    });
+  }
+
+  //- to dismiss modal instance
+  $scope.cancelModal = function () {
+    $scope.modalInstance.dismiss();
+  }
+
+  //- modal to confirm bulk addons deletion
+  $scope.deleteBulkAddonsModal = function (addonIdArray, getFunction) {
+    $scope.idsToDelete = addonIdArray;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/deleteBulkModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- function to delete addon
+  $scope.deleteBulkAddons = function (addons) {
+    masterAddonService.deleteBulkAddons(addons, function () {
+      $scope.cancelModal();
+      $scope.getAddonData();
+      $scope.bulkAddons = [];
+      toastr.info('Records added successfully', 'Addons Deletion!');
+    });
+  }
+  //- function to get bulk addons
+  $scope.selectBulkAddons = function (checkboxStatus, addonId) {
+    masterAddonService.selectBulkAddons(checkboxStatus, addonId, function (data) {
+      $scope.bulkAddons = data;
+    });
+  }
+  //- to select all records
+  $scope.selectAll = function (addons, checkboxStatus) {
+    masterAddonService.selectAll(addons, checkboxStatus, function (data) {
+      $scope.bulkAddons = data;
+    });
+  }
+
+
+  // *************************** init all default functions begin here ************** //
+  //- to initilize the default function 
+  $scope.init = function () {
+    $scope.getAddonData();
+  }
+  $scope.init();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //modal start
+  $scope.addon = function () {
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/master/addon/createOrEditAddonType.html',
+      scope: $scope,
+      size: 'lg',
+    });
+  };
+  //end of modal
+  // Delete modal start
+  $scope.deleteItem = function () {
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/modal/delete.html',
+      scope: $scope,
+      size: 'sm',
+    });
+  };
+  //end of modal
+});
+myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterExtraService) {
+
+
+  // *************************** default variables/tasks begin here ***************** //
+  //- to show/hide sidebar of dashboard 
+  $scope.$parent.isSidebarActive = true;
+  $scope.showSaveBtn = true;
+  $scope.showEditBtn = false;
+  $scope.bulkExtras = [];
+
+
+  // *************************** default functions begin here  ********************** //
+  //- function to get all extras data
+  $scope.getMasterExtraData = function () {
+    masterExtraService.getMasterExtraData(function (data) {
+      $scope.extraData = data.results;
+      masterExtraService.getPaginationDetails(1, 10, data, function (obj) {
+        $scope.obj = obj;
+        $scope.page = 1;
+      });
+    });
+  }
+
+
+  // *************************** functions to be triggered form view begin here ***** // 
+  //- modal to create new extra 
+  $scope.addOrEditExtraModal = function (operation, extra) {
+
+    masterExtraService.getExtraModalData(operation, extra, function (data) {
+
+      $scope.formData = data.extra;
+      $scope.uoms = data.uoms;
+
+      if (angular.isDefined(data.extra)) {
+        $scope.selectedRateUom = data.extra.rate.uom;
+      }
+
+      $scope.showSaveBtn = data.saveBtn;
+      $scope.showEditBtn = data.editBtn;
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/master/extra/createOrEditExtra.html',
         scope: $scope,
         size: 'md'
       });
-    }
+    });
+  }
+  //- function to  create new customer
+  $scope.addOrEditExtra = function (extraData, selectedRateUom) {
+    extraData.rate.uom = selectedRateUom;
 
-    $scope.deleteExtra = function (extraId) {
-       masterExtraService.deleteExtra(extraId, function (data) {
-        $scope.operationStatus = "Record deleted successfully";
-        $scope.cancelModal();
-        $scope.getMasterExtraData();
+    masterExtraService.addOrEditExtra(extraData, function (data) {
+      toastr.info('Records added successfully', 'Extra Creation!');
+      $scope.getMasterExtraData();
+      $scope.cancelModal();
+    });
+  }
+
+  //- modal to confirm extra deletion
+  $scope.deleteExtraModal = function (extraId, getFunction) {
+    $scope.idToDelete = extraId;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- function for  extra deletion
+  $scope.deleteExtra = function (extraId) {
+    masterExtraService.deleteExtra(extraId, function (data) {
+      toastr.info('Records deleted successfully', 'Extra Deletion!');
+      $scope.cancelModal();
+      $scope.getMasterExtraData();
+    });
+  }
+
+  //- function for pagination of master extras' records
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+    if (angular.isUndefined(keyword) || keyword == '') {
+      if (numberOfRecords != '10') {
+        masterExtraService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+          $scope.extraData = data.results;
+          masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      } else {
+        masterExtraService.getPaginationDatawithoutKeyword(page, function (data) {
+          $scope.extraData = data.results;
+          masterExtraService.getPaginationDetails(page, 10, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      }
+    } else {
+      masterExtraService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+        $scope.extraData = data.results;
+        masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+          $scope.obj = obj;
+        });
       });
     }
+  }
 
-   //- to dismiss modal instance
-    $scope.cancelModal = function () {
+  //- function to search the text in table
+  $scope.serachText = function (keyword, count) {
+    masterExtraService.getSearchResult(keyword, function (data) {
+      $scope.extraData = data.results;
+      masterExtraService.getPaginationDetails(1, count, data, function (obj) {
+        $scope.obj = obj;
+      });
+    });
+  }
+
+  //- to dismiss modal instance
+  $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
-  };
+  }
+
+  //- modal to confirm bulk extras deletion
+  $scope.deleteBulkExtrasModal = function (addonIdArray, getFunction) {
+    $scope.idsToDelete = addonIdArray;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/deleteBulkModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- function to delete extra
+  $scope.deleteBulkExtras = function (extras) {
+    masterExtraService.deleteBulkExtras(extras, function () {
+      $scope.cancelModal();
+      $scope.getMasterExtraData();
+      $scope.bulkExtras = [];
+      toastr.info('Records added successfully', 'Extras Deletion!');
+    });
+  }
+  //- function to get bulk extras
+  $scope.selectBulkExtras = function (checkboxStatus, addonId) {
+    masterExtraService.selectBulkExtras(checkboxStatus, addonId, function (data) {
+      $scope.bulkExtras = data;
+    });
+  }
+  //- to select all records
+  $scope.selectAll = function (extras, checkboxStatus) {
+    masterExtraService.selectAll(extras, checkboxStatus, function (data) {
+      $scope.bulkExtras = data;
+    });
+  }
 
 
-    // *************************** init all default functions begin here ************** //
-    //- to initilize the default function 
-    $scope.init = function () {
-
-        $scope.getMasterExtraData();
-    }
-
-    $scope.init();
+  // *************************** init all default functions begin here ************** //
+  //- to initilize the default function 
+  $scope.init = function () {
+    $scope.getMasterExtraData();
+  }
+  $scope.init();
 
 });
-myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, masterMaterialService) {
+myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, masterMaterialService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -69398,6 +70113,11 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
     //- to show/hide save & update button on pop-up according to operation
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
+    $scope.disableit = true;
+    $scope.editAll = false; // to make all the records instant editable
+    // $scope.bulkMaterials = []; //- for multiple records deletion
+    // $scope.checkAll = false; //- for all records selection
+    // $scope.checkboxStatus = false; //- for multiple records selection
 
 
     // *************************** default functions begin here  ********************** //
@@ -69527,6 +70247,18 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
             $scope.cancelModal();
         });
     }
+    //- instant edit particular master material
+    $scope.editMaterial = function (materialId) {
+        $scope.editMaterialId = materialId;
+    }
+    //- instant edit all master materials
+    $scope.instantEditAllMaterial = function (editAll) {
+        if (editAll == true) {
+            $scope.editAll = false;
+        } else {
+            $scope.editAll = true;
+        }
+    }
     //- modal to confirm material deletion
     $scope.deleteMaterialModal = function (materialId, getFunction) {
         console.log('**** inside deleteMaterialModal of createOrEditMaterialCtrl.js ****', getFunction);
@@ -69552,24 +70284,100 @@ myApp.controller('masterMaterialCtrl', function ($scope, $http, $uibModal, maste
     $scope.getSubCatMaterials = function (materialSubCatId) {
         masterMaterialService.getSubCatMaterials(materialSubCatId, function (data) {
             console.log('**** inside getSubCatMaterials of masterMaterialCtrl.js & data is ****', data);
-            $scope.subCatMaterials = data;
+            $scope.subCatMaterials = data.results;
+            $scope.selectedSubACat = materialSubCatId;
+            $scope.disableit = false;
+            $scope.getMaterialData();
+            masterMaterialService.getPaginationDetails(1, 10, data, function (obj) {
+                $scope.obj = obj;
+            });
         });
     }
 
-    $scope.changeMaterialType = function (materialId, type, materialSubCatId) {
-        masterMaterialService.changeMaterialType(materialId, type, function (data) {
+    $scope.changeMaterialType = function (type, materialSubCatId) {
+        masterMaterialService.changeMaterialType(type, materialSubCatId, function (data) {
             $scope.getSubCatMaterials(materialSubCatId);
         });
-
-
     }
 
 
+    //- for pagination of materials' records
+    $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+        if (angular.isUndefined(keyword) || keyword == '') {
+            if (numberOfRecords != '10') {
+                masterMaterialService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+                    $scope.subCatMaterials = data.results;
+                    masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+                        $scope.obj = obj;
+                    });
+                });
+            } else {
+                masterMaterialService.getPaginationDatawithoutKeyword(page, function (data) {
+                    $scope.subCatMaterials = data.results;
+                    masterMaterialService.getPaginationDetails(page, 10, data, function (obj) {
+                        $scope.obj = obj;
+                    });
+                });
+            }
+        } else {
+            masterMaterialService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+                $scope.subCatMaterials = data.results;
+                masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+                    $scope.obj = obj;
+                });
+            });
+        }
+    }
+    //- to search the text in table
+    $scope.serachText = function (keyword, count) {
+        masterMaterialService.getSearchResult(keyword, function (data) {
+            $scope.subCatMaterials = data.results;
+            masterMaterialService.getPaginationDetails(1, count, data, function (obj) {
+                $scope.obj = obj;
+            });
+        });
+    }
+    //   //- bulk materials deletion modal
+    //   $scope.deleteBulkMaterialsModal = function (materialIdArray, getFunction) {
+    //     $scope.idsToDelete = materialIdArray;
+    //     $scope.functionToCall = getFunction;
+
+    //     $scope.modalInstance = $uibModal.open({
+    //       animation: true,
+    //       templateUrl: 'views/content/deleteBulkModal.html',
+    //       scope: $scope,
+    //       size: 'md'
+    //     });
+    //   }
+    //   //-to delete bulk materials
+    //   $scope.deleteBulkMaterials = function (materials) {
+    //     masterMaterialService.deleteBulkMaterials(materials, function () {
+
+    //       $scope.cancelModal();
+    //       $scope.bulkMaterials = [];
+    //       $scope.checkAll = false;
+    //       $scope.checkboxStatus = false;
+    //       $scope.getMaterialData();
+    //       toastr.info('Record deleted successfully', 'Material Deletion!');
+    //     });
+    //   }
+    //   //- to get bulk materials
+    //   $scope.selectBulkMaterials = function (checkboxStatus, materialId) {
+    //     masterMaterialService.selectBulkMaterials(checkboxStatus, materialId, function (data) {
+    //       $scope.bulkMaterials = data;
+    //     });
+    //   }
+    //   //- to select all records
+    //   $scope.selectAll = function (materials, checkboxStatus) {
+    //     masterMaterialService.selectAll(materials, checkboxStatus, function (data) {
+    //       $scope.bulkMaterials = data;
+    //     });
+    //   }
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
-    };
+    }
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
@@ -69702,6 +70510,8 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
     $scope.showPartTypeMaterial = false;
     $scope.disableShape = false;
     $scope.selectedShape = {};
+    $scope.showPresetSaveForm = false;
+    $scope.showPresetUpdateForm = false;
     var varName = "";
     var varValue = "";
     var perimeter = 0;
@@ -69727,7 +70537,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: 'views/content/master/material/createOrEditMaterialCat.html',
+                templateUrl: 'views/content/master/part/createOrEditPartTypeCat.html',
                 scope: $scope,
                 size: 'md'
             });
@@ -69814,26 +70624,35 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
             $scope.showPartTypeMaterial = true;
             $scope.disableShape = true;
         });
-
     }
 
-    //-
+    //- 
     $scope.addNewPreset = function (operation, partTypeId) {
         $scope.presetFormData = {};
-        $scope.selectedShape = {};
+        $scope.showPresetSaveForm = true;
+        $scope.showPresetUpdateForm = false;
+        // $scope.selectedShape = {};
+
+        // if sizes.length == 0 then make disableShape-->false
         $scope.disableShape = false;
         masterPartService.addNewPreset(operation, partTypeId, function (data) {
             $scope.showPartView = true;
             $scope.presetFormData = data;
+            $scope.selectedShape = data.selectedShape;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
             console.log('**** inside $scope.presetFormData of masterPartCtrl.js & data is ****', $scope.presetFormData);
         });
     }
+
     //- to get/show preset view (with data in case of edit)
-    //- called when click on + icon at partType (i.e. to add new preset )    &
+    //- called when click on + icon at partType (i.e. to add new preset ) &
     //- click on the preset size to edit preset 
     $scope.getPresetViewWithData = function (operation, presetData) {
         $scope.showPartView = true;
         presetData.shape.variable = presetData.variable;
+        $scope.showPresetUpdateForm = true;
+        $scope.showPresetSaveForm = false;
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
             $scope.presetFormData = data.presetData;
             $scope.selectedShape = data.presetData.shape;
@@ -69863,7 +70682,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
 
         _.map(selectedShape.variable, function (n) {
             varName = n.varName;
-            varValue = n.varValue;
+            varValue = parseInt(n.varValue);
             perimeter = selectedShape.partFormulae.perimeter;
             sheetMetalArea = selectedShape.partFormulae.sheetMetalArea;
             surfaceArea = selectedShape.partFormulae.surfaceArea;
@@ -69927,7 +70746,6 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
             size: 'md'
         });
     }
-
     $scope.deletePartTypeMaterial = function (materialId,partTypeId) {
         masterPartService.deletePartTypeMaterial(materialId,partTypeId, function (data) {
             $scope.operationStatus = "Record deleted successfully";
@@ -69936,15 +70754,11 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         });
     }
 
-
-
-
     //- to hide preset view
     //- called when click on cancel button on preset view
     $scope.hidePartPresetView = function () {
         $scope.showPartView = false;
     }
-
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {
@@ -69960,159 +70774,16 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
 
     $scope.init();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //start of tree
-
-
-    //start of part type category modal
-    $scope.partTypeCat = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/part/createOrEditPartType.html',
-            scope: $scope,
-            size: 'md',
-
-        })
-    }
-    //start of part type modal
-    $scope.partType = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/part/createPartType.html',
-            scope: $scope,
-            size: 'md',
-
-        })
-    }
-
-    // Delete modal start
-    $scope.deleteItem = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/modal/delete.html',
-            scope: $scope,
-            size: 'md',
-        });
-    };
-    //end of modal
-    //AddAddon modal start
-    $scope.addAddon = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/part/addAddonToPreset.html',
-            scope: $scope,
-            size: 'md',
-        });
-    };
-    //end of modal
-    //AddProcessing modal start
-    $scope.addProcessing = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/part/addProcessingToPreset.html',
-            scope: $scope,
-            size: 'md',
-        });
-    };
-    //end of modal
-    //AddExtra modal start
-    $scope.addExtra = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/part/addExtraToPreset.html',
-            scope: $scope,
-            size: 'md',
-        });
-    };
-    //end of modal
-
-    //veriables 
-    $scope.checkBox = [
-
-        {
-            "name": "a",
-        }, {
-            "name": "b",
-        }, {
-            "name": "c",
-        }, {
-            "name": "d"
-        }, {
-            "name": "e"
-        }, {
-            "name": "f"
-        }, {
-            "name": "g"
-        }, {
-            "name": "q1"
-        }, {
-            "name": "q2"
-        }, {
-            "name": "Thikness(t)"
-        }, {
-            "name": "Length(l)"
-        }, {
-            "name": "Wastage(w)"
-        },
-    ]
-
-    $scope.checkBox = _.chunk($scope.checkBox, 2);
 });
-myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, masterProcessService) {
+myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, masterProcessService) {
 
 
     // *************************** default variables/tasks begin here ***************** //
-    $scope.$parent.isSidebarActive = false;    //- to show/hide sidebar of dashboard 
-    $scope.showSaveBtn = true;                 //- to show/hide save & update button on pop-up according to operation
+    $scope.$parent.isSidebarActive = false; //- to show/hide sidebar of dashboard 
+    $scope.showSaveBtn = true; //- to show/hide save & update button on pop-up according to operation
     $scope.showEditBtn = false;
     $scope.selectedProcessCat = {};
+    $scope.bulkProcesses = [];
 
 
     // *************************** default functions begin here  ********************** //
@@ -70153,7 +70824,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     $scope.addOrEditProcessCat = function (processCatData, selectedUomId) {
         processCatData.uom = selectedUomId;
         masterProcessService.addOrEditProcessCat(processCatData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            toastr.info('Record added successfully', 'Process Creation!');
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -70171,7 +70842,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
     $scope.deleteProcessCat = function (processCatId) {
         masterProcessService.deleteProcessCat(processCatId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            toastr.info('Record deleted successfully', 'Process Deletion!');
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -70195,7 +70866,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
     $scope.addOrEditProcessItem = function (processItemData, processCatId) {
         masterProcessService.addOrEditProcessItem(processItemData, processCatId, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            toastr.info('Record added successfully', 'Process Creation!');
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -70213,7 +70884,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
     $scope.deleteProcessItem = function (processItemId) {
         masterProcessService.deleteProcessItem(processItemId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            toastr.info('Record deleted successfully', 'Process Deletion!');
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -70253,7 +70924,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         processData.quantity.uom = selectedQuaLinkedKeyUom;
         processData.quantity.finalUom = selectedQuaFinalUom;
         masterProcessService.addOrEditProcessType(processData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            toastr.info('Record added successfully', 'Process Creation!');
             $scope.getProcessTypeData();
             $scope.cancelModal();
         });
@@ -70271,7 +70942,7 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
     }
     $scope.deleteProcessType = function (processId) {
         masterProcessService.deleteProcessType(processId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            toastr.info('Record deleted successfully', 'Process Deletion!');
             $scope.cancelModal();
             $scope.getProcessTypeData();
         });
@@ -70283,6 +70954,80 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         $scope.modalInstance.dismiss();
     };
 
+    //- function for pagination of processes' records
+    $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+        if (angular.isUndefined(keyword) || keyword == '') {
+            if (numberOfRecords != '10') {
+                masterProcessService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+                    $scope.processData = data.results;
+                    masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+                        $scope.obj = obj;
+                    });
+                });
+            } else {
+                masterProcessService.getPaginationDatawithoutKeyword(page, function (data) {
+                    $scope.processData = data.results;
+                    masterProcessService.getPaginationDetails(page, 10, data, function (obj) {
+                        $scope.obj = obj;
+                    });
+                });
+            }
+        } else {
+            masterProcessService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+                $scope.processData = data.results;
+                masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+                    $scope.obj = obj;
+                });
+            });
+        }
+    }
+    //- function to search the text in table
+    $scope.serachText = function (keyword, count) {
+        masterProcessService.getSearchResult(keyword, function (data) {
+            $scope.processData = data.results;
+            masterProcessService.getPaginationDetails(1, count, data, function (obj) {
+                $scope.obj = obj;
+            });
+        });
+    }
+    //- to dismiss modal instance
+    $scope.cancelModal = function () {
+        $scope.modalInstance.dismiss();
+    }
+
+    //- modal to confirm bulk processes deletion
+    $scope.deleteBulkProcessesModal = function (processIdArray, getFunction) {
+        $scope.idsToDelete = processIdArray;
+        $scope.functionToCall = getFunction;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/deleteBulkModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
+    //- function to delete process
+    $scope.deleteBulkProcesses = function (processes) {
+        masterProcessService.deleteBulkProcesses(processes, function () {
+            $scope.cancelModal();
+            $scope.getProcessTypeData();
+            $scope.bulkProcesses = [];
+            toastr.info('Records deleted successfully', 'Process Deletion!');
+        });
+    }
+    //- function to get bulk processes
+    $scope.selectBulkProcesses = function (checkboxStatus, processId) {
+        masterProcessService.selectBulkProcesses(checkboxStatus, processId, function (data) {
+            $scope.bulkProcesses = data;
+        });
+    }
+    //- to select all records
+    $scope.selectAll = function (processes, checkboxStatus) {
+        masterProcessService.selectAll(processes, checkboxStatus, function (data) {
+            $scope.bulkProcesses = data;
+        });
+    }
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
@@ -70291,10 +71036,9 @@ myApp.controller('masterProcessCtrl', function ($scope, $http, $uibModal, master
         $scope.getProcessData();
     }
     $scope.init();
-
+    
 });
-myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal, masterShapeService) {
-
+myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, masterShapeService) {
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = false;
@@ -70319,8 +71063,27 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
 
     // *************************** functions to be triggered form view begin here ***** //
 
+    $scope.temp = function(){
+        $scope.shapeView = 'views/content/master/shape/shapeView.html';
+    }
+
     $scope.createOrEditShapeData = function (operation, shape) {
+             
+        // if(operation == 'save'){
+        //     // $scope.shapeView = 'views/content/master/shape/shapeView.html';
+        //     $scope.formData = {};
+        //     $scope.formData.icon = {};
+        //     $scope.formData.icon.file = "";
+        // }else{
+        //     // $scope.shapeView = 'views/content/master/shape/shapeView.html';
+        //     $scope.formData = shape;
+        //     $scope.formData.icon = {};
+        //     $scope.formData.icon.file = "";
+        // }
+        // debugger;
+        
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
+            $scope.shapeView = 'views/content/master/shape/tempView.html';
             $scope.formData = data.shape;
             $scope.variablesData = data.shapeVariables;
             $scope.showSaveBtn = data.saveBtn;
@@ -70358,8 +71121,7 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
         if (checkboxStatus == 'unchecked') {
             var index = _.findIndex($scope.shapeVariables, ['varName', variableName]);
             $scope.shapeVariables.splice(index, 1);
-        }
-        else if (checkboxStatus == 'checked') {
+        } else if (checkboxStatus == 'checked') {
             var tempVarObj = {
                 varName: variableName
             };
@@ -70380,8 +71142,8 @@ myApp.controller('masterShapeCtrl', function ($scope, $http, $timeout, $uibModal
     }
     $scope.init();
 });
-myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
-  
+myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
+
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -70389,23 +71151,37 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
   $scope.$parent.isSidebarActive = true;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
+  $scope.bulkUsers = []; //- for multiple records deletion
+  $scope.checkAll = false; //- for all records selection
+  $scope.checkboxStatus = false; //- for multiple records selection
+  //- for cleave validation
+  $scope.options = {
+    phone: {
+      phone: true
+    }
+  };
 
 
   // *************************** default functions begin here  ********************** //
+  //- function to get all users from database
   $scope.getUserData = function () {
     userService.getUserData(function (data) {
-      $scope.userData = data;
+      $scope.userData = data.results;
+      userService.getPaginationDetails(1, 10, data, function (obj) {
+        $scope.obj = obj;
+      });
     });
   }
 
 
   // *************************** functions to be triggered form view begin here ***** //
-
+  //- to add or edit user 
   $scope.addOrEditUserModal = function (operation, user) {
     userService.getUserModalData(operation, user, function (data) {
       $scope.formData = data.user;
       $scope.showSaveBtn = data.saveBtn;
       $scope.showEditBtn = data.editBtn;
+      $scope.operation = operation;
 
       $scope.modalInstance = $uibModal.open({
         animation: true,
@@ -70416,39 +71192,114 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
 
     });
   }
-  
-  $scope.addOrEditUser = function (userData) {
-      userService.addOrEditUser(userData, function (data) {
-        $scope.operationStatus = "Record added successfully";
-        $scope.getUserData();
-        $scope.cancelModal();
-      });
-    }
-    
-     //- modal to confirm customer deletion
-     $scope.deleteUserModal = function (userId, getFunction) {
-      $scope.idToDelete = userId;
-      $scope.functionToCall = getFunction;
+  //- to add or edit user
+  $scope.addOrEditUser = function (operation, userData) {
+    userService.addOrEditUser(userData, function () {
+      $scope.getUserData();
+      $scope.cancelModal();
+      if (operation == 'save') {
+        toastr.info('Record added successfully');
+      } else {
+        toastr.info('Record updated successfully');
+      }
+    });
+  }
+  //- user deletion modal
+  $scope.deleteUserModal = function (userId, getFunction) {
+    $scope.idToDelete = userId;
+    $scope.functionToCall = getFunction;
 
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
-        scope: $scope,
-        size: 'md'
-      });
-    }
-    $scope.deleteUser = function (userId) {
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //- to delete user
+  $scope.deleteUser = function (userId) {
     userService.deleteUser(userId, function (data) {
-        $scope.operationStatus = "Record deleted successfully";
-        $scope.cancelModal();
-        $scope.getUserData();
+      $scope.cancelModal();
+      $scope.getUserData();
+      toastr.info('Record deleted successfully');
+    });
+  }
+  //- for pagination of users' records
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+    if (angular.isUndefined(keyword) || keyword == '') {
+      if (numberOfRecords != '10') {
+        userService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+          $scope.userData = data.results;
+          userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      } else {
+        userService.getPaginationDatawithoutKeyword(page, function (data) {
+          $scope.userData = data.results;
+          userService.getPaginationDetails(page, 10, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      }
+    } else {
+      userService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+        $scope.userData = data.results;
+        userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+          $scope.obj = obj;
+        });
       });
     }
+  }
+  //- to search the text in table
+  $scope.serachText = function (keyword, count) {
+    userService.getSearchResult(keyword, function (data) {
+      $scope.userData = data.results;
+      userService.getPaginationDetails(1, count, data, function (obj) {
+        $scope.obj = obj;
+      });
+    });
+  }
+  //- bulk users deletion modal
+  $scope.deleteBulkUsersModal = function (userIdArray, getFunction) {
+    $scope.idsToDelete = userIdArray;
+    $scope.functionToCall = getFunction;
 
-//- to dismiss modal instance
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/deleteBulkModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
+  //-to delete bulk users
+  $scope.deleteBulkUsers = function (users) {
+    userService.deleteBulkUsers(users, function () {
+
+      $scope.cancelModal();
+      $scope.bulkUsers = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+      $scope.getUserData();
+      toastr.info('Record deleted successfully', 'User Deletion!');
+    });
+  }
+  //- to get bulk users
+  $scope.selectBulkUsers = function (checkboxStatus, userId) {
+    userService.selectBulkUsers(checkboxStatus, userId, function (data) {
+      $scope.bulkUsers = data;
+    });
+  }
+  //- to select all records
+  $scope.selectAll = function (users, checkboxStatus) {
+    userService.selectAll(users, checkboxStatus, function (data) {
+      $scope.bulkUsers = data;
+    });
+  }
+  //- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
-  };
+  }
 
 
   // *************************** init all default functions begin here ************** //
@@ -70456,19 +71307,140 @@ myApp.controller('userCtrl', function ($scope, $http, $uibModal, userService) {
   $scope.init = function () {
     $scope.getUserData();
   }
-    $scope.init();
+  $scope.init();
+
 });
-myApp.service('customerService', function ($http, NavigationService, $uibModal) {
+myApp.controller('roleCtrl', function ($scope, toastr, $uibModal, roleService) {
+    
+    
+    
+      // *************************** default variables/tasks begin here ***************** //
+      //- to show/hide sidebar of dashboard 
+      $scope.$parent.isSidebarActive = true;
+      $scope.showSaveBtn = true;
+      $scope.showEditBtn = false;
+    
+      // *************************** default functions begin here  ********************** //
+      //- function to get all users from database
+    
+    
+    
+      // *************************** functions to be triggered form view begin here ***** //
+    //- to add or edit Role 
+  $scope.addOrEditRoleModal = function (operation, role) {
+   // roleService.getRoleModalData(operation, role, function (data) {
+      // $scope.formData = data.role;
+      // $scope.showSaveBtn = data.saveBtn;
+      // $scope.showEditBtn = data.editBtn;
+      // $scope.operation = operation;
+    debugger;
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/settings/modal/createOrEditRole.html',
+        scope: $scope,
+        size: 'md'
+      //});
 
-  //- get customer view
-
-  this.getCustomerData = function (callback) {
-    NavigationService.boxCall('Customer/search', function (data) {
-      var customers = data.data.results;
-      callback(customers);
     });
   }
+  //
+      // *************************** init all default functions begin here ************** //
+      //- to initilize the default function 
+      $scope.init = function () {
+      }
+      $scope.init();
+    
+    });
+myApp.controller('UserProfileController', function ($scope, toastr, userProfileService) {
 
+    // *************************** default variables/tasks begin here ***************** //
+    $scope.$parent.isSidebarActive = false;
+    $scope.loggedInUser = $.jStorage.get('loggedInUser');
+    $scope.image = {};
+    // to upload files
+    $scope.formData = {};
+    $scope.formData.files = [];
+    $scope.allFiles = [];
+
+    // *************************** default functions begin here  ********************** //
+    //- get respective profile Object
+    $scope.getProfileData = function () {
+        userProfileService.getProfileData($scope.loggedInUser._id, function (data) {
+            $scope.formData = data;
+            $scope.formData.files = [];
+        });
+    }
+
+    // *************************** functions to be triggered form view begin here ***** //
+    //- Update Profile based on new data
+    $scope.updateProfile = function (formData) {
+        userProfileService.updateProfile(formData, function (data) {
+            toastr.success("Your Profile has been updated successfully");
+        });
+    }
+    // $scope.updateProfilePhoto = function () {
+    //     var file = $scope.myFile;
+    //     console.log('file is ' );
+    //     console.dir(file);
+    //     userProfileService.updateProfilePhoto(file, function (data) {
+    //         if(data.data.data != "No files selected"){
+    //             toastr.success("Your Profile Photo has been updated successfully");
+    //         } else {
+    //             toastr.warning("Photo Updation Failed");
+    //         } 
+
+    //    });
+    // }
+
+    $scope.uploadFile = function () {
+        var file = $scope.myFile;
+        console.log('file is ---------------------------------------' );
+        console.dir(file);
+        userProfileService.updateProfilePhoto(file, function (data) {
+            console.log('file is ' + JSON.stringify(file.name));            
+            if (data.data.data != "No files selected") {
+                toastr.success("Your Profile Photo has been updated successfully");
+            } else {
+                toastr.warning("Photo Updation Failed");
+            }
+        });
+    }
+
+    //- set password 
+    $scope.changePassword = function (currentPassword, newpassword) {
+        userProfileService.changePassword($scope.loggedInUser._id, currentPassword, newpassword, function (data) {
+            if (_.isEmpty(data)) {
+                toastr.warning("Your Password current password is wrong");
+            } else {
+                toastr.success("Your Password has been changed successfully");
+            }
+            $scope.getProfileData();
+        });
+    }
+    //- cancel changes 
+    $scope.cancelChanges = function () {
+        $scope.getProfileData();
+        toastr.info("Your Changes have been cancelled");
+    }
+
+    // *************************** init all default functions begin here ************** //
+    //- to initilize the default function 
+    $scope.init = function () {
+        $scope.getProfileData();
+    }
+    $scope.init();
+});
+myApp.service('customerService', function (NavigationService) {
+
+  var bulkArray = [];
+
+  //- get customer view
+  this.getCustomerData = function (callback) {
+    NavigationService.boxCall('Customer/search', function (data) {
+      callback(data.data);
+    });
+  }
+  //- get customer modal data
   this.getCustomerModalData = function (operation, customer, callback) {
     var customerDataObj = {};
 
@@ -70484,15 +71456,14 @@ myApp.service('customerService', function ($http, NavigationService, $uibModal) 
     }
     callback(customerDataObj);
   }
-
+  //- add or edit customer
   this.addOrEditCustomer = function (customerData, callback) {
-    
     NavigationService.apiCall('Customer/save', customerData, function (data) {
       var customer = data.data.results;
       callback(customer);
     });
   }
-
+  //- delete customer
   this.deleteCustomer = function (customerId, callback) {
     var deleteCustomerObj = {
       _id: customerId
@@ -70502,6 +71473,88 @@ myApp.service('customerService', function ($http, NavigationService, $uibModal) 
     });
   }
 
+  //- get data of pagination
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
+    NavigationService.apiCall('Customer/search', {
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('Customer/search', {
+      keyword: searchKeyword,
+      totalRecords: count,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get page data with show records
+  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
+    NavigationService.apiCall('Customer/search', {
+      totalRecords: numberOfRecords,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get data of seach results
+  this.getSearchResult = function (searchKeyword, callback) {
+    NavigationService.apiCall('Customer/search', {
+      keyword: searchKeyword
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get details about pagination
+  this.getPaginationDetails = function (pageNumber, count, data, callback) {
+    var obj = {};
+    obj.pageNumber = pageNumber;
+    obj.pageStart = (pageNumber - 1) * count + 1;
+    obj.total = data.total;
+    if (obj.total <= pageNumber * count) {
+      obj.pageEnd = obj.total;
+    } else {
+      obj.pageEnd = pageNumber * count;
+    }
+    obj.numberOfPages = Math.ceil((obj.total) / count);
+    obj.pagesArray = [];
+    for (var i = 0; i < obj.numberOfPages; i++) {
+      obj.pagesArray[i] = i + 1;
+    }
+    obj.count = data.options.count;
+    callback(obj);
+  }
+  //- form an array of bulk Ids
+  this.selectBulkCustomers = function (checkboxStatus, customerId, callback) {
+    if (checkboxStatus == true) {
+      bulkArray.push(customerId);
+    } else {
+      _.remove(bulkArray, function (record) {
+        return record == customerId;
+      });
+    }
+    callback(bulkArray);
+  }
+  //- form an array of Ids of all customers for deletion
+  this.selectAll = function (customers, checkboxStatus, callback) {
+    bulkArray = [];
+    if (checkboxStatus == true) {
+      angular.forEach(customers,  function (obj) {
+        var customerId = obj._id;
+        bulkArray.push(customerId);
+      });
+    }
+    callback(bulkArray);
+  }
+  //- delete bulk customers
+  this.deleteBulkCustomers = function (customers, callback) {
+    NavigationService.apiCall('Customer/deleteMultipleCustomers', {idsArray: customers}, function (data) {
+      callback();
+    });
+  }
 
 });
 myApp.service('createOrEditEnquiryService', function ($http, NavigationService) {
@@ -70509,10 +71562,14 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
   this.getEnquiryObj = function (id, callback) {
     if(angular.isDefined(id)){
       NavigationService.apiCall('Enquiry/getOne', {_id:id}, function (data) {
-        callback(data.data);
+        if(data.data != "ObjectId Invalid"){
+          callback(data.data);
+        }else{
+          callback({});
+        }        
       });
     }else{
-      callback();
+      callback({});
     }
   }
   this.getCustomerData = function (callback) {
@@ -70522,13 +71579,41 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       });
  } 
   this.createEnquiry = function (enquiryData, callback) {    
-      NavigationService.apiCall('Enquiry/save', enquiryData, function (data) {
+      NavigationService.apiCall('Enquiry/createEnquiry', enquiryData, function (data) {
         callback(data.data);
       });
   }
+  this.saveAssemblyName = function(assName, enquiryId, callback){
+    var estimateData = {
+      assemblyName:assName,
+      enquiryId:enquiryId
+    }
+    
+    NavigationService.apiCall('DraftEstimate/createDraftEstimate', estimateData, function (data) {
+      callback(data.data);
+    });
+  }
+  this.getAllAssemblyNumbers = function (callback) {
+		NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
+			callback(data.data);
+		});
+  }
+  	//- to import assembly
+  this.getImportAssemblyData = function (assemblyNumber, callback) {
+		tempObj = {
+			assemblyNumber: assemblyNumber,
+			lastAssemblyNumber: 'AS0'
+		}
+    NavigationService.apiCall('Estimate/importAssembly', tempObj, function (data) {
+      callback(data.data);
+    });
+	}
 });    
-myApp.service('enquiryService', function ($http,NavigationService) {
-  
+myApp.service('enquiryService', function ($http, NavigationService) {
+
+  var bulkArray = [];
+
+  //- get enquiry view
   this.getEnquiryData = function (callback) {
     var object = {};
     NavigationService.boxCall('Enquiry/search', function (data) {
@@ -70538,779 +71623,1305 @@ myApp.service('enquiryService', function ($http,NavigationService) {
       object.techReqsActive = true;
       object.CommReqActive = true;
       object.PreQuaCriteriaActive = true;
-      callback(data.data.results, object);
+      callback(data.data, object);
     });
   }
+  //- delete enquiry
   this.deleteEnquiry = function (enquiryId, callback) {
-    NavigationService.delete('Enquiry/delete', { _id: enquiryId }, function (data) {
+    NavigationService.delete('Enquiry/delete', {
+      _id: enquiryId
+    }, function (data) {
       callback(data);
     });
-  } 
+  }
+  //- get data of pagination
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
+    NavigationService.apiCall('Enquiry/search', {
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('Enquiry/search', {
+      keyword: searchKeyword,
+      totalRecords: count,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get page data with show records
+  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
+    NavigationService.apiCall('Enquiry/search', {
+      totalRecords: numberOfRecords,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get data of seach results
+  this.getSearchResult = function (searchKeyword, callback) {
+    NavigationService.apiCall('Enquiry/search', {
+      keyword: searchKeyword
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get details about pagination
+  this.getPaginationDetails = function (pageNumber, count, data, callback) {
+    var obj = {};
+    obj.pageNumber = pageNumber;
+    obj.pageStart = (pageNumber - 1) * count + 1;
+    obj.total = data.total;
+    if (obj.total <= pageNumber * count) {
+      obj.pageEnd = obj.total;
+    } else {
+      obj.pageEnd = pageNumber * count;
+    }
+    obj.numberOfPages = Math.ceil((obj.total) / count);
+    obj.pagesArray = [];
+    for (var i = 0; i < obj.numberOfPages; i++) {
+      obj.pagesArray[i] = i + 1;
+    }
+    obj.count = data.options.count;
+    callback(obj);
+  }
+  //- form an array of bulk Ids
+  this.selectBulkEnquiries = function (checkboxStatus, enquiryId, callback) {
+    if (checkboxStatus == true) {
+      bulkArray.push(enquiryId);
+    } else {
+      _.remove(bulkArray, function (record) {
+        return record == enquiryId;
+      });
+    }
+    callback(bulkArray);
+  }
+  //- form an array of Ids of all enquiries for deletion
+  this.selectAll = function (enquiries, checkboxStatus, callback) {
+    bulkArray = [];
+    if (checkboxStatus == true) {
+      angular.forEach(enquiries,  function (obj) {
+        var enquiryId = obj._id;
+        bulkArray.push(enquiryId);
+      });
+    } 
+    callback(bulkArray);
+  }
+  //- delete bulk enquiries
+  this.deleteBulkEnquiries = function (enquiries, callback) {
+    NavigationService.apiCall('Enquiry/deleteMultipleEnquiry', {idsArray: enquiries}, function (data) {
+      callback();
+    });
+  }
+});
+myApp.service('createOrEditEstimateService', function (NavigationService) {
+
+	var bulkArray = [];
+
+	var processing = {
+		processType: "",
+		processItem: "",
+		rate: "",
+		quantity: {
+			keyValue: {
+				keyVariable: "",
+				keyValue: ""
+			},
+			utilization: "",
+			contengncyOrWastage: "",
+			total: ""
+		},
+		totalCost: "",
+		remarks: ""
+	};
+
+	var addon = {
+		addonType: "",
+		addonItem: "",
+		rate: "",
+		quantity: {
+			supportingVariable: {
+				supportingVariable: "",
+				value: ""
+			},
+			keyValue: {
+				keyVariable: "",
+				keyValue: ""
+			},
+			utilization: "",
+			contengncyOrWastage: "",
+			total: ""
+		},
+		totalCost: "",
+		remarks: ""
+	};
+
+	var extra = {
+		extraItem: "",
+		extraNumber: "",
+		quantity: "",
+		totalCost: "",
+		remarks: ""
+	};
+
+	var part = {
+		partName: "",
+		partNumber: "",
+		shortcut: "",
+		scaleFactor: "",
+		finalCalculation: {
+			materialPrice: "",
+			itemUnitPrice: "",
+			totalCostForQuantity: ""
+		},
+		keyValueCalculations: {
+			perimeter: "",
+			sheetMetalArea: "",
+			surfaceArea: "",
+			weight: ""
+		},
+		sectionCode: "",
+		material: "",
+		size: "",
+		quantity: "",
+		variable: [{}],
+		processing: [_.cloneDeep(processing)],
+		addons: [_.cloneDeep(addon)],
+		extras: [_.cloneDeep(extra)]
+	};
+
+	var subAssembly = {
+		subAssemblyName: "",
+		subAssemblyNumber: "",
+		quantity: "",
+		totalValue: "",
+		keyValueCalculations: {
+			perimeter: "",
+			sheetMetalArea: "",
+			surfaceArea: "",
+			weight: "",
+			numbers: "",
+			hours: ""
+		},
+		subAssemblyParts: [],
+		processing: [_.cloneDeep(processing)],
+		addons: [_.cloneDeep(addon)],
+		extras: [_.cloneDeep(extra)]
+	};
+
+	var assembly = {
+		enquiryId: "",
+		assemblyName: "Assembly 1",
+		assemblyNumber: "AS1",
+		keyValueCalculations: {
+			perimeter: "",
+			sheetMetalArea: "",
+			surfaceArea: "",
+			weight: "",
+			numbers: "",
+			hours: ""
+		},
+		totalWeight: "",
+		materialCost: "",
+		processingCost: "",
+		addonCost: "",
+		extrasCost: "",
+		totalCost: "",
+		estimateId: "",
+		estimateCreatedUser: "",
+		estimateUpdatedUser: "",
+		estimateDetails: {},
+		estimateBoq: {},
+		estimateAttachment: [{
+			file: ""
+		}],
+		subAssemblies: [_.cloneDeep(subAssembly)],
+		processing: [_.cloneDeep(subAssembly)],
+		addons: [_.cloneDeep(subAssembly)],
+		extras: [_.cloneDeep(subAssembly)]
+	};
+
+	var formData = {
+		assembly: {},
+		customMaterial: [_.cloneDeep(customMaterial)],
+	};
+
+	var customMaterial = {
+		basePlate: {
+			thickness: "",
+			freeIssue: "",
+			baseMetal: ""
+		},
+		hardFacingAlloys: [_.cloneDeep(hardFacingAlloy)],
+		mulFact: "",
+		codPerKg: "",
+		codPerMeterSquare: ""
+	};
+
+	var hardFacingAlloy = {
+		thickness: "",
+		alloy: "",
+		codPerKg: "",
+		codPerMeterSquare: ""
+	}
+
+	//- to get customer material data
+	this.getCustomMaterialData = function (callback) {
+		callback(formData.customMaterial);
+	}
+	//-to get current estimate object
+	this.getCurretEstimateObj = function (callback) {
+		callback(formData.assembly);
+	}
+	//- to get esttimate data from api
+	this.getEstimateData = function (draftEstimateId, callback) {
+		// if ($.jStorage.get('estimateObject') != null) {
+		// 	formData.assembly = $.jStorage.get('estimateObject');
+		// 	callback(formData.assembly);
+		// } else {
+		NavigationService.apiCall('DraftEstimate/getOne', {
+			_id: draftEstimateId
+		}, function (data) {
+			if (data.data == "ObjectId Invalid") {
+				callback(data.data);
+			} else {
+				formData.assembly = data.data;
+				callback(data.data);
+			}
+		});
+		// }
+	}
+	//- to set a view of the page
+	this.estimateView = function (estimateView, callback) {
+		getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
+		callback(getEstimateView);
+	}
+	//- to get a view of the page
+	this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
+
+		var getViewData = [];
+
+		if (estimateView == 'assembly') {
+			getViewData = formData.assembly;
+		} else if (estimateView == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			getViewData = formData.assembly.subAssemblies[subAssIndex];
+		} else if (estimateView == 'partDetail') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+		} else if (estimateView == 'editPartItemDetail') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+		} else if (estimateView == 'processing') {
+			if (getLevelName == "assembly") {
+
+				getViewData = formData.assembly.processing;
+			} else if (getLevelName == "subAssembly") {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				getViewData = formData.assembly.subAssemblies[subAssIndex].processing;
+				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
+			} else if (getLevelName == "part") {
+
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var partIndex = this.getPartIndex(subAssIndex, partId);
+				getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing;
+				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
+				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
+			}
+		} else if (estimateView == 'addons') {
+			if (getLevelName == "assembly") {
+				getViewData = formData.assembly.addons;
+			} else if (getLevelName == "subAssembly") {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				getViewData = formData.assembly.subAssemblies[subAssIndex].addons;
+				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
+			} else if (getLevelName == "part") {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var partIndex = this.getPartIndex(subAssIndex, partId);
+				getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons;
+				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
+				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
+			}
+		} else if (estimateView == 'extras') {
+			if (getLevelName == "assembly") {
+				getViewData = formData.assembly.extras;
+			} else if (getLevelName == "subAssembly") {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				getViewData = formData.assembly.subAssemblies[subAssIndex].extras;
+				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
+			} else if (getLevelName == "part") {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var partIndex = this.getPartIndex(subAssIndex, partId);
+				getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras;
+				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
+				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
+			}
+		}
+		callback(getViewData);
+	}
+	//- to save current estimate object
+	this.saveCurrentEstimate = function () {
+		NavigationService.apiCall('DraftEstimate/save', formData.assembly, function (data) {
+			// $.jStorage.deleteKey("estimateObject");
+			callback(data.data);
+		});
+	}
+	//- to save new assebly name
+	this.editAssemblyName = function (estimateName, draftEstimateId, callback) {
+		var tempEstimateObj = {
+			_id: draftEstimateId,
+			assemblyName: estimateName
+		}
+		NavigationService.apiCall('DraftEstimate/save', tempEstimateObj, function (data) {
+			callback(data.data);
+		});
+	}
+	//- to get all assembly numbers
+	this.getAllAssemblyNumbers = function (callback) {
+		NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
+			callback(data.data);
+		});
+	}
+	//- to get subAssembly data 
+	this.getAllSubAssModalData = function (operation, subAssembly, callback) {
+		var subAssDataObj = {}
+
+		if (angular.isDefined(subAssembly)) {
+			subAssDataObj.subAssObj = subAssembly;
+		}
+		if (operation == "save") {
+			subAssDataObj.saveBtn = true;
+			subAssDataObj.editBtn = false;
+		} else if (operation == "update") {
+			subAssDataObj.saveBtn = false;
+			subAssDataObj.editBtn = true;
+		}
+
+		callback(subAssDataObj);
+	}
+	//- to get all subAssembly numbers
+	this.getAllSubAssNumbers = function (callback) {
+		NavigationService.boxCall('EstimateSubAssembly/getAllSubAssNo', function (data) {
+			callback(data.data);
+		});
+	}
+	//- to add a subAssembly
+	this.createSubAssembly = function (subAssObj, callback) {
+		var id = this.getSubAssemblyNumber();
+		var tempSubAssObj = _.cloneDeep(subAssembly);
+		tempSubAssObj.subAssemblyNumber = formData.assembly.assemblyNumber + "SA" + id;
+		tempSubAssObj.subAssemblyName = subAssObj.subAssemblyName;
+		formData.assembly.subAssemblies.push(tempSubAssObj);
+		callback();
+	}
+	//- to delete a subAssembly
+	this.deleteSubAssembly = function (subAssemblyId, callback) {
+		_.remove(formData.assembly.subAssemblies, function (obj) {
+			return obj.subAssemblyNumber == subAssemblyId;
+		});
+		callback();
+	}
+	//- to delete bulk subAssemblies
+	this.deleteMultipleSubAssemblies = function (bulkArray, callback) {
+		angular.forEach(bulkArray,  function (record) {
+			_.remove(formData.assembly.subAssemblies, function (obj) {
+				return record == obj.subAssemblyNumber;
+			});
+		});
+		callback();
+	}
+	//- to get part data 
+	this.getAllPartModalData = function (operation, subAssId, part, callback) {
+		var partDataObj = {}
+
+		if (angular.isDefined(part)) {
+			partDataObj.partObj = part;
+		}
+		if (operation == "save") {
+			partDataObj.saveBtn = true;
+			partDataObj.editBtn = false;
+			partDataObj.subAssId = subAssId;
+		} else if (operation == "update") {
+			partDataObj.saveBtn = false;
+			partDataObj.editBtn = true;
+		}
+		callback(partDataObj)
+	}
+	//- to get all part numbers
+	this.getAllPartNumbers = function (callback) {
+		NavigationService.boxCall('EstimatePart/getAllPartsNo', function (data) {
+			callback(data.data);
+		});
+	}
+	//- to add a part
+	this.createPart = function (partObj, subAssId, callback) {
+		var subAssIndex = this.getSubAssemblyIndex(subAssId);
+		var id = this.getPartNumber(subAssIndex);
+		var tempPartObj = _.cloneDeep(part);
+		tempPartObj.partNumber = subAssId + 'PT' + id;
+		tempPartObj.partName = partObj.partName;
+
+		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(tempPartObj);
+		callback();
+	}
+	//- to delete a part
+	this.deletePart = function (subAssemblyId, partId, callback) {
+		var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+		_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (obj) {
+			return obj.partNumber == partId
+		});
+		callback();
+	}
+	//- to delete bulk parts
+	this.deleteMultipleParts = function (subAssemblyId, bulkArray, callback) {
+		subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+		angular.forEach(bulkArray,  function (record) {
+			_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (obj) {
+				return record == obj.partNumber;
+			});
+		});
+		callback();
+	}
+	//- to add a duplicate part to same subAssembly
+	this.formDuplicatePart = function (subAssId, partData, callback) {
+		var duplicatePart = _.cloneDeep(partData);
+		var subAssIndex = this.getSubAssemblyIndex(subAssId);
+		var partCount = this.getPartNumber(subAssIndex);
+		duplicatePart.partNumber = subAssId + 'PT' + partCount;
+		duplicatePart.partName = this.generatePartName(subAssId).partName;
+		var partIndex = this.getPartIndex(subAssIndex, duplicatePart.partNumber);
+
+		angular.forEach(duplicatePart.processing,  function (obj) {
+			var processingNumber = obj.processingNumber;
+			temp2 = _.split(obj.processingNumber, 'PR');
+			obj.processingNumber = duplicatePart.partNumber + 'PR' + temp2[1];
+		});
+		angular.forEach(duplicatePart.addons,  function (obj) {
+			temp2 = _.split(obj.addonNumber, 'AD');
+			obj.addonNumber = duplicatePart.partNumber + 'AD' + temp2[1];
+		});
+		angular.forEach(duplicatePart.extras,  function (obj) {
+			temp2 = _.split(obj.extraNumber, 'EX');
+			obj.extraNumber = duplicatePart.partNumber + 'EX' + temp2[1];
+		});
+
+		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(duplicatePart);
+		callback();
+	}
+	//- for automatic generation of part name for new addition of part
+	this.generatePartName = function (subAssId) {
+
+		var subAssIndex = this.getSubAssemblyIndex(subAssId);
+		var id = this.getPartNumber(subAssIndex);
+		var obj = {
+			partName: (subAssId + 'PT' + id)
+		};
+		return obj;
+	}
+
+
+	//- to add a processing
+	this.createProcessing = function (processingObj, level, subAssemblyId, partId, callback) {
+
+		var id;
+		if (level == 'assembly') {
+			id = this.getProcessingNumber(level);
+			processingObj.processingNumber = 'AS1' + 'PR' + id;
+			formData.assembly.processing.push(processingObj);
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			id = this.getProcessingNumber(level, subAssIndex);
+			processingObj.processingNumber = subAssemblyId + 'PR' + id;
+			formData.assembly.subAssemblies[subAssIndex].processing.push(processingObj);
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			id = this.getProcessingNumber(level, subAssIndex, partIndex);
+			processingObj.processingNumber = partId + 'PR' + id;
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.push(processingObj)
+		}
+		callback();
+	}
+	//- to delete a processing
+	this.deleteProcessing = function (processingId, level, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			_.remove(formData.assembly.processing, function (obj) {
+				return obj.processingNumber == processingId
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			_.remove(formData.assembly.subAssemblies[subAssIndex].processing, function (obj) {
+				return obj.processingNumber == processingId
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing, function (obj) {
+				return obj.processingNumber == processingId
+			});
+		}
+		callback();
+	}
+	//- to delete bulk processing
+	this.deleteMultipleProcessing = function (level, bulkIds, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.processing, function (obj) {
+					return record == obj.processingNumber;
+				});
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].processing, function (obj) {
+					return record == obj.processingNumber;
+				});
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing, function (obj) {
+					return record == obj.processingNumber;
+				});
+			});
+		}
+		bulkArray = [];
+		callback();
+	}
+
+	//- to add an addon
+	this.createAddon = function (addonObj, level, subAssemblyId, partId, callback) {
+		var id;
+		if (level == 'assembly') {
+			id = this.getAddonNumber(level);
+			addonObj.addonNumber = 'AS1' + 'AD' + id;
+			formData.assembly.addons.push(addonObj);
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			id = this.getAddonNumber(level, subAssIndex);
+			addonObj.addonNumber = subAssemblyId + 'AD' + id;
+			formData.assembly.subAssemblies[subAssIndex].addons.push(addonObj);
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			id = this.getAddonNumber(level, subAssIndex, partIndex);
+			addonObj.addonNumber = partId + 'AD' + id;
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.push(addonObj)
+		}
+		callback();
+	}
+	//- to delete an addon
+	this.deleteAddon = function (addonId, level, subAssemblyId, partId, callback) {
+
+		if (level == 'assembly') {
+			_.remove(formData.assembly.addons, function (obj) {
+				return obj.addonNumber == addonId
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			_.remove(formData.assembly.subAssemblies[subAssIndex].addons, function (obj) {
+				return obj.addonNumber == addonId
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons, function (obj) {
+				return obj.addonNumber == addonId
+			});
+		}
+		callback();
+	}
+	//- to delete bulk addons
+	this.deleteMultipleAddons = function (level, bulkIds, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.addons, function (obj) {
+					return record == obj.addonNumber;
+				});
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].addons, function (obj) {
+					return record == obj.addonNumber;
+				});
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons, function (obj) {
+					return record == obj.addonNumber;
+				});
+			});
+		}
+		bulkArray = [];
+		callback();
+	}
+
+	//- to add an extra
+	this.createExtra = function (extraObj, level, subAssemblyId, partId, callback) {
+		var id;
+		if (level == 'assembly') {
+			id = this.getExtraNumber(level);
+			extraObj.extraNumber = 'AS1' + 'EX' + id;
+			formData.assembly.extras.push(extraObj);
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			id = this.getExtraNumber(level, subAssIndex);
+			extraObj.extraNumber = subAssemblyId + 'EX' + id;
+			formData.assembly.subAssemblies[subAssIndex].extras.push(extraObj);
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			id = this.getExtraNumber(level, subAssIndex, partIndex);
+			extraObj.extraNumber = partId + 'EX' + id;
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.push(extraObj)
+		}
+		callback();
+	}
+	//- to delete an extra
+	this.deleteExtra = function (extraId, level, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			_.remove(formData.assembly.extras, function (obj) {
+				return obj.extraNumber == extraId
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			_.remove(formData.assembly.subAssemblies[subAssIndex].extras, function (obj) {
+				return obj.extraNumber == extraId
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
+				return obj.extraNumber == extraId
+			});
+		}
+		callback();
+	}
+	//- to delete bulk extras
+	this.deleteMultipleExtras = function (level, bulkIds, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.extras, function (obj) {
+					return record == obj.extraNumber;
+				});
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].extras, function (obj) {
+					return record == obj.extraNumber;
+				});
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
+					return record == obj.extraNumber;
+				});
+			});
+		}
+		bulkArray = [];
+		callback();
+	}
+
+	//- to get customer data
+	this.getCustomMaterialModalData = function (operation, customMaterial, callback) {
+		var custMaterialDataObj = {}
+
+		if (angular.isDefined(customMaterial)) {
+			custMaterialDataObj.custMaterialObj = customMaterial;
+		}
+		if (operation == "save") {
+			custMaterialDataObj.saveBtn = true;
+			custMaterialDataObj.editBtn = false;
+		} else if (operation == "update") {
+			custMaterialDataObj.saveBtn = false;
+			custMaterialDataObj.editBtn = true;
+		}
+
+		callback(custMaterialDataObj)
+
+	}
+	//- to save customer material object
+	this.createCustomMaterial = function (customMaterialObj) {
+		// NavigationService.apiCall('/save', customMaterialObj, function (data) {
+		// 	callback(data.data);
+		//});
+	}
+
+	//- to get index of subAssId
+	this.getSubAssemblyIndex = function (subAssId) {
+
+		var subAssIndex = _.findIndex(formData.assembly.subAssemblies, {
+			subAssemblyNumber: subAssId
+		});
+
+		return subAssIndex;
+	}
+	//- to get index of partId
+	this.getPartIndex = function (subAssIndex, partId) {
+
+		var partIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, ['partNumber', partId]);
+		return partIndex;
+	}
+	//- to get index of addonId
+	this.getAddonIndex = function (addonId, subAssIndex, partIndex) {
+		var addonIndex;
+		if (angular.isDefined(subAssIndex)) {
+			if (angular.isDefined(partIndex)) {
+				addonIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons, ['addonNumber', addonId]);
+			} else {
+				addonIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].addons, ['addonNumber', addonId]);
+			}
+		} else {
+			addonIndex = _.findIndex(formData.assembly.addons, ['addonNumber', addonId]);
+		}
+		return addonIndex;
+	}
+
+
+	//- to get subAssembly number for new addition of record
+	this.getSubAssemblyNumber = function () {
+
+		var id;
+		if (formData.assembly.subAssemblies.length == 0) {
+			id = 1;
+		} else {
+			temp = _.last(formData.assembly.subAssemblies).subAssemblyNumber;
+			temp = _.split(temp, 'SA');
+			id = _.toNumber(temp[1]) + 1;
+		}
+
+		return id;
+	}
+	//- to get part number for new addition of record
+	this.getPartNumber = function (subAssIndex) {
+		var id;
+		if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.length == 0) {
+			id = 1;
+		} else {
+			temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts).partNumber;
+			temp = _.split(temp, 'PT');
+			id = _.toNumber(temp[1]) + 1;
+		}
+
+		return id;
+	}
+	//- to get processing number for new addition of record
+	this.getProcessingNumber = function (level, subAssIndex, partIndex) {
+		var id;
+		if (level == 'assembly') {
+			if (formData.assembly.processing.length == 0) {
+				id = 1;
+				return id;
+			} else {
+				temp = _.last(formData.assembly.processing).processingNumber;
+			}
+
+		} else if (level == 'subAssembly') {
+			if (formData.assembly.subAssemblies[subAssIndex].processing.length == 0) {
+				id = 1;
+				return id;
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].processing).processingNumber;
+			}
+
+		} else if (level == 'part') {
+			if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.length == 0) {
+				id = 1;
+				return id;
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing).processingNumber;
+			}
+		}
+
+		temp = _.split(temp, 'PR');
+		id = _.toNumber(temp[1]) + 1;
+
+		return id;
+	}
+	//- to get addon number for new addition of record
+	this.getAddonNumber = function (level, subAssIndex, partIndex) {
+		var id;
+		if (level == 'assembly') {
+			if (formData.assembly.addons.length == 0) {
+				id = 1;
+				return id;
+			} else {
+				temp = _.last(formData.assembly.addons).addonNumber;
+			}
+
+		} else if (level == 'subAssembly') {
+			if (formData.assembly.subAssemblies[subAssIndex].addons.length == 0) {
+				id = 1;
+				return id;
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].addons).addonNumber;
+			}
+
+		} else if (level == 'part') {
+			if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.length == 0) {
+				id = 1;
+				return id;
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons).addonNumber;
+			}
+		}
+
+		temp = _.split(temp, 'AD');
+		id = _.toNumber(temp[1]) + 1;
+
+		return id;
+	}
+	//- to get extra number for new addition of record
+	this.getExtraNumber = function (level, subAssIndex, partIndex) {
+		var id;
+		if (level == 'assembly') {
+			if (formData.assembly.extras.length == 0) {
+				id = 1;
+				return id;
+			} else {
+				temp = _.last(formData.assembly.extras).extraNumber;
+			}
+
+		} else if (level == 'subAssembly') {
+			if (formData.assembly.subAssemblies[subAssIndex].extras.length == 0) {
+				id = 1;
+				return id;
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].extras).extraNumber;
+			}
+
+		} else if (level == 'part') {
+			if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.length == 0) {
+				id = 1;
+				return id;
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras).extraNumber;
+			}
+		}
+
+		temp = _.split(temp, 'EX');
+		id = _.toNumber(temp[1]) + 1;
+
+		return id;
+	}
+
+	//- to import subAssembly
+	this.getImportSubAssemblyData = function (subAssNumber, callback) {
+		temp = _.last(formData.assembly.subAssemblies).subAssemblyNumber;
+		tempObj = {
+			subAssemblyNumber: subAssNumber,
+			lastSubAssemblyNumber: temp
+		}
+		NavigationService.apiCall('EstimateSubAssembly/importSubAssembly', tempObj, function (data) {
+			var subAssObj = data.data.subAssemblyObj;
+			subAssObj.subAssemblyName = subAssObj.subAssemblyNumber;
+			formData.assembly.subAssemblies.push(subAssObj);
+			callback();
+		});
+	}
+	//- to import part
+	this.getImportPartData = function (subAssNumber, partNumber, callback) {
+		var subAssIndex = this.getSubAssemblyIndex(subAssNumber);
+		temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts).partNumber;
+		tempObj = {
+			lastPartNumber: temp,
+			partNumber: partNumber
+		}
+		NavigationService.apiCall('EstimatePart/importPart', tempObj, function (data) {
+			var partObj = data.data.partObj;
+			partObj.partName = partObj.partNumber;
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(partObj);
+			callback();
+		});
+	}
+	//- to import processing
+	this.getImportProcessingData = function (processingId, level, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			if (formData.assembly.processing.length == 0) {
+				temp = 'AS1' + 'PR0';
+			} else {
+				temp = _.last(formData.assembly.processing).processingNumber;
+			}
+			tempObj = {
+				processingNumber: processingId,
+				lastProcessingNumber: temp
+			}
+			NavigationService.apiCall('EstimateProcessing/importProcessing', tempObj, function (data) {
+				formData.assembly.processing.push(data.data);
+			});
+
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			if (formData.assembly.subAssemblies[subAssIndex].processing.length == 0) {
+				temp = subAssemblyId + 'EX0';
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].processing).processingNumber;
+			}
+			tempObj = {
+				processingNumber: processingId,
+				lastProcessingNumber: temp
+			}
+			NavigationService.apiCall('EstimateProcessing/importProcessing', tempObj, function (data) {
+				formData.assembly.subAssemblies[subAssIndex].processing.push(data.data);
+			});
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.length == 0) {
+				temp = partId + 'EX0';
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing).processingNumber;
+			}
+			tempObj = {
+				processingNumber: processingId,
+				lastProcessingNumber: temp
+			}
+			NavigationService.apiCall('EstimateProcessing/importProcessing', tempObj, function (data) {
+				formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.push(data.data)
+			});
+		}
+		callback();
+	}
+	//- to import addon
+	this.getImportAddonData = function (addonId, level, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			if (formData.assembly.addons.length == 0) {
+				temp = 'AS1AD0';
+			} else {
+				temp = _.last(formData.assembly.addons).addonNumber;
+			}
+			tempObj = {
+				addonNumber: addonId,
+				lastAddonNumber: temp
+			}
+			NavigationService.apiCall('EstimateAddons/importAddon', tempObj, function (data) {
+				formData.assembly.addons.push(data.data);
+			});
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			if (formData.assembly.subAssemblies[subAssIndex].addons.length == 0) {
+				temp = subAssemblyId + 'AD0';
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].addons).addonNumber;
+			}
+			tempObj = {
+				addonNumber: addonId,
+				lastAddonNumber: temp
+			}
+			NavigationService.apiCall('EstimateAddons/importAddon', tempObj, function (data) {
+				formData.assembly.subAssemblies[subAssIndex].addons.push(data.data);
+			});
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.length == 0) {
+				temp = partId + 'AD0';
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons).addonNumber;
+			}
+			tempObj = {
+				addonNumber: addonId,
+				lastAddonNumber: temp
+			}
+			NavigationService.apiCall('EstimateAddons/importAddon', tempObj, function (data) {
+				formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.push(data.data)
+			});
+
+		}
+		callback();
+	}
+	//- to import extra
+	this.getImportExtraData = function (extraId, level, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			if (formData.assembly.extras.length == 0) {
+				temp = 'AS1EX0';
+			} else {
+				temp = _.last(formData.assembly.extras).extraNumber;
+			}
+			tempObj = {
+				extraNumber: extraId,
+				lastExtraNumber: temp
+			}
+			NavigationService.apiCall('EstimateExtras/importExtra', tempObj, function (data) {
+				formData.assembly.extras.push(data.data);
+			});
+
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			if (formData.assembly.subAssemblies[subAssIndex].extras.length == 0) {
+				temp = subAssemblyId + 'EX0';
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].extras).extraNumber;
+			}
+			tempObj = {
+				extraNumber: extraId,
+				lastExtraNumber: temp
+			}
+			NavigationService.apiCall('EstimateExtras/importExtra', tempObj, function (data) {
+				formData.assembly.subAssemblies[subAssIndex].extras.push(data.data);
+			});
+
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.length == 0) {
+				temp = partId + 'EX0';
+			} else {
+				temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras).extraNumber;
+			}
+			tempObj = {
+				extraNumber: extraId,
+				lastExtraNumber: temp
+			}
+			NavigationService.apiCall('EstimateExtras/importExtra', tempObj, function (data) {
+				formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.push(data.data)
+			});
+
+		}
+		callback();
+	}
+
+	//- to get numbers of processing/addons/extras present in assembly object
+	this.getAllItemNumbers = function (type, callback) {
+		if (type == "Processing") {
+			NavigationService.boxCall('EstimateProcessing/getAllProcessingsNo', function (data) {
+				callback(data.data);
+			});
+		} else if (type == "Addon") {
+			NavigationService.boxCall('EstimateAddons/getAllAddonsNo', function (data) {
+				callback(data.data);
+			});
+		} else {
+			NavigationService.boxCall('EstimateExtras/getAllExtrasNo', function (data) {
+				callback(data.data);
+			});
+		}
+	}
+	//- form an array of bulk Ids
+	this.selectBulkItems = function (checkboxStatus, itemId, callback) {
+
+		if (checkboxStatus == true) {
+			bulkArray.push(itemId);
+		} else {
+			_.remove(bulkArray, function (record) {
+				return record == itemId;
+			});
+		}
+		callback(bulkArray);
+	}
+	//- form an array of Ids of all items for deletion
+	this.selectAll = function (type, level, itemData, checkboxStatus, subAssId, partId, callback) {
+		bulkArray = [];
+		if (checkboxStatus == true) {
+			if (type == 'processing') {
+				if (level == 'assembly') {
+					angular.forEach(formData.assembly.processing,  function (obj) {
+						bulkArray.push(obj.processingNumber);
+					});
+				} else if (level == 'subAssembly') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].processing,  function (obj) {
+						bulkArray.push(obj.processingNumber);
+					});
+				} else if (level == 'part') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					partIndex = this.getPartIndex(subAssIndex, partId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing,  function (obj) {
+						bulkArray.push(obj.processingNumber);
+					});
+				}
+			} else if (type == 'addons') {
+				if (level == 'assembly') {
+					angular.forEach(formData.assembly.addons,  function (obj) {
+						bulkArray.push(obj.addonNumber);
+					});
+				} else if (level == 'subAssembly') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].addons,  function (obj) {
+						bulkArray.push(obj.addonNumber);
+					});
+				} else if (level == 'part') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					partIndex = this.getPartIndex(subAssIndex, partId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons,  function (obj) {
+						bulkArray.push(obj.addonNumber);
+					});
+				}
+			} else if (type == 'extras') {
+				if (level == 'assembly') {
+					angular.forEach(formData.assembly.extras,  function (obj) {
+						bulkArray.push(obj.extraNumber);
+					});
+				} else if (level == 'subAssembly') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].extras,  function (obj) {
+						bulkArray.push(obj.extraNumber);
+					});
+				} else if (level == 'part') {
+					subAssIndex = this.getSubAssemblyIndex(subAssId);
+					partIndex = this.getPartIndex(subAssIndex, partId);
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras,  function (obj) {
+						bulkArray.push(obj.extraNumber);
+					});
+				}
+			} else if (type == 'subAssembly') {
+				angular.forEach(formData.assembly.subAssemblies,  function (obj) {
+					bulkArray.push(obj.subAssemblyNumber);
+				});
+			} else if (type == 'part') {
+				subAssIndex = this.getSubAssemblyIndex(subAssId);
+				angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts,  function (obj) {
+					bulkArray.push(obj.partNumber);
+				});
+			}
+		}
+		callback(bulkArray);
+	}
+
+});
+myApp.service('estimateService', function (NavigationService) {
+
+  var bulkArray = [];
+  //- get estimate view
+  this.getEstimateData = function (callback) {
+    NavigationService.boxCall('Estimate/search', function (data) {
+      callback(data.data);
+    });
+  }
+  //- get data of pagination
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
+    NavigationService.apiCall('Estimate/search', {
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('Estimate/search', {
+      keyword: searchKeyword,
+      totalRecords: count,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get page data with show records
+  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
+    NavigationService.apiCall('Estimate/search', {
+      totalRecords: numberOfRecords,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get data of seach results
+  this.getSearchResult = function (searchKeyword, callback) {
+    NavigationService.apiCall('Estimate/search', {
+      keyword: searchKeyword
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get details about pagination
+  this.getPaginationDetails = function (pageNumber, count, data, callback) {
+    var obj = {};
+    obj.pageNumber = pageNumber;
+    obj.pageStart = (pageNumber - 1) * count + 1;
+    obj.total = data.total;
+    if (obj.total <= pageNumber * count) {
+      obj.pageEnd = obj.total;
+    } else {
+      obj.pageEnd = pageNumber * count;
+    }
+    obj.numberOfPages = Math.ceil((obj.total) / count);
+    obj.pagesArray = [];
+    for (var i = 0; i < obj.numberOfPages; i++) {
+      obj.pagesArray[i] = i + 1;
+    }
+    obj.count = data.options.count;
+    callback(obj);
+  }
+  //- form an array of bulk Ids
+  this.selectBulkEstimates = function (checkboxStatus, estimateId, callback) {
+    if (checkboxStatus == true) {
+      bulkArray.push(estimateId);
+    } else {
+      _.remove(bulkArray, function (record) {
+        return record == estimateId;
+      });
+    }
+    callback(bulkArray);
+  }
+  //- form an array of Ids of all estimates for deletion
+  this.selectAll = function (estimates, checkboxStatus, callback) {
+    bulkArray = [];
+    if (checkboxStatus == true) {
+      angular.forEach(estimates,  function (obj) {
+        var estimateId = obj._id;
+        bulkArray.push(estimateId);
+      });
+    }
+    callback(bulkArray);
+  }
+  //- delete bulk estimates
+  this.deleteBulkEstimates = function (estimates, callback) {
+    NavigationService.apiCall('Estimate/deleteMultipleEstimates', {idsArray: estimates}, function (data) {
+      callback();
+    });
+  }
+
+});
+
+myApp.service('loginService', function (NavigationService) {
   
-});
-myApp.service('createOrEditEstimateService', function ($http, NavigationService) {
-    
-    this.processing = {
-        processType: "",
-        processItem: "",
-        rate: "",
-        quantity: {
-            keyValue: {
-                keyVariable: "",
-                keyValue: ""
-            },
-            utilization: "",
-            contengncyOrWastage: "",
-            total: ""
-        },
-        totalCost: "",
-        remarks: ""
-    };
-
-    this.addon = {
-        addonType: "",
-        addonItem: "",
-        rate: "",
-        quantity: {
-            supportingVariable: {
-                supportingVariable: "",
-                value: ""
-            },
-            keyValue: {
-                keyVariable: "",
-                keyValue: ""
-            },
-            utilization: "",
-            contengncyOrWastage: "",
-            total: ""
-        },
-        totalCost: "",
-        remarks: ""
-    };
-
-    this.extra = {
-        extraItem: "",
-        extraNumber: "",
-        quantity: "",
-        totalCost: "",
-        remarks: ""
-    };
-
-    this.part = {
-        partName: "Part1",
-        partNumber: "",
-        shortcut: "",
-        scaleFactor: "",
-        finalCalculation: {
-            materialPrice: "",
-            itemUnitPrice: "",
-            totalCostForQuantity: ""
-        },
-        keyValueCalculations: {
-            perimeter: "",
-            sheetMetalArea: "",
-            surfaceArea: "",
-            weight: ""
-        },
-        sectionCode: "",
-        material: "",
-        size: "",
-        quantity: "",
-        variable: [{}],
-        processing: [_.cloneDeep(this.processing)],
-        addons: [_.cloneDeep(this.addon)],
-        extras: [_.cloneDeep(this.extra)]
-    };
-
-    this.subAssembly = {
-        subAssemblyName: "nhjjhgjhggjgjg",
-        subAssemblyNumber: "",
-        quantity: "",
-        totalValue: "",
-        keyValueCalculations: {
-            perimeter: "",
-            sheetMetalArea: "",
-            surfaceArea: "",
-            weight: "",
-            numbers: "",
-            hours: ""
-        },
-        parts: [_.cloneDeep(this.part)],
-        processing: [_.cloneDeep(this.processing)],
-        addons: [_.cloneDeep(this.addon)],
-        extras: [_.cloneDeep(this.extra)]
-    };
-
-    this.assembly = {
-        enquiryId: "",
-        assemblyName: "Assembly 1",
-        assemblyNumber: "AS1",
-        keyValueCalculations: {
-            perimeter: "",
-            sheetMetalArea: "",
-            surfaceArea: "",
-            weight: "",
-            numbers: "",
-            hours: ""
-        },
-        totalWeight: "",
-        materialCost: "",
-        processingCost: "",
-        addonCost: "",
-        extrasCost: "",
-        totalCost: "",
-        estimateId: "",
-        estimateCreatedUser: "",
-        estimateUpdatedUser: "",
-        estimateDetails: {},
-        estimateBoq: {},
-        estimateAttachment: [{
-            file: ""
-        }],
-        subAssemblies: [_.cloneDeep(this.subAssembly)],
-        processing: [{
-            processType: "proAss AS1PR1",
-            processItem: "proItem AS1PR1",
-            processingNumber: "AS1PR1",
-            rate: "",
-            quantity: {
-                keyValue: {
-                    keyVariable: "",
-                    keyValue: ""
-                },
-                utilization: "",
-                contengncyOrWastage: "",
-                total: ""
-            },
-            totalCost: "",
-            remarks: ""
-        }, {
-            processType: "proType AS1PR2",
-            processItem: "proItem AS1PR2",
-            processingNumber: "AS1PR2",
-            rate: "",
-            quantity: {
-                keyValue: {
-                    keyVariable: "",
-                    keyValue: ""
-                },
-                utilization: "",
-                contengncyOrWastage: "",
-                total: ""
-            },
-            totalCost: "",
-            remarks: ""
-        }],
-        addons: [{
-            addonType: "addonAss AS1AD1",
-            addonItem: "addonItem AS1AD1",
-            addonNumber: "AS1AD1",
-            rate: "",
-            quantity: {
-                supportingVariable: {
-                    supportingVariable: "",
-                    value: ""
-                },
-                keyValue: {
-                    keyVariable: "",
-                    keyValue: ""
-                },
-                utilization: "",
-                contengncyOrWastage: "",
-                total: ""
-            },
-            totalCost: "",
-            remarks: ""
-        }, {
-            addonType: "addonAss AS1AD2",
-            addonItem: "addonItem AS1AD2",
-            addonNumber: "AS1AD2",
-            rate: "",
-            quantity: {
-                supportingVariable: {
-                    supportingVariable: "",
-                    value: ""
-                },
-                keyValue: {
-                    keyVariable: "",
-                    keyValue: ""
-                },
-                utilization: "",
-                contengncyOrWastage: "",
-                total: ""
-            },
-            totalCost: "",
-            remarks: ""
-        }],
-        extras: [{
-            extraItem: "extraItem1",
-            extraNumber: "AS1EX1",
-            quantity: "",
-            totalCost: "",
-            remarks: ""
-        }, {
-            extraItem: "extraItem1",
-            extraNumber: "AS1EX2",
-            quantity: "",
-            totalCost: "",
-            remarks: ""
-        }]
-    };
-
-    this.formData = {
-        assembly: this.assembly
-    };
-
-    this.getEstimateData = function (callback) {
-        callback(this.formData);
-    }
-    this.estimateView = function (estimateView, callback) {
-        getEstimateView = "../frontend/views/content/estimate/estimateViews/" + estimateView + ".html";
-        callback(getEstimateView);
-    }
-    this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
-
-        var getViewData = [];
-
-        if (estimateView == 'assembly') {
-            getViewData = this.formData.assembly;            
-        } else if (estimateView == 'subAssembly') {
-            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);                             
-            getViewData = this.formData.assembly.subAssemblies[subAssIndex];
-        } else if (estimateView == 'partDetail') {
-            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
-            var partIndex = this.getPartIndex(subAssIndex, partId);
-            getViewData = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex];
-        } else if (estimateView == 'editPartItemDetail') {
-            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
-            var partIndex = this.getPartIndex(subAssIndex, partId);
-        } else if (estimateView == 'processing') {
-            if(getLevelName == "assembly"){
-                getViewData = this.formData.assembly.processing;
-            }else if(getLevelName == "subAssembly"){
-                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);                 
-                getViewData = this.formData.assembly.subAssemblies[subAssIndex].processing;
-                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
-            }else if(getLevelName == "part"){ 
-                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
-                var partIndex = this.getPartIndex(subAssIndex, partId);
-                getViewData = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing;
-                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
-                getViewData.partId = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].partNumber;
-            }
-        } else if (estimateView == 'addons') {
-            if(getLevelName == "assembly"){
-                getViewData = this.formData.assembly.addons;
-            }else if(getLevelName == "subAssembly"){
-                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);                                 
-                getViewData = this.formData.assembly.subAssemblies[subAssIndex].addons;
-                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;                
-            }else if(getLevelName == "part"){ 
-                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
-                var partIndex = this.getPartIndex(subAssIndex, partId);                
-                getViewData = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons;
-                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
-                getViewData.partId = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].partNumber;
-            }            
-        } else if (estimateView == 'extras') {
-            if(getLevelName == "assembly"){
-                getViewData = this.formData.assembly.extras;
-            }else if(getLevelName == "subAssembly"){
-                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);                                 
-                getViewData = this.formData.assembly.subAssemblies[subAssIndex].extras;
-                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;                
-            }else if(getLevelName == "part"){ 
-                var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);             
-                var partIndex = this.getPartIndex(subAssIndex, partId);                                    
-                getViewData = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras;
-                getViewData.subAssemblyId = this.formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
-                getViewData.partId = this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].partNumber;           
-            }
-        } 
-        callback(getViewData);
-    }
-
-
-    this.getAllSubAssModalData = function (operation, subAssembly, callback) {
-        var subAssDataObj = {}
-
-        if (angular.isDefined(subAssembly)) {
-            subAssDataObj.subAssObj = subAssembly;
+  //search a user in database with usename and password
+  this.verifyUser = function(username, password, callback){
+      NavigationService.apiCall('User/loginUser',{email:username, password:password},function(data){
+          if(data.data == 'ObjectId Invalid' || data.data == 'noDataFound'){
+              data.data = [];
+          }         
+        callback(data.data);
+      });
+  }
+  //seach user with emailId in db
+  this.verifyUserId = function(username, callback){
+      NavigationService.apiCall('User/sendForgetPasswordOtp',{email:username},function(data){   
+        if(data.data == 'userNotFound'){
+              data.data = [];
         }
-        if (operation == "save") {
-            subAssDataObj.saveBtn = true;
-            subAssDataObj.editBtn = false;
-        } else if (operation == "update") {
-            subAssDataObj.saveBtn = false;
-            subAssDataObj.editBtn = true;
-        }
-
-        callback(subAssDataObj);
-
-    }
-    this.createSubAssembly = function (subAssObj, callback) {
-        var id = this.getSubAssemblyNumber();
-        subAssObj.subAssemblyNumber = "AS1SA" + id;
-        this.formData.assembly.subAssemblies.push(subAssObj);
-        callback();
-    }
-    this.deleteSubAssembly = function (subAssemblyId, callback) {        
-        _.remove(this.assembly.subAssemblies, function(obj){
-            return obj.subAssemblyNumber ==  subAssemblyId; 
-        });
-         callback();   
-    }
-
-
-    this.getAllPartModalData = function (operation, subAssId, part, callback) {
-        var partDataObj = {}
-        
-        if (angular.isDefined(part)) {
-            partDataObj.partObj = part;
-        }
-        if (operation == "save") {
-            partDataObj.saveBtn = true;
-            partDataObj.editBtn = false;
-            partDataObj.subAssId = subAssId;            
-        } else if (operation == "update") {
-            partDataObj.saveBtn = false;
-            partDataObj.editBtn = true;
-        }        
-
-        callback(partDataObj)
-
-    }
-    this.createPart = function (partObj, subAssId, callback) {
-        var subAssIndex = this.getSubAssemblyIndex(subAssId);
-        var id = this.getPartNumber(subAssIndex);
-        
-        partObj.partNumber = subAssId + 'PT' + id;
-        this.formData.assembly.subAssemblies[subAssIndex].parts.push(partObj);
-        callback();
-    }
-    this.deletePart = function (subAssemblyId, partId, callback) { 
-        var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-        _.remove(this.assembly.subAssemblies[subAssIndex].parts, function(obj){
-             return obj.partNumber == partId 
-        });        
-        callback();
-    }
-
-    this.createProcessing = function (processingObj, level, subAssemblyId, partId, callback) {
-
-        var id;
-        if (level == 'assembly') {
-            id = this.getProcessingNumber(level);
-            processingObj.processingNumber = 'AS1' + 'PR' + id;
-            this.formData.assembly.processing.push(processingObj);
-        } else if (level == 'subAssembly') {
-            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
-            id = this.getProcessingNumber(level, subAssIndex);
-            processingObj.processingNumber = subAssemblyId + 'PR' + id;
-            this.formData.assembly.subAssemblies[subAssIndex].processing.push(processingObj);
-        } else if (level == 'part') {
-            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
-            var partIndex = this.getPartIndex(subAssIndex, partId);  
-            id = this.getProcessingNumber(level, subAssIndex, partIndex);
-            processingObj.processingNumber = partId + 'PR' + id;
-            this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing.push(processingObj)
-        }
-        callback();
-    }
-    this.deleteProcessing = function (processingId, level, subAssemblyId, partId, callback) {
-        if (level == 'assembly') {
-            _.remove(this.assembly.processing, function(obj){
-                 return obj.processingNumber == processingId 
-                });            
-        } else if (level == 'subAssembly') {
-            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-            _.remove(this.assembly.subAssemblies[subAssIndex].processing, function(obj){
-                return obj.processingNumber == processingId 
-               });            
-        } else if (level == 'part') {
-            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-            partIndex = this.getPartIndex(subAssIndex, partId);
-            _.remove(this.assembly.subAssemblies[subAssIndex].parts[partIndex].processing, function(obj){
-                return obj.processingNumber == processingId 
-               });            
-        }
-        callback();      
-    }
-
-
-    this.createAddon = function (addonObj, level, subAssemblyId, partId, callback) {
-        
-        var id;
-        if (level == 'assembly') {
-            id = this.getAddonNumber(level);
-            addonObj.addonNumber = 'AS1' + 'AD' + id;
-            this.formData.assembly.addons.push(addonObj);
-        } else if (level == 'subAssembly') {
-            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
-            id = this.getAddonNumber(level, subAssIndex);
-            addonObj.addonNumber = subAssemblyId + 'AD' + id;
-            this.formData.assembly.subAssemblies[subAssIndex].addons.push(addonObj);
-        } else if (level == 'part') {
-            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
-            var partIndex = this.getPartIndex(subAssIndex, partId);  
-            id = this.getAddonNumber(level, subAssIndex, partIndex);
-            addonObj.addonNumber = partId + 'AD' + id;
-            this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons.push(addonObj)
-        }
-        callback();
-    }
-    this.deleteAddon = function (addonId, level, subAssemblyId, partId,  callback) {
-        
-        if (level == 'assembly') {
-            _.remove(this.assembly.addons, function(obj){
-                 return obj.addonNumber == addonId 
-                });
-        } else if (level == 'subAssembly') {
-            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-            _.remove(this.assembly.subAssemblies[subAssIndex].addons, function(obj){
-                return obj.addonNumber == addonId 
-               });
-        } else if (level == 'part') {
-            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-            partIndex = this.getPartIndex(subAssIndex, partId);
-            _.remove(this.assembly.subAssemblies[subAssIndex].parts[partIndex].addons, function(obj){
-                return obj.addonNumber == addonId 
-               });
-        }
-        callback();
-    }
-
-
-    this.createExtra = function (extraObj, level, subAssemblyId, partId, callback) {
-        var id;
-        if (level == 'assembly') {
-            id = this.getExtraNumber(level);
-            extraObj.extraNumber = 'AS1' + 'EX' + id;
-            this.formData.assembly.extras.push(extraObj);
-        } else if (level == 'subAssembly') {
-            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
-            id = this.getExtraNumber(level, subAssIndex);
-            extraObj.extraNumber = subAssemblyId + 'EX' + id;
-            this.formData.assembly.subAssemblies[subAssIndex].extras.push(extraObj);
-        } else if (level == 'part') {
-            var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
-            var partIndex = this.getPartIndex(subAssIndex, partId);  
-            id = this.getExtraNumber(level, subAssIndex, partIndex);
-            extraObj.extraNumber = partId + 'EX' + id;
-            this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras.push(extraObj)
-        }
-        callback();
-    }
-    this.deleteExtra = function (extraId, level, subAssemblyId, partId, callback) {
-        if (level == 'assembly') {
-            _.remove(this.assembly.extras, function(obj){
-                return obj.extraNumber == extraId 
-            });
-        } else if (level == 'subAssembly') {
-            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-            _.remove(this.assembly.subAssemblies[subAssIndex].extras, function(obj){
-                return obj.extraNumber == extraId 
-            });
-        } else if (level == 'part') {
-            subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-            partIndex = this.getPartIndex(subAssIndex, partId);
-            _.remove(this.assembly.subAssemblies[subAssIndex].parts[partIndex].extras, function(obj){
-                return obj.extraNumber == extraId 
-            });
-        }
-        callback();
-    }
+          callback(data.data);
+      });
+  }
+  // verify otp gitven by user
+  this.verifyOtp = function(Id, userOtp, callback){
+      NavigationService.apiCall('User/confirmForgotPasswordOtp',{_id:Id, verifyOtp:userOtp},function(data){              
+          callback(data.data);
+      });
+  }
+  // to reset password
+  this.resetPassword = function(id, password, callback){
+      NavigationService.apiCall('User/resetPassword',{_id:id, newPassword:password},function(data){
+          if(data.data == 'ObjectId Invalid'){
+              data.data = [];
+          }
+          callback(data.data);
+      });
+  }
  
-    
-    this.getCustomMaterialModalData = function (operation, customMaterial, callback) {
-        var custMaterialDataObj = {}
-
-        if (angular.isDefined(customMaterial)) {
-            custMaterialDataObj.custMaterialObj = customMaterial;
-        }
-        if (operation == "save") {
-            custMaterialDataObj.saveBtn = true;
-            custMaterialDataObj.editBtn = false;
-        } else if (operation == "update") {
-            custMaterialDataObj.saveBtn = false;
-            custMaterialDataObj.editBtn = true;
-        }
-
-        callback(custMaterialDataObj)
-
-    }
-
-
-    this.getSubAssemblyIndex = function(subAssId){
-        var subAssIndex = _.findIndex(this.formData.assembly.subAssemblies, {
-            subAssemblyNumber: subAssId
-        });
-
-        return subAssIndex;
-    }
-    this.getPartIndex = function(subAssIndex, partId){
-        var partIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].parts, ['partNumber', partId]);
-        return partIndex;
-    }
-    this.getAddonIndex = function(addonId, subAssIndex, partIndex){
-        var addonIndex; 
-        if (angular.isDefined(subAssIndex)) {
-            if (angular.isDefined(partIndex)) {
-                addonIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].parts[partIndex].addons, ['addonNumber', addonId]);                
-            } else {
-                addonIndex = _.findIndex(this.assembly.subAssemblies[subAssIndex].addons, ['addonNumber', addonId]);
-            }
-        } else {
-            addonIndex = _.findIndex(this.assembly.addons, ['addonNumber', addonId]);            
-        }
-        return addonIndex;
-    }
-
-    this.getSubAssemblyNumber = function(){
-        var id;
-        if(this.formData.assembly.subAssemblies.length == 0) {
-            id = 1;            
-        }
-        else {
-            temp = _.last(this.formData.assembly.subAssemblies).subAssemblyNumber; 
-            temp = _.split(temp, 'SA');            
-            id = _.toNumber(temp[1]) + 1;
-        }
-
-        return id;
-    }
-    this.getPartNumber = function(subAssIndex){
-      var id;
-        if(this.formData.assembly.subAssemblies[subAssIndex].parts.length == 0) {
-            id = 1;            
-        }
-        else {
-            temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].parts).partNumber; 
-            temp = _.split(temp, 'PT');            
-            id = _.toNumber(temp[1]) + 1;
-        }
-
-        return id;
-    }
-    this.getProcessingNumber = function(level, subAssIndex, partIndex){
-        var id;
-        if(level == 'assembly'){
-            if(this.formData.assembly.processing.length == 0) {
-                id = 1;            
-                return id;
-            }
-            else {
-                temp = _.last(this.formData.assembly.processing).processingNumber; 
-            }
-    
-        } else if(level == 'subAssembly') {
-            if(this.formData.assembly.subAssemblies[subAssIndex].processing.length == 0) {
-                id = 1;            
-                return id;
-            }
-            else {
-                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].processing).processingNumber; 
-            }
-    
-        } else if(level == 'part') {
-            if(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing.length == 0) {
-                id = 1;            
-                return id;
-            }
-            else {
-                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing).processingNumber; 
-            }
-        }
-        
-        temp = _.split(temp, 'PR');            
-        id = _.toNumber(temp[1]) + 1;
-
-        return id;
-    }
-    this.getAddonNumber = function(level, subAssIndex, partIndex){
-        var id;
-        if(level == 'assembly'){
-            if(this.formData.assembly.addons.length == 0) {
-                id = 1;            
-                return id;
-            }
-            else {
-                temp = _.last(this.formData.assembly.addons).addonNumber; 
-            }
-    
-        } else if(level == 'subAssembly') {
-            if(this.formData.assembly.subAssemblies[subAssIndex].addons.length == 0) {
-                id = 1;            
-                return id;
-            }
-            else {
-                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].addons).addonNumber; 
-            }
-    
-        } else if(level == 'part') {
-            if(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons.length == 0) {
-                id = 1;            
-                return id;
-            }
-            else {
-                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons).addonNumber; 
-            }
-        }
-        
-        temp = _.split(temp, 'AD');            
-        id = _.toNumber(temp[1]) + 1;
-
-        return id;
-    }
-    this.getExtraNumber = function(level, subAssIndex, partIndex){
-        var id;
-        if(level == 'assembly'){
-            if(this.formData.assembly.extras.length == 0) {
-                id = 1;            
-                return id;
-            }
-            else {
-                temp = _.last(this.formData.assembly.extras).extraNumber; 
-            }
-    
-        } else if(level == 'subAssembly') {
-            if(this.formData.assembly.subAssemblies[subAssIndex].extras.length == 0) {
-                id = 1;            
-                return id;
-            }
-            else {
-                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].extras).extraNumber;             }
-                
-        } else if(level == 'part') {
-            if(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras.length == 0) {
-                id = 1;            
-                return id;
-            }
-            else {
-                temp = _.last(this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras).extraNumber;          
-            }
-        }
-        
-        temp = _.split(temp, 'EX');            
-        id = _.toNumber(temp[1]) + 1;
-
-        return id;
-    }
-
-
-    this.getSubAssemblyData = function (subAssId, callback){
-        console.log('**** subAssId ****', subAssId);
-        //tempObj = { subAssemblyNumber: subAssId }  
-        // NavigationService.apiCall('subAssemblies/save', tempObj, function (data) {
-        //     var subAssObj = data.data.results;
-        //     this.formData.assembly.subAssemblies.push(subAssObj);        
-             callback();
-        // });
-    }
-    this.getPartData = function (partId, callback){
-        //tempObj = { partNumber: partId }  
-        // NavigationService.apiCall('parts/save', tempObj, function (data) {
-        //     var partObj = data.data.results;
-            temp = _.split(partId, 'PT');            
-        //     this.formData.assembly.subAssemblies[temp[0]].parts.push(partObj);        
-            console.log('****subAssemblyId, partId ****', temp[0], partId);
-        
-            callback();
-        // });
-    }
-    this.getProcessingData = function (processingId, level, subAssemblyId, partId, callback){
-        console.log('**** inside service ... , processingId, level, subAssemblyId, partId****', processingId, level, subAssemblyId, partId);
-        //tempObj = { processingNumber: processingId }  
-        // NavigationService.apiCall('processing/save', tempObj, function (data) {
-        //     var processingObj = data.data.results;
-            // if (level == 'assembly') {
-            //     this.formData.assembly.processing.push(processingObj);
-            // } else if (level == 'subAssembly') {
-            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
-            //     this.formData.assembly.subAssemblies[subAssIndex].processing.push(processingObj);
-            // } else if (level == 'part') {
-            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
-            //     var partIndex = this.getPartIndex(subAssIndex, partId);  
-            //     this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].processing.push(processingObj)
-            // }
-        //     callback();
-        // });
-    }
-    this.getAddonData = function (addonId, level, subAssemblyId, partId, callback){
-        console.log('**** addonId, level, subAssemblyId, partId ****', addonId, level, subAssemblyId, partId);
-        //tempObj = { addonNumber: addonId }  
-        // NavigationService.apiCall('addons/save', tempObj, function (data) {
-        //     var addonObj = data.data.results;
-            // if (level == 'assembly') {
-            //     this.formData.assembly.addons.push(addonObj);
-            // } else if (level == 'subAssembly') {
-            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
-            //     this.formData.assembly.subAssemblies[subAssIndex].addons.push(addonObj);
-            // } else if (level == 'part') {
-            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
-            //     var partIndex = this.getPartIndex(subAssIndex, partId);  
-            //     this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].addons.push(addonObj)
-            // }
-        //     callback();
-        // });
-    }
-    this.getExtraData = function (extraId, level, subAssemblyId, partId, callback){
-        console.log('**** extraId, level, subAssemblyId, partId ****', extraId, level, subAssemblyId, partId);
-        //tempObj = { extraNumber: extraId }
-        // NavigationService.apiCall('extras/save', tempObj, function (data) {
-        //     var extraObj = data.data.results;
-            // if (level == 'assembly') {
-            //     this.formData.assembly.extras.push(extraObj);
-            // } else if (level == 'subAssembly') {
-            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);            
-            //     this.formData.assembly.subAssemblies[subAssIndex].extras.push(extraObj);
-            // } else if (level == 'part') {
-            //     var subAssIndex = this.getSubAssemblyIndex(subAssemblyId); 
-            //     var partIndex = this.getPartIndex(subAssIndex, partId);  
-            //     this.formData.assembly.subAssemblies[subAssIndex].parts[partIndex].extras.push(extraObj)
-            // }
-        //     callback();
-        // });
-    }
-
 });
-myApp.service('estimateCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
-  $scope.$parent.isSidebarActive = true;
-  //table data
-  $scope.tableData = [{
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-      "pname": "kishori",
-      "did": "1",
-      "bname": "kishori",
-
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-    }
-  ]
-
-
-});
-myApp.controller('loginCtrl', function ($rootScope, $scope, $http, $timeout, $uibModal) {
-    
-});
-myApp.service('baseMatserService', function ($http, NavigationService) {
+myApp.service('baseMatserService', function (NavigationService) {
 
     this.getUomData = function (callback) {
         NavigationService.boxCall('MUom/search', function (data) {
@@ -71452,14 +73063,17 @@ myApp.service('baseMatserService', function ($http, NavigationService) {
         });
     }
 });
-myApp.service('masterAddonService', function ($http, NavigationService) {
+myApp.service('masterAddonService', function (NavigationService) {
 
+  var bulkArray = [];
+
+  //- get master addon view
   this.getAddonData = function (callback) {
     NavigationService.boxCall('MAddonType/search', function (data) {
-      callback(data.data.results);
+      callback(data.data);
     });
   }
-
+  //- get addon modal data
   this.getAddonTypeModalData = function (operation, addonType, callback) {
     // get material cat data
     // get uom data
@@ -71484,73 +73098,253 @@ myApp.service('masterAddonService', function ($http, NavigationService) {
       });
     });
   }
-  this.addOrEditAddonType = function(){
-    
-  }
-
-
-
-});
-myApp.service('masterExtraService', function (  $http, NavigationService, $uibModal) {
-      
-        //- get master extra view
-
-       this.getMasterExtraData = function (callback) {
-    NavigationService.boxCall('MExtra/search', function (data) {
-      var extras = data.data.results;
-      callback(extras);
+  //- add or edit addon
+  this.addOrEditAddonType = function (addonData, callback) {
+    NavigationService.apiCall('MAddonType/save', addonData, function (data) {
+      callback(data.data);
     });
   }
- 
- //get extra modal data
-
- this.getExtraModalData = function (operation, extra, callback) {
-      var extraDataObj = {};
-
-      if (angular.isDefined(extra)) {
-        extraDataObj.extra = extra;
-      }
-      if (operation == "save") {
-        extraDataObj.saveBtn = true;
-        extraDataObj.editBtn = false;
-
-       NavigationService.boxCall('MUom/search', function (data) {
-         extraDataObj.uoms = data.data.results;
-          callback(extraDataObj);
-        });
-
-     } else if (operation == "update") {
-        extraDataObj.saveBtn = false;
-        extraDataObj.editBtn = true;
-
-          NavigationService.boxCall('MUom/search', function (data) {
-         extraDataObj.uoms = data.data.results;
-          callback(extraDataObj);
-          callback(extraDataObj);
-
-        });
-      }
-      
+  //- delete addon
+  this.deleteAddonType = function (addonId, callback) {
+    NavigationService.apiCall('MAddonType/delete', {
+      _id: addonId
+    }, function (data) {
+      callback(data);
+    });
+  }
+  //- get data of pagination
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
+    NavigationService.apiCall('MAddonType/search', {
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('MAddonType/search', {
+      keyword: searchKeyword,
+      totalRecords: count,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get page data with show records
+  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
+    NavigationService.apiCall('MAddonType/search', {
+      totalRecords: numberOfRecords,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get data of seach results 
+  this.getSearchResult = function (searchKeyword, callback) {
+    NavigationService.apiCall('MAddonType/search', {
+      keyword: searchKeyword
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get details about pagination
+  this.getPaginationDetails = function (pageNumber, count, data, callback) {
+    var obj = {};
+    obj.pageNumber = pageNumber;
+    obj.pageStart = (pageNumber - 1) * count + 1;
+    obj.total = data.total;
+    if (obj.total <= pageNumber * count) {
+      obj.pageEnd = obj.total;
+    } else {
+      obj.pageEnd = pageNumber * count;
     }
-
- this.addOrEditExtra = function (extraData, callback) {
-      NavigationService.apiCall('MExtra/save', extraData, function (data) {
-        var extra = data.data.results;
-        callback(extra);
+    obj.numberOfPages = Math.ceil((obj.total) / count);
+    obj.pagesArray = [];
+    for (var i = 0; i < obj.numberOfPages; i++) {
+      obj.pagesArray[i] = i + 1;
+    }
+    obj.count = data.options.count;
+    callback(obj);
+  }
+  //- form an array of bulk Ids
+  this.selectBulkAddons = function (checkboxStatus, addonId, callback) {
+    if (checkboxStatus == true) {
+      bulkArray.push(addonId);
+    } else {
+      _.remove(bulkArray, function (record) {
+        return record == addonId;
       });
     }
-   this.deleteExtra = function(extraId,callback){
-        var deleteExtraObj = {
-            _id:extraId
-        };
-        NavigationService.delete('MExtra/delete',deleteExtraObj, function(data){
-            callback(data);
-        });
+    callback(bulkArray);
+  }
+  //- form an array of Ids of all addons for deletion
+  this.selectAll = function (addons, checkboxStatus, callback) {
+    bulkArray = [];
+    if (checkboxStatus == true) {
+      angular.forEach(addons,  function (obj) {
+        var addonId = obj._id;
+        bulkArray.push(addonId);
+      });
+    } else {
+      bulkArray = [];
+    }
+    callback(bulkArray);
+  }
+  //- delete bulk addons
+  this.deleteBulkAddons = function (addons, callback) {
+    NavigationService.apiCall('MAddonType/deleteMultipleAddonsType', {idsArray: addons}, function (data) {
+      callback();
+    });
+  }
+});
+myApp.service('masterExtraService', function (NavigationService) {
+
+  var bulkArray = [];
+
+  //- get master extra view
+  this.getMasterExtraData = function (callback) {
+    NavigationService.boxCall('MExtra/search', function (data) {
+      callback(data.data);
+    });
+  }
+  //- get extra modal data
+  this.getExtraModalData = function (operation, extra, callback) {
+    var extraDataObj = {};
+
+    if (angular.isDefined(extra)) {
+      extraDataObj.extra = extra;
+    }
+    if (operation == "save") {
+      extraDataObj.saveBtn = true;
+      extraDataObj.editBtn = false;
+
+      NavigationService.boxCall('MUom/search', function (data) {
+        extraDataObj.uoms = data.data.results;
+        callback(extraDataObj);
+      });
+
+    } else if (operation == "update") {
+      extraDataObj.saveBtn = false;
+      extraDataObj.editBtn = true;
+
+      NavigationService.boxCall('MUom/search', function (data) {
+        extraDataObj.uoms = data.data.results;
+        callback(extraDataObj);
+        callback(extraDataObj);
+
+      });
     }
 
-
+  }
+  //- add or edit extra
+  this.addOrEditExtra = function (extraData, callback) {
+    NavigationService.apiCall('MExtra/save', extraData, function (data) {
+      var extra = data.data.results;
+      callback(extra);
+    });
+  }
+  //- delete extra
+  this.deleteExtra = function (extraId, callback) {
+    var deleteExtraObj = {
+      _id: extraId
+    };
+    NavigationService.delete('MExtra/delete', deleteExtraObj, function (data) {
+      callback(data);
+    });
+  }
+  //- get data of pagination
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
+    NavigationService.apiCall('MExtra/search', {
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('MExtra/search', {
+      keyword: searchKeyword,
+      totalRecords: count,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get page data with show records
+  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
+    NavigationService.apiCall('MExtra/search', {
+      totalRecords: numberOfRecords,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get data of seach results  
+  this.getSearchResult = function (searchKeyword, callback) {
+    NavigationService.apiCall('MExtra/search', {
+      keyword: searchKeyword
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get details about pagination
+  this.getPaginationDetails = function (pageNumber, count, data, callback) {
+    var obj = {};
+    obj.pageNumber = pageNumber;
+    obj.pageStart = (pageNumber - 1) * count + 1;
+    obj.total = data.total;
+    if (obj.total <= pageNumber * count) {
+      obj.pageEnd = obj.total;
+    } else {
+      obj.pageEnd = pageNumber * count;
+    }
+    obj.numberOfPages = Math.ceil((obj.total) / count);
+    obj.pagesArray = [];
+    for (var i = 0; i < obj.numberOfPages; i++) {
+      obj.pagesArray[i] = i + 1;
+    }
+    obj.count = data.options.count;
+    callback(obj);
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, searchKeyword, callback) {
+    NavigationService.apiCall('MExtra/search', {
+      keyword: searchKeyword,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- form an array of bulk Ids
+  this.selectBulkUsers = function (checkboxStatus, extraId, callback) {
+    if (checkboxStatus == true) {
+      bulkArray.push(extraId);
+    } else {
+      _.remove(bulkArray, function (record) {
+        return record == extraId;
+      });
+    }
+    callback(bulkArray);
+  }
+  //- form an array of Ids of all extras for deletion
+  this.selectAll = function (extras, checkboxStatus, callback) {
+    bulkArray = [];
+    if (checkboxStatus == true) {
+      angular.forEach(extras,  function (obj) {
+        var extraId = obj._id;
+        bulkArray.push(extraId);
+      });
+    }
+    callback(bulkArray);
+  }
+  //- delete bulk extras
+  this.deleteBulkUsers = function (extras, callback) {
+    NavigationService.apiCall('MExtra/deleteMultipleExtras', {idsArray: extras}, function (data) {
+      callback();
+    });
+  }
 });
-myApp.service('masterMaterialService', function ($http, NavigationService) {
+myApp.service('masterMaterialService', function (NavigationService) {
     //- get master material view
     this.getMaterialView = function (callback) {
         callback();
@@ -71640,8 +73434,8 @@ myApp.service('masterMaterialService', function ($http, NavigationService) {
         }
         callback(materialObj);
     }
-    this.addOrEditMaterial = function (materialData,materialSubCatId, callback) {
-         if (angular.isDefined(materialSubCatId)) {
+    this.addOrEditMaterial = function (materialData, materialSubCatId, callback) {
+        if (angular.isDefined(materialSubCatId)) {
             materialData.materialSubCategory = materialSubCatId;
         }
         NavigationService.apiCall('MMaterial/save', materialData, function (data) {
@@ -71658,25 +73452,111 @@ myApp.service('masterMaterialService', function ($http, NavigationService) {
         });
     }
 
-    this.getSubCatMaterials = function(materialSubCatId,callback){
+    this.getSubCatMaterials = function (materialSubCatId, callback) {
         var matSubCatObj = {
-            subCatId:materialSubCatId
+            subCatId: materialSubCatId
         };
         NavigationService.apiCall('MMaterial/getSubCatMaterials', matSubCatObj, function (data) {
-            callback(data.data.results);
+            callback(data.data);
         });
-    } 
+    }
 
-    this.changeMaterialType = function(materialId, type, callback){
+    this.changeMaterialType = function (type, materialSubCatId, callback) {
         matDataObj = {
-            _id:materialId,
-            type:type
+            matSubCatId: materialSubCatId,
+            type: type
         };
-        NavigationService.apiCall('MMaterial/save', matDataObj, function (data) {
+        // NavigationService.apiCall('MMaterial/save', matDataObj, function (data) {
+        //     callback(data);
+        // });
+        NavigationService.apiCall('MMaterial/updateAllSubCatMatType', matDataObj, function (data) {
             callback(data);
         });
     }
 
+
+      //- get data of pagination
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
+    NavigationService.apiCall('MMaterial/search', {
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('MMaterial/search', {
+      keyword: searchKeyword,
+      totalRecords: count,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get page data with show records
+  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
+    NavigationService.apiCall('MMaterial/search', {
+      totalRecords: numberOfRecords,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get data of seach results
+  this.getSearchResult = function (searchKeyword, callback) {
+    NavigationService.apiCall('MMaterial/search', {
+      keyword: searchKeyword
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get details about pagination
+  this.getPaginationDetails = function (pageNumber, count, data, callback) {
+    var obj = {};
+    obj.pageNumber = pageNumber;
+    obj.pageStart = (pageNumber - 1) * count + 1;
+    obj.total = data.total;
+    if (obj.total <= pageNumber * count) {
+      obj.pageEnd = obj.total;
+    } else {
+      obj.pageEnd = pageNumber * count;
+    }
+    obj.numberOfPages = Math.ceil((obj.total) / count);
+    obj.pagesArray = [];
+    for (var i = 0; i < obj.numberOfPages; i++) {
+      obj.pagesArray[i] = i + 1;
+    }
+    obj.count = data.options.count;
+    callback(obj);
+  }
+//   //- form an array of bulk Ids
+//   this.selectBulkMaterials = function (checkboxStatus, materialId, callback) {
+//     if (checkboxStatus == true) {
+//       bulkArray.push(materialId);
+//     } else {
+//       _.remove(bulkArray, function (record) {
+//         return record == materialId;
+//       });
+//     }
+//     callback(bulkArray);
+//   }
+//   //- form an array of Ids of all materials for deletion
+//   this.selectAll = function(materials, checkboxStatus, callback) {
+//     bulkArray = [];
+//     if (checkboxStatus == true) {
+//       angular.forEach(materials,  function (obj) {
+//         var materialId = obj._id;
+//         bulkArray.push(materialId);
+//       });
+//     } 
+//     callback(bulkArray);
+//   }
+//   //- delete bulk materials
+//   this.deleteBulkMaterials = function (materials, callback) {
+//     NavigationService.apiCall('MMaterial/deleteMultipleMaterials', {idsArray: materials}, function (data) {
+//       callback();
+//     });
+//   }
 });
 myApp.service('masterPartService', function (NavigationService) {
 
@@ -71801,17 +73681,51 @@ myApp.service('masterPartService', function (NavigationService) {
         var obj = {
             _id: partTypeId
         }
+        var partTypeObj = {
+            partType: partTypeId
+        }
         var presetData = {}
+
+        if (operation == "save") {
+            presetData.saveBtn = true;
+            presetData.editBtn = false;
+        } else if (operation == "update") {
+            presetData.saveBtn = false;
+            presetData.editBtn = true;
+        }
+
+
+        NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
+            if (data.data.length == 0) {
+                presetData.selectedShape = null;
+                NavigationService.boxCall('MShape/search', function (sapeData) {
+                    presetData.shapeData = sapeData.data.results;
+                    NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
+                        presetData.partTypeData = partTypeData.data;
+                        callback(presetData);
+                    });
+                });
+            } else {
+                presetData.selectedShape  = data.data[0].shape;
+                NavigationService.boxCall('MShape/search', function (sapeData) {
+                    presetData.shapeData = sapeData.data.results;
+                    NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
+                        presetData.partTypeData = partTypeData.data;
+                        callback(presetData);
+                    });
+                });
+            }   
+        });
+
         // get shape data
         // get part type data
-        NavigationService.boxCall('MShape/search', function (sapeData) {
-            presetData.shapeData = sapeData.data.results;
-            NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
-                presetData.partTypeData = partTypeData.data;
-                callback(presetData);
-            });
-
-        });
+        // NavigationService.boxCall('MShape/search', function (sapeData) {
+        //     presetData.shapeData = sapeData.data.results;
+        //     NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
+        //         presetData.partTypeData = partTypeData.data;
+        //         callback(presetData);
+        //     });
+        // });
 
     }
     this.getPartTypeSizes = function (partTypeId, callback) {
@@ -71821,10 +73735,10 @@ myApp.service('masterPartService', function (NavigationService) {
         var partTypeDataObj = {};
 
         NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
-            if(data.data){
+            if (data.data) {
                 partTypeDataObj.partSizes = data.data;
             }
-            
+
             NavigationService.apiCall('MPartType/getOne', {
                 _id: partTypeId
             }, function (matData) {
@@ -71907,9 +73821,9 @@ myApp.service('masterPartService', function (NavigationService) {
 
 
 
-    
+
 });
-myApp.service('masterProcessService', function ($http, $uibModal, NavigationService) {
+myApp.service('masterProcessService', function (NavigationService) {
 
   //- to get master process tree structure data
   this.getProcessData = function (callback) {
@@ -72050,8 +73964,92 @@ myApp.service('masterProcessService', function ($http, $uibModal, NavigationServ
     });
   }
 
+  //- get data of pagination
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
+    NavigationService.apiCall('MProcessType/search', {
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('MProcessType/search', {
+      keyword: searchKeyword,
+      totalRecords: count,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get page data with show records
+  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
+    NavigationService.apiCall('MProcessType/search', {
+      totalRecords: numberOfRecords,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get data of seach results
+  this.getSearchResult = function (searchKeyword, callback) {
+    NavigationService.apiCall('MProcessType/search', {
+      keyword: searchKeyword
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get details about pagination
+  this.getPaginationDetails = function (pageNumber, count, data, callback) {
+    var obj = {};
+    obj.pageNumber = pageNumber;
+    obj.pageStart = (pageNumber - 1) * count + 1;
+    obj.total = data.total;
+    if (obj.total <= pageNumber * count) {
+      obj.pageEnd = obj.total;
+    } else {
+      obj.pageEnd = pageNumber * count;
+    }
+    obj.numberOfPages = Math.ceil((obj.total) / count);
+    obj.pagesArray = [];
+    for (var i = 0; i < obj.numberOfPages; i++) {
+      obj.pagesArray[i] = i + 1;
+    }
+    obj.count = data.options.count;
+    callback(obj);
+  }
+
+  //- form an array of bulk Ids
+  this.selectBulkProcesses = function (checkboxStatus, processId, callback) {
+    if (checkboxStatus == true) {
+      bulkArray.push(processId);
+    } else {
+      _.remove(bulkArray, function (record) {
+        return record == processId;
+      });
+    }
+    callback(bulkArray);
+  }
+  //- form an array of Ids of all processes for deletion
+  this.selectAll = function (processes, checkboxStatus, callback) {
+    bulkArray = [];
+    if (checkboxStatus == true) {
+      angular.forEach(processes,  function (obj) {
+        var processId = obj._id;
+        bulkArray.push(processId);
+      });
+    } 
+    callback(bulkArray);
+  }
+  //- delete bulk processes
+  this.deleteBulkProcesses = function (processes, callback) {
+    NavigationService.apiCall('MProcessType/deleteMultipleProcessType', {idsArray: processes}, function (data) {
+      callback();
+    });
+  }
+
 });
-myApp.service('masterShapeService', function ($http, $timeout, $uibModal, NavigationService) {
+myApp.service('masterShapeService', function (NavigationService) {
 
     this.variableData = [{
         'varName': 'a'
@@ -72144,13 +74142,14 @@ myApp.service('masterShapeService', function ($http, $timeout, $uibModal, Naviga
 });
 myApp.service('userService', function ($http, $uibModal, NavigationService) {
 
+  var bulkArray = [];
+  //- get user view
   this.getUserData = function (callback) {
     NavigationService.boxCall('User/search', function (data) {
-      var users = data.data.results;
-      callback(users);
+      callback(data.data);
     });
   }
-
+  //- get user modal data
   this.getUserModalData = function (operation, user, callback) {
     var userDataObj = {};
 
@@ -72166,21 +74165,156 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
     }
     callback(userDataObj);
   }
-
+  //- add or edit user
   this.addOrEditUser = function (userData, callback) {
-    NavigationService.apiCall('User/save', userData, function (data) {
-      var user = data.data.results[0];
-      user.dob = new Date(user.dob);
-      callback(user);
+    NavigationService.apiCall('User/createUser', userData, function (data) {
+      callback();
+    });
+  }
+  //- delete user
+  this.deleteUser = function (userId, callback) {
+    var deleteUserObj = {
+      _id: userId
+    };
+    NavigationService.delete('User/delete', deleteUserObj, function (data) {
+      callback(data);
+    });
+  }
+  //- get data of pagination
+  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
+    NavigationService.apiCall('User/search', {
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get pagination data with search-keyword
+  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('User/search', {
+      keyword: searchKeyword,
+      totalRecords: count,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get page data with show records
+  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
+    NavigationService.apiCall('User/search', {
+      totalRecords: numberOfRecords,
+      page: pageNumber
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get data of seach results
+  this.getSearchResult = function (searchKeyword, callback) {
+    NavigationService.apiCall('User/search', {
+      keyword: searchKeyword
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  //- get details about pagination
+  this.getPaginationDetails = function (pageNumber, count, data, callback) {
+    var obj = {};
+    obj.pageNumber = pageNumber;
+    obj.pageStart = (pageNumber - 1) * count + 1;
+    obj.total = data.total;
+    if (obj.total <= pageNumber * count) {
+      obj.pageEnd = obj.total;
+    } else {
+      obj.pageEnd = pageNumber * count;
+    }
+    obj.numberOfPages = Math.ceil((obj.total) / count);
+    obj.pagesArray = [];
+    for (var i = 0; i < obj.numberOfPages; i++) {
+      obj.pagesArray[i] = i + 1;
+    }
+    obj.count = data.options.count;
+    callback(obj);
+  }
+  //- form an array of bulk Ids
+  this.selectBulkUsers = function (checkboxStatus, userId, callback) {
+    if (checkboxStatus == true) {
+      bulkArray.push(userId);
+    } else {
+      _.remove(bulkArray, function (record) {
+        return record == userId;
+      });
+    }
+    callback(bulkArray);
+  }
+  //- form an array of Ids of all users for deletion
+  this.selectAll = function(users, checkboxStatus, callback) {
+    bulkArray = [];
+    if (checkboxStatus == true) {
+      angular.forEach(users,  function (obj) {
+        var userId = obj._id;
+        bulkArray.push(userId);
+      });
+    } 
+    callback(bulkArray);
+  }
+  //- delete bulk users
+  this.deleteBulkUsers = function (users, callback) {
+    NavigationService.apiCall('User/deleteMultipleUsers', {idsArray: users}, function (data) {
+      callback();
     });
   }
 
-    this.deleteUser= function(userId,callback){
-        var deleteUserObj = {
-            _id:userId
-        };
-        NavigationService.delete('User/delete',deleteUserObj, function(data){
-            callback(data);
+});
+myApp.service('roleService', function ($http, $uibModal, NavigationService) {
+    
+    this.getRoleModalData = function(operation, role) {
+        
+    }
+    });
+myApp.service('userProfileService', function (NavigationService, $http) {
+
+    //to get data of current user
+    this.getProfileData = function (id, callback) {
+        NavigationService.apiCall('User/getOne', {
+            _id: id
+        }, function (data) {
+            callback(data.data);
+        });
+    }
+    //to update any user's profile data
+    this.updateProfile = function (userData, callback) {
+        NavigationService.apiCall('User/save', userData, function (data) {
+            callback(data.data);
+        });
+    }
+    // this.updateProfilePhoto = function (file, callback) {
+    //     debugger;
+    //     console.log('****file in service..... ****', file);
+    //     var fd = new FormData();
+    //     fd.append('file', file);
+
+    //     $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
+    //             transformRequest: angular.identity,
+    //             headers: {
+    //                 'Content-Type': undefined
+    //             }
+    //         })
+    //         .then(function () {
+    //             console.log('**** inside its working of userProfileService.js ****');
+    //         });
+
+
+    // }
+    // to reset password
+    this.changePassword = function (id, currentpassword, newPassword, callback) {
+        NavigationService.apiCall('User/changePassword', {
+            _id: id,
+            password: currentpassword,
+            newPassword: newPassword
+        }, function (data) {
+            if (data.data == 'noDataFound' || data.data == 'password not matching') {
+                data.data = [];
+            }
+            callback(data.data);
         });
     }
 

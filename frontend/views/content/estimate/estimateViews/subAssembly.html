@@ -63,7 +63,7 @@
           <div class="portlet-title">
             <div class="row">
               <div class="col-md-3">
-                <label> Name:</label> {{estimateViewData.subAssemblyName}}
+                <label> Name:</label> {{estimateViewData.subAssemblyName | capitalize}}
               </div>
               <div class="col-md-3">
                 <label> Id:</label> 5790
@@ -81,19 +81,19 @@
                         <span></span>
                       </label>
                     </th>
-                    <th rowspan="2" class="align-top"> Id </th>
-                    <th rowspan="2" class="align-top"> Icon</th>
-                    <th rowspan="2" class="align-top"> Part Name </th>
-                    <th rowspan="2" class="align-top">Quantity </th>
-                    <th colspan="6" class="text-center" class="align-top"> Per item detail </th>
-                    <th colspan="2" class="align-top text-center"> Total</th>
-                    <th rowspan="2" class="align-top"> Action </th>
+                    <th rowspan="2" class="align-left"> Id </th>
+                    <th rowspan="2" class="align-left"> Icon</th>
+                    <th rowspan="2" class="align-left"> Part Name </th>
+                    <th rowspan="2" class="align-left">Quantity </th>
+                    <th colspan="6" class="text-center" class="align-top"> Per Item Detail </th>
+                    <th colspan="2" class="align-left text-center"> Total</th>
+                    <th rowspan="2" class="align-left"> Action </th>
                   </tr>
                   <tr>
                     <th>Weight</th>
                     <th>Material Cost</th>
                     <th>Processing Cost</th>
-                    <th>Address Cost</th>
+                    <th>Addon Cost</th>
                     <th>Extra Cost</th>
                     <th>Total Cost</th>
                     <th>Weight</th>
@@ -101,7 +101,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="p in estimateViewData.subAssemblyParts | filter : search">
+                  <tr ng-repeat="p in estimateViewData.subAssemblyParts track by $index">
                     <td>
                       <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                         <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-checked='checkAll'
@@ -109,16 +109,16 @@
                         <span></span>
                       </label>
                     </td>
-                    <td> 1 </td>
+                    <td> {{$index + 1}} </td>
                     <td> 2 </td>
-                    <td> {{p.partName}} </td>
+                    <td> {{p.partName | capitalize}} </td>
                     <td>24 </td>
-                    <td>400 </td>
-                    <td>500 </td>
-                    <td> 600 </td>
-                    <td> 900</td>
-                    <td> 300</td>
-                    <td> </td>
+                    <td> {{p.keyValueCalculations.weight}} </td>
+                    <td> {{p.finalCalculation.materialPrice}} </td>
+                    <td> {{p.processingCost}} </td>
+                    <td> {{p.addonCost}} </td>
+                    <td> {{p.extrasCost}} </td>
+                    <td> {{p.totalCost}}</td>
                     <td> 30 </td>
                     <td> 50 </td>
                     <td class="edit-icon">

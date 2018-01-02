@@ -1,10 +1,11 @@
-myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, masterShapeService) {
+myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterShapeService) {
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = false;
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
     $scope.shapeVariables = [];
+    $scope.disableField = false;
 
     // *************************** default functions begin here  ********************** //
     //- get data to generate material tree structure dynamically 
@@ -40,7 +41,6 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
         //     $scope.formData.icon = {};
         //     $scope.formData.icon.file = "";
         // }
-        // debugger;
         
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
             $scope.shapeView = 'views/content/master/shape/tempView.html';
@@ -48,12 +48,13 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
             $scope.variablesData = data.shapeVariables;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
+            $scope.disableField = data.disableField;
         });
     }
     $scope.createOrEditShape = function (shape, shapeVariables) {
         shape.variable = shapeVariables;
         masterShapeService.createOrEditShape(shape, function (data) {
-            $scope.operationStatus = "Shape added successfully";
+            toastr.success('Shape added/updated successfully');
             $scope.getShapeData();
         });
     }
@@ -70,7 +71,12 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
     }
     $scope.deleteShape = function (shapeId) {
         masterShapeService.deleteShape(shapeId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+                }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getShapeData();
         });
@@ -92,7 +98,7 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
-    };
+    }
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 

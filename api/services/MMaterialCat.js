@@ -9,7 +9,7 @@ var schema = new Schema({
         index: true
     }],
 });
-    
+
 schema.plugin(deepPopulate, {});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
@@ -18,8 +18,8 @@ module.exports = mongoose.model('MMaterialCat', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
+    //-Get all material structure by deep populating sub category and subCat's materials.
     getMaterialStructure: function (data, callback) {
-        // please remove .js from following line & this comment as well
         MMaterialCat.find()
             .deepPopulate('subCat subCat.materials')
             .exec(function (err, found) {
@@ -27,7 +27,7 @@ var model = {
                     console.log('**** error at getMaterialStructure of MMaterialCat.js ****', err);
                     callback(err, null);
                 } else if (_.isEmpty(found)) {
-                    callback(null, 'noDataFound');
+                    callback(null, []);
                 } else {
                     callback(null, found);
                 }

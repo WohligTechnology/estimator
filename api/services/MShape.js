@@ -52,6 +52,8 @@ module.exports = mongoose.model('MShape', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'variable', 'variable'));
 var model = {
+
+    //-Get all MShape data from MShape table.
     getMShapeData: function (data, callback) {
         MShape.find().lean().exec(function (err, found) {
             if (err) {
@@ -63,6 +65,36 @@ var model = {
                 callback(null, found);
             }
         });
+    },
+    //- check the data dependency of MShape record and disable it from frontend accordingly.
+    restrictShapeVariable: function (data, callback) {
+        allDependency = [];
+        async.eachSeries(data.idsArray, function (ids, callback) {
+                MPartPresets.findOne({
+                    shape: ids
+                }).select('_id').lean().exec(function (err, found) {
+                    if (err) {
+                        console.log('**** error at delRestrictions ****', err);
+                        callback(err,null);
+                    } else if (found == null) {
+                         callback (null,[]);
+                    } else {
+                        allDependency.push({
+                            model: 'MPartPresets',
+                            fieldName: 'shape',
+                        });
+
+                        callback();
+                    }
+                });
+            },
+            function (err) {
+                if (err) {
+                    console.log('***** error at final response of async.eachSeries in function_name of MMaterial.js*****', err);
+                } else {
+                    callback(null, allDependency);
+                }
+            });
     },
 };
 module.exports = _.assign(module.exports, exports, model);

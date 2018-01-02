@@ -10,19 +10,21 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form  class="form-horizontal">
+                <form  class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-5 control-label">Process Category Name:</label>
+                            <label class="col-md-5 control-label">Process Category Name:<span class="error">&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.processCatName" autofocus>
+                                <input type="text" class="form-control" ng-model="formData.processCatName"required autofocus>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-5 control-label"> UOM:</label>
+                            <label class="col-md-5 control-label"> UOM: <span class="error">&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
                                   <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
-                                    ng-model="selectedUom">
+                                    ng-model= "selectedUom" required>
                                 </select>
                             </div>
                         </div>
@@ -30,7 +32,7 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessCat(formData,selectedUom._id)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessCat(formData,selectedUom._id)" ng-disabled ="myForm.$dirty && myForm.$invalid || myForm.$pristine">Save</button>
                                   <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditProcessCat(formData,selectedUom._id)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                             </div>

@@ -4,12 +4,12 @@ var schema = new Schema({
         // required: true
     },
     enquiryId: {
-        type: Number, // auto geneatated with suffix
-        required: true
+        //type: Number, // auto geneatated with suffix
+        //required: true
     },
     customerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'customer',
+        ref: 'Customer',
         //required: true
     },
     enquiryDetails: {
@@ -53,33 +53,40 @@ var schema = new Schema({
             type: Date
         },
         customerContacts: {
+            type: Number
+        },
+        customerName: {
             type: String
         },
+        customerLocation: {
+            type: String
+        },
+
         // salesman: {
         //     type: mongoose.Schema.Types.ObjectId,
         //     ref: 'MMaterialCat'
         // },
-        // estimator: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: 'MMaterialCat'
-        // },
-        // enquiryType: {
-        //     type: String,
-        //     enum: ['firmRfq', 'budgetary', 'verbal', 'other']
-        // }
+        estimator: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        enquiryType: {
+            type: String,
+            enum: ['firmRfq', 'budgetary', 'verbal', 'other']
+        }
     },
     enquiryInfo: {
         rfqCopy: [{
-            file: String
+            type: String
         }],
         drawings: [{
-            file: String
+            type: String
         }],
         photos: [{
-            file: String
+            type: String
         }],
         otherDocs: [{
-            file: String
+            type: String
         }],
         technicalFeedback: {
             type: String
@@ -93,7 +100,7 @@ var schema = new Schema({
     },
     keyRequirement: {
         ndaAgreement: [{
-            file: String
+            type: String
         }],
     },
     technicalRequirement: {
@@ -104,7 +111,7 @@ var schema = new Schema({
     },
     commercialRequirement: {
         warrantyRequired: String,
-        // paymentTerms:String,     // get it from customer collection
+        paymentTerms: String, // get it from customer collection
         retentionTerms: String,
         ldOrPenalties: String,
         securityDeposit: String,
@@ -124,13 +131,21 @@ var schema = new Schema({
 
 });
 
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+    populate: {
+        'customerId': {
+            select: 'customerName location paymentTerms _id'
+        }
+    }
+});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Enquiry', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'customerId', 'customerId'));
 var model = {
+
+    //-retrieve count of  hold enquiries from enquiry table on the basis of enquiry status as "hold".
     totalHoldsEnquiries: function (data, callback) {
         Enquiry.find({
             enquiryDetails: {
@@ -149,7 +164,8 @@ var model = {
         });
     },
 
-    totalOpenEnuieries: function (data, callback) {
+    //-retrieve count of open enquiries from enquiry table on the basis of enquiry status as "open".
+    totalOpenEnquiries: function (data, callback) {
         Enquiry.find({
             enquiryDetails: {
                 enquiryStatus: "open"
@@ -168,6 +184,7 @@ var model = {
 
     },
 
+    //-retrieve total count of closed enquiries from enquiry table on the basis of enquiry status as "close".
     totalCloseEnquiries: function (data, callback) {
         Enquiry.find({
             enquiryDetails: {
@@ -187,6 +204,7 @@ var model = {
 
     },
 
+    //-retrieve total enquiry status count from enquiry table on the basis of enquiry status.
     getStatusCount: function (data, callback) {
         Enquiry.find({
             enquiryDetails: {
@@ -206,6 +224,7 @@ var model = {
         });
     },
 
+    //-retrieve total enquiry status count for all status at same time in bulk from enquiry table.
     getStatusCountInBulk: function (data, callback) {
         Enquiry.find({}).exec(function (err, found) {
             if (err) {
@@ -220,12 +239,11 @@ var model = {
         });
     },
 
+    //-create the new enquiry by admin 
     createEnquiry: function (data, callback) {
-
         Enquiry.findOne().sort({
             createdAt: -1
         }).exec(function (err, found) {
-            console.log('**** inside function_name of Enquiry.js ****', found);
             if (err) {
                 console.log('**** error at function_name of Enquiry.js ****', err);
                 callback(err, null);
@@ -234,10 +252,6 @@ var model = {
             } else {
                 data.enquiryId = found.enquiryId + 1;
             }
-
-            console.log('**** inside &&&&&&&&&&&&& of Enquiry.js ****', data);
-
-
             Enquiry.saveData(data, function (err, savedData) {
                 if (err) {
                     console.log('**** error at function_name of Enquiry.js ****', err);
@@ -251,6 +265,7 @@ var model = {
         });
     },
 
+    //-retrieve total enquiry records from enqury table.
     getEnquiryData: function (data, callback) {
         Enquiry.find().lean().exec(function (err, found) {
             if (err) {
@@ -264,6 +279,7 @@ var model = {
         });
     },
 
+    //- search the records by passing enquiry name with pagination.
     search: function (data, callback) {
         var maxRow = 10;
         if (data.totalRecords) {
@@ -290,22 +306,45 @@ var model = {
         };
         Enquiry.find({}).sort({
                 createdAt: -1
-            })
+            }).lean()
             .order(options)
             .keyword(options)
             .page(options,
                 function (err, found) {
+                    console.log('****@@@@@@@@@@ ****', found.results);
                     if (err) {
                         console.log('**** error at search of Enquiry.js ****', err);
                         callback(err, null);
                     } else if (_.isEmpty(found)) {
-                        callback(null, 'noDataFound');
+                        callback(null, []);
                     } else {
-                        callback(null, found);
+                        var index = 0;
+                        async.eachSeries(found.results, function (enquiryObj, callback) {
+                                UserId = enquiryObj.enquiryDetails.estimator
+                                User.find({
+                                    _id: enquiryObj.enquiryDetails.estimator
+                                }).lean().select('name').exec(function (err, foundEnquiryDetailsEstimator) {
+                                    if (err) {
+                                        console.log('**** error at rate uom of MProcessType.js ****', err);
+                                    } else {
+                                        found.results[index].enquiryDetails.estimator = foundEnquiryDetailsEstimator;
+                                        index++;
+                                        callback();
+                                    }
+                                });
+                            },
+                            function (err) {
+                                if (err) {
+                                    console.log('***** error at final response of async.eachSeries in function_name of MProcessType.js*****', err);
+                                } else {
+                                    callback(null, found);
+                                }
+                            });
                     }
                 });
     },
 
+    //-get estimate version data by passing enquiry id.
     getEstimateVersionData: function (data, callback) {
         Enquiry.findOne({
             _id: data._id
@@ -333,6 +372,8 @@ var model = {
             }
         });
     },
+
+    //-delete multiple enquiries from enquiry table by passing multiple enquiry ids.
     deleteMultipleEnquiry: function (data, callback) {
         Enquiry.remove({
             _id: {
@@ -349,6 +390,75 @@ var model = {
             }
         });
     },
-};
 
+    // what this function will do ?
+    // req data --> ?
+    getOne: function (data, callback) {
+        console.log('**** inside &&&&&&&&&&&&&&&&&& of Enquiry.js ****', data);
+        Enquiry.findOne({
+            _id: data._id
+        }).populate('customerId').exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, {});
+            } else {
+
+                User.findOne({
+                    _id: found.enquiryDetails.estimator
+                }).exec(function (err, getOneUser) {
+                    if (err) {
+                        console.log('**** error at function_name of Enquiry.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(getOneUser)) {
+                        callback(null, {});
+                    } else {
+                        found.enquiryDetails.estimator = getOneUser;
+                        callback(null, found);
+                    }
+                });
+
+                // callback(null, found);
+            }
+        });
+
+    },
+
+    // what this function will do ?
+    // req data --> ?
+    getAllEnquiryUsers: function (data, callback) {
+        Enquiry.find().lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Enquiry.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                var index = 0;
+                async.eachSeries(found, function (enquiryObj, callback) {
+                        User.find({
+                            _id: enquiryObj.enquiryDetails.estimator
+                        }).lean().select('name').exec(function (err, foundEnquiryDetailsEstimator) {
+                            if (err) {
+                                console.log('**** error at rate uom of MProcessType.js ****', err);
+                            } else {
+                                found[index].enquiryDetails.estimator = foundEnquiryDetailsEstimator;
+                                index++;
+                                callback();
+                            }
+                        });
+
+                    },
+                    function (err) {
+                        if (err) {
+                            console.log('***** error at final response of async.eachSeries in function_name of MProcessType.js*****', err);
+                        } else {
+                            callback(null, found);
+                        }
+                    });
+            }
+        });
+    },
+};
 module.exports = _.assign(module.exports, exports, model);

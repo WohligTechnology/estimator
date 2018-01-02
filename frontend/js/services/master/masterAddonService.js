@@ -41,43 +41,18 @@ myApp.service('masterAddonService', function (NavigationService) {
   }
   //- delete addon
   this.deleteAddonType = function (addonId, callback) {
-    NavigationService.apiCall('MAddonType/delete', {
-      _id: addonId
-    }, function (data) {
+    idsArray = [];
+    idsArray.push(addonId);
+    NavigationService.apiCall('Web/delRestrictions/MAddonType', {idsArray}, function (data) {
       callback(data);
     });
   }
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('MAddonType/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('MAddonType/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('MAddonType/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results 
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('MAddonType/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -127,8 +102,8 @@ myApp.service('masterAddonService', function (NavigationService) {
   }
   //- delete bulk addons
   this.deleteBulkAddons = function (addons, callback) {
-    NavigationService.apiCall('MAddonType/deleteMultipleAddonsType', {idsArray: addons}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/MAddonType', {idsArray: addons}, function (data) {
+      callback(data);
     });
   }
 });

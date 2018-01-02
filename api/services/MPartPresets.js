@@ -52,6 +52,9 @@ schema.plugin(deepPopulate, {
     populate: {
         material: {
             select: "_id materialSubCategory materialName"
+        },
+        shape:{
+            select: ""
         }
     }
 });
@@ -62,6 +65,7 @@ module.exports = mongoose.model('MPartPresets', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'shape partType', 'shape partType'));
 var model = {
 
+    //-Get All Part Types and Shapes by passing partTypeId from MPartPresets table.
     getPresetSizes: function (data, callback) {
         MPartPresets.find({
             partType: data.partType
@@ -78,7 +82,7 @@ var model = {
     },
 
     getPresetMaterials: function (data, callback) {
-        MPartPresets.find({
+        MPartPresets.findOne({
                 _id: data._id
             }).deepPopulate('material')
             .select("material")
@@ -100,7 +104,6 @@ var model = {
         MPartPresets.findOneAndUpdate({
             _id: data.id
         }, {
-            // to push multiple objects in an arrayOfObjects_name
             $addToSet: {
                 material: data.materialId
             },
@@ -116,13 +119,14 @@ var model = {
         });
     },
 
-    //- to delete materials from material array 
+    //-to delete materials from material array 
     updateMaterial: function (data, callback) {
 
     },
-    
+
+    //-Get all part presets records from MPartPresets table
     getMPartPresetData: function (data, callback) {
-        MPartPresets.find().lean().exec(function (err, found) {
+        MPartPresets.find().deepPopulate('shape partType partType.material').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of MPartPresets.js ****', err);
                 callback(err, null);
@@ -149,8 +153,8 @@ var model = {
         });
     },
 
-    // retrieve all MPartPresets Records
-    // req data --> _id or mPartType_id and sizes
+    //- retrieve all MPartPresets Records
+    //- req data --> _id or mPartType_id and sizes
     getAllPartPresetsData: function (data, callback) {
         MPartPresets.findOne({
             _id: data._id
@@ -160,8 +164,8 @@ var model = {
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 MPartPresets.findOne({
-                    partType:data.partType,
-                    size:data.size
+                    partType: data.partType,
+                    size: data.size
                 }).deepPopulate('shape partType partType.material').lean().exec(function (err, found) {
                     if (err) {
                         console.log('**** error at function_name of MPartPresets.js ****', err);
@@ -176,7 +180,7 @@ var model = {
                 callback(null, found);
             }
         });
-    },
+    }
 
 };
 module.exports = _.assign(module.exports, exports, model);

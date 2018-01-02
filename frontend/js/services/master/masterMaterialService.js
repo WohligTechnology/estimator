@@ -1,5 +1,6 @@
 myApp.service('masterMaterialService', function (NavigationService) {
-    //- get master material view
+    
+    var bulkArray = []; //- get master material view
     this.getMaterialView = function (callback) {
         callback();
     }
@@ -31,11 +32,9 @@ myApp.service('masterMaterialService', function (NavigationService) {
         });
     }
     this.deleteMaterialCat = function (materialCatId, callback) {
-        var deleteMatCat = {
-            _id: materialCatId
-        };
-
-        NavigationService.apiCall('MMaterialCat/delete', deleteMatCat, function (data) {
+        idsArray = [];
+        idsArray.push(materialCatId);
+        NavigationService.apiCall('Web/delRestrictions/MMaterialCat', {idsArray}, function (data) {
             callback(data);
         });
     }
@@ -64,11 +63,9 @@ myApp.service('masterMaterialService', function (NavigationService) {
         });
     }
     this.deleteMaterialSubCat = function (materialSubCatId, callback) {
-        var deleteMatCat = {
-            _id: materialSubCatId
-        };
-
-        NavigationService.apiCall('MMaterialSubCat/delete', deleteMatCat, function (data) {
+        idsArray = [];
+        idsArray.push(materialSubCatId);
+        NavigationService.apiCall('Web/delRestrictions/MMaterialSubCat', {idsArray}, function (data) {
             callback(data);
         });
     }
@@ -97,11 +94,9 @@ myApp.service('masterMaterialService', function (NavigationService) {
         });
     }
     this.deleteMaterial = function (materialId, callback) {
-        var deleteMat = {
-            _id: materialId
-        };
-
-        NavigationService.apiCall('MMaterial/delete', deleteMat, function (data) {
+        idsArray = [];
+        idsArray.push(materialId);
+        NavigationService.apiCall('Web/delRestrictions/MMaterial', {idsArray}, function (data) {
             callback(data);
         });
     }
@@ -127,39 +122,12 @@ myApp.service('masterMaterialService', function (NavigationService) {
             callback(data);
         });
     }
-
-
-      //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('MMaterial/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('MMaterial/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('MMaterial/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('MMaterial/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -184,31 +152,31 @@ myApp.service('masterMaterialService', function (NavigationService) {
     callback(obj);
   }
 //   //- form an array of bulk Ids
-//   this.selectBulkMaterials = function (checkboxStatus, materialId, callback) {
-//     if (checkboxStatus == true) {
-//       bulkArray.push(materialId);
-//     } else {
-//       _.remove(bulkArray, function (record) {
-//         return record == materialId;
-//       });
-//     }
-//     callback(bulkArray);
-//   }
+  this.selectBulkMaterials = function (checkboxStatus, materialId, callback) {
+    if (checkboxStatus == true) {
+      bulkArray.push(materialId);
+    } else {
+      _.remove(bulkArray, function (record) {
+        return record == materialId;
+      });
+    }
+    callback(bulkArray);
+  }
 //   //- form an array of Ids of all materials for deletion
-//   this.selectAll = function(materials, checkboxStatus, callback) {
-//     bulkArray = [];
-//     if (checkboxStatus == true) {
-//       angular.forEach(materials,  function (obj) {
-//         var materialId = obj._id;
-//         bulkArray.push(materialId);
-//       });
-//     } 
-//     callback(bulkArray);
-//   }
+  this.selectAll = function(materials, checkboxStatus, callback) {
+    bulkArray = [];
+    if (checkboxStatus == true) {
+      angular.forEach(materials,  function (obj) {
+        var materialId = obj._id;
+        bulkArray.push(materialId);
+      });
+    } 
+    callback(bulkArray);
+  }
 //   //- delete bulk materials
-//   this.deleteBulkMaterials = function (materials, callback) {
-//     NavigationService.apiCall('MMaterial/deleteMultipleMaterials', {idsArray: materials}, function (data) {
-//       callback();
-//     });
-//   }
+  this.deleteBulkMaterials = function (materials, callback) {
+    NavigationService.apiCall('Web/delRestrictions/MMaterial', {idsArray: materials}, function (data) {
+      callback(data);
+    });
+  }
 });

@@ -1,0 +1,141 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="caption">
+                            <i class="icon-settings font-red"></i>
+                            <span class="caption-subject font-red sbold uppercase">Roles</span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="btn-group pull-right">
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditRoleModal()">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="btn-group pull-right">
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;"> Save as PDF </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Export to Excel </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body horizontal_scroll">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">Show Records</button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
+                                    data-close-others="true">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a> 5 </a>
+                                    </li>
+                                    <li>
+                                        <a> 10 </a>
+                                    </li>
+                                    <li>
+                                        <a> 15 </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a> 50 </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="inputs search pull-right">
+                                <div class="portlet-input input-small input-inline">
+                                    <div class="input-icon right">
+                                        <i class="icon-magnifier"></i>
+                                        <input type="text" class="form-control form-control-solid" placeholder="search...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                    <thead>
+                        <tr>
+                            <th rowspan="2"> ID </th>
+                            <th rowspan="2"> Roles </th>
+                            <th colspan="5" class="text-center" class="align-top"> Access Modules </th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr>
+                            <th>{{moduleNames[0]}}</th>
+                            <th>{{moduleNames[1]}}</th>
+                            <th>{{moduleNames[2]}}</th>
+                            <th>{{moduleNames[3]}}</th>
+                            <th>{{moduleNames[4]}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="t in [1, 2, 3, 4, 5]" class="bold">
+                            <td>{{$index + 1}}</td>
+                            <td>Role</td>
+                            <td>
+                                <span ng-class="{'redColor':!userC, 'greenColor':userC}">C</span>
+                                <span ng-class="{'redColor':!userR, 'greenColor':userC}">R</span>
+                                <span ng-class="{'redColor':!userU, 'greenColor':userC}">U</span>
+                                <span ng-class="{'redColor':userD, 'greenColor':!userC}">D</span>
+                            </td>
+                            <td>
+                                <span ng-class="{'redColor':!customerC, 'greenColor':customerC}">C</span>
+                                <span ng-class="{'redColor':customerR, 'greenColor':!customerR}">R</span>
+                                <span ng-class="{'redColor':!customerU, 'greenColor':customerU}">U</span>
+                                <span ng-class="{'redColor':customerD, 'greenColor':!customerD}">D</span>
+                            </td>
+                            <td>
+                                <span ng-class="{'redColor':enquiryC, 'greenColor':!enquiryC}">C</span>
+                                <span ng-class="{'redColor':enquiryR, 'greenColor':!enquiryR}">R</span>
+                                <span ng-class="{'redColor':!enquiryU, 'greenColor':enquiryU}">U</span>
+                                <span ng-class="{'redColor':!enquiryD, 'greenColor':enquiryD}">D</span>
+                            </td>
+                            <td>
+                                <span ng-class="{'redColor':estimateC, 'greenColor':!estimateC}">C</span>
+                                <span ng-class="{'redColor':estimateR, 'greenColor':!estimateC}">R</span>
+                                <span ng-class="{'redColor':!estimateU, 'greenColor':estimateC}">U</span>
+                                <span ng-class="{'redColor':estimateD, 'greenColor':!estimateC}">D</span>
+                            </td>
+                            <td>
+                                <span ng-class="{'redColor':masterC, 'greenColor':!masterC}">C</span>
+                                <span ng-class="{'redColor':masterR, 'greenColor':!masterC}">R</span>
+                                <span ng-class="{'redColor':!masterU, 'greenColor':masterC}">U</span>
+                                <span ng-class="{'redColor':!masterD, 'greenColor':masterC}">D</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="label label-sm label-primary" ng-click="addOrEditRoleModal('update', _id)">
+                                    <i class="fa fa-pencil" title="Edit Role "></i>
+                                </span>&nbsp;
+                                <span class="label label-sm label-warning" ng-click="deleteRoleModal(_id,'deleteRole')">
+                                    <i class="fa fa-trash-o" title="Delete Role"></i>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

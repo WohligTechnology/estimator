@@ -41,7 +41,7 @@
             </div>
             <div class="portlet-body horizontal_scroll">
                 <div class="table-toolbar">
-                    <div class="row">
+                    <div class="row" ng-if="obj.total>obj.count">
                         <div class="col-md-8">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default">Show Records</button>
@@ -93,26 +93,28 @@
                             <th> Name </th>
                             <th> Email </th>
                             <th> Mobile </th>
+                            <th> Role </th>
                             <th> Action </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="user in userData | orderBy : 'name'">
+                        <tr ng-repeat="user in userData track by $index">
                             <td>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                     <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
-                                        ng-change="selectBulkUsers(checkboxStatus,user._id)" />
+                                        ng-click="selectBulkUsers(checkboxStatus,user._id)" />
                                     <span></span>
                                 </label>
                             </td>
                             <td>{{$index+1}} </td>
-                            <td>{{user.name}} </td>
+                            <td>{{user.name | capitalize}} </td>
                             <td>{{user.email}} </td>
                             <td>{{user.mobile }}</td>
+                            <td>{{user.accessLevel }}</td>
                             <td>
-                                <span class="label label-sm label-success" id="add_space" ng-click="addOrEditUserModal('update',user)">
+                                <span class="label label-sm label-success" ng-click="addOrEditUserModal('update',user)">
                                     <i class="fa fa-pencil" title="Edit User Details"></i>
-                                </span>
+                                </span>&nbsp;
                                 <span class="label label-sm label-danger" ng-click="deleteUserModal(user._id,'deleteUser')">
                                     <i class="fa fa-trash-o" title="Delete User"></i>
                                 </span>

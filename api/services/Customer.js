@@ -19,6 +19,8 @@ module.exports = mongoose.model('Customer', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
+    //- retrieve all customer data from customer table.
     getCustomerData: function (data, callback) {
         Customer.find().lean().exec(function (err, found) {
             if (err) {
@@ -33,6 +35,7 @@ var model = {
 
     },
 
+    //-search customer records using customer name with pagination.
     search: function (data, callback) {
         var maxRow = 10;
         if (data.totalRecords) {
@@ -75,12 +78,28 @@ var model = {
                     }
                 });
     },
+
+    //- delete multiple customers by passing multiple customer ids.
     deleteMultipleCustomers: function (data, callback) {
         Customer.remove({
             _id: {
                 $in: data.idsArray
             }
         }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Customer.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
+
+    //-Get all customer Name and loation and Payment Terms from customer tables.
+    getCustomerNameLocationAndPayTerms: function (data, callback) {
+        Customer.find().select('customerName location paymentTerms').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of Customer.js ****', err);
                 callback(err, null);

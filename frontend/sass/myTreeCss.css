@@ -23,7 +23,7 @@ li {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
+  font-size: 10px !important;
   font: inherit;
   vertical-align: baseline;
 }
@@ -275,7 +275,7 @@ label.tree_label:after {
   position: absolute;
 }
 
-.processingIcon{
+/* .processingIcon{
   right: 19.5%;
   position: absolute;
 }
@@ -285,6 +285,21 @@ label.tree_label:after {
 }
 .extrasIcon{
   right: 19.5%;
+  position: absolute;
+} */
+
+.partAdd {
+  right: 36.8%;
+  position: absolute;
+}
+
+.subAssemblyAdd{
+  right: 35.2%;
+  position: absolute;
+}
+
+.assemblyAdd{
+  right: 33.5%;
   position: absolute;
 }
 
@@ -297,6 +312,10 @@ label.tree_label:after {
   position: absolute;
 }
 
+.partPresetAdd{
+  right: 35.5%;
+  position: absolute;
+}
 .customerMaterialCreateIcon{
   right: 32.5%;
   position: absolute;
@@ -325,10 +344,10 @@ label.tree_label:after {
   
 }
 .baseMasterEditIcon{
-      right: 30.5%;
-    position: absolute;
+  right: 30.5%;
+  position: absolute;
 }
 .baseMasterDeleteIcon{
-   right: 30.5%;
-    position: absolute;
+  right: 30.5%;
+  position: absolute;
 }

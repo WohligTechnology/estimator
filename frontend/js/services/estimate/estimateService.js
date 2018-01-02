@@ -3,41 +3,25 @@ myApp.service('estimateService', function (NavigationService) {
   var bulkArray = [];
   //- get estimate view
   this.getEstimateData = function (callback) {
-    NavigationService.boxCall('Estimate/search', function (data) {
+    NavigationService.boxCall('DraftEstimate/getDraftEstimateCustomerName', function (data) {
       callback(data.data);
     });
   }
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('Estimate/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
+
+  //- delete estimate
+  this.deleteEstimate = function (estimateId, callback) {
+    var idsArray = [];
+    idsArray.push(estimateId);
+    NavigationService.delete('Web/delRestrictions/DraftEstimate', {idsArray}, function (data) {
+      callback(data);
     });
   }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
-    NavigationService.apiCall('Estimate/search', {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('DraftEstimate/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('Estimate/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('Estimate/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -85,8 +69,8 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- delete bulk estimates
   this.deleteBulkEstimates = function (estimates, callback) {
-    NavigationService.apiCall('Estimate/deleteMultipleEstimates', {idsArray: estimates}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/DraftEstimate', {idsArray: estimates}, function (data) {
+      callback(data);
     });
   }
 

@@ -6,16 +6,16 @@
     </div>
     <div class="portlet-body form">
         <!-- BEGIN FORM-->
-        <form class="form-horizontal">
+        <form class="form-horizontal" name="myForm">
             <div class="form-body">
                 <div class="form-group">
-                    <label class="col-md-2 control-label">Shape Name:</label>
+                    <label class="col-md-2 control-label">Shape Name: <span class="error">&nbsp;*</span> </label>
                     <div class="col-md-4">
-                        <input type="text" ng-model="formData.shapeName" class="form-control input-circle" autofocus>
+                        <input type="text" ng-model="formData.shapeName" class="form-control input-circle" required autofocus>
                     </div>
                     <label class="col-md-2 control-label">Upload Icon:</label>
                     <div class="col-md-4">
-                        <upload-all-files ng-model="formData.icon.file" icon="true" pdf-file="false"></upload-all-files>
+                        <upload-all-files ng-model="formData.icon.file" icon="true" pdf-file="false" file-location="left"></upload-all-files>
                     </div>
                 </div>
                 <hr>
@@ -23,7 +23,19 @@
                     <div class="col-md-4">
                         <div>
                             <!-- <img src="img/Doraemon.png" alt="" class=" img-responsive"> -->
-                            <upload-all-files ng-model="formData.image.file" pdf-file="true" icon="false"></upload-all-files>
+                            <upload-all-files ng-model="formData.image.file" pdf-file="true" icon="false" file-location="top"></upload-all-files>
+                        </div>
+                        <div class="displayBlock pull-left">Global Variables : <br>
+                            <br>Size Factor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>sf</strong> 
+                            <br>Form Factor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>ff</strong> 
+                            <br>Thickness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>t</strong> 
+                            <br>Length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>l</strong> 
+                            <br>Wastage &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>wtg</strong> 
+
+                            <br>Perimeter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>p</strong>
+                            <br>Sheet Metal Area &nbsp;&nbsp;&nbsp;:&nbsp; <strong>sma</strong> 
+                            <br>Surface Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>sa</strong> 
+                            <br>Weight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>wt</strong> 
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -35,41 +47,53 @@
                         <div class="form-group">
                             <div class="shapes-checkbox">
                                 <div class="" ng-repeat="varChunk in variablesData">
-                                    <div class="" ng-repeat="var in varChunk track by $index">
+                                    <div class="col-md-4" ng-repeat="var in varChunk track by $index">
+                                        <!-- 
                                         {{var.varName}}
                                         <input type="checkbox" id="checkbox-f" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
                                             ng-checked="var.checkboxStatus" ng-model="checkedVariable">
+                                         -->
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">{{var.varName}}
+                                            <input type="checkbox" id="checkAll" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
+                                                ng-checked="var.checkboxStatus" ng-model="checkedVariable" ng-disabled="disableField" />
+                                            <span></span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Size Factor</label>
+                            <label class="col-md-2 control-label">Size Factor (sf) <span class="error">&nbsp;*</span> </label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " ng-model="formData.sizeFactor" placeholder="">
+                                <input type="text" name="sizeFactor" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.sizeFactor" placeholder="" ng-disabled="disableField" required>
+                                <span class="error" ng-show="myForm.sizeFactor.$invalid && myForm.sizeFactor.$dirty">Please enter a number or floating point number</span>
                             </div>
-                            <label class="col-md-3 control-label">Form Factor</label>
+                            <label class="col-md-3 control-label">Form Factor (ff) <span class="error">&nbsp;*</span> </label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " ng-model="formData.formFactor" placeholder="">
+                                <input type="text" name="formFactor" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.formFactor" placeholder="" ng-disabled="disableField" required>
+                                <span class="error" ng-show="!myForm.formFactor.$valid && myForm.formFactor.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Thickness (t)</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " ng-model="formData.thickness" placeholder="">
+                                <input type="text" name="thickness" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.thickness" placeholder="" ng-disabled="disableField">
                                 <span class="unit">mm</span>
+                                <span class="error" ng-show="!myForm.thickness.$valid && myForm.thickness.$dirty">Please enter a number or floating point number</span>                                
                             </div>
                             <label class="col-md-3 control-label">Length (l)</label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " ng-model="formData.length" placeholder="">
+                                <input type="text" name="length" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.length" placeholder="" ng-disabled="disableField">
                                 <span class="unit">mm</span>
+                                <span class="error" ng-show="!myForm.length.$valid && myForm.length.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Wastage</label>
+                            <label class="col-md-2 control-label">Wastage (wtg) <span class="error">&nbsp;*</span> </label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " ng-model="formData.wastage" placeholder="">
+                                <input type="text" name="wastage" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.wastage" placeholder="" ng-disabled="disableField" required >
                                 <span class="unit">%</span>
+                                <span class="error" ng-show="!myForm.wastage.$valid && myForm.wastage.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                     </div>
@@ -81,43 +105,43 @@
                     </label>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 control-label">Perimeter (p)</label>
+                    <label class="col-md-2 control-label">Perimeter (p) <span class="error">&nbsp;*</span> </label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.perimeter" placeholder="">
+                        <input type="text" class="form-control " ng-model="formData.partFormulae.perimeter" placeholder="" ng-disabled="disableField" required>
                         <span class="unit">m</span>
                     </div>
-                    <label class="col-md-2 control-label">Sheet Metal Area (sma)</label>
+                    <label class="col-md-2 control-label">Sheet Metal Area (sma) <span class="error">&nbsp;*</span> </label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.sheetMetalArea" placeholder="">
+                        <input type="text" class="form-control " ng-model="formData.partFormulae.sheetMetalArea" placeholder="" ng-disabled="disableField" required>
                         <span class="unit">sq. m</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 control-label">Surface Area (sa)</label>
+                    <label class="col-md-2 control-label">Surface Area (sa) <span class="error">&nbsp;*</span> </label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.surfaceArea" placeholder="">
+                        <input type="text" class="form-control " ng-model="formData.partFormulae.surfaceArea" placeholder="" ng-disabled="disableField" required>
                         <span class="unit">sq. m</span>
                     </div>
-                    <label class="col-md-2 control-label">Weight (wt)</label>
+                    <label class="col-md-2 control-label">Weight (wt)<span class="error">&nbsp;*</span> </label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.weight" placeholder="">
+                        <input type="text" class="form-control " ng-model="formData.partFormulae.weight" placeholder="" ng-disabled="disableField" required>
                         <span class="unit">kg</span>
                     </div>
                 </div>
                 <hr>
                 <div class="form-group">
-                    <label class="col-md-2 control-label">Naming Convention</label>
+                    <label class="col-md-2 control-label">Naming Convention <span class="error">&nbsp;*</span> </label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.namingConvenstion" placeholder="">
+                        <input type="text" class="form-control " ng-model="formData.namingConvenstion" placeholder="" ng-disabled="disableField" required>
                     </div>
                 </div>
             </div>
             <div class="form-actions">
                 <div class="row">
                     <div class="col-md-13 text-center">
-                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="createOrEditShape(formData,shapeVariables)">Save</button>
-                        <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="createOrEditShape(formData,shapeVariables)">Update</button>
-                        <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="myForm.$invalid && myForm.$dirty" ng-click="createOrEditShape(formData,shapeVariables)">Save</button>
+                        <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="myForm.$invalid && myForm.$dirty" ng-click="createOrEditShape(formData,shapeVariables)">Update</button>
+                        
                     </div>
                 </div>
             </div>

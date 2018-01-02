@@ -42,7 +42,7 @@ myApp.config(function (toastrConfig) {
       toast: 'directives/toast/toast.html',
       progressbar: 'directives/progressbar/progressbar.html'
     },
-    timeOut: 5000,
+    timeOut: 6000,
     titleClass: 'toast-title',
     toastClass: 'toast'
   });
@@ -94,7 +94,10 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
     Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
   });
   $scope.loginTemplate = true;
-  $scope.themeColor = '#32c5d3';
+  if ($.jStorage.get('loggedInUser') != null) {
+    $scope.userPhoto = $.jStorage.get('loggedInUser').photo;
+    $scope.userName = $.jStorage.get('loggedInUser').name;
+  }
 
   // console.log("*********************************************************************",window.location.href );
   // console.log("*********************************************************************",$state.current);
@@ -174,9 +177,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
       url: "/login",
       templateUrl: "views/content/login/estimatorLogin.html",
       controller: "loginCtrl",
-      resolve: {
-        "isLoggedIn": routeResolve
-      }
+      // resolve: {
+      //   "isLoggedIn": routeResolve
+      // }
     })
 
     // ********************************** logout module ********************************** //
@@ -459,6 +462,22 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
         "mainView": {
           templateUrl: "",
           controller: ""
+        }
+      },
+      resolve: {
+        "isLoggedIn": routeResolve
+      }
+    })
+    .state('app.roles', {
+      url: "/roles",
+      views: {
+        "sidebar": {
+          templateUrl: "views/tpl/sidebar.html",
+          controller: "SidebarController"
+        },
+        "mainView": {
+          templateUrl: "views/content/settings/allRoles.html",
+          controller: "roleCtrl"
         }
       },
       resolve: {
@@ -972,255 +991,3 @@ myApp.controller('SidebarController', ['$state', '$scope', function ($state, $sc
   }
 
 }]);
-
-myApp.directive('inputDate', function ($compile, $parse) {
-  return {
-    restrict: 'E',
-    replace: false,
-    scope: {
-      value: "=ngModel",
-    },
-    templateUrl: 'frontend/views/directive/date.html',
-    link: function ($scope, element, attrs) {
-      $scope.data = {};
-      $scope.dateOptions = {
-        dateFormat: "dd/mm/yy"
-      };
-      if (!_.isEmpty($scope.value)) {
-        $scope.data.model = moment($scope.value).toDate();
-      }
-      $scope.changeDate = function (data) {
-        // $scope.value = $scope.data.model;
-        $scope.value = data;
-      };
-    }
-  };
-});
-
-myApp.factory('accessApp', function ($location) {
-  console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
-  return {
-    isLoggedIn: function () {
-      if ($.jStorage.get("loggedInUser")) {
-        return true;
-      } else {
-        return $location.path('/');
-      }
-    }
-  }
-});
-
-myApp.directive('fileModelOld', ['$parse', function ($parse) {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      var model = $parse(attrs.fileModel);
-      var modelSetter = model.assign;
-
-      element.bind('change', function () {
-        console.log("*** element **", element);
-        scope.$apply(function () {
-          modelSetter(scope, element[0].files[0]);
-        });
-      });
-
-
-
-      // $scope.$parent.formData.uploadedFiles = [];
-      // $scope.formData.uploadedFiles = [];
-
-      // $scope.uploadImage = function (file) {
-      //     var fd = new FormData();
-      //     fd.append('file', file);
-
-      //     $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-      //             transformRequest: angular.identity,
-      //             headers: {
-      //                 'Content-Type': undefined
-      //             }
-      //         })
-      //         .then(function () {
-
-      //             console.log('**** inside its working of userProfileService.js ****');
-      //         });
-      // }
-    }
-  };
-}]);
-
-myApp.directive('fileModel', ['$parse', '$http', function ($parse, $http) {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      var model = $parse(attrs.fileModel);
-      var modelSetter = model.assign;
-
-      element.bind('change', function () {
-        // angular.element(event.target).file('model') = element[0].files[0];
-        // modelSetter(scope, element[0].files[0]);
-        // scope.uploadImage(scope.myFile);
-
-        scope.$apply(function () {
-          modelSetter(scope, element[0].files[0]);
-
-          var fd = new FormData();
-          fd.append('file', file);
-
-          $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-              transformRequest: angular.identity,
-              headers: {
-                'Content-Type': undefined
-              }
-            })
-            .then(function () {
-
-              console.log('**** inside its working of userProfileService.js ****');
-            });
-
-        });
-      });
-
-
-
-      scope.uploadImage = function (file) {
-        var fd = new FormData();
-        fd.append('file', file);
-
-        $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-            transformRequest: angular.identity,
-            headers: {
-              'Content-Type': undefined
-            }
-          })
-          .then(function () {
-
-            console.log('**** inside its working of userProfileService.js ****');
-          });
-      }
-
-
-    }
-  };
-}]);
-
-
-myApp.directive('uploadAllFiles', function ($http) {
-  return {
-    restrict: 'E',
-    scope: {
-      model: '=ngModel',
-      icon: '=icon',
-      pdfFile: '=pdfFile'
-    },
-    templateUrl: 'frontend/views/directive/uploadAllFiles.html',
-
-    link: function (scope, element, attrs) {
-      scope.isMultiple = false;
-
-      scope.uploadImage = function (files) {
-        console.log("*** 111111inside function & files are ***", files[0].name, _.split(files[0].name, '.'));
-        // http request here
-        // var fileName = _.split(files[0].name, '.');
-        // if(fileName[1] == 'pdf'){
-        // } else { //if(fileName[1] == 'jpg' || fileName[1] == 'png'){
-        //     scope.pdfFile = false;
-        // }
-        if (_.isArray(scope.model)) {
-          scope.isMultiple = true;
-          angular.forEach(files, function (file) {
-            debugger;
-            console.log("***********array******* file is ******************", file);
-            var fd = new FormData();
-            fd.append('file', file);
-
-            $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-                headers: {
-                  'Content-Type': undefined
-                },
-                transformRequest: angular.identity
-              })
-              .then(function (data) {
-                console.log('**** inside its working of userProfileService.js ****', data);
-                scope.model.push(data.data.data[0]);;
-              });
-          });
-
-        } else {
-          var fileName = _.split(files[0].name, '.');
-          scope.fileType = fileName[1];
-          var fd = new FormData();
-          fd.append('file', files[0]);
-
-          $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-              headers: {
-                'Content-Type': undefined
-              },
-              transformRequest: angular.identity
-            })
-            .then(function (data) {
-              scope.model = data.data.data[0];
-              console.log('**** inside its working of userProfileService.js ****', data);
-            });
-        }
-      };
-    }
-  };
-});
-
-
-myApp.filter('uploadpath', function () {
-  return function (input, width, height, style) {
-    var other = "";
-    if (input.search(".pdf") >= 0) {
-      return "frontend/img/pdf.jpg";
-    } else {
-      if (input.search(".jpg") >= 0 || input.search(".png") >= 0) {
-        return "frontend/img/image.png";
-      } else {
-        if (input.search(".doc") >= 0 || input.search(".docx") >= 0) {
-          return "frontend/img/doc.png";
-        } else if (input == 'broken') {
-          return "frontend/img/nofile.png";
-        }
-      }
-    }
-    if (width && width !== "") {
-      other += "&width=" + width;
-    }
-    if (height && height !== "") {
-      other += "&height=" + height;
-    }
-    if (style && style !== "") {
-      other += "&style=" + style;
-    }
-    if (input) {
-      if (input.indexOf('https://') == -1) {
-        return imgpath + "?file=" + input + other;
-      } else {
-        return input;
-      }
-    }
-  };
-});
-
-myApp.filter('downloadpath', function () {
-  return function (input, width, height, style) {
-    var other = "";
-    if (width && width !== "") {
-      other += "&width=" + width;
-    }
-    if (height && height !== "") {
-      other += "&height=" + height;
-    }
-    if (style && style !== "") {
-      other += "&style=" + style;
-    }
-    if (input) {
-      if (input.indexOf('https://') == -1) {
-        return adminurl + "User/download/" + input;
-      } else {
-        return adminurl;
-      }
-    }
-  };
-});

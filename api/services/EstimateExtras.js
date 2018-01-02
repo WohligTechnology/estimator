@@ -10,7 +10,6 @@ var schema = new Schema({
     },
     extraNumber: {
         type: String,
-        unique: true,
         required: true
     },
     extraItem: {
@@ -22,7 +21,10 @@ var schema = new Schema({
     totalCost: Number,
     remarks: String,
 
-    extraObj: {}
+    extraObj: {},
+    estimateVersion: {
+        type: String,
+    },
 });
 
 schema.plugin(deepPopulate, {});
@@ -32,13 +34,57 @@ module.exports = mongoose.model('EstimateExtras', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+    getVersionsOfExtrasNo: function (data, callback) {
+        EstimateExtras.aggregate(
+            [{
+                $group: {
+                    _id: '$extraNumber',
+                    versionDetail: {
+                        $push: {
+                            versionNumber: "$estimateVersion",
+                            _id: "$_id"
+                        }
+                    }
+                },
+            }]
+        ).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                var temp = [];
+                var tempObj = {
+                    extraNumber: "",
+                    versionDetail: []
+                };
+                async.eachSeries(found, function (n, callback) {
+                    temp.push({
+                        extraNumber: n._id,
+                        versionDetail: n.versionDetail
+                    });
+                    callback();
+
+                }, function (err) {
+                    if (err) {
+                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                    } else {
+                        callback(null, temp);
+                    }
+                });
+            }
+        });
+    },
+
+
     importExtra: function (data, callback) {
         data.lastExtraNumber = data.lastExtraNumber.replace(/\d+$/, function (n) {
             return ++n
         });
 
         EstimateExtras.findOne({
-            extraNumber: data.extraNumber
+            _id: data._id
         }).lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of EstimateExtras.js ****', err);
@@ -55,6 +101,8 @@ var model = {
             }
         });
     },
+
+    //-get all estimate extra records from estimate extra table.
     getEstimateExtraData: function (data, callback) {
         EstimateExtras.find().lean().exec(function (err, found) {
             if (err) {
@@ -68,9 +116,12 @@ var model = {
         });
 
     },
+
+
+    //-get all extra nos only from Estimate extra table.
     getAllExtrasNo: function (data, callback) {
-        EstimateExtras.find({},{
-            extraNumber:1
+        EstimateExtras.find({}, {
+            extraNumber: 1
         }).exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of EstimateExtras.js ****', err);
@@ -82,5 +133,6 @@ var model = {
             }
         });
     },
+
 };
 module.exports = _.assign(module.exports, exports, model);

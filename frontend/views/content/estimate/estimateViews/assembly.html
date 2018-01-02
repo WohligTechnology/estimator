@@ -62,7 +62,7 @@
                 <div class="portlet-title">
                     <div class="row">
                         <div class="col-md-3">
-                            <label> Name:</label> {{estimteData.assemblyName}}
+                            <label> Name:</label> {{estimteData.assemblyName  | capitalize}}
                         </div>
                         <div class="col-md-3">
                             <label> Id:</label> 5790
@@ -82,12 +82,12 @@
                                             <span></span>
                                         </label>
                                     </th>
-                                    <th rowspan="2" class="align-top"> Id </th>
-                                    <th rowspan="2" class="align-top"> sub Assembly name</th>
-                                    <th rowspan="2" class="align-top"> Quantity (Nos) </th>
-                                    <th colspan="6" class="text-center"> Per item detail </th>
-                                    <th colspan="2" class="align-top text-center"> Total</th>
-                                    <th rowspan="2" class="align-top"> Action </th>
+                                    <th rowspan="2" class="align-left"> Id </th>
+                                    <th rowspan="2" class="align-left"> SubAssembly Name</th>
+                                    <th rowspan="2" class="align-left"> Quantity (Nos) </th>
+                                    <th colspan="6" class="text-center"> Per Item Detail </th>
+                                    <th colspan="2" class="align-left text-center"> Total</th>
+                                    <th rowspan="2" class="align-left"> Action </th>
                                 </tr>
                                 <tr>
                                     <th>Weight</th>
@@ -109,15 +109,15 @@
                                             <span></span>
                                         </label>
                                     </td>
-                                    <td> 1 </td>
-                                    <td> {{p.subAssemblyName}} </td>
+                                    <td> {{$index + 1}} </td>
+                                    <td> {{p.subAssemblyName  | capitalize}} </td>
                                     <td>5 </td>
-                                    <td>24 </td>
-                                    <td>400 </td>
-                                    <td>500 </td>
-                                    <td> 600 </td>
-                                    <td> 900</td>
-                                    <td> 300</td>
+                                    <td> {{p.totalWeight}} </td>
+                                    <td> {{p.materialCost}} </td>
+                                    <td> {{p.processingCost}} </td>
+                                    <td> {{p.addonCost}} </td>
+                                    <td> {{p.extrasCost}} </td>
+                                    <td> {{p.totalCost}}</td>
                                     <td> Approved</td>
                                     <td> Approved </td>
                                     <td class="edit-icon">

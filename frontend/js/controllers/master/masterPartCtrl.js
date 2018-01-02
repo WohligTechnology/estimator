@@ -1,4 +1,4 @@
-myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartService) {
+myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPartService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -38,6 +38,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
             $scope.formData = data.partTypeCat;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
+            $scope.operation = operation;
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -47,9 +48,14 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
             });
         });
     }
-    $scope.addOrEditPartTypeCat = function (partTypeCatData) {
+    $scope.addOrEditPartTypeCat = function (operation, partTypeCatData) {
         masterPartService.addOrEditPartTypeCat(partTypeCatData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            if (operation == 'update') {
+                toastr.success('Part Category Name Updated Successfully');
+
+            } else {
+                toastr.success('Part Category Name Added Successfully');
+            }
             $scope.getPartData();
             $scope.cancelModal();
         });
@@ -67,12 +73,16 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
     }
     $scope.deletePartTypeCat = function (partTypeCatId) {
         masterPartService.deletePartTypeCat(partTypeCatId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.getPartData();
             $scope.cancelModal();
         });
     }
-
 
     $scope.addOrEditPartTypeModal = function (operation, partTypeCatId, partType) {
         masterPartService.getPartTypeModalData(operation, partTypeCatId, partType, function (data) {
@@ -91,31 +101,24 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
     }
     $scope.addOrEditPartType = function (partTypeData, partTypeCatId) {
         masterPartService.addOrEditPartType(partTypeData, partTypeCatId, function (data) {
-            $scope.operationStatus = "Record added successfully";
+                        toastr.success('Part type  added/updated successfully');
+                        $scope.getPartData();
+                        $scope.cancelModal();
+        });
+    }
+
+    $scope.deletePartType = function (partTypeId) {
+        masterPartService.deletePartType(partTypeId, function (data) {
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
+            $scope.cancelModal();
             $scope.getPartData();
-            $scope.cancelModal();
         });
     }
-    $scope.deletePartTypeModal = function (materialSubCatId, getFunction) {
-        $scope.idToDelete = materialSubCatId;
-        $scope.functionToCall = getFunction;
-
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
-            scope: $scope,
-            size: 'md'
-        });
-    }
-    $scope.deletePartType = function (materialSubCatId) {
-        masterPartService.deleteMaterialSubCat(materialSubCatId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
-            $scope.cancelModal();
-            $scope.getMaterialData();
-        });
-    }
-
-
 
     //- to show preset sizes after click on partType name
     //- to show partTYpe materials click on partType name
@@ -130,7 +133,6 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         });
     }
 
-    //- 
     $scope.addNewPreset = function (operation, partTypeId) {
         $scope.presetFormData = {};
         $scope.showPresetSaveForm = true;
@@ -140,14 +142,17 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         // if sizes.length == 0 then make disableShape-->false
         $scope.disableShape = false;
         masterPartService.addNewPreset(operation, partTypeId, function (data) {
+            debugger;
             $scope.showPartView = true;
             $scope.presetFormData = data;
             $scope.selectedShape = data.selectedShape;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
-            console.log('**** inside $scope.presetFormData of masterPartCtrl.js & data is ****', $scope.presetFormData);
         });
     }
+
+    // 1149 2065 726
+    // SBIN 000 6625
 
     //- to get/show preset view (with data in case of edit)
     //- called when click on + icon at partType (i.e. to add new preset ) &
@@ -157,8 +162,17 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         presetData.shape.variable = presetData.variable;
         $scope.showPresetUpdateForm = true;
         $scope.showPresetSaveForm = false;
+        debugger;
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
+            debugger;
             $scope.presetFormData = data.presetData;
+            $scope.presetFormData.thickness = data.presetData.shape.thickness;
+            $scope.presetFormData.length = data.presetData.shape.length;
+            $scope.presetFormData.wastage = data.presetData.shape.wastage;
+            $scope.presetFormData.formFactor = data.presetData.shape.formFactor;
+            $scope.presetFormData.sizeFactor = data.presetData.shape.sizeFactor;
+            $scope.presetFormData.presetName = data.presetData.shape.thickness;
+            
             $scope.selectedShape = data.presetData.shape;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
@@ -205,10 +219,14 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
 
     }
     $scope.addOrEditPartPreset = function (presetData, action) {
-        // console.log('**** inside addOrEditPartPreset of masterPartCtrl.js ****',partTypeId);
         masterPartService.addOrEditPartPreset(presetData, action, function (data) {
-            $scope.operationStatus = "Record added successfully";
-        });
+            if (_.isUndefined(data.error)) {
+                toastr.success('Record added successfully');
+            } else {
+                toastr.error('Enter Part Details Properly');
+            }
+            
+        }); 
     }
 
     //- to add material to partType 
@@ -223,16 +241,16 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
                 animation: true,
                 templateUrl: 'views/content/master/part/addMaterialToPartType.html',
                 scope: $scope,
-                size: 'md',
+                size: 'md'
             });
 
-            
+
         });
     };
 
-    $scope.addMaterialToPartType = function (selectedMatId,partTypeId) {
-        masterPartService.addMaterialToPartType(selectedMatId,partTypeId, function (data) {
-            $scope.successMessage = "material added to the partType successfully...";
+    $scope.addMaterialToPartType = function (selectedMatId, partTypeId) {
+        masterPartService.addMaterialToPartType(selectedMatId, partTypeId, function (data) {
+            toastr.success('Material Added To The PartType Successfully');
             $scope.cancelModal();
             $scope.getPartTypeSizes(data._id);
         });
@@ -250,13 +268,30 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
             size: 'md'
         });
     }
-    $scope.deletePartTypeMaterial = function (materialId,partTypeId) {
-        masterPartService.deletePartTypeMaterial(materialId,partTypeId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+    $scope.deletePartTypeMaterial = function (materialId, partTypeId) {
+        masterPartService.deletePartTypeMaterial(materialId, partTypeId, function (data) {
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getPartTypeSizes(partTypeId);
         });
     }
+
+    // Delete part type modal
+    $scope.deletePartTypeModal = function (partTypeId, getFunction) {
+        $scope.idToDelete = partTypeId;
+        $scope.functionToCall = getFunction;
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    };
 
     //- to hide preset view
     //- called when click on cancel button on preset view

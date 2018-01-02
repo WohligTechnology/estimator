@@ -29,6 +29,8 @@ var model = {
             }
         });
     },
+
+    //-Get all password data from password table.
     getPasswordData: function (data, callback) {
         Password.find().lean().exec(function (err, found) {
             if (err) {

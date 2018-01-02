@@ -83,7 +83,9 @@
                             <tr>
                                 <th rowspan="2" class="align-top">
                                     <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-checked="checkAll" ng-disabled="estimateViewData.length <= 0" ng-model="checkAll" ng-change="selectAll('processing', level, estimateViewData, checkAll, estimateViewData.subAssemblyId, estimateViewData.partId)"/>
+                                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked="checkAll" ng-disabled="estimateViewData.length <= 0"
+                                            ng-model="checkAll" ng-change="selectAll('processing', level, estimateViewData, checkAll, estimateViewData.subAssemblyId, estimateViewData.partId)"
+                                        />
                                         <span></span>
                                     </label>
                                 </th>
@@ -107,33 +109,33 @@
                             <tr ng-repeat="p in estimateViewData track by $index">
                                 <td>
                                     <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                        <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-checked='checkAll'
-                                        ng-change="selectBulkItems(checkboxStatus,p.processingNumber)" />
+                                        <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
+                                            ng-change="selectBulkItems(checkboxStatus,p.processingNumber)" />
                                         <span></span>
                                     </label>
                                 </td>
-                                <td> 1 </td>
-                                <td> {{p.processType}} </td>
-                                <td>{{p.processItem}}</td>
-                                <td>2321312
+                                <td> {{p.processingNumber}}</td>
+                                <td> {{p.processType.processTypeName}} </td>
+                                <td>{{p.processItem.processItemName}}</td>
+                                <td>{{p.rate}}
                                     <br>
                                     <span>
-                                        <b>rs/m</b>
+                                        <b>{{p.processType.rate.uom.uomName}}</b>
                                     </span>
                                 </td>
-                                <td>23324324
+                                <td>{{p.quantity.linkedKeyValue.keyValue}}
                                     <br>
                                     <span>
-                                        <b>perimeter(m)</b>
+                                        <b>{{p.quantity.linkedKeyValue.keyVariable}} {{(p.processType.quantity.uom.uomName)}}</b>
                                     </span>
                                 </td>
-                                <td>{{p.quantity.total}} </td>
-                                <td> 600 </td>
-                                <td> 900</td>
-                                <td> 300</td>
-                                <td> Approved</td>
+                                <td>{{p.quantity.utilization}}</td>
+                                <td>{{p.quantity.contengncyOrWastage}}</td>
+                                <td>{{p.quantity.totalQuantity}}</td>
+                                <td>{{p.rate * p.quantity.totalQuantity}}</td>
+                                <td>{{p.remark}}</td>
                                 <td class="edit-icon">
-                                    <span class="label label-sm label-success" id="add_space" ng-click="editItemModal('Processing', p)">
+                                    <span class="label label-sm label-success" id="add_space" ng-click="addOrEditProcessingModal('update',level, estimateViewData.subAssemblyId, estimateViewData.partId, p.processingNumber)">
                                         <i class="fa fa-pencil"></i>
                                     </span>
                                     <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteProcessing', p.processingNumber, level, estimateViewData.subAssemblyId, estimateViewData.partId)">

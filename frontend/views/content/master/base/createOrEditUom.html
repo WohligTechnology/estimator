@@ -10,10 +10,10 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form class="form-horizontal">
+                <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">UOM:</label>
+                            <label class="col-md-4 control-label">UOM:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <input type="text" ng-model="formData.uomName" class="form-control" autofocus required>
                             </div>
@@ -22,8 +22,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditUom(formData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditUom(formData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditUom(formData)" ng-disabled ="formData.uomName.length == null">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditUom(formData)" ng-disabled ="formData.uomName.length == null">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

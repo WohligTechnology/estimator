@@ -41,7 +41,7 @@
             </div>
             <div class="portlet-body horizontal_scroll">
                 <div class="table-toolbar">
-                    <div class="row">
+                    <div class="row" ng-if="obj.total>obj.count">
                         <div class="col-md-8">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default">Show Records</button>
@@ -82,19 +82,19 @@
                 <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
                     <thead>
                         <tr>
-                            <th rowspan="2" class="align-top">
+                            <th rowspan="2" class="align-left">
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                     <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="customerData.length <= 0"
                                         ng-model="checkAll" ng-change="selectAll(customerData, checkAll)" />
                                     <span></span>
                                 </label>
                             </th>
-                            <th rowspan="2" class="align-top"> Id </th>
-                            <th rowspan="2" class="align-top"> Customer Name </th>
-                            <th rowspan="2" class="align-top"> Location </th>
-                            <th rowspan="2" class="align-top"> Payment Terms </th>
+                            <th rowspan="2" class="text-left"> Id </th>
+                            <th rowspan="2" class="text-left"> Customer Name </th>
+                            <th rowspan="2" class="text-left"> Location </th>
+                            <th rowspan="2" class="text-left"> Payment Terms </th>
                             <th colspan="3" class="text-center"> Margins </th>
-                            <th rowspan="2" class="align-top"> Action </th>
+                            <th rowspan="2" class="text-left"> Action </th>
                         </tr>
                         <tr>
                             <th>Negotiations</th>
@@ -107,21 +107,21 @@
                             <td>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                     <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
-                                        ng-change="selectBulkCustomers(checkboxStatus, customer._id)" />
+                                        ng-click="selectBulkCustomers(checkboxStatus, customer._id)" />
                                     <span></span>
                                 </label>
                             </td>
-                            <td>{{$index}} </td>
-                            <td>{{customer.customerName}} </td>
-                            <td>{{customer.location}} </td>
-                            <td class="center"> {{customer.paymentTerms}} </td>
+                            <td>{{$index + 1}} </td>
+                            <td>{{customer.customerName | capitalize}} </td>
+                            <td>{{customer.location | capitalize}} </td>
+                            <td class="center"> {{customer.paymentTerms | capitalize}} </td>
                             <td>{{customer.margins.negotiation}}</td>
                             <td>{{customer.margins.commission}}</td>
                             <td>{{customer.margins.other}}</td>
                             <td>
-                                <span class="label label-sm label-success" id="add_space" ng-click="addOrEditCustomerModal('update',customer)">
+                                <span class="label label-sm label-success" ng-click="addOrEditCustomerModal('update',customer)">
                                     <i class="fa fa-pencil" title="Edit Customers Details"></i>
-                                </span>
+                                </span>&nbsp;
                                 <span class="label label-sm label-danger" ng-click="deleteCustomerModal(customer._id,'deleteCustomer')">
                                     <i class="fa fa-trash-o" title="Delete Customer"></i>
                                 </span>

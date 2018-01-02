@@ -25,50 +25,24 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
   //- add or edit user
   this.addOrEditUser = function (userData, callback) {
-    NavigationService.apiCall('User/createUser', userData, function (data) {
-      callback();
+    NavigationService.apiCall('User/save', userData, function (data) {
+      callback(data);
     });
   }
   //- delete user
   this.deleteUser = function (userId, callback) {
-    var deleteUserObj = {
-      _id: userId
-    };
-    NavigationService.delete('User/delete', deleteUserObj, function (data) {
+    var idsArray = [];
+    idsArray.push(userId);
+    NavigationService.delete('Web/delRestrictions/User', {idsArray}, function (data) {
       callback(data);
     });
   }
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('User/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('User/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('User/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('User/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -116,8 +90,8 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
   //- delete bulk users
   this.deleteBulkUsers = function (users, callback) {
-    NavigationService.apiCall('User/deleteMultipleUsers', {idsArray: users}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/User', {idsArray: users}, function (data) {
+      callback(data);
     });
   }
 

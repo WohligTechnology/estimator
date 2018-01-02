@@ -92,8 +92,8 @@
                 <span class="arrow"></span>
             </a>
             <ul class="sub-menu" id="settingRole">
-                <li>
-                    <a ui-sref="app.roles">
+                <li class="nav-item" id="role" ng-class="{'active': currentState == 'role'}">
+                    <a ui-sref="app.roles" id="sidebar_menu_link_profile">
                         <i class="icon-puzzle"></i> Roles</span>
                     </a>
                 </li>

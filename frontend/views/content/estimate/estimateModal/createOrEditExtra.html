@@ -10,38 +10,46 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form  class="form-horizontal">
+                <form  class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">  Extra Item:</label>
+                            <label class="col-md-4 control-label">Extra Item:</label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-model="formData.extraItem" autofocus required>
-                                        <option>Item1</option>
-                                        <option>Item2</option>
-                                        <option>Item3</option>
-                                        <option>Item4</option>
+                                <select class="form-control" ng-options="ei.extraName for ei in extraObj.allExtraItem track by ei._id" ng-model="extraObj.selectedExtraItem"
+                                    placeholder="Select" ng-change="getSelectedExtraItem(extraObj.selectedExtraItem)" required>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label"><b>Quantity:</b></label>
                             <div class="col-md-5">
-                                    <input type="text" class="form-control" ng-model="formData.quantity" required>
+                                    <input type="number" class="form-control" ng-change="changeQuantity(extraObj.quantity)" ng-model="extraObj.quantity" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Remarks:</label>
                             <div class="col-md-5">
-                                <textarea class="form-control" ng-model="formData.remarks" required>
+                                <textarea class="form-control" ng-model="extraObj.remark" required>
                                 </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"><b>Total Cost:</b></label>
+                        <div class="col-md-5 text-left">
+                            <div>
+                                <label class="padd-t text-top"><b>{{extraObj.totalCost}}</b></label>
+                                <span>
+                                    <b>{{extraObj.uom}}</b>
+                                </span>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addExtra(formData,level, subAssemblyId, partId)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="editExtra()">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addExtra(extraObj,level, subAssemblyId, partId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="updateExtra(extraObj,level, subAssemblyId, partId, extraId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

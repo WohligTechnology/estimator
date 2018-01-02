@@ -111,7 +111,7 @@ myApp.service('masterPartService', function (NavigationService) {
             _id: partTypeId
         };
 
-        NavigationService.apiCall('MpartType/delete', deleteMatCat, function (data) {
+        NavigationService.apiCall('MPartType/delete', deleteMatCat, function (data) {
             callback(data);
         });
     }
@@ -189,6 +189,7 @@ myApp.service('masterPartService', function (NavigationService) {
 
     }
     this.getPresetViewWithData = function (operation, presetData, callback) {
+        debugger;
         var partPresetObj = {
             presetData: {}
         };
@@ -225,9 +226,10 @@ myApp.service('masterPartService', function (NavigationService) {
             delete presetData.createdAt;
             delete presetData.updatedAt;
             delete presetData.$$hashKey;
-            console.log('**** inside -------------------------- of masterPartService.js ****', presetData);
         }
-        presetData.partType = presetData.partTypeData.partTypeId;
+        
+        presetData.partType = presetData.partTypeData._id;
+        console.log('**** inside -------------------------- of masterPartService.js ****', presetData);
         NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
             callback(data);
         });
@@ -251,15 +253,12 @@ myApp.service('masterPartService', function (NavigationService) {
         });
     }
     this.deletePartTypeMaterial = function (materialId, partTypeId, callback) {
-        NavigationService.apiCall('MPartType/deletePartTypeMaterial', {
-            materialId: materialId,
-            _id: partTypeId
-        }, function (data) {
+        idsArray = [];
+        idsArray.push(materialId);
+
+        NavigationService.apiCall('Web/delRestrictions/MPartType', {idsArray}, function (data) {
             callback(data);
         });
     }
-
-
-
 
 });

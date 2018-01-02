@@ -1,10 +1,11 @@
-myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uibModal, $interpolate, $state, $scope, createOrEditEnquiryService) {
+myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toastr, $uibModal, $interpolate, $state, $scope, createOrEditEnquiryService) {
 
   // *************************** default variables/tasks begin here ***************** //
 
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
   $scope.showEstimateBtn = false;
+  $scope.editPermmission = false;
   $scope.formData = {
     enquiryDetails: {},
     enquiryInfo: {},
@@ -13,42 +14,82 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     commercialRequirement: {},
     preQualificationCriteria: {}
   };
-
+  //- cleave css 
+  $scope.options = {
+    mobile: {
+      phone: true,
+      phoneRegionCode: 'IN'
+    }
+  };
+  $scope.dateNow = $filter('date')(new Date(), "yyyy-MM-dd");
+  
 
   if (angular.isDefined($stateParams.enquiryId)) {
     $scope.showEstimateBtn = true;
     $scope.enquiryId = $stateParams.enquiryId;
+    $scope.editPermmission = true;
   }
 
 
   // *************************** default functions begin here  ********************** //
-
+  //- to get enquiry object
   $scope.getEnquiryObj = function () {
     createOrEditEnquiryService.getEnquiryObj($stateParams.enquiryId, function (data) {
       $scope.formData = data;
+      if ($stateParams.enquiryId) {
+        $scope.formData.enquiryDetails.estimator = data.enquiryDetails.estimator;
+        $scope.formData.customerDataObj = data.customerId;
+      }
     });
-  }
-  $scope.getCustomerData = function () {
+    //- to get all customer names and their locations
     createOrEditEnquiryService.getCustomerData(function (data) {
       $scope.customerData = data;
+    });
+    //- to get all user names
+    createOrEditEnquiryService.getUserData(function (data) {
+      $scope.userData = data;
+    });
+    //- to get all versions data
+    createOrEditEnquiryService.getEstimateVersionData($scope.enquiryId, function (data) {
+      $scope.versionData = data;
     });
   }
 
 
   // *************************** functions to be triggered form view begin here ***** //      
-  //- add form data
-  $scope.addEnquiryData = function (formData, operation) {
-    createOrEditEnquiryService.createEnquiry(formData, function (data) {
-      toastr.success('Record Added Successfully', 'EnquiryData Added!');
-      if (angular.isUndefined(formData._id)) {}
+  //- add  enquiry data
+  $scope.addEnquiryData = function (enquiryData) {
+    createOrEditEnquiryService.createEnquiry(enquiryData, function (data) {
+      if ($scope.editPermmission) {
+        toastr.success('Enquiry Updated Successfully');
+      } else {
+        toastr.success('Enquiry Added Successfully');
+        $state.go('app.editEnquiry', {
+          'enquiryId': data._id
+        });
+      }
     });
+  }
+  //- to bind customer data to formData
+  $scope.setCustomerData = function (customerDataObj) {
+    $scope.formData.enquiryDetails.customerLocation = customerDataObj.location;
+    $scope.formData.customerId = customerDataObj._id;
+    $scope.formData.enquiryDetails.customerName = customerDataObj.customerName;
+    $scope.formData.commercialRequirement.paymentTerms = customerDataObj.paymentTerms;
+  }
+  //- to bind user name to formData
+  $scope.setEstimator = function (userDataObj) {
+    $scope.formData.enquiryDetails.estimator = userDataObj._id;
   }
   //- to add assembly or to import assembly
   $scope.saveAssemblyNameModal = function (enquiryId) {
     $scope.enquiryId = enquiryId;
     //- get assembly name to create 
-    createOrEditEnquiryService.getAllAssemblyNumbers(function (data) {
+    createOrEditEnquiryService.getVersionsOfAssNo(function (data) {
       $scope.assemblyData = data;
+      $scope.assemblyName = null;
+      $scope.versionData = null;
+      $scope.versionObj = null;
       $scope.modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'views/content/enquiry/enquiryModal/getAssemblyName.html',
@@ -56,6 +97,10 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
         size: 'md',
       });
     });
+  }
+  //- get all estimate versions for particular assembly number
+  $scope.getAssemblyVersionData = function (assemblyObj) {
+      $scope.versionData = assemblyObj.versionDetail;
   }
   //- create new assembly
   $scope.saveAssemblyName = function (assName, enquiryId) {
@@ -66,8 +111,8 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     });
   }
   //- import assembly
-  $scope.importAssembly = function (assemblyNumber) {
-    createOrEditEnquiryService.getImportAssemblyData(assemblyNumber, function (data) {
+  $scope.importAssembly = function (assemblyId) {
+    createOrEditEnquiryService.getImportAssemblyData(assemblyId, function (data) {
       $state.go('app.createEstimate', {
         'estimateId': data._id,
       });
@@ -82,7 +127,6 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
   //- to initilize the default function  
   $scope.init = function () {
     $scope.getEnquiryObj();
-    $scope.getCustomerData();
   }
 
   $scope.init();

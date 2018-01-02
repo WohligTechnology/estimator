@@ -10,6 +10,7 @@ module.exports = [
   //Angular Libs   
   'bower_components/angular/angular.js',
   'bower_components/cleave.js/dist/cleave-angular.min.js',
+  'bower_components/cleave.js/dist/addons/cleave-phone.in.js',
   'bower_components/angular-bootstrap/ui-bootstrap.min.js',
   'bower_components/angular-ui-router/release/angular-ui-router.min.js',
   'bower_components/angular-flexslider/angular-flexslider.js',
@@ -70,6 +71,7 @@ module.exports = [
   'frontend/js/controllers/master/masterProcessCtrl.js',
   'frontend/js/controllers/master/masterShapeCtrl.js',
   'frontend/js/controllers/user/userCtrl.js',
+  'frontend/js/controllers/settings/roleCtrl.js',
   'frontend/js/controllers/UserProfileController.js',
   
 
@@ -87,6 +89,7 @@ module.exports = [
   'frontend/js/services/master/masterProcessService.js',
   'frontend/js/services/master/masterShapeService.js',
   'frontend/js/services/user/userService.js',
+  'frontend/js/services/settings/roleService.js',
   'frontend/js/services/user/userProfileService.js',
   'frontend/js/services/dashboardService.js'
 ];

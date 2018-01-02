@@ -10,28 +10,29 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form class="form-horizontal">
+                <form class="form-horizontal" name ="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Name:</label>
-                            <div class="col-md-5">
-                                <input type="text" ng-model="formData.difficultyFactor" class="form-control" autofocus required >
-                            </div>
+                                <label class="col-md-4 control-label">Name: <b class="error">&nbsp;*</b> </label>
+                                <div class="col-md-5">
+                                        <input type="text" ng-model="formData.difficultyFactor" class="form-control" autofocus required >
+                                    </div>
                         </div>
                             <div class="form-group">
-                            <label class="col-md-4 control-label">Mul Factor:</label>
+                            <label class="col-md-4 control-label">Mul Factor <b class="error">&nbsp;*</b></label>
                             <div class="col-md-5">
-                                <input type="text" ng-model="formData.mulfact" class="form-control" required>
+                                <input type="text" name="mulfactor"pattern="[\-\+]?[0-9]*(\.[0-9]+)?"  ng-model="formData.mulfact" class="form-control" required>
+                                <span class="error" ng-show="myForm.mulfactor.$invalid && myForm.mulfactor.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditDf(formData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditDf(formData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditDf(formData)" ng-disabled ="myForm.$dirty && myForm.$invalid || myForm.$pristine">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditDf(formData)" ng-disabled ="myForm.$dirty && myForm.$invalid || myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
-                            </div>
+                            </div> 
                         </div>
                     </div>
                 </form>

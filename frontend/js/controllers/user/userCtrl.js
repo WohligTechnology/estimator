@@ -12,8 +12,9 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   $scope.checkboxStatus = false; //- for multiple records selection
   //- for cleave validation
   $scope.options = {
-    phone: {
-      phone: true
+    mobile: {
+      phone: true,
+      phoneRegionCode: 'IN'      
     }
   };
 
@@ -50,13 +51,17 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   }
   //- to add or edit user
   $scope.addOrEditUser = function (operation, userData) {
-    userService.addOrEditUser(userData, function () {
-      $scope.getUserData();
-      $scope.cancelModal();
-      if (operation == 'save') {
-        toastr.info('Record added successfully');
+    userService.addOrEditUser(userData, function (data) {
+      if (angular.isDefined(data.data)) {
+        $scope.getUserData();
+        $scope.cancelModal();
+        if (operation == 'save') {
+          toastr.success('Record added successfully');
+        } else {
+          toastr.success('Record updated successfully');
+        }
       } else {
-        toastr.info('Record updated successfully');
+        toastr.Warning('Please enter details properly');
       }
     });
   }
@@ -74,23 +79,28 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   //- to delete user
   $scope.deleteUser = function (userId) {
     userService.deleteUser(userId, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getUserData();
-      toastr.info('Record deleted successfully');
     });
   }
   //- for pagination of users' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        userService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        userService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.userData = data.results;
           userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        userService.getPaginationDatawithoutKeyword(page, function (data) {
+        userService.getPaginationData(page, null, null, function (data) {
           $scope.userData = data.results;
           userService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -98,7 +108,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
         });
       }
     } else {
-      userService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      userService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.userData = data.results;
         userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
@@ -109,7 +119,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   }
   //- to search the text in table
   $scope.serachText = function (keyword, count) {
-    userService.getSearchResult(keyword, function (data) {
+    userService.getPaginationData(null, null, keyword, function (data) {
       $scope.userData = data.results;
       userService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
@@ -130,14 +140,18 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   }
   //-to delete bulk users
   $scope.deleteBulkUsers = function (users) {
-    userService.deleteBulkUsers(users, function () {
-
+    userService.deleteBulkUsers(users, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.bulkUsers = [];
       $scope.checkAll = false;
       $scope.checkboxStatus = false;
       $scope.getUserData();
-      toastr.info('Record deleted successfully', 'User Deletion!');
     });
   }
   //- to get bulk users

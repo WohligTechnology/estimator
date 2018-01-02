@@ -50,9 +50,45 @@ var controller = {
             })
         }
     },
-    getAllAssembliesNo: function (req, res) {
+    getAllUniqueAssembliesNo: function (req, res) {
         if (req.body) {
-            Estimate.getAllAssembliesNo(req.body, res.callback);
+            Estimate.getAllUniqueAssembliesNo(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    getEstimateVersion: function (req, res) {
+        if (req.body) {
+            Estimate.getEstimateVersion(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    getAllEstimateVersionOnAssemblyNo: function (req, res) {
+        if (req.body) {
+            Estimate.getAllEstimateVersionOnAssemblyNo(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
+    getVersionsOfAssNo: function (req, res) {
+        if (req.body) {
+            Estimate.getVersionsOfAssNo(req.body, res.callback);
         } else {
             res.json({
                 value: false,

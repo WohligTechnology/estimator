@@ -47,11 +47,10 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessCat = function (processCatId, callback) {
-    var deleteProCat = {
-      _id: processCatId
-    };
+    var idsArray = [];
+    idsArray.push(processCatId);
 
-    NavigationService.apiCall('MProcessCat/delete', deleteProCat, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/MProcessCat', {idsArray}, function (data) {
       callback(data);
     });
   }
@@ -80,11 +79,10 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessItem = function (processItemId, callback) {
-    var deleteProItem = {
-      _id: processItemId
-    };
+    idsArray = [];
+    idsArray.push(processItemId);
 
-    NavigationService.apiCall('MProcessItem/delete', deleteProItem, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/MProcessItem', {idsArray}, function (data) {
       callback(data);
     });
   }
@@ -131,45 +129,18 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessType = function (processId, callback) {
-    var deleteProcessObj = {
-      _id: processId
-    };
-    NavigationService.delete('MProcessType/delete', deleteProcessObj, function (data) {
+    idsArray = [];
+    idsArray.push(processId);
+    NavigationService.delete('Web/delRestrictions/MProcessType', {idsArray}, function (data) {
       callback(data);
     });
   }
-
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('MProcessType/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('MProcessType/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('MProcessType/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('MProcessType/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -218,8 +189,8 @@ myApp.service('masterProcessService', function (NavigationService) {
   }
   //- delete bulk processes
   this.deleteBulkProcesses = function (processes, callback) {
-    NavigationService.apiCall('MProcessType/deleteMultipleProcessType', {idsArray: processes}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/MProcessType', {idsArray: processes}, function (data) {
+      callback(data);
     });
   }
 

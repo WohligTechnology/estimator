@@ -1,25 +1,33 @@
- // master shape css 
+   // master shape css 
  .leftPosition {
    flex-direction: row;
+   img {
+     margin-right:0.5em;
+   }
  }
 
- .rightPosition {
-   flex-direction: row-reverse;
- }
-
- .leftPosition,
  .rightPosition {
    display: flex;
    img {
      width: 3em;
      height: 3em;
-     margin-left: 0.5em;
    }
  }
 
-//  .topPosition {}
+ .topPosition {
+   img {
+     width: 19em;
+     padding-bottom: 1em;
+   }
+ }
 
- // 
+ .iconWidth {
+   img {
+     width: 36px !important;
+     height: 36px;
+   }
+ }
+
  @media (min-width: 992px) {
    .hideSideBar {
      margin-left: 0px !important;
@@ -546,15 +554,42 @@ tree css*/
  } //- css to add a unit into textbox
  .unit {
    position: absolute;
+   color: #c2c2c2;
    top: 5px;
    right: 22px;
+ } 
+ 
+ //role modal table css
+ #table_alignment {
+   text-align: left !important;
+ } 
+ 
+ //role table css
+ .greenColor {
+   color:green;
+ }
+ .redColor {
+   color:red;
  }
 
- .select-color {
-   margin-top: 10%;
-   border-color: #32c5d2;
-   color: #32c5d2;
-   background: #FFFF;
-   padding: 3px 8px;
-   font-size: 12px;
+ //checkbox css
+ .mt-checkbox.mt-checkbox-outline> input:checked ~ span {
+  border-color: rgb(84, 131, 145) !important;
+  background: #3d4957 !important; 
+  position: absolute !important;
+ }
+
+ //- global variable block css
+ .displayBlock {
+    display: block;
+    padding:15px;
+    background-color: #e6e5e7;
+    width:19em;
+    margin-left: -15px;
+    font-family: Arial, Helvetica, sans-serif;
+ }
+ //- css for validation
+ .error {
+   color:red;
+   //margin-top: -2px;
  }
