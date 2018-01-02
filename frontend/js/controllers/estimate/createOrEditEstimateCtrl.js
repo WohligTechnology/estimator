@@ -7,7 +7,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.showEditBtn = false;
   $scope.bulkItems = []; //- for multiple deletion
   $scope.checkboxStatus = false; //- for multiple records selection
-  $scope.checkAll = false; //- for all records selection
+  $scope.checkAll = false; //- for all records selectione
   $scope.hardFacingAlloys = []; //- for dynamic addition of Hard Facing Alloys
   $scope.changesCounter = 0; //- for save changes before redirecting
 
@@ -18,9 +18,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     allSizes: [], //- get data from selected preset
 
     selectedShortcut: {}, //- selected partType presets 
-    selectedPartType: {}, //- selected partType
+    selectedPartType: {}, //- selected partType 
     selectedMaterial: {}, //- selected material     
-    selectedSize: {}, //- slected size
+    selectedSize: {}, //- slected size 
 
     customMaterials: [], //- get all custom material from  API
     selectedCustomMaterial: {}, //- selecetd custom materail  

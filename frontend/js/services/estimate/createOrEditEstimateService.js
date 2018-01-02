@@ -706,7 +706,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			});
 		}
 		if (temp != 0) {
-<<<<<<< HEAD
 			calculationsObj.perimeter = tempObj.perimeter;
 			calculationsObj.sheetMetalArea = tempObj.sheetMetalArea;
 			calculationsObj.surfaceArea = tempObj.surfaceArea;
@@ -715,9 +714,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			//partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = calculationsObj;
 			//formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = calculationsObj;
 			callback(calculationsObj);
-=======
-			callback(tempObj);
->>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
+
 		} else {
 			callback();
 		}
@@ -838,7 +835,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 			partProcessingObj.linkedKeyValuesAtPartCalculation = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
 		} else if (level == 'subAssembly') {
-			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly		
+			//- get linkedKeyValue object by calculating the total of all parts belongs to the corresponding subAssembly		
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
 				if (!_.isEmpty(data)) {
@@ -846,9 +843,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				}
 			});
 		} else if (level == 'assembly') {
-			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
+			//- get linkedKeyValue object by calculating the total of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
-			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation
+			//- & then calculate total of all linkedKeyValuesAtSubAssemblyCalculation
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
 				if (!_.isEmpty(data)) {
 					partProcessingObj.linkedKeyValuesAtAssemblyCalculation = data;
@@ -1040,10 +1037,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	//- to get the required data in order to add / edit addon at any level
 	this.getAddonModalData = function (operation, level, subAssemblyId, partId, addonId, callback) {
-<<<<<<< HEAD
-
-=======
->>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 		var addonObject = {
 			allAddonTypes: [],
 			allMaterials: [],
@@ -1094,10 +1087,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		//- to get keyValue calculations
 		if (level == 'part') {
 			//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
-<<<<<<< HEAD
-
-=======
->>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 			var tempPartCal = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
@@ -1110,37 +1099,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				Hrs: null
 			};
 		} else if (level == 'subAssembly') {
-			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly
+			//- get linkedKeyValue object by calculating the total of all parts belongs to the corresponding subAssembly
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-<<<<<<< HEAD
-			var count = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.length;
-			var tempObj = {
-				perimeter: 0,
-				sheetMetalArea: 0,
-				surfaceArea: 0,
-				weight: 0
-			};
-			//- to check access permission
-			var temp = 0;
-			var calculationsObj = formData.assembly.subAssemblies[subAssIndex].keyValueCalculations;
 
-			angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts,  function (record) {
-				if (!isNaN(parseFloat(record.keyValueCalculations.perimeter))) {
-					tempObj.perimeter += parseFloat(record.keyValueCalculations.perimeter);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.sheetMetalArea))) {
-					tempObj.sheetMetalArea += parseFloat(record.keyValueCalculations.sheetMetalArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.surfaceArea))) {
-					tempObj.surfaceArea += parseFloat(record.keyValueCalculations.surfaceArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(record.keyValueCalculations.weight))) {
-					tempObj.weight += parseFloat(record.keyValueCalculations.weight);
-					temp += 1;
-=======
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
 				if (!_.isEmpty(data)) {
 					addonObject.linkedKeyValuesAtSubAssemblyCalculation =  {
@@ -1151,13 +1112,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						Nos: null,
 						Hrs: null
 					};
->>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 				}
 			});
 		} else if (level == 'assembly') {
-			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
+			//- get linkedKeyValue object by calculating the total of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
-			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation
+			//- & then calculate total of all linkedKeyValuesAtSubAssemblyCalculation
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
 				if (!_.isEmpty(data)) {
 					addonObject.linkedKeyValuesAtAssemblyCalculation = {
@@ -1199,11 +1159,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				NavigationService.apiCall('MMaterial/getAllMaterials', {
 					_id: tempAddonObj.addonType._id
 				}, function (getAllMaterials) {
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 					addonObject.allAddonTypes = addonTypeData.data;
 					addonObject.allMaterials = getAllMaterials.data;
 					addonObject.selectedAddonType = tempAddonObj.addonType;
@@ -1227,10 +1182,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 					addonObject.addonNumber = tempAddonObj.addonNumber;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 
 					callback(addonObject);
 				});
@@ -1251,10 +1203,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	//- to add an addon
 	this.createAddon = function (addonObj, level, subAssemblyId, partId, callback) {
-<<<<<<< HEAD
 
-=======
->>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 		var id;
 		if (level == 'assembly') {
 			id = this.getAddonNumber(level);
@@ -1308,11 +1257,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		tempAddonObject.remark = addonData.remark;
 		tempAddonObject.totalCost = addonData.totalCost;
 
-<<<<<<< HEAD
 
-		console.log('**** inside before adding aadons of createOrEditEstimateService.js ****', formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex]);
-=======
->>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 		if (level == 'assembly') {
 			formData.assembly.addons[getAddonIndex] = tempAddonObject;
 		} else if (level == 'subAssembly') {
@@ -1320,11 +1265,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (level == 'part') {
 			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex] = tempAddonObject;
 		}
-
-<<<<<<< HEAD
-		console.log('**** inside after adding aadons of createOrEditEstimateService.js ****', formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex]);
-=======
->>>>>>> 5f78d6060726197a8345b6f8c8b0694ad0d82967
 		callback();
 	}
 	//- to delete an addon
