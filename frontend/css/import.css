@@ -14,16 +14,16 @@
  * FONT-FACE
  * ====================================================================================================================*/
 @import "http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all";
-@import url(../../frontend/themeassets/global/plugins/simple-line-icons/simple-line-icons.min.css);
-@import url(../../frontend/themeassets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css);
-@import url(../../frontend/themeassets/global/css/components.min.css);
-@import url(../../frontend/themeassets/global/css/plugins.min.css);
-@import url(../../frontend/themeassets/layouts/layout/css/layout.min.css);
-@import url(../../frontend/themeassets/layouts/layout/css/themes/darkblue.min.css);
-@import url(../../frontend/themeassets/layouts/layout/css/custom.min.css);
-@import url(../../frontend/sass/myTreeCss.css);
-@import url(../../frontend/themeassets/pages/css/login-4.min.css);
-@import url(../../frontend/themeassets/pages/css/profile.min.css);
+@import url(../themeassets/global/plugins/simple-line-icons/simple-line-icons.min.css);
+@import url(../themeassets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css);
+@import url(../themeassets/global/css/components.min.css);
+@import url(../themeassets/global/css/plugins.min.css);
+@import url(../themeassets/layouts/layout/css/layout.min.css);
+@import url(../themeassets/layouts/layout/css/themes/darkblue.min.css);
+@import url(../themeassets/layouts/layout/css/custom.min.css);
+@import url(../sass/myTreeCss.css);
+@import url(../themeassets/pages/css/login-4.min.css);
+@import url(../themeassets/pages/css/profile.min.css);
 @font-face {
   font-family: 'flexslider-icon';
   src: url("fonts/flexslider-icon.eot");
@@ -74,6 +74,7 @@
 
 html[xmlns] .flexslider .slides {
   display: block; }
+
 * html .flexslider .slides {
   height: 1%; }
 
@@ -9278,6 +9279,29 @@ header {
   margin: 0;
   border-top: 1px solid #e7ecf1; }
 
+.leftPosition {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row; }
+
+.rightPosition {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse; }
+
+.leftPosition,
+.rightPosition {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  .leftPosition img,
+  .rightPosition img {
+    width: 3em;
+    height: 3em;
+    margin-left: 0.5em; }
+
 @media (min-width: 992px) {
   .hideSideBar {
     margin-left: 0px !important; } }
@@ -9642,8 +9666,8 @@ body {
   height: 419px; }
 
 .vertical_scroll::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   background-color: #F5F5F5; }
 
 .vertical_scroll::-webkit-scrollbar-track {
@@ -9660,7 +9684,7 @@ body {
   overflow: auto; }
 
 .horizontal_scroll::-webkit-scrollbar {
-  height: 10px;
+  height: 7px;
   background-color: #F5F5F5; }
 
 .horizontal_scroll::-webkit-scrollbar-track {
@@ -9727,8 +9751,4 @@ body {
   background-image: url(../img/next.png); }
 
 .fancybox-nav.fancybox-prev span {
-<<<<<<< HEAD
   background-image: url(../img/prev.png); }
-=======
-  background-image: url(../img/prev.png); }
->>>>>>> development
