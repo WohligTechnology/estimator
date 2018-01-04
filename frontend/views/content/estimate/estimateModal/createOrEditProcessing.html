@@ -11,7 +11,7 @@
                 <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Process Type:</label>
+                            <label class="col-md-4 control-label">Process Type:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="pt.processTypeName for pt in partProcessingObj.processingTypeData track by pt._id" ng-model="partProcessingObj.selectedProcessingType"
                                     placeholder="Select" ng-change="getSelectedProessType(partProcessingObj.selectedProcessingType)" required>
@@ -19,7 +19,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Process Item:</label>
+                            <label class="col-md-4 control-label">Process Item:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="pi.processItemName for pi in partProcessingObj.processingItemData track by pi._id" ng-model="partProcessingObj.selectedProcessingItem"
                                     placeholder="Select" ng-click="getSelectedProessItem(partProcessingObj.selectedProcessingItem)" ng-disabled="disableProcessingFields.disableProcessItem" required>
@@ -70,7 +70,7 @@
                             </div>
                         </div> -->
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Utilization:</label>
+                            <label class="col-md-4 control-label">Utilization:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5 text-left">
                                 <div class="display-inline">
                                     <input type="text" class="form-control" name="utilization" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="partProcessingObj.quantity.utilization" placeholder="100"
@@ -83,7 +83,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Contigency or Wastage:</label>
+                            <label class="col-md-4 control-label">Contigency or Wastage:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5 text-left">
                                 <div class="display-inline">
                                     <input type="text" class="form-control" name="contengncyOrWastage" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="partProcessingObj.quantity.contengncyOrWastage"
@@ -96,13 +96,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Total Quantity:</label>
+                            <label class="col-md-4 control-label">Total Quantity:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5 text-left">
                                 <input type="number" class="form-control" ng-model="partProcessingObj.quantity.totalQuantity" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Remark:</label>
+                            <label class="col-md-4 control-label">Remark:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5 text-left">
                                 <textarea class="form-control" ng-model="partProcessingObj.remark" required>
                                 </textarea>

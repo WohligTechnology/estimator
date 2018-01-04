@@ -111,15 +111,15 @@
                                     </td>
                                     <td> {{$index + 1}} </td>
                                     <td> {{p.subAssemblyName  | capitalize}} </td>
-                                    <td>5 </td>
+                                    <td> {{p.quantity}} </td>
                                     <td> {{p.totalWeight}} </td>
                                     <td> {{p.materialCost}} </td>
                                     <td> {{p.processingCost}} </td>
                                     <td> {{p.addonCost}} </td>
                                     <td> {{p.extrasCost}} </td>
                                     <td> {{p.totalCost}}</td>
-                                    <td> Approved</td>
-                                    <td> Approved </td>
+                                    <td> {{p.totalWeight * p.quantity}} </td>
+                                    <td> {{p.totalCost * p.quantity}} </td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" id="add_space" ng-click="addOrEditSubAssemblyModal('update', p)">
                                             <i class="fa fa-pencil"></i>

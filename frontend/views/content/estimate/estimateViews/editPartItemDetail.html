@@ -24,7 +24,7 @@
             <div class="portlet-body">
                 <div class="table-toolbar">
                     <div class="part-detail-form">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" name="myForm">
                             <div class="form-body">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -37,7 +37,7 @@
                                             <label class="col-md-4 control-label">Shortcut:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="s.presetName for s in estimatePartObj.allShortcuts track by s._id" ng-model="estimatePartObj.selectedShortcut"
-                                                    placeholder="Select" ng-change="getSelectedShortcutData(estimatePartObj.selectedShortcut)" ng-disabled="disablePartFields.disableShortcut">
+                                                    placeholder="Select" ng-change="getSelectedShortcutData(estimatePartObj.selectedShortcut)" ng-disabled="disablePartFields.disableShortcut" required>
                                                 </select>
                                             </div>
                                         </div>
@@ -45,7 +45,7 @@
                                             <label class="col-md-4 control-label">Part Type Name:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="ptn.partTypeName for ptn in estimatePartObj.allPartTypes track by ptn._id" ng-model="estimatePartObj.selectedPartType"
-                                                    placeholder="Select" ng-change="getSelectedPartTypeData(estimatePartObj.selectedPartType)" ng-disabled="disablePartFields.disablePartType">
+                                                    placeholder="Select" ng-change="getSelectedPartTypeData(estimatePartObj.selectedPartType)" ng-disabled="disablePartFields.disablePartType" required>
                                                 </select>
                                             </div>
                                         </div>
@@ -53,7 +53,7 @@
                                             <label class="col-md-4 control-label">Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id" ng-model="estimatePartObj.selectedMaterial"
-                                                    placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial)" ng-disabled="disablePartFields.disableMaterial">
+                                                    placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial)" ng-disabled="disablePartFields.disableMaterial" required>
                                                 </select>
                                             </div>
                                         </div>
@@ -62,7 +62,7 @@
                                             <label class="col-md-4 control-label">Size:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="s.presetSize for s in estimatePartObj.allShortcuts track by s._id" ng-model="estimatePartObj.selectedSize"
-                                                    placeholder="Select" ng-change="getSelectedSizeData(disablePartFields.disableSize)" ng-disabled="disablePartFields.disableSize">
+                                                    placeholder="Select" ng-change="getSelectedSizeData(disablePartFields.disableSize)" ng-disabled="disablePartFields.disableSize" required>
                                                 </select>
                                             </div>
                                         </div>
@@ -191,8 +191,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="updatePartDetail(estimatePartObj)">Save</button>
-                                        <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="updatePartDetail(estimatePartObj)">Update</button>
+                                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="updatePartDetail(estimatePartObj)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Save</button>
+                                        <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="updatePartDetail(estimatePartObj)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Update</button>
                                         <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                                     </div>
                                 </div>

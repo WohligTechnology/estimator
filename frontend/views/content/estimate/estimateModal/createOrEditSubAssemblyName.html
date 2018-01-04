@@ -13,17 +13,29 @@
                 <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Enter Sub Assembly Name:<span class="error">&nbsp;&nbsp;*</span></label>
+                            <label class="col-md-4 control-label">Enter Sub Assembly Name:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="formData.subAssemblyName" placeholder="Enter Assembly Name" autofocus required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Quantity:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
+                            <div class="col-md-5">
+                                <input type="number" class="form-control" ng-model="formData.quantity" placeholder="1">
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="formData.subAssemblyName == null || myForm.$pristine" ng-click="editSubAssembly(formData.subAssemblyNumber)">Update</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="formData.subAssemblyName == null || myForm.$pristine" ng-click="addSubAssembly(formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="formData.subAssemblyName == null || myForm.$pristine"
+                                    ng-click="editSubAssembly(formData.subAssemblyNumber, formData.quantity)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="formData.subAssemblyName == null || myForm.$pristine"
+                                    ng-click="addSubAssembly(formData)">Save</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

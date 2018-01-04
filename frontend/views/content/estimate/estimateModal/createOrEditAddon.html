@@ -13,7 +13,7 @@
                 <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label"> Addon Type:</label>
+                            <label class="col-md-4 control-label"> Addon Type:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="at.addonTypeName for at in addonObj.allAddonTypes track by at._id" ng-model="addonObj.selectedAddonType"
                                     placeholder="Select" ng-change="getSelectedAddonType(addonObj.selectedAddonType)">
@@ -21,7 +21,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label"> Material:</label>
+                            <label class="col-md-4 control-label"> Material:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="m.materialName for m in addonObj.allMaterials track by m._id" ng-model="addonObj.selectedMaterial"
                                     placeholder="Select" ng-change="getSelectedMaterial(addonObj.selectedMaterial)">
@@ -86,7 +86,7 @@
                         </div> -->
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">% Use:</label>
+                            <label class="col-md-4 control-label">% Use:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <div class="display-inline">
                                     <input type="text" class="form-control" placeholder="100" name="utilization" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="addonObj.quantity.utilization" required>
@@ -98,7 +98,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Contegency or Wastage:</label>
+                            <label class="col-md-4 control-label">Contegency or Wastage:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <div class="display-inline">
                                     <input type="text" class="form-control" placeholder="10" name="contengncyOrWastage" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="addonObj.quantity.contengncyOrWastage" required>
@@ -110,7 +110,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Total Quantity:</label>
+                            <label class="col-md-4 control-label">Total Quantity:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="addonObj.quantity.total" ng-change="changeAddonQuantity(addonObj.quantity.total)"
                                     required>

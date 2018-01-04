@@ -116,6 +116,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		enquiryId: "",
 		assemblyName: "",
 		assemblyNumber: "",
+		quantity: "",
 		keyValueCalculations: {
 			perimeter: "",
 			sheetMetalArea: "",
@@ -296,13 +297,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			subAssembly.processingCost = costCalculations.pCost;
 			subAssembly.addonCost = costCalculations.aCost;
 			subAssembly.extrasCost = costCalculations.eCost;
+			subAssembly.totalCost = subAssembly.totalWeight + subAssembly.materialCost + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost;			
 			costCalculations.pCostAtAssemby += costCalculations.pCost;
 			costCalculations.aCostAtAssemby += costCalculations.aCost;
 			costCalculations.eCostAtAssemby += costCalculations.eCost;
-			subAssembly.totalCost = subAssembly.totalWeight + subAssembly.materialCost + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost;
 			costCalculations.pCostAtSubAssembly = costCalculations.aCostAtSubAssembly = costCalculations.eCostAtSubAssembly = 0;
 			costCalculations.pCost = costCalculations.aCost = costCalculations.eCost = 0;
-
 		});
 		formData.assembly.totalWeight = costCalculations.wtAtSubAssembly;
 		formData.assembly.materialCost = costCalculations.mtAtAssembly;
@@ -318,6 +318,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var getViewData = [];
 
 		if (estimateView == 'assembly') {
+			formData.assembly.quantity = 1;
 			getViewData = formData.assembly;
 		} else if (estimateView == 'subAssembly') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
@@ -533,6 +534,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempSubAssObj = _.cloneDeep(subAssembly);
 		tempSubAssObj.subAssemblyNumber = formData.assembly.assemblyNumber + "SA" + id;
 		tempSubAssObj.subAssemblyName = subAssObj.subAssemblyName;
+		if(angular.isDefined(subAssObj.quantity)) {
+			tempSubAssObj.quantity = subAssObj.quantity;
+		} else {
+			tempSubAssObj.quantity = 1;
+		}
 		var tempObj = {
 			perimeter: "",
 			sheetMetalArea: "",
@@ -706,16 +712,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			});
 		}
 		if (temp != 0) {
-
-			calculationsObj.perimeter = tempObj.perimeter;
-			calculationsObj.sheetMetalArea = tempObj.sheetMetalArea;
-			calculationsObj.surfaceArea = tempObj.surfaceArea;
-			calculationsObj.weight = tempObj.weight;
-
-			//partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = calculationsObj;
-			//formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = calculationsObj;
-			callback(calculationsObj);
-
+			callback(tempObj);
 		} else {
 			callback();
 		}
@@ -836,7 +833,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 			partProcessingObj.linkedKeyValuesAtPartCalculation = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
 		} else if (level == 'subAssembly') {
-			//- get linkedKeyValue object by calculating the total of all parts belongs to the corresponding subAssembly		
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly		
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
 				if (!_.isEmpty(data)) {
@@ -844,9 +841,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				}
 			});
 		} else if (level == 'assembly') {
-			//- get linkedKeyValue object by calculating the total of all parts belongs to the corresponding assembly
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
-			//- & then calculate total of all linkedKeyValuesAtSubAssemblyCalculation
+			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
 				if (!_.isEmpty(data)) {
 					partProcessingObj.linkedKeyValuesAtAssemblyCalculation = data;
@@ -1100,7 +1097,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				Hrs: null
 			};
 		} else if (level == 'subAssembly') {
-			//- get linkedKeyValue object by calculating the total of all parts belongs to the corresponding subAssembly
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
@@ -1116,9 +1113,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				}
 			});
 		} else if (level == 'assembly') {
-			//- get linkedKeyValue object by calculating the total of all parts belongs to the corresponding assembly
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
-			//- & then calculate total of all linkedKeyValuesAtSubAssemblyCalculation
+			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
 				if (!_.isEmpty(data)) {
 					addonObject.linkedKeyValuesAtAssemblyCalculation = {
