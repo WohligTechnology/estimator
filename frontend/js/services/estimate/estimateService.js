@@ -12,7 +12,7 @@ myApp.service('estimateService', function (NavigationService) {
   this.deleteEstimate = function (estimateId, callback) {
     var idsArray = [];
     idsArray.push(estimateId);
-    NavigationService.delete('Web/delRestrictions/DraftEstimate', {idsArray}, function (data) {
+    NavigationService.delete('Web/delRestrictions/DraftEstimate', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }

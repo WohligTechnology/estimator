@@ -34,7 +34,7 @@ myApp.service('masterMaterialService', function (NavigationService) {
     this.deleteMaterialCat = function (materialCatId, callback) {
         idsArray = [];
         idsArray.push(materialCatId);
-        NavigationService.apiCall('Web/delRestrictions/MMaterialCat', {idsArray}, function (data) {
+        NavigationService.apiCall('Web/delRestrictions/MMaterialCat', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }
@@ -65,7 +65,7 @@ myApp.service('masterMaterialService', function (NavigationService) {
     this.deleteMaterialSubCat = function (materialSubCatId, callback) {
         idsArray = [];
         idsArray.push(materialSubCatId);
-        NavigationService.apiCall('Web/delRestrictions/MMaterialSubCat', {idsArray}, function (data) {
+        NavigationService.apiCall('Web/delRestrictions/MMaterialSubCat', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }
@@ -96,7 +96,7 @@ myApp.service('masterMaterialService', function (NavigationService) {
     this.deleteMaterial = function (materialId, callback) {
         idsArray = [];
         idsArray.push(materialId);
-        NavigationService.apiCall('Web/delRestrictions/MMaterial', {idsArray}, function (data) {
+        NavigationService.apiCall('Web/delRestrictions/MMaterial', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }

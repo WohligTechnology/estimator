@@ -61,7 +61,7 @@ myApp.service('masterShapeService', function (
         } else if (operation == "update") {
             var idsArray = [];
             idsArray.push(shape._id);
-            NavigationService.apiCall('Mshape/restrictShapeVariable', {idsArray}, function(data){
+            NavigationService.apiCall('Mshape/restrictShapeVariable', {idsArray: idsArray}, function(data){
                 shapeDataObj.saveBtn = false;
                 shapeDataObj.editBtn = true;
                 if(!_.isEmpty(data.data)){
@@ -92,9 +92,10 @@ myApp.service('masterShapeService', function (
         });
     }
     this.deleteShape = function (shapeId, callback) {
+        debugger;
         idsArray = [];
         idsArray.push(shapeId);
-        NavigationService.delete('Web/delRestrictions/MShape', {idsArray}, function (data) {
+        NavigationService.delete('Web/delRestrictions/MShape', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }

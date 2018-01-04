@@ -48,7 +48,7 @@ myApp.service('baseMatserService', function (NavigationService) {
     this.deleteUom = function(uomId,callback){
         idsArray = [];
         idsArray.push(uomId);
-        NavigationService.delete('Web/delRestrictions/MUom',{idsArray}, function(data){
+        NavigationService.delete('Web/delRestrictions/MUom',{idsArray: idsArray}, function(data){
             debugger;
             callback(data);
         });
@@ -76,7 +76,7 @@ myApp.service('baseMatserService', function (NavigationService) {
     this.deleteVariable = function(variableId,callback){
         idsArray = [];
         idsArray.push(variableId);
-        NavigationService.delete('Web/delRestrictions/MVariables',{idsArray}, function(data){
+        NavigationService.delete('Web/delRestrictions/MVariables',{idsArray: idsArray}, function(data){
             callback(data);
         });
     }
@@ -104,7 +104,7 @@ myApp.service('baseMatserService', function (NavigationService) {
     this.deleteDf = function(dfId,callback){
         idsArray = [];
         idsArray.push(dfId);
-        NavigationService.delete('Web/delRestrictions/MDifficultyFactor',{idsArray}, function(data){
+        NavigationService.delete('Web/delRestrictions/MDifficultyFactor',{idsArray: idsArray}, function(data){
             callback(data);
         });
     }
@@ -132,7 +132,7 @@ myApp.service('baseMatserService', function (NavigationService) {
     this.deleteMarkup = function(markupId,callback){
         idsArray = [];
         idsArray.push(markupId);
-        NavigationService.delete('Web/delRestrictions/MMarkup',{idsArray}, function(data){
+        NavigationService.delete('Web/delRestrictions/MMarkup',{idsArray: idsArray}, function(data){
             callback(data);
         });
     }

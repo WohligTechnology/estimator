@@ -34,7 +34,7 @@ myApp.service('customerService', function (NavigationService) {
   this.deleteCustomer = function (customerId, callback) {
     var idsArray = [];
     idsArray.push(customerId);
-    NavigationService.delete('Web/delRestrictions/Customer', {idsArray}, function (data) {
+    NavigationService.delete('Web/delRestrictions/Customer', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }

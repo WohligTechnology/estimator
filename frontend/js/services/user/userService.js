@@ -33,7 +33,7 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   this.deleteUser = function (userId, callback) {
     var idsArray = [];
     idsArray.push(userId);
-    NavigationService.delete('Web/delRestrictions/User', {idsArray}, function (data) {
+    NavigationService.delete('Web/delRestrictions/User', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }

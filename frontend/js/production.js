@@ -37906,6 +37906,57 @@ $provide.value("$locale", {
  * Copyright (C) 2012-2017 Max Huang https://github.com/nosir/
  */
 !function(root,factory){"object"==typeof exports&&"object"==typeof module?module.exports=factory():"function"==typeof define&&define.amd?define([],factory):"object"==typeof exports?exports.Cleave=factory():root.Cleave=factory()}(this,function(){return function(modules){function __webpack_require__(moduleId){if(installedModules[moduleId])return installedModules[moduleId].exports;var module=installedModules[moduleId]={exports:{},id:moduleId,loaded:!1};return modules[moduleId].call(module.exports,module,module.exports,__webpack_require__),module.loaded=!0,module.exports}var installedModules={};return __webpack_require__.m=modules,__webpack_require__.c=installedModules,__webpack_require__.p="",__webpack_require__(0)}([function(module,exports,__webpack_require__){(function(global){"use strict";var Cleave=function(element,opts){var owner=this;if("string"==typeof element?owner.element=document.querySelector(element):owner.element="undefined"!=typeof element.length&&element.length>0?element[0]:element,!owner.element)throw new Error("[cleave.js] Please check the element");opts.initValue=owner.element.value,owner.properties=Cleave.DefaultProperties.assign({},opts),owner.init()};Cleave.prototype={init:function(){var owner=this,pps=owner.properties;(pps.numeral||pps.phone||pps.creditCard||pps.date||0!==pps.blocksLength||pps.prefix)&&(pps.maxLength=Cleave.Util.getMaxLength(pps.blocks),owner.isAndroid=Cleave.Util.isAndroid(),owner.lastInputValue="",owner.onChangeListener=owner.onChange.bind(owner),owner.onKeyDownListener=owner.onKeyDown.bind(owner),owner.onCutListener=owner.onCut.bind(owner),owner.onCopyListener=owner.onCopy.bind(owner),owner.element.addEventListener("input",owner.onChangeListener),owner.element.addEventListener("keydown",owner.onKeyDownListener),owner.element.addEventListener("cut",owner.onCutListener),owner.element.addEventListener("copy",owner.onCopyListener),owner.initPhoneFormatter(),owner.initDateFormatter(),owner.initNumeralFormatter(),owner.onInput(pps.initValue))},initNumeralFormatter:function(){var owner=this,pps=owner.properties;pps.numeral&&(pps.numeralFormatter=new Cleave.NumeralFormatter(pps.numeralDecimalMark,pps.numeralIntegerScale,pps.numeralDecimalScale,pps.numeralThousandsGroupStyle,pps.numeralPositiveOnly,pps.delimiter))},initDateFormatter:function(){var owner=this,pps=owner.properties;pps.date&&(pps.dateFormatter=new Cleave.DateFormatter(pps.datePattern),pps.blocks=pps.dateFormatter.getBlocks(),pps.blocksLength=pps.blocks.length,pps.maxLength=Cleave.Util.getMaxLength(pps.blocks))},initPhoneFormatter:function(){var owner=this,pps=owner.properties;if(pps.phone)try{pps.phoneFormatter=new Cleave.PhoneFormatter(new pps.root.Cleave.AsYouTypeFormatter(pps.phoneRegionCode),pps.delimiter)}catch(ex){throw new Error("[cleave.js] Please include phone-type-formatter.{country}.js lib")}},onKeyDown:function(event){var owner=this,pps=owner.properties,charCode=event.which||event.keyCode,Util=Cleave.Util,currentValue=owner.element.value;return Util.isAndroidBackspaceKeydown(owner.lastInputValue,currentValue)&&(charCode=8),owner.lastInputValue=currentValue,8===charCode&&Util.isDelimiter(currentValue.slice(-pps.delimiterLength),pps.delimiter,pps.delimiters)?void(pps.backspace=!0):void(pps.backspace=!1)},onChange:function(){this.onInput(this.element.value)},onCut:function(e){this.copyClipboardData(e),this.onInput("")},onCopy:function(e){this.copyClipboardData(e)},copyClipboardData:function(e){var owner=this,pps=owner.properties,Util=Cleave.Util,inputValue=owner.element.value,textToCopy="";textToCopy=pps.copyDelimiter?inputValue:Util.stripDelimiters(inputValue,pps.delimiter,pps.delimiters);try{e.clipboardData?e.clipboardData.setData("Text",textToCopy):window.clipboardData.setData("Text",textToCopy),e.preventDefault()}catch(ex){}},onInput:function(value){var owner=this,pps=owner.properties,prev=value,Util=Cleave.Util;return pps.numeral||!pps.backspace||Util.isDelimiter(value.slice(-pps.delimiterLength),pps.delimiter,pps.delimiters)||(value=Util.headStr(value,value.length-pps.delimiterLength)),pps.phone?(pps.result=pps.phoneFormatter.format(value),void owner.updateValueState()):pps.numeral?(pps.result=pps.prefix+pps.numeralFormatter.format(value),void owner.updateValueState()):(pps.date&&(value=pps.dateFormatter.getValidatedDate(value)),value=Util.stripDelimiters(value,pps.delimiter,pps.delimiters),value=Util.getPrefixStrippedValue(value,pps.prefix,pps.prefixLength),value=pps.numericOnly?Util.strip(value,/[^\d]/g):value,value=pps.uppercase?value.toUpperCase():value,value=pps.lowercase?value.toLowerCase():value,pps.prefix&&(value=pps.prefix+value,0===pps.blocksLength)?(pps.result=value,void owner.updateValueState()):(pps.creditCard&&owner.updateCreditCardPropsByValue(value),value=Util.headStr(value,pps.maxLength),pps.result=Util.getFormattedValue(value,pps.blocks,pps.blocksLength,pps.delimiter,pps.delimiters),void(prev===pps.result&&prev!==pps.prefix||owner.updateValueState())))},updateCreditCardPropsByValue:function(value){var creditCardInfo,owner=this,pps=owner.properties,Util=Cleave.Util;Util.headStr(pps.result,4)!==Util.headStr(value,4)&&(creditCardInfo=Cleave.CreditCardDetector.getInfo(value,pps.creditCardStrictMode),pps.blocks=creditCardInfo.blocks,pps.blocksLength=pps.blocks.length,pps.maxLength=Util.getMaxLength(pps.blocks),pps.creditCardType!==creditCardInfo.type&&(pps.creditCardType=creditCardInfo.type,pps.onCreditCardTypeChanged.call(owner,pps.creditCardType)))},updateValueState:function(){var owner=this;return owner.isAndroid?void window.setTimeout(function(){owner.element.value=owner.properties.result},1):void(owner.element.value=owner.properties.result)},setPhoneRegionCode:function(phoneRegionCode){var owner=this,pps=owner.properties;pps.phoneRegionCode=phoneRegionCode,owner.initPhoneFormatter(),owner.onChange()},setRawValue:function(value){var owner=this,pps=owner.properties;value=void 0!==value&&null!==value?value.toString():"",pps.numeral&&(value=value.replace(".",pps.numeralDecimalMark)),owner.element.value=value,owner.onInput(value)},getRawValue:function(){var owner=this,pps=owner.properties,Util=Cleave.Util,rawValue=owner.element.value;return pps.rawValueTrimPrefix&&(rawValue=Util.getPrefixStrippedValue(rawValue,pps.prefix,pps.prefixLength)),rawValue=pps.numeral?pps.numeralFormatter.getRawValue(rawValue):Util.stripDelimiters(rawValue,pps.delimiter,pps.delimiters)},getFormattedValue:function(){return this.element.value},destroy:function(){var owner=this;owner.element.removeEventListener("input",owner.onChangeListener),owner.element.removeEventListener("keydown",owner.onKeyDownListener),owner.element.removeEventListener("cut",owner.onCutListener),owner.element.removeEventListener("copy",owner.onCopyListener)},toString:function(){return"[Cleave Object]"}},Cleave.NumeralFormatter=__webpack_require__(1),Cleave.DateFormatter=__webpack_require__(2),Cleave.PhoneFormatter=__webpack_require__(3),Cleave.CreditCardDetector=__webpack_require__(4),Cleave.Util=__webpack_require__(5),Cleave.DefaultProperties=__webpack_require__(6),("object"==typeof global&&global?global:window).Cleave=Cleave,module.exports=Cleave}).call(exports,function(){return this}())},function(module,exports){"use strict";var NumeralFormatter=function(numeralDecimalMark,numeralIntegerScale,numeralDecimalScale,numeralThousandsGroupStyle,numeralPositiveOnly,delimiter){var owner=this;owner.numeralDecimalMark=numeralDecimalMark||".",owner.numeralIntegerScale=numeralIntegerScale>=0?numeralIntegerScale:10,owner.numeralDecimalScale=numeralDecimalScale>=0?numeralDecimalScale:2,owner.numeralThousandsGroupStyle=numeralThousandsGroupStyle||NumeralFormatter.groupStyle.thousand,owner.numeralPositiveOnly=!!numeralPositiveOnly,owner.delimiter=delimiter||""===delimiter?delimiter:",",owner.delimiterRE=delimiter?new RegExp("\\"+delimiter,"g"):""};NumeralFormatter.groupStyle={thousand:"thousand",lakh:"lakh",wan:"wan"},NumeralFormatter.prototype={getRawValue:function(value){return value.replace(this.delimiterRE,"").replace(this.numeralDecimalMark,".")},format:function(value){var parts,partInteger,owner=this,partDecimal="";switch(value=value.replace(/[A-Za-z]/g,"").replace(owner.numeralDecimalMark,"M").replace(/[^\dM-]/g,"").replace(/^\-/,"N").replace(/\-/g,"").replace("N",owner.numeralPositiveOnly?"":"-").replace("M",owner.numeralDecimalMark).replace(/^(-)?0+(?=\d)/,"$1"),partInteger=value,value.indexOf(owner.numeralDecimalMark)>=0&&(parts=value.split(owner.numeralDecimalMark),partInteger=parts[0],partDecimal=owner.numeralDecimalMark+parts[1].slice(0,owner.numeralDecimalScale)),owner.numeralIntegerScale>0&&(partInteger=partInteger.slice(0,owner.numeralIntegerScale+("-"===value.slice(0,1)?1:0))),owner.numeralThousandsGroupStyle){case NumeralFormatter.groupStyle.lakh:partInteger=partInteger.replace(/(\d)(?=(\d\d)+\d$)/g,"$1"+owner.delimiter);break;case NumeralFormatter.groupStyle.wan:partInteger=partInteger.replace(/(\d)(?=(\d{4})+$)/g,"$1"+owner.delimiter);break;default:partInteger=partInteger.replace(/(\d)(?=(\d{3})+$)/g,"$1"+owner.delimiter)}return partInteger.toString()+(owner.numeralDecimalScale>0?partDecimal.toString():"")}},module.exports=NumeralFormatter},function(module,exports){"use strict";var DateFormatter=function(datePattern){var owner=this;owner.blocks=[],owner.datePattern=datePattern,owner.initBlocks()};DateFormatter.prototype={initBlocks:function(){var owner=this;owner.datePattern.forEach(function(value){"Y"===value?owner.blocks.push(4):owner.blocks.push(2)})},getBlocks:function(){return this.blocks},getValidatedDate:function(value){var owner=this,result="";return value=value.replace(/[^\d]/g,""),owner.blocks.forEach(function(length,index){if(value.length>0){var sub=value.slice(0,length),sub0=sub.slice(0,1),rest=value.slice(length);switch(owner.datePattern[index]){case"d":"00"===sub?sub="01":parseInt(sub0,10)>3?sub="0"+sub0:parseInt(sub,10)>31&&(sub="31");break;case"m":"00"===sub?sub="01":parseInt(sub0,10)>1?sub="0"+sub0:parseInt(sub,10)>12&&(sub="12")}result+=sub,value=rest}}),result}},module.exports=DateFormatter},function(module,exports){"use strict";var PhoneFormatter=function(formatter,delimiter){var owner=this;owner.delimiter=delimiter||""===delimiter?delimiter:" ",owner.delimiterRE=delimiter?new RegExp("\\"+delimiter,"g"):"",owner.formatter=formatter};PhoneFormatter.prototype={setFormatter:function(formatter){this.formatter=formatter},format:function(phoneNumber){var owner=this;owner.formatter.clear(),phoneNumber=phoneNumber.replace(/[^\d+]/g,""),phoneNumber=phoneNumber.replace(owner.delimiterRE,"");for(var current,result="",validated=!1,i=0,iMax=phoneNumber.length;iMax>i;i++)current=owner.formatter.inputDigit(phoneNumber.charAt(i)),/[\s()-]/g.test(current)?(result=current,validated=!0):validated||(result=current);return result=result.replace(/[()]/g,""),result=result.replace(/[\s-]/g,owner.delimiter)}},module.exports=PhoneFormatter},function(module,exports){"use strict";var CreditCardDetector={blocks:{uatp:[4,5,6],amex:[4,6,5],diners:[4,6,4],discover:[4,4,4,4],mastercard:[4,4,4,4],dankort:[4,4,4,4],instapayment:[4,4,4,4],jcb:[4,4,4,4],maestro:[4,4,4,4],visa:[4,4,4,4],general:[4,4,4,4],generalStrict:[4,4,4,7]},re:{uatp:/^(?!1800)1\d{0,14}/,amex:/^3[47]\d{0,13}/,discover:/^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,diners:/^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,mastercard:/^(5[1-5]|2[2-7])\d{0,14}/,dankort:/^(5019|4175|4571)\d{0,12}/,instapayment:/^63[7-9]\d{0,13}/,jcb:/^(?:2131|1800|35\d{0,2})\d{0,12}/,maestro:/^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,visa:/^4\d{0,15}/},getInfo:function(value,strictMode){var blocks=CreditCardDetector.blocks,re=CreditCardDetector.re;return strictMode=!!strictMode,re.amex.test(value)?{type:"amex",blocks:blocks.amex}:re.uatp.test(value)?{type:"uatp",blocks:blocks.uatp}:re.diners.test(value)?{type:"diners",blocks:blocks.diners}:re.discover.test(value)?{type:"discover",blocks:strictMode?blocks.generalStrict:blocks.discover}:re.mastercard.test(value)?{type:"mastercard",blocks:blocks.mastercard}:re.dankort.test(value)?{type:"dankort",blocks:blocks.dankort}:re.instapayment.test(value)?{type:"instapayment",blocks:blocks.instapayment}:re.jcb.test(value)?{type:"jcb",blocks:blocks.jcb}:re.maestro.test(value)?{type:"maestro",blocks:strictMode?blocks.generalStrict:blocks.maestro}:re.visa.test(value)?{type:"visa",blocks:strictMode?blocks.generalStrict:blocks.visa}:{type:"unknown",blocks:strictMode?blocks.generalStrict:blocks.general}}};module.exports=CreditCardDetector},function(module,exports){"use strict";var Util={noop:function(){},strip:function(value,re){return value.replace(re,"")},isDelimiter:function(letter,delimiter,delimiters){return 0===delimiters.length?letter===delimiter:delimiters.some(function(current){return letter===current?!0:void 0})},getDelimiterREByDelimiter:function(delimiter){return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g,"\\$1"),"g")},stripDelimiters:function(value,delimiter,delimiters){var owner=this;if(0===delimiters.length){var delimiterRE=delimiter?owner.getDelimiterREByDelimiter(delimiter):"";return value.replace(delimiterRE,"")}return delimiters.forEach(function(current){value=value.replace(owner.getDelimiterREByDelimiter(current),"")}),value},headStr:function(str,length){return str.slice(0,length)},getMaxLength:function(blocks){return blocks.reduce(function(previous,current){return previous+current},0)},getPrefixStrippedValue:function(value,prefix,prefixLength){if(value.slice(0,prefixLength)!==prefix){var diffIndex=this.getFirstDiffIndex(prefix,value.slice(0,prefixLength));value=prefix+value.slice(diffIndex,diffIndex+1)+value.slice(prefixLength+1)}return value.slice(prefixLength)},getFirstDiffIndex:function(prev,current){for(var index=0;prev.charAt(index)===current.charAt(index);)if(""===prev.charAt(index++))return-1;return index},getFormattedValue:function(value,blocks,blocksLength,delimiter,delimiters){var currentDelimiter,result="",multipleDelimiters=delimiters.length>0;return 0===blocksLength?value:(blocks.forEach(function(length,index){if(value.length>0){var sub=value.slice(0,length),rest=value.slice(length);result+=sub,currentDelimiter=multipleDelimiters?delimiters[index]||currentDelimiter:delimiter,sub.length===length&&blocksLength-1>index&&(result+=currentDelimiter),value=rest}}),result)},isAndroid:function(){return!(!navigator||!/android/i.test(navigator.userAgent))},isAndroidBackspaceKeydown:function(lastInputValue,currentInputValue){return this.isAndroid()?currentInputValue===lastInputValue.slice(0,-1):!1}};module.exports=Util},function(module,exports){(function(global){"use strict";var DefaultProperties={assign:function(target,opts){return target=target||{},opts=opts||{},target.creditCard=!!opts.creditCard,target.creditCardStrictMode=!!opts.creditCardStrictMode,target.creditCardType="",target.onCreditCardTypeChanged=opts.onCreditCardTypeChanged||function(){},target.phone=!!opts.phone,target.phoneRegionCode=opts.phoneRegionCode||"AU",target.phoneFormatter={},target.date=!!opts.date,target.datePattern=opts.datePattern||["d","m","Y"],target.dateFormatter={},target.numeral=!!opts.numeral,target.numeralIntegerScale=opts.numeralIntegerScale>=0?opts.numeralIntegerScale:10,target.numeralDecimalScale=opts.numeralDecimalScale>=0?opts.numeralDecimalScale:2,target.numeralDecimalMark=opts.numeralDecimalMark||".",target.numeralThousandsGroupStyle=opts.numeralThousandsGroupStyle||"thousand",target.numeralPositiveOnly=!!opts.numeralPositiveOnly,target.numericOnly=target.creditCard||target.date||!!opts.numericOnly,target.uppercase=!!opts.uppercase,target.lowercase=!!opts.lowercase,target.prefix=target.creditCard||target.phone||target.date?"":opts.prefix||"",target.prefixLength=target.prefix.length,target.rawValueTrimPrefix=!!opts.rawValueTrimPrefix,target.copyDelimiter=!!opts.copyDelimiter,target.initValue=void 0===opts.initValue?"":opts.initValue.toString(),target.delimiter=opts.delimiter||""===opts.delimiter?opts.delimiter:opts.date?"/":opts.numeral?",":(opts.phone," "),target.delimiterLength=target.delimiter.length,target.delimiters=opts.delimiters||[],target.blocks=opts.blocks||[],target.blocksLength=target.blocks.length,target.root="object"==typeof global&&global?global:window,target.maxLength=0,target.backspace=!1,target.result="",target}};module.exports=DefaultProperties}).call(exports,function(){return this}())}])}),angular.module("cleave.js",[]).directive("cleave",function(){return{restrict:"A",require:"ngModel",scope:{cleave:"&",onValueChange:"&?"},compile:function(){return{pre:function($scope,$element,attrs,ngModelCtrl){$scope.cleave=new window.Cleave($element[0],$scope.cleave()),ngModelCtrl.$formatters.push(function(val){return $scope.cleave.setRawValue(val),$scope.cleave.getFormattedValue()}),ngModelCtrl.$parsers.push(function(newFormattedValue){return $scope.onValueChange&&$scope.onValueChange()(newFormattedValue),$scope.cleave.getRawValue()})}}}}});
+!function(){function t(t,n){var e=t.split("."),r=T;e[0]in r||!r.execScript||r.execScript("var "+e[0]);for(var i;e.length&&(i=e.shift());)e.length||void 0===n?r=r[i]?r[i]:r[i]={}:r[i]=n}function n(t,n){function e(){}e.prototype=n.prototype,t.M=n.prototype,t.prototype=new e,t.prototype.constructor=t,t.N=function(t,e,r){for(var i=Array(arguments.length-2),l=2;l<arguments.length;l++)i[l-2]=arguments[l];return n.prototype[e].apply(t,i)}}function e(t,n){null!=t&&this.a.apply(this,arguments)}function r(t){t.b=""}function i(t,n){t.sort(n||l)}function l(t,n){return t>n?1:n>t?-1:0}function a(t){var n,e=[],r=0;for(n in t)e[r++]=t[n];return e}function u(t,n){this.b=t,this.a={};for(var e=0;e<n.length;e++){var r=n[e];this.a[r.b]=r}}function o(t){return t=a(t.a),i(t,function(t,n){return t.b-n.b}),t}function s(t,n){switch(this.b=t,this.g=!!n.G,this.a=n.c,this.j=n.type,this.h=!1,this.a){case k:case J:case K:case L:case O:case Y:case U:this.h=!0}this.f=n.defaultValue}function f(){this.a={},this.f=this.i().a,this.b=this.g=null}function c(t,n){for(var e=o(t.i()),r=0;r<e.length;r++){var i=e[r],l=i.b;if(null!=n.a[l]){t.b&&delete t.b[i.b];var a=11==i.a||10==i.a;if(i.g)for(var i=p(n,l)||[],u=0;u<i.length;u++){var s=t,f=l,h=a?i[u].clone():i[u];s.a[f]||(s.a[f]=[]),s.a[f].push(h),s.b&&delete s.b[f]}else i=p(n,l),a?(a=p(t,l))?c(a,i):b(t,l,i.clone()):b(t,l,i)}}}function p(t,n){var e=t.a[n];if(null==e)return null;if(t.g){if(!(n in t.b)){var r=t.g,i=t.f[n];if(null!=e)if(i.g){for(var l=[],a=0;a<e.length;a++)l[a]=r.b(i,e[a]);e=l}else e=r.b(i,e);return t.b[n]=e}return t.b[n]}return e}function h(t,n,e){var r=p(t,n);return t.f[n].g?r[e||0]:r}function g(t,n){var e;if(null!=t.a[n])e=h(t,n,void 0);else t:{if(e=t.f[n],void 0===e.f){var r=e.j;if(r===Boolean)e.f=!1;else if(r===Number)e.f=0;else{if(r!==String){e=new r;break t}e.f=e.h?"0":""}}e=e.f}return e}function d(t,n){return t.f[n].g?null!=t.a[n]?t.a[n].length:0:null!=t.a[n]?1:0}function b(t,n,e){t.a[n]=e,t.b&&(t.b[n]=e)}function m(t,n){var e,r=[];for(e in n)0!=e&&r.push(new s(e,n[e]));return new u(t,r)}/*
+
+ Protocol Buffer 2 Copyright 2008 Google Inc.
+ All other code copyright its respective owners.
+ Copyright (C) 2010 The Libphonenumber Authors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+function y(){f.call(this)}function v(){f.call(this)}function _(){f.call(this)}function $(){}function S(){}function w(){}/*
+
+ Copyright (C) 2010 The Libphonenumber Authors.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+function x(){this.a={}}function N(t,n){if(null==n)return null;n=n.toUpperCase();var e=t.a[n];if(null==e){if(e=tt[n],null==e)return null;e=(new w).a(_.i(),e),t.a[n]=e}return e}function A(t){return t=X[t],null==t?"ZZ":t[0]}function j(t){this.H=RegExp(" "),this.B="",this.m=new e,this.v="",this.h=new e,this.u=new e,this.j=!0,this.w=this.o=this.D=!1,this.F=x.b(),this.s=0,this.b=new e,this.A=!1,this.l="",this.a=new e,this.f=[],this.C=t,this.J=this.g=E(this,this.C)}function E(t,n){var e;if(null!=n&&isNaN(n)&&n.toUpperCase()in tt){if(e=N(t.F,n),null==e)throw"Invalid region code: "+n;e=g(e,10)}else e=0;return e=N(t.F,A(e)),null!=e?e:lt}function I(t){for(var n=t.f.length,e=0;n>e;++e){var i=t.f[e],l=g(i,1);if(t.v==l)return!1;var a;a=t;var u=i,o=g(u,1);if(-1!=o.indexOf("|"))a=!1;else{o=o.replace(at,"\\d"),o=o.replace(ut,"\\d"),r(a.m);var s;s=a;var u=g(u,2),f="999999999999999".match(o)[0];f.length<s.a.b.length?s="":(s=f.replace(new RegExp(o,"g"),u),s=s.replace(RegExp("9","g")," ")),0<s.length?(a.m.a(s),a=!0):a=!1}if(a)return t.v=l,t.A=st.test(h(i,4)),t.s=0,!0}return t.j=!1}function R(t,n){for(var e=[],r=n.length-3,i=t.f.length,l=0;i>l;++l){var a=t.f[l];0==d(a,3)?e.push(t.f[l]):(a=h(a,3,Math.min(r,d(a,3)-1)),0==n.search(a)&&e.push(t.f[l]))}t.f=e}function C(t,n){t.h.a(n);var e=n;if(rt.test(e)||1==t.h.b.length&&et.test(e)){var i,e=n;"+"==e?(i=e,t.u.a(e)):(i=nt[e],t.u.a(i),t.a.a(i)),n=i}else t.j=!1,t.D=!0;if(!t.j){if(!t.D)if(P(t)){if(V(t))return F(t)}else if(0<t.l.length&&(e=t.a.toString(),r(t.a),t.a.a(t.l),t.a.a(e),e=t.b.toString(),i=e.lastIndexOf(t.l),r(t.b),t.b.a(e.substring(0,i))),t.l!=H(t))return t.b.a(" "),F(t);return t.h.toString()}switch(t.u.b.length){case 0:case 1:case 2:return t.h.toString();case 3:if(!P(t))return t.l=H(t),M(t);t.w=!0;default:return t.w?(V(t)&&(t.w=!1),t.b.toString()+t.a.toString()):0<t.f.length?(e=q(t,n),i=B(t),0<i.length?i:(R(t,t.a.toString()),I(t)?G(t):t.j?D(t,e):t.h.toString())):M(t)}}function F(t){return t.j=!0,t.w=!1,t.f=[],t.s=0,r(t.m),t.v="",M(t)}function B(t){for(var n=t.a.toString(),e=t.f.length,r=0;e>r;++r){var i=t.f[r],l=g(i,1);if(new RegExp("^(?:"+l+")$").test(n))return t.A=st.test(h(i,4)),n=n.replace(new RegExp(l,"g"),h(i,2)),D(t,n)}return""}function D(t,n){var e=t.b.b.length;return t.A&&e>0&&" "!=t.b.toString().charAt(e-1)?t.b+" "+n:t.b+n}function M(t){var n=t.a.toString();if(3<=n.length){for(var e=t.o&&0<d(t.g,20)?p(t.g,20)||[]:p(t.g,19)||[],r=e.length,i=0;r>i;++i){var l,a=e[i];(l=null==t.g.a[12]||t.o||h(a,6))||(l=g(a,4),l=0==l.length||it.test(l)),l&&ot.test(g(a,2))&&t.f.push(a)}return R(t,n),n=B(t),0<n.length?n:I(t)?G(t):t.h.toString()}return D(t,n)}function G(t){var n=t.a.toString(),e=n.length;if(e>0){for(var r="",i=0;e>i;i++)r=q(t,n.charAt(i));return t.j?D(t,r):t.h.toString()}return t.b.toString()}function H(t){var n,e=t.a.toString(),i=0;return 1!=h(t.g,10)?n=!1:(n=t.a.toString(),n="1"==n.charAt(0)&&"0"!=n.charAt(1)&&"1"!=n.charAt(1)),n?(i=1,t.b.a("1").a(" "),t.o=!0):null!=t.g.a[15]&&(n=new RegExp("^(?:"+h(t.g,15)+")"),n=e.match(n),null!=n&&null!=n[0]&&0<n[0].length&&(t.o=!0,i=n[0].length,t.b.a(e.substring(0,i)))),r(t.a),t.a.a(e.substring(i)),e.substring(0,i)}function P(t){var n=t.u.toString(),e=new RegExp("^(?:\\+|"+h(t.g,11)+")"),e=n.match(e);return null!=e&&null!=e[0]&&0<e[0].length?(t.o=!0,e=e[0].length,r(t.a),t.a.a(n.substring(e)),r(t.b),t.b.a(n.substring(0,e)),"+"!=n.charAt(0)&&t.b.a(" "),!0):!1}function V(t){if(0==t.a.b.length)return!1;var n,i=new e;t:{if(n=t.a.toString(),0!=n.length&&"0"!=n.charAt(0))for(var l,a=n.length,u=1;3>=u&&a>=u;++u)if(l=parseInt(n.substring(0,u),10),l in X){i.a(n.substring(u)),n=l;break t}n=0}return 0==n?!1:(r(t.a),t.a.a(i.toString()),i=A(n),"001"==i?t.g=N(t.F,""+n):i!=t.C&&(t.g=E(t,i)),t.b.a(""+n).a(" "),t.l="",!0)}function q(t,n){var e=t.m.toString();if(0<=e.substring(t.s).search(t.H)){var i=e.search(t.H),e=e.replace(t.H,n);return r(t.m),t.m.a(e),t.s=i,e.substring(0,t.s+1)}return 1==t.f.length&&(t.j=!1),t.v="",t.h.toString()}var T=this;e.prototype.b="",e.prototype.set=function(t){this.b=""+t},e.prototype.a=function(t,n,e){if(this.b+=String(t),null!=n)for(var r=1;r<arguments.length;r++)this.b+=arguments[r];return this},e.prototype.toString=function(){return this.b};var U=1,Y=2,k=3,J=4,K=6,L=16,O=18;f.prototype.set=function(t,n){b(this,t.b,n)},f.prototype.clone=function(){var t=new this.constructor;return t!=this&&(t.a={},t.b&&(t.b={}),c(t,this)),t};var Z;n(y,f);var z;n(v,f);var Q;n(_,f),y.prototype.i=function(){return Z||(Z=m(y,{0:{name:"NumberFormat",I:"i18n.phonenumbers.NumberFormat"},1:{name:"pattern",required:!0,c:9,type:String},2:{name:"format",required:!0,c:9,type:String},3:{name:"leading_digits_pattern",G:!0,c:9,type:String},4:{name:"national_prefix_formatting_rule",c:9,type:String},6:{name:"national_prefix_optional_when_formatting",c:8,type:Boolean},5:{name:"domestic_carrier_code_formatting_rule",c:9,type:String}})),Z},y.ctor=y,y.ctor.i=y.prototype.i,v.prototype.i=function(){return z||(z=m(v,{0:{name:"PhoneNumberDesc",I:"i18n.phonenumbers.PhoneNumberDesc"},2:{name:"national_number_pattern",c:9,type:String},3:{name:"possible_number_pattern",c:9,type:String},6:{name:"example_number",c:9,type:String},7:{name:"national_number_matcher_data",c:12,type:String},8:{name:"possible_number_matcher_data",c:12,type:String}})),z},v.ctor=v,v.ctor.i=v.prototype.i,_.prototype.i=function(){return Q||(Q=m(_,{0:{name:"PhoneMetadata",I:"i18n.phonenumbers.PhoneMetadata"},1:{name:"general_desc",c:11,type:v},2:{name:"fixed_line",c:11,type:v},3:{name:"mobile",c:11,type:v},4:{name:"toll_free",c:11,type:v},5:{name:"premium_rate",c:11,type:v},6:{name:"shared_cost",c:11,type:v},7:{name:"personal_number",c:11,type:v},8:{name:"voip",c:11,type:v},21:{name:"pager",c:11,type:v},25:{name:"uan",c:11,type:v},27:{name:"emergency",c:11,type:v},28:{name:"voicemail",c:11,type:v},24:{name:"no_international_dialling",c:11,type:v},9:{name:"id",required:!0,c:9,type:String},10:{name:"country_code",c:5,type:Number},11:{name:"international_prefix",c:9,type:String},17:{name:"preferred_international_prefix",c:9,type:String},12:{name:"national_prefix",c:9,type:String},13:{name:"preferred_extn_prefix",c:9,type:String},15:{name:"national_prefix_for_parsing",c:9,type:String},16:{name:"national_prefix_transform_rule",c:9,type:String},18:{name:"same_mobile_and_fixed_line_pattern",c:8,defaultValue:!1,type:Boolean},19:{name:"number_format",G:!0,c:11,type:y},20:{name:"intl_number_format",G:!0,c:11,type:y},22:{name:"main_country_for_code",c:8,defaultValue:!1,type:Boolean},23:{name:"leading_digits",c:9,type:String},26:{name:"leading_zero_possible",c:8,defaultValue:!1,type:Boolean}})),Q},_.ctor=_,_.ctor.i=_.prototype.i,$.prototype.a=function(t){throw new t.b,Error("Unimplemented")},$.prototype.b=function(t,n){if(11==t.a||10==t.a)return n instanceof f?n:this.a(t.j.prototype.i(),n);if(14==t.a){if("string"==typeof n&&W.test(n)){var e=Number(n);if(e>0)return e}return n}if(!t.h)return n;if(e=t.j,e===String){if("number"==typeof n)return String(n)}else if(e===Number&&"string"==typeof n&&("Infinity"===n||"-Infinity"===n||"NaN"===n||W.test(n)))return Number(n);return n};var W=/^-?[0-9]+$/;n(S,$),S.prototype.a=function(t,n){var e=new t.b;return e.g=this,e.a=n,e.b={},e},n(w,S),w.prototype.b=function(t,n){return 8==t.a?!!n:$.prototype.b.apply(this,arguments)},w.prototype.a=function(t,n){return w.M.a.call(this,t,n)};/*
+
+ Copyright (C) 2010 The Libphonenumber Authors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+var X={91:["IN"]},tt={IN:[null,[null,null,"1\\d{7,12}|[2-9]\\d{9,10}","\\d{6,13}"],[null,null,"(?:11|2[02]|33|4[04]|79)[2-7]\\d{7}|80[2-467]\\d{7}|(?:1(?:2[0-249]|3[0-25]|4[145]|[59][14]|6[014]|7[1257]|8[01346])|2(?:1[257]|3[013]|4[01]|5[0137]|6[0158]|78|8[1568]|9[14])|3(?:26|4[1-3]|5[34]|6[01489]|7[02-46]|8[159])|4(?:1[36]|2[1-47]|3[15]|5[12]|6[0-26-9]|7[0-24-9]|8[013-57]|9[014-7])|5(?:1[025]|[36][25]|22|4[28]|5[12]|[78]1|9[15])|6(?:12|[2345]1|57|6[13]|7[14]|80)|7(?:12|2[14]|3[134]|4[47]|5[15]|[67]1|88)|8(?:16|2[014]|3[126]|6[136]|7[078]|8[34]|91))[2-7]\\d{6}|(?:(?:1(?:2[35-8]|3[346-9]|4[236-9]|[59][0235-9]|6[235-9]|7[34689]|8[257-9])|2(?:1[134689]|3[24-8]|4[2-8]|5[25689]|6[2-4679]|7[13-79]|8[2-479]|9[235-9])|3(?:01|1[79]|2[1-5]|4[25-8]|5[125689]|6[235-7]|7[157-9]|8[2-467])|4(?:1[14578]|2[5689]|3[2-467]|5[4-7]|6[35]|73|8[2689]|9[2389])|5(?:[16][146-9]|2[14-8]|3[1346]|4[14-69]|5[46]|7[2-4]|8[2-8]|9[246])|6(?:1[1358]|2[2457]|3[2-4]|4[235-7]|[57][2-689]|6[24-578]|8[1-6])|8(?:1[1357-9]|2[235-8]|3[03-57-9]|4[0-24-9]|5\\d|6[2457-9]|7[1-6]|8[1256]|9[2-4]))\\d|7(?:(?:1[013-9]|2[0235-9]|3[2679]|4[1-35689]|5[2-46-9]|[67][02-9]|9\\d)\\d|8(?:2[0-6]|[013-8]\\d)))[2-7]\\d{5}","\\d{6,10}",null,null,"1123456789"],[null,null,"(?:7(?:0\\d{3}|2(?:[0235679]\\d|[14][017-9]|8[0-59]|9[389])\\d|3(?:[05-8]\\d{2}|1(?:[089]\\d|7[5-8])|2(?:[5-8]\\d|[01][089])|3[17-9]\\d|4[789]\\d|9[01689]\\d)|4(?:0[1-9]\\d|1(?:[015-9]\\d|4[08])|[29][89]\\d|39\\d|8[389]\\d)|5(?:[034678]\\d|2[03-9]|5[017-9]|9[7-9])\\d|6(?:0[0-47]|1[0-257-9]|2[0-4]|3[19]|5[4589]|[6-9]\\d)\\d|7(?:0[2-9]|[1-79]\\d|8[1-9])\\d|8[0-79]\\d{2}|99[4-9]\\d)|8(?:0(?:[01589]\\d|6[67])|1(?:[02-57-9]\\d|1[0135-9])|2(?:[236-9]\\d|5[1-9])|3(?:[0357-9]\\d|4[1-9])|[45]\\d{2}|6[02457-9]\\d|7(?:07|[1-69]\\d)|8(?:[0-26-9]\\d|44|5[2-9])|9(?:[035-9]\\d|2[2-9]|4[0-8]))\\d|9\\d{4})\\d{5}","\\d{10}",null,null,"9123456789"],[null,null,"1(?:600\\d{6}|80(?:0\\d{4,9}|3\\d{9}))","\\d{8,13}",null,null,"1800123456"],[null,null,"186[12]\\d{9}","\\d{13}",null,null,"1861123456789"],[null,null,"1860\\d{7}","\\d{11}",null,null,"18603451234"],[null,null,"NA","NA"],[null,null,"NA","NA"],"IN",91,"00","0",null,null,"0",null,null,null,[[null,"(\\d{5})(\\d{5})","$1 $2",["7(?:[02357]|4[0-389]|6[0-35-9]|8[0-79]|99)|8(?:0[015689]|1[0-57-9]|2[2356-9]|3[0-57-9]|[45]|6[02457-9]|7[01-69]|8[0-24-9]|9[02-9])|9","7(?:0|2(?:[0235679]|[14][017-9]|8[0-59]|9[389])|3(?:[05-8]|1[07-9]|2[015-8]|3[17-9]|4[789]|9[01689])|4(?:0[1-9]|1[014-9]|[29][89]|39|8[389])|5(?:[034678]|2[03-9]|5[017-9]|9[7-9])|6(?:0[0-47]|1[0-257-9]|2[0-4]|3[19]|5[4589]|[6-9])|7(?:0[2-9]|[1-79]|8[1-9])|8[0-79]|99[4-9])|8(?:0(?:[01589]|6[67])|1(?:[02-57-9]|1[0135-9])|2(?:[236-9]|5[1-9])|3(?:[0357-9]|4[1-9])|[45]|6[02457-9]|7(?:07|[1-69])|8(?:[0-26-9]|44|5[2-9])|9(?:[035-9]|2[2-9]|4[0-8]))|9","7(?:0|2(?:[0235679]|[14][017-9]|8[0-59]|9[389])|3(?:[05-8]|1(?:[089]|7[5-9])|2(?:[5-8]|[01][089])|3[17-9]|4[789]|9[01689])|4(?:0[1-9]|1(?:[015-9]|4[08])|[29][89]|39|8[389])|5(?:[034678]|2[03-9]|5[017-9]|9[7-9])|6(?:0[0-47]|1[0-257-9]|2[0-4]|3[19]|5[4589]|[6-9])|7(?:0[2-9]|[1-79]|8[1-9])|8[0-79]|99[4-9])|8(?:0(?:[01589]|6[67])|1(?:[02-57-9]|1[0135-9])|2(?:[236-9]|5[1-9])|3(?:[0357-9]|4[1-9])|[45]|6[02457-9]|7(?:07|[1-69])|8(?:[0-26-9]|44|5[2-9])|9(?:[035-9]|2[2-9]|4[0-8]))|9"],"0$1",null,1],[null,"(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["11|2[02]|33|4[04]|79|80[2-46]"],"0$1",null,1],[null,"(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1(?:2[0-249]|3[0-25]|4[145]|[569][14]|7[1257]|8[1346]|[68][1-9])|2(?:1[257]|3[013]|4[01]|5[0137]|6[0158]|78|8[1568]|9[14])|3(?:26|4[1-3]|5[34]|6[01489]|7[02-46]|8[159])|4(?:1[36]|2[1-47]|3[15]|5[12]|6[0-26-9]|7[0-24-9]|8[013-57]|9[014-7])|5(?:1[025]|[36][25]|22|4[28]|5[12]|[78]1|9[15])|6(?:12|[2345]1|57|6[13]|7[14]|80)"],"0$1",null,1],[null,"(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["7(?:12|2[14]|3[134]|4[47]|5[15]|[67]1|88)","7(?:12|2[14]|3[134]|4[47]|5(?:1|5[2-6])|[67]1|88)"],"0$1",null,1],[null,"(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["8(?:16|2[014]|3[126]|6[136]|7[078]|8[34]|91)"],"0$1",null,1],[null,"(\\d{4})(\\d{3})(\\d{3})","$1 $2 $3",["1(?:[23579]|[468][1-9])|[2-8]"],"0$1",null,1],[null,"(1600)(\\d{2})(\\d{4})","$1 $2 $3",["160","1600"],"$1",null,1],[null,"(1800)(\\d{4,5})","$1 $2",["180","1800"],"$1",null,1],[null,"(18[06]0)(\\d{2,4})(\\d{4})","$1 $2 $3",["18[06]","18[06]0"],"$1",null,1],[null,"(140)(\\d{3})(\\d{4})","$1 $2 $3",["140"],"$1",null,1],[null,"(\\d{4})(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3 $4",["18[06]","18(?:0[03]|6[12])"],"$1",null,1]],null,[null,null,"NA","NA"],null,null,[null,null,"1(?:600\\d{6}|8(?:0(?:0\\d{4,9}|3\\d{9})|6(?:0\\d{7}|[12]\\d{9})))","\\d{8,13}",null,null,"1800123456"],[null,null,"140\\d{7}","\\d{10}",null,null,"1409305260"],null,null,[null,null,"NA","NA"]]};x.b=function(){return x.a?x.a:x.a=new x};var nt={0:"0",1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9","０":"0","１":"1","２":"2","３":"3","４":"4","５":"5","６":"6","７":"7","８":"8","９":"9","٠":"0","١":"1","٢":"2","٣":"3","٤":"4","٥":"5","٦":"6","٧":"7","٨":"8","٩":"9","۰":"0","۱":"1","۲":"2","۳":"3","۴":"4","۵":"5","۶":"6","۷":"7","۸":"8","۹":"9"},et=RegExp("[+＋]+"),rt=RegExp("([0-9０-９٠-٩۰-۹])"),it=/^\(?\$1\)?$/,lt=new _;b(lt,11,"NA");var at=/\[([^\[\]])*\]/g,ut=/\d(?=[^,}][^,}])/g,ot=RegExp("^[-x‐-―−ー－-／  ­​⁠　()（）［］.\\[\\]/~⁓∼～]*(\\$\\d[-x‐-―−ー－-／  ­​⁠　()（）［］.\\[\\]/~⁓∼～]*)+$"),st=/[- ]/;j.prototype.K=function(){this.B="",r(this.h),r(this.u),r(this.m),this.s=0,this.v="",r(this.b),this.l="",r(this.a),this.j=!0,this.w=this.o=this.D=!1,this.f=[],this.A=!1,this.g!=this.J&&(this.g=E(this,this.C))},j.prototype.L=function(t){return this.B=C(this,t)},t("Cleave.AsYouTypeFormatter",j),t("Cleave.AsYouTypeFormatter.prototype.inputDigit",j.prototype.L),t("Cleave.AsYouTypeFormatter.prototype.clear",j.prototype.K)}.call("object"==typeof global&&global?global:window);
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -65402,7 +65453,7 @@ myApp.config(function (toastrConfig) {
       toast: 'directives/toast/toast.html',
       progressbar: 'directives/progressbar/progressbar.html'
     },
-    timeOut: 5000,
+    timeOut: 6000,
     titleClass: 'toast-title',
     toastClass: 'toast'
   });
@@ -65448,13 +65499,16 @@ myApp.factory('settings', ['$rootScope', function ($rootScope) {
 
 /* Setup App Main Controller */
 myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
+
   $scope.$on('$viewContentLoaded', function () {
     App.initComponents(); // init core components
     Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
   });
   $scope.loginTemplate = true;
-  $scope.themeColor = '#32c5d3';
-
+  if ($.jStorage.get('loggedInUser') != null) {
+    $scope.userPhoto = $.jStorage.get('loggedInUser').photo;
+    $scope.userName = $.jStorage.get('loggedInUser').name;
+  }
 
   // console.log("*********************************************************************",window.location.href );
   // console.log("*********************************************************************",$state.current);
@@ -65534,9 +65588,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
       url: "/login",
       templateUrl: "views/content/login/estimatorLogin.html",
       controller: "loginCtrl",
-      resolve: {
-        "isLoggedIn": routeResolve
-      }
+      // resolve: {
+      //   "isLoggedIn": routeResolve
+      // }
     })
 
     // ********************************** logout module ********************************** //
@@ -66305,6 +66359,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
       }
     });
 
+
   $urlRouterProvider.otherwise("/login");
   $locationProvider.html5Mode(false);
 });
@@ -66348,259 +66403,6 @@ myApp.controller('SidebarController', ['$state', '$scope', function ($state, $sc
 
 }]);
 
-myApp.directive('inputDate', function ($compile, $parse) {
-  return {
-    restrict: 'E',
-    replace: false,
-    scope: {
-      value: "=ngModel",
-    },
-    templateUrl: 'frontend/views/directive/date.html',
-    link: function ($scope, element, attrs) {
-      $scope.data = {};
-      $scope.dateOptions = {
-        dateFormat: "dd/mm/yy"
-      };
-      if (!_.isEmpty($scope.value)) {
-        $scope.data.model = moment($scope.value).toDate();
-      }
-      $scope.changeDate = function (data) {
-        // $scope.value = $scope.data.model;
-        $scope.value = data;
-      };
-    }
-  };
-});
-
-myApp.factory('accessApp', function ($location) {
-  console.log("$$$$$$$$$ inside accessApp factory $$$$$$$$$$$$$$$$$", $.jStorage.get("loggedInUser"));
-  return {
-    isLoggedIn: function () {
-      if ($.jStorage.get("loggedInUser")) {
-        return true;
-      } else {
-        return $location.path('/');
-      }
-    }
-  }
-});
-
-myApp.directive('fileModelOld', ['$parse', function ($parse) {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      var model = $parse(attrs.fileModel);
-      var modelSetter = model.assign;
-
-      element.bind('change', function () {
-        console.log("*** element **", element);
-        scope.$apply(function () {
-          modelSetter(scope, element[0].files[0]);
-        });
-      });
-
-
-
-      // $scope.$parent.formData.uploadedFiles = [];
-      // $scope.formData.uploadedFiles = [];
-
-      // $scope.uploadImage = function (file) {
-      //     var fd = new FormData();
-      //     fd.append('file', file);
-
-      //     $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-      //             transformRequest: angular.identity,
-      //             headers: {
-      //                 'Content-Type': undefined
-      //             }
-      //         })
-      //         .then(function () {
-
-      //             console.log('**** inside its working of userProfileService.js ****');
-      //         });
-      // }
-    }
-  };
-}]);
-
-myApp.directive('fileModel', ['$parse', '$http', function ($parse, $http) {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      var model = $parse(attrs.fileModel);
-      var modelSetter = model.assign;
-
-      element.bind('change', function () {
-        // angular.element(event.target).file('model') = element[0].files[0];
-        // modelSetter(scope, element[0].files[0]);
-        // scope.uploadImage(scope.myFile);
-
-        scope.$apply(function () {
-          modelSetter(scope, element[0].files[0]);
-
-          var fd = new FormData();
-          fd.append('file', file);
-
-          $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-              transformRequest: angular.identity,
-              headers: {
-                'Content-Type': undefined
-              }
-            })
-            .then(function () {
-
-              console.log('**** inside its working of userProfileService.js ****');
-            });
-
-        });
-      });
-
-
-
-      scope.uploadImage = function (file) {
-        var fd = new FormData();
-        fd.append('file', file);
-
-        $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-            transformRequest: angular.identity,
-            headers: {
-              'Content-Type': undefined
-            }
-          })
-          .then(function () {
-
-            console.log('**** inside its working of userProfileService.js ****');
-          });
-      }
-
-
-    }
-  };
-}]);
-
-
-myApp.directive('uploadAllFiles', function ($http) {
-  return {
-    restrict: 'E',
-    scope: {
-      model: '=ngModel',
-      icon: '=icon',
-      pdfFile: '=pdfFile',
-      fileLocation: '@fileLocation'
-    },
-    templateUrl: '/views/directive/uploadAllFiles.html',
-
-    link: function (scope, element, attrs) {
-      scope.isMultiple = false;
-      //scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
-      
-      scope.uploadImage = function (files) {
-        scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
-        console.log("*** scope.isNoFile...!scope.model...... ***", scope.isNoFile, !scope.model);
-        var fileName = _.split(files[0].name, '.');
-        var fileType = fileName[1];
-        console.log('**** fileType......... ****',fileType);
-        scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png') && !scope.pdfFile;
-        scope.isPdf = (fileType == 'pdf') && !scope.icon && scope.pdfFile;
-        scope.isDocs = (fileType == 'doc' || fileType == 'docx') && !scope.icon && scope.pdfFile;
-        scope.isOtherFile = fileType != 'pdf' && fileType != 'doc' && fileType != 'docx' && fileType != 'jpg' && fileType != 'jpeg' && fileType != 'png';
-
-        console.log('**** ,scope.isPhoto,  scope.isPdf, scope.isDocs, scope.isOtherFile,scope.isNoFile ****',scope.isPhoto,  scope.isPdf, scope.isDocs, scope.isOtherFile,scope.isNoFile);
-        if (_.isArray(scope.model)) {
-          scope.isMultiple = true;
-          angular.forEach(files, function (file) {
-            var fd = new FormData();
-            fd.append('file', file);
-
-            $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-                headers: {
-                  'Content-Type': undefined
-                },
-                transformRequest: angular.identity
-              })
-              .then(function (data) {
-                console.log('**** inside its working of userProfileService.js ****', data);
-                scope.model.push(data.data.data[0]);;
-              });
-          });
-
-        } else {
-          var fd = new FormData();
-          fd.append('file', files[0]);
-
-          $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-              headers: {
-                'Content-Type': undefined
-              },
-              transformRequest: angular.identity
-            })
-            .then(function (data) {
-              scope.model = data.data.data[0];
-              console.log('**** inside its working of userProfileService.js ****', data);
-            });
-        }
-      };
-    }
-  };
-});
-
-
-myApp.filter('uploadpath', function () {
-  return function (input, width, height, style) {
-    var other = "";
-    if (input.search(".pdf") >= 0) {
-      return "frontend/img/pdf.jpg";
-    } else {
-      if (input.search(".jpg") >= 0 || input.search(".png") >= 0) {
-        return "frontend/img/image.png";
-      } else {
-        if (input.search(".doc") >= 0 || input.search(".docx") >= 0) {
-          return "frontend/img/doc.png";
-        } else if (input == 'broken') {
-          return "frontend/img/nofile.png";
-        }
-      }
-    }
-    if (width && width !== "") {
-      other += "&width=" + width;
-    }
-    if (height && height !== "") {
-      other += "&height=" + height;
-    }
-    if (style && style !== "") {
-      other += "&style=" + style;
-    }
-    if (input) {
-      if (input.indexOf('https://') == -1) {
-        return imgpath + "?file=" + input + other;
-      } else {
-        return input;
-      }
-    }
-  };
-});
-
-myApp.filter('downloadpath', function () {
-  return function (input, width, height, style) {
-    var other = "";
-    if (width && width !== "") {
-      other += "&width=" + width;
-    }
-    if (height && height !== "") {
-      other += "&height=" + height;
-    }
-    if (style && style !== "") {
-      other += "&style=" + style;
-    }
-    if (input) {
-      if (input.indexOf('https://') == -1) {
-        return adminurl + "User/download/" + input;
-      } else {
-        return adminurl;
-      }
-    }
-  };
-});
 var LanguageEnglish = {
   "ABOUT": "About",
 };
@@ -66610,6 +66412,211 @@ var LanguageHindi = {
 };
 
 myApp
+
+
+
+    .directive('inputDate', function ($compile, $parse) {
+        return {
+            restrict: 'E',
+            replace: false,
+            scope: {
+                value: "=ngModel",
+            },
+            templateUrl: 'frontend/views/directive/date.html',
+            link: function ($scope, element, attrs) {
+                $scope.data = {};
+                $scope.dateOptions = {
+                    dateFormat: "dd/mm/yy"
+                };
+                if (!_.isEmpty($scope.value)) {
+                    $scope.data.model = moment($scope.value).toDate();
+                }
+                $scope.changeDate = function (data) {
+                    // $scope.value = $scope.data.model;
+                    $scope.value = data;
+                };
+            }
+        };
+    })
+
+    .factory('accessApp', function ($location) {
+        return {
+            isLoggedIn: function () {
+                if ($.jStorage.get("loggedInUser")) {
+                    return true;
+                } else {
+                    return $location.path('/');
+                }
+            }
+        }
+    })
+    
+    .directive('uploadAllFiles', function ($http) {
+        return {
+            restrict: 'E',
+            scope: {
+                model: '=ngModel',
+                fileLocation: '@fileLocation',
+                isMultiple: '=isMultiple',
+                icon: '@icon'
+            },
+            templateUrl: '/views/directive/uploadAllFiles.html',
+
+            link: function (scope, element, attrs) {
+
+                if (scope.isMultiple) {
+                    if (!scope.model) {
+                        scope.model = [];
+                    }
+                } else {
+                    if (scope.model) {
+                        var fileName = _.split(scope.model, '.');
+                        var fileType = fileName[1];
+                        scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
+                        scope.isPdf = (fileType == 'pdf');
+                        scope.isDocs = (fileType == 'doc' || fileType == 'docx');
+                        scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
+                    }
+                }
+
+                scope.uploadImage = function (files) {
+                    // scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
+                    var fileName = _.split(files[0].name, '.');
+                    var fileType = fileName[1];
+
+                    scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
+                    scope.isPdf = (fileType == 'pdf');
+                    scope.isDocs = (fileType == 'doc' || fileType == 'docx');
+                    scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
+
+                    if (files.length > 1 && scope.isMultiple) {
+                        angular.forEach(files, function (file) {
+                            var fd = new FormData();
+                            fd.append('file', file);
+
+                            $http.post(adminurl + 'User/uploadAvtar', fd, {
+                                    headers: {
+                                        'Content-Type': undefined
+                                    },
+                                    transformRequest: angular.identity
+                                })
+                                .then(function (data) {
+                                    scope.model.push(data.data.data[0]);
+                                });
+                        });
+                    } else {
+                        var fd = new FormData();
+                        fd.append('file', files[0]);
+
+                        $http.post(adminurl + 'User/uploadAvtar', fd, {
+                                headers: {
+                                    'Content-Type': undefined
+                                },
+                                transformRequest: angular.identity
+                            })
+                            .then(function (data) {
+                                scope.model = data.data.data[0];
+                            });
+                    }
+                };
+            }
+        };
+    })
+
+
+    .filter('uploadpath', function () {
+        return function (input, width, height, style) {
+            var other = "";
+            if (input.search(".pdf") >= 0) {
+                return "frontend/img/pdf.jpg";
+            } else {
+                if (input.search(".jpg") >= 0 || input.search(".png") >= 0) {
+                    return "frontend/img/image.png";
+                } else {
+                    if (input.search(".doc") >= 0 || input.search(".docx") >= 0) {
+                        return "frontend/img/doc.png";
+                    } else if (input == 'broken') {
+                        return "frontend/img/nofile.png";
+                    }
+                }
+            }
+            if (width && width !== "") {
+                other += "&width=" + width;
+            }
+            if (height && height !== "") {
+                other += "&height=" + height;
+            }
+            if (style && style !== "") {
+                other += "&style=" + style;
+            }
+            if (input) {
+                if (input.indexOf('https://') == -1) {
+                    return imgpath + "?file=" + input + other;
+                } else {
+                    return input;
+                }
+            }
+        };
+    })
+
+    .filter('downloadpath', function () {
+        return function (input, width, height, style) {
+            var other = "";
+            if (width && width !== "") {
+                other += "&width=" + width;
+            }
+            if (height && height !== "") {
+                other += "&height=" + height;
+            }
+            if (style && style !== "") {
+                other += "&style=" + style;
+            }
+            if (input) {
+                if (input.indexOf('https://') == -1) {
+                    return adminurl + "User/download/" + input;
+                } else {
+                    return adminurl;
+                }
+            }
+        };
+    })
+
+    .filter('readFile', function () {
+        return function (input, width, height, style) {
+            var other = "";
+            if (width && width !== "") {
+                other += "&width=" + width;
+            }
+            if (height && height !== "") {
+                other += "&height=" + height;
+            }
+            if (style && style !== "") {
+                other += "&style=" + style;
+            }
+            if (input) {
+                if (input.indexOf('https://') == -1) {
+                    console.log('**** inside readfile of app.js ****');
+                    return adminurl + "User/readFile/" + input;
+                } else {
+                    return adminurl;
+                }
+            }
+        };
+    })
+
+    .filter('dateFormat', function () {
+        return function (input, width, height, style) {
+            var temp = "";
+            if (input) {
+                temp = _.split(input, '-');
+                temp[2] = _.split(temp[2], 'T');
+                return temp[2][0] + "/" + temp[1] + "/" + temp[0];
+            } else {
+                return temp;
+            }
+        }
+    })
+
     .directive('img', function ($compile, $parse) {
         return {
             restrict: 'E',
@@ -66662,7 +66669,7 @@ myApp
                 } else {
                     target = element;
                 }
-   
+
                 target.fancybox({
                     openEffect: 'fade',
                     closeEffect: 'fade',
@@ -66773,40 +66780,81 @@ myApp
             }
         };
     })
+    
+    .directive('onlyDigits', function () {
+        return {
+          require: 'ngModel',
+          restrict: 'A',
+          link: function (scope, element, attr, ctrl) {
+            var digits;
+      
+            function inputValue(val) {
+              if (val) {
+                var otherVal = val + "";
+                if (attr.type == "text") {
+                  digits = otherVal.replace(/[^0-9\-\.\\]/g, '');
+                } else {
+                  digits = otherVal.replace(/[^0-9\-\.\\]/g, '');
+                }
+      
+      
+                if (digits !== val) {
+                  ctrl.$setViewValue(digits);
+                  ctrl.$render();
+                }
+                return parseInt(digits, 10);
+              }
+              return undefined;
+            }
+            ctrl.$parsers.push(inputValue);
+          }
+        };
+      });
 
-// JavaScript Document
-myApp.filter('myFilter', function () {
-    // In the return function, we must pass in a single parameter which will be the data we will work on.
-    // We have the ability to support multiple other parameters that can be passed into the filter optionally
-    return function (input, optional1, optional2) {
+myApp  
 
-        var output;
+  // JavaScript Document
+  .filter('myFilter', function () {
+      // In the return function, we must pass in a single parameter which will be the data we will work on.
+      // We have the ability to support multiple other parameters that can be passed into the filter optionally
+      return function (input, optional1, optional2) {
 
-        // Do filter work here
-        return output;
-    };
+          var output;
 
-});
+          // Do filter work here
+          return output;
+      };
 
-myApp.filter('indianCurrency', function () {
-  return function (getNumber) {
-    if (!isNaN(getNumber)) {
-      var numberArr = getNumber.toString().split('.');
-      var lastThreeDigits = numberArr[0].substring(numberArr[0].length - 3);
-      var otherDigits = numberArr[0].substring(0, numberArr[0].length - 3);
-      if (otherDigits != '') {
-        lastThreeDigits = ',' + lastThreeDigits;
+  })
+
+  .filter('indianCurrency', function () {
+    return function (getNumber) {
+      if (!isNaN(getNumber)) {
+        var numberArr = getNumber.toString().split('.');
+        var lastThreeDigits = numberArr[0].substring(numberArr[0].length - 3);
+        var otherDigits = numberArr[0].substring(0, numberArr[0].length - 3);
+        if (otherDigits != '') {
+          lastThreeDigits = ',' + lastThreeDigits;
+        }
+        var finalNumber = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThreeDigits;
+        if (numberArr.length > 1) {
+          var getRoundedDecimal = parseInt(numberArr[1].substring(0, 2)) + 1;
+          finalNumber += "." + getRoundedDecimal;
+        }
+        // return '₹' + finalNumber;
+        return finalNumber;
       }
-      var finalNumber = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThreeDigits;
-      if (numberArr.length > 1) {
-        var getRoundedDecimal = parseInt(numberArr[1].substring(0, 2)) + 1;
-        finalNumber += "." + getRoundedDecimal;
-      }
-      // return '₹' + finalNumber;
-      return finalNumber;
     }
-  }
-});
+  })
+
+  .filter('capitalize', function() {
+    return function(input, scope) {
+      if (input!=null) {
+        //input = input.toLowerCase();
+        return input.substring(0,1).toUpperCase()+input.substring(1);
+      } else return input;
+    }
+  });
 
 myApp.service('TemplateService', function () {
     this.title = "Home";
@@ -66835,8 +66883,8 @@ myApp.service('TemplateService', function () {
 });
 myApp.factory('NavigationService', function ($http) {
 
-    // var adminurl ="http://192.168.0.24/api/"
-    var adminurl ="http://wohlig.io/api/"
+     //var adminurl ="http://192.168.0.11/api/"
+     var adminurl ="http://wohlig.io/api/"
 
     // console.log('**** inside admin URL of navigation.js ****',adminurl);
     var navigation = [{
@@ -68186,13 +68234,17 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   //- to add or edit customer
   $scope.addOrEditCustomer = function (operation, customerData) {
     customerService.addOrEditCustomer(customerData, function (data) {
-      if (operation == 'save') {
-        toastr.success('Record added successfully');
+      if(angular.isUndefined(data.error)) {
+        if (operation == 'save') {
+          toastr.success('Record added successfully');
+        } else {
+          toastr.success('Record updated successfully');
+        }
+        $scope.getCustomerData();
+        $scope.cancelModal();
       } else {
-        toastr.success('Record updated successfully');
+        toastr.warning('Please enter details properly');
       }
-      $scope.getCustomerData();
-      $scope.cancelModal();
     });
   }
   //- customer deletion modal
@@ -68210,7 +68262,12 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   //- to delete customer
   $scope.deleteCustomer = function (customerId) {
     customerService.deleteCustomer(customerId, function (data) {
-      toastr.success('Record deleted successfully');
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getCustomerData();
     });
@@ -68219,14 +68276,14 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        customerService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        customerService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.customerData = data.results;
           customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        customerService.getPaginationDatawithoutKeyword(page, function (data) {
+        customerService.getPaginationData(page, null, null, function (data) {
           $scope.customerData = data.results;
           customerService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -68234,7 +68291,7 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
         });
       }
     } else {
-      customerService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      customerService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.customerData = data.results;
         customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
@@ -68245,7 +68302,7 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
 
   //- to search the text in table
   $scope.serachText = function (keyword, count) {
-    customerService.getSearchResult(keyword, function (data) {
+    customerService.getPaginationData(null, null, keyword, function (data) {
       $scope.customerData = data.results;
       customerService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
@@ -68266,11 +68323,16 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   }
   //- to delete customers
   $scope.deleteBulkCustomers = function (customers) {
-    customerService.deleteBulkCustomers(customers, function () {
+    customerService.deleteBulkCustomers(customers, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getCustomerData();
       $scope.bulkCustomers = [];
-      toastr.success('Record deleted successfully');
     });
   }
   //- to get bulk customers
@@ -68301,13 +68363,14 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   $scope.init();
 
 });
-myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uibModal, $interpolate, $state, $scope, createOrEditEnquiryService) {
+myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toastr, $uibModal, $interpolate, $state, $scope, createOrEditEnquiryService) {
 
   // *************************** default variables/tasks begin here ***************** //
 
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
   $scope.showEstimateBtn = false;
+  $scope.editPermmission = false;
   $scope.formData = {
     enquiryDetails: {},
     enquiryInfo: {},
@@ -68316,42 +68379,82 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     commercialRequirement: {},
     preQualificationCriteria: {}
   };
-
+  //- cleave css 
+  $scope.options = {
+    mobile: {
+      phone: true,
+      phoneRegionCode: 'IN'
+    }
+  };
+  $scope.dateNow = $filter('date')(new Date(), "yyyy-MM-dd");
+  
 
   if (angular.isDefined($stateParams.enquiryId)) {
     $scope.showEstimateBtn = true;
     $scope.enquiryId = $stateParams.enquiryId;
+    $scope.editPermmission = true;
   }
 
 
   // *************************** default functions begin here  ********************** //
-
+  //- to get enquiry object
   $scope.getEnquiryObj = function () {
     createOrEditEnquiryService.getEnquiryObj($stateParams.enquiryId, function (data) {
       $scope.formData = data;
+      if ($stateParams.enquiryId) {
+        $scope.formData.enquiryDetails.estimator = data.enquiryDetails.estimator;
+        $scope.formData.customerDataObj = data.customerId;
+      }
     });
-  }
-  $scope.getCustomerData = function () {
+    //- to get all customer names and their locations
     createOrEditEnquiryService.getCustomerData(function (data) {
       $scope.customerData = data;
+    });
+    //- to get all user names
+    createOrEditEnquiryService.getUserData(function (data) {
+      $scope.userData = data;
+    });
+    //- to get all versions data
+    createOrEditEnquiryService.getEstimateVersionData($scope.enquiryId, function (data) {
+      $scope.versionData = data;
     });
   }
 
 
   // *************************** functions to be triggered form view begin here ***** //      
-  //- add form data
-  $scope.addEnquiryData = function (operation, formData {
-    createOrEditEnquiryService.createEnquiry(formData, function (data) {
-      toastr.success('Record Added Successfully', 'EnquiryData Added!');
-      if (angular.isUndefined(formData._id)) {}
+  //- add  enquiry data
+  $scope.addEnquiryData = function (enquiryData) {
+    createOrEditEnquiryService.createEnquiry(enquiryData, function (data) {
+      if ($scope.editPermmission) {
+        toastr.success('Enquiry Updated Successfully');
+      } else {
+        toastr.success('Enquiry Added Successfully');
+        $state.go('app.editEnquiry', {
+          'enquiryId': data._id
+        });
+      }
     });
+  }
+  //- to bind customer data to formData
+  $scope.setCustomerData = function (customerDataObj) {
+    $scope.formData.enquiryDetails.customerLocation = customerDataObj.location;
+    $scope.formData.customerId = customerDataObj._id;
+    $scope.formData.enquiryDetails.customerName = customerDataObj.customerName;
+    $scope.formData.commercialRequirement.paymentTerms = customerDataObj.paymentTerms;
+  }
+  //- to bind user name to formData
+  $scope.setEstimator = function (userDataObj) {
+    $scope.formData.enquiryDetails.estimator = userDataObj._id;
   }
   //- to add assembly or to import assembly
   $scope.saveAssemblyNameModal = function (enquiryId) {
     $scope.enquiryId = enquiryId;
     //- get assembly name to create 
-    createOrEditEnquiryService.getAllAssemblyNumbers(function (data) {
+    createOrEditEnquiryService.getVersionsOfAssNo(function (data) {
       $scope.assemblyData = data;
+      $scope.assemblyName = null;
+      $scope.versionData = null;
+      $scope.versionObj = null;
       $scope.modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'views/content/enquiry/enquiryModal/getAssemblyName.html',
@@ -68359,6 +68462,10 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
         size: 'md',
       });
     });
+  }
+  //- get all estimate versions for particular assembly number
+  $scope.getAssemblyVersionData = function (assemblyObj) {
+      $scope.versionData = assemblyObj.versionDetail;
   }
   //- create new assembly
   $scope.saveAssemblyName = function (assName, enquiryId) {
@@ -68369,8 +68476,8 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
     });
   }
   //- import assembly
-  $scope.importAssembly = function (assemblyNumber) {
-    createOrEditEnquiryService.getImportAssemblyData(assemblyNumber, function (data) {
+  $scope.importAssembly = function (assemblyId) {
+    createOrEditEnquiryService.getImportAssemblyData(assemblyId, function (data) {
       $state.go('app.createEstimate', {
         'estimateId': data._id,
       });
@@ -68385,7 +68492,6 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, toastr, $uib
   //- to initilize the default function  
   $scope.init = function () {
     $scope.getEnquiryObj();
-    $scope.getCustomerData();
   }
 
   $scope.init();
@@ -68440,7 +68546,12 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   //- to delete enquiry
   $scope.deleteEnquiry = function (enquiryId) {
     enquiryService.deleteEnquiry(enquiryId, function (data) {
-      toastr.info('Record deleted successfully');
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getEnquiryData();
     });
@@ -68450,14 +68561,14 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        enquiryService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        enquiryService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.tableData = data.results;
           enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        enquiryService.getPaginationDatawithoutKeyword(page, function (data) {
+        enquiryService.getPaginationData(page, null, null, function (data) {
           $scope.tableData = data.results;
           enquiryService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -68465,7 +68576,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
         });
       }
     } else {
-      enquiryService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      enquiryService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.tableData = data.results;
         enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
@@ -68476,7 +68587,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
 
   //- to search the text in the table
   $scope.serachText = function (keyword, count) {
-    enquiryService.getSearchResult(keyword, function (data) {
+    enquiryService.getPaginationData(null, null, keyword, function (data) {
       $scope.tableData = data.results;
       enquiryService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
@@ -68503,11 +68614,16 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   }
   //- to delete enquiry
   $scope.deleteBulkEnquiries = function (enquiries) {
-    enquiryService.deleteBulkEnquiries(enquiries, function () {
+    enquiryService.deleteBulkEnquiries(enquiries, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getEnquiryData();
       $scope.bulkEnquiries = [];
-      toastr.info('Records deleted successfully');
     });
   }
   //- to get bulk enquiries
@@ -68537,53 +68653,60 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   $scope.init();
 
 });
-myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $stateParams, createOrEditEstimateService, $uibModal) {
+myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $stateParams, createOrEditEstimateService, $uibModal) {
 
-
-  // *************************** default variables/tasks begin here ***************** //
+  // **************************************** default variables/tasks begin here **************************************** //
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
   $scope.bulkItems = []; //- for multiple deletion
   $scope.checkboxStatus = false; //- for multiple records selection
-  $scope.checkAll = false; //- for all records selection
+  $scope.checkAll = false; //- for all records selectione
   $scope.hardFacingAlloys = []; //- for dynamic addition of Hard Facing Alloys
+  $scope.changesCounter = 0; //- for save changes before redirecting
 
   $scope.estimatePartObj = {
     allShortcuts: [], //- get all presets name from API
-    allPartTypeNames: [], //- get all part type from API
+    allPartTypes: [], //- get all part type from API
     allMaterial: [], //- get all material of selected partType
     allSizes: [], //- get data from selected preset
 
     selectedShortcut: {}, //- selected partType presets 
-    selectedPartType: {}, //- selected partType
+    selectedPartType: {}, //- selected partType 
     selectedMaterial: {}, //- selected material     
-    selectedSize: {}, //- slected size
+    selectedSize: {}, //- slected size 
 
     customMaterials: [], //- get all custom material from  API
-    selectedCustomMaterial: [], //-selecetd custom materail  
+    selectedCustomMaterial: {}, //- selecetd custom materail  
 
-    quality: null,
-    variables: [],
-    shapeImage:null,
-    shapeIcon:null,
-    processingCount:null,
-    addonCount:null,
-    extraCount:null, 
+    quantity: 1, //- part.quantity
+    variables: [], //- part.variables
+    shapeImage: null, //- get it from slected partPreset --> shape.shapeImage      
+    shapeIcon: null, //- get it from slected partPreset --> shape.shapeIcon
+    processingCount: null, //- part.processing.length
+    addonCount: null, //- part.addons.length
+    extraCount: null, //- part.extars.length
 
-    keyValueCalculation: {
-      perimeter: null,
-      sma: null,
-      sa: null,
-      weight: null
+    partName: null, //- part.partName
+    scaleFactor: null, //- part.scaleFactor
+
+    keyValueCalculations: {
+      perimeter: null, //- part.keyValueCalculations.perimeter
+      sheetMetalArea: null, //- part.keyValueCalculations.sheetMetalArea
+      surfaceArea: null, //- part.keyValueCalculations.surfaceArea
+      weight: null //- part.keyValueCalculations.weight
     },
 
-    materialPrice: null,
-    itemUnitPrice: null,
-    totalPrice: null
-  };
+    finalCalculation: {
+      materialPrice: null, //- part.finalCalculation.materialPrice
+      itemUnitPrice: null, //- part.finalCalculation.itemUnitPrice
+      totalCostForQuantity: null //- part.finalCalculation.totalCostForQuantity
+    },
 
+    subAssNumber: "", //- to update part object of corresponding subAssembly
+    partNumber: "" //- to update this part object
+  };
   //- to enable & disable partType fields while creating/updating 
   $scope.disablePartFields = {
     disableField: true,
@@ -68592,27 +68715,85 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     disableMaterial: true,
     disableSize: true,
     disableCustomMaterial: false,
+    displayPresetSize: false
   };
+
+
+
 
   if (angular.isDefined($stateParams.estimateId)) {
     $scope.draftEstimateId = $stateParams.estimateId;
   }
-  // *************************** default functions begin here  ********************** //
+
+  // **************************************** default functions begin here  **************************************** //
   //- to get all views of createOrEdit estimate screen dynamically 
   $scope.getEstimateView = function (getViewName, getLevelName, subAssemblyId, partId) {
-    createOrEditEstimateService.estimateView(getViewName, function (data) {
-      $scope.estimateView = data;
-    });
-    createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
-
-      if (getViewName == 'editPartItemDetail') {
-        // get all data from API & put it into $scope.estimatePartObj
-        $scope.estimatePartObj.allShortcuts = data.allShortcuts;
-        $scope.estimatePartObj.allPartTypeNames = data.allPartTypeNames;
+    createOrEditEstimateService.estimateView(getViewName, getLevelName, subAssemblyId, partId, function (data) {
+      if (data == 'restrictUser') {
+        toastr.warning('You cannot access it now');
       } else {
-        $scope.level = getLevelName;
-        $scope.estimateViewData = data;
-        $scope.bulkItems = [];
+        $scope.estimateView = data;
+
+        createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
+          if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
+
+            $scope.estimatePartObj.allShortcuts = data.allShortcuts;
+            $scope.estimatePartObj.allPartTypes = data.allPartTypes;
+            $scope.estimatePartObj.subAssNumber = data.subAssNumber;
+            $scope.estimatePartObj.partNumber = data.partNumber;
+
+
+            //- here data.partUpdateStatus will be true when admin will update all part calculation data
+            //- so, we can get all the data from formData.assembly of createOrEditEstimateService & bind it with  $scope.estimatePartObj
+            if (data.partUpdateStatus) {
+              //- enable save/update buttons
+              $scope.showSaveBtn = false;
+              $scope.showEditBtn = true;
+              $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
+              // $scope.estimatePartObj.allSizes = data.allShortcuts;
+              $scope.estimatePartObj.selectedShortcut = data.selectedShortcut;
+              $scope.estimatePartObj.selectedPartType = data.selectedPartType;
+              $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
+              $scope.estimatePartObj.selectedSize = data.selectedSize;
+              $scope.disablePartFields.displayPresetSize = true;
+              $scope.disablePartFields.disableCustomMaterial = true;
+
+              $scope.estimatePartObj.customMaterials = data.customMaterials;
+              $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
+
+              if (data.quantity) {
+                $scope.estimatePartObj.quantity = data.quantity;
+              } else {
+                $scope.estimatePartObj.quantity = 1;
+              }
+
+              $scope.estimatePartObj.variables = data.variable;
+              $scope.estimatePartObj.shapeImage = data.shapeImage;
+              $scope.estimatePartObj.shapeIcon = data.shapeIcon;
+              $scope.estimatePartObj.processingCount = data.processingCount;
+              $scope.estimatePartObj.addonCount = data.addonCount;
+              $scope.estimatePartObj.extraCount = data.extraCount;
+              $scope.estimatePartObj.partName = data.partName;
+              $scope.estimatePartObj.scaleFactor = data.scaleFactor;
+
+              $scope.estimatePartObj.keyValueCalculations.perimeter = data.keyValueCalculations.perimeter;
+              $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = data.keyValueCalculations.sheetMetalArea;
+              $scope.estimatePartObj.keyValueCalculations.surfaceArea = data.keyValueCalculations.surfaceArea;
+              $scope.estimatePartObj.keyValueCalculations.weight = data.keyValueCalculations.weight;
+
+              $scope.estimatePartObj.finalCalculation.materialPrice = data.finalCalculation.materialPrice;
+              $scope.estimatePartObj.finalCalculation.itemUnitPrice = data.finalCalculation.itemUnitPrice;
+              $scope.estimatePartObj.finalCalculation.totalCostForQuantity = data.finalCalculation.totalCostForQuantity;
+
+            }
+
+          } else {
+
+            $scope.level = getLevelName;
+            $scope.estimateViewData = data;
+            $scope.bulkItems = [];
+          }
+        });
       }
     });
   }
@@ -68621,7 +68802,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
   //- call when user will select shortcut/preset name 
   //- update dependent data on the base of  selected shortcut data
-  $scope.getSelectedShortcutData = function (shortcutObj) {
+  $scope.getSelectedShortcutData = function (shortcutObj, partTypes) {
 
     //- update selectedShortcut
     //- get part type (update selectedPartType) & disable it
@@ -68630,46 +68811,48 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     //- custom material --> disable it
     //- get shape data from selected shortcut (i.e part presetName)
     //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
-    
-    $scope.estimatePartObj.selectedShortcut = shortcutObj;       /////-
-    $scope.estimatePartObj.selectedPartType = selectedPartType;  /////-
-    $scope.estimatePartObj.allMaterial = allMaterial;            /////-
-    $scope.estimatePartObj.selectedSize = selectedSize;          /////-
-    
+
+    $scope.estimatePartObj.selectedShortcut = shortcutObj;
+    $scope.estimatePartObj.selectedPartType = shortcutObj.partType;
+    $scope.estimatePartObj.allMaterial = $scope.estimatePartObj.selectedPartType.material;
+    $scope.estimatePartObj.selectedSize = shortcutObj.size;
+
     //- update shape related data
-    $scope.estimatePartObj.variables = shapeData.variables;      /////-
-    $scope.estimatePartObj.keyValueCalculation.perimeter = shapeData.perimeter;  /////-
-    $scope.estimatePartObj.keyValueCalculation.sma = shapeData.sma;              /////-
-    $scope.estimatePartObj.keyValueCalculation.sa = shapeData.sa;                /////-
-    $scope.estimatePartObj.keyValueCalculation.weight = shapeData.weight;        /////-
-    $scope.estimatePartObj.shapeIcon = shapeData.shapeIcon;                      /////-
-    $scope.estimatePartObj.shapeImage = shapeData.shapeImage;                    /////-
+    $scope.estimatePartObj.variables = shortcutObj.variable;
+    $scope.estimatePartObj.keyValueCalculations.perimeter = shortcutObj.partFormulae.perimeter;
+    $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = shortcutObj.partFormulae.sheetMetalArea;
+    $scope.estimatePartObj.keyValueCalculations.surfaceArea = shortcutObj.partFormulae.surfaceArea;
+    $scope.estimatePartObj.keyValueCalculations.weight = shortcutObj.partFormulae.weight;
+    $scope.estimatePartObj.shapeIcon = shortcutObj.shape.icon;
+    $scope.estimatePartObj.shapeImage = shortcutObj.shape.image;
 
     //- update PAE count
-    $scope.estimatePartObj.processingCount = part.processing.length;             /////-
-    $scope.estimatePartObj.addonCount = part.addons.length;                      /////-
-    $scope.estimatePartObj.extraCount = part.extras.length;                      /////-
-          
+    // $scope.estimatePartObj.processingCount = part.processing.length; /////-
+    // $scope.estimatePartObj.addonCount = part.addons.length; /////-
+    // $scope.estimatePartObj.extraCount = part.extras.length; /////-
+
     //- disable fields
-    $scope.disablePartFields.disablePartTypeName = true;
+    $scope.disablePartFields.disablePartType = true;
+    $scope.disablePartFields.disableMaterial = false;
     $scope.disablePartFields.disableSize = true;
     $scope.disablePartFields.disableCustomMaterial = true;
-    
+    $scope.disablePartFields.displayPresetSize = true;
+
   }
 
   //- call when user will select part type name 
   //- update dependent data on the base of selected part type data
   $scope.getSelectedPartTypeData = function (partTypeObj) {
-    
+
     //- all shortcuts data is already there (so, don't  update it corresponding to selected part Type), let user select size to get shortcut
     //- get all materials (corresponding to selected part Type) data to select 
     //- get/update all sizes (corresponding to selected part Type) data to select
     //- custom material --> disable it 
 
     //- $scope.estimatePartObj.allShortcuts = allShortcuts;      /////-  
-    $scope.estimatePartObj.selectedPartType = selectedPartType;  /////-
-    $scope.estimatePartObj.allMaterial = allMaterial;            /////-
-    $scope.estimatePartObj.allSizes = allSizes;                  /////-
+    $scope.estimatePartObj.selectedPartType = selectedPartType; /////-
+    $scope.estimatePartObj.allMaterial = allMaterial; /////-
+    $scope.estimatePartObj.allSizes = allSizes; /////-
 
     //- disable fields
     $scope.disablePartFields.disableCustomMaterial = true;
@@ -68678,28 +68861,93 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
   //- call when user will select material (only in case of either shortcut OR part type is selected)
   //- update dependent data on the base of selcted material data
-  $scope.getSelectedMaterialData = function(materialObj){
-    $scope.estimatePartObj.selectedMaterial = selectedMaterial;          /////-
+  $scope.getSelectedMaterialData = function (materialObj) {
+    $scope.estimatePartObj.selectedMaterial = materialObj;
+
+    if ($scope.isAllselected()) {
+      $scope.getPartFinalCalculation();
+    }
+
   }
 
   //- call when user will select size (only in case when user selected part type)
   //- update dependent data on the base of selected size data
-  $scope.getSelectedSizeData = function(size){
+  $scope.getSelectedSizeData = function (size) {
     //- get shortcut corresponding to the selected partType & size
     //- get all material data to select 
     //- get shape data from selected partType & size 
     //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
 
-    $scope.estimatePartObj.selectedShortcut = shortcutObj;     /////-
-    
+    $scope.estimatePartObj.selectedShortcut = shortcutObj; /////-
+
     //- update shape related data
-    $scope.estimatePartObj.variables = shapeData.variables;      /////-
-    $scope.estimatePartObj.keyValueCalculation.perimeter = shapeData.perimeter;  /////-
-    $scope.estimatePartObj.keyValueCalculation.sma = shapeData.sma;              /////-
-    $scope.estimatePartObj.keyValueCalculation.sa = shapeData.sa;                /////-
-    $scope.estimatePartObj.keyValueCalculation.weight = shapeData.weight;        /////-
+    $scope.estimatePartObj.variables = shapeData.variables; /////-
+    $scope.estimatePartObj.keyValueCalculations.perimeter = shapeData.perimeter; /////-
+    $scope.estimatePartObj.keyValueCalculations.sma = shapeData.sma; /////-
+    $scope.estimatePartObj.keyValueCalculations.sa = shapeData.sa; /////-
+    $scope.estimatePartObj.keyValueCalculations.weight = shapeData.weight; /////-
 
   }
+
+  $scope.updatePartCalculation = function () {
+
+    //- get shape formulae
+    //- get updated variables 
+    //- calculate keyValueCalculations & finalCalculation 
+    //- update estimate object --> variable array
+    debugger;
+    console.log('**** inside part presetobject of createOrEditEstimateCtrl.js ****',$scope.estimatePartObj.selectedShortcut);
+    var partFormulae = $scope.estimatePartObj.selectedShortcut.shape.partFormulae;
+
+    _.map($scope.estimatePartObj.variables, function (n) {
+      varName = n.varName;
+      varValue = parseInt(n.varValue);
+
+      tempVar = varName;
+      window[tempVar] = varValue;
+    });
+
+    if(true){
+
+    }
+
+    $scope.estimatePartObj.keyValueCalculations.perimeter = eval(partFormulae.perimeter);
+    $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = eval(partFormulae.sheetMetalArea);
+    $scope.estimatePartObj.keyValueCalculations.surfaceArea = eval(partFormulae.surfaceArea);
+    $scope.estimatePartObj.keyValueCalculations.weight = eval(partFormulae.weight);
+    $scope.getPartFinalCalculation();
+  }
+
+  $scope.getPartFinalCalculation = function () {
+    //- get all updated variable data & calculate all keyValueCalculations i.e. perimeter, sheetMetalArea, surfaceArea, weight
+    //- also calculate all finalCalculation i.e. materialPrice, itemUnitPrice, totalCostForQuantity  
+
+    $scope.estimatePartObj.finalCalculation.materialPrice = $scope.estimatePartObj.selectedMaterial.typicalRatePerKg;
+    $scope.estimatePartObj.finalCalculation.itemUnitPrice = $scope.estimatePartObj.keyValueCalculations.weight * $scope.estimatePartObj.selectedMaterial.typicalRatePerKg;
+    $scope.estimatePartObj.finalCalculation.totalCostForQuantity = $scope.estimatePartObj.quantity * $scope.estimatePartObj.finalCalculation.itemUnitPrice;
+
+  }
+
+  $scope.isAllselected = function () {
+    if ($scope.estimatePartObj.selectedShortcut != {} && $scope.estimatePartObj.selectedShortcut != undefined) {
+      if ($scope.estimatePartObj.selectedPartType && $scope.estimatePartObj.selectedPartType != undefined) {
+        if ($scope.estimatePartObj.selectedMaterial && $scope.estimatePartObj.selectedMaterial != undefined) {
+          if ($scope.estimatePartObj.selectedSize && $scope.estimatePartObj.selectedSize != undefined) {
+            return true;
+          }
+        }
+      }
+    }
+
+  }
+
+  //- to update part calculation detail into an corresponding part 
+  $scope.updatePartDetail = function (partObject) {
+    createOrEditEstimateService.updatePartDetail($scope.showEditBtn, partObject, function (data) {
+      $scope.estimteData = data;
+    });
+  }
+
 
   //- =================== part functionality/calculation end =================== //
 
@@ -68721,15 +68969,47 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     });
   }
   //- save estimate object in jStorage
+  // $scope.$watch('estimteData', function (newValue, oldValue) {
+  //   if (newValue != oldValue) {
+  //     // $.jStorage.set("estimateObject", $scope.estimteData);
+  //   }
+  // }, true);
+
+  //- to alert user before refreshing the page
   $scope.$watch('estimteData', function (newValue, oldValue) {
-    if (newValue != oldValue) {
-      // $.jStorage.set("estimateObject", $scope.estimteData);
+    if (oldValue != undefined) {
+      if (newValue != oldValue) {
+        $scope.changesCounter += 1;
+      }
     }
   }, true);
+  //- to update all calculations at processing, addons & extras 
+  // $scope.$watch('estimatePartObj.keyValueCalculations', function (newValue, oldValue) {
+  //   
+  //   if (oldValue != undefined) {
+  //     if (newValue != oldValue) {
+  //       createOrEditEstimateService.updateAllCalculations(newValue, function(data) {
 
+  //       });
+  //     }
+  //   }
+  // }, true);
+  //- to ask user to save changes before redirecting
+  $scope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+    if (fromState.name == 'app.createEstimate' && $scope.changesCounter > '0') {
+      var answer = window.confirm('Please Save Your Changes !!!');
+      if (answer) {
+        event.preventDefault();
+      }
+    }
+  });
+  window.onbeforeunload = function (event) {
+    if ($scope.changesCounter > '0') {
+      return 'Are you sure you want to reload?'
+    }
+  };
 
-
-  // *************************** functions to be triggered form view begin here ***** //
+  // **************************************** functions to be triggered form view begin here **************************************** //
   //- to edit assembly name
   //- Edit Assembly Name modal start
   $scope.editAssemblyNameModal = function (assembly) {
@@ -68745,15 +69025,18 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   //- to edit assembly name
   $scope.editAssemblyName = function (assemblyName) {
     createOrEditEstimateService.editAssemblyName(assemblyName, $scope.draftEstimateId, function (data) {
+      $scope.changesCounter = 0;
       $scope.getEstimateData();
       $scope.cancelModal();
+      toastr.success('Estimate data updated successfully');
     });
   }
   //- to update estimate object in draftEstimate table
   $scope.saveCurrentEstimate = function () {
+    $scope.changesCounter = 0;
     createOrEditEstimateService.saveCurrentEstimate(function (data) {
       $scope.getEstimateData();
-      toastr.info('Estimate data updated successfully');
+      toastr.success('Estimate data updated successfully');
     });
   }
   //- import subAssembly modal
@@ -68769,6 +69052,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       });
     });
   }
+
 
   //- to add or edit subAssembly data modal
   $scope.addOrEditSubAssemblyModal = function (operation, subAssembly) {
@@ -68792,12 +69076,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     createOrEditEstimateService.createSubAssembly(subAssemblyData, function () {
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
+      toastr.success('SubAssembly added successfully');
     });
   }
   //- to edit subAssembly data
   $scope.editSubAssembly = function (number) {
     $scope.getCurretEstimateObj();
     $scope.cancelModal();
+    toastr.success('SubAssembly Name Edited successfully');
   }
   //- modal to confirm subssembly deletion
   $scope.deleteSubAssemblyModal = function (subAssemblyId, getFunction) {
@@ -68814,8 +69100,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   //- to delete subAssembly
   $scope.deleteSubAssembly = function (subAssemblyId) {
     createOrEditEstimateService.deleteSubAssembly(subAssemblyId, function () {
-      toastr.info('SubAssembly deleted successfully');
+      toastr.success('SubAssembly deleted successfully');
       $scope.getEstimateView('assembly');
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
     });
   }
@@ -68828,12 +69115,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
 
       $scope.getEstimateView('assembly');
       $scope.cancelModal();
-      toastr.info('SubAssemblies deleted successfully');
+      toastr.success('SubAssemblies deleted successfully');
     });
   }
   //- import subAssembly modal
   $scope.importSubAssemblyModal = function () {
-    $scope.subAssId;
+    $scope.versionData = null;
+    $scope.versionObj = null;
     createOrEditEstimateService.getAllSubAssNumbers(function (data) {
       $scope.subAssemblyData = data;
       $scope.modalInstance = $uibModal.open({
@@ -68844,14 +69132,19 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       });
     });
   }
+  //- to get all versions of subAssembly
+  $scope.getSubAssVersions = function (subAssObj) {
+    $scope.versionData = subAssObj.versionDetail;
+  }
   //- to import subAssembly
   $scope.importSubAssembly = function (subAssId) {
     createOrEditEstimateService.getImportSubAssemblyData(subAssId, function () {
       $scope.getCurretEstimateObj();
-      toastr.info('SubAssembly imported successfully');
+      toastr.success('SubAssembly imported successfully');
       $scope.cancelModal();
     });
   }
+
 
   //- to add or edit part data modal
   $scope.addOrEditPartModal = function (operation, subAssId, part) {
@@ -68877,14 +69170,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   $scope.addPart = function (partData, subAssId) {
     createOrEditEstimateService.createPart(partData, subAssId, function () {
       $scope.getCurretEstimateObj();
-      toastr.info('Part added successfully', 'Part Creation!');
+      toastr.success('Part added successfully');
       $scope.cancelModal();
     });
   }
   //- to edit part data 
   $scope.editPart = function () {
     $scope.getCurretEstimateObj();
-    toastr.info('Part updated successfully', 'Part Updation!');
+    toastr.success('Part updated successfully');
     $scope.cancelModal();
 
   }
@@ -68909,9 +69202,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   //- to  delete part
   $scope.deletePart = function (subAssemblyId, partId) {
     createOrEditEstimateService.deletePart(subAssemblyId, partId, function () {
-      toastr.info('Part deleted successfully');
+      toastr.success('Part deleted successfully');
       $scope.getEstimateView('subAssembly');
       $scope.getCurretEstimateObj();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
     });
   }
@@ -68924,7 +69218,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       $scope.getEstimateView('subAssembly');
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
-      toastr.info('Parts deleted successfully');
+      toastr.success('Parts deleted successfully');
       // $scope.operationStatus = "***   Records deleted successfully   ***";
 
       // $timeout(function () {
@@ -68934,6 +69228,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   }
   //- import part modal
   $scope.importPartModal = function (subAssId) {
+    $scope.versionData = null;
+    $scope.versionObj = null;
     $scope.subAssId = subAssId;
     createOrEditEstimateService.getAllPartNumbers(function (data) {
       $scope.partData = data;
@@ -68945,11 +69241,16 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       });
     });
   }
+  //- to get all versions of selected part
+  $scope.getPartVersions = function (partObj) {
+    $scope.versionData = partObj.versionDetail;
+  }
   //- to import part
   $scope.importPart = function (subAssId, partId) {
     createOrEditEstimateService.getImportPartData(subAssId, partId, function () {
       $scope.getCurretEstimateObj();
-      toastr.info('Part imported successfully');
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      toastr.success('Part imported successfully');
       $scope.cancelModal();
     });
   }
@@ -68961,90 +69262,53 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
         if (option == 'import') {
           $scope.cancelModal();
         }
-        toastr.info('Part duplicated successfully');
+        createOrEditEstimateService.totalCostCalculations(function (data) {});
+        toastr.success('Part added successfully');
       });
     } else {
-      //$scope.message = 'Please Enter Valid SubAssembly Number';
       toastr.warning('Please Enter Valid SubAssembly Number');
     }
   }
   //- to import current part to  different subAssembly 
-  $scope.importPartToDifferentSubAssemblyModal = function (part) {
+  $scope.importPartToDifferentSubAssemblyModal = function (subAssNumber, part) {
     $scope.partData = part;
-    createOrEditEstimateService.getAllSubAssNumbers(function (data) {
-      $scope.subAssemblyData = data;
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/estimate/estimateModal/importPartToDifferentSubAssemblyModal.html',
-        scope: $scope,
-        size: 'md'
-      });
+    createOrEditEstimateService.getAllSubAssNumbers(subAssNumber, function (data) {
+      if (_.isEmpty(data)) {
+        toastr.warning('No SubAssemblies are available to import');
+      } else {
+        $scope.subAssemblyData = data;
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/estimate/estimateModal/importPartToDifferentSubAssemblyModal.html',
+          scope: $scope,
+          size: 'md'
+        });
+      }
     });
   }
 
-  //- to add processing at assembly or subssembly or at partLevel
-  $scope.addProcessing = function (processingData, level, subAssemblyId, partId) {
-    createOrEditEstimateService.createProcessing(processingData, level, subAssemblyId, partId, function () {
-      $scope.getEstimateView('processing', level, subAssemblyId, partId);
-      toastr.info('Processing added successfully', 'Processing Creation!');
-      $scope.cancelModal();
-    });
-  }
-  //- to edit processing at assembly or subssembly or at partLevel
-  $scope.editProcessing = function () {
-    $scope.getCurretEstimateObj();
-    toastr.info('Processing updated successfully', 'Processing Updation!');
-    $scope.cancelModal();
-  }
-  //- to delete processing
-  $scope.deleteProcessing = function (processingId, level, subAssemblyId, partId) {
-    createOrEditEstimateService.deleteProcessing(processingId, level, subAssemblyId, partId, function (data) {
-      toastr.info('Processing deleted successfully', 'Processing Deletion!');
-      $scope.getEstimateView('processing', level, subAssemblyId, partId);
-      $scope.cancelModal();
-    });
-  }
-  //- to delete bulk processing
-  $scope.deleteMultipleProcessing = function (processingIds, level, subAssId, partId) {
-    createOrEditEstimateService.deleteMultipleProcessing(level, processingIds, subAssId, partId, function () {
-      $scope.bulkItems = [];
-      $scope.checkAll = false;
-      $scope.checkboxStatus = false;
-
-      $scope.getEstimateView('processing', level, subAssId, partId);
-      $scope.cancelModal();
-      toastr.info('Processing deleted successfully', 'Processing Deletion!');
-    });
-  }
-  //- import processing
-  $scope.importProcessing = function (processingId, level, subAssemblyId, partId) {
-    createOrEditEstimateService.getImportProcessingData(processingId, level, subAssemblyId, partId, function () {
-      $scope.getCurretEstimateObj();
-      toastr.info('Processing imported successfully', 'Processing Import!');
-      $scope.cancelModal();
-    });
-  }
 
 
   //- to add Addon at assembly or subssembly or at partLevel
   $scope.addAddon = function (addonData, level, subAssemblyId, partId) {
     createOrEditEstimateService.createAddon(addonData, level, subAssemblyId, partId, function () {
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
-      toastr.info('Addon added successfully', 'Addon Creation!');
+      toastr.success('Addon added successfully');
       $scope.cancelModal();
     });
   }
   //- to edit Addon at assembly or subssembly or at partLevel
   $scope.editAddon = function () {
     $scope.getCurretEstimateObj();
-    toastr.info('Addon updated successfully', 'Addon Updation!');
+    toastr.success('Addon updated successfully');
     $scope.cancelModal();
   }
   //- delete addon
   $scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {
     createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
-      toastr.info('Addon deleted successfully', 'Addon Deletion!');
+      toastr.success('Addon deleted successfully');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
     });
   }
@@ -69056,61 +69320,22 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       $scope.checkboxStatus = false;
       $scope.getEstimateView('addons', level, subAssId, partId);
       $scope.cancelModal();
-      toastr.info('Addons deleted successfully', 'Addons Deletion!');
+      toastr.success('Addons deleted successfully');
     });
+  }
+  //- to get all versions of selected addon
+  $scope.getAddonVersions = function (addonObj) {
+    $scope.versionData = addonObj.versionDetail;
   }
   //- Import Addon
   $scope.importAddon = function (addonId, level, subAssemblyId, partId) {
     createOrEditEstimateService.getImportAddonData(addonId, level, subAssemblyId, partId, function () {
       $scope.getCurretEstimateObj();
-      toastr.info('Addon imported successfully', 'Addon Import!');
+      toastr.success('Addon imported successfully');
       $scope.cancelModal();
     });
   }
 
-
-  //- to add Extra at assembly or subssembly or at partLevel
-  $scope.addExtra = function (extraData, level, subAssemblyId, partId) {
-    createOrEditEstimateService.createExtra(extraData, level, subAssemblyId, partId, function () {
-      $scope.getEstimateView('extras', level, subAssemblyId, partId);
-      toastr.info('Extra added successfully', 'Extra Creation!');
-      $scope.cancelModal();
-    });
-  }
-  //- to edit Extra at assembly or subssembly or at partLevel
-  $scope.editExtra = function () {
-    $scope.getCurretEstimateObj();
-    toastr.info('Extra updated successfully', 'Extra Updation!');
-    $scope.cancelModal();
-  }
-  //- to delete Extra
-  $scope.deleteExtra = function (extraId, level, subAssemblyId, partId) {
-    createOrEditEstimateService.deleteExtra(extraId, level, subAssemblyId, partId, function () {
-      toastr.info('Extra deleted successfully', 'Extra Deletion!');
-      $scope.getEstimateView('extras', level, subAssemblyId, partId);
-      $scope.cancelModal();
-    });
-  }
-  //- to delete bulk extras
-  $scope.deleteMultipleExtras = function (extraId, level, subAssId, partId) {
-    createOrEditEstimateService.deleteMultipleExtras(level, extraId, subAssId, partId, function () {
-      $scope.bulkItems = [];
-      $scope.checkAll = false;
-      $scope.checkboxStatus = false;
-
-      $scope.getEstimateView('extras', level, subAssId, partId);
-      $scope.cancelModal();
-      toastr.info('Extras deleted successfully', 'Extra Deletion!');
-    });
-  }
-  //- Import Extra
-  $scope.importExtra = function (extraId, level, subAssemblyId, partId) {
-    createOrEditEstimateService.getImportExtraData(extraId, level, subAssemblyId, partId, function () {
-      $scope.getCurretEstimateObj();
-      toastr.info('Extra imported successfully');
-      $scope.cancelModal();
-    });
-  }
 
   //- modal to add or edit custom material
   $scope.addOrEditCustomMaterialModal = function (operation, customMaterial) {
@@ -69160,6 +69385,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   $scope.deleteCustomMaterial = function () {}
 
 
+
+
   //- commmon add modal for processing, addons & extras    
   $scope.addItemModal = function (itemType, level, subAssemblyId, partId) {
     $scope.formData = undefined;
@@ -69175,6 +69402,29 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
       scope: $scope,
       size: 'md',
     });
+
+    if (itemType == 'Processing') {
+      // get part type data
+      // get part item data
+
+      createOrEditEstimateService.getProcessingData(function (data) {
+        $scope.partProcessingObj.processingTypeData = data.processingTypeData;
+      });
+
+    } else if (itemType == 'addons') {
+      // get addon type data
+      // get addon item data
+
+      createOrEditEstimateService.getAddoneData(function (data) {
+        $scope.addonTypeData = data;
+      });
+
+    } else if (itemType == 'extras') {
+      // get extra data
+      createOrEditEstimateService.getExtraData(function (data) {
+        $scope.partTypeData = data;
+      });
+    }
   }
   //- commmon edit modal for processing, addons & extras
   $scope.editItemModal = function (itemType, extraObj) {
@@ -69206,7 +69456,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
   }
   //- Common Import Item Modal for Processing, Addons & Extras
   $scope.importItemModal = function (type, level, subAssemblyId, partId) {
-    $scope.itemId;
+    $scope.versionData = null;
+    $scope.versionObj = null;
     $scope.level = level;
     $scope.subAssemblyId = subAssemblyId;
     $scope.partId = partId;
@@ -69236,6 +69487,240 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     });
   }
 
+
+  //- ==================================== processing functionality/calculation start ==================================== //
+
+
+
+  $scope.clearPartProcessingObj = function () {
+    $scope.partProcessingObj = {
+      processingTypeData: [],
+      processingItemData: [],
+      selectedProcessingType: {},
+      selectedProcessingItem: {},
+      rate: {
+        actualRate: null,
+        uom: ""
+      },
+      quantity: {
+        linkedKeyValue: {
+          keyVariable: null,
+          keyValue: null
+        },
+        totalQuantity: 1,
+        utilization: 100,
+        contengncyOrWastage: 10
+      },
+      remark: "",
+      totalCost: null,
+      finalUom: null,
+      linkedKeyValuesCalculation: {
+        perimeter: null,
+        sheetMetalArea: null,
+        surfaceArea: null,
+        weight: null
+      }
+    };
+  }
+  $scope.clearPartProcessingObj();
+
+  $scope.disableProcessingFields = {
+    disableProcessItem: true,
+  };
+
+  $scope.addOrEditProcessingModal = function (operation, level, subAssemblyId, partId, processingId) {
+    $scope.clearPartProcessingObj();
+
+    $scope.level = level;
+    $scope.subAssemblyId = subAssemblyId;
+    $scope.partId = partId;
+
+    //- get required data to add processing
+    createOrEditEstimateService.getProcessingModalData(operation, level, subAssemblyId, partId, processingId, function (data) {
+      //- get linkedKeyValuesAtPartCalculation objet from service
+      if (level == 'part') {
+        $scope.partProcessingObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtPartCalculation;
+      } else if (level == 'subAssembly') {
+        $scope.partProcessingObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtSubAssemblyCalculation;
+      } else if (level == 'assembly') {
+        $scope.partProcessingObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtAssemblyCalculation;
+      }
+      //- to restrict user
+      var tempObj = $scope.partProcessingObj.linkedKeyValuesCalculation;
+      if ((isNaN(parseFloat(tempObj.perimeter))) && (isNaN(parseFloat(tempObj.sheetMetalArea))) && (isNaN(parseFloat(tempObj.surfaceArea))) && (isNaN(parseFloat(tempObj.weight)))) {
+        toastr.warning('You cannot able to access it now');
+      } else {
+        if (operation == 'save') {
+          //- get required data to add processing
+          $scope.partProcessingObj.processingTypeData = data.processingTypeData;
+          $scope.showSaveBtn = true;
+          $scope.showEditBtn = false;
+        } else if ('update') {
+          $scope.partProcessingObj.processingTypeData = data.processingTypeData;
+          $scope.partProcessingObj.processingItemData = data.processingItemData;
+          $scope.partProcessingObj.selectedProcessingType = data.selectedProcessingType;
+          $scope.partProcessingObj.selectedProcessingItem = data.selectedProcessingItem;
+
+          $scope.partProcessingObj.rate.actualRate = data.rate.actualRate;
+          $scope.partProcessingObj.rate.uom = data.selectedProcessingType.rate.uom.uomName;
+
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = data.quantity.linkedKeyValue.keyVariable;
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = data.quantity.linkedKeyValue.keyValue;
+          $scope.partProcessingObj.quantity.utilization = data.quantity.utilization;
+          $scope.partProcessingObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
+          $scope.partProcessingObj.quantity.totalQuantity = data.quantity.totalQuantity;
+
+          $scope.partProcessingObj.finalUom = data.finalUom;
+          $scope.partProcessingObj.remark = data.remark;
+          //$scope.partProcessingObj.currentPartObj = data.currentPartObj;
+          $scope.partProcessingObj.processingNumber = data.processingNumber;
+
+          $scope.showSaveBtn = false;
+          $scope.showEditBtn = true;
+        }
+
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/estimate/estimateModal/createOrEditProcessing.html',
+          scope: $scope,
+          size: 'md',
+        });
+      }
+    });
+
+
+  }
+
+  //- call when user will select a processType 
+  //- get all process Item of corrresponding processType
+  //- get done with all calculation dependent on processTYpe
+  $scope.getSelectedProessType = function (proTypeObj) {
+    createOrEditEstimateService.getSelectedProessType(proTypeObj._id, function (data) {
+      $scope.disableProcessingFields.disableProcessItem = false;
+      $scope.partProcessingObj.processingItemData = data;
+      $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = "";
+      $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = "";
+
+      //- get the value of selected linkedKeyValue of processType from part --> keyValueCalculation --> selected linkedKeyValue   
+
+      var tempLinkedKeyValue = $scope.partProcessingObj.selectedProcessingType.quantity.linkedKeyValue;
+      $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = tempLinkedKeyValue;
+
+      if (tempLinkedKeyValue == "Perimeter") {
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.perimeter) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+      } else if (tempLinkedKeyValue == "SMA") {
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.SMA) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+      } else if (tempLinkedKeyValue == "SA") {
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.SA) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+      } else if (tempLinkedKeyValue == "Wt") {
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Wt) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+      } else if (tempLinkedKeyValue == "Nos") {
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Nos) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+      } else if (tempLinkedKeyValue == "Hrs") {
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Hrs) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+      }
+
+      $scope.partProcessingObj.finalUom = $scope.partProcessingObj.selectedProcessingType.quantity.finalUom.uomName;
+      // $scope.partProcessingObj.totalCost = $scope.partProcessingObj.selectedProcessingType.quantity.totalQuantity * $scope.partProcessingObj.rate;
+
+    });
+  }
+
+  //- call when user will select a processItem
+  //- get done with all the calculation after selecting processItem
+  $scope.getSelectedProessItem = function (proItemObj) {
+    //- calculate rate
+    $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);
+    $scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom.uomName;
+
+  }
+
+  //- to add processing at assembly or subssembly or at partLevel
+  $scope.addProcessing = function (operation, processingData, level, subAssemblyId, partId) {
+    //- make processingData properly & then pass it to createProcessing
+    //- set object same as processing object in service
+    var processing = {
+      processingNumber: processingData.processingNumber,
+      processType: processingData.selectedProcessingType,
+      processItem: processingData.selectedProcessingItem,
+      rate: processingData.rate.actualRate,
+      quantity: {
+        linkedKeyValue: {
+          keyVariable: processingData.quantity.linkedKeyValue.keyVariable,
+          keyValue: processingData.quantity.linkedKeyValue.keyValue
+        },
+        totalQuantity: processingData.quantity.totalQuantity,
+        utilization: processingData.quantity.utilization,
+        contengncyOrWastage: processingData.quantity.contengncyOrWastage
+      },
+      remark: processingData.remark,
+      totalCost: processingData.totalCost
+
+    };
+
+    if (operation == 'save') {
+      createOrEditEstimateService.createProcessing(processing, level, subAssemblyId, partId, function () {
+        $scope.getEstimateView('processing', level, subAssemblyId, partId);
+        toastr.success('Processing added successfully');
+        $scope.cancelModal();
+      });
+    } else if (operation == 'update') {
+      createOrEditEstimateService.updateProcessing(processing, level, subAssemblyId, partId, function () {
+        $scope.getEstimateView('processing', level, subAssemblyId, partId);
+        toastr.success('Processing updated successfully');
+        $scope.cancelModal();
+      });
+    }
+    createOrEditEstimateService.totalCostCalculations(function (data) {});
+
+  }
+  //- to edit processing at assembly or subssembly or at partLevel
+  $scope.editProcessing = function () {
+    $scope.getCurretEstimateObj();
+    createOrEditEstimateService.totalCostCalculations(function (data) {});
+    toastr.success('Processing updated successfully');
+    $scope.cancelModal();
+  }
+  //- to delete processing
+  $scope.deleteProcessing = function (processingId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.deleteProcessing(processingId, level, subAssemblyId, partId, function (data) {
+      toastr.success('Processing deleted successfully');
+      $scope.getEstimateView('processing', level, subAssemblyId, partId);
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      $scope.cancelModal();
+    });
+  }
+  //- to delete bulk processing
+  $scope.deleteMultipleProcessing = function (processingIds, level, subAssId, partId) {
+    createOrEditEstimateService.deleteMultipleProcessing(level, processingIds, subAssId, partId, function () {
+      $scope.bulkItems = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+
+      $scope.getEstimateView('processing', level, subAssId, partId);
+      $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      toastr.success('Processing deleted successfully');
+    });
+  }
+  //- to get all versions of selected processing
+  $scope.getProcessingVersions = function (processingObj) {
+    $scope.versionData = processingObj.versionDetail;
+  }
+  //- import processing
+  $scope.importProcessing = function (processingId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.getImportProcessingData(processingId, level, subAssemblyId, partId, function () {
+      $scope.getCurretEstimateObj();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      toastr.success('Processing imported successfully');
+      $scope.cancelModal();
+    });
+  }
+
+
+  //- ==================================== processing functionality/calculation end ==================================== //
+
+
   //- function to get bulk processing, addons & extras
   $scope.selectBulkItems = function (checkboxStatus, itemId) {
     $scope.bulkItems;
@@ -69255,71 +69740,499 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, toastr, $statePar
     $scope.modalInstance.dismiss();
   }
 
+  // **********Extra add modal*************************
 
-  // *************************** init all default functions begin here ************** //
+  $scope.getExtraObj = function () {
+    $scope.extraObj = {
+      allExtraItem: [],
+      selectedExtraItem: {},
+      quantity: 1,
+      remark: "",
+      totalCost: "",
+      rate: "",
+      uom: ""
+    };
+  }
+
+  $scope.getExtraObj();
+
+  $scope.addOrEditExtraModal = function (operation, level, subAssemblyId, partId, extraId) {
+    $scope.getExtraObj();
+    $scope.level = level;
+    $scope.subAssemblyId = subAssemblyId;
+    $scope.partId = partId;
+
+    createOrEditEstimateService.getExtraModalData(operation, level, subAssemblyId, partId, extraId, function (data) {
+      if (operation == 'save') {
+        //- get required data to add processing
+        $scope.extraObj.allExtraItem = data.allExtraItem;
+        $scope.showSaveBtn = true;
+        $scope.showEditBtn = false;
+      } else if ('update') {
+        $scope.extraObj.allExtraItem = data.allExtraItem;
+        $scope.extraObj.selectedExtraItem = data.selecetdExtraItem;
+        $scope.extraObj.extraNumber = data.extraNumber;
+        $scope.extraObj.totalCost = data.totalCost;
+        $scope.extraObj.remark = data.remark;
+        $scope.extraObj.quantity = data.quantity;
+        $scope.extraObj.rate = data.rate;
+        $scope.extraObj.uom = data.uom;
+        $scope.showSaveBtn = false;
+        $scope.showEditBtn = true;
+      }
+
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/createOrEditExtra.html',
+        scope: $scope,
+        size: 'md'
+      });
+    });
+  }
+
+  $scope.getSelectedExtraItem = function (extraObjData) {
+    //- calculate rate
+    
+    $scope.extraObj.selectedExtraItem = extraObjData;
+    $scope.extraObj.totalCost = parseFloat(extraObjData.rate.name) * 1;
+    $scope.extraObj.uom = extraObjData.rate.uom.uomName;
+  }
+
+  $scope.changeQuantity = function (q) {
+    $scope.extraObj.totalCost = parseFloat($scope.extraObj.selectedExtraItem.rate.name) * q;
+  }
+
+  //- to add Extra at assembly or subssembly or at partLevel
+  $scope.addExtra = function (extraData, level, subAssemblyId, partId) {
+    
+    var extra = {
+      extraItem: extraData.selectedExtraItem,
+      extraNumber: extraData.extraNumber,
+      totalCost: extraData.totalCost,
+      remark: extraData.remark,
+      quantity: extraData.quantity,
+      rate: extraData.selectedExtraItem.rate.name,
+      uom: extraData.uom
+    }
+    createOrEditEstimateService.addExtra(extra, level, subAssemblyId, partId, function () {
+      $scope.getEstimateView('extras', level, subAssemblyId, partId);
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      toastr.success('Extra added successfully');
+      $scope.cancelModal();
+    });
+  }
+  //- to edit Extra at assembly or subssembly or at partLevel
+  $scope.updateExtra = function (extraObj, level, subAssemblyId, partId, extraId) {
+    createOrEditEstimateService.updateExtra(extraObj, level, subAssemblyId, partId, extraId, function (data) {
+      $scope.getCurretEstimateObj();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      toastr.success('Extra updated successfully');
+      $scope.cancelModal();
+    });
+  }
+
+  //- to delete Extra
+  $scope.deleteExtra = function (extraId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.deleteExtra(extraId, level, subAssemblyId, partId, function () {
+      toastr.success('Extra deleted successfully');
+      $scope.getEstimateView('extras', level, subAssemblyId, partId);
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      $scope.cancelModal();
+    });
+  }
+  //- to delete bulk extras
+  $scope.deleteMultipleExtras = function (extraId, level, subAssId, partId) {
+    createOrEditEstimateService.deleteMultipleExtras(level, extraId, subAssId, partId, function () {
+      $scope.bulkItems = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+
+      $scope.getEstimateView('extras', level, subAssId, partId);
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      $scope.cancelModal();
+      toastr.success('Extras deleted successfully');
+    });
+  }
+  //- to get all versions of selected extra
+  $scope.getExtraVersions = function (extraObj) {
+    $scope.versionData = extraObj.versionDetail;
+  }
+  //- Import Extra
+  $scope.importExtra = function (extraId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.getImportExtraData(extraId, level, subAssemblyId, partId, function () {
+      $scope.getCurretEstimateObj();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      toastr.success('Extra imported successfully');
+      $scope.cancelModal();
+    });
+  }
+
+  // **********************************end extra*********************************************
+
+  // **************************************** init all default functions begin here **************************************** //
   //- to initilize the default function 
   $scope.init = function () {
     // to get default view
+    $scope.getEstimateData();
     $scope.getEstimateView('assembly');
     //to get estimate tree structure data 
-    $scope.getEstimateData();
     $scope.getCustomMaterialData();
   }
   $scope.init();
 
 
+
+
+  //- ==================================== addon functionality/calculation start ==================================== //
+
+  $scope.getAddonObject = function () {
+    $scope.addonObj = {
+      addonNumber: "",
+      allAddonTypes: [],
+      allMaterials: [],
+      selectedAddonType: {},
+      selectedMaterial: {},
+      rate: {
+        value: "", //- selectedAddonType-->rate-->mulFact *  selectedMaterial-->typicaRatePerKg
+        uom: "" //- selectedAddonType-->rate-->uom
+      },
+      quantity: {
+        supportingVariable: {
+          supportingVariable: "", //- selectedAddonType-->quantity-->additional input field
+          value: 1, //- take from user
+          uom: "" //- selectedAddonType-->quantity-->additionalInputUom
+        },
+        keyValue: {
+          keyVariable: "", //- selectedAddonType-->quantity-->linkedKey 
+          keyValue: "", //- selectedAddonType-->quantity-->mulFact * (selected selectedAddonType-->quantity-->linkedKey) from part calculation
+          uom: "" //- selectedAddonType-->quantity-->linkedKeyUom
+        },
+        utilization: 100, //- get it from user, in default it is 100
+        contengncyOrWastage: 10, //- get it from user, kin default it is 10 
+        total: 1 //- get it from user, in default it is 1
+      },
+      totalCost: "", //- rate-->value * quantity-->total
+      totalWeight: "", //- quantity-->total * selectedMaterial-->typicaRatePerKg
+      remarks: "", //- get it from user
+      finalUom: "", //- selectedAddonType-->quantity-->finalUom 
+      linkedKeyValuesCalculation: { //- get all calculation at part/subAssembly/assembly level
+        perimeter: null,
+        SMA: null,
+        SA: null,
+        Wt: null,
+        Nos: null,
+        Hrs: null
+      }
+    }
+  }
+
+  $scope.getAddonObject();
+
+  $scope.addOrEditAddonModal = function (operation, level, subAssemblyId, partId, addonId) {
+    $scope.getAddonObject();
+
+    
+
+    $scope.level = level;
+    $scope.subAssemblyId = subAssemblyId;
+    $scope.partId = partId;
+
+    //- get required data to add processing
+    createOrEditEstimateService.getAddonModalData(operation, level, subAssemblyId, partId, addonId, function (data) {
+      
+      if (operation == 'save') {
+        //- get required data to add addon
+        $scope.addonObj.allAddonTypes = data.allAddonTypes;
+      } else if (operation == 'update') {
+        
+        $scope.addonObj.allAddonTypes = data.allAddonTypes;
+        $scope.addonObj.allMaterials = data.allMaterials;
+        $scope.addonObj.selectedAddonType = data.selectedAddonType;
+        $scope.addonObj.selectedMaterial = data.selectedMaterial;
+
+        $scope.addonObj.rate.value = data.rate.value;
+        $scope.addonObj.rate.uom = data.rate.uom;
+
+        $scope.addonObj.quantity.supportingVariable.supportingVariable = data.quantity.supportingVariable.supportingVariable;
+        $scope.addonObj.quantity.supportingVariable.value = data.quantity.supportingVariable.value;
+        $scope.addonObj.quantity.supportingVariable.uom = data.quantity.supportingVariable.uom;
+
+        $scope.addonObj.quantity.keyValue.keyVariable = data.quantity.keyValue.keyVariable;
+        $scope.addonObj.quantity.keyValue.keyValue = data.quantity.keyValue.keyValue;
+        $scope.addonObj.quantity.keyValue.uom = data.quantity.keyValue.uom;
+
+        $scope.addonObj.quantity.utilization = data.quantity.utilization;
+        $scope.addonObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
+        $scope.addonObj.quantity.total = data.quantity.total;
+
+        $scope.addonObj.remark = data.remarks;
+        // $scope.addonObj.currentPartObj = data.currentPartObj;
+        $scope.addonObj.addonNumber = data.addonNumber;
+        // $scope.addonObj.totalWeight = data;
+        // $scope.addonObj.totalWeight = ;
+
+        $scope.addonObj.totalCost = parseFloat(data.quantity.total) * parseFloat(data.selectedMaterial.typicalRatePerKg) * parseFloat(data.quantity.supportingVariable.value);
+        $scope.addonObj.totalWeight = parseFloat(data.quantity.total) * parseFloat(data.selectedMaterial.weightPerUnit);
+        $scope.addonObj.finalUom = data.selectedAddonType.quantity.finalUom.uomName;
+
+        $scope.showSaveBtn = false;
+        $scope.showEditBtn = true;
+      }
+
+      //- get linkedKeyValuesAtPartCalculation objet from service
+      
+      if (level == 'part') {
+        $scope.addonObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtPartCalculation;
+      } else if (level == 'subAssembly') {
+        $scope.addonObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtSubAssemblyCalculation;
+      } else if (level == 'assembly') {
+        $scope.addonObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtAssemblyCalculation;
+      }
+
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/estimate/estimateModal/createOrEditAddon.html',
+        scope: $scope,
+        size: 'md',
+      });
+
+    });
+
+
+
+  }
+
+  //- when user select an addonType
+  $scope.getSelectedAddonType = function (selectedAddonType) {
+    //- update selectedAddonType in selectedAddonType
+    $scope.addonObj.selectedAddonType = selectedAddonType;
+
+    //- get all material of corresponding selected addonType
+    createOrEditEstimateService.getSelectedAddonType(selectedAddonType._id, function (data) {
+      $scope.addonObj.allMaterials = data;
+    });
+
+    //- bind all data which is dependent on addonType
+    $scope.addonObj.rate.uom = selectedAddonType.rate.uom.uomName;
+    
+
+    //- get it from selecetdAddonType
+    $scope.addonObj.quantity.supportingVariable.supportingVariable = selectedAddonType.quantity.additionalInput;
+    $scope.addonObj.quantity.supportingVariable.uom = selectedAddonType.quantity.additionalInputUom.uomName; //- get it from selecetdAddonType
+
+    var tempLinkedKeyValue = $scope.addonObj.selectedAddonType.quantity.linkedKey;
+    $scope.addonObj.quantity.keyValue.keyVariable = tempLinkedKeyValue;
+    $scope.addonObj.quantity.keyValue.uom = selectedAddonType.quantity.linkedKeyUom.uomName; //
+
+
+    if (tempLinkedKeyValue == "Perimeter") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.perimeter) * parseFloat(selectedAddonType.quantity.mulFact);
+    } else if (tempLinkedKeyValue == "SMA") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.SMA) * parseFloat(selectedAddonType.quantity.mulFact);
+    } else if (tempLinkedKeyValue == "SA") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.SA) * parseFloat(selectedAddonType.quantity.mulFact);
+    } else if (tempLinkedKeyValue == "Wt") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.Wt) * parseFloat(selectedAddonType.quantity.mulFact);
+    } else if (tempLinkedKeyValue == "Nos") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.Nos) * parseFloat(selectedAddonType.quantity.mulFact);
+    } else if (tempLinkedKeyValue == "Hrs") {
+      $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.Hrs) * parseFloat(selectedAddonType.quantity.mulFact);
+    }
+
+
+    $scope.addonObj.finalUom = selectedAddonType.quantity.finalUom.uomName; //- selected selectedAddonType-->quantity-->finalUom 
+
+
+
+    console.log('**** inside function_name of createOrEditEstimateCtrl.js ****', $scope.addonObj);
+  }
+
+  //- when user select an material
+  $scope.getSelectedMaterial = function (selectedMaterial) {
+    console.log('**** inside getSelectedMaterial of createOrEditEstimateCtrl.js ****');
+    //- get rate selectedAddonType-->rate * selectedMaterial --> typicalRatepeKg
+    //- 
+    
+    $scope.addonObj.rate.value = $scope.addonObj.selectedAddonType.rate.mulFact * selectedMaterial.typicalRatePerKg;
+
+    //- update following after change quantity again
+    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat(selectedMaterial.typicalRatePerKg);
+    $scope.addonObj.totalWeight = parseFloat($scope.addonObj.quantity.total) * parseFloat(selectedMaterial.weightPerUnit);
+
+  }
+
+  $scope.changeAddonQuantity = function (quantity) {
+    $scope.addonObj.totalCost = parseFloat(quantity) * parseFloat($scope.addonObj.selectedMaterial.typicalRatePerKg) * $scope.addonObj.quantity.supportingVariable.value;
+    $scope.addonObj.totalWeight = parseFloat(quantity) * parseFloat($scope.addonObj.selectedMaterial.weightPerUnit);
+  }
+
+  $scope.changeSVValue = function () {
+    // $scope.addonObj.quantity.supportingVariable.value = svValue;
+    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.selectedMaterial.typicalRatePerKg) * $scope.addonObj.quantity.supportingVariable.value;
+  }
+
+  //- to add Addon at assembly or subssembly or at partLevel
+  $scope.addAddon = function (operation, addonData, level, subAssemblyId, partId) {
+
+    var addon = {
+      addonNumber: addonData.addonNumber,
+      addonType: addonData.selectedAddonType,
+      addonItem: addonData.selectedMaterial,
+      rate: addonData.rate.value,
+      quantity: {
+        supportingVariable: {
+          supportingVariable: addonData.quantity.supportingVariable.supportingVariable,
+          value: addonData.quantity.supportingVariable.value
+        },
+        keyValue: {
+          keyVariable: addonData.quantity.keyValue.keyVariable,
+          keyValue: addonData.quantity.keyValue.keyValue,
+        },
+        utilization: addonData.quantity.utilization,
+        contengncyOrWastage: addonData.quantity.contengncyOrWastage,
+        total: addonData.quantity.total
+      },
+      totalCost: addonData.totalCost,
+      remarks: addonData.remarks
+    };
+
+    if (operation == 'save') {
+      createOrEditEstimateService.createAddon(addon, level, subAssemblyId, partId, function () {
+        $scope.getEstimateView('addons', level, subAssemblyId, partId);
+        toastr.info('Addon added successfully', 'Addon Creation!');
+        $scope.cancelModal();
+      });
+    } else if (operation == 'update') {
+      createOrEditEstimateService.updateAddon(addon, level, subAssemblyId, partId, function () {
+        $scope.getEstimateView('addons', level, subAssemblyId, partId);
+        toastr.info('Addon updated successfully', 'Addon Creation!');
+        $scope.cancelModal();
+      });
+    }
+  }
+  //- to edit Addon at assembly or subssembly or at partLevel
+  $scope.editAddon = function () {
+    $scope.getCurretEstimateObj();
+    toastr.success('Addon updated successfully');
+    createOrEditEstimateService.totalCostCalculations(function (data) {});
+    $scope.cancelModal();
+  }
+  //- delete addon
+  $scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
+      toastr.info('Addon deleted successfully', 'Addon Deletion!');
+      $scope.getEstimateView('addons', level, subAssemblyId, partId);
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      $scope.cancelModal();
+    });
+  }
+  //- to delete bulk addons
+  $scope.deleteMultipleAddons = function (addonId, level, subAssId, partId) {
+    createOrEditEstimateService.deleteMultipleAddons(level, addonId, subAssId, partId, function () {
+      $scope.bulkItems = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+      $scope.getEstimateView('addons', level, subAssId, partId);
+      $scope.cancelModal();
+      toastr.success('Addons deleted successfully');
+    });
+  }
+  //- Import Addon
+  $scope.importAddon = function (addonId, level, subAssemblyId, partId) {
+    createOrEditEstimateService.getImportAddonData(addonId, level, subAssemblyId, partId, function () {
+      $scope.getCurretEstimateObj();
+      toastr.info('Addon imported successfully', 'Addon Import!');
+      $scope.cancelModal();
+    });
+  }
+
+  //- ==================================== addon functionality/calculation end   ==================================== //
+
+
+
+
+
 });
 myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $uibModal, estimateService) {
+
+
+  // *************************** default variables/tasks begin here ***************** //
+  //- to show/hide sidebar of dashboard   
   $scope.$parent.isSidebarActive = true;
   $scope.bulkEstimates = []; //- for multiple records deletion
   $scope.checkAll = false; //- for all records selection
   $scope.checkboxStatus = false; //- for multiple records selection
-  //- table data
-  $scope.tableData = [{
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-      "pname": "kishori",
-      "did": "1",
-      "bname": "kishori",
 
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-
-    },
-    {
-      "id": "1",
-      "name": "kishori",
-      "cname": "1",
-      "dname": "kishori",
-      "cid": "1",
-    }
-  ]
-
-  //- to delete estimate 
-  $scope.deleteItem = function () {
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/modal/delete.html',
-      scope: $scope,
-      size: 'sm',
+  //- to get all estimates data
+  $scope.getTableData = function () {
+    estimateService.getEstimateData(function (data) {
+      $scope.tableData = data;
     });
   }
 
-  //- to edit estimate
-  $scope.allEstimateEdit = function () {
+
+  // *************************** functions to be triggered form view begin here ***** //     
+  //- modal to delete estimate
+  $scope.deleteEstimateModal = function (estimateId, getFunction) {
+    $scope.idToDelete = estimateId;
+    $scope.functionToCall = getFunction;
+
     $scope.modalInstance = $uibModal.open({
       animation: true,
-      templateUrl: 'views/content/estimate/estimateModal/allEstimateEdit.html',
+      templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
       scope: $scope,
-      size: 'md',
+      size: 'md'
+    });
+
+  }
+  //- to delete estimate
+  $scope.deleteEstimate = function (estimateId) {
+    estimateService.deleteEstimate(estimateId, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
+      $scope.cancelModal();
+      $scope.getTableData();
+    });
+  }
+  //- for pagination of estimates' records
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+    if (angular.isUndefined(keyword) || keyword == '') {
+      if (numberOfRecords != '10') {
+        estimateService.getPaginationData(page, numberOfRecords, null, function (data) {
+          $scope.tableData = data.results;
+          estimateService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      } else {
+        estimateService.getPaginationData(page, null, null, function (data) {
+          $scope.tableData = data.results;
+          estimateService.getPaginationDetails(page, 10, data, function (obj) {
+            $scope.obj = obj;
+          });
+        });
+      }
+    } else {
+      estimateService.getPaginationData(page, numberOfRecords, keyword, function (data) {
+        $scope.tableData = data.results;
+        estimateService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+          $scope.obj = obj;
+        });
+      });
+    }
+  }
+
+  //- to search the text in the table
+  $scope.serachText = function (keyword, count) {
+    enquiryService.getPaginationData(null, null, keyword, function (data) {
+      $scope.tableData = data.results;
+      enquiryService.getPaginationDetails(1, count, data, function (obj) {
+        $scope.obj = obj;
+      });
     });
   }
 
@@ -69327,7 +70240,6 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
   }
-
   //- modal to delete bulk estimates
   $scope.deleteBulkEstimatesModal = function (estimateIdArray, getFunction) {
     $scope.idsToDelete = estimateIdArray;
@@ -69342,11 +70254,16 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   }
   //- to delete estimate
   $scope.deleteBulkEstimates = function (estimates) {
-    estimateService.deleteBulkEstimates(estimates, function () {
+    estimateService.deleteBulkEstimates(estimates, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getEstimateData();
       $scope.bulkEstimates = [];
-      toastr.info('Records deleted successfully', 'Estimates Deletion!');
     });
   }
   //- to get bulk estimates
@@ -69366,7 +70283,7 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 
   $scope.init = function () {
-    // $scope.getEstimateData();
+    $scope.getTableData();
   }
   $scope.init();
 
@@ -69374,11 +70291,10 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
 });
 myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, loginService) {
 
-
     // *************************** default variables/tasks begin here ***************** //
     if ($.jStorage.get('loggedInUser') != null) {
         $state.go('app.dashboard');
-     } else {
+    } else {
         $scope.$parent.loginTemplate = false;
         $scope.formData = {};
         $scope.userValidationError = '';
@@ -69476,7 +70392,9 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
     }
 
 });
-myApp.controller('baseMasterCtrl', function ($scope,$uibModal, baseMatserService) {
+
+
+myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMatserService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -69534,7 +70452,7 @@ myApp.controller('baseMasterCtrl', function ($scope,$uibModal, baseMatserService
     }
     $scope.addOrEditUom = function (uomData) {
         baseMatserService.addOrEditUom(uomData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            toastr.success("UOM added/updated successfully");
             $scope.getUomData();
             $scope.cancelModal();
         });
@@ -69553,7 +70471,14 @@ myApp.controller('baseMasterCtrl', function ($scope,$uibModal, baseMatserService
     }
     $scope.deleteUom = function (uomId) {
         baseMatserService.deleteUom(uomId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            if(_.isEmpty(data.data)){
+                debugger;
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                debugger;
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getUomData();
         });
@@ -69577,7 +70502,7 @@ myApp.controller('baseMasterCtrl', function ($scope,$uibModal, baseMatserService
     }
     $scope.addOrEditVariable = function (variableData) {
         baseMatserService.addOrEditVariable(variableData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            toastr.success("Variable added successfully");
             $scope.getVariableData();
             $scope.cancelModal();
         });
@@ -69596,7 +70521,14 @@ myApp.controller('baseMasterCtrl', function ($scope,$uibModal, baseMatserService
     }
     $scope.deleteVariable = function (variableId) {
         baseMatserService.deleteVariable(variableId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            if(_.isEmpty(data.data)){
+                debugger;
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                debugger;
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getVariableData();
         });
@@ -69620,7 +70552,7 @@ myApp.controller('baseMasterCtrl', function ($scope,$uibModal, baseMatserService
     }
     $scope.addOrEditDf = function (dfData) {
         baseMatserService.addOrEditDf(dfData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            toastr.success("Difficulty Factor added/updated successfully");
             $scope.getDfData();
             $scope.cancelModal();
         });
@@ -69639,7 +70571,15 @@ myApp.controller('baseMasterCtrl', function ($scope,$uibModal, baseMatserService
     }
     $scope.deleteDf = function (dfId) {
         baseMatserService.deleteDf(dfId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            if(_.isEmpty(data.data)){
+                debugger;
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                debugger;
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
+            toastr.success("Difficulty Factor deleted successfully");
             $scope.cancelModal();
             $scope.getDfData();
         });
@@ -69664,7 +70604,7 @@ myApp.controller('baseMasterCtrl', function ($scope,$uibModal, baseMatserService
     }
     $scope.addOrEditMarkup = function (markupData) {
         baseMatserService.addOrEditMarkup(markupData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            toastr.success("Markup added/updated successfully");            
             $scope.getMarkupData();
             $scope.cancelModal();
         });
@@ -69683,7 +70623,14 @@ myApp.controller('baseMasterCtrl', function ($scope,$uibModal, baseMatserService
     }
     $scope.deleteMarkup = function (markupId) {
         baseMatserService.deleteMarkup(markupId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            if(_.isEmpty(data.data)){
+                debugger;
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                debugger;
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getMarkupData();
         });
@@ -69736,7 +70683,6 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   $scope.addOrEditAddonTypeModal = function (operation, addonType) {
 
     masterAddonService.getAddonTypeModalData(operation, addonType, function (data) {
-      console.log('**** inside function_name of masterAddonCtrl.js ****', data);
       $scope.formData = data.addonTypeData;
       $scope.mMatCatData = data.mMatData;
       $scope.mUomData = data.mUomData;
@@ -69770,7 +70716,7 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
     addonTypeData.quantity.finalUom = selectedFinalUomId;
 
     masterAddonService.addOrEditAddonType(addonTypeData, function (data) {
-      toastr.info('Record added successfully', 'Addon Creation!');
+      toastr.success('Addon added/updated successfully');
       $scope.getAddonData();
       $scope.cancelModal();
     });
@@ -69791,7 +70737,12 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   //- function for addon deletion
   $scope.deleteAddonType = function (addonId) {
     masterAddonService.deleteAddonType(addonId, function (data) {
-      toastr.info('Record deleted successfully', 'Addon Deletion!');
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.getAddonData();
       $scope.cancelModal();
     });
@@ -69801,14 +70752,14 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        masterAddonService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        masterAddonService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.addonData = data.results;
           masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        masterAddonService.getPaginationDatawithoutKeyword(page, function (data) {
+        masterAddonService.getPaginationData(page, null, null, function (data) {
           $scope.addonData = data.results;
           masterAddonService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -69816,7 +70767,7 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
         });
       }
     } else {
-      masterAddonService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      masterAddonService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.addonData = data.results;
         masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
@@ -69827,7 +70778,7 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
 
   //- function to search the text in table
   $scope.serachText = function (keyword, count) {
-    masterAddonService.getSearchResult(keyword, function (data) {
+    masterAddonService.getPaginationData(null, null, keyword, function (data) {
       $scope.addonData = data.results;
       masterAddonService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
@@ -69854,11 +70805,16 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   }
   //- function to delete addon
   $scope.deleteBulkAddons = function (addons) {
-    masterAddonService.deleteBulkAddons(addons, function () {
+    masterAddonService.deleteBulkAddons(addons, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getAddonData();
       $scope.bulkAddons = [];
-      toastr.info('Records added successfully', 'Addons Deletion!');
     });
   }
   //- function to get bulk addons
@@ -69992,7 +70948,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
     extraData.rate.uom = selectedRateUom;
 
     masterExtraService.addOrEditExtra(extraData, function (data) {
-      toastr.info('Records added successfully', 'Extra Creation!');
+      toastr.success('Extra added/updated successfully');
       $scope.getMasterExtraData();
       $scope.cancelModal();
     });
@@ -70013,7 +70969,12 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   //- function for  extra deletion
   $scope.deleteExtra = function (extraId) {
     masterExtraService.deleteExtra(extraId, function (data) {
-      toastr.info('Records deleted successfully', 'Extra Deletion!');
+      if(_.isEmpty(data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getMasterExtraData();
     });
@@ -70023,14 +70984,14 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        masterExtraService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        masterExtraService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.extraData = data.results;
           masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        masterExtraService.getPaginationDatawithoutKeyword(page, function (data) {
+        masterExtraService.getPaginationData(page, null, null, function (data) {
           $scope.extraData = data.results;
           masterExtraService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -70038,7 +70999,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
         });
       }
     } else {
-      masterExtraService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      masterExtraService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.extraData = data.results;
         masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
@@ -70049,7 +71010,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
 
   //- function to search the text in table
   $scope.serachText = function (keyword, count) {
-    masterExtraService.getSearchResult(keyword, function (data) {
+    masterExtraService.getPaginationData(null, null, keyword, function (data) {
       $scope.extraData = data.results;
       masterExtraService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
@@ -70076,11 +71037,16 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   }
   //- function to delete extra
   $scope.deleteBulkExtras = function (extras) {
-    masterExtraService.deleteBulkExtras(extras, function () {
+    masterExtraService.deleteBulkExtras(extras, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getMasterExtraData();
       $scope.bulkExtras = [];
-      toastr.info('Records added successfully', 'Extras Deletion!');
     });
   }
   //- function to get bulk extras
@@ -70115,9 +71081,12 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.showEditBtn = false;
     $scope.disableit = true;
     $scope.editAll = false; // to make all the records instant editable
-    // $scope.bulkMaterials = []; //- for multiple records deletion
-    // $scope.checkAll = false; //- for all records selection
-    // $scope.checkboxStatus = false; //- for multiple records selection
+    // $scope.formData = {
+    //     datasheet:[]
+    // };
+    $scope.bulkMaterials = []; //- for multiple records deletion
+    $scope.checkAll = false; //- for all records selection
+    $scope.checkboxStatus = false; //- for multiple records selection
 
 
     // *************************** default functions begin here  ********************** //
@@ -70129,7 +71098,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
     // *************************** functions to be triggered form view begin here ***** //
     $scope.addOrEditMaterialCatModal = function (operation, materialCat) {
-        console.log('**** inside addOrEditMaterialCatModal of createOrEditMaterialCtrl.js ****', operation);
         masterMaterialService.getMaterialCatModalData(operation, materialCat, function (data) {
             $scope.formData = data.materialCat;
             $scope.showSaveBtn = data.saveBtn;
@@ -70144,9 +71112,8 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.addOrEditMaterialCat = function (materialCatData) {
-        console.log('**** inside addOrEditMaterialCat of createOrEditMaterialCtrl.js ****');
         masterMaterialService.addOrEditMaterialCat(materialCatData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            toastr.success('Material Category added/updated successfully');
             $scope.getMaterialData();
             $scope.cancelModal();
         });
@@ -70164,9 +71131,13 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.deleteMaterialCat = function (materialCatId) {
-        console.log('**** inside deleteMaterialCat of createOrEditMaterialCtrl.js ****');
         masterMaterialService.deleteMaterialCat(materialCatId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -70174,7 +71145,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
 
     $scope.addOrEditMaterialSubCatModal = function (operation, materialCatId, materialSubCat) {
-        console.log('**** inside addOrEditMaterialSubCatModal of createOrEditMaterialCtrl.js ****', materialSubCat);
         masterMaterialService.getMaterialSubCatModalData(operation, materialCatId, materialSubCat, function (data) {
             $scope.formData = data.materialSubCat;
             $scope.catId = data.catId;
@@ -70191,17 +71161,14 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.addOrEditMaterialSubCat = function (materialSubCatData, materialCatId) {
         // materialSubCatData.catId = materialCatId;
-        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', materialSubCatData);
-        console.log('**** inside addOrEditMaterialSubCat of createOrEditMaterialCtrl.js ****', materialCatId);
         masterMaterialService.addOrEditMaterialSubCat(materialSubCatData, materialCatId, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            toastr.success('Material SubCategory added successfully');
             $scope.getMaterialData();
             $scope.cancelModal();
         });
     }
     //- modal to confirm material sub deletion
     $scope.deleteMaterialSubCatModal = function (materialSubCatId, getFunction) {
-        console.log('**** inside deleteMaterialSubCatModal of createOrEditMaterialCtrl.js ****', getFunction);
         $scope.idToDelete = materialSubCatId;
         $scope.functionToCall = getFunction;
 
@@ -70213,9 +71180,13 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.deleteMaterialSubCat = function (materialSubCatId) {
-        console.log('**** inside deleteMaterialSubCat of createOrEditMaterialCtrl.js ****');
         masterMaterialService.deleteMaterialSubCat(materialSubCatId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -70223,10 +71194,9 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
 
     $scope.addOrEditMaterialModal = function (operation, materialSubCatId, material) {
-        console.log('**** inside addOrEditMaterialModal of createOrEditMaterialCtrl.js ****', materialSubCatId);
-        masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {
-            $scope.formData = data.material;
-            console.log('**** inside function_name of masterMaterialCtrl.js ****', data);
+        masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {           
+
+            $scope.formData = data.material;           
             $scope.subCatId = data.materialSubCategory; // pass it to parameter of addOrEditMaterial
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
@@ -70240,16 +71210,19 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
-        console.log('**** inside addOrEditMaterial of createOrEditMaterialCtrl.js ****', materialSubCatId);
-        masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {
-            $scope.operationStatus = "Record added successfully";
-            $scope.getMaterialData();
+        masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {    
+            toastr.Success('Material added successfully');      
             $scope.cancelModal();
+            $scope.getMaterialData();
         });
     }
     //- instant edit particular master material
     $scope.editMaterial = function (materialId) {
-        $scope.editMaterialId = materialId;
+        if($scope.editMaterialId == materialId) {
+            $scope.editMaterialId = '';
+        } else {
+            $scope.editMaterialId = materialId;
+        }
     }
     //- instant edit all master materials
     $scope.instantEditAllMaterial = function (editAll) {
@@ -70257,11 +71230,11 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
             $scope.editAll = false;
         } else {
             $scope.editAll = true;
+            toastr.info('Now you can edit any material');
         }
     }
     //- modal to confirm material deletion
     $scope.deleteMaterialModal = function (materialId, getFunction) {
-        console.log('**** inside deleteMaterialModal of createOrEditMaterialCtrl.js ****', getFunction);
         $scope.idToDelete = materialId;
         $scope.functionToCall = getFunction;
 
@@ -70273,9 +71246,13 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.deleteMaterial = function (materialId) {
-        console.log('**** inside deleteMaterial of createOrEditMaterialCtrl.js ****');
         masterMaterialService.deleteMaterial(materialId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+              }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getMaterialData();
         });
@@ -70283,7 +71260,6 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
     $scope.getSubCatMaterials = function (materialSubCatId) {
         masterMaterialService.getSubCatMaterials(materialSubCatId, function (data) {
-            console.log('**** inside getSubCatMaterials of masterMaterialCtrl.js & data is ****', data);
             $scope.subCatMaterials = data.results;
             $scope.selectedSubACat = materialSubCatId;
             $scope.disableit = false;
@@ -70305,14 +71281,14 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.getPaginationData = function (page, numberOfRecords, keyword) {
         if (angular.isUndefined(keyword) || keyword == '') {
             if (numberOfRecords != '10') {
-                masterMaterialService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+                masterMaterialService.getPaginationData(page, numberOfRecords, null, function (data) {
                     $scope.subCatMaterials = data.results;
                     masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
                         $scope.obj = obj;
                     });
                 });
             } else {
-                masterMaterialService.getPaginationDatawithoutKeyword(page, function (data) {
+                masterMaterialService.getPaginationData(page, null, null, function (data) {
                     $scope.subCatMaterials = data.results;
                     masterMaterialService.getPaginationDetails(page, 10, data, function (obj) {
                         $scope.obj = obj;
@@ -70320,7 +71296,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
                 });
             }
         } else {
-            masterMaterialService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+            masterMaterialService.getPaginationData(page, numberOfRecords, keyword, function (data) {
                 $scope.subCatMaterials = data.results;
                 masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
                     $scope.obj = obj;
@@ -70329,8 +71305,8 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         }
     }
     //- to search the text in table
-    $scope.serachText = function (keyword, count) {
-        masterMaterialService.getSearchResult(keyword, function (data) {
+    $scope.searchText = function (keyword, count) {
+        masterMaterialService.getPaginationData(null, null, keyword, function (data) {
             $scope.subCatMaterials = data.results;
             masterMaterialService.getPaginationDetails(1, count, data, function (obj) {
                 $scope.obj = obj;
@@ -70338,47 +71314,60 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     //   //- bulk materials deletion modal
-    //   $scope.deleteBulkMaterialsModal = function (materialIdArray, getFunction) {
-    //     $scope.idsToDelete = materialIdArray;
-    //     $scope.functionToCall = getFunction;
+      $scope.deleteBulkMaterialsModal = function (materialIdArray, getFunction) {
+        $scope.idsToDelete = materialIdArray;
+        $scope.functionToCall = getFunction;
 
-    //     $scope.modalInstance = $uibModal.open({
-    //       animation: true,
-    //       templateUrl: 'views/content/deleteBulkModal.html',
-    //       scope: $scope,
-    //       size: 'md'
-    //     });
-    //   }
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/deleteBulkModal.html',
+          scope: $scope,
+          size: 'md'
+        });
+      }
     //   //-to delete bulk materials
-    //   $scope.deleteBulkMaterials = function (materials) {
-    //     masterMaterialService.deleteBulkMaterials(materials, function () {
+      $scope.deleteBulkMaterials = function (materials) {
+        masterMaterialService.deleteBulkMaterials(materials, function (data) {
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+              }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
 
-    //       $scope.cancelModal();
-    //       $scope.bulkMaterials = [];
-    //       $scope.checkAll = false;
-    //       $scope.checkboxStatus = false;
-    //       $scope.getMaterialData();
-    //       toastr.info('Record deleted successfully', 'Material Deletion!');
-    //     });
-    //   }
+            $scope.cancelModal();
+            $scope.bulkMaterials = [];
+            $scope.checkAll = false;
+            $scope.checkboxStatus = false;
+            $scope.getSubCatMaterials();
+        });
+      }
     //   //- to get bulk materials
-    //   $scope.selectBulkMaterials = function (checkboxStatus, materialId) {
-    //     masterMaterialService.selectBulkMaterials(checkboxStatus, materialId, function (data) {
-    //       $scope.bulkMaterials = data;
-    //     });
-    //   }
-    //   //- to select all records
-    //   $scope.selectAll = function (materials, checkboxStatus) {
-    //     masterMaterialService.selectAll(materials, checkboxStatus, function (data) {
-    //       $scope.bulkMaterials = data;
-    //     });
-    //   }
+      $scope.selectBulkMaterials = function (checkboxStatus, materialId) {
+        masterMaterialService.selectBulkMaterials(checkboxStatus, materialId, function (data) {
+          $scope.bulkMaterials = data;
+        });
+      }
+      //- to select all records
+      $scope.selectAll = function (materials, checkAll) {
+        masterMaterialService.selectAll(materials, checkAll, function (data) {
+          $scope.bulkMaterials = data;
+        });
+      }
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
     }
 
+    $scope.helpMaterialModal = function () {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/helpMaterialModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    }
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
     $scope.init = function () {
@@ -70494,7 +71483,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
 
 });
-myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartService) {
+myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPartService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -70534,6 +71523,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
             $scope.formData = data.partTypeCat;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
+            $scope.operation = operation;
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -70543,9 +71533,14 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
             });
         });
     }
-    $scope.addOrEditPartTypeCat = function (partTypeCatData) {
+    $scope.addOrEditPartTypeCat = function (operation, partTypeCatData) {
         masterPartService.addOrEditPartTypeCat(partTypeCatData, function (data) {
-            $scope.operationStatus = "Record added successfully";
+            if (operation == 'update') {
+                toastr.success('Part Category Name Updated Successfully');
+
+            } else {
+                toastr.success('Part Category Name Added Successfully');
+            }
             $scope.getPartData();
             $scope.cancelModal();
         });
@@ -70563,12 +71558,16 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
     }
     $scope.deletePartTypeCat = function (partTypeCatId) {
         masterPartService.deletePartTypeCat(partTypeCatId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.getPartData();
             $scope.cancelModal();
         });
     }
-
 
     $scope.addOrEditPartTypeModal = function (operation, partTypeCatId, partType) {
         masterPartService.getPartTypeModalData(operation, partTypeCatId, partType, function (data) {
@@ -70587,31 +71586,24 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
     }
     $scope.addOrEditPartType = function (partTypeData, partTypeCatId) {
         masterPartService.addOrEditPartType(partTypeData, partTypeCatId, function (data) {
-            $scope.operationStatus = "Record added successfully";
+                        toastr.success('Part type  added/updated successfully');
+                        $scope.getPartData();
+                        $scope.cancelModal();
+        });
+    }
+
+    $scope.deletePartType = function (partTypeId) {
+        masterPartService.deletePartType(partTypeId, function (data) {
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
+            $scope.cancelModal();
             $scope.getPartData();
-            $scope.cancelModal();
         });
     }
-    $scope.deletePartTypeModal = function (materialSubCatId, getFunction) {
-        $scope.idToDelete = materialSubCatId;
-        $scope.functionToCall = getFunction;
-
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
-            scope: $scope,
-            size: 'md'
-        });
-    }
-    $scope.deletePartType = function (materialSubCatId) {
-        masterPartService.deleteMaterialSubCat(materialSubCatId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
-            $scope.cancelModal();
-            $scope.getMaterialData();
-        });
-    }
-
-
 
     //- to show preset sizes after click on partType name
     //- to show partTYpe materials click on partType name
@@ -70626,7 +71618,6 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         });
     }
 
-    //- 
     $scope.addNewPreset = function (operation, partTypeId) {
         $scope.presetFormData = {};
         $scope.showPresetSaveForm = true;
@@ -70636,14 +71627,17 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         // if sizes.length == 0 then make disableShape-->false
         $scope.disableShape = false;
         masterPartService.addNewPreset(operation, partTypeId, function (data) {
+            debugger;
             $scope.showPartView = true;
             $scope.presetFormData = data;
             $scope.selectedShape = data.selectedShape;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
-            console.log('**** inside $scope.presetFormData of masterPartCtrl.js & data is ****', $scope.presetFormData);
         });
     }
+
+    // 1149 2065 726
+    // SBIN 000 6625
 
     //- to get/show preset view (with data in case of edit)
     //- called when click on + icon at partType (i.e. to add new preset ) &
@@ -70653,8 +71647,17 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
         presetData.shape.variable = presetData.variable;
         $scope.showPresetUpdateForm = true;
         $scope.showPresetSaveForm = false;
+        debugger;
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
+            debugger;
             $scope.presetFormData = data.presetData;
+            $scope.presetFormData.thickness = data.presetData.shape.thickness;
+            $scope.presetFormData.length = data.presetData.shape.length;
+            $scope.presetFormData.wastage = data.presetData.shape.wastage;
+            $scope.presetFormData.formFactor = data.presetData.shape.formFactor;
+            $scope.presetFormData.sizeFactor = data.presetData.shape.sizeFactor;
+            $scope.presetFormData.presetName = data.presetData.shape.thickness;
+            
             $scope.selectedShape = data.presetData.shape;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
@@ -70701,10 +71704,14 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
 
     }
     $scope.addOrEditPartPreset = function (presetData, action) {
-        // console.log('**** inside addOrEditPartPreset of masterPartCtrl.js ****',partTypeId);
         masterPartService.addOrEditPartPreset(presetData, action, function (data) {
-            $scope.operationStatus = "Record added successfully";
-        });
+            if (_.isUndefined(data.error)) {
+                toastr.success('Record added successfully');
+            } else {
+                toastr.error('Enter Part Details Properly');
+            }
+            
+        }); 
     }
 
     //- to add material to partType 
@@ -70719,16 +71726,16 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
                 animation: true,
                 templateUrl: 'views/content/master/part/addMaterialToPartType.html',
                 scope: $scope,
-                size: 'md',
+                size: 'md'
             });
 
-            
+
         });
     };
 
-    $scope.addMaterialToPartType = function (selectedMatId,partTypeId) {
-        masterPartService.addMaterialToPartType(selectedMatId,partTypeId, function (data) {
-            $scope.successMessage = "material added to the partType successfully...";
+    $scope.addMaterialToPartType = function (selectedMatId, partTypeId) {
+        masterPartService.addMaterialToPartType(selectedMatId, partTypeId, function (data) {
+            toastr.success('Material Added To The PartType Successfully');
             $scope.cancelModal();
             $scope.getPartTypeSizes(data._id);
         });
@@ -70746,13 +71753,30 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, masterPartServic
             size: 'md'
         });
     }
-    $scope.deletePartTypeMaterial = function (materialId,partTypeId) {
-        masterPartService.deletePartTypeMaterial(materialId,partTypeId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+    $scope.deletePartTypeMaterial = function (materialId, partTypeId) {
+        masterPartService.deletePartTypeMaterial(materialId, partTypeId, function (data) {
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+            }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getPartTypeSizes(partTypeId);
         });
     }
+
+    // Delete part type modal
+    $scope.deletePartTypeModal = function (partTypeId, getFunction) {
+        $scope.idToDelete = partTypeId;
+        $scope.functionToCall = getFunction;
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+            scope: $scope,
+            size: 'md'
+        });
+    };
 
     //- to hide preset view
     //- called when click on cancel button on preset view
@@ -70824,7 +71848,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     $scope.addOrEditProcessCat = function (processCatData, selectedUomId) {
         processCatData.uom = selectedUomId;
         masterProcessService.addOrEditProcessCat(processCatData, function (data) {
-            toastr.info('Record added successfully', 'Process Creation!');
+            toastr.success('Record added successfully', 'Process Creation!');
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -70842,7 +71866,12 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessCat = function (processCatId) {
         masterProcessService.deleteProcessCat(processCatId, function (data) {
-            toastr.info('Record deleted successfully', 'Process Deletion!');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+                }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -70866,7 +71895,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.addOrEditProcessItem = function (processItemData, processCatId) {
         masterProcessService.addOrEditProcessItem(processItemData, processCatId, function (data) {
-            toastr.info('Record added successfully', 'Process Creation!');
+            toastr.success('Record added successfully', 'Process Creation!');
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -70884,7 +71913,12 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessItem = function (processItemId) {
         masterProcessService.deleteProcessItem(processItemId, function (data) {
-            toastr.info('Record deleted successfully', 'Process Deletion!');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+                }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getProcessData();
         });
@@ -70924,7 +71958,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         processData.quantity.uom = selectedQuaLinkedKeyUom;
         processData.quantity.finalUom = selectedQuaFinalUom;
         masterProcessService.addOrEditProcessType(processData, function (data) {
-            toastr.info('Record added successfully', 'Process Creation!');
+            toastr.success('Record added successfully', 'Process Creation!');
             $scope.getProcessTypeData();
             $scope.cancelModal();
         });
@@ -70942,7 +71976,12 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessType = function (processId) {
         masterProcessService.deleteProcessType(processId, function (data) {
-            toastr.info('Record deleted successfully', 'Process Deletion!');
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+                }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getProcessTypeData();
         });
@@ -70958,14 +71997,14 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     $scope.getPaginationData = function (page, numberOfRecords, keyword) {
         if (angular.isUndefined(keyword) || keyword == '') {
             if (numberOfRecords != '10') {
-                masterProcessService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+                masterProcessService.getPaginationData(page, numberOfRecords, null, function (data) {
                     $scope.processData = data.results;
                     masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
                         $scope.obj = obj;
                     });
                 });
             } else {
-                masterProcessService.getPaginationDatawithoutKeyword(page, function (data) {
+                masterProcessService.getPaginationData(page, null, null, function (data) {
                     $scope.processData = data.results;
                     masterProcessService.getPaginationDetails(page, 10, data, function (obj) {
                         $scope.obj = obj;
@@ -70973,7 +72012,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
                 });
             }
         } else {
-            masterProcessService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+            masterProcessService.getPaginationData(page, numberOfRecords, keyword, function (data) {
                 $scope.processData = data.results;
                 masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
                     $scope.obj = obj;
@@ -70983,7 +72022,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     //- function to search the text in table
     $scope.serachText = function (keyword, count) {
-        masterProcessService.getSearchResult(keyword, function (data) {
+        masterProcessService.getSearchResult(null, null, keyword, function (data) {
             $scope.processData = data.results;
             masterProcessService.getPaginationDetails(1, count, data, function (obj) {
                 $scope.obj = obj;
@@ -71009,11 +72048,16 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     //- function to delete process
     $scope.deleteBulkProcesses = function (processes) {
-        masterProcessService.deleteBulkProcesses(processes, function () {
+        masterProcessService.deleteBulkProcesses(processes, function (data) {
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+                }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getProcessTypeData();
             $scope.bulkProcesses = [];
-            toastr.info('Records deleted successfully', 'Process Deletion!');
         });
     }
     //- function to get bulk processes
@@ -71038,13 +72082,14 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     $scope.init();
     
 });
-myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, masterShapeService) {
+myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterShapeService) {
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = false;
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
     $scope.shapeVariables = [];
+    $scope.disableField = false;
 
     // *************************** default functions begin here  ********************** //
     //- get data to generate material tree structure dynamically 
@@ -71080,7 +72125,6 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
         //     $scope.formData.icon = {};
         //     $scope.formData.icon.file = "";
         // }
-        // debugger;
         
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
             $scope.shapeView = 'views/content/master/shape/tempView.html';
@@ -71088,12 +72132,13 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
             $scope.variablesData = data.shapeVariables;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
+            $scope.disableField = data.disableField;
         });
     }
     $scope.createOrEditShape = function (shape, shapeVariables) {
         shape.variable = shapeVariables;
         masterShapeService.createOrEditShape(shape, function (data) {
-            $scope.operationStatus = "Shape added successfully";
+            toastr.success('Shape added/updated successfully');
             $scope.getShapeData();
         });
     }
@@ -71110,7 +72155,12 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
     }
     $scope.deleteShape = function (shapeId) {
         masterShapeService.deleteShape(shapeId, function (data) {
-            $scope.operationStatus = "Record deleted successfully";
+            if(_.isEmpty(data.data)){
+                toastr.success('Record deleted successfully');
+                }
+            else{
+                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            }
             $scope.cancelModal();
             $scope.getShapeData();
         });
@@ -71132,7 +72182,7 @@ myApp.controller('masterShapeCtrl', function ($scope, $timeout, $uibModal, maste
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
-    };
+    }
 
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
@@ -71156,8 +72206,9 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   $scope.checkboxStatus = false; //- for multiple records selection
   //- for cleave validation
   $scope.options = {
-    phone: {
-      phone: true
+    mobile: {
+      phone: true,
+      phoneRegionCode: 'IN'      
     }
   };
 
@@ -71194,13 +72245,17 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   }
   //- to add or edit user
   $scope.addOrEditUser = function (operation, userData) {
-    userService.addOrEditUser(userData, function () {
-      $scope.getUserData();
-      $scope.cancelModal();
-      if (operation == 'save') {
-        toastr.info('Record added successfully');
+    userService.addOrEditUser(userData, function (data) {
+      if (angular.isDefined(data.data)) {
+        $scope.getUserData();
+        $scope.cancelModal();
+        if (operation == 'save') {
+          toastr.success('Record added successfully');
+        } else {
+          toastr.success('Record updated successfully');
+        }
       } else {
-        toastr.info('Record updated successfully');
+        toastr.Warning('Please enter details properly');
       }
     });
   }
@@ -71208,7 +72263,6 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   $scope.deleteUserModal = function (userId, getFunction) {
     $scope.idToDelete = userId;
     $scope.functionToCall = getFunction;
-
     $scope.modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
@@ -71219,23 +72273,28 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   //- to delete user
   $scope.deleteUser = function (userId) {
     userService.deleteUser(userId, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.getUserData();
-      toastr.info('Record deleted successfully');
     });
   }
   //- for pagination of users' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     if (angular.isUndefined(keyword) || keyword == '') {
       if (numberOfRecords != '10') {
-        userService.getPageDataWithShowRecords(page, numberOfRecords, function (data) {
+        userService.getPaginationData(page, numberOfRecords, null, function (data) {
           $scope.userData = data.results;
           userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
             $scope.obj = obj;
           });
         });
       } else {
-        userService.getPaginationDatawithoutKeyword(page, function (data) {
+        userService.getPaginationData(page, null, null, function (data) {
           $scope.userData = data.results;
           userService.getPaginationDetails(page, 10, data, function (obj) {
             $scope.obj = obj;
@@ -71243,17 +72302,18 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
         });
       }
     } else {
-      userService.getPaginationDataWithKeyword(page, numberOfRecords, keyword, function (data) {
+      userService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.userData = data.results;
         userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
         });
+
       });
     }
   }
   //- to search the text in table
   $scope.serachText = function (keyword, count) {
-    userService.getSearchResult(keyword, function (data) {
+    userService.getPaginationData(null, null, keyword, function (data) {
       $scope.userData = data.results;
       userService.getPaginationDetails(1, count, data, function (obj) {
         $scope.obj = obj;
@@ -71274,14 +72334,18 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   }
   //-to delete bulk users
   $scope.deleteBulkUsers = function (users) {
-    userService.deleteBulkUsers(users, function () {
-
+    userService.deleteBulkUsers(users, function (data) {
+      if(_.isEmpty(data.data)){
+        toastr.success('Record deleted successfully');
+      }
+      else{
+        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      }
       $scope.cancelModal();
       $scope.bulkUsers = [];
       $scope.checkAll = false;
       $scope.checkboxStatus = false;
       $scope.getUserData();
-      toastr.info('Record deleted successfully', 'User Deletion!');
     });
   }
   //- to get bulk users
@@ -71311,46 +72375,84 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
 
 });
 myApp.controller('roleCtrl', function ($scope, toastr, $uibModal, roleService) {
-    
-    
-    
-      // *************************** default variables/tasks begin here ***************** //
-      //- to show/hide sidebar of dashboard 
-      $scope.$parent.isSidebarActive = true;
-      $scope.showSaveBtn = true;
-      $scope.showEditBtn = false;
-    
-      // *************************** default functions begin here  ********************** //
-      //- function to get all users from database
-    
-    
-    
-      // *************************** functions to be triggered form view begin here ***** //
-    //- to add or edit Role 
+
+
+
+  // *************************** default variables/tasks begin here ***************** //
+  //- to show/hide sidebar of dashboard 
+  $scope.$parent.isSidebarActive = true;
+  $scope.showSaveBtn = true;
+  $scope.showEditBtn = false;
+  $scope.moduleNames = ['Enquiry', 'Estimate', 'Customer', 'User', 'Master'];
+  $scope.formData = {};
+
+  // *************************** default functions begin here  ********************** //
+  //- function to get all roles from database
+  $scope.getRoleData = function () {
+    roleService.getRoleData(function (data) {
+      //$scope.roleData = data;
+    });
+  }
+
+
+  // *************************** functions to be triggered form view begin here ***** //
+  //- modal to add or edit Role 
   $scope.addOrEditRoleModal = function (operation, role) {
-   // roleService.getRoleModalData(operation, role, function (data) {
-      // $scope.formData = data.role;
-      // $scope.showSaveBtn = data.saveBtn;
-      // $scope.showEditBtn = data.editBtn;
-      // $scope.operation = operation;
-    debugger;
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/settings/modal/createOrEditRole.html',
-        scope: $scope,
-        size: 'md'
-      //});
+    roleService.addOrEditRoleModal(operation, role, function (data) {
+    $scope.formData = data.role;
+    $scope.showSaveBtn = data.saveBtn;
+    $scope.showEditBtn = data.editBtn;
+    $scope.operation = operation;
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/settings/modal/createOrEditRole.html',
+      scope: $scope,
+      size: 'md'
+    });
+
+     });
+  }
+  //- to add or edit role 
+  $scope.addOrEditRole = function (role) {
+    roleService.addOrEditRole(role, function(data) {
 
     });
   }
-  //
-      // *************************** init all default functions begin here ************** //
-      //- to initilize the default function 
-      $scope.init = function () {
-      }
-      $scope.init();
-    
+  //- role deletion modal
+  $scope.deleteRoleModal = function (roleId, getFunction) {
+    $scope.idToDelete = roleId;
+    $scope.functionToCall = getFunction;
+
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
+      scope: $scope,
+      size: 'md'
     });
+  }
+  //- to delete user
+  $scope.deleteUser = function (roleId) {
+    roleService.deleteRole(roleId, function (data) {
+    $scope.cancelModal();
+    $scope.getRoleData();
+    toastr.info('Record deleted successfully');
+    });
+  }
+  //- to dismiss modal instance
+  $scope.cancelModal = function () {
+    $scope.modalInstance.dismiss();
+  }
+
+
+  //
+  // *************************** init all default functions begin here ************** //
+  //- to initilize the default function 
+  $scope.init = function () {
+    $scope.getRoleData();
+  }
+  $scope.init();
+
+});
 myApp.controller('UserProfileController', function ($scope, toastr, userProfileService) {
 
     // *************************** default variables/tasks begin here ***************** //
@@ -71430,6 +72532,8 @@ myApp.controller('UserProfileController', function ($scope, toastr, userProfileS
     }
     $scope.init();
 });
+
+
 myApp.service('customerService', function (NavigationService) {
 
   var bulkArray = [];
@@ -71459,51 +72563,24 @@ myApp.service('customerService', function (NavigationService) {
   //- add or edit customer
   this.addOrEditCustomer = function (customerData, callback) {
     NavigationService.apiCall('Customer/save', customerData, function (data) {
-      var customer = data.data.results;
-      callback(customer);
+      callback(data);
     });
   }
   //- delete customer
   this.deleteCustomer = function (customerId, callback) {
-    var deleteCustomerObj = {
-      _id: customerId
-    };
-    NavigationService.delete('Customer/delete', deleteCustomerObj, function (data) {
+    var idsArray = [];
+    idsArray.push(customerId);
+    NavigationService.delete('Web/delRestrictions/Customer', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }
 
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('Customer/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('Customer/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('Customer/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('Customer/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -71551,64 +72628,86 @@ myApp.service('customerService', function (NavigationService) {
   }
   //- delete bulk customers
   this.deleteBulkCustomers = function (customers, callback) {
-    NavigationService.apiCall('Customer/deleteMultipleCustomers', {idsArray: customers}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/Customer', {idsArray: customers}, function (data) {
+      callback(data);
     });
   }
 
 });
 myApp.service('createOrEditEnquiryService', function ($http, NavigationService) {
-    
+
   this.getEnquiryObj = function (id, callback) {
-    if(angular.isDefined(id)){
-      NavigationService.apiCall('Enquiry/getOne', {_id:id}, function (data) {
-        if(data.data != "ObjectId Invalid"){
-          callback(data.data);
-        }else{
+    if (angular.isDefined(id)) {
+      NavigationService.apiCall('Enquiry/getOne', {
+        _id: id
+      }, function (data) {
+        if (data.data != "ObjectId Invalid") {
+          var temp = data.data;
+          temp.enquiryDetails.rfqReceiveddDate =  new Date(temp.enquiryDetails.rfqReceiveddDate);
+          temp.enquiryDetails.rfqDueDate = new Date(temp.enquiryDetails.rfqDueDate);
+          callback(temp);
+        } else {
           callback({});
-        }        
+        }
       });
-    }else{
-      callback({});
+    } else {
+      callback({
+        enquiryDetails: {},
+        enquiryInfo: {},
+        keyRequirement: {},
+        technicalRequirement: {},
+        commercialRequirement: {},
+        preQualificationCriteria: {}
+      });
     }
   }
   this.getCustomerData = function (callback) {
-      NavigationService.boxCall('Customer/search', function (data) {
-        var customers = data.data.results;
-        callback(customers);
-      });
- } 
-  this.createEnquiry = function (enquiryData, callback) {    
-      NavigationService.apiCall('Enquiry/createEnquiry', enquiryData, function (data) {
-        callback(data.data);
-      });
+    NavigationService.boxCall('Customer/getCustomerNameLocationAndPayTerms', function (data) {
+      callback(data.data);
+    });
   }
-  this.saveAssemblyName = function(assName, enquiryId, callback){
+  this.getUserData = function (callback) {
+    NavigationService.boxCall('User/getUserName', function (data) {
+      callback(data.data);
+    });
+  }
+  this.getEstimateVersionData = function (Id, callback) {
+    NavigationService.apiCall('Estimate/getEstimateVersion', {
+      enquiryId: Id
+    }, function (data) {
+      callback(data.data);
+    });
+  }
+  this.createEnquiry = function (enquiryData, callback) {
+    NavigationService.apiCall('Enquiry/createEnquiry', enquiryData, function (data) {
+      callback(data.data);
+    });
+  }
+  this.saveAssemblyName = function (assName, enquiryId, callback) {
     var estimateData = {
-      assemblyName:assName,
-      enquiryId:enquiryId
+      assemblyName: assName,
+      enquiryId: enquiryId
     }
-    
+
     NavigationService.apiCall('DraftEstimate/createDraftEstimate', estimateData, function (data) {
       callback(data.data);
     });
   }
-  this.getAllAssemblyNumbers = function (callback) {
-		NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
-			callback(data.data);
-		});
-  }
-  	//- to import assembly
-  this.getImportAssemblyData = function (assemblyNumber, callback) {
-		tempObj = {
-			assemblyNumber: assemblyNumber,
-			lastAssemblyNumber: 'AS0'
-		}
-    NavigationService.apiCall('Estimate/importAssembly', tempObj, function (data) {
+  this.getVersionsOfAssNo = function (callback) {
+    NavigationService.boxCall('Estimate/getVersionsOfAssNo', function (data) {
       callback(data.data);
     });
-	}
-});    
+  }
+  //- to import assembly
+  this.getImportAssemblyData = function (assemblyId, callback) {
+    NavigationService.apiCall('Estimate/importAssembly', {"_id":assemblyId}, function (data) {
+      var tempObj = data.data.assemblyObj;
+      NavigationService.apiCall('DraftEstimate/save', tempObj, function (data1) {
+        callback(data1.data);
+      });
+    });
+  }
+});
 myApp.service('enquiryService', function ($http, NavigationService) {
 
   var bulkArray = [];
@@ -71628,43 +72727,18 @@ myApp.service('enquiryService', function ($http, NavigationService) {
   }
   //- delete enquiry
   this.deleteEnquiry = function (enquiryId, callback) {
-    NavigationService.delete('Enquiry/delete', {
-      _id: enquiryId
-    }, function (data) {
+    var idsArray = [];
+    idsArray.push(enquiryId);
+    NavigationService.delete('Web/delRestrictions/Enquiry', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('Enquiry/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('Enquiry/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('Enquiry/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('Enquiry/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -71712,8 +72786,8 @@ myApp.service('enquiryService', function ($http, NavigationService) {
   }
   //- delete bulk enquiries
   this.deleteBulkEnquiries = function (enquiries, callback) {
-    NavigationService.apiCall('Enquiry/deleteMultipleEnquiry', {idsArray: enquiries}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/Enquiry', {idsArray: enquiries}, function (data) {
+      callback(data);
     });
   }
 });
@@ -71722,20 +72796,21 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	var bulkArray = [];
 
 	var processing = {
-		processType: "",
-		processItem: "",
-		rate: "",
+		processingNumber: "",
+		processType: {},
+		processItem: {},
+		rate: null,
 		quantity: {
-			keyValue: {
-				keyVariable: "",
-				keyValue: ""
+			linkedKeyValue: {
+				keyVariable: null,
+				keyValue: null
 			},
-			utilization: "",
-			contengncyOrWastage: "",
-			total: ""
+			totalQuantity: null,
+			utilization: null,
+			contengncyOrWastage: null
 		},
-		totalCost: "",
-		remarks: ""
+		remark: "",
+		totalCost: null
 	};
 
 	var addon = {
@@ -71770,34 +72845,45 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	var part = {
 		partName: "",
 		partNumber: "",
-		shortcut: "",
-		scaleFactor: "",
-		finalCalculation: {
+		partIcon: "",
+
+		shortcut: "", //- selecetd shortCut
+		partType: "", //- selected partType
+		material: "", //- selected material
+		size: "", //- size
+
+		customMaterial: "", //- selectedCustomeMaterial
+		quantity: "", //- quantity
+		variable: [{}], //- variables 
+		scaleFactor: "", //- sacaleFactor
+
+		finalCalculation: { //- finalCalculation
 			materialPrice: "",
 			itemUnitPrice: "",
 			totalCostForQuantity: ""
 		},
-		keyValueCalculations: {
+		keyValueCalculations: { //- keyValueCalculation
 			perimeter: "",
 			sheetMetalArea: "",
 			surfaceArea: "",
 			weight: ""
 		},
-		sectionCode: "",
-		material: "",
-		size: "",
-		quantity: "",
-		variable: [{}],
-		processing: [_.cloneDeep(processing)],
-		addons: [_.cloneDeep(addon)],
-		extras: [_.cloneDeep(extra)]
+		processingCost: "",
+		addonCost: "",
+		extrasCost: "",
+		totalCost: "",
+
+		processing: [],
+		addons: [],
+		extras: [],
+
+		partUpdateStatus: false
 	};
 
 	var subAssembly = {
 		subAssemblyName: "",
 		subAssemblyNumber: "",
 		quantity: "",
-		totalValue: "",
 		keyValueCalculations: {
 			perimeter: "",
 			sheetMetalArea: "",
@@ -71806,16 +72892,23 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			numbers: "",
 			hours: ""
 		},
+		totalWeight: "",
+		materialCost: "",
+		processingCost: "",
+		addonCost: "",
+		extrasCost: "",
+		totalCost: "",
 		subAssemblyParts: [],
-		processing: [_.cloneDeep(processing)],
-		addons: [_.cloneDeep(addon)],
-		extras: [_.cloneDeep(extra)]
+		processing: [],
+		addons: [],
+		extras: []
 	};
 
 	var assembly = {
 		enquiryId: "",
-		assemblyName: "Assembly 1",
-		assemblyNumber: "AS1",
+		assemblyName: "",
+		assemblyNumber: "",
+		quantity: "",
 		keyValueCalculations: {
 			perimeter: "",
 			sheetMetalArea: "",
@@ -71838,15 +72931,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		estimateAttachment: [{
 			file: ""
 		}],
-		subAssemblies: [_.cloneDeep(subAssembly)],
-		processing: [_.cloneDeep(subAssembly)],
-		addons: [_.cloneDeep(subAssembly)],
-		extras: [_.cloneDeep(subAssembly)]
+		subAssemblies: [],
+		processing: [],
+		addons: [],
+		extras: []
 	};
 
 	var formData = {
 		assembly: {},
-		customMaterial: [_.cloneDeep(customMaterial)],
+		customMaterial: [],
 	};
 
 	var customMaterial = {
@@ -71882,6 +72975,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		// 	formData.assembly = $.jStorage.get('estimateObject');
 		// 	callback(formData.assembly);
 		// } else {
+		var temp = this;
 		NavigationService.apiCall('DraftEstimate/getOne', {
 			_id: draftEstimateId
 		}, function (data) {
@@ -71889,15 +72983,135 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				callback(data.data);
 			} else {
 				formData.assembly = data.data;
+				temp.totalCostCalculations(function (data) {});
 				callback(data.data);
 			}
 		});
 		// }
 	}
 	//- to set a view of the page
-	this.estimateView = function (estimateView, callback) {
-		getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
-		callback(getEstimateView);
+	this.estimateView = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
+		var checkAccess = 0;
+		if (estimateView == 'processing' || estimateView == 'addons' || estimateView == 'extras') {
+			if (getLevelName == "assembly") {
+				//var tempObj = formData.assembly.keyValueCalculations;
+				if (formData.assembly.processing.length == 0) {
+					checkAccess += 1;
+				}
+			} else if (getLevelName == "subAssembly") {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				//var tempObj = formData.assembly.subAssemblies[subAssIndex].keyValueCalculations;
+				if (formData.assembly.subAssemblies[subAssIndex].processing.length == 0) {
+					checkAccess += 1;
+				}
+			} else if (getLevelName == "part") {
+
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var partIndex = this.getPartIndex(subAssIndex, partId);
+				//var tempObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
+				if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.length == 0) {
+					checkAccess += 1;
+				}
+			}
+			// if ((isNaN(parseFloat(tempObj.perimeter))) && (isNaN(parseFloat(tempObj.sheetMetalArea))) && (isNaN(parseFloat(tempObj.surfaceArea))) && (isNaN(parseFloat(tempObj.weight)))) {
+			// 	checkAccess += 1;
+			// }
+		}
+		if (checkAccess == 0) {
+			getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
+			callback(getEstimateView);
+		} else {
+			callback('restrictUser');
+		}
+	}
+	//- to calculate total cost of addon/processing/extras
+	this.totalCostCalculations = function (callback) {
+		var costCalculations = {
+			pCost: 0,
+			pCost: 0,
+			aCost: 0,
+			eCost: 0,
+			pCostAtPart: 0,
+			pCostAtSubAssembly: 0,
+			pCostAtAssemby: 0,
+			aCostAtPart: 0,
+			aCostAtSubAssembly: 0,
+			aCostAtAssemby: 0,
+			eCostAtPart: 0,
+			eCostAtSubAssembly: 0,
+			eCostAtAssemby: 0,
+			wtAtPart: 0,
+			wtAtSubAssembly: 0,
+			mtAtSubAssembly: 0,
+			mtAtAssembly: 0
+		}
+		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
+			angular.forEach(subAssembly.subAssemblyParts, function (part) {
+				costCalculations.wtAtPart += parseFloat(part.keyValueCalculations.weight);
+				costCalculations.mtAtSubAssembly += parseFloat(part.finalCalculation.materialPrice);
+				angular.forEach(part.processing, function (processing) {
+					costCalculations.pCostAtPart += processing.rate * processing.quantity.totalQuantity
+				});
+				angular.forEach(part.addons, function (addon) {
+					costCalculations.aCostAtPart += addon.totalCost;
+				});
+				angular.forEach(part.extras,  function (extra) {
+					costCalculations.eCostAtPart += extra.totalCost;
+				});
+				part.processingCost = costCalculations.pCostAtPart;
+				part.addonCost = costCalculations.aCostAtPart;
+				part.extrasCost = costCalculations.eCostAtPart;
+				if (part.processing.length != 0) {
+					costCalculations.pCost += costCalculations.pCostAtPart;
+					costCalculations.pCostAtPart = 0;
+				}
+				if (part.addons.length != 0) {
+					costCalculations.aCost += costCalculations.aCostAtPart;
+					costCalculations.aCostAtPart = 0;
+				}
+				if (part.extras.length != 0) {
+					costCalculations.eCost += costCalculations.eCostAtPart;
+					costCalculations.eCostAtPart = 0;
+				}
+				if (part.processing.length != 0 || part.addons.length != 0 || part.extras.length != 0) {
+					part.totalCost = costCalculations.wtAtPart + costCalculations.mtAtSubAssembly + part.processingCost + part.addonCost + part.extrasCost;
+				}
+			});
+
+			subAssembly.totalWeight = costCalculations.wtAtPart;
+			costCalculations.wtAtSubAssembly += subAssembly.totalWeight;
+			subAssembly.materialCost = costCalculations.mtAtSubAssembly;
+			costCalculations.mtAtAssembly += subAssembly.materialCost;
+
+			angular.forEach(subAssembly.processing, function (processing) {
+				costCalculations.pCostAtSubAssembly += processing.rate * processing.quantity.totalQuantity
+			});
+			angular.forEach(formData.assembly.addons, function (addon) {
+				costCalculations.aCostAtSubAssembly += addon.totalCost;
+			});
+			angular.forEach(formData.assembly.extras, function (extra) {
+				costCalculations.eCostAtSubAssembly += extra.totalCost;
+			});
+			costCalculations.pCost += costCalculations.pCostAtSubAssembly;
+			costCalculations.aCost += costCalculations.aCostAtSubAssembly;
+			costCalculations.eCost += costCalculations.eCostAtSubAssembly;
+			subAssembly.processingCost = costCalculations.pCost;
+			subAssembly.addonCost = costCalculations.aCost;
+			subAssembly.extrasCost = costCalculations.eCost;
+			subAssembly.totalCost = subAssembly.totalWeight + subAssembly.materialCost + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost;			
+			costCalculations.pCostAtAssemby += costCalculations.pCost;
+			costCalculations.aCostAtAssemby += costCalculations.aCost;
+			costCalculations.eCostAtAssemby += costCalculations.eCost;
+			costCalculations.pCostAtSubAssembly = costCalculations.aCostAtSubAssembly = costCalculations.eCostAtSubAssembly = 0;
+			costCalculations.pCost = costCalculations.aCost = costCalculations.eCost = 0;
+		});
+		formData.assembly.totalWeight = costCalculations.wtAtSubAssembly;
+		formData.assembly.materialCost = costCalculations.mtAtAssembly;
+		formData.assembly.processingCost = costCalculations.pCostAtAssemby;
+		formData.assembly.addonCost = costCalculations.aCostAtAssemby;
+		formData.assembly.extrasCost = costCalculations.eCostAtAssemby;
+		formData.assembly.totalCost = costCalculations.wtAtSubAssembly + costCalculations.mtAtAssembly + costCalculations.pCostAtAssemby + costCalculations.aCostAtAssemby + costCalculations.eCostAtAssemby;
+		callback()
 	}
 	//- to get a view of the page
 	this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
@@ -71905,6 +73119,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var getViewData = [];
 
 		if (estimateView == 'assembly') {
+			formData.assembly.quantity = 1;
 			getViewData = formData.assembly;
 		} else if (estimateView == 'subAssembly') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
@@ -71916,6 +73131,96 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (estimateView == 'editPartItemDetail') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
+
+			var estimatePartObj = {
+				allShortcuts: [], //- get all presets name from API
+				allPartTypes: [], //- get all part type from API
+
+				selectedShortcut: {}, //- selected partType presets 
+				selectedPartType: {}, //- selected partType
+				selectedMaterial: {}, //- selected material     
+				selectedSize: {}, //- slected size
+
+				customMaterials: [], //- get all custom material from  API
+				selectedCustomMaterial: {}, //- selecetd custom materail  
+
+				quantity: null, //- part.quantity
+				variables: [], //- part.variables
+				shapeImage: null, //- get it from slected partPreset --> shape.shapeImage      
+				shapeIcon: null, //- get it from slected partPreset --> shape.shapeIcon
+				processingCount: null, //- part.processing.length
+				addonCount: null, //- part.addons.length
+				extraCount: null, //- part.extars.length
+
+				partName: formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partName, //- part.partName
+				partNumber: null, //- part.partNumber 
+				scaleFactor: null, //- part.scaleFactor
+
+				keyValueCalculations: {
+					perimeter: "", //- part.keyValueCalculation.perimeter
+					sheetMetalArea: "", //- part.keyValueCalculation.sheetMetalArea
+					surfaceArea: "", //- part.keyValueCalculation.surfaceArea
+					weight: "" //- part.keyValueCalculation.weight
+				},
+				finalCalculation: {
+					materialPrice: null, //- part.finalCalculation.materialPrice
+					itemUnitPrice: null, //- part.finalCalculation.itemUnitPrice
+					totalCostForQuantity: null //- part.finalCalculation.totalCostForQuantity
+				},
+				subAssNumber: subAssemblyId,
+				partNumber: partId
+			};
+
+			//- get all shortcuts i.e. part presets 
+			//- get all part types
+			//- get all custom materials 
+			NavigationService.boxCall('MPartPresets/getMPartPresetData', function (partPresetData) {
+				estimatePartObj.allShortcuts = partPresetData.data;
+
+				NavigationService.boxCall('MPartType/getPartTypeData', function (partTypeData) {
+					estimatePartObj.allPartTypes = partTypeData.data;
+
+					//- check part calculation data is available or not
+					if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partUpdateStatus) {
+
+						var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+						if (!_.isEmpty(tempPart.shortcut) && tempPart.shortcut != undefined) {
+							estimatePartObj.selectedShortcut = tempPart.shortcut; //- selecetd shortCut
+						}
+						if (!_.isEmpty(tempPart.partType) && tempPart.partType != undefined) {
+							estimatePartObj.selectedPartType = tempPart.partType; //- selected partType
+						}
+						if (!_.isEmpty(tempPart.material) && tempPart.material != undefined) {
+							estimatePartObj.selectedMaterial = tempPart.material; //- selected material
+						}
+						if (!_.isEmpty(tempPart.size) && tempPart.size != undefined) {
+							estimatePartObj.selectedSize = tempPart.size; //- size
+						}
+						if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
+							estimatePartObj.selectedCustomMaterial = tempPart.customMaterial; //- selectedCustomeMaterial
+						}
+
+						estimatePartObj.quantity = tempPart.quantity; //- quantity
+						estimatePartObj.variable = tempPart.variable; //- variable
+
+						estimatePartObj.finalCalculation.materialPrice = tempPart.finalCalculation.materialPrice;
+						estimatePartObj.finalCalculation.itemUnitPrice = tempPart.finalCalculation.itemUnitPrice;
+						estimatePartObj.finalCalculation.totalCostForQuantity = tempPart.finalCalculation.totalCostForQuantity
+
+						estimatePartObj.keyValueCalculations.perimeter = tempPart.keyValueCalculations.perimeter;
+						estimatePartObj.keyValueCalculations.sheetMetalArea = tempPart.keyValueCalculations.sheetMetalArea;
+						estimatePartObj.keyValueCalculations.surfaceArea = tempPart.keyValueCalculations.surfaceArea;
+						estimatePartObj.keyValueCalculations.weight = tempPart.keyValueCalculations.weight
+						estimatePartObj.partUpdateStatus = true;
+
+						callback(estimatePartObj);
+					} else {
+						callback(estimatePartObj);
+					}
+
+				});
+			});
 		} else if (estimateView == 'processing') {
 			if (getLevelName == "assembly") {
 
@@ -71961,7 +73266,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
 			}
 		}
-		callback(getViewData);
+
+		//- this if is bcoz we are already sending callback in case of editPartItemDetail & partDetail view
+		if (estimateView != 'editPartItemDetail' || estimateView != 'partDetail') {
+			callback(getViewData);
+		}
+
 	}
 	//- to save current estimate object
 	this.saveCurrentEstimate = function () {
@@ -71970,7 +73280,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			callback(data.data);
 		});
 	}
-	//- to save new assebly name
+	//- to update assebly name
 	this.editAssemblyName = function (estimateName, draftEstimateId, callback) {
 		var tempEstimateObj = {
 			_id: draftEstimateId,
@@ -71980,6 +73290,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			callback(data.data);
 		});
 	}
+
+
 	//- to get all assembly numbers
 	this.getAllAssemblyNumbers = function (callback) {
 		NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
@@ -72005,7 +73317,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to get all subAssembly numbers
 	this.getAllSubAssNumbers = function (callback) {
-		NavigationService.boxCall('EstimateSubAssembly/getAllSubAssNo', function (data) {
+		// var subAssNumbersArray = [];
+		// angular.forEach(formData.assembly.subAssemblies,  function (record) {
+		// 	subAssNumbersArray.push(record.subAssemblyNumber);
+		// });
+		// _.remove(subAssNumbersArray, function (n) {
+		// 	return n == subAssNumber;
+		// });
+		// callback(subAssNumbersArray);
+		NavigationService.boxCall('EstimateSubAssembly/getVersionsOfSubAssNo', function (data) {
 			callback(data.data);
 		});
 	}
@@ -72015,6 +73335,18 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempSubAssObj = _.cloneDeep(subAssembly);
 		tempSubAssObj.subAssemblyNumber = formData.assembly.assemblyNumber + "SA" + id;
 		tempSubAssObj.subAssemblyName = subAssObj.subAssemblyName;
+		if(angular.isDefined(subAssObj.quantity)) {
+			tempSubAssObj.quantity = subAssObj.quantity;
+		} else {
+			tempSubAssObj.quantity = 1;
+		}
+		var tempObj = {
+			perimeter: "",
+			sheetMetalArea: "",
+			surfaceArea: "",
+			weight: ""
+		}
+		formData.assembly.keyValueCalculations = tempObj;
 		formData.assembly.subAssemblies.push(tempSubAssObj);
 		callback();
 	}
@@ -72053,7 +73385,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to get all part numbers
 	this.getAllPartNumbers = function (callback) {
-		NavigationService.boxCall('EstimatePart/getAllPartsNo', function (data) {
+		NavigationService.boxCall('EstimatePart/getVersionsOfPartNo', function (data) {
 			callback(data.data);
 		});
 	}
@@ -72064,9 +73396,127 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempPartObj = _.cloneDeep(part);
 		tempPartObj.partNumber = subAssId + 'PT' + id;
 		tempPartObj.partName = partObj.partName;
-
+		var tempObj = {
+			perimeter: "",
+			sheetMetalArea: "",
+			surfaceArea: "",
+			weight: ""
+		}
+		formData.assembly.keyValueCalculations = tempObj;
+		formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = tempObj;
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(tempPartObj);
 		callback();
+	}
+	//- update Part Detail with all calculation & other data
+	this.updatePartDetail = function (isEdit, partObject, callback) {
+		//-make proper part Object by removing all unwanted fields 
+		var subAssIndex = this.getSubAssemblyIndex(partObject.subAssNumber);
+		var partIndex = this.getPartIndex(subAssIndex, partObject.partNumber);
+
+		var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+		if (!_.isEmpty(partObject.selectedShortcut) && partObject.selectedShortcut != undefined) {
+			tempPart.shortcut = partObject.selectedShortcut; //- selecetd shortCut
+		}
+		if (!_.isEmpty(partObject.selectedPartType) && partObject.selectedPartType != undefined) {
+			tempPart.partType = partObject.selectedPartType; //- selected partType
+		}
+		if (!_.isEmpty(partObject.selectedMaterial) && partObject.selectedMaterial != undefined) {
+			tempPart.material = partObject.selectedMaterial; //- selected material
+		}
+		if (!_.isEmpty(partObject.selectedSize) && partObject.selectedSize != undefined) {
+			tempPart.size = partObject.selectedSize; //- size
+		}
+		if (!_.isEmpty(partObject.selectedCustomMaterial) && partObject.selectedCustomMaterial != undefined) {
+			tempPart.customMaterial = partObject.selectedCustomMaterial; //- selectedCustomeMaterial
+		}
+
+		tempPart.quantity = partObject.quantity; //- quantity
+		tempPart.variable = partObject.variables; //- variables 
+		tempPart.finalCalculation = {};
+		tempPart.finalCalculation.materialPrice = partObject.finalCalculation.materialPrice;
+		tempPart.finalCalculation.itemUnitPrice = partObject.finalCalculation.itemUnitPrice;
+		tempPart.finalCalculation.totalCostForQuantity = partObject.finalCalculation.totalCostForQuantity
+		tempPart.keyValueCalculations = {};
+		tempPart.keyValueCalculations.perimeter = partObject.keyValueCalculations.perimeter;
+		tempPart.keyValueCalculations.sheetMetalArea = partObject.keyValueCalculations.sheetMetalArea;
+		tempPart.keyValueCalculations.surfaceArea = partObject.keyValueCalculations.surfaceArea;
+		tempPart.keyValueCalculations.weight = partObject.keyValueCalculations.weight
+		tempPart.partUpdateStatus = true;
+
+		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex] = tempPart;
+		//- update calculaions at all levels
+		if (isEdit) {
+			this.KeyValueCalculations(formData.assembly.subAssemblies[subAssIndex].keyValueCalculations, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
+				if (!_.isEmpty(data)) {
+					formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = data;
+				}
+			});
+			this.KeyValueCalculations(formData.assembly.keyValueCalculations, formData.assembly.subAssemblies, function (data) {
+				if (!_.isEmpty(data)) {
+					formData.assembly.keyValueCalculations = data;
+				}
+			});
+		}
+		callback(formData.assembly);
+	}
+	//- keyValue calculation
+	this.KeyValueCalculations = function (level, records, callback) {
+		var count = records.length;
+		var tempObj = {
+			perimeter: 0,
+			sheetMetalArea: 0,
+			surfaceArea: 0,
+			weight: 0
+		};
+		//- to check access permission
+		var temp = 0;
+		if (level == 'subAssembly') {
+			angular.forEach(records,  function (part) {
+				if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
+					tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
+					temp += 1;
+				}
+				if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
+					tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
+					temp += 1;
+				}
+				if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
+					tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
+					temp += 1;
+				}
+				if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
+					tempObj.weight += parseFloat(part.keyValueCalculations.weight);
+					temp += 1;
+				}
+			});
+		} else {
+			angular.forEach(records,  function (subAssembly) {
+				angular.forEach(subAssembly.subAssemblyParts,  function (part) {
+					if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
+						tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
+						temp += 1;
+					}
+					if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
+						tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
+						temp += 1;
+					}
+					if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
+						tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
+						temp += 1;
+					}
+					if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
+						tempObj.weight += parseFloat(part.keyValueCalculations.weight);
+						temp += 1;
+					}
+				});	
+			});
+		}
+		if (temp != 0) {
+			callback(tempObj);
+		} else {
+			callback();
+		}
 	}
 	//- to delete a part
 	this.deletePart = function (subAssemblyId, partId, callback) {
@@ -72124,13 +73574,162 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 
 
+
+
+	//- to get the required data in order to add / edit processing at any level
+	this.getProcessingModalData = function (operation, level, subAssemblyId, partId, processId, callback) {
+
+		var partProcessingObj = {
+			processingTypeData: [],
+			processingItemData: [],
+			selectedProcessingType: {},
+			selectedProcessingItem: {},
+			rate: {
+				actualRate: null
+			},
+			quantity: {
+				linkedKeyValue: {
+					keyVariable: null,
+					keyValue: null
+				},
+				totalQuantity: null,
+				utilization: null,
+				contengncyOrWastage: null
+			},
+			remark: "",
+			totalCost: null,
+
+			linkedKeyValuesCalculation: {
+				perimeter: null,
+				sheetMetalArea: null,
+				surfaceArea: null,
+				weight: null
+			},
+
+			linkedKeyValuesAtPartCalculation: {
+				perimeter: null,
+				sheetMetalArea: null,
+				surfaceArea: null,
+				weight: null
+			},
+			linkedKeyValuesAtSubAssemblyCalculation: {
+				perimeter: null,
+				sheetMetalArea: null,
+				surfaceArea: null,
+				weight: null
+			},
+			linkedKeyValuesAtAssemblyCalculation: {
+				perimeter: null,
+				sheetMetalArea: null,
+				surfaceArea: null,
+				weight: null
+			}
+		};
+
+
+		//- to get keyValue calculations
+		if (level == 'part') {
+			//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			partProcessingObj.linkedKeyValuesAtPartCalculation = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
+		} else if (level == 'subAssembly') {
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly		
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
+				if (!_.isEmpty(data)) {
+					partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = data;
+				}
+			});
+		} else if (level == 'assembly') {
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
+			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
+			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation
+			this.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
+				if (!_.isEmpty(data)) {
+					partProcessingObj.linkedKeyValuesAtAssemblyCalculation = data;
+				}
+			});
+		}
+
+		//- to get part index to update it
+		if (operation == 'update') {
+			if (level == 'assembly') {
+				var getProcessingIndex = this.getProcessIndex(processId);
+				var tempProcessingObj = formData.assembly.processing[getProcessingIndex];
+			} else if (level == 'subAssembly') {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var getProcessingIndex = this.getProcessIndex(processId, subAssIndex);
+				var tempProcessingObj = formData.assembly.subAssemblies[subAssIndex].processing[getProcessingIndex];
+			} else {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var partIndex = this.getPartIndex(subAssIndex, partId);
+				var getProcessingIndex = this.getProcessIndex(processId, subAssIndex, partIndex);
+				var tempProcessingObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex];
+			}
+		}
+
+		NavigationService.boxCall('MProcessType/getProcessTypeData', function (proTypeData) {
+
+			if (operation == 'save') {
+				partProcessingObj.processingTypeData = proTypeData.data;
+				callback(partProcessingObj);
+			} else if (operation == 'update') {
+
+
+				NavigationService.apiCall('MProcessType/getProcessTypeItem', {
+					_id: tempProcessingObj.processType._id
+				}, function (selecetdProcessItem) {
+
+					partProcessingObj.processingNumber = tempProcessingObj.processingNumber;
+					partProcessingObj.processingTypeData = proTypeData.data;
+					partProcessingObj.processingItemData = selecetdProcessItem.data.processItems;
+					partProcessingObj.selectedProcessingType = tempProcessingObj.processType;
+					partProcessingObj.selectedProcessingItem = tempProcessingObj.processItem;
+
+					partProcessingObj.rate.actualRate = tempProcessingObj.rate;
+					// partProcessingObj.rate.uom = tempProcessingObj.rate.uom;
+
+					partProcessingObj.quantity.linkedKeyValue.keyVariable = tempProcessingObj.quantity.linkedKeyValue.keyVariable;
+					partProcessingObj.quantity.linkedKeyValue.keyValue = tempProcessingObj.quantity.linkedKeyValue.keyValue;
+					partProcessingObj.quantity.utilization = tempProcessingObj.quantity.utilization;
+					partProcessingObj.quantity.contengncyOrWastage = tempProcessingObj.quantity.contengncyOrWastage;
+					partProcessingObj.quantity.totalQuantity = tempProcessingObj.quantity.totalQuantity;
+
+					partProcessingObj.finalUom = tempProcessingObj.processType.quantity.finalUom.uomName;;
+					partProcessingObj.remark = tempProcessingObj.remark;
+					// partProcessingObj.quantity.uom = tempProcessingObj.quantity.uom;
+					// partProcessingObj.quantity.mulFact = tempProcessingObj.quantity.mulFact;
+					//partProcessingObj.currentPartObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+					callback(partProcessingObj);
+
+				});
+			}
+		});
+	}
+	//- called when user will select a processType while adding a processing at any level
+	this.getSelectedProessType = function (processTypeId, callback) {
+		NavigationService.apiCall('MProcessType/getProcessTypeItem', {
+			_id: processTypeId
+		}, function (data) {
+			callback(data.data.processItems);
+		});
+	}
+
+	// this.getSelectedProessItem = function (processItemId,callback) {
+	// 	NavigationService.apiCall('model_name/function_name', {_id:processItemId}, function (data) {
+	// 		callback(data.data);
+	// 	});
+	// }
+
 	//- to add a processing
 	this.createProcessing = function (processingObj, level, subAssemblyId, partId, callback) {
 
 		var id;
 		if (level == 'assembly') {
 			id = this.getProcessingNumber(level);
-			processingObj.processingNumber = 'AS1' + 'PR' + id;
+			processingObj.processingNumber = formData.assembly.assemblyNumber + 'PR' + id;
 			formData.assembly.processing.push(processingObj);
 		} else if (level == 'subAssembly') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
@@ -72142,7 +73741,47 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 			id = this.getProcessingNumber(level, subAssIndex, partIndex);
 			processingObj.processingNumber = partId + 'PR' + id;
-			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.push(processingObj)
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.push(processingObj);
+		}
+		callback();
+	}
+	//- edit/update created processing 
+	this.updateProcessing = function (processingData, level, subAssemblyId, partId, callback) {
+		var id;
+		if (level == 'assembly') {
+			var getProcessingIndex = this.getProcessIndex(processingData.processingNumber);
+			var tempProcessOject = formData.assembly.processing[getProcessingIndex];
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var getProcessingIndex = this.getProcessIndex(processingData.processingNumber, subAssIndex);
+			var tempProcessOject = formData.assembly.subAssemblies[subAssIndex].processing[getProcessingIndex];
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			var getProcessingIndex = this.getProcessIndex(processingData.processingNumber, subAssIndex, partIndex);
+			var tempProcessOject = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex];
+		}
+		tempProcessOject.processType = processingData.processType;
+		tempProcessOject.processItem = processingData.processItem;
+		tempProcessOject.rate = processingData.rate;
+		tempProcessOject.quantity = {
+				linkedKeyValue: {
+					keyVariable: processingData.quantity.linkedKeyValue.keyVariable,
+					keyValue: processingData.quantity.linkedKeyValue.keyValue
+				},
+				totalQuantity: processingData.quantity.totalQuantity,
+				utilization: processingData.quantity.utilization,
+				contengncyOrWastage: processingData.quantity.contengncyOrWastage
+			},
+			tempProcessOject.remark = processingData.remark;
+		tempProcessOject.totalCost = processingData.totalCost;
+
+		if (level == 'assembly') {
+			formData.assembly.processing[getProcessingIndex] = tempProcessOject;
+		} else if (level == 'subAssembly') {
+			formData.assembly.subAssemblies[subAssIndex].processing[getProcessingIndex] = tempProcessOject;
+		} else if (level == 'part') {
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing[getProcessingIndex] = tempProcessOject;
 		}
 		callback();
 	}
@@ -72194,12 +73833,177 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback();
 	}
 
+
+	//- to get the required data in order to add / edit addon at any level
+	this.getAddonModalData = function (operation, level, subAssemblyId, partId, addonId, callback) {
+		var addonObject = {
+			allAddonTypes: [],
+			allMaterials: [],
+			selectedAddonType: {},
+			selectedMaterial: {},
+			rate: {
+				value: "",
+				uom: ""
+			},
+			quantity: {
+				supportingVariable: {
+					supportingVariable: "",
+					value: ""
+				},
+				keyValue: {
+					keyVariable: "",
+					keyValue: ""
+				},
+				utilization: "",
+
+			},
+			linkedKeyValuesAtPartCalculation: {
+				perimeter: null,
+				SMA: null,
+				SA: null,
+				St: null,
+				Nos: null,
+				Hrs: null
+			},
+			linkedKeyValuesAtSubAssemblyCalculation: {
+				perimeter: null,
+				SMA: null,
+				SA: null,
+				St: null,
+				Nos: null,
+				Hrs: null
+			},
+			linkedKeyValuesAtAssemblyCalculation: {
+				perimeter: null,
+				SMA: null,
+				SA: null,
+				St: null,
+				Nos: null,
+				Hrs: null
+			}
+		};
+
+		//- to get keyValue calculations
+		if (level == 'part') {
+			//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			var tempPartCal = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
+			addonObject.linkedKeyValuesAtPartCalculation = {
+				perimeter: tempPartCal.perimeter,
+				SMA: tempPartCal.sheetMetalArea,
+				SA: tempPartCal.surfaceArea,
+				Wt: tempPartCal.weight,
+				Nos: null,
+				Hrs: null
+			};
+		} else if (level == 'subAssembly') {
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+
+			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
+				if (!_.isEmpty(data)) {
+					addonObject.linkedKeyValuesAtSubAssemblyCalculation =  {
+						perimeter: data.perimeter,
+						SMA: data.sheetMetalArea,
+						SA: data.surfaceArea,
+						Wt: data.weight,
+						Nos: null,
+						Hrs: null
+					};
+				}
+			});
+		} else if (level == 'assembly') {
+			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
+			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
+			//- & then calculate average of all linkedKeyValuesAtSubAssemblyCalculation
+			this.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
+				if (!_.isEmpty(data)) {
+					addonObject.linkedKeyValuesAtAssemblyCalculation = {
+						perimeter: data.perimeter,
+						SMA: data.sheetMetalArea,
+						SA: data.surfaceArea,
+						Wt: data.weight,
+						Nos: null,
+						Hrs: null
+					};
+				}
+			});
+		}
+
+		//- to get part index to update it
+		if (operation == 'update') {
+			if (level == 'assembly') {
+				var getAddonIndex = this.getAddonIndex(addonId);
+				var tempAddonObj = formData.assembly.addons[getAddonIndex];
+			} else if (level == 'subAssembly') {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var getAddonIndex = this.getAddonIndex(addonId, subAssIndex);
+				var tempAddonObj = formData.assembly.subAssemblies[subAssIndex].addons[getAddonIndex];
+			} else {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var partIndex = this.getPartIndex(subAssIndex, partId);
+				var getAddonIndex = this.getAddonIndex(addonId, subAssIndex, partIndex);
+				var tempAddonObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex];
+				console.log('**** inside getAddonModalData of createOrEditEstimateService.js ****', tempAddonObj);
+			}
+		}
+
+		NavigationService.boxCall('MAddonType/getAllMAddonTypeOfMuom', function (addonTypeData) {
+			if (operation == 'save') {
+				addonObject.allAddonTypes = addonTypeData.data;
+				callback(addonObject);
+			} else if (operation == 'update') {
+
+				NavigationService.apiCall('MMaterial/getAllMaterials', {
+					_id: tempAddonObj.addonType._id
+				}, function (getAllMaterials) {
+
+					addonObject.allAddonTypes = addonTypeData.data;
+					addonObject.allMaterials = getAllMaterials.data;
+					addonObject.selectedAddonType = tempAddonObj.addonType;
+					addonObject.selectedMaterial = tempAddonObj.addonItem;
+
+					addonObject.rate.value = tempAddonObj.rate;
+					addonObject.rate.uom = tempAddonObj.addonType.rate.uom.uomName;
+
+					addonObject.quantity.supportingVariable.supportingVariable = tempAddonObj.quantity.supportingVariable.supportingVariable;
+					addonObject.quantity.supportingVariable.value = tempAddonObj.quantity.supportingVariable.value;
+					addonObject.quantity.supportingVariable.uom = tempAddonObj.addonType.quantity.additionalInputUom.uomName;
+
+					addonObject.quantity.keyValue.keyVariable = tempAddonObj.quantity.keyValue.keyVariable;
+					addonObject.quantity.keyValue.keyValue = tempAddonObj.quantity.keyValue.keyValue;
+					addonObject.quantity.keyValue.uom = tempAddonObj.addonType.quantity.linkedKeyUom.uomName;
+
+					addonObject.quantity.utilization = tempAddonObj.quantity.utilization;
+					addonObject.quantity.contengncyOrWastage = tempAddonObj.quantity.contengncyOrWastage;
+					addonObject.quantity.total = tempAddonObj.quantity.total;
+					addonObject.remarks = tempAddonObj.remarks;
+
+					addonObject.addonNumber = tempAddonObj.addonNumber;
+
+					callback(addonObject);
+				});
+			}
+		});
+	}
+	//- called when user will select a processType while adding a processing at any level
+	this.getSelectedAddonType = function (addonTypeId, callback) {
+
+		NavigationService.apiCall('MAddonType/getAddonMaterial', {
+			_id: addonTypeId
+		}, function (data) {
+			callback(data.data.materials);
+		});
+	}
+
+	this.getAddonTypeData = function (callback) {}
+
 	//- to add an addon
 	this.createAddon = function (addonObj, level, subAssemblyId, partId, callback) {
-		var id;
 		if (level == 'assembly') {
 			id = this.getAddonNumber(level);
-			addonObj.addonNumber = 'AS1' + 'AD' + id;
+			addonObj.addonNumber = formData.assembly.assemblyNumber + 'AD' + id;
 			formData.assembly.addons.push(addonObj);
 		} else if (level == 'subAssembly') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
@@ -72211,7 +74015,50 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 			id = this.getAddonNumber(level, subAssIndex, partIndex);
 			addonObj.addonNumber = partId + 'AD' + id;
-			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.push(addonObj)
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.push(addonObj);
+		}
+		callback();
+	}
+	//- edit/update created processing 
+	this.updateAddon = function (addonData, level, subAssemblyId, partId, callback) {
+		var id;
+		if (level == 'assembly') {
+			var getAddonIndex = this.getAddonIndex(addonData.addonNumber);
+			var tempAddonObject = formData.assembly.addons[getAddonIndex];
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var getAddonIndex = this.getAddonIndex(addonData.addonNumber, subAssIndex);
+			var tempAddonObject = formData.assembly.subAssemblies[subAssIndex].addons[getAddonIndex];
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			var getAddonIndex = this.getAddonIndex(addonData.addonNumber, subAssIndex, partIndex);
+			var tempAddonObject = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex];
+		}
+
+		tempAddonObject.addonNumber = addonData.addonNumber;
+		tempAddonObject.addonType = addonData.addonType;
+		tempAddonObject.addonItem = addonData.addonItem;
+
+		tempAddonObject.rate = addonData.rate;
+
+		tempAddonObject.quantity.keyValue.keyValue = addonData.quantity.keyValue.keyValue;
+		tempAddonObject.quantity.keyValue.keyVariable = addonData.quantity.keyValue.keyVariable;
+		tempAddonObject.quantity.supportingVariable.value = addonData.quantity.supportingVariable.value;
+		tempAddonObject.quantity.supportingVariable.supportingVariable = addonData.quantity.supportingVariable.supportingVariabl;
+		tempAddonObject.quantity.total = addonData.quantity.total;
+		tempAddonObject.quantity.contengncyOrWastage = addonData.quantity.contengncyOrWastage;
+		tempAddonObject.quantity.utilization = addonData.quantity.utilization;
+
+		tempAddonObject.remark = addonData.remark;
+		tempAddonObject.totalCost = addonData.totalCost;
+
+		if (level == 'assembly') {
+			formData.assembly.addons[getAddonIndex] = tempAddonObject;
+		} else if (level == 'subAssembly') {
+			formData.assembly.subAssemblies[subAssIndex].addons[getAddonIndex] = tempAddonObject;
+		} else if (level == 'part') {
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex] = tempAddonObject;
 		}
 		callback();
 	}
@@ -72264,74 +74111,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback();
 	}
 
-	//- to add an extra
-	this.createExtra = function (extraObj, level, subAssemblyId, partId, callback) {
-		var id;
-		if (level == 'assembly') {
-			id = this.getExtraNumber(level);
-			extraObj.extraNumber = 'AS1' + 'EX' + id;
-			formData.assembly.extras.push(extraObj);
-		} else if (level == 'subAssembly') {
-			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			id = this.getExtraNumber(level, subAssIndex);
-			extraObj.extraNumber = subAssemblyId + 'EX' + id;
-			formData.assembly.subAssemblies[subAssIndex].extras.push(extraObj);
-		} else if (level == 'part') {
-			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			var partIndex = this.getPartIndex(subAssIndex, partId);
-			id = this.getExtraNumber(level, subAssIndex, partIndex);
-			extraObj.extraNumber = partId + 'EX' + id;
-			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.push(extraObj)
-		}
-		callback();
-	}
-	//- to delete an extra
-	this.deleteExtra = function (extraId, level, subAssemblyId, partId, callback) {
-		if (level == 'assembly') {
-			_.remove(formData.assembly.extras, function (obj) {
-				return obj.extraNumber == extraId
-			});
-		} else if (level == 'subAssembly') {
-			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			_.remove(formData.assembly.subAssemblies[subAssIndex].extras, function (obj) {
-				return obj.extraNumber == extraId
-			});
-		} else if (level == 'part') {
-			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			partIndex = this.getPartIndex(subAssIndex, partId);
-			_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
-				return obj.extraNumber == extraId
-			});
-		}
-		callback();
-	}
-	//- to delete bulk extras
-	this.deleteMultipleExtras = function (level, bulkIds, subAssemblyId, partId, callback) {
-		if (level == 'assembly') {
-			angular.forEach(bulkIds,  function (record) {
-				_.remove(formData.assembly.extras, function (obj) {
-					return record == obj.extraNumber;
-				});
-			});
-		} else if (level == 'subAssembly') {
-			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			angular.forEach(bulkIds,  function (record) {
-				_.remove(formData.assembly.subAssemblies[subAssIndex].extras, function (obj) {
-					return record == obj.extraNumber;
-				});
-			});
-		} else if (level == 'part') {
-			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			partIndex = this.getPartIndex(subAssIndex, partId);
-			angular.forEach(bulkIds,  function (record) {
-				_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
-					return record == obj.extraNumber;
-				});
-			});
-		}
-		bulkArray = [];
-		callback();
-	}
+
 
 	//- to get customer data
 	this.getCustomMaterialModalData = function (operation, customMaterial, callback) {
@@ -72358,6 +74138,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		//});
 	}
 
+
+	this.getAddonTypeData = function (callback) {}
+
 	//- to get index of subAssId
 	this.getSubAssemblyIndex = function (subAssId) {
 
@@ -72373,6 +74156,21 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var partIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, ['partNumber', partId]);
 		return partIndex;
 	}
+	//- to get index of processId
+	this.getProcessIndex = function (processId, subAssIndex, partIndex) {
+		var processIndex;
+		if (angular.isDefined(subAssIndex)) {
+			if (angular.isDefined(partIndex)) {
+				processIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing, ['processingNumber', processId]);
+
+			} else {
+				processIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].processing, ['processingNumber', processId]);
+			}
+		} else {
+			processIndex = _.findIndex(formData.assembly.processing, ['processingNumber', processId]);
+		}
+		return processIndex;
+	}
 	//- to get index of addonId
 	this.getAddonIndex = function (addonId, subAssIndex, partIndex) {
 		var addonIndex;
@@ -72387,6 +74185,21 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 		return addonIndex;
 	}
+	//- to get index of extraId
+	this.getExtraIndex = function (extraId, subAssIndex, partIndex) {
+		var extraIndex;
+		if (angular.isDefined(subAssIndex)) {
+			if (angular.isDefined(partIndex)) {
+				extraIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, ['extraNumber', extraId]);
+			} else {
+				extraIndex = _.findIndex(formData.assembly.subAssemblies[subAssIndex].extras, ['extraNumber', extraId]);
+			}
+		} else {
+			extraIndex = _.findIndex(formData.assembly.extras, ['extraNumber', extraId]);
+		}
+		return extraIndex;
+	}
+
 
 
 	//- to get subAssembly number for new addition of record
@@ -72516,11 +74329,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		return id;
 	}
 
+
+
 	//- to import subAssembly
-	this.getImportSubAssemblyData = function (subAssNumber, callback) {
+	this.getImportSubAssemblyData = function (subAssId, callback) {
 		temp = _.last(formData.assembly.subAssemblies).subAssemblyNumber;
 		tempObj = {
-			subAssemblyNumber: subAssNumber,
+			_id: subAssId,
 			lastSubAssemblyNumber: temp
 		}
 		NavigationService.apiCall('EstimateSubAssembly/importSubAssembly', tempObj, function (data) {
@@ -72531,12 +74346,16 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		});
 	}
 	//- to import part
-	this.getImportPartData = function (subAssNumber, partNumber, callback) {
+	this.getImportPartData = function (subAssNumber, partId, callback) {
 		var subAssIndex = this.getSubAssemblyIndex(subAssNumber);
-		temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts).partNumber;
+		if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.length == 0) {
+			temp = formData.assembly.assemblyNumber + 'PT0';
+		} else {
+			temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts).partNumber;
+		}
 		tempObj = {
 			lastPartNumber: temp,
-			partNumber: partNumber
+			_id: partId
 		}
 		NavigationService.apiCall('EstimatePart/importPart', tempObj, function (data) {
 			var partObj = data.data.partObj;
@@ -72549,12 +74368,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	this.getImportProcessingData = function (processingId, level, subAssemblyId, partId, callback) {
 		if (level == 'assembly') {
 			if (formData.assembly.processing.length == 0) {
-				temp = 'AS1' + 'PR0';
+				temp = formData.assembly.assemblyNumber + 'PR0';
 			} else {
 				temp = _.last(formData.assembly.processing).processingNumber;
 			}
 			tempObj = {
-				processingNumber: processingId,
+				_id: processingId,
 				lastProcessingNumber: temp
 			}
 			NavigationService.apiCall('EstimateProcessing/importProcessing', tempObj, function (data) {
@@ -72569,7 +74388,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				temp = _.last(formData.assembly.subAssemblies[subAssIndex].processing).processingNumber;
 			}
 			tempObj = {
-				processingNumber: processingId,
+				_id: processingId,
 				lastProcessingNumber: temp
 			}
 			NavigationService.apiCall('EstimateProcessing/importProcessing', tempObj, function (data) {
@@ -72584,7 +74403,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing).processingNumber;
 			}
 			tempObj = {
-				processingNumber: processingId,
+				_id: processingId,
 				lastProcessingNumber: temp
 			}
 			NavigationService.apiCall('EstimateProcessing/importProcessing', tempObj, function (data) {
@@ -72597,12 +74416,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	this.getImportAddonData = function (addonId, level, subAssemblyId, partId, callback) {
 		if (level == 'assembly') {
 			if (formData.assembly.addons.length == 0) {
-				temp = 'AS1AD0';
+				temp = formData.assembly.assemblyNumber + 'AD0';
 			} else {
 				temp = _.last(formData.assembly.addons).addonNumber;
 			}
 			tempObj = {
-				addonNumber: addonId,
+				_id: addonId,
 				lastAddonNumber: temp
 			}
 			NavigationService.apiCall('EstimateAddons/importAddon', tempObj, function (data) {
@@ -72616,7 +74435,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				temp = _.last(formData.assembly.subAssemblies[subAssIndex].addons).addonNumber;
 			}
 			tempObj = {
-				addonNumber: addonId,
+				_id: addonId,
 				lastAddonNumber: temp
 			}
 			NavigationService.apiCall('EstimateAddons/importAddon', tempObj, function (data) {
@@ -72631,7 +74450,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons).addonNumber;
 			}
 			tempObj = {
-				addonNumber: addonId,
+				_id: addonId,
 				lastAddonNumber: temp
 			}
 			NavigationService.apiCall('EstimateAddons/importAddon', tempObj, function (data) {
@@ -72645,12 +74464,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	this.getImportExtraData = function (extraId, level, subAssemblyId, partId, callback) {
 		if (level == 'assembly') {
 			if (formData.assembly.extras.length == 0) {
-				temp = 'AS1EX0';
+				temp = formData.assembly.assemblyNumber + 'EX0';
 			} else {
 				temp = _.last(formData.assembly.extras).extraNumber;
 			}
 			tempObj = {
-				extraNumber: extraId,
+				_id: extraId,
 				lastExtraNumber: temp
 			}
 			NavigationService.apiCall('EstimateExtras/importExtra', tempObj, function (data) {
@@ -72665,7 +74484,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				temp = _.last(formData.assembly.subAssemblies[subAssIndex].extras).extraNumber;
 			}
 			tempObj = {
-				extraNumber: extraId,
+				_id: extraId,
 				lastExtraNumber: temp
 			}
 			NavigationService.apiCall('EstimateExtras/importExtra', tempObj, function (data) {
@@ -72681,7 +74500,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras).extraNumber;
 			}
 			tempObj = {
-				extraNumber: extraId,
+				_id: extraId,
 				lastExtraNumber: temp
 			}
 			NavigationService.apiCall('EstimateExtras/importExtra', tempObj, function (data) {
@@ -72692,18 +74511,20 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback();
 	}
 
+
+
 	//- to get numbers of processing/addons/extras present in assembly object
 	this.getAllItemNumbers = function (type, callback) {
 		if (type == "Processing") {
-			NavigationService.boxCall('EstimateProcessing/getAllProcessingsNo', function (data) {
+			NavigationService.boxCall('EstimateProcessing/getVersionsOfProcessingNo', function (data) {
 				callback(data.data);
 			});
 		} else if (type == "Addon") {
-			NavigationService.boxCall('EstimateAddons/getAllAddonsNo', function (data) {
+			NavigationService.boxCall('EstimateAddons/getVersionsOfAddonsNo', function (data) {
 				callback(data.data);
 			});
 		} else {
-			NavigationService.boxCall('EstimateExtras/getAllExtrasNo', function (data) {
+			NavigationService.boxCall('EstimateExtras/getVersionsOfExtrasNo', function (data) {
 				callback(data.data);
 			});
 		}
@@ -72789,47 +74610,175 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback(bulkArray);
 	}
 
+	//**********************************extra ***********************************************
+
+	this.getExtraModalData = function (operation, level, subAssemblyId, partId, extraId, callback) {
+		var extraObj = {
+			selecetdExtraItem: {},
+			allExtraItem: [],
+			quantity: 1,
+			remark: "",
+			totalCost: "",
+			rate: "",
+			uom: ""
+		};
+		if (operation == 'update') {;
+			if (level == 'assembly') {
+				var extraIndex = this.getExtraIndex(extraId);
+				var tempExtraObj = formData.assembly.extras[extraIndex];
+			} else if (level == 'subAssembly') {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var extraIndex = this.getExtraIndex(extraId, subAssIndex);
+				var tempExtraObj = formData.assembly.subAssemblies[subAssIndex].extras[extraIndex];
+			} else if (level == 'part') {
+				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+				var partIndex = this.getPartIndex(subAssIndex, partId);
+				var extraIndex = this.getExtraIndex(extraId, subAssIndex, partIndex);
+				var tempExtraObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras[extraIndex];
+			}
+		}
+
+		NavigationService.boxCall('MExtra/getMExtraData', function (data) {
+
+			if (operation == 'save') {
+				extraObj.allExtraItem = data.data;
+			} else {
+				extraObj.allExtraItem = data.data;
+				extraObj.selecetdExtraItem = tempExtraObj.extraItem;
+				extraObj.extraNumber = tempExtraObj.extraNumber;
+				extraObj.totalCost = tempExtraObj.totalCost;
+				extraObj.remark = tempExtraObj.remark;
+				extraObj.quantity = tempExtraObj.quantity;
+				extraObj.rate = tempExtraObj.rate;
+				extraObj.uom = tempExtraObj.uom;
+			}
+			callback(extraObj);
+		});
+
+	}
+
+	//- to update an extra
+	this.updateExtra = function (extraObj, level, subAssemblyId, partId, extraId, callback) {
+		if (level == 'assembly') {
+			var extraIndex = this.getExtraIndex(extraObj.extraNumber);
+			var tempExtraObj = formData.assembly.extras[extraIndex];
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var extraIndex = this.getExtraIndex(extraObj.extraNumber, subAssIndex);
+			var tempExtraObj = formData.assembly.subAssemblies[subAssIndex].extras[extraIndex];
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			var extraIndex = this.getExtraIndex(extraObj.extraNumber, subAssIndex, partIndex);
+			var tempExtraObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras[extraIndex];
+		}
+		tempExtraObj.extraItem = extraObj.selectedExtraItem.extraName,
+			tempExtraObj.extraNumber = extraObj.extraNumber,
+			tempExtraObj.totalCost = extraObj.totalCost,
+			tempExtraObj.remark = extraObj.remark,
+			tempExtraObj.quantity = extraObj.quantity,
+			tempExtraObj.rate = extraObj.rate,
+			tempExtraObj.uom = extraObj.uom
+
+		callback();
+	}
+
+	//- to add an extra
+	this.addExtra = function (extraObj, level, subAssemblyId, partId, callback) {
+		var id;
+		if (level == 'assembly') {
+			id = this.getExtraNumber(level);
+			extraObj.extraNumber = 'AS1' + 'EX' + id;
+			formData.assembly.extras.push(extraObj);
+		} else if (level == 'subAssembly') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			id = this.getExtraNumber(level, subAssIndex);
+			extraObj.extraNumber = subAssemblyId + 'EX' + id;
+			formData.assembly.subAssemblies[subAssIndex].extras.push(extraObj);
+		} else if (level == 'part') {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			id = this.getExtraNumber(level, subAssIndex, partIndex);
+			extraObj.extraNumber = partId + 'EX' + id;
+			extraObj.extraItem = extraObj.extraItem;
+			formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.push(extraObj);
+		}
+		callback();
+	}
+	//- to delete an extra
+	this.deleteExtra = function (extraId, level, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			_.remove(formData.assembly.extras, function (obj) {
+				return obj.extraNumber == extraId
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			_.remove(formData.assembly.subAssemblies[subAssIndex].extras, function (obj) {
+				return obj.extraNumber == extraId
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
+				return obj.extraNumber == extraId
+			});
+		}
+		callback();
+	}
+
+	//- to delete bulk extras
+	this.deleteMultipleExtras = function (level, bulkIds, subAssemblyId, partId, callback) {
+		if (level == 'assembly') {
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.extras, function (obj) {
+					return record == obj.extraNumber;
+				});
+			});
+		} else if (level == 'subAssembly') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].extras, function (obj) {
+					return record == obj.extraNumber;
+				});
+			});
+		} else if (level == 'part') {
+			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			partIndex = this.getPartIndex(subAssIndex, partId);
+			angular.forEach(bulkIds,  function (record) {
+				_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
+					return record == obj.extraNumber;
+				});
+			});
+		}
+		bulkArray = [];
+		callback();
+	}
+
 });
 myApp.service('estimateService', function (NavigationService) {
 
   var bulkArray = [];
   //- get estimate view
   this.getEstimateData = function (callback) {
-    NavigationService.boxCall('Estimate/search', function (data) {
+    NavigationService.boxCall('DraftEstimate/getDraftEstimateCustomerName', function (data) {
       callback(data.data);
     });
   }
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('Estimate/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
+
+  //- delete estimate
+  this.deleteEstimate = function (estimateId, callback) {
+    var idsArray = [];
+    idsArray.push(estimateId);
+    NavigationService.delete('Web/delRestrictions/DraftEstimate', {idsArray: idsArray}, function (data) {
+      callback(data);
     });
   }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
-    NavigationService.apiCall('Estimate/search', {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('DraftEstimate/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('Estimate/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('Estimate/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -72877,13 +74826,12 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- delete bulk estimates
   this.deleteBulkEstimates = function (estimates, callback) {
-    NavigationService.apiCall('Estimate/deleteMultipleEstimates', {idsArray: estimates}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/DraftEstimate', {idsArray: estimates}, function (data) {
+      callback(data);
     });
   }
 
 });
-
 myApp.service('loginService', function (NavigationService) {
   
   //search a user in database with usename and password
@@ -72921,6 +74869,8 @@ myApp.service('loginService', function (NavigationService) {
   }
  
 });
+
+
 myApp.service('baseMatserService', function (NavigationService) {
 
     this.getUomData = function (callback) {
@@ -72969,10 +74919,10 @@ myApp.service('baseMatserService', function (NavigationService) {
         });
     }
     this.deleteUom = function(uomId,callback){
-        var deleteUomObj = {
-            _id:uomId
-        };
-        NavigationService.delete('MUom/delete',deleteUomObj, function(data){
+        idsArray = [];
+        idsArray.push(uomId);
+        NavigationService.delete('Web/delRestrictions/MUom',{idsArray: idsArray}, function(data){
+            debugger;
             callback(data);
         });
     }
@@ -72997,10 +74947,9 @@ myApp.service('baseMatserService', function (NavigationService) {
         });
     }
     this.deleteVariable = function(variableId,callback){
-        var deleteVariableObj = {
-            _id:variableId
-        };
-        NavigationService.delete('MVariables/delete',deleteVariableObj, function(data){
+        idsArray = [];
+        idsArray.push(variableId);
+        NavigationService.delete('Web/delRestrictions/MVariables',{idsArray: idsArray}, function(data){
             callback(data);
         });
     }
@@ -73026,10 +74975,9 @@ myApp.service('baseMatserService', function (NavigationService) {
 
     }
     this.deleteDf = function(dfId,callback){
-        var deleteDfObj = {
-            _id:dfId
-        };
-        NavigationService.delete('MDifficultyFactor/delete',deleteDfObj, function(data){
+        idsArray = [];
+        idsArray.push(dfId);
+        NavigationService.delete('Web/delRestrictions/MDifficultyFactor',{idsArray: idsArray}, function(data){
             callback(data);
         });
     }
@@ -73055,10 +75003,9 @@ myApp.service('baseMatserService', function (NavigationService) {
 
     }
     this.deleteMarkup = function(markupId,callback){
-        var deleteMarkupObj = {
-            _id:markupId
-        };
-        NavigationService.delete('MMarkup/delete',deleteMarkupObj, function(data){
+        idsArray = [];
+        idsArray.push(markupId);
+        NavigationService.delete('Web/delRestrictions/MMarkup',{idsArray: idsArray}, function(data){
             callback(data);
         });
     }
@@ -73106,43 +75053,18 @@ myApp.service('masterAddonService', function (NavigationService) {
   }
   //- delete addon
   this.deleteAddonType = function (addonId, callback) {
-    NavigationService.apiCall('MAddonType/delete', {
-      _id: addonId
-    }, function (data) {
+    idsArray = [];
+    idsArray.push(addonId);
+    NavigationService.apiCall('Web/delRestrictions/MAddonType', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('MAddonType/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('MAddonType/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('MAddonType/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results 
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('MAddonType/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -73192,8 +75114,8 @@ myApp.service('masterAddonService', function (NavigationService) {
   }
   //- delete bulk addons
   this.deleteBulkAddons = function (addons, callback) {
-    NavigationService.apiCall('MAddonType/deleteMultipleAddonsType', {idsArray: addons}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/MAddonType', {idsArray: addons}, function (data) {
+      callback(data);
     });
   }
 });
@@ -73230,8 +75152,6 @@ myApp.service('masterExtraService', function (NavigationService) {
       NavigationService.boxCall('MUom/search', function (data) {
         extraDataObj.uoms = data.data.results;
         callback(extraDataObj);
-        callback(extraDataObj);
-
       });
     }
 
@@ -73239,50 +75159,23 @@ myApp.service('masterExtraService', function (NavigationService) {
   //- add or edit extra
   this.addOrEditExtra = function (extraData, callback) {
     NavigationService.apiCall('MExtra/save', extraData, function (data) {
-      var extra = data.data.results;
-      callback(extra);
+      callback(data);
     });
   }
   //- delete extra
   this.deleteExtra = function (extraId, callback) {
-    var deleteExtraObj = {
-      _id: extraId
-    };
-    NavigationService.delete('MExtra/delete', deleteExtraObj, function (data) {
+    idsArray = [];
+    idsArray.push(extraId);
+    NavigationService.apiCall('Web/delRestrictions/MExtra', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('MExtra/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('MExtra/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('MExtra/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results  
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('MExtra/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -73339,13 +75232,14 @@ myApp.service('masterExtraService', function (NavigationService) {
   }
   //- delete bulk extras
   this.deleteBulkUsers = function (extras, callback) {
-    NavigationService.apiCall('MExtra/deleteMultipleExtras', {idsArray: extras}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/MExtra', {idsArray: extras}, function (data) {
+      callback(data);
     });
   }
 });
 myApp.service('masterMaterialService', function (NavigationService) {
-    //- get master material view
+    
+    var bulkArray = []; //- get master material view
     this.getMaterialView = function (callback) {
         callback();
     }
@@ -73377,11 +75271,9 @@ myApp.service('masterMaterialService', function (NavigationService) {
         });
     }
     this.deleteMaterialCat = function (materialCatId, callback) {
-        var deleteMatCat = {
-            _id: materialCatId
-        };
-
-        NavigationService.apiCall('MMaterialCat/delete', deleteMatCat, function (data) {
+        idsArray = [];
+        idsArray.push(materialCatId);
+        NavigationService.apiCall('Web/delRestrictions/MMaterialCat', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }
@@ -73410,11 +75302,9 @@ myApp.service('masterMaterialService', function (NavigationService) {
         });
     }
     this.deleteMaterialSubCat = function (materialSubCatId, callback) {
-        var deleteMatCat = {
-            _id: materialSubCatId
-        };
-
-        NavigationService.apiCall('MMaterialSubCat/delete', deleteMatCat, function (data) {
+        idsArray = [];
+        idsArray.push(materialSubCatId);
+        NavigationService.apiCall('Web/delRestrictions/MMaterialSubCat', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }
@@ -73443,11 +75333,9 @@ myApp.service('masterMaterialService', function (NavigationService) {
         });
     }
     this.deleteMaterial = function (materialId, callback) {
-        var deleteMat = {
-            _id: materialId
-        };
-
-        NavigationService.apiCall('MMaterial/delete', deleteMat, function (data) {
+        idsArray = [];
+        idsArray.push(materialId);
+        NavigationService.apiCall('Web/delRestrictions/MMaterial', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }
@@ -73473,39 +75361,12 @@ myApp.service('masterMaterialService', function (NavigationService) {
             callback(data);
         });
     }
-
-
-      //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('MMaterial/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('MMaterial/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('MMaterial/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('MMaterial/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -73530,33 +75391,33 @@ myApp.service('masterMaterialService', function (NavigationService) {
     callback(obj);
   }
 //   //- form an array of bulk Ids
-//   this.selectBulkMaterials = function (checkboxStatus, materialId, callback) {
-//     if (checkboxStatus == true) {
-//       bulkArray.push(materialId);
-//     } else {
-//       _.remove(bulkArray, function (record) {
-//         return record == materialId;
-//       });
-//     }
-//     callback(bulkArray);
-//   }
+  this.selectBulkMaterials = function (checkboxStatus, materialId, callback) {
+    if (checkboxStatus == true) {
+      bulkArray.push(materialId);
+    } else {
+      _.remove(bulkArray, function (record) {
+        return record == materialId;
+      });
+    }
+    callback(bulkArray);
+  }
 //   //- form an array of Ids of all materials for deletion
-//   this.selectAll = function(materials, checkboxStatus, callback) {
-//     bulkArray = [];
-//     if (checkboxStatus == true) {
-//       angular.forEach(materials,  function (obj) {
-//         var materialId = obj._id;
-//         bulkArray.push(materialId);
-//       });
-//     } 
-//     callback(bulkArray);
-//   }
+  this.selectAll = function(materials, checkboxStatus, callback) {
+    bulkArray = [];
+    if (checkboxStatus == true) {
+      angular.forEach(materials,  function (obj) {
+        var materialId = obj._id;
+        bulkArray.push(materialId);
+      });
+    } 
+    callback(bulkArray);
+  }
 //   //- delete bulk materials
-//   this.deleteBulkMaterials = function (materials, callback) {
-//     NavigationService.apiCall('MMaterial/deleteMultipleMaterials', {idsArray: materials}, function (data) {
-//       callback();
-//     });
-//   }
+  this.deleteBulkMaterials = function (materials, callback) {
+    NavigationService.apiCall('Web/delRestrictions/MMaterial', {idsArray: materials}, function (data) {
+      callback(data);
+    });
+  }
 });
 myApp.service('masterPartService', function (NavigationService) {
 
@@ -73671,7 +75532,7 @@ myApp.service('masterPartService', function (NavigationService) {
             _id: partTypeId
         };
 
-        NavigationService.apiCall('MpartType/delete', deleteMatCat, function (data) {
+        NavigationService.apiCall('MPartType/delete', deleteMatCat, function (data) {
             callback(data);
         });
     }
@@ -73749,6 +75610,7 @@ myApp.service('masterPartService', function (NavigationService) {
 
     }
     this.getPresetViewWithData = function (operation, presetData, callback) {
+        debugger;
         var partPresetObj = {
             presetData: {}
         };
@@ -73785,9 +75647,10 @@ myApp.service('masterPartService', function (NavigationService) {
             delete presetData.createdAt;
             delete presetData.updatedAt;
             delete presetData.$$hashKey;
-            console.log('**** inside -------------------------- of masterPartService.js ****', presetData);
         }
-        presetData.partType = presetData.partTypeData.partTypeId;
+        
+        presetData.partType = presetData.partTypeData._id;
+        console.log('**** inside -------------------------- of masterPartService.js ****', presetData);
         NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
             callback(data);
         });
@@ -73811,16 +75674,13 @@ myApp.service('masterPartService', function (NavigationService) {
         });
     }
     this.deletePartTypeMaterial = function (materialId, partTypeId, callback) {
-        NavigationService.apiCall('MPartType/deletePartTypeMaterial', {
-            materialId: materialId,
-            _id: partTypeId
-        }, function (data) {
+        idsArray = [];
+        idsArray.push(materialId);
+
+        NavigationService.apiCall('Web/delRestrictions/MPartType', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }
-
-
-
 
 });
 myApp.service('masterProcessService', function (NavigationService) {
@@ -73872,11 +75732,10 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessCat = function (processCatId, callback) {
-    var deleteProCat = {
-      _id: processCatId
-    };
+    var idsArray = [];
+    idsArray.push(processCatId);
 
-    NavigationService.apiCall('MProcessCat/delete', deleteProCat, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/MProcessCat', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }
@@ -73905,11 +75764,10 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessItem = function (processItemId, callback) {
-    var deleteProItem = {
-      _id: processItemId
-    };
+    idsArray = [];
+    idsArray.push(processItemId);
 
-    NavigationService.apiCall('MProcessItem/delete', deleteProItem, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/MProcessItem', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }
@@ -73956,45 +75814,18 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessType = function (processId, callback) {
-    var deleteProcessObj = {
-      _id: processId
-    };
-    NavigationService.delete('MProcessType/delete', deleteProcessObj, function (data) {
+    idsArray = [];
+    idsArray.push(processId);
+    NavigationService.delete('Web/delRestrictions/MProcessType', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }
-
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('MProcessType/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('MProcessType/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('MProcessType/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('MProcessType/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -74043,13 +75874,14 @@ myApp.service('masterProcessService', function (NavigationService) {
   }
   //- delete bulk processes
   this.deleteBulkProcesses = function (processes, callback) {
-    NavigationService.apiCall('MProcessType/deleteMultipleProcessType', {idsArray: processes}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/MProcessType', {idsArray: processes}, function (data) {
+      callback(data);
     });
   }
 
 });
-myApp.service('masterShapeService', function (NavigationService) {
+myApp.service('masterShapeService', function (
+    NavigationService) {
 
     this.variableData = [{
         'varName': 'a'
@@ -74087,7 +75919,7 @@ myApp.service('masterShapeService', function (NavigationService) {
     }
 
     this.createOrEditShapeData = function (operation, shape, callback) {
-        
+        console.log('**** createOrEditShapeData inside function_name of masterShapeService.js ****',shape);
         var shapeDataObj = {};
 
         if (angular.isDefined(shape)) {
@@ -74109,19 +75941,30 @@ myApp.service('masterShapeService', function (NavigationService) {
             callback(shapeDataObj);
 
         } else if (operation == "update") {
-            shapeDataObj.saveBtn = false;
-            shapeDataObj.editBtn = true;
-            var tempArray = _.cloneDeep(this.variableData)
-
-            _.map(tempArray, function (n) {                
-                if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
-                    n.checkboxStatus = false;
-                } else {
-                    n.checkboxStatus = true;
+            var idsArray = [];
+            idsArray.push(shape._id);
+            NavigationService.apiCall('Mshape/restrictShapeVariable', {idsArray: idsArray}, function(data){
+                shapeDataObj.saveBtn = false;
+                shapeDataObj.editBtn = true;
+                if(!_.isEmpty(data.data)){
+                    shapeDataObj.disableField = true;
                 }
+                else {
+                    shapeDataObj.disableField = false;
+                }
+                var tempArray = _.cloneDeep(this.variableData)
+
+                _.map(tempArray, function (n) {
+                    if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
+                        n.checkboxStatus = false;
+                    } else {
+                        n.checkboxStatus = true;
+                    }
+                });
+                shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
+                callback(shapeDataObj);
+
             });
-            shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
-            callback(shapeDataObj);
         }
 
     }
@@ -74131,10 +75974,10 @@ myApp.service('masterShapeService', function (NavigationService) {
         });
     }
     this.deleteShape = function (shapeId, callback) {
-        var deleteShapeObj = {
-            _id: shapeId
-        };
-        NavigationService.delete('MShape/delete', deleteShapeObj, function (data) {
+        debugger;
+        idsArray = [];
+        idsArray.push(shapeId);
+        NavigationService.delete('Web/delRestrictions/MShape', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }
@@ -74167,50 +76010,24 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
   //- add or edit user
   this.addOrEditUser = function (userData, callback) {
-    NavigationService.apiCall('User/createUser', userData, function (data) {
-      callback();
+    NavigationService.apiCall('User/save', userData, function (data) {
+      callback(data);
     });
   }
   //- delete user
   this.deleteUser = function (userId, callback) {
-    var deleteUserObj = {
-      _id: userId
-    };
-    NavigationService.delete('User/delete', deleteUserObj, function (data) {
+    var idsArray = [];
+    idsArray.push(userId);
+    NavigationService.delete('Web/delRestrictions/User', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }
-  //- get data of pagination
-  this.getPaginationDatawithoutKeyword = function (pageNumber, callback) {
-    NavigationService.apiCall('User/search', {
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, count, searchKeyword, callback) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
     NavigationService.apiCall('User/search', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get page data with show records
-  this.getPageDataWithShowRecords = function (pageNumber, numberOfRecords, callback) {
-    NavigationService.apiCall('User/search', {
-      totalRecords: numberOfRecords,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get data of seach results
-  this.getSearchResult = function (searchKeyword, callback) {
-    NavigationService.apiCall('User/search', {
-      keyword: searchKeyword
     }, function (data) {
       callback(data.data);
     });
@@ -74258,18 +76075,40 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
   //- delete bulk users
   this.deleteBulkUsers = function (users, callback) {
-    NavigationService.apiCall('User/deleteMultipleUsers', {idsArray: users}, function (data) {
-      callback();
+    NavigationService.apiCall('Web/delRestrictions/User', {idsArray: users}, function (data) {
+      callback(data);
     });
   }
 
 });
 myApp.service('roleService', function ($http, $uibModal, NavigationService) {
-    
-    this.getRoleModalData = function(operation, role) {
-        
+
+    this.getRoleData = function (callback) {
+        callback();
     }
-    });
+    this.addOrEditRoleModal = function (operation, role, callback) {
+        var roleDataObj = {};
+
+        if (angular.isDefined(role)) {
+            roleDataObj.user = user;
+        }
+        if (operation == "save") {
+            roleDataObj.saveBtn = true;
+            roleDataObj.editBtn = false;
+        } else if (operation == "update") {
+            roleDataObj.saveBtn = false;
+            roleDataObj.editBtn = true;
+        }
+        callback(roleDataObj);
+    }
+    this.addOrEditRole = function (role, callback) {
+        callback();
+    }
+    this.deleteRole = function (roleId, callback) {
+        callback();
+    }
+});
+
 myApp.service('userProfileService', function (NavigationService, $http) {
 
     //to get data of current user

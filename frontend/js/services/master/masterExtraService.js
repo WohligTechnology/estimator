@@ -45,7 +45,7 @@ myApp.service('masterExtraService', function (NavigationService) {
   this.deleteExtra = function (extraId, callback) {
     idsArray = [];
     idsArray.push(extraId);
-    NavigationService.apiCall('Web/delRestrictions/MExtra', {idsArray}, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/MExtra', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }

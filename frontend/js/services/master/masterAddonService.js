@@ -43,7 +43,7 @@ myApp.service('masterAddonService', function (NavigationService) {
   this.deleteAddonType = function (addonId, callback) {
     idsArray = [];
     idsArray.push(addonId);
-    NavigationService.apiCall('Web/delRestrictions/MAddonType', {idsArray}, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/MAddonType', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }

@@ -91,7 +91,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		subAssemblyName: "",
 		subAssemblyNumber: "",
 		quantity: "",
-		totalValue: "",
 		keyValueCalculations: {
 			perimeter: "",
 			sheetMetalArea: "",

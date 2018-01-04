@@ -256,7 +256,7 @@ myApp.service('masterPartService', function (NavigationService) {
         idsArray = [];
         idsArray.push(materialId);
 
-        NavigationService.apiCall('Web/delRestrictions/MPartType', {idsArray}, function (data) {
+        NavigationService.apiCall('Web/delRestrictions/MPartType', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }

@@ -50,7 +50,7 @@ myApp.service('masterProcessService', function (NavigationService) {
     var idsArray = [];
     idsArray.push(processCatId);
 
-    NavigationService.apiCall('Web/delRestrictions/MProcessCat', {idsArray}, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/MProcessCat', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }
@@ -82,7 +82,7 @@ myApp.service('masterProcessService', function (NavigationService) {
     idsArray = [];
     idsArray.push(processItemId);
 
-    NavigationService.apiCall('Web/delRestrictions/MProcessItem', {idsArray}, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/MProcessItem', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }
@@ -131,7 +131,7 @@ myApp.service('masterProcessService', function (NavigationService) {
   this.deleteProcessType = function (processId, callback) {
     idsArray = [];
     idsArray.push(processId);
-    NavigationService.delete('Web/delRestrictions/MProcessType', {idsArray}, function (data) {
+    NavigationService.delete('Web/delRestrictions/MProcessType', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }

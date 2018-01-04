@@ -19,7 +19,7 @@ myApp.service('enquiryService', function ($http, NavigationService) {
   this.deleteEnquiry = function (enquiryId, callback) {
     var idsArray = [];
     idsArray.push(enquiryId);
-    NavigationService.delete('Web/delRestrictions/Enquiry', {idsArray}, function (data) {
+    NavigationService.delete('Web/delRestrictions/Enquiry', {idsArray: idsArray}, function (data) {
       callback(data);
     });
   }
