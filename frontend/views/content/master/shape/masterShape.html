@@ -10,7 +10,7 @@
                 </span>
                 <ul>
                     <li ng-repeat="sh in shapeData">
-                        <span class="tree_label" class="partName">{{sh.shapeName}}</span>
+                        <span class="tree_label" class="partName">{{sh.shapeName | capitalize}}</span>
                         <span ng-click="createOrEditShapeData('update',sh)" class="subAssemblyEditIcon">
                             <i class="fa fa-pencil btn-warning" title="Edit Shape"></i>
                         </span>

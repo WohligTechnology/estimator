@@ -38,10 +38,10 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Negotiation:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" name='negotiation' pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-minlength="0" ng-maxlength="100" ng-model="formData.margins.negotiation">
+                                <input type="text" class="form-control" name='negotiation' pattern="[\-\+]?[0-9]*(\.[0-9]+)?"  ng-model="formData.margins.negotiation">
                                 <span class="error" ng-show="myForm.negotiation.$invalid && myForm.negotiation.$dirty">Please enter a number or floating point number</span>
                                 <span class ="unit">%</span>
-                                <!-- <span ng-show="myForm.negotiation.$touched && myForm.negotiation.$error.minlength" class="error"> Negotiation can not be less than 0.</span>
+                            <!-- <span ng-show="myForm.negotiation.$touched && myForm.negotiation.$error.minlength" class="error"> Negotiation can not be less than 0.</span>
                                 <span ng-show="myForm.negotiation.$error.maxlength" class="error">Negotiation cannot be greater than 100.</span> -->
                             </div>                     
                         </div>
