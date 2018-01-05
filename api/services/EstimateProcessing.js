@@ -94,11 +94,9 @@ var model = {
         data.lastProcessingNumber = data.lastProcessingNumber.replace(/\d+$/, function (n) {
             return ++n
         });
-
         EstimateProcessing.findOne({
             _id: data._id
         }).lean().exec(function (err, found) {
-
             if (err) {
                 console.log('**** error at importProcessing of EstimateProcessing.js ****', err);
                 callback(err, null);
