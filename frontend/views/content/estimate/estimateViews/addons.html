@@ -138,7 +138,7 @@
                                 <td> {{p.quantity.contengncyOrWastage}} </td>
                                 <td> {{p.quantity.total}} </td>
                                 <td> {{p.quantity.supportingVariable.value * p.rate* p.quantity.total}} </td>
-                                <td> Approved </td>
+                                <td> {{p.remarks}} </td>
                                 <td class="edit-icon">
                                     <span class="label label-sm label-success" id="add_space" ng-click="addOrEditAddonModal('update', level,  estimateViewData.subAssemblyId, estimateViewData.partId, p.addonNumber)">
                                         <i class="fa fa-pencil"></i>

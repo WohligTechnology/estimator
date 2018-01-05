@@ -92,7 +92,6 @@ myApp.service('masterShapeService', function (
         });
     }
     this.deleteShape = function (shapeId, callback) {
-        debugger;
         idsArray = [];
         idsArray.push(shapeId);
         NavigationService.delete('Web/delRestrictions/MShape', {idsArray: idsArray}, function (data) {

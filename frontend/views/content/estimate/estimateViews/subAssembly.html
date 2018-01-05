@@ -118,9 +118,9 @@
                     <td> {{p.processingCost}} </td>
                     <td> {{p.addonCost}} </td>
                     <td> {{p.extrasCost}} </td>
-                    <td> {{p.totalCost}}</td>
+                    <td> {{p.finalCalculation.materialPrice + p.processingCost + p.addonCost + p.extrasCost}}</td>
                     <td> {{p.quantity * p.keyValueCalculations.weight}} </td>
-                    <td> {{p.quantity * p.totalCost}} </td>
+                    <td> {{p.totalCost}} </td>
                     <td class="edit-icon">
                       <span class="label label-sm label-success" id="add_space" ng-click="addOrEditPartModal('update',estimateViewData.subAssemblyNumber,p)">
                         <i class="fa fa-pencil"></i>
