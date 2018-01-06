@@ -71,7 +71,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   //- function for  extra deletion
   $scope.deleteExtra = function (extraId) {
     masterExtraService.deleteExtra(extraId, function (data) {
-      if(_.isEmpty(data)){
+      if(_.isEmpty(data.data)){
         toastr.success('Record deleted successfully');
       }
       else{

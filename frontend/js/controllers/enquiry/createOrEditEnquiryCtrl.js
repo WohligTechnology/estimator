@@ -79,7 +79,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   }
   //- to bind user name to formData
   $scope.setEstimator = function (userDataObj) {
-    $scope.formData.enquiryDetails.estimator = userDataObj._id;
+    $scope.formData.enquiryDetails.estimator = userDataObj;
   }
   //- to add assembly or to import assembly
   $scope.saveAssemblyNameModal = function (enquiryId) {
