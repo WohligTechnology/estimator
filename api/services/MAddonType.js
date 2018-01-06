@@ -123,21 +123,76 @@ var model = {
         };
         MAddonType.find({}).sort({
                 createdAt: -1
-            })
+            }).lean().deepPopulate('materialCat materialSubCat')
             .order(options)
             .keyword(options)
             .page(options,
                 function (err, found) {
+                    // console.log('****@@@@@@@@@@ ****', found.results);
                     if (err) {
                         console.log('**** error at search of Enquiry.js ****', err);
                         callback(err, null);
                     } else if (_.isEmpty(found)) {
                         callback(null, []);
                     } else {
-                        callback(null, found);
+                        var index = 0;
+                        async.eachSeries(found.results, function (MAddonTypeObj, callback) {
+                                // delete MAddonTypeObj.createdAt;
+                                // delete MAddonTypeObj.updatedAt;
+                                // delete MAddonTypeObj.__v;
+                                // console.log('**** !!!!!!!!!!!!!!!****',MAddonTypeObj.rate.uom);
+                                MUom.findOne({
+                                    _id: MAddonTypeObj.rate.uom
+                                }).exec(function (err, foundRateUom) {
+                                    // console.log('**** ############****', foundRateUom);
+                                    if (err) {
+                                        console.log('**** error at rate uom of MProcessType.js ****', err);
+                                    } else {
+                                        found.results[index].rate.uom = foundRateUom;
+                                        MUom.findOne({
+                                            _id: MAddonTypeObj.quantity.additionalInputUom
+                                        }).lean().exec(function (err, foundQuantityAdditionalInputUom) {
+                                            if (err) {
+                                                console.log('**** error at quantity finalUom  of MProcessType.js ****', err);
+                                            } else {
+                                                found.results[index].quantity.additionalInputUom = foundQuantityAdditionalInputUom;
+                                                MUom.findOne({
+                                                    _id: MAddonTypeObj.quantity.linkedKeyUom
+                                                }).lean().exec(function (err, foundQuantityLinkedKeyUom) {
+                                                    if (err) {
+                                                        console.log('**** error at quantity finalUom  of MProcessType.js ****', err);
+                                                    } else {
+                                                        found.results[index].quantity.linkedKeyUom = foundQuantityLinkedKeyUom;
+                                                        MUom.findOne({
+                                                            _id: MAddonTypeObj.quantity.finalUom
+                                                        }).lean().exec(function (err, foundQuantityFinalUom) {
+                                                            console.log('**** %%%%%%%%%%%% ****', foundQuantityFinalUom);
+                                                            if (err) {
+                                                                console.log('**** error at quantity finalUom  of MProcessType.js ****', err);
+                                                            } else {
+                                                                found.results[index].quantity.finalUom = foundQuantityFinalUom;
+                                                                index++;
+                                                                callback();
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            },
+                            function (err) {
+                                if (err) {
+                                    console.log('***** error at final response of async.eachSeries in function_name of MProcessType.js*****', err);
+                                } else {
+                                    callback(null, found);
+                                }
+                            });
                     }
                 });
     },
+
 
     //-Delete multiple records from table MAddon type by passing multiple MAddon Type Ids.
     deleteMultipleAddonsType: function (data, callback) {
@@ -233,7 +288,7 @@ var model = {
             } else {
                 async.eachSeries(found, function (f, callback) {
                     materials = f.materialSubCat.materials
-                    
+
                     callback();
 
                 }, function (err) {

@@ -195,7 +195,8 @@ var model = {
                 function (callback) {
                     var saveDataObj = {
                         email: data.email,
-                        name: data.name
+                        name: data.name,
+                        mobile:data.mobile
                     };
                     User.saveData(saveDataObj, function (err, savedData) {
                         if (err) {
