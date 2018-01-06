@@ -28,6 +28,42 @@
                     <div class="tab-content">
                         <!-- DETAILS TAB -->
                         <div class="tab-pane active" id="tab_1_1">
+                                <div class="portlet-body">
+                                    <div class="table-scrollable">
+                                        <table class="bordered-table">
+                                            <tr>
+                                                <th class="align-middle text-center"> Total Weight </th>
+                                                <th> Material Cost</th>
+                                                <th> Processing Cost </th>
+                                                <th> Addon Cost </th>
+                                                <th>Extra Cost </th>
+                                                <th> Total Cost </th>
+                                            </tr>
+                                            <tr class="border-bott">
+                                                <td rowspan="3" class="align-middle text-center border-right"> {{estimateViewData.totalWeight}} </td>
+                                                <td> {{estimateViewData.materialCost}} </td>
+                                                <td> {{estimateViewData.processingCost}} </td>
+                                                <td> {{estimateViewData.addonCost}} </td>
+                                                <td> {{estimateViewData.extrasCost}} </td>
+                                                <td> {{estimateViewData.totalCost}} </td>
+                                            </tr>
+                                            <tr>
+                                                <th> Material Salling Price</th>
+                                                <th> Process Salling Price </th>
+                                                <th> Addon Salling Price </th>
+                                                <th>Extra Salling Price </th>
+                                                <th> Total Salling Price </th>
+                                            </tr>
+                                            <tr>
+                                                <td> 1 </td>
+                                                <td> 200 </td>
+                                                <td> 100 </td>
+                                                <td> 434 </td>
+                                                <td>209 </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
                         </div>
                         <!-- END DETAIL TAB -->
                         <!-- Estimate TAB -->
@@ -159,25 +195,46 @@
                                     <div ng-include="estimateView"></div>
                                 </div>
                             </div>
+                            <div class="portlet-body" ng-show='estimateView=="views/content/estimate/estimateViews/assembly.html"'>
+                                <div class="table-scrollable">
+                                    <table class="bordered-table">
+                                        <tr>
+                                            <th class="align-middle text-center"> Total Weight </th>
+                                            <th> Material Cost</th>
+                                            <th> Processing Cost </th>
+                                            <th> Addon Cost </th>
+                                            <th>Extra Cost </th>
+                                            <th> Total Cost </th>
+                                        </tr>
+                                        <tr class="border-bott">
+                                            <td rowspan="3" class="align-middle text-center border-right"> {{estimateViewData.totalWeight}} </td>
+                                            <td> {{estimateViewData.materialCost}} </td>
+                                            <td> {{estimateViewData.processingCost}} </td>
+                                            <td> {{estimateViewData.addonCost}} </td>
+                                            <td> {{estimateViewData.extrasCost}} </td>
+                                            <td> {{estimateViewData.totalCost}} </td>
+                                        </tr>
+                                        <tr>
+                                            <th> Material Salling Price</th>
+                                            <th> Process Salling Price </th>
+                                            <th> Addon Salling Price </th>
+                                            <th>Extra Salling Price </th>
+                                            <th> Total Salling Price </th>
+                                        </tr>
+                                        <tr>
+                                            <td> 1 </td>
+                                            <td> 200 </td>
+                                            <td> 100 </td>
+                                            <td> 434 </td>
+                                            <td>209 </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                         <!-- END Estimate TAB -->
                         <!-- BOQ TAB -->
                         <div class="tab-pane" id="tab_1_3">
-                            <form>
-                                <div class="form-group">
-                                    <label class="control-label">Current Password</label>
-                                    <input type="password" class="form-control" /> </div>
-                                <div class="form-group">
-                                    <label class="control-label">New Password</label>
-                                    <input type="password" class="form-control" /> </div>
-                                <div class="form-group">
-                                    <label class="control-label">Re-type New Password</label>
-                                    <input type="password" class="form-control" /> </div>
-                                <div class="margin-top-10">
-                                    <a href="#" class="btn green-haze"> Change Password </a>
-                                    <a href="#" class="btn default"> Cancel </a>
-                                </div>
-                            </form>
                         </div>
                         <!-- END BOQ TAB -->
                         <!-- Attachments TAB -->
@@ -216,40 +273,8 @@
                         <!-- END Attachments TAB -->
                     </div>
                 </div>
-                <div class="portlet-body">
+                <!-- <div class="portlet-body" ng-show='estimateView=="views/content/estimate/estimateViews/assembly.html"'>
                     <div class="table-scrollable">
-                        <!--<table class="table table-bordered">
-                        <tr>
-                            <th class="align-middle text-center"> Total Weight </th>
-                            <th > Material Cost</th>
-                            <th> Process Cost </th>
-                            <th> Addon Cost </th>
-                            <th>Extra Cost </th>
-                            <th> Total Cost </th>
-                        </tr>
-                        <tr>
-                            <td rowspan="3" class="align-middle text-center">1000</td>
-                            <td> 1 </td>
-                            <td> 200 </td>
-                            <td> 300 </td>
-                            <td> 500 </td>
-                            <td>300 </td>
-                        </tr>
-                        <tr>
-                            <th> Material Cost</th>
-                            <th> Process Cost </th>
-                            <th> Addon Cost </th>
-                            <th>Extra Cost </th>
-                            <th> Total Cost </th>
-                        </tr>
-                        <tr>
-                            <td> 1 </td>
-                            <td> 200 </td>
-                            <td> 100 </td>
-                            <td> 434 </td>
-                            <td>209 </td>
-                        </tr>
-                    </table>-->
                         <table class="bordered-table">
                             <tr>
                                 <th class="align-middle text-center"> Total Weight </th>
@@ -265,7 +290,7 @@
                                 <td> {{estimateViewData.processingCost}} </td>
                                 <td> {{estimateViewData.addonCost}} </td>
                                 <td> {{estimateViewData.extrasCost}} </td>
-                                <td> {{estimateViewData.totalCost * estimateViewData.quantity}} </td>
+                                <td> {{estimateViewData.totalCost}} </td>
                             </tr>
                             <tr>
                                 <th> Material Salling Price</th>
@@ -283,7 +308,7 @@
                             </tr>
                         </table>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

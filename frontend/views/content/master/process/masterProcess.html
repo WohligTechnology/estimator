@@ -149,8 +149,8 @@
                                     <th title="Unit Of Measurement">UOM</th>
                                     <th>Multiplication Factor</th>
                                     <th>Final UOM</th>
-                                    <th>Utilization</th>
-                                    <th>Contegency or Wastage</th>
+                                    <th>Utilization (%)</th>
+                                    <th>Contegency or Wastage (%)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -162,8 +162,8 @@
                                             <span></span>
                                         </label>
                                     </td>
-                                    <td> {{process.processTypeName}} </td>
-                                    <td>{{process.processCat.processCatName}}</td>
+                                    <td> {{process.processTypeName | capitalize}} </td>
+                                    <td>{{process.processCat.processCatName | capitalize}}</td>
                                     <td>{{process.rate.mulFact}} </td>
                                     <td>{{process.rate.uom.uomName}} </td>
                                     <td>{{process.quantity.linkedKeyValue}} </td>

@@ -138,9 +138,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
         masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {    
-            toastr.Success('Material added successfully');      
+            toastr.success('Material added successfully');      
             $scope.cancelModal();
-            $scope.getMaterialData();
+            $scope.getSubCatMaterials(data.data.materialSubCategory);
+           // $scope.getMaterialData();
         });
     }
     //- instant edit particular master material
@@ -254,6 +255,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
       }
     //   //-to delete bulk materials
       $scope.deleteBulkMaterials = function (materials) {
+          debugger;
         masterMaterialService.deleteBulkMaterials(materials, function (data) {
             if(_.isEmpty(data.data)){
                 toastr.success('Record deleted successfully');

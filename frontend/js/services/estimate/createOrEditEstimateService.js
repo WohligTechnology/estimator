@@ -252,16 +252,21 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			mtAtSubAssembly: 0,
 			mtAtAssembly: 0
 		}
+		formData.assembly.totalCost = 0;
 		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
 			angular.forEach(subAssembly.subAssemblyParts, function (part) {
 				costCalculations.wtAtPart += parseFloat(part.keyValueCalculations.weight);
 				costCalculations.mtAtSubAssembly += parseFloat(part.finalCalculation.materialPrice);
+				//- processing cost at part level
 				angular.forEach(part.processing, function (processing) {
 					costCalculations.pCostAtPart += processing.rate * processing.quantity.totalQuantity
 				});
+				//- addons cost at part level
 				angular.forEach(part.addons, function (addon) {
+					addon.totalCost = addon.quantity.supportingVariable.value * addon.rate* addon.quantity.total;
 					costCalculations.aCostAtPart += addon.totalCost;
 				});
+				//- extras cost at part level
 				angular.forEach(part.extras,  function (extra) {
 					costCalculations.eCostAtPart += extra.totalCost;
 				});
@@ -270,33 +275,34 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				part.extrasCost = costCalculations.eCostAtPart;
 				if (part.processing.length != 0) {
 					costCalculations.pCost += costCalculations.pCostAtPart;
-					costCalculations.pCostAtPart = 0;
 				}
 				if (part.addons.length != 0) {
 					costCalculations.aCost += costCalculations.aCostAtPart;
-					costCalculations.aCostAtPart = 0;
 				}
 				if (part.extras.length != 0) {
 					costCalculations.eCost += costCalculations.eCostAtPart;
-					costCalculations.eCostAtPart = 0;
 				}
 				if (part.processing.length != 0 || part.addons.length != 0 || part.extras.length != 0) {
-					part.totalCost = costCalculations.wtAtPart + costCalculations.mtAtSubAssembly + part.processingCost + part.addonCost + part.extrasCost;
+					part.totalCost = (costCalculations.mtAtSubAssembly + part.processingCost + part.addonCost + part.extrasCost) * part.quantity;
 				}
+				costCalculations.mtAtSubAssembly = costCalculations.pCostAtPart = costCalculations.aCostAtPart = costCalculations.eCostAtPart = 0;
 			});
 
 			subAssembly.totalWeight = costCalculations.wtAtPart;
 			costCalculations.wtAtSubAssembly += subAssembly.totalWeight;
 			subAssembly.materialCost = costCalculations.mtAtSubAssembly;
 			costCalculations.mtAtAssembly += subAssembly.materialCost;
-
+			//- processing cost at subAssembly level
 			angular.forEach(subAssembly.processing, function (processing) {
-				costCalculations.pCostAtSubAssembly += processing.rate * processing.quantity.totalQuantity
+				costCalculations.pCostAtSubAssembly += processing.rate * processing.quantity.totalQuantity;
 			});
-			angular.forEach(formData.assembly.addons, function (addon) {
+			//- addons cost at subAssembly level
+			angular.forEach(subAssembly.addons, function (addon) {
+				addon.totalCost = addon.quantity.supportingVariable.value * addon.rate* addon.quantity.total;		
 				costCalculations.aCostAtSubAssembly += addon.totalCost;
 			});
-			angular.forEach(formData.assembly.extras, function (extra) {
+			//- extras cost at subAssembly level
+			angular.forEach(subAssembly.extras, function (extra) {
 				costCalculations.eCostAtSubAssembly += extra.totalCost;
 			});
 			costCalculations.pCost += costCalculations.pCostAtSubAssembly;
@@ -305,19 +311,34 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			subAssembly.processingCost = costCalculations.pCost;
 			subAssembly.addonCost = costCalculations.aCost;
 			subAssembly.extrasCost = costCalculations.eCost;
-			subAssembly.totalCost = subAssembly.totalWeight + subAssembly.materialCost + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost;			
-			costCalculations.pCostAtAssemby += costCalculations.pCost;
-			costCalculations.aCostAtAssemby += costCalculations.aCost;
-			costCalculations.eCostAtAssemby += costCalculations.eCost;
+			subAssembly.totalCost = (subAssembly.materialCost + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost) * subAssembly.quantity;
+			formData.assembly.totalCost += subAssembly.totalCost;  
+			costCalculations.pCostAtAssemby += costCalculations.pCost * subAssembly.quantity;
+			costCalculations.aCostAtAssemby += costCalculations.aCost * subAssembly.quantity;
+			costCalculations.eCostAtAssemby += costCalculations.eCost * subAssembly.quantity;
 			costCalculations.pCostAtSubAssembly = costCalculations.aCostAtSubAssembly = costCalculations.eCostAtSubAssembly = 0;
 			costCalculations.pCost = costCalculations.aCost = costCalculations.eCost = 0;
 		});
 		formData.assembly.totalWeight = costCalculations.wtAtSubAssembly;
 		formData.assembly.materialCost = costCalculations.mtAtAssembly;
-		formData.assembly.processingCost = costCalculations.pCostAtAssemby;
-		formData.assembly.addonCost = costCalculations.aCostAtAssemby;
-		formData.assembly.extrasCost = costCalculations.eCostAtAssemby;
-		formData.assembly.totalCost = costCalculations.wtAtSubAssembly + costCalculations.mtAtAssembly + costCalculations.pCostAtAssemby + costCalculations.aCostAtAssemby + costCalculations.eCostAtAssemby;
+		//- processing cost at assembly level
+		angular.forEach(formData.assembly.processing, function (processing) {
+			processing.totalCost = processing.rate * processing.quantity.totalQuantity;
+			costCalculations.pCost += processing.totalCost;
+		});
+		//- addons cost at assembly level
+		angular.forEach(formData.assembly.addons, function (addon) {
+			addon.totalCost = addon.quantity.supportingVariable.value * addon.rate* addon.quantity.total;
+			costCalculations.aCost += addon.totalCost;
+		});
+		//- extras cost at assembly level
+		angular.forEach(formData.assembly.extras, function (extra) {
+			costCalculations.eCost += extra.totalCost;
+		});
+		formData.assembly.processingCost = costCalculations.pCostAtAssemby + costCalculations.pCost;
+		formData.assembly.addonCost = costCalculations.aCostAtAssemby + costCalculations.aCost;
+		formData.assembly.extrasCost = costCalculations.eCostAtAssemby + costCalculations.eCost;
+		formData.assembly.totalCost += costCalculations.mtAtAssembly + costCalculations.pCost + costCalculations.aCost +  costCalculations.eCost;
 		callback()
 	}
 	//- to get a view of the page
@@ -326,7 +347,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var getViewData = [];
 
 		if (estimateView == 'assembly') {
-			formData.assembly.quantity = 1;
+			//formData.assembly.quantity = 1;
 			getViewData = formData.assembly;
 		} else if (estimateView == 'subAssembly') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
@@ -481,7 +502,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	}
 	//- to save current estimate object
-	this.saveCurrentEstimate = function () {
+	this.saveCurrentEstimate = function (callback) {
 		NavigationService.apiCall('DraftEstimate/save', formData.assembly, function (data) {
 			// $.jStorage.deleteKey("estimateObject");
 			callback(data.data);
@@ -542,7 +563,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempSubAssObj = _.cloneDeep(subAssembly);
 		tempSubAssObj.subAssemblyNumber = formData.assembly.assemblyNumber + "SA" + id;
 		tempSubAssObj.subAssemblyName = subAssObj.subAssemblyName;
-		if(angular.isDefined(subAssObj.quantity)) {
+		if (angular.isDefined(subAssObj.quantity)) {
 			tempSubAssObj.quantity = subAssObj.quantity;
 		} else {
 			tempSubAssObj.quantity = 1;
@@ -716,7 +737,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						tempObj.weight += parseFloat(part.keyValueCalculations.weight);
 						temp += 1;
 					}
-				});	
+				});
 			});
 		}
 		if (temp != 0) {
@@ -1110,7 +1131,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
 				if (!_.isEmpty(data)) {
-					addonObject.linkedKeyValuesAtSubAssemblyCalculation =  {
+					addonObject.linkedKeyValuesAtSubAssemblyCalculation = {
 						perimeter: data.perimeter,
 						SMA: data.sheetMetalArea,
 						SA: data.surfaceArea,

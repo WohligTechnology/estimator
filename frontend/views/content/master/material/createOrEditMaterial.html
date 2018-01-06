@@ -10,13 +10,12 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <!-- <pre>{{formData | json}}</pre> -->
                 <form class="form-horizontal" name ="myForm">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material Name:<span class="error">&nbsp;*</span></label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.materialName" required autofocus>
+                                <input type="text" class="form-control" ng-model="formData.materialName"  autofocus required>
                             </div><br><br>
                         </div>
                         </div>
@@ -40,7 +39,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Typical Rate per kg:</label>
                             <div class="col-md-5">
-                                <input type="text" name="rateperkg" class="form-control " pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.typicalRatePerKg" >
+                                <input type="text" name="rateperkg" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.typicalRatePerKg" >
                                 <span class="error" ng-show="myForm.rateperkg.$invalid && myForm.rateperkg.$dirty">Please enter a number or floating point number</span>
                                 <span class="unit">Rs/kg</span>
                             </div>
@@ -48,14 +47,14 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Rolling Index:</label>
                             <div class="col-md-5">
-                                <input type="text" name="rollingindex" class="form-control " pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.rollingIndex" >
+                                <input type="text" name="rollingindex" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.rollingIndex" >
                                 <span class="error" ng-show="myForm.rollingindex.$invalid && myForm.rollingindex.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Cutting Index:</label>
                             <div class="col-md-5">
-                                <input type="text"name="cuttingindex"  class="form-control "  pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.cuttingIndex" >
+                                <input type="text"name="cuttingindex"  class="form-control"  pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.cuttingIndex" >
                                 <span class="error" ng-show="myForm.cuttingindex.$invalid && myForm.cuttingindex.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
@@ -86,13 +85,13 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Contigency or Wastage:</label>
                             <div class="col-md-5">
-                                <input type="text" name="wastage" class="form-control " pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.contingencyOrWastage" >
+                                <input type="text" name="wastage" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.contingencyOrWastage" >
                                 <span class="error" ng-show="myForm.wastage.$invalid && myForm.wastage.$dirty">Please enter a number or floating point number</span>
                                 <span class="unit">%</span>
                             </div>
                         </div>
                     </div>
-                    <div class="form-actions">
+                    <div class="form-actions" id = "space">
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditMaterial(formData,subCatId)" ng-disabled ="myForm.$dirty && myForm.$invalid || myForm.$pristine">Save</button>
