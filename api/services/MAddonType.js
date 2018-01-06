@@ -128,7 +128,6 @@ var model = {
             .keyword(options)
             .page(options,
                 function (err, found) {
-                    // console.log('****@@@@@@@@@@ ****', found.results);
                     if (err) {
                         console.log('**** error at search of Enquiry.js ****', err);
                         callback(err, null);
@@ -137,14 +136,12 @@ var model = {
                     } else {
                         var index = 0;
                         async.eachSeries(found.results, function (MAddonTypeObj, callback) {
-                                // delete MAddonTypeObj.createdAt;
-                                // delete MAddonTypeObj.updatedAt;
-                                // delete MAddonTypeObj.__v;
-                                // console.log('**** !!!!!!!!!!!!!!!****',MAddonTypeObj.rate.uom);
+                                delete MAddonTypeObj.createdAt;
+                                delete MAddonTypeObj.updatedAt;
+                                delete MAddonTypeObj.__v;
                                 MUom.findOne({
                                     _id: MAddonTypeObj.rate.uom
-                                }).exec(function (err, foundRateUom) {
-                                    // console.log('**** ############****', foundRateUom);
+                                }).lean().exec(function (err, foundRateUom) {
                                     if (err) {
                                         console.log('**** error at rate uom of MProcessType.js ****', err);
                                     } else {
@@ -166,7 +163,6 @@ var model = {
                                                         MUom.findOne({
                                                             _id: MAddonTypeObj.quantity.finalUom
                                                         }).lean().exec(function (err, foundQuantityFinalUom) {
-                                                            console.log('**** %%%%%%%%%%%% ****', foundQuantityFinalUom);
                                                             if (err) {
                                                                 console.log('**** error at quantity finalUom  of MProcessType.js ****', err);
                                                             } else {

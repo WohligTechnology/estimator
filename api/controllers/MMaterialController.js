@@ -63,9 +63,9 @@ var controller = {
             })
         }
     },
-    delRestrictions: function (req, res) {
+    getAllCustomeBaseOverlay: function (req, res) {
         if (req.body) {
-            MMaterial.delRestrictions(req.body, res.callback);
+            MMaterial.getAllCustomeBaseOverlay(req.body, res.callback);
         } else {
             res.json({
                 value: false,
