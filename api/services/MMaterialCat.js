@@ -21,7 +21,7 @@ var model = {
     //-Get all material structure by deep populating sub category and subCat's materials.
     getMaterialStructure: function (data, callback) {
         MMaterialCat.find()
-            .deepPopulate('subCat subCat.materials')
+            .deepPopulate('subCat subCat.materials').lean()
             .exec(function (err, found) {
                 if (err) {
                     console.log('**** error at getMaterialStructure of MMaterialCat.js ****', err);

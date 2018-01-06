@@ -11,7 +11,7 @@ var schema = new Schema({
         unique: true
     },
     mobile: {
-        type: "",
+        type: String,
         default: ""
     },
     photo: {
