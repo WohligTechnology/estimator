@@ -200,7 +200,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
 
         _.map(selectedShape.variable, function (n) {
             varName = n.varName;
-            varValue = parseInt(n.varValue);
+            varValue = parseFloat(n.varValue);
             perimeter = selectedShape.partFormulae.perimeter;
             sheetMetalArea = selectedShape.partFormulae.sheetMetalArea;
             surfaceArea = selectedShape.partFormulae.surfaceArea;

@@ -94,7 +94,7 @@
               <th title="Processing Cost"> PC </th>
               <th title="Addon Cost"> AC </th>
               <th title="Extra Cost"> EC </th>
-              <th title="Addon Cost"> TC </th>
+              <th title="Total Cost"> TC </th>
               <th> Action </th>
             </tr>
           </thead>
@@ -113,11 +113,11 @@
               <td>{{table.customerName}}</td>
               <td>{{table.estimateCreatedUser.name}}</td>
               <td>{{table.estimateUpdatedUser.name}}</td>
-              <td>{{table.materialCost}}</td>
-              <td>{{table.processingCost}}</td>
-              <td>{{table.addonCost}}</td>
-              <td>{{table.extrasCost}}</td>
-              <td>{{table.totalCost}}</td>
+              <td>{{table.materialCost.toFixed(2)}}</td>
+              <td>{{table.processingCost.toFixed(2)}}</td>
+              <td>{{table.addonCost.toFixed(2)}}</td>
+              <td>{{table.extrasCost.toFixed(2)}}</td>
+              <td>{{table.totalCost.toFixed(2)}}</td>
               <td>
                   <span class="label label-sm label-info" ui-sref="app.createEstimate({estimateId:table._id})">
                       <i class="fa fa-calculator" title="Estimate"></i>

@@ -181,19 +181,19 @@
                                         <b>Perimeter (p):</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFormData.partFormulae.perimeter}}</div>
+                                        <div>{{presetFormData.partFormulae.perimeter.toFixed(2)}}</div>
                                     </div>
                                     <label class="col-md-2">
                                         <b>Sheet Metal Area:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFormData.partFormulae.sheetMetalArea}}</div>
+                                        <div>{{presetFormData.partFormulae.sheetMetalArea.toFixed(2)}}</div>
                                     </div>
                                     <label class="col-md-2">
                                         <b>Surface Area:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFormData.partFormulae.surfaceArea}}</div>
+                                        <div>{{presetFormData.partFormulae.surfaceArea.toFixed(2)}}</div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -201,13 +201,13 @@
                                         <b>Weight:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFormData.partFormulae.weight}}</div>
+                                        <div>{{presetFormData.partFormulae.weight.toFixed(2)}}</div>
                                     </div>
                                     <label class="col-md-2">
                                         <b>Cost Price:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFormData.partFormulae.perimeter}}</div>
+                                        <div>{{presetFormData.partFormulae.perimeter.toFixed(2)}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -249,7 +249,7 @@
                                         <div class="form-group" ng-repeat="v in selectedShape.variable track by $index">
                                             <label class="col-md-3 control-label">{{v.varName}}</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control" ng-change="getPresetFinalData(presetFormData,selectedShape)" ng-model="v.varValue" required>
+                                                <input type="number" class="form-control" ng-change="getPresetFinalData(presetFormData,selectedShape)" ng-model="v.varValue" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
