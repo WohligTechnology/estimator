@@ -150,27 +150,24 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	};
 
 	var customMaterial = {
+		customMaterialName: "",
+		uniqueId: "",
 		basePlate: {
 			thickness: "",
-			freeIssue: "",
-			baseMetal: ""
+			baseMetal: {}
 		},
 		hardFacingAlloys: [_.cloneDeep(hardFacingAlloy)],
-		mulFact: "",
-		codPerKg: "",
-		codPerMeterSquare: ""
+		difficultyFactor: {},
+		freeIssue: "",
+		totalCostRsPerSm: "",
+		totalCostRsPerKg: ""
 	};
 
 	var hardFacingAlloy = {
 		thickness: "",
-		alloy: "",
-		codPerKg: "",
-		codPerMeterSquare: ""
-	}
-
-	//- to get customer material data
-	this.getCustomMaterialData = function (callback) {
-		callback(formData.customMaterial);
+		alloy: {},
+		costOfDepRsPerKg: "",
+		costOfDepRsPerSm: ""
 	}
 	//-to get current estimate object
 	this.getCurretEstimateObj = function (callback) {
@@ -263,7 +260,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				});
 				//- addons cost at part level
 				angular.forEach(part.addons, function (addon) {
-					addon.totalCost = addon.quantity.supportingVariable.value * addon.rate* addon.quantity.total;
+					addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
 					costCalculations.aCostAtPart += addon.totalCost;
 				});
 				//- extras cost at part level
@@ -298,7 +295,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			});
 			//- addons cost at subAssembly level
 			angular.forEach(subAssembly.addons, function (addon) {
-				addon.totalCost = addon.quantity.supportingVariable.value * addon.rate* addon.quantity.total;		
+				addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
 				costCalculations.aCostAtSubAssembly += addon.totalCost;
 			});
 			//- extras cost at subAssembly level
@@ -312,7 +309,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			subAssembly.addonCost = costCalculations.aCost;
 			subAssembly.extrasCost = costCalculations.eCost;
 			subAssembly.totalCost = (subAssembly.materialCost + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost) * subAssembly.quantity;
-			formData.assembly.totalCost += subAssembly.totalCost;  
+			formData.assembly.totalCost += subAssembly.totalCost;
 			costCalculations.pCostAtAssemby += costCalculations.pCost * subAssembly.quantity;
 			costCalculations.aCostAtAssemby += costCalculations.aCost * subAssembly.quantity;
 			costCalculations.eCostAtAssemby += costCalculations.eCost * subAssembly.quantity;
@@ -328,7 +325,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		});
 		//- addons cost at assembly level
 		angular.forEach(formData.assembly.addons, function (addon) {
-			addon.totalCost = addon.quantity.supportingVariable.value * addon.rate* addon.quantity.total;
+			addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
 			costCalculations.aCost += addon.totalCost;
 		});
 		//- extras cost at assembly level
@@ -338,12 +335,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		formData.assembly.processingCost = costCalculations.pCostAtAssemby + costCalculations.pCost;
 		formData.assembly.addonCost = costCalculations.aCostAtAssemby + costCalculations.aCost;
 		formData.assembly.extrasCost = costCalculations.eCostAtAssemby + costCalculations.eCost;
-		formData.assembly.totalCost += costCalculations.mtAtAssembly + costCalculations.pCost + costCalculations.aCost +  costCalculations.eCost;
+		formData.assembly.totalCost += costCalculations.mtAtAssembly + costCalculations.pCost + costCalculations.aCost + costCalculations.eCost;
 		callback()
 	}
 	//- to get a view of the page
 	this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
-
 		var getViewData = [];
 
 		if (estimateView == 'assembly') {
@@ -1340,33 +1336,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 
 
-
-	//- to get customer data
-	this.getCustomMaterialModalData = function (operation, customMaterial, callback) {
-		var custMaterialDataObj = {}
-
-		if (angular.isDefined(customMaterial)) {
-			custMaterialDataObj.custMaterialObj = customMaterial;
-		}
-		if (operation == "save") {
-			custMaterialDataObj.saveBtn = true;
-			custMaterialDataObj.editBtn = false;
-		} else if (operation == "update") {
-			custMaterialDataObj.saveBtn = false;
-			custMaterialDataObj.editBtn = true;
-		}
-
-		callback(custMaterialDataObj)
-
-	}
-	//- to save customer material object
-	this.createCustomMaterial = function (customMaterialObj) {
-		// NavigationService.apiCall('/save', customMaterialObj, function (data) {
-		// 	callback(data.data);
-		//});
-	}
-
-
 	this.getAddonTypeData = function (callback) {}
 
 	//- to get index of subAssId
@@ -1982,4 +1951,70 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback();
 	}
 
+	//**********************************Custom Material***********************************************//
+	this.getAllCustomMaterialData = function (callback) {
+		var temp = [];
+		NavigationService.boxCall('CustomMaterial/getAllCustomMaterial', function (data) {
+			if (data.data == "noDataFound") {
+				temp = [];	
+			} else {
+				temp = data.data;
+			}
+			callback(temp);
+		});
+	}
+	//- to get custom material data
+	this.getCustomMaterialModalData = function (operation, customMaterialData, callback) {
+		var customMaterialObj = {
+			allBaseMetals: [],
+			allAlloys: [],
+			selectedBaseMetal: {},
+			selecetedAlloys: [],
+			allDifficultyFactors: [],
+			selectedDifficultyFactor: {}
+		};
+		var allMaterials;
+		if (angular.isDefined(customMaterialData)) {
+			customMaterialObj.custMaterialObj = customMaterialData;
+		} else {
+			customMaterial.uniqueId = formData.assembly._id;
+			customMaterial.hardFacingAlloys = [_.cloneDeep(hardFacingAlloy)];
+			customMaterialObj.custMaterialObj = _.cloneDeep(customMaterial);
+		}
+		if (operation == "save") {
+			customMaterialObj.saveBtn = true;
+			customMaterialObj.editBtn = false;
+		} else if (operation == "update") {
+			customMaterialObj.saveBtn = false;
+			customMaterialObj.editBtn = true;
+		}
+		NavigationService.boxCall('MMaterial/getAllMaterials', function (data) {
+			allMaterials = data.data;
+			angular.forEach(allMaterials,  function (record) {
+				if (record.type == 'customBase') {
+					customMaterialObj.allBaseMetals.push(record);
+				} else if (record.type == 'customOverlay') {
+					customMaterialObj.allAlloys.push(record);
+				}
+			});
+			NavigationService.boxCall('MDifficultyFactor/getMDifficultyFactorData', function (data) {
+				customMaterialObj.allDifficultyFactors = data.data;
+				callback(customMaterialObj)			
+			});
+		});
+	}
+	//- to save custome material object
+	this.createCustomMaterial = function (customMaterialObj, callback) {
+		NavigationService.apiCall('CustomMaterial/save', customMaterialObj, function (data) {
+			callback(data.data);
+		});
+	}
+	//- to delete custom material
+	this.deleteCustomMaterial = function (customMaterialId, callback) {
+		var idsArray = [];
+		idsArray.push(customMaterialId);
+		NavigationService.delete('Web/delRestrictions/CustomMaterial', {idsArray: idsArray}, function (data) {
+		  callback(data);
+		});
+	}
 });

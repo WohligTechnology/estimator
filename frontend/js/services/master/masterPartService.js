@@ -240,7 +240,7 @@ myApp.service('masterPartService', function (NavigationService) {
         NavigationService.boxCall('MMaterial/getAllMaterials', function (data) {
             getMatData.materials = data.data;
             callback(getMatData);
-        })
+        });
     }
     this.addMaterialToPartType = function (selectedMatId, partTypeId, callback) {
         var tempObj = {

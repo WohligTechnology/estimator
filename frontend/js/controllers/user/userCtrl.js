@@ -61,7 +61,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
           toastr.success('Record updated successfully');
         }
       } else {
-        toastr.Warning('Please enter details properly');
+        toastr.error("Email must be unique");
       }
     });
   }

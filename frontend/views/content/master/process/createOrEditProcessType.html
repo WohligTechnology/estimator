@@ -19,7 +19,8 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Process Category: <span class="error">&nbsp;*</span> </label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-options="pc.processCatName for pc in processCats track by pc._id" ng-model="selectedProcessCat" required>
+                                <select class="form-control" ng-options="pc.processCatName for pc in processCats track by pc._id" ng-model="selectedProcessCat" ng-required="true" 
+                                >
                                 </select>
                             </div>
                         </div>

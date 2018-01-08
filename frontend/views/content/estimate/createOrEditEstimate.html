@@ -28,42 +28,42 @@
                     <div class="tab-content">
                         <!-- DETAILS TAB -->
                         <div class="tab-pane active" id="tab_1_1">
-                                <div class="portlet-body">
-                                    <div class="table-scrollable">
-                                        <table class="bordered-table">
-                                            <tr>
-                                                <th class="align-middle text-center"> Total Weight </th>
-                                                <th> Material Cost</th>
-                                                <th> Processing Cost </th>
-                                                <th> Addon Cost </th>
-                                                <th>Extra Cost </th>
-                                                <th> Total Cost </th>
-                                            </tr>
-                                            <tr class="border-bott">
-                                                <td rowspan="3" class="align-middle text-center border-right"> {{estimateViewData.totalWeight}} </td>
-                                                <td> {{estimateViewData.materialCost}} </td>
-                                                <td> {{estimateViewData.processingCost}} </td>
-                                                <td> {{estimateViewData.addonCost}} </td>
-                                                <td> {{estimateViewData.extrasCost}} </td>
-                                                <td> {{estimateViewData.totalCost}} </td>
-                                            </tr>
-                                            <tr>
-                                                <th> Material Salling Price</th>
-                                                <th> Process Salling Price </th>
-                                                <th> Addon Salling Price </th>
-                                                <th>Extra Salling Price </th>
-                                                <th> Total Salling Price </th>
-                                            </tr>
-                                            <tr>
-                                                <td> 1 </td>
-                                                <td> 200 </td>
-                                                <td> 100 </td>
-                                                <td> 434 </td>
-                                                <td>209 </td>
-                                            </tr>
-                                        </table>
-                                    </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="bordered-table">
+                                        <tr>
+                                            <th class="align-middle text-center"> Total Weight </th>
+                                            <th> Material Cost</th>
+                                            <th> Processing Cost </th>
+                                            <th> Addon Cost </th>
+                                            <th>Extra Cost </th>
+                                            <th> Total Cost </th>
+                                        </tr>
+                                        <tr class="border-bott">
+                                            <td rowspan="3" class="align-middle text-center border-right"> {{estimateViewData.totalWeight}} </td>
+                                            <td> {{estimateViewData.materialCost}} </td>
+                                            <td> {{estimateViewData.processingCost}} </td>
+                                            <td> {{estimateViewData.addonCost}} </td>
+                                            <td> {{estimateViewData.extrasCost}} </td>
+                                            <td> {{estimateViewData.totalCost}} </td>
+                                        </tr>
+                                        <tr>
+                                            <th> Material Salling Price</th>
+                                            <th> Process Salling Price </th>
+                                            <th> Addon Salling Price </th>
+                                            <th>Extra Salling Price </th>
+                                            <th> Total Salling Price </th>
+                                        </tr>
+                                        <tr>
+                                            <td> 1 </td>
+                                            <td> 200 </td>
+                                            <td> 100 </td>
+                                            <td> 434 </td>
+                                            <td>209 </td>
+                                        </tr>
+                                    </table>
                                 </div>
+                            </div>
                         </div>
                         <!-- END DETAIL TAB -->
                         <!-- Estimate TAB -->
@@ -181,14 +181,24 @@
                                         <li>
                                             <input type="checkbox" id="cm" />
                                             <label class="tree_label" for="cm"></label>
-                                            <span ng-click="getEstimateView('customMaterial')" class="customMaterialName">Custom Material</span>
+                                            <span ng-click="getAllCustomMaterialData('customMaterial')" class="customMaterialName">Custom Material ({{customMaterial.length}})</span>
                                             <span ng-click="addOrEditCustomMaterialModal('save')" class="customerMaterialCreateIcon">
                                                 <i class="fa fa-plus btn-info" title="Add Custom Material"></i>
                                             </span>
-                                            <span ng-click="editCustomMaterialNameModal('update', estimteData)" class="customerMaterialEditIcon">
-                                                <i class="fa fa-pencil btn-warning" title="Edit Custom Material"></i>
-                                            </span>
-                                        </li>
+                                        <ul class="tree_animation">
+                                            <li ng-repeat="cm in customMaterial track by $index">
+                                                <span ng-click="getAllCustomMaterialData('customMaterial')" class="tree_label">{{cm.customMaterialName | capitalize}}
+                                                </span>
+                                                <span ng-click="addOrEditCustomMaterialModal('update', cm)" class="subAssemblyEditIcon">
+                                                    <i class="fa fa-pencil btn-warning" title="Edit Custom Material"></i>
+                                                </span>
+                                                <span ng-click="deleteCustomMaterialModal(cm._id,'deleteCustomMaterial')" class="subAssemblyDeleteIcon">
+                                                    <i class="fa fa-trash-o btn-danger" title="Delete Custom Material"></i>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    
                                     </ul>
                                 </div>
                                 <div class="col-md-9">
@@ -253,7 +263,7 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-3 control-label" for="form_control_1">Attachments:</label>
                                                     <div class="col-md-6">
-                                                            <upload-all-files ng-model="formData.estimateAttachment.files" icon="false" pdf-file="true"></upload-all-files>                                                            
+                                                        <upload-all-files ng-model="formData.estimateAttachment.files" icon="false" pdf-file="true"></upload-all-files>
                                                         <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
@@ -273,42 +283,6 @@
                         <!-- END Attachments TAB -->
                     </div>
                 </div>
-                <!-- <div class="portlet-body" ng-show='estimateView=="views/content/estimate/estimateViews/assembly.html"'>
-                    <div class="table-scrollable">
-                        <table class="bordered-table">
-                            <tr>
-                                <th class="align-middle text-center"> Total Weight </th>
-                                <th> Material Cost</th>
-                                <th> Processing Cost </th>
-                                <th> Addon Cost </th>
-                                <th>Extra Cost </th>
-                                <th> Total Cost </th>
-                            </tr>
-                            <tr class="border-bott">
-                                <td rowspan="3" class="align-middle text-center border-right"> {{estimateViewData.totalWeight}} </td>
-                                <td> {{estimateViewData.materialCost}} </td>
-                                <td> {{estimateViewData.processingCost}} </td>
-                                <td> {{estimateViewData.addonCost}} </td>
-                                <td> {{estimateViewData.extrasCost}} </td>
-                                <td> {{estimateViewData.totalCost}} </td>
-                            </tr>
-                            <tr>
-                                <th> Material Salling Price</th>
-                                <th> Process Salling Price </th>
-                                <th> Addon Salling Price </th>
-                                <th>Extra Salling Price </th>
-                                <th> Total Salling Price </th>
-                            </tr>
-                            <tr>
-                                <td> 1 </td>
-                                <td> 200 </td>
-                                <td> 100 </td>
-                                <td> 434 </td>
-                                <td>209 </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>

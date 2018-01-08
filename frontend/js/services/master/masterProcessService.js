@@ -124,8 +124,7 @@ myApp.service('masterProcessService', function (NavigationService) {
   }
   this.addOrEditProcessType = function (processData, callback) {
     NavigationService.apiCall('MProcessType/save', processData, function (data) {
-      var process = data.data.results;
-      callback(process);
+      callback(data);
     });
   }
   this.deleteProcessType = function (processId, callback) {
