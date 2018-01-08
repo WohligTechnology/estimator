@@ -354,12 +354,13 @@ module.exports = {
                                 this[m.models].findOne({
                                     [f]: ids
                                 }).select('_id').lean().exec(function (err, found) {
-                                    console.log('**** 666666666666 ****',found);
                                     if (err) {
                                         console.log('**** error at delRestrictions ****', err);
                                         callback(err, null);
                                     } else if (_.isEmpty(found)) {
                                         console.log(' no dependency of the table ' + m.models + ' with attribute ' + [f]);
+                                        callback(null, []);
+                                    } else if ([f] == "materials" || "subCat") {
                                         callback(null, []);
                                     } else {
                                         allDependency.push({
@@ -424,13 +425,13 @@ module.exports = {
                                                         } else if (_.isEmpty(found2)) {
                                                             callback(null, []);
                                                         } else {
-                                                            callback(null, found2);
+                                                            callback(null,found2);
                                                         }
                                                     });
                                                 }
                                             });
                                         } else {
-                                            callback(null,allDependency);
+                                            callback(null, allDependency);
                                         }
                                     },
                                     function (err) {
