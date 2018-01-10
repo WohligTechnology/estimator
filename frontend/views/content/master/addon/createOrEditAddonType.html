@@ -42,9 +42,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Multiplication Factor</label>
                             <div class="col-md-3">
-                                <input type="text" name="MultiplicationFactor" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.rate.mulFact"
-                                    placeholder="" required>
-                                <span class="error" ng-show="myForm.MultiplicationFactor.$invalid && myForm.MultiplicationFactor.$dirty">Please enter a number or floating point number</span>
+                                <input type="text" class="form-control" ng-model="formData.rate.mulFact" placeholder="" required>
                             </div>
                             <label class="col-md-2 control-label"> UOM</label>
                             <div class="col-md-3">
@@ -97,9 +95,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Multiplication Factor</label>
                             <div class="col-md-3">
-                                <input type="text" name="mulfact" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" class="form-control " ng-model="formData.quantity.mulFact"
-                                    required>
-                                <span class="error" ng-show="myForm.mulfact.$invalid && myForm.mulfact.$dirty">Please enter a number or floating point number</span>
+                                <input type="text" class="form-controle" ng-model="formData.quantity.mulFact" required>
                             </div>
                             <label class="col-md-2 control-label">Final UOM</label>
                             <div class="col-md-3">
