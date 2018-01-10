@@ -142,7 +142,15 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       }
     });
   }
-
+  $scope.getAllCustomMaterialData = function (getViewName) {
+    createOrEditEstimateService.getAllCustomMaterialData(function (data) {
+      $scope.customMaterial = data;
+      if (getViewName == "customMaterial") {
+        $scope.estimateView = "views/content/estimate/estimateViews/customMaterial.html";
+        $scope.estimateViewData = data;
+      }
+    });
+  }
   //- =================== part functionality/calculation start =================== //
 
   //- call when user will select shortcut/preset name 
@@ -305,11 +313,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.getCurretEstimateObj = function () {
     createOrEditEstimateService.getCurretEstimateObj(function (data) {
       $scope.estimteData = data;
-    });
-  }
-  $scope.getCustomMaterialData = function () {
-    createOrEditEstimateService.getCustomMaterialData(function (customData) {
-      $scope.customData = customData;
     });
   }
   //- save estimate object in jStorage
@@ -683,11 +686,17 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   //- modal to add or edit custom material
   $scope.addOrEditCustomMaterialModal = function (operation, customMaterial) {
-    $scope.arr = [];
-    $scope.addMe = {};
     createOrEditEstimateService.getCustomMaterialModalData(operation, customMaterial, function (data) {
 
       $scope.formData = data.custMaterialObj;
+      $scope.customMaterialDataObj = {
+        allBaseMetals: data.allBaseMetals,
+        allAlloys: data.allAlloys,
+        // selectedBaseMetal: data.selectedBaseMetal,
+        // selecetedAlloys: data.selecetedAlloys,
+        allDifficultyFactors: data.allDifficultyFactors,
+        // selectedDifficultyFactor: data.selectedDifficultyFactor
+      };
       $scope.showSaveBtn = data.saveBtn;
       $scope.showEditBtn = data.editBtn;
 
@@ -698,20 +707,23 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         size: 'lg',
       });
     });
-
-
   }
   //- to add or edit custom material
   $scope.addOrEditCustomMaterial = function (customMaterialdata) {
-    customMaterialdata.hardFacingAlloys = $scope.hardFacingAlloys;
     createOrEditEstimateService.createCustomMaterial(customMaterialdata, function () {
+      $scope.getAllCustomMaterialData();
       $scope.cancelModal();
     });
   }
-  //-to add hard facing alloy
-  $scope.addHardFacingAlloy = function () {
-    $scope.hardFacingAlloys.push($scope.addMe);
-    $scope.addMe = {};
+  //-to add a hard facing alloy
+  $scope.addNewLayer = function (hardFacingAlloys) {
+    var tempArray = {
+      thickness: "",
+      alloy: {},
+      costOfDepRsPerKg: "",
+      costOfDepRsPerSm: ""
+    };
+    hardFacingAlloys.push(_.cloneDeep(tempArray));
   }
   //- modal to delete custom material
   $scope.deleteCustomMaterialModal = function (customMaterialId, getFunction) {
@@ -726,7 +738,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     });
   }
   //-to delete CustomMterial
-  $scope.deleteCustomMaterial = function () {}
+  $scope.deleteCustomMaterial = function (customMaterialId) {
+    createOrEditEstimateService.deleteCustomMaterial(customMaterialId, function (data) {
+      $scope.getAllCustomMaterialData();
+      $scope.cancelModal();
+    });
+  }
 
 
 
@@ -1220,7 +1237,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.getEstimateData();
     $scope.getEstimateView('assembly');
     //to get estimate tree structure data 
-    $scope.getCustomMaterialData();
+    $scope.getAllCustomMaterialData();
   }
   $scope.init();
 

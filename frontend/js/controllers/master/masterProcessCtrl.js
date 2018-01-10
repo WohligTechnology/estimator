@@ -47,9 +47,13 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     $scope.addOrEditProcessCat = function (processCatData, selectedUomId) {
         processCatData.uom = selectedUomId;
         masterProcessService.addOrEditProcessCat(processCatData, function (data) {
-            toastr.success('Record added successfully', 'Process Creation!');
-            $scope.getProcessData();
-            $scope.cancelModal();
+            if (angular.isUndefined(data.error)) {
+                toastr.success('Record added successfully');
+                $scope.getProcessData();
+                $scope.cancelModal();
+            } else {
+                toastr.error('Please enter data properly');
+            }
         });
     }
     $scope.deleteProcessCatModal = function (processCatId, getFunction) {
@@ -94,7 +98,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.addOrEditProcessItem = function (processItemData, processCatId) {
         masterProcessService.addOrEditProcessItem(processItemData, processCatId, function (data) {
-            toastr.success('Record added successfully', 'Process Creation!');
+            toastr.success('Record added successfully');
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -157,9 +161,13 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         processData.quantity.uom = selectedQuaLinkedKeyUom;
         processData.quantity.finalUom = selectedQuaFinalUom;
         masterProcessService.addOrEditProcessType(processData, function (data) {
-            toastr.success('Record added successfully', 'Process Creation!');
-            $scope.getProcessTypeData();
-            $scope.cancelModal();
+            if (angular.isUndefined(data.error)) {
+                toastr.success('Record added successfully');
+                $scope.getProcessTypeData();
+                $scope.cancelModal();
+            } else {
+                toastr.error('Please enter data properly');
+            }
         });
     }
     $scope.deleteProcessTypeModal = function (processId, getFunction) {

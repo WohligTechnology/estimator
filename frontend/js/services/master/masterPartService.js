@@ -250,7 +250,7 @@ myApp.service('masterPartService', function (NavigationService) {
                 });
             });
             callback(getMatData);
-        })
+        });
     }
     this.addMaterialToPartType = function (selectedMatId, partTypeId, callback) {
         var tempObj = {

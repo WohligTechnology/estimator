@@ -23,7 +23,8 @@
                             <label class="col-md-5 control-label">Rate: <span class="error">&nbsp;*</span>
                             </label>
                             <div class="col-md-5">
-                                <input type="tel" class="form-control" ng-model="formData.rate" required>
+                                <input type="text" class="form-control" name="rate" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.rate" required>
+                                <span class="error" ng-show="myForm.rate.$invalid && myForm.rate.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                     </div>

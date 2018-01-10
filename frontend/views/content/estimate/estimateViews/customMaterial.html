@@ -59,14 +59,15 @@
                                 <tr>
                                     <th rowspan="2"> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                        <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></hd>
-                                        <th rowspan="2" class="align-top"> Id </th>
-                                        <th colspan="2" class="align-top"> Base Material</th>
+                                        <th rowspan="2" class="align-left"> Id </th>
+                                        <th rowspan="2" class="align-left"> Material Name </th>
+                                        <th colspan="2" class="align-top text-center"> Base Material</th>
                                         <th colspan="2" class="align-top text-center"> Hardfacing </th>
-                                        <th rowspan="2" class="align-top text-center"> MulFact </th>
-                                        <th rowspan="2" class="align-top text-center"> Total Cost Rs/kg</th>
-                                        <th rowspan="2" class="align-top text-center"> Total Cost Rs/m<sup>2</sup> </th>
-                                        <th rowspan="2" class="align-top text-center"> Detail </th>
-                                        <th rowspan="2" class="align-top"> Action </th>
+                                        <th rowspan="2" class="align-left"> Difficulty Factor </th>
+                                        <th rowspan="2" class="align-left"> Total Cost Rs/kg</th>
+                                        <th rowspan="2" class="align-left"> Total Cost Rs/m<sup>2</sup> </th>
+                                        <th rowspan="2" class="align-left"> Free Issue </th>
+                                        <th rowspan="2" class="align-left"> Action </th>
                                 </tr>
                                 <tr>
                                     <th>Thickness</th>
@@ -76,45 +77,34 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="custom in customMaterial">
+                                <tr ng-repeat="c in customMaterial track by $index">
                                     <td> <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                            <input type="checkbox"  class="group-checkable" data-set="#sample_1 .checkboxes" /><span></span> </label></td>
-                                    <td>{{custom.id}} </td>
-                                    <td> {{custom.basePlate.thickness}} </td>
-                                    <td>{{custom.basePlate.grade}} </td>
-                                    <td>{{custom.hardFacingAlloys.thickness}}
+                                    <td>{{$index + 1}} </td>
+                                    <td>{{c.customMaterialName}} </td>
+                                    <td> {{c.basePlate.thickness}} </td>
+                                    <td>{{c.basePlate.baseMetal.materialName}} </td>
+                                    <td>
                                         <table class="inside-custom-table">
-                                            <tr>
-                                                <td>23</td>
-                                            </tr>
-                                            <tr>
-                                                <td>23</td>
-                                            </tr>
-                                            <tr>
-                                                <td>23</td>
+                                            <tr ng-repeat="h in c.hardFacingAlloys">
+                                                <td>{{h.thickness}}</td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td>{{custom.hardFacingAlloys.depositeGrade}}
+                                    <td>
                                         <table class="inside-custom-table">
-                                            <tr>
-                                                <td>23</td>
-                                            </tr>
-                                            <tr>
-                                                <td>23</td>
-                                            </tr>
-                                            <tr>
-                                                <td>23</td>
+                                            <tr ng-repeat="h in c.hardFacingAlloys">
+                                                <td>{{h.alloy.materialName}}</td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td>{{custom.customization}} </td>
-                                    <td> {{custom.price.kg}} </td>
-                                    <td> {{custom.price.m}}</td>
-                                    <td> {{custom.efficiency}}</td>
+                                    <td>{{c.difficultyFactor.difficultyFactor}} </td>
+                                    <td> {{c.totalCostRsPerKg}} </td>
+                                    <td> {{c.totalCostRsPerSm}}</td>
+                                    <td> {{c.freeIssue}}</td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" id="add_space" ng-click="addOrEditCustomMaterialModal('update','custom')"><i class="fa fa-pencil"></i> </span>
-                                        <span class="label label-sm label-danger" ng-click="deleteCustomMaterialModal('id','custom')"> <i class="fa fa-trash-o"></i></span>
+                                        <span class="label label-sm label-success" ng-click="addOrEditCustomMaterialModal('update',c)"><i class="fa fa-pencil"></i> </span>&nbsp;
+                                        <span class="label label-sm label-danger" ng-click="deleteCustomMaterialModal(c._id,'deleteCustomMaterial')"> <i class="fa fa-trash-o"></i></span>
                                     </td>
                                 </tr>
                                 <tr>
