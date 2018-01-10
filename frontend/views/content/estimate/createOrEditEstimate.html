@@ -181,13 +181,13 @@
                                         <li>
                                             <input type="checkbox" id="cm" />
                                             <label class="tree_label" for="cm"></label>
-                                            <span ng-click="getAllCustomMaterialData('customMaterial')" class="customMaterialName">Custom Material ({{customMaterial.length}})</span>
+                                            <span ng-click="getAllMaterialData('customMaterial')" class="customMaterialName">Custom Material ({{customMaterial.length}})</span>
                                             <span ng-click="addOrEditCustomMaterialModal('save')" class="customerMaterialCreateIcon">
                                                 <i class="fa fa-plus btn-info" title="Add Custom Material"></i>
                                             </span>
                                         <ul class="tree_animation">
                                             <li ng-repeat="cm in customMaterial track by $index">
-                                                <span ng-click="getAllCustomMaterialData('customMaterial')" class="tree_label">{{cm.customMaterialName | capitalize}}
+                                                <span ng-click="getAllMaterialData('customMaterial')" class="tree_label">{{cm.customMaterialName | capitalize}}
                                                 </span>
                                                 <span ng-click="addOrEditCustomMaterialModal('update', cm)" class="subAssemblyEditIcon">
                                                     <i class="fa fa-pencil btn-warning" title="Edit Custom Material"></i>

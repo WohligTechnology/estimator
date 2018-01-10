@@ -9,142 +9,166 @@
                 </div>
             </div>
             <div class="portlet-body form" style='padding: 20px 30px 0px 30px!important;'>
-                <div class="row">
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Custom Material Name:</label>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" ng-model="formData.customMaterialName" autofocus>
-                        </div>
-                        <div class="col-md-6"></div>
-                    </div>
-                </div>
-                <br><br>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group  pull-left">
-                            <label>
-                                <b>Base Plate:</b>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
+                <form name="myForm">
+                    <div class="row">
                         <div class="form-group">
-                            <label class="control-label">Thickness(mm): </label>
-                            <input type="text" class="form-control" ng-model="formData.basePlate.thickness">
+                            <label class="col-md-3 control-label">Custom Material Name:</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" ng-model="formData.customMaterialName" autofocus required>
+                            </div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2"> 
+                                <label class="control-label"style="padding-left:50px">Free Issue:</label>
+                            </div>
+                            <div class="col-md-1" style="margin:-5px 0 0 0;padding-left: 0px;">
+                                <input type="checkbox" class="form-control" ng-model="formData.freeIssue" ng-change="getCostOfBaseMetal(formData, formData.freeIssue)">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="control-label ">Base Metal: </label>
-                            <select class="form-control" ng-options="m.materialName for m in customMaterialDataObj.allBaseMetals" ng-model="formData.basePlate.baseMetal"></select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="control-label">Free Issue: </label>
-                            <input type="checkbox" class="form-control" ng-model="formData.freeIssue">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group  pull-left">
-                            <label>
-                                <b>HardFacing Alloy: </b>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Thickness(mm): </label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <lable>Alloy:</lable>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Cost Of Deposit (Rs/kg): </label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Cost Of Deposit (Rs/m
-                                <sup>2</sup>): </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" ng-repeat="h in formData.hardFacingAlloys">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <input type="text" ng-model="h.thickness" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <select class="form-control" ng-options="m.materialName for m in customMaterialDataObj.allAlloys" ng-model="h.alloy">
-                            </select>
-                        </div>
-
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <input type="text" class="form-control" ng-model="h.costOfDepRsPerKg">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <input type="text" class="form-control" ng-model="h.costOfDepRsPerSm">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 ">
-                        <div class="form-group pull-left">
-                            <button type="button" class="btn btn-info" ng-click="addNewLayer(formData.hardFacingAlloys)">Add More</button>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-3">
-                        <label class="control-label">Difficulty Factor: </label>
-                        <select class="form-control" ng-options="df.difficultyFactor for df in customMaterialDataObj.allDifficultyFactors" ng-model="formData.difficultyFactor">
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="control-label">Total Cost Of Deposit (Rs/kg): </label>
-                        <input type="text" class="form-control" ng-model="formData.totalCostRsPerKg">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="control-label">Total Cost Of Deposit (Rs/m
-                            <sup>2</sup>): </label>
-                        <input type="text" class="form-control" ng-model="formData.totalCostRsPerSm">
-                    </div>
-                    <div class="col-md-3">
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div class="form-actions">
+                    <br>
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditCustomMaterial(formData)">Save</button>
-                            <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditCustomMaterial(formData)">Update</button>
-                            <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
+                            <div class="form-group pull-left">
+                                <label>
+                                    <b>Base Plate:</b>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Thickness(mm): </label>
+                                <input type="text" class="form-control" ng-model="formData.basePlate.thickness" ng-change="getCostOfBaseMetal(formData)" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Base Metal: </label>
+                                <select class="form-control" ng-options="m.materialName for m in customMaterialDataObj.allBaseMetals" ng-model="formData.basePlate.baseMetal"
+                                    ng-change="getCostOfBaseMetal(formData, formData.freeIssue)"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Cost Of Deposit (Rs/kg): </label>
+                                <input type="text" class="form-control" ng-model="formData.basePlate.costOfDepRsPerKg" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Cost Of Deposit (Rs/m
+                                    <sup>2</sup>): </label>
+                                <input type="text" class="form-control" ng-model="formData.basePlate.costOfDepRsPerSm" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group  pull-left">
+                                <label>
+                                    <b>HardFacing Alloy: </b>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Thickness(mm): </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <lable>Alloy:</lable>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Cost Of Deposit (Rs/kg): </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Cost Of Deposit (Rs/m
+                                    <sup>2</sup>): </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="h in formData.hardFacingAlloys">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" name="hThickness" ng-model="h.thickness" class="form-control" ng-change="getCostOfAlloy(formData, h)" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <select class="form-control" name="alloy" ng-options="m.materialName for m in customMaterialDataObj.allAlloys" ng-model="h.alloy"
+                                    ng-change="getCostOfAlloy(formData, h)" ng-required="true">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="h.costOfDepRsPerKg" disabled>
+                                <!-- {{h.costOfDepRsPerKg}} -->
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="h.costOfDepRsPerSm" disabled>
+                                <!-- {{h.costOfDepRsPerSm}} -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <div class="form-group pull-left">
+                                <button type="button" class="btn btn-info" ng-click="addNewLayer(formData.hardFacingAlloys)"><i class="fa fa-plus"></i>&nbsp;Add More</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                            <label class="control-label">Average: </label>
+                        </div>
+                        <div class="col-md-3">{{formData.hardFacingAlloys.agvRsPerKg}}</div>
+                        <div class="col-md-3">{{formData.hardFacingAlloys.agvRsPerSm}}</div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label">Difficulty Factor: </label>
+                            <select class="form-control" ng-options="df.difficultyFactor for df in customMaterialDataObj.allDifficultyFactors" ng-change="calAvgCost(formData)" ng-model="formData.difficultyFactor">
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Total Cost Of Deposit (Rs/kg): </label>
+                            <input type="text" class="form-control" ng-model="formData.totalCostRsPerKg" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Total Cost Of Deposit (Rs/m
+                                <sup>2</sup>): </label>
+                            <input type="text" class="form-control" ng-model="formData.totalCostRsPerSm" disabled>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <br>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditCustomMaterial(formData)" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditCustomMaterial(formData)" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Update</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

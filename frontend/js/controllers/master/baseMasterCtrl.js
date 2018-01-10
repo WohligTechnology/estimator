@@ -76,11 +76,9 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     $scope.deleteUom = function (uomId) {
         baseMatserService.deleteUom(uomId, function (data) {
             if(_.isEmpty(data.data)){
-                debugger;
                 toastr.success('Record deleted successfully');
             }
             else{
-                debugger;
                 toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
             }
             $scope.cancelModal();
@@ -126,11 +124,9 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     $scope.deleteVariable = function (variableId) {
         baseMatserService.deleteVariable(variableId, function (data) {
             if(_.isEmpty(data.data)){
-                debugger;
                 toastr.success('Record deleted successfully');
             }
             else{
-                debugger;
                 toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
             }
             $scope.cancelModal();
@@ -176,14 +172,11 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     $scope.deleteDf = function (dfId) {
         baseMatserService.deleteDf(dfId, function (data) {
             if(_.isEmpty(data.data)){
-                debugger;
-                toastr.success('Record deleted successfully');
+                toastr.success("Difficulty Factor deleted successfully");
             }
             else{
-                debugger;
                 toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
             }
-            toastr.success("Difficulty Factor deleted successfully");
             $scope.cancelModal();
             $scope.getDfData();
         });
@@ -228,11 +221,9 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     $scope.deleteMarkup = function (markupId) {
         baseMatserService.deleteMarkup(markupId, function (data) {
             if(_.isEmpty(data.data)){
-                debugger;
                 toastr.success('Record deleted successfully');
             }
             else{
-                debugger;
                 toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
             }
             $scope.cancelModal();

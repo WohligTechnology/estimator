@@ -79,8 +79,7 @@
                                         <div class="form-group" ng-if="!disablePartFields.disableCustomMaterial">
                                             <label class="col-md-4 control-label">Custom Material:</label>
                                             <div class="col-md-5">
-                                                <select class="form-control" ng-options="cmd.size for cmd in estimatePartObj.customMaterialsData track by cmd._id" ng-model="estimatePartObj.selectedCustomMaterial"
-                                                    placeholder="Select">
+                                                <select class="form-control" ng-options="cmd.customMaterialName for cmd in estimatePartObj.customMaterials track by cmd._id" ng-model="estimatePartObj.selectedCustomMaterial" ng-change="getSelectedCustomMaterialData(estimatePartObj.selectedCustomMaterial)">
                                                 </select>
                                             </div>
                                         </div>                                      
@@ -90,6 +89,13 @@
                                                 <input type="number" class="form-control" ng-change="getPartFinalCalculation()" ng-model="estimatePartObj.quantity" required>
                                             </div>
                                         </div>
+                                        <div class="form-group" ng-if="!disablePartFields.disableShape">
+                                            <label class="col-md-4 control-label">Shape:</label>
+                                            <div class="col-md-5">
+                                                <select class="form-control" ng-options="sh.shapeName for sh in estimatePartObj.allShapes track by sh._id" ng-model="estimatePartObj.selectedShape" ng-change="getSelectedShapeData(estimatePartObj.selectedShape)">
+                                                </select>
+                                            </div>
+                                        </div> 
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">Shape Image:</label>
                                             <div class="col-md-5">

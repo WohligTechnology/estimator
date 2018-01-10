@@ -9,6 +9,8 @@ var schema = new Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'MMaterial'
         },
+        costOfDepRsPerKg: Number,
+        costOfDepRsPerSm: Number
     },
     hardFacingAlloys: [{
         thickness: Number,
