@@ -8,6 +8,7 @@ var myApp = angular.module('myApp', [
   'ui.swiper',
   'toastr',
   'cleave.js',
+  "ngMaterial",
   "oc.lazyLoad"
 ]);
 

@@ -25,7 +25,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     customMaterials: [], //- get all custom material from  API
     selectedCustomMaterial: {}, //- selecetd custom materail  
-    selectedShape: {}, //- seleceted shape after selecting custom material
+    selectedShape: {}, //- seleceted shape after selecting custom material or separate shape
 
     quantity: 1, //- part.quantity
     variables: [], //- part.variables
@@ -54,6 +54,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     subAssNumber: "", //- to update part object of corresponding subAssembly
     partNumber: "" //- to update this part object
   };
+  $scope.estimatePartObjTemp = _.cloneDeep($scope.estimatePartObj);  
   //- to enable & disable partType fields while creating/updating 
   $scope.disablePartFields = {
     disableField: true,
@@ -63,8 +64,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     disableSize: true,
     disableCustomMaterial: false,
     displayPresetSize: false,
-    disableShape: true
+    disableShape: false,
+    disableAllMaterial: true
   };
+  $scope.disablePartFieldsTemp = _.cloneDeep($scope.disablePartFields); 
 
 
 
@@ -81,12 +84,16 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         toastr.warning('You cannot access it now');
       } else {
         $scope.estimateView = data;
-
+        //when first time user click item details of part
+       $scope.estimatePartObj = _.cloneDeep($scope.estimatePartObjTemp);
+       $scope.disablePartFields = _.cloneDeep($scope.disablePartFieldsTemp); 
+       
         createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
           if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
 
             $scope.estimatePartObj.allShortcuts = data.allShortcuts;
             $scope.estimatePartObj.allPartTypes = data.allPartTypes;
+            $scope.estimatePartObj.allShapes = data.allShapes;
             $scope.estimatePartObj.subAssNumber = data.subAssNumber;
             $scope.estimatePartObj.partNumber = data.partNumber;
             $scope.estimatePartObj.customMaterials = data.customMaterials;
@@ -97,17 +104,38 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
               //- enable save/update buttons
               $scope.showSaveBtn = false;
               $scope.showEditBtn = true;
-              $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
               // $scope.estimatePartObj.allSizes = data.allShortcuts;
               $scope.estimatePartObj.selectedShortcut = data.selectedShortcut;
-              $scope.estimatePartObj.selectedPartType = data.selectedPartType;
               $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
               $scope.estimatePartObj.selectedSize = data.selectedSize;
-              $scope.disablePartFields.displayPresetSize = true;
-              $scope.disablePartFields.disableCustomMaterial = true;
 
-              $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
-
+              if (angular.isDefined(data.selectedPartType._id)) {
+                $scope.estimatePartObj.selectedPartType = data.selectedPartType;
+                $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
+                $scope.disablePartFields.disableCustomMaterial = true;
+                $scope.disablePartFields.disableShape = true;
+              }
+              
+              if (angular.isDefined(data.selectedShape._id)) {
+                $scope.estimatePartObj.selectedShape = data.selectedShape;
+                $scope.disablePartFields.disableShortcut = true;
+                $scope.disablePartFields.disablePartType = true;
+                $scope.disablePartFields.disableMaterial = true;
+                $scope.disablePartFields.displayPresetSize = true;
+                $scope.disablePartFields.disableAllMaterial = true;
+                if (angular.isDefined(data.selectedCustomMaterial._id)) {
+                  $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
+                  $scope.disablePartFields.disableCustomMaterial = false;
+                  $scope.estimatePartObj.selectedShape = data.selectedShape;
+                } else {
+                  createOrEditEstimateService.getAllMaterials(function (data) {
+                    $scope.estimatePartObj.allMaterial = data;
+                  });
+                  $scope.disablePartFields.disableAllMaterial = false;
+                  $scope.disablePartFields.disableCustomMaterial = true;
+                }              
+              }
+             
               if (data.quantity) {
                 $scope.estimatePartObj.quantity = data.quantity;
               } else {
@@ -193,34 +221,39 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.disablePartFields.disableSize = true;
     $scope.disablePartFields.disableCustomMaterial = true;
     $scope.disablePartFields.displayPresetSize = true;
+    $scope.disablePartFields.disableCustomMaterial = true;
+    $scope.disablePartFields.disableShape = true;
 
   }
 
   //- call when user will select part type name 
   //- update dependent data on the base of selected part type data
   $scope.getSelectedPartTypeData = function (partTypeObj) {
-
+debugger;
     //- all shortcuts data is already there (so, don't  update it corresponding to selected part Type), let user select size to get shortcut
     //- get all materials (corresponding to selected part Type) data to select 
     //- get/update all sizes (corresponding to selected part Type) data to select
     //- custom material --> disable it 
+    //- shape --> disable it
 
     //- $scope.estimatePartObj.allShortcuts = allShortcuts;      /////-  
-    $scope.estimatePartObj.selectedPartType = selectedPartType; /////-
-    $scope.estimatePartObj.allMaterial = allMaterial; /////-
-    $scope.estimatePartObj.allSizes = allSizes; /////-
+    $scope.estimatePartObj.selectedPartType = partTypeObj; /////-
+    $scope.estimatePartObj.allMaterial = partTypeObj.material; /////-
+    $scope.estimatePartObj.allSizes = partTypeObj.size; /////-
 
     //- disable fields
+    $scope.disablePartFields.disableMaterial = false;
+    $scope.disablePartFields.disableSize = false;
     $scope.disablePartFields.disableCustomMaterial = true;
+    $scope.disablePartFields.disableShape = true;
 
   }
 
   //- call when user will select material (only in case of either shortcut OR part type is selected)
   //- update dependent data on the base of selcted material data
-  $scope.getSelectedMaterialData = function (materialObj) {
+  $scope.getSelectedMaterialData = function (materialObj, shapeData) {
     $scope.estimatePartObj.selectedMaterial = materialObj;
-
-    if ($scope.isAllselected()) {
+    if ($scope.isAllselected() || angular.isDefined(shapeData)) {
       $scope.getPartFinalCalculation();
     }
 
@@ -232,17 +265,23 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- disable fields part preset shortcut and part type
     $scope.disablePartFields.disableShortcut = true;
     $scope.disablePartFields.disablePartType = true;
-    $scope.disablePartFields.disableShape = false;
     $scope.estimatePartObj.selectedCustomMaterial = materialObj;
-    createOrEditEstimateService.getAllShapeData(function (data) {
-      $scope.estimatePartObj.allShapes = data;
-    });
     $scope.getPartFinalCalculation();
-
   }
+
   //- call when user will select shape after selecting custom material
-  $scope.getSelectedShapeData = function (shapeObj) {
+  $scope.getSelectedShapeData = function (shapeObj, customMaterialObj) {
+    //- disable fields part preset shortcut, part type and custom material if custom material is not selected
     //- update shape related data
+    if (angular.isUndefined(customMaterialObj._id)) {
+      $scope.disablePartFields.disableShortcut = true;
+      $scope.disablePartFields.disablePartType = true;
+      $scope.disablePartFields.disableAllMaterial = false;
+      $scope.disablePartFields.disableCustomMaterial = true;
+      createOrEditEstimateService.getAllMaterials(function (data) {
+        $scope.estimatePartObj.allMaterial = data;
+      });
+    }
     $scope.estimatePartObj.variables = shapeObj.variable;
     $scope.estimatePartObj.keyValueCalculations.perimeter = shapeObj.partFormulae.perimeter;
     $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = shapeObj.partFormulae.sheetMetalArea;
@@ -366,6 +405,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       }
     }
   }, true);
+  $scope.$watch('estimatePartObj', function (newValue, oldValue) {
+    if (oldValue != undefined) {
+      if (newValue != oldValue) {
+        $scope.changesCounter += 1;
+      }
+    }
+  }, true);
   //- to update all calculations at processing, addons & extras 
   // $scope.$watch('estimatePartObj.keyValueCalculations', function (newValue, oldValue) {
   //   
@@ -386,6 +432,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       }
     }
   });
+  //- to ask user to save changes before refreshing the page
   window.onbeforeunload = function (event) {
     if ($scope.changesCounter > '0') {
       return 'Are you sure you want to reload?'

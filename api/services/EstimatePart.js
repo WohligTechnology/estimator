@@ -27,6 +27,11 @@ var schema = new Schema({
         ref: "MMaterial",
         index: true,
     },
+    shape: {
+        type: Schema.Types.ObjectId,
+        ref: "MShape",
+        index: true,
+    },
     size: String,
 
     customMaterial: {
