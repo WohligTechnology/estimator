@@ -147,7 +147,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label class="control-label">Difficulty Factor: </label>                                
-                            <select class="form-control" ng-options="df.difficultyFactor for df in customMaterialDataObj.allDifficultyFactors" ng-change="calAvgCost(formData)" ng-model="formData.difficultyFactor">
+                            <select multiple class="form-control" ng-options="df.difficultyFactor for df in customMaterialDataObj.allDifficultyFactors" ng-change="calAvgCost(formData)" ng-model="formData.difficultyFactor">
                             </select>
                         </div>
                         <div class="col-md-3">

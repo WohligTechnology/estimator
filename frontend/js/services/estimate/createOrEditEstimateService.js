@@ -157,7 +157,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			baseMetal: {}
 		},
 		hardFacingAlloys: [_.cloneDeep(hardFacingAlloy)],
-		difficultyFactor: {},
+		difficultyFactor: [],
 		freeIssue: "",
 		totalCostRsPerSm: "",
 		totalCostRsPerKg: ""

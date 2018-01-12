@@ -839,8 +839,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     });
     temp1 += parseFloat(customMaterial.basePlate.thickness) * customMaterial.basePlate.costOfDepRsPerKg;
     temp2 += parseFloat(customMaterial.basePlate.thickness);
-    customMaterial.totalCostRsPerKg = (temp1 / temp2) * parseFloat(customMaterial.difficultyFactor.mulfact);
-    customMaterial.totalCostRsPerSm = (customMaterial.hardFacingAlloys.agvRsPerSm + customMaterial.basePlate.costOfDepRsPerSm) * parseFloat(customMaterial.difficultyFactor.mulfact);
+    var mulfact = 1;
+    
+    angular.forEach(customMaterial.difficultyFactor,  function (record) {
+      mulfact *= parseFloat(record.mulfact);
+    });
+    customMaterial.totalCostRsPerKg = (temp1 / temp2) * mulfact;
+    customMaterial.totalCostRsPerSm = (customMaterial.hardFacingAlloys.agvRsPerSm + customMaterial.basePlate.costOfDepRsPerSm) * mulfact;      
   }
   //-to add a hard facing alloy
   $scope.addNewLayer = function (hardFacingAlloys) {
