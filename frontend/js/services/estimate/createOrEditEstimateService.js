@@ -351,7 +351,84 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (estimateView == 'partDetail') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
-			getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+			var estimatePartObj = {
+
+				selectedShortcut: {}, //- selected partType presets 
+				selectedPartType: {}, //- selected partType
+				selectedMaterial: {}, //- selected material     
+				selectedSize: {}, //- slected size
+				selectedShape: {}, //- selected shape
+
+				selectedCustomMaterial: {}, //- selecetd custom materail  
+
+				quantity: null, //- part.quantity
+				variables: [], //- part.variables
+				shapeImage: null, //- get it from slected partPreset --> shape.shapeImage      
+				shapeIcon: null, //- get it from slected partPreset --> shape.shapeIcon
+				processingCount: null, //- part.processing.length
+				addonCount: null, //- part.addons.length
+				extraCount: null, //- part.extars.length
+
+				partName: formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partName, //- part.partName
+				partNumber: null, //- part.partNumber 
+				scaleFactor: null, //- part.scaleFactor
+
+				keyValueCalculations: {
+					perimeter: "", //- part.keyValueCalculation.perimeter
+					sheetMetalArea: "", //- part.keyValueCalculation.sheetMetalArea
+					surfaceArea: "", //- part.keyValueCalculation.surfaceArea
+					weight: "" //- part.keyValueCalculation.weight
+				},
+				finalCalculation: {
+					materialPrice: null, //- part.finalCalculation.materialPrice
+					itemUnitPrice: null, //- part.finalCalculation.itemUnitPrice
+					totalCostForQuantity: null //- part.finalCalculation.totalCostForQuantity
+				},
+				subAssNumber: subAssemblyId,
+				partNumber: partId
+			};
+
+			//- check part calculation data is available or not
+			if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partUpdateStatus) {
+				var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+				if (!_.isEmpty(tempPart.shortcut) && tempPart.shortcut != undefined) {
+					estimatePartObj.selectedShortcut = tempPart.shortcut; //- selecetd shortCut
+				}
+				if (!_.isEmpty(tempPart.partType) && tempPart.partType != undefined) {
+					estimatePartObj.selectedPartType = tempPart.partType; //- selected partType
+				}
+				if (!_.isEmpty(tempPart.material) && tempPart.material != undefined) {
+					estimatePartObj.selectedMaterial = tempPart.material; //- selected material
+				}
+				if (!_.isEmpty(tempPart.size) && tempPart.size != undefined) {
+					estimatePartObj.selectedSize = tempPart.size; //- size
+				}
+				if (!_.isEmpty(tempPart.shape) && tempPart.shape != undefined) {
+					estimatePartObj.selectedShape = tempPart.shape; //- selected material
+				}
+				debugger;
+				if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
+					estimatePartObj.selectedCustomMaterial = tempPart.customMaterial; //- selectedCustomeMaterial
+				}
+
+				estimatePartObj.quantity = tempPart.quantity; //- quantity
+				estimatePartObj.variable = tempPart.variable; //- variable
+
+				estimatePartObj.finalCalculation.materialPrice = tempPart.finalCalculation.materialPrice;
+				estimatePartObj.finalCalculation.itemUnitPrice = tempPart.finalCalculation.itemUnitPrice;
+				estimatePartObj.finalCalculation.totalCostForQuantity = tempPart.finalCalculation.totalCostForQuantity
+
+				estimatePartObj.keyValueCalculations.perimeter = tempPart.keyValueCalculations.perimeter;
+				estimatePartObj.keyValueCalculations.sheetMetalArea = tempPart.keyValueCalculations.sheetMetalArea;
+				estimatePartObj.keyValueCalculations.surfaceArea = tempPart.keyValueCalculations.surfaceArea;
+				estimatePartObj.keyValueCalculations.weight = tempPart.keyValueCalculations.weight
+				estimatePartObj.partUpdateStatus = true;
+
+			}
+			callback(estimatePartObj);
+			
 		} else if (estimateView == 'editPartItemDetail') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
@@ -501,7 +578,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 
 		//- this if is bcoz we are already sending callback in case of editPartItemDetail & partDetail view
-		if (estimateView != 'editPartItemDetail') {
+		if (estimateView != 'editPartItemDetail' && estimateView != 'partDetail') {
 			callback(getViewData);
 		}
 
@@ -619,6 +696,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	//- to get all part numbers
 	this.getAllPartNumbers = function (callback) {
 		NavigationService.boxCall('EstimatePart/getVersionsOfPartNo', function (data) {
+			callback(data.data);
+		});
+	}
+	//- to get sizes of selected part type
+	this.getSelectedPartTypeData = function (partTypeId, callback) {
+		var partTypeObj = {
+			partType: partTypeId
+		}
+		NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
 			callback(data.data);
 		});
 	}

@@ -21,10 +21,10 @@ var schema = new Schema({
         costOfDepRsPerKg: Number,
         costOfDepRsPerSm: Number
     }],
-    difficultyFactor: {
+    difficultyFactor: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MDifficultyFactor'
-    },
+    }],
     freeIssue: Boolean,
     totalCostRsPerKg: Number,
     totalCostRsPerSm: Number,

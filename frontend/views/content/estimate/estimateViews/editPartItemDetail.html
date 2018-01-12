@@ -30,44 +30,67 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="col-md-4">
-                                                <b>Items Detddails</b>
+                                                <b>Items Details</b>
                                             </label>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" ng-if="disablePartFields.showAll">
                                             <label class="col-md-4 control-label">Shortcut:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="s.presetName for s in estimatePartObj.allShortcuts track by s._id" ng-model="estimatePartObj.selectedShortcut"
-                                                    placeholder="Select" ng-change="getSelectedShortcutData(estimatePartObj.selectedShortcut)" ng-disabled="disablePartFields.disableShortcut" required>
+                                                    placeholder="Select" ng-change="getSelectedShortcutData(estimatePartObj.selectedShortcut)"
+                                                    ng-disabled="disablePartFields.disableShortcut" required>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" ng-if="disablePartFields.showAll">
                                             <label class="col-md-4 control-label">Part Type Name:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="ptn.partTypeName for ptn in estimatePartObj.allPartTypes track by ptn._id" ng-model="estimatePartObj.selectedPartType"
-                                                    placeholder="Select" ng-change="getSelectedPartTypeData(estimatePartObj.selectedPartType)" ng-disabled="disablePartFields.disablePartType" required>
+                                                    placeholder="Select" ng-change="getSelectedPartTypeData(estimatePartObj.selectedPartType)"
+                                                    ng-disabled="disablePartFields.disablePartType" required>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Material:</label>
+                                        <div class="form-group" ng-if="!disablePartFields.disableShape">
+                                            <label class="col-md-4 control-label">Shape:</label>
                                             <div class="col-md-5">
-                                                <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id" ng-model="estimatePartObj.selectedMaterial"
-                                                    placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial)" ng-disabled="disablePartFields.disableMaterial" required>
+                                                <select class="form-control" ng-options="sh.shapeName for sh in estimatePartObj.allShapes track by sh._id" ng-model="estimatePartObj.selectedShape"
+                                                    ng-change="getSelectedShapeData(estimatePartObj.selectedShape)">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- after selecting part preset/part type it will be enable -->
+                                        <div class="form-group" ng-if="disablePartFields.showAll">
+                                            <label class="col-md-4 control-label">Material1:</label>
+                                            <div class="col-md-5">
+                                                <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id"
+                                                    ng-model="estimatePartObj.selectedMaterial" placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial)"
+                                                    ng-disabled="disablePartFields.disableMaterial" required>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- after selecting shape it will be enable -->
+                                        <div class="form-group" ng-if="!disablePartFields.disableAllMaterial">
+                                            <label class="col-md-4 control-label">Material2:</label>
+                                            <div class="col-md-5">
+                                                <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id"
+                                                    ng-model="estimatePartObj.selectedMaterial" placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial, estimatePartObj.selectedShape)"
+                                                    required>
                                                 </select>
                                             </div>
                                         </div>
                                         <!-- <pre>{{estimatePartObj.selectedSize | json}}</pre> -->
-                                        <div class="form-group" ng-if="!disablePartFields.displayPresetSize">
-                                            <label class="col-md-4 control-label">Size:</label>
+                                        <div class="form-group" ng-if="!disablePartFields.displayPresetSize && disablePartFields.showAll">
+                                            <label class="col-md-4 control-label">Size1:</label>
                                             <div class="col-md-5">
-                                                <select class="form-control" ng-options="s.presetSize for s in estimatePartObj.allShortcuts track by s._id" ng-model="estimatePartObj.selectedSize"
-                                                    placeholder="Select" ng-change="getSelectedSizeData(disablePartFields.disableSize)" ng-disabled="disablePartFields.disableSize" required>
+                                                <select class="form-control" ng-options="s.size for s in estimatePartObj.allSizes track by s._id" ng-model="estimatePartObj.selectedSize"
+                                                    placeholder="Select" ng-change="getSelectedSizeData(estimatePartObj.selectedSize)"
+                                                    ng-disabled="disablePartFields.disableSize" required>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group" ng-if="disablePartFields.displayPresetSize">
-                                            <label class="col-md-4 control-label">Size:</label>
+                                        <div class="form-group" ng-if="disablePartFields.displayPresetSize && disablePartFields.showAll">
+                                            <label class="col-md-4 control-label">Size2:</label>
                                             <div class="col-md-5">
                                                 <!-- <input type="text" class="form-control" ng-model="estimatePartObj.selectedSize" required> -->
                                                 <select class="form-control" ng-disabled="disablePartFields.displayPresetSize">
@@ -78,29 +101,15 @@
                                         <div class="form-group" ng-if="!disablePartFields.disableCustomMaterial">
                                             <label class="col-md-4 control-label">Custom Material:</label>
                                             <div class="col-md-5">
-                                                <select class="form-control" ng-options="cmd.customMaterialName for cmd in estimatePartObj.customMaterials track by cmd._id" ng-model="estimatePartObj.selectedCustomMaterial" ng-change="getSelectedCustomMaterialData(estimatePartObj.selectedCustomMaterial)">
+                                                <select class="form-control" ng-options="cmd.customMaterialName for cmd in estimatePartObj.customMaterials track by cmd._id"
+                                                    ng-model="estimatePartObj.selectedCustomMaterial" ng-change="getSelectedCustomMaterialData(estimatePartObj.selectedCustomMaterial)">
                                                 </select>
                                             </div>
-                                        </div>                                     
+                                        </div>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">Quantity:</label>
                                             <div class="col-md-5">
                                                 <input type="number" class="form-control" ng-change="getPartFinalCalculation()" ng-model="estimatePartObj.quantity" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group" ng-if="!disablePartFields.disableShape">
-                                            <label class="col-md-4 control-label">Shape:</label>
-                                            <div class="col-md-5">
-                                                <select class="form-control" ng-options="sh.shapeName for sh in estimatePartObj.allShapes track by sh._id" ng-model="estimatePartObj.selectedShape" ng-change="getSelectedShapeData(estimatePartObj.selectedShape, estimatePartObj.selectedCustomMaterial)">
-                                                </select>
-                                            </div>
-                                        </div> 
-                                        <div class="form-group" ng-if="!disablePartFields.disableAllMaterial">
-                                            <label class="col-md-4 control-label">Material:</label>
-                                            <div class="col-md-5">
-                                                <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id" ng-model="estimatePartObj.selectedMaterial"
-                                                    placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial, estimatePartObj.selectedShape)" required>
-                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -125,7 +134,6 @@
                                                 <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="v.varValue" required>
                                             </div>
                                         </div>
-                                       
                                         <div class="mar-t">
                                             <div class="form-group">
                                                 <label class="col-md-3 ">
@@ -148,7 +156,8 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <p>{{estimatePartObj.keyValueCalculations.sheetMetalArea}}
-                                                            <span>sq m</span></p>
+                                                            <span>sq m</span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -157,7 +166,8 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <p>{{estimatePartObj.keyValueCalculations.surfaceArea}}
-                                                            <span>sq m</span></p>
+                                                            <span>sq m</span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -166,11 +176,12 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <p>{{estimatePartObj.keyValueCalculations.weight}}
-                                                            <span>sq m</span></p>
+                                                            <span>sq m</span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                           
+
                                         </div>
                                         <div class="mar-t">
                                             <div class="form-group">
@@ -178,7 +189,8 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <p>{{estimatePartObj.finalCalculation.materialPrice}}
-                                                            <span>Rs/kg</span></p>
+                                                            <span>Rs/kg</span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -187,7 +199,8 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <p>{{estimatePartObj.finalCalculation.itemUnitPrice}}
-                                                            <span>Rs</span></p>
+                                                            <span>Rs</span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
