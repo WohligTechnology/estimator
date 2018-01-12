@@ -229,7 +229,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- call when user will select part type name 
   //- update dependent data on the base of selected part type data
   $scope.getSelectedPartTypeData = function (partTypeObj) {
-debugger;
     //- all shortcuts data is already there (so, don't  update it corresponding to selected part Type), let user select size to get shortcut
     //- get all materials (corresponding to selected part Type) data to select 
     //- get/update all sizes (corresponding to selected part Type) data to select

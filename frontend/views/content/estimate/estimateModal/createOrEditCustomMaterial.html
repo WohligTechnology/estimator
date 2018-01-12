@@ -144,29 +144,11 @@
                     </div>
                     <br>
                     <br>
-                    <pre>{{formData.difficultyFactor | json}}</pre>
-                    <pre>{{customMaterialDataObj.allDifficultyFactors | json}}</pre>
                     <div class="row">
                         <div class="col-md-3">
-                            <label class="control-label">Difficulty Factor: </label>
-                            <md-input-container>
-                                
-                            <!-- <select class="form-control" ng-options="df.difficultyFactor for df in customMaterialDataObj.allDifficultyFactors" ng-change="calAvgCost(formData)" ng-model="formData.difficultyFactor">
-                            </select> -->
-                            
-                            <md-select ng-model="weapon" placeholder="Weapon" class="md-no-underline">
-                                <md-option value="axe">Axe</md-option>
-                                <md-option value="sword">Sword</md-option>
-                                <md-option value="wand">Wand</md-option>
-                                <md-option value="pen">Pen?</md-option>
-                              </md-select>
-                            </md-input-container>
-                            <!-- <md-input-container>
-                                <label>Vegetables</label>
-                                <md-select ng-model="formData.difficultyFactor" ng-options="df.difficultyFactor for df in customMaterialDataObj.allDifficultyFactors"
-                                    data-md-container-class="selectdemoSelectHeader" multiple>
-                                </md-select>
-                            </md-input-container> -->
+                            <label class="control-label">Difficulty Factor: </label>                                
+                            <select class="form-control" ng-options="df.difficultyFactor for df in customMaterialDataObj.allDifficultyFactors" ng-change="calAvgCost(formData)" ng-model="formData.difficultyFactor">
+                            </select>
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Total Cost Of Deposit (Rs/kg): </label>
