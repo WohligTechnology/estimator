@@ -329,7 +329,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.sizeFactor = partTypeObj.sizeFactor; //- sizeFactor
     $scope.estimatePartObj.thickness = partTypeObj.thickness; //- thickness
     $scope.estimatePartObj.wastage = partTypeObj.wastage; //- wastage
-    
+
     $scope.estimatePartObj.selectedShortcut = partTypeObj; /////-
 
     //- update shape related data
@@ -613,16 +613,16 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.subAssId = data.subAssId;
       if (operation == 'save') {
         $scope.formData = createOrEditEstimateService.generatePartName(subAssId);
+        $scope.addPart($scope.formData, $scope.subAssId);
       } else {
         $scope.formData = data.partObj;
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/estimate/estimateModal/createOrEditPartName.html',
+          scope: $scope,
+          size: 'md',
+        });
       }
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/estimate/estimateModal/createOrEditPartName.html',
-        scope: $scope,
-        size: 'md',
-      });
-
     });
   }
   //- to add part data

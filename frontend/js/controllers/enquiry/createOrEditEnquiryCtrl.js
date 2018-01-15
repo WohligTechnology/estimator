@@ -25,7 +25,6 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   
 
   if (angular.isDefined($stateParams.enquiryId)) {
-    $scope.showEstimateBtn = true;
     $scope.enquiryId = $stateParams.enquiryId;
     $scope.editPermmission = true;
   }
@@ -39,6 +38,13 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
       if ($stateParams.enquiryId) {
         $scope.formData.enquiryDetails.estimator = data.enquiryDetails.estimator;
         $scope.formData.customerDataObj = data.customerId;
+        createOrEditEnquiryService.getEstimateData($scope.enquiryId, function (estimator) {
+          if(estimator) {
+            $scope.showEstimateBtn = false;
+          } else {
+            $scope.showEstimateBtn = true;
+          }
+        });
       }
     });
     //- to get all customer names and their locations
