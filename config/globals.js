@@ -70,6 +70,7 @@ global["uniqueValidator"] = require('mongoose-unique-validator');
 global["timestamps"] = require('mongoose-timestamp');
 global["validators"] = require('mongoose-validators');
 global["monguurl"] = require('monguurl');
+global["mongoose-schematypes-extend"] = require("mongoose-schematypes-extend");
 global["mongooseRefValidator"] = require('mongoose-ref-validator');
 
 require('mongoose-middleware').initialize(mongoose);
@@ -96,6 +97,7 @@ global["json2xls"] = require('json2xls');
 global["xlsx"] = require('node-xlsx').default;
 global["async"] = require('async');
 global["bcrypt"] = require('bcrypt');
+global["Excel"] = require('exceljs');
 
 // global["pdf"] = require('html-pdf');
 
