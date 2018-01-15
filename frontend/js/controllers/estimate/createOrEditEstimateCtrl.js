@@ -92,6 +92,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
           if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
 
+            $scope.estimatePartObj.processingCount = data.processingCount;
+            $scope.estimatePartObj.addonCount = data.addonCount;
+            $scope.estimatePartObj.extraCount = data.extraCount;
             $scope.estimatePartObj.allShortcuts = data.allShortcuts;
             $scope.estimatePartObj.allPartTypes = data.allPartTypes;
             $scope.estimatePartObj.allShapes = data.allShapes;
@@ -111,8 +114,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
                 $scope.estimatePartObj.selectedPartType = data.selectedPartType;
                 $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
                 $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
-                $scope.estimatePartObj.selectedSize = data.selectedSize;
-
+                  $scope.estimatePartObj.selectedSize = data.selectedSize;
+                  
                 $scope.disablePartFields.displayPresetSize = true;
                 $scope.disablePartFields.disableShape = true;
               }
@@ -300,7 +303,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.selectedShortcut = partTypeObj; /////-
 
     //- update shape related data
-    $scope.estimatePartObj.variables = partTypeObj.shape.variable; /////-
+    $scope.estimatePartObj.variables = partTypeObj.variable; /////-
     $scope.estimatePartObj.keyValueCalculations.perimeter = partTypeObj.shape.partFormulae.perimeter; /////-
     $scope.estimatePartObj.keyValueCalculations.sma = partTypeObj.shape.partFormulae.sma; /////-
     $scope.estimatePartObj.keyValueCalculations.sa = partTypeObj.shape.partFormulae.sa; /////-

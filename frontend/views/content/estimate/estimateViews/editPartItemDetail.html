@@ -61,7 +61,7 @@
                                         </div>
                                         <!-- after selecting part preset/part type it will be enable -->
                                         <div class="form-group" ng-if="disablePartFields.showAll">
-                                            <label class="col-md-4 control-label">Material1:</label>
+                                            <label class="col-md-4 control-label">Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id"
                                                     ng-model="estimatePartObj.selectedMaterial" placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial)"
@@ -71,7 +71,7 @@
                                         </div>
                                         <!-- after selecting shape it will be enable -->
                                         <div class="form-group" ng-if="!disablePartFields.disableAllMaterial">
-                                            <label class="col-md-4 control-label">Material2:</label>
+                                            <label class="col-md-4 control-label">Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id"
                                                     ng-model="estimatePartObj.selectedMaterial" placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial, estimatePartObj.selectedShape)"
@@ -79,9 +79,9 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <!-- <pre>{{estimatePartObj.selectedSize | json}}</pre> -->
+                                        <!-- size in case of select -->
                                         <div class="form-group" ng-if="!disablePartFields.displayPresetSize && disablePartFields.showAll">
-                                            <label class="col-md-4 control-label">Size1:</label>
+                                            <label class="col-md-4 control-label">Size:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="s.size for s in estimatePartObj.allSizes track by s._id" ng-model="estimatePartObj.selectedSize"
                                                     placeholder="Select" ng-change="getSelectedSizeData(estimatePartObj.selectedSize)"
@@ -89,8 +89,9 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <!-- size in case of only dislpay -->
                                         <div class="form-group" ng-if="disablePartFields.displayPresetSize && disablePartFields.showAll">
-                                            <label class="col-md-4 control-label">Size2:</label>
+                                            <label class="col-md-4 control-label">Size:</label>
                                             <div class="col-md-5">
                                                 <!-- <input type="text" class="form-control" ng-model="estimatePartObj.selectedSize" required> -->
                                                 <select class="form-control" ng-disabled="disablePartFields.displayPresetSize">

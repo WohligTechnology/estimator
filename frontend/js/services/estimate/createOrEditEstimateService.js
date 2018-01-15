@@ -389,6 +389,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				partNumber: partId
 			};
 
+			estimatePartObj.processingCount = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.length;
+			estimatePartObj.addonCount = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.length;
+			estimatePartObj.extraCount = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.length;
 			//- check part calculation data is available or not
 			if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partUpdateStatus) {
 				var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
@@ -744,7 +747,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			tempPart.material = partObject.selectedMaterial; //- selected material
 		}
 		if (!_.isEmpty(partObject.selectedSize) && partObject.selectedSize != undefined) {
-			tempPart.size = partObject.selectedSize; //- size
+			if(angular.isDefined(partObject.selectedSize._id)) {
+				tempPart.size = partObject.selectedSize.size;
+			  } else {
+				tempPart.size = partObject.selectedSize; //- size
+			  }
 		}
 		if (!_.isEmpty(partObject.selectedCustomMaterial) && partObject.selectedCustomMaterial != undefined) {
 			tempPart.customMaterial = partObject.selectedCustomMaterial; //- selectedCustomeMaterial
@@ -763,7 +770,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		tempPart.keyValueCalculations.perimeter = partObject.keyValueCalculations.perimeter;
 		tempPart.keyValueCalculations.sheetMetalArea = partObject.keyValueCalculations.sheetMetalArea;
 		tempPart.keyValueCalculations.surfaceArea = partObject.keyValueCalculations.surfaceArea;
-		tempPart.keyValueCalculations.weight = partObject.keyValueCalculations.weight
+		tempPart.keyValueCalculations.weight = partObject.keyValueCalculations.weight;
 		tempPart.partUpdateStatus = true;
 
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex] = tempPart;
