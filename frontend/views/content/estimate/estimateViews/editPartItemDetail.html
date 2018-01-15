@@ -135,6 +135,32 @@
                                                 <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="v.varValue" required>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Size Factor (sf)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.sizeFactor" required>
+                                            </div>
+                                            <label class="col-md-3 control-label">Form Factor(ff)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.formFactor" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Thickness (t)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.thickness" required>
+                                            </div>
+                                            <label class="col-md-3 control-label">Length (l)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.length" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label class="col-md-3 control-label">Wastage (wtg)</label>
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.wastage" required>
+                                                </div>
+                                            </div>
                                         <div class="mar-t">
                                             <div class="form-group">
                                                 <label class="col-md-3 ">

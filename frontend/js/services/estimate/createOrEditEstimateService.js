@@ -411,10 +411,14 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				if (!_.isEmpty(tempPart.shape) && tempPart.shape != undefined) {
 					estimatePartObj.selectedShape = tempPart.shape; //- selected material
 				}
-				debugger;
 				if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
 					estimatePartObj.selectedCustomMaterial = tempPart.customMaterial; //- selectedCustomeMaterial
 				}
+				estimatePartObj.formFactor = tempPart.formFactor; //- formFactor
+				estimatePartObj.length = tempPart.length; //- length
+				estimatePartObj.sizeFactor = tempPart.sizeFactor; //- sizeFactor
+				estimatePartObj.thickness = tempPart.thickness; //- thickness
+				estimatePartObj.wastage = tempPart.wastage; //- wastage
 
 				estimatePartObj.quantity = tempPart.quantity; //- quantity
 				estimatePartObj.variable = tempPart.variable; //- variable
@@ -509,13 +513,18 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 								if (!_.isEmpty(tempPart.shape) && tempPart.shape != undefined) {
 									estimatePartObj.selectedShape = tempPart.shape; //- selected material
 								}
-								debugger;
 								if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
 									estimatePartObj.selectedCustomMaterial = tempPart.customMaterial; //- selectedCustomeMaterial
 								}
 
 								estimatePartObj.quantity = tempPart.quantity; //- quantity
 								estimatePartObj.variable = tempPart.variable; //- variable
+
+								estimatePartObj.formFactor = tempPart.formFactor; //- formFactor
+								estimatePartObj.length = tempPart.length; //- length
+								estimatePartObj.sizeFactor = tempPart.sizeFactor; //- sizeFactor
+								estimatePartObj.thickness = tempPart.thickness; //- thickness
+								estimatePartObj.wastage = tempPart.wastage; //- wastage
 
 								estimatePartObj.finalCalculation.materialPrice = tempPart.finalCalculation.materialPrice;
 								estimatePartObj.finalCalculation.itemUnitPrice = tempPart.finalCalculation.itemUnitPrice;
@@ -761,6 +770,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 
 		tempPart.quantity = partObject.quantity; //- quantity
+		tempPart.formFactor = partObject.formFactor; //- formFactor
+		tempPart.length = partObject.length; //- length
+		tempPart.sizeFactor = partObject.sizeFactor; //- sizeFactor
+		tempPart.thickness = partObject.thickness; //- thickness
+		tempPart.wastage = partObject.wastage; //- wastage
 		tempPart.variable = partObject.variables; //- variables 
 		tempPart.finalCalculation = {};
 		tempPart.finalCalculation.materialPrice = partObject.finalCalculation.materialPrice;
