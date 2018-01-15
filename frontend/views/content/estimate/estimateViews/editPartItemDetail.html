@@ -61,7 +61,7 @@
                                         </div>
                                         <!-- after selecting part preset/part type it will be enable -->
                                         <div class="form-group" ng-if="disablePartFields.showAll">
-                                            <label class="col-md-4 control-label">Material1:</label>
+                                            <label class="col-md-4 control-label">Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id"
                                                     ng-model="estimatePartObj.selectedMaterial" placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial)"
@@ -71,7 +71,7 @@
                                         </div>
                                         <!-- after selecting shape it will be enable -->
                                         <div class="form-group" ng-if="!disablePartFields.disableAllMaterial">
-                                            <label class="col-md-4 control-label">Material2:</label>
+                                            <label class="col-md-4 control-label">Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id"
                                                     ng-model="estimatePartObj.selectedMaterial" placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial, estimatePartObj.selectedShape)"
@@ -79,9 +79,9 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <!-- <pre>{{estimatePartObj.selectedSize | json}}</pre> -->
+                                        <!-- size in case of select -->
                                         <div class="form-group" ng-if="!disablePartFields.displayPresetSize && disablePartFields.showAll">
-                                            <label class="col-md-4 control-label">Size1:</label>
+                                            <label class="col-md-4 control-label">Size:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="s.size for s in estimatePartObj.allSizes track by s._id" ng-model="estimatePartObj.selectedSize"
                                                     placeholder="Select" ng-change="getSelectedSizeData(estimatePartObj.selectedSize)"
@@ -89,8 +89,9 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <!-- size in case of only dislpay -->
                                         <div class="form-group" ng-if="disablePartFields.displayPresetSize && disablePartFields.showAll">
-                                            <label class="col-md-4 control-label">Size2:</label>
+                                            <label class="col-md-4 control-label">Size:</label>
                                             <div class="col-md-5">
                                                 <!-- <input type="text" class="form-control" ng-model="estimatePartObj.selectedSize" required> -->
                                                 <select class="form-control" ng-disabled="disablePartFields.displayPresetSize">
@@ -134,6 +135,32 @@
                                                 <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="v.varValue" required>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Size Factor (sf)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.sizeFactor" required>
+                                            </div>
+                                            <label class="col-md-3 control-label">Form Factor(ff)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.formFactor" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Thickness (t)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.thickness" required>
+                                            </div>
+                                            <label class="col-md-3 control-label">Length (l)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.length" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label class="col-md-3 control-label">Wastage (wtg)</label>
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.wastage" required>
+                                                </div>
+                                            </div>
                                         <div class="mar-t">
                                             <div class="form-group">
                                                 <label class="col-md-3 ">
@@ -217,8 +244,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="updatePartDetail(estimatePartObj)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Save</button>
-                                        <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="updatePartDetail(estimatePartObj)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Update</button>
+                                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="updatePartDetail(estimatePartObj)" ng-disabled="myForm.$pristine">Save</button>
+                                        <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="updatePartDetail(estimatePartObj)" ng-disabled="myForm.$pristine">Update</button>
                                         <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                                     </div>
                                 </div>
