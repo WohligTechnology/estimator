@@ -40,12 +40,12 @@
                                             <th> Total Cost </th>
                                         </tr>
                                         <tr class="border-bott">
-                                            <td rowspan="3" class="align-middle text-center border-right"> {{estimateViewData.totalWeight}} </td>
-                                            <td> {{estimateViewData.materialCost}} </td>
-                                            <td> {{estimateViewData.processingCost}} </td>
-                                            <td> {{estimateViewData.addonCost}} </td>
-                                            <td> {{estimateViewData.extrasCost}} </td>
-                                            <td> {{estimateViewData.totalCost}} </td>
+                                            <td rowspan="3" class="align-middle text-center border-right"> {{estimateViewData.totalWeight.toFixed(2)}} </td>
+                                            <td> {{estimateViewData.materialCost.toFixed(2)}} </td>
+                                            <td> {{estimateViewData.processingCost.toFixed(2)}} </td>
+                                            <td> {{estimateViewData.addonCost.toFixed(2)}} </td>
+                                            <td> {{estimateViewData.extrasCost.toFixed(2)}} </td>
+                                            <td> {{estimateViewData.totalCost.toFixed(2)}} </td>
                                         </tr>
                                         <tr>
                                             <th> Material Salling Price</th>
@@ -217,7 +217,7 @@
                                             <th> Total Cost </th>
                                         </tr>
                                         <tr class="border-bott">
-                                            <td rowspan="3" class="align-middle text-center border-right"> {{estimateViewData.totalWeight}} </td>
+                                            <td rowspan="3" class="align-middle text-center border-right"> {{estimateViewData.totalWeight.toFixed(2)}} </td>
                                             <td> {{estimateViewData.materialCost.toFixed(2)}} </td>
                                             <td> {{estimateViewData.processingCost.toFixed(2)}} </td>
                                             <td> {{estimateViewData.addonCost.toFixed(2)}} </td>

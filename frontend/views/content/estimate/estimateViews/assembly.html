@@ -112,14 +112,14 @@
                                     <td> {{$index + 1}} </td>
                                     <td> {{p.subAssemblyName  | capitalize}} </td>
                                     <td> {{p.quantity}} </td>
-                                    <td> {{p.totalWeight}} </td>
-                                    <td> {{p.materialCost}} </td>
-                                    <td> {{p.processingCost}} </td>
-                                    <td> {{p.addonCost}} </td>
-                                    <td> {{p.extrasCost}} </td>
-                                    <td> {{p.materialCost + p.processingCost + p.addonCost + p.extrasCost}}</td>
-                                    <td> {{p.totalWeight * p.quantity}} </td>
-                                    <td> {{p.totalCost}} </td>
+                                    <td> {{p.totalWeight.toFixed(2)}} </td>
+                                    <td> {{p.materialCost.toFixed(2)}} </td>
+                                    <td> {{p.processingCost.toFixed(2)}} </td>
+                                    <td> {{p.addonCost.toFixed(2)}} </td>
+                                    <td> {{p.extrasCost.toFixed(2)}} </td>
+                                    <td> {{(p.materialCost * p.totalWeight + p.processingCost + p.addonCost + p.extrasCost).toFixed(2)}}</td>
+                                    <td> {{(p.totalWeight * p.quantity).toFixed(2)}} </td>
+                                    <td> {{p.totalCost.toFixed(2)}} </td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" id="add_space" ng-click="addOrEditSubAssemblyModal('update', p)">
                                             <i class="fa fa-pencil"></i>

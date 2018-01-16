@@ -113,14 +113,14 @@
                     <td> 2 </td>
                     <td> {{p.partName | capitalize}} </td>
                     <td> {{p.quantity}} </td>
-                    <td> {{p.keyValueCalculations.weight}} </td>
-                    <td> {{p.finalCalculation.materialPrice}} </td>
-                    <td> {{p.processingCost}} </td>
-                    <td> {{p.addonCost}} </td>
-                    <td> {{p.extrasCost}} </td>
-                    <td> {{p.finalCalculation.materialPrice + p.processingCost + p.addonCost + p.extrasCost}}</td>
-                    <td> {{p.quantity * p.keyValueCalculations.weight}} </td>
-                    <td> {{p.totalCost}} </td>
+                    <td> {{p.keyValueCalculations.weight.toFixed(2)}} </td>
+                    <td> {{p.finalCalculation.materialPrice.toFixed(2)}} </td>
+                    <td> {{p.processingCost.toFixed(2)}} </td>
+                    <td> {{p.addonCost.toFixed(2)}} </td>
+                    <td> {{p.extrasCost.toFixed(2)}} </td>
+                    <td> {{(p.finalCalculation.materialPrice * p.keyValueCalculations.weight + p.processingCost + p.addonCost + p.extrasCost).toFixed(2)}}</td>
+                    <td> {{(p.quantity * p.keyValueCalculations.weight).toFixed(2)}} </td>
+                    <td> {{p.totalCost.toFixed(2)}} </td>
                     <td class="edit-icon">
                       <span class="label label-sm label-success" id="add_space" ng-click="addOrEditPartModal('update',estimateViewData.subAssemblyNumber,p)">
                         <i class="fa fa-pencil"></i>

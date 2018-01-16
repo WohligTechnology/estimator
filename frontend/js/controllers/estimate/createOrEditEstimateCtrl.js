@@ -117,6 +117,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
             $scope.estimatePartObj.partUpdateStatus = data.partUpdateStatus;
 
+            $scope.showSaveBtn = true;
+            $scope.showEditBtn = false;
+
             //- here data.partUpdateStatus will be true when admin will update all part calculation data
             //- so, we can get all the data from formData.assembly of createOrEditEstimateService & bind it with  $scope.estimatePartObj
             if (data.partUpdateStatus) {
@@ -431,6 +434,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.updatePartDetail($scope.showEditBtn, partObject, function (data) {
       $scope.estimteData = data;
       toastr.success('Part Details Added Successfully...');
+      createOrEditEstimateService.totalCostCalculations();
     });
   }
 
@@ -591,7 +595,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.deleteSubAssembly(subAssemblyId, function () {
       toastr.success('SubAssembly deleted successfully');
       $scope.getEstimateView('assembly');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      createOrEditEstimateService.totalCostCalculations();
       $scope.cancelModal();
     });
   }

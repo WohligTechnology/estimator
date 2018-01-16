@@ -246,14 +246,22 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			eCostAtAssemby: 0,
 			wtAtPart: 0,
 			wtAtSubAssembly: 0,
+			wtAtAssembly: 0,
+			mtPart: 0,
 			mtAtSubAssembly: 0,
 			mtAtAssembly: 0
 		}
 		formData.assembly.totalCost = 0;
 		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
 			angular.forEach(subAssembly.subAssemblyParts, function (part) {
-				costCalculations.wtAtPart += parseFloat(part.keyValueCalculations.weight);
-				costCalculations.mtAtSubAssembly += parseFloat(part.finalCalculation.materialPrice);
+				//- get weight at part level
+				costCalculations.wtAtPart = parseFloat(part.keyValueCalculations.weight);
+				//- get summation of (weight * quantity) of all parts 
+				costCalculations.wtAtSubAssembly += costCalculations.wtAtPart * part.quantity;
+				//- get material cost at part level
+				costCalculations.mtPart = parseFloat(part.finalCalculation.materialPrice);
+				//- get summation of material cost of all parts 
+				costCalculations.mtAtSubAssembly += costCalculations.mtPart;
 				//- processing cost at part level
 				angular.forEach(part.processing, function (processing) {
 					costCalculations.pCostAtPart += processing.rate * processing.quantity.totalQuantity
@@ -267,26 +275,33 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				angular.forEach(part.extras,  function (extra) {
 					costCalculations.eCostAtPart += extra.totalCost;
 				});
+				//- bind processing cost, addon cost & extra cost to part level variables
 				part.processingCost = costCalculations.pCostAtPart;
 				part.addonCost = costCalculations.aCostAtPart;
 				part.extrasCost = costCalculations.eCostAtPart;
+				//- calculate summation of all processing available at part level
 				if (part.processing.length != 0) {
 					costCalculations.pCost += costCalculations.pCostAtPart;
 				}
+				//- calculate summation of all addons available at part level
 				if (part.addons.length != 0) {
 					costCalculations.aCost += costCalculations.aCostAtPart;
 				}
+				//- calculate summation of all extras available at part level
 				if (part.extras.length != 0) {
 					costCalculations.eCost += costCalculations.eCostAtPart;
 				}
-				if (part.processing.length != 0 || part.addons.length != 0 || part.extras.length != 0) {
-					part.totalCost = (costCalculations.mtAtSubAssembly + part.processingCost + part.addonCost + part.extrasCost) * part.quantity;
-				}
-				costCalculations.mtAtSubAssembly = costCalculations.pCostAtPart = costCalculations.aCostAtPart = costCalculations.eCostAtPart = 0;
+				//- total cost at each part 
+				part.totalCost = (costCalculations.mtPart * costCalculations.wtAtPart + part.processingCost + part.addonCost + part.extrasCost) * part.quantity;
+				costCalculations.mtPart = costCalculations.pCostAtPart = costCalculations.aCostAtPart = costCalculations.eCostAtPart = costCalculations.wtAtPart = 0;
 			});
 
-			subAssembly.totalWeight = costCalculations.wtAtPart;
-			costCalculations.wtAtSubAssembly += subAssembly.totalWeight;
+			//- bind weight of all parts of paricular subAssembly to variable 'totalWeight'
+			subAssembly.totalWeight = costCalculations.wtAtSubAssembly;
+			//- get summation of (weight * quantity) of all subassemblies
+			costCalculations.wtAtAssembly += subAssembly.totalWeight * subAssembly.quantity;
+
+			//- bind material cost of all parts of paricular subAssembly to variable 'material cost'
 			subAssembly.materialCost = costCalculations.mtAtSubAssembly;
 			costCalculations.mtAtAssembly += subAssembly.materialCost;
 			//- processing cost at subAssembly level
@@ -308,15 +323,17 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			subAssembly.processingCost = costCalculations.pCost;
 			subAssembly.addonCost = costCalculations.aCost;
 			subAssembly.extrasCost = costCalculations.eCost;
-			subAssembly.totalCost = (subAssembly.materialCost + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost) * subAssembly.quantity;
+			//- total cost at each part 
+			subAssembly.totalCost = (subAssembly.materialCost * subAssembly.totalWeight + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost) * subAssembly.quantity;
 			formData.assembly.totalCost += subAssembly.totalCost;
 			costCalculations.pCostAtAssemby += costCalculations.pCost * subAssembly.quantity;
 			costCalculations.aCostAtAssemby += costCalculations.aCost * subAssembly.quantity;
 			costCalculations.eCostAtAssemby += costCalculations.eCost * subAssembly.quantity;
 			costCalculations.pCostAtSubAssembly = costCalculations.aCostAtSubAssembly = costCalculations.eCostAtSubAssembly = 0;
 			costCalculations.pCost = costCalculations.aCost = costCalculations.eCost = 0;
+			costCalculations.mtAtSubAssembly = costCalculations.wtAtSubAssembly = 0;
 		});
-		formData.assembly.totalWeight = costCalculations.wtAtSubAssembly;
+		formData.assembly.totalWeight = costCalculations.wtAtAssembly;
 		formData.assembly.materialCost = costCalculations.mtAtAssembly;
 		//- processing cost at assembly level
 		angular.forEach(formData.assembly.processing, function (processing) {
@@ -435,7 +452,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 			}
 			callback(estimatePartObj);
-			
+
 		} else if (estimateView == 'editPartItemDetail') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
@@ -756,11 +773,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			tempPart.material = partObject.selectedMaterial; //- selected material
 		}
 		if (!_.isEmpty(partObject.selectedSize) && partObject.selectedSize != undefined) {
-			if(angular.isDefined(partObject.selectedSize._id)) {
+			if (angular.isDefined(partObject.selectedSize._id)) {
 				tempPart.size = partObject.selectedSize.size;
-			  } else {
+			} else {
 				tempPart.size = partObject.selectedSize; //- size
-			  }
+			}
 		}
 		if (!_.isEmpty(partObject.selectedCustomMaterial) && partObject.selectedCustomMaterial != undefined) {
 			tempPart.customMaterial = partObject.selectedCustomMaterial; //- selectedCustomeMaterial
