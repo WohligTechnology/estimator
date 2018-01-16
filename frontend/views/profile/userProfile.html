@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">email</label>
-                                            <input type="email" class="form-control" ng-model="formData.email" />
+                                            <input type="email" class="form-control" ng-model="formData.email" disabled />
                                         </div>
                                         <div class="margiv-top-10">
                                             <div class="row">
@@ -143,20 +143,20 @@
                                             <input type="password" class="form-control" name="confirmNewPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8"
                                                 maxlength="15" ng-model="confirmNewPassword" required />
                                         </div>
-                                        <div class="form-group">
-                                            <p ng-show="(myForm.newPassword != myForm.confirmNewPassword) && (myForm.newPassword.$dirty) && (myForm.confirmNewPassword.$dirty)"
-                                                class="help-block">New Password is not matching with Confirm New Password</p>
+                                         <div class="form-group">
+                                            <p ng-show="(newPassword != confirmNewPassword) && (myForm.newPassword.$dirty) && (myForm.confirmNewPassword.$dirty)"
+                                                class="error help-block">New Password is not matching with Confirm New Password</p>
                                             <!-- <p ng-show="myForm.newPassword.$error.minlength" class="help-block">Password is too short.</p> -->
-                                            <p ng-show="myForm.newPassword.$error.pattern" class="help-block">Password must contain at least one number and one uppercase and lowercase letter,
+                                            <p ng-show="myForm.newPassword.$error.pattern" class="error help-block">Password must contain at least one number and one uppercase and lowercase letter,
                                                 and at least 8 or more characters.</p>
-                                        </div>
+                                            </div>
                                         <br>
                                         <br>
                                         <div class="margin-top-10">
                                             <button class="btn green" ng-disabled="newPassword != confirmNewPassword || myForm.newPassword.$invalid || myForm.confirmNewPassword.$invalid"
                                                 ng-click="changePassword(currentPassword, confirmNewPassword)"> Change Password </button>
                                             <!-- <button class="btn default"> Cancel </button> -->
-                                        </div>
+                                        </div> 
                                     </form>
                                 </div>
                                 <!-- END CHANGE PASSWORD TAB -->

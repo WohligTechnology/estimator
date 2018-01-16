@@ -157,7 +157,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			baseMetal: {}
 		},
 		hardFacingAlloys: [_.cloneDeep(hardFacingAlloy)],
-		difficultyFactor: {},
+		difficultyFactor: [],
 		freeIssue: "",
 		totalCostRsPerSm: "",
 		totalCostRsPerKg: ""
@@ -351,7 +351,91 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (estimateView == 'partDetail') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
-			getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+			var estimatePartObj = {
+
+				selectedShortcut: {}, //- selected partType presets 
+				selectedPartType: {}, //- selected partType
+				selectedMaterial: {}, //- selected material     
+				selectedSize: {}, //- slected size
+				selectedShape: {}, //- selected shape
+
+				selectedCustomMaterial: {}, //- selecetd custom materail  
+
+				quantity: null, //- part.quantity
+				variables: [], //- part.variables
+				shapeImage: null, //- get it from slected partPreset --> shape.shapeImage      
+				shapeIcon: null, //- get it from slected partPreset --> shape.shapeIcon
+				processingCount: null, //- part.processing.length
+				addonCount: null, //- part.addons.length
+				extraCount: null, //- part.extars.length
+
+				partName: formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partName, //- part.partName
+				partNumber: null, //- part.partNumber 
+				scaleFactor: null, //- part.scaleFactor
+
+				keyValueCalculations: {
+					perimeter: "", //- part.keyValueCalculation.perimeter
+					sheetMetalArea: "", //- part.keyValueCalculation.sheetMetalArea
+					surfaceArea: "", //- part.keyValueCalculation.surfaceArea
+					weight: "" //- part.keyValueCalculation.weight
+				},
+				finalCalculation: {
+					materialPrice: null, //- part.finalCalculation.materialPrice
+					itemUnitPrice: null, //- part.finalCalculation.itemUnitPrice
+					totalCostForQuantity: null //- part.finalCalculation.totalCostForQuantity
+				},
+				subAssNumber: subAssemblyId,
+				partNumber: partId
+			};
+
+			estimatePartObj.processingCount = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.length;
+			estimatePartObj.addonCount = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.length;
+			estimatePartObj.extraCount = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.length;
+			//- check part calculation data is available or not
+			if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partUpdateStatus) {
+				var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+				if (!_.isEmpty(tempPart.shortcut) && tempPart.shortcut != undefined) {
+					estimatePartObj.selectedShortcut = tempPart.shortcut; //- selecetd shortCut
+				}
+				if (!_.isEmpty(tempPart.partType) && tempPart.partType != undefined) {
+					estimatePartObj.selectedPartType = tempPart.partType; //- selected partType
+				}
+				if (!_.isEmpty(tempPart.material) && tempPart.material != undefined) {
+					estimatePartObj.selectedMaterial = tempPart.material; //- selected material
+				}
+				if (!_.isEmpty(tempPart.size) && tempPart.size != undefined) {
+					estimatePartObj.selectedSize = tempPart.size; //- size
+				}
+				if (!_.isEmpty(tempPart.shape) && tempPart.shape != undefined) {
+					estimatePartObj.selectedShape = tempPart.shape; //- selected material
+				}
+				if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
+					estimatePartObj.selectedCustomMaterial = tempPart.customMaterial; //- selectedCustomeMaterial
+				}
+				estimatePartObj.formFactor = tempPart.formFactor; //- formFactor
+				estimatePartObj.length = tempPart.length; //- length
+				estimatePartObj.sizeFactor = tempPart.sizeFactor; //- sizeFactor
+				estimatePartObj.thickness = tempPart.thickness; //- thickness
+				estimatePartObj.wastage = tempPart.wastage; //- wastage
+
+				estimatePartObj.quantity = tempPart.quantity; //- quantity
+				estimatePartObj.variable = tempPart.variable; //- variable
+
+				estimatePartObj.finalCalculation.materialPrice = tempPart.finalCalculation.materialPrice;
+				estimatePartObj.finalCalculation.itemUnitPrice = tempPart.finalCalculation.itemUnitPrice;
+				estimatePartObj.finalCalculation.totalCostForQuantity = tempPart.finalCalculation.totalCostForQuantity
+
+				estimatePartObj.keyValueCalculations.perimeter = tempPart.keyValueCalculations.perimeter;
+				estimatePartObj.keyValueCalculations.sheetMetalArea = tempPart.keyValueCalculations.sheetMetalArea;
+				estimatePartObj.keyValueCalculations.surfaceArea = tempPart.keyValueCalculations.surfaceArea;
+				estimatePartObj.keyValueCalculations.weight = tempPart.keyValueCalculations.weight
+				estimatePartObj.partUpdateStatus = true;
+
+			}
+			callback(estimatePartObj);
+			
 		} else if (estimateView == 'editPartItemDetail') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
@@ -359,11 +443,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var estimatePartObj = {
 				allShortcuts: [], //- get all presets name from API
 				allPartTypes: [], //- get all part type from API
+				allShapes: [], //- get all shape data from API
 
 				selectedShortcut: {}, //- selected partType presets 
 				selectedPartType: {}, //- selected partType
 				selectedMaterial: {}, //- selected material     
 				selectedSize: {}, //- slected size
+				selectedShape: {}, //- selected shape
 
 				customMaterials: [], //- get all custom material from  API
 				selectedCustomMaterial: {}, //- selecetd custom materail  
@@ -404,45 +490,57 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				NavigationService.boxCall('MPartType/getPartTypeData', function (partTypeData) {
 					estimatePartObj.allPartTypes = partTypeData.data;
 
-					//- check part calculation data is available or not
-					if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partUpdateStatus) {
+					NavigationService.boxCall('CustomMaterial/getAllCustomMaterial', function (allCustomMaterials) {
+						estimatePartObj.customMaterials = allCustomMaterials.data;
+						NavigationService.boxCall('MShape/getMShapeData', function (shapeData) {
+							estimatePartObj.allShapes = shapeData.data;
+							//- check part calculation data is available or not
+							if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partUpdateStatus) {
+								var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
 
-						var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+								if (!_.isEmpty(tempPart.shortcut) && tempPart.shortcut != undefined) {
+									estimatePartObj.selectedShortcut = tempPart.shortcut; //- selecetd shortCut
+								}
+								if (!_.isEmpty(tempPart.partType) && tempPart.partType != undefined) {
+									estimatePartObj.selectedPartType = tempPart.partType; //- selected partType
+								}
+								if (!_.isEmpty(tempPart.material) && tempPart.material != undefined) {
+									estimatePartObj.selectedMaterial = tempPart.material; //- selected material
+								}
+								if (!_.isEmpty(tempPart.size) && tempPart.size != undefined) {
+									estimatePartObj.selectedSize = tempPart.size; //- size
+								}
+								if (!_.isEmpty(tempPart.shape) && tempPart.shape != undefined) {
+									estimatePartObj.selectedShape = tempPart.shape; //- selected material
+								}
+								if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
+									estimatePartObj.selectedCustomMaterial = tempPart.customMaterial; //- selectedCustomeMaterial
+								}
 
-						if (!_.isEmpty(tempPart.shortcut) && tempPart.shortcut != undefined) {
-							estimatePartObj.selectedShortcut = tempPart.shortcut; //- selecetd shortCut
-						}
-						if (!_.isEmpty(tempPart.partType) && tempPart.partType != undefined) {
-							estimatePartObj.selectedPartType = tempPart.partType; //- selected partType
-						}
-						if (!_.isEmpty(tempPart.material) && tempPart.material != undefined) {
-							estimatePartObj.selectedMaterial = tempPart.material; //- selected material
-						}
-						if (!_.isEmpty(tempPart.size) && tempPart.size != undefined) {
-							estimatePartObj.selectedSize = tempPart.size; //- size
-						}
-						if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
-							estimatePartObj.selectedCustomMaterial = tempPart.customMaterial; //- selectedCustomeMaterial
-						}
+								estimatePartObj.quantity = tempPart.quantity; //- quantity
+								estimatePartObj.variable = tempPart.variable; //- variable
 
-						estimatePartObj.quantity = tempPart.quantity; //- quantity
-						estimatePartObj.variable = tempPart.variable; //- variable
+								estimatePartObj.formFactor = tempPart.formFactor; //- formFactor
+								estimatePartObj.length = tempPart.length; //- length
+								estimatePartObj.sizeFactor = tempPart.sizeFactor; //- sizeFactor
+								estimatePartObj.thickness = tempPart.thickness; //- thickness
+								estimatePartObj.wastage = tempPart.wastage; //- wastage
 
-						estimatePartObj.finalCalculation.materialPrice = tempPart.finalCalculation.materialPrice;
-						estimatePartObj.finalCalculation.itemUnitPrice = tempPart.finalCalculation.itemUnitPrice;
-						estimatePartObj.finalCalculation.totalCostForQuantity = tempPart.finalCalculation.totalCostForQuantity
+								estimatePartObj.finalCalculation.materialPrice = tempPart.finalCalculation.materialPrice;
+								estimatePartObj.finalCalculation.itemUnitPrice = tempPart.finalCalculation.itemUnitPrice;
+								estimatePartObj.finalCalculation.totalCostForQuantity = tempPart.finalCalculation.totalCostForQuantity
 
-						estimatePartObj.keyValueCalculations.perimeter = tempPart.keyValueCalculations.perimeter;
-						estimatePartObj.keyValueCalculations.sheetMetalArea = tempPart.keyValueCalculations.sheetMetalArea;
-						estimatePartObj.keyValueCalculations.surfaceArea = tempPart.keyValueCalculations.surfaceArea;
-						estimatePartObj.keyValueCalculations.weight = tempPart.keyValueCalculations.weight
-						estimatePartObj.partUpdateStatus = true;
+								estimatePartObj.keyValueCalculations.perimeter = tempPart.keyValueCalculations.perimeter;
+								estimatePartObj.keyValueCalculations.sheetMetalArea = tempPart.keyValueCalculations.sheetMetalArea;
+								estimatePartObj.keyValueCalculations.surfaceArea = tempPart.keyValueCalculations.surfaceArea;
+								estimatePartObj.keyValueCalculations.weight = tempPart.keyValueCalculations.weight
+								estimatePartObj.partUpdateStatus = true;
 
-						callback(estimatePartObj);
-					} else {
-						callback(estimatePartObj);
-					}
+							}
+							callback(estimatePartObj);
 
+						});
+					});
 				});
 			});
 		} else if (estimateView == 'processing') {
@@ -492,7 +590,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 
 		//- this if is bcoz we are already sending callback in case of editPartItemDetail & partDetail view
-		if (estimateView != 'editPartItemDetail' || estimateView != 'partDetail') {
+		if (estimateView != 'editPartItemDetail' && estimateView != 'partDetail') {
 			callback(getViewData);
 		}
 
@@ -613,6 +711,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			callback(data.data);
 		});
 	}
+	//- to get sizes of selected part type
+	this.getSelectedPartTypeData = function (partTypeId, callback) {
+		var partTypeObj = {
+			partType: partTypeId
+		}
+		NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
+			callback(data.data);
+		});
+	}
 	//- to add a part
 	this.createPart = function (partObj, subAssId, callback) {
 		var subAssIndex = this.getSubAssemblyIndex(subAssId);
@@ -649,13 +756,25 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			tempPart.material = partObject.selectedMaterial; //- selected material
 		}
 		if (!_.isEmpty(partObject.selectedSize) && partObject.selectedSize != undefined) {
-			tempPart.size = partObject.selectedSize; //- size
+			if(angular.isDefined(partObject.selectedSize._id)) {
+				tempPart.size = partObject.selectedSize.size;
+			  } else {
+				tempPart.size = partObject.selectedSize; //- size
+			  }
 		}
 		if (!_.isEmpty(partObject.selectedCustomMaterial) && partObject.selectedCustomMaterial != undefined) {
 			tempPart.customMaterial = partObject.selectedCustomMaterial; //- selectedCustomeMaterial
 		}
+		if (!_.isEmpty(partObject.selectedShape) && partObject.selectedShape != undefined) {
+			tempPart.shape = partObject.selectedShape; //- selectedCustomeMaterial
+		}
 
 		tempPart.quantity = partObject.quantity; //- quantity
+		tempPart.formFactor = partObject.formFactor; //- formFactor
+		tempPart.length = partObject.length; //- length
+		tempPart.sizeFactor = partObject.sizeFactor; //- sizeFactor
+		tempPart.thickness = partObject.thickness; //- thickness
+		tempPart.wastage = partObject.wastage; //- wastage
 		tempPart.variable = partObject.variables; //- variables 
 		tempPart.finalCalculation = {};
 		tempPart.finalCalculation.materialPrice = partObject.finalCalculation.materialPrice;
@@ -665,7 +784,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		tempPart.keyValueCalculations.perimeter = partObject.keyValueCalculations.perimeter;
 		tempPart.keyValueCalculations.sheetMetalArea = partObject.keyValueCalculations.sheetMetalArea;
 		tempPart.keyValueCalculations.surfaceArea = partObject.keyValueCalculations.surfaceArea;
-		tempPart.keyValueCalculations.weight = partObject.keyValueCalculations.weight
+		tempPart.keyValueCalculations.weight = partObject.keyValueCalculations.weight;
 		tempPart.partUpdateStatus = true;
 
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex] = tempPart;
@@ -741,6 +860,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else {
 			callback();
 		}
+	}
+	//- get all materials in case if user selects a shape first
+	this.getAllMaterials = function (callback) {
+		NavigationService.boxCall('MMaterial/getAllMaterials', function (data) {
+			callback(data.data);
+		});
 	}
 	//- to delete a part
 	this.deletePart = function (subAssemblyId, partId, callback) {
@@ -1952,11 +2077,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 
 	//**********************************Custom Material***********************************************//
-	this.getAllCustomMaterialData = function (callback) {
+
+	this.getAllMaterialData = function (callback) {
 		var temp = [];
 		NavigationService.boxCall('CustomMaterial/getAllCustomMaterial', function (data) {
 			if (data.data == "noDataFound") {
-				temp = [];	
+				temp = [];
 			} else {
 				temp = data.data;
 			}
@@ -1968,10 +2094,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var customMaterialObj = {
 			allBaseMetals: [],
 			allAlloys: [],
-			selectedBaseMetal: {},
-			selecetedAlloys: [],
-			allDifficultyFactors: [],
-			selectedDifficultyFactor: {}
+			allDifficultyFactors: []
 		};
 		var allMaterials;
 		if (angular.isDefined(customMaterialData)) {
@@ -1999,7 +2122,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			});
 			NavigationService.boxCall('MDifficultyFactor/getMDifficultyFactorData', function (data) {
 				customMaterialObj.allDifficultyFactors = data.data;
-				callback(customMaterialObj)			
+				callback(customMaterialObj)
 			});
 		});
 	}
@@ -2013,8 +2136,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	this.deleteCustomMaterial = function (customMaterialId, callback) {
 		var idsArray = [];
 		idsArray.push(customMaterialId);
-		NavigationService.delete('Web/delRestrictions/CustomMaterial', {idsArray: idsArray}, function (data) {
-		  callback(data);
+		NavigationService.delete('Web/delRestrictions/CustomMaterial', {
+			idsArray: idsArray
+		}, function (data) {
+			callback(data);
 		});
 	}
 });

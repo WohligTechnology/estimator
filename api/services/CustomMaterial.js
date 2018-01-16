@@ -9,6 +9,8 @@ var schema = new Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'MMaterial'
         },
+        costOfDepRsPerKg: Number,
+        costOfDepRsPerSm: Number
     },
     hardFacingAlloys: [{
         thickness: Number,
@@ -19,10 +21,10 @@ var schema = new Schema({
         costOfDepRsPerKg: Number,
         costOfDepRsPerSm: Number
     }],
-    difficultyFactor: {
+    difficultyFactor: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MDifficultyFactor'
-    },
+    }],
     freeIssue: Boolean,
     totalCostRsPerKg: Number,
     totalCostRsPerSm: Number,

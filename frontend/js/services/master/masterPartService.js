@@ -154,7 +154,7 @@ myApp.service('masterPartService', function (NavigationService) {
                         callback(presetData);
                     });
                 });
-            }   
+            }
         });
 
         // get shape data
@@ -172,7 +172,9 @@ myApp.service('masterPartService', function (NavigationService) {
         var partTypeObj = {
             partType: partTypeId
         }
-        var partTypeDataObj = {};
+        var partTypeDataObj = {
+            materialArray: []
+        };
 
         NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
             if (data.data) {
@@ -183,6 +185,9 @@ myApp.service('masterPartService', function (NavigationService) {
                 _id: partTypeId
             }, function (matData) {
                 partTypeDataObj.materials = matData.data.material;
+                angular.forEach(partTypeDataObj.materials,  function (record) {
+                    partTypeDataObj.materialArray.push(record._id);
+                });
                 callback(partTypeDataObj);
             });
         });
@@ -227,7 +232,7 @@ myApp.service('masterPartService', function (NavigationService) {
             delete presetData.updatedAt;
             delete presetData.$$hashKey;
         }
-        
+
         presetData.partType = presetData.partTypeData._id;
         console.log('**** inside -------------------------- of masterPartService.js ****', presetData);
         NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
@@ -235,10 +240,15 @@ myApp.service('masterPartService', function (NavigationService) {
         });
     }
 
-    this.getMaterialData = function (callback) {
+    this.getMaterialData = function (selectedMaterial, callback) {
         var getMatData = {};
         NavigationService.boxCall('MMaterial/getAllMaterials', function (data) {
             getMatData.materials = data.data;
+            angular.forEach(selectedMaterial,  function (materiaId) {
+                _.remove(getMatData.materials, function (record) {
+                    return record._id == materiaId;
+                });
+            });
             callback(getMatData);
         });
     }

@@ -181,13 +181,13 @@
                                         <li>
                                             <input type="checkbox" id="cm" />
                                             <label class="tree_label" for="cm"></label>
-                                            <span ng-click="getAllCustomMaterialData('customMaterial')" class="customMaterialName">Custom Material ({{customMaterial.length}})</span>
+                                            <span ng-click="getAllMaterialData('customMaterial')" class="customMaterialName">Custom Material ({{customMaterial.length}})</span>
                                             <span ng-click="addOrEditCustomMaterialModal('save')" class="customerMaterialCreateIcon">
                                                 <i class="fa fa-plus btn-info" title="Add Custom Material"></i>
                                             </span>
                                         <ul class="tree_animation">
                                             <li ng-repeat="cm in customMaterial track by $index">
-                                                <span ng-click="getAllCustomMaterialData('customMaterial')" class="tree_label">{{cm.customMaterialName | capitalize}}
+                                                <span ng-click="getAllMaterialData('customMaterial')" class="tree_label">{{cm.customMaterialName | capitalize}}
                                                 </span>
                                                 <span ng-click="addOrEditCustomMaterialModal('update', cm)" class="subAssemblyEditIcon">
                                                     <i class="fa fa-pencil btn-warning" title="Edit Custom Material"></i>
@@ -218,11 +218,11 @@
                                         </tr>
                                         <tr class="border-bott">
                                             <td rowspan="3" class="align-middle text-center border-right"> {{estimateViewData.totalWeight}} </td>
-                                            <td> {{estimateViewData.materialCost}} </td>
-                                            <td> {{estimateViewData.processingCost}} </td>
-                                            <td> {{estimateViewData.addonCost}} </td>
-                                            <td> {{estimateViewData.extrasCost}} </td>
-                                            <td> {{estimateViewData.totalCost}} </td>
+                                            <td> {{estimateViewData.materialCost.toFixed(2)}} </td>
+                                            <td> {{estimateViewData.processingCost.toFixed(2)}} </td>
+                                            <td> {{estimateViewData.addonCost.toFixed(2)}} </td>
+                                            <td> {{estimateViewData.extrasCost.toFixed(2)}} </td>
+                                            <td> {{estimateViewData.totalCost.toFixed(2)}} </td>
                                         </tr>
                                         <tr>
                                             <th> Material Salling Price</th>

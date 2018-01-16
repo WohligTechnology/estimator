@@ -61,6 +61,8 @@ myApp.service('masterShapeService', function (
         } else if (operation == "update") {
             var idsArray = [];
             idsArray.push(shape._id);
+            var tempArray = _.cloneDeep(this.variableData)
+
             NavigationService.apiCall('Mshape/restrictShapeVariable', {idsArray: idsArray}, function(data){
                 shapeDataObj.saveBtn = false;
                 shapeDataObj.editBtn = true;
@@ -70,8 +72,6 @@ myApp.service('masterShapeService', function (
                 else {
                     shapeDataObj.disableField = false;
                 }
-                var tempArray = _.cloneDeep(this.variableData)
-
                 _.map(tempArray, function (n) {
                     if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
                         n.checkboxStatus = false;

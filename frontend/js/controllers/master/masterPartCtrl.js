@@ -22,6 +22,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     var sheetMetalArea = 0;
     var surfaceArea = 0;
     var weight = 0;
+    var selectedMaterial = [];
     // $scope.formData = {};
 
 
@@ -77,6 +78,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
                 toastr.success('Record deleted successfully');
             } else {
                 toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+
             }
             $scope.getPartData();
             $scope.cancelModal();
@@ -123,6 +125,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     $scope.getPartTypeSizes = function (partTypeId) {
         $scope.partTypeId = partTypeId;
         masterPartService.getPartTypeSizes(partTypeId, function (data) {
+            selectedMaterial = data.materialArray;
             $scope.partTypeSizes = data.partSizes;
             $scope.partTypeMaterials = data.materials;
             $scope.showPartTypeSize = true;
@@ -160,9 +163,9 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         presetData.shape.variable = presetData.variable;
         $scope.showPresetUpdateForm = true;
         $scope.showPresetSaveForm = false;
-        debugger;
+        
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
-            debugger;
+            
             $scope.presetFormData = data.presetData;
             $scope.presetFormData.thickness = data.presetData.shape.thickness;
             $scope.presetFormData.length = data.presetData.shape.length;
@@ -170,6 +173,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             $scope.presetFormData.formFactor = data.presetData.shape.formFactor;
             $scope.presetFormData.sizeFactor = data.presetData.shape.sizeFactor;
             $scope.presetFormData.presetName = data.presetData.presetName;
+
 
             $scope.selectedShape = data.presetData.shape;
             $scope.showSaveBtn = data.saveBtn;
@@ -181,7 +185,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         _.map(shapeData.variable, function (n) {
             n.varValue = 0;
         });
-        debugger;
+        
         $scope.selectedShape = shapeData;
         $scope.presetFormData.thickness = shapeData.thickness;
         $scope.presetFormData.length = shapeData.length;
@@ -296,8 +300,8 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     //- to add material to partType 
     $scope.getMaterialData = function (partTypeId) {
         $scope.partTypeId = partTypeId;
-        masterPartService.getMaterialData(function (data) {
-            // $scope.matCatData = data.materialCats;
+        masterPartService.getMaterialData(selectedMaterial, function (data) {
+              // $scope.matCatData = data.materialCats;
             // $scope.matSubCatData = data.materialSubCats;
             $scope.matData = data.materials;
 
@@ -313,6 +317,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     };
 
     $scope.addMaterialToPartType = function (selectedMatId, partTypeId) {
+        selectedMaterial.push(selectedMatId);
         masterPartService.addMaterialToPartType(selectedMatId, partTypeId, function (data) {
             toastr.success('Material Added To The PartType Successfully');
             $scope.cancelModal();
@@ -337,6 +342,14 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
             } else {
+
+            // if(_.isEmpty(data.data)){
+            //     _.remove(selectedMaterial, function (Id) {
+            //         return Id == materialId;
+            //     });
+            //     toastr.success('Record deleted successfully');
+            // }
+            // else{
                 toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();

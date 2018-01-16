@@ -25,6 +25,17 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       });
     }
   }
+  this.getEstimateData = function (enquiryId, callback) {
+    var temp = false;
+    NavigationService.boxCall('DraftEstimate/search', function (data) {
+      angular.forEach(data.data.results,  function (record) {
+        	if (record.enquiryId == enquiryId) {
+            temp = true;
+          }
+        });
+      callback(temp);
+    });
+  }
   this.getCustomerData = function (callback) {
     NavigationService.boxCall('Customer/getCustomerNameLocationAndPayTerms', function (data) {
       callback(data.data);

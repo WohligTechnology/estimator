@@ -1,4 +1,5 @@
 // estimate collection schema
+
 var schema = new Schema({
     enquiryId: {
         type: Schema.Types.ObjectId,
@@ -118,8 +119,8 @@ var model = {
                             console.log('**** inside function_name of DraftEstimate.js & data is ****', estObj);
                         } else {
                             tempObj.estimateVersion = parseInt(estObj.estimateVersion) + 1;
-                            console.log('**** !!!!!!!!!!!!!!!!!! ****',tempObj);
-                        }   
+                            console.log('**** !!!!!!!!!!!!!!!!!! ****', tempObj);
+                        }
                         var assemblyObj = {
                             estimateVersion: tempObj.estimateVersion,
                             enquiryId: found.enquiryId,
@@ -144,7 +145,7 @@ var model = {
                             extras: [],
                             assemblyObj: found
                         };
-        
+
                         Estimate.saveData(assemblyObj, function (err, savedAssembly) {
                             if (err) {
                                 console.log('**** error at Estimate.saveData of DraftEstimate.js ****', err);
@@ -153,7 +154,7 @@ var model = {
                                 callback(null, 'noDataFound');
                             } else {
                                 async.eachSeries(found.subAssemblies, function (subAss, callback) {
-        
+
                                     var subAssObj = {
                                         estimateVersion: tempObj.estimateVersion,
                                         subAssemblyName: subAss.subAssemblyName,
@@ -168,7 +169,7 @@ var model = {
                                         extras: [],
                                         subAssemblyObj: subAss
                                     };
-        
+
                                     EstimateSubAssembly.saveData(subAssObj, function (err, savedSubAss) {
                                         if (err) {
                                             console.log(' **** error at EstimateSubAssembly.saveData of DraftEstimate.js **** ', err);
@@ -178,7 +179,7 @@ var model = {
                                         } else {
                                             subAssembliesArray.push(savedSubAss._id);
                                             async.eachSeries(subAss.subAssemblyParts, function (part, callback) {
-                                                console.log('**** ^^^^^^^^^^^^^ ****',part);
+                                                console.log('**** ^^^^^^^^^^^^^ ****', part);
                                                 var partObj = {
                                                     estimateVersion: tempObj.estimateVersion,
                                                     partName: part.partName,
@@ -200,7 +201,7 @@ var model = {
                                                     extras: [],
                                                     partObj: part
                                                 };
-        
+
                                                 EstimatePart.saveData(partObj, function (err, savedPart) {
                                                     if (err) {
                                                         console.log('**** error at EstimatePart.saveData of DraftEstimate.js ****', err);
@@ -215,7 +216,7 @@ var model = {
                                                                     var tempProObj = proObj;
                                                                     tempProObj.processingLevel = "part";
                                                                     tempProObj.estimateVersion = tempObj.estimateVersion,
-                                                                    tempProObj.processingLevelId = savedPart._id;
+                                                                        tempProObj.processingLevelId = savedPart._id;
                                                                     // tempProObj.processingObj = proObj;
                                                                     EstimateProcessing.saveData(tempProObj, function (err, savedPartProcess) {
                                                                         if (err) {
@@ -237,7 +238,7 @@ var model = {
                                                                 async.eachSeries(part.addons, function (addonsObj, callback) {
                                                                     var tempAddonObj = addonsObj;
                                                                     tempAddonObj.estimateVersion = tempObj.estimateVersion,
-                                                                    tempAddonObj.addonsLevel = "part";
+                                                                        tempAddonObj.addonsLevel = "part";
                                                                     tempAddonObj.addonsLevelId = savedPart._id;
                                                                     // tempAddonObj.addonObj = addonsObj;
                                                                     EstimateAddons.saveData(tempAddonObj, function (err, savedPartAddon) {
@@ -261,7 +262,7 @@ var model = {
                                                                     var tempExtraObj = extrasObj;
                                                                     tempExtraObj.extraLevel = "part";
                                                                     tempExtraObj.estimateVersion = tempObj.estimateVersion,
-                                                                    tempExtraObj.extraLevelId = savedPart._id;
+                                                                        tempExtraObj.extraLevelId = savedPart._id;
                                                                     // tempExtraObj.extraObj = extrasObj;
                                                                     EstimateExtras.saveData(tempExtraObj, function (err, savedPartExtra) {
                                                                         if (err) {
@@ -284,11 +285,11 @@ var model = {
                                                                 console.log('********** error at final response of async.waterfall  DraftEstimate.js ************', err);
                                                                 callback(err, null);
                                                             } else {
-        
+
                                                                 savedPart.processing = partprocessingArray;
                                                                 savedPart.addons = partAddonsArray;
                                                                 savedPart.extras = partExtrasArray;
-        
+
                                                                 EstimatePart.saveData(savedPart, function (err, updatedPart) {
                                                                     if (err) {
                                                                         console.log('**** error at function_name of DraftEstimate.js ****', err);
@@ -304,18 +305,18 @@ var model = {
                                                 if (err) {
                                                     console.log('***** error at final response of 1st async.eachSeries in function_name of DraftEstimate.js *****', err);
                                                 } else {
-        
+
                                                     async.waterfall([
                                                         function (callback) {
                                                             async.eachSeries(subAss.processing, function (proObj, callback) {
-        
+
                                                                 var tempProObj = proObj;
                                                                 tempProObj.processingLevel = "subAssembly";
                                                                 tempProObj.estimateVersion = tempObj.estimateVersion,
-                                                                tempProObj.processingLevelId = savedSubAss._id;
+                                                                    tempProObj.processingLevelId = savedSubAss._id;
                                                                 // tempProObj.processingObj = proObj;
                                                                 // tempProObj.processingObj = {};
-        
+
                                                                 EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
                                                                     if (err) {
                                                                         console.log('**** error at subAssProcessing of DraftEstimate.js ****', err);
@@ -337,7 +338,7 @@ var model = {
                                                                 var tempAddonObj = addonsObj;
                                                                 tempAddonObj.addonsLevel = "subAssembly";
                                                                 tempAddonObj.estimateVersion = tempObj.estimateVersion,
-                                                                tempAddonObj.addonsLevelId = savedSubAss._id;
+                                                                    tempAddonObj.addonsLevelId = savedSubAss._id;
                                                                 // tempAddonObj.addonObj = addonsObj;
                                                                 // tempAddonObj.addonObj = {};
                                                                 EstimateAddons.saveData(tempAddonObj, function (err, savedSubAssAddon) {
@@ -362,16 +363,16 @@ var model = {
                                                                 tempExtraObj.extraLevel = "subAssembly";
                                                                 tempExtraObj.extraLevelId = savedSubAss._id;
                                                                 tempExtraObj.estimateVersion = tempObj.estimateVersion,
-                                                                // tempExtraObj.extraObj = extrasObj;
-                                                                // tempExtraObj.extraObj = {};
-                                                                EstimateExtras.saveData(tempExtraObj, function (err, savedSubAssExtra) {
-                                                                    if (err) {
-                                                                        console.log('**** error at subAssExtras of DraftEstimate.js ****', err);
-                                                                    } else {
-                                                                        subAssExtrasArray.push(savedSubAssExtra._id);
-                                                                        callback();
-                                                                    }
-                                                                });
+                                                                    // tempExtraObj.extraObj = extrasObj;
+                                                                    // tempExtraObj.extraObj = {};
+                                                                    EstimateExtras.saveData(tempExtraObj, function (err, savedSubAssExtra) {
+                                                                        if (err) {
+                                                                            console.log('**** error at subAssExtras of DraftEstimate.js ****', err);
+                                                                        } else {
+                                                                            subAssExtrasArray.push(savedSubAssExtra._id);
+                                                                            callback();
+                                                                        }
+                                                                    });
                                                             }, function (err) {
                                                                 if (err) {
                                                                     console.log('***** error at final response of async.eachSeries in partExtras of DraftEstimate.js*****', err);
@@ -385,12 +386,12 @@ var model = {
                                                             console.log('********** error at final response of async.waterfall  DraftEstimate.js ************', err);
                                                             callback(err, null);
                                                         } else {
-        
+
                                                             savedSubAss.processing = subAssprocessingArray;
                                                             savedSubAss.addons = subAssAddonsArray;
                                                             savedSubAss.extras = subAssExtrasArray;
                                                             savedSubAss.subAssemblyParts = partsArray;
-        
+
                                                             EstimateSubAssembly.saveData(savedSubAss, function (err, updatedSubAss) {
                                                                 if (err) {
                                                                     console.log('**** error at EstimateSubAssembly saveData of DraftEstimate.js ****', err);
@@ -404,19 +405,19 @@ var model = {
                                             });
                                         }
                                     });
-        
+
                                 }, function (err) {
                                     if (err) {
                                         console.log('***** error at final response of 2nd async.eachSeries in function_name of DraftEstimate.js *****', err);
                                     } else {
-        
+
                                         async.waterfall([
                                             function (callback) {
                                                 async.eachSeries(found.processing, function (proObj, callback) {
                                                     var tempProObj = proObj;
                                                     tempProObj.processingLevel = "estimate";
                                                     tempProObj.estimateVersion = tempObj.estimateVersion,
-                                                    tempProObj.processingLevelId = savedAssembly._id;
+                                                        tempProObj.processingLevelId = savedAssembly._id;
                                                     // tempProObj.processingObj = proObj;
                                                     // tempProObj.processingObj = {};
                                                     EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
@@ -440,7 +441,7 @@ var model = {
                                                     var tempAddonObj = addonsObj;
                                                     tempAddonObj.addonsLevel = "estimate";
                                                     tempAddonObj.estimateVersion = tempObj.estimateVersion,
-                                                    tempAddonObj.addonsLevelId = savedAssembly._id;
+                                                        tempAddonObj.addonsLevelId = savedAssembly._id;
                                                     // tempAddonObj.addonObj = addonObj;
                                                     // tempAddonObj.addonObj = {};
                                                     EstimateAddons.saveData(tempAddonObj, function (err, savedSubAssAddon) {
@@ -464,7 +465,7 @@ var model = {
                                                     var tempExtraObj = extrasObj;
                                                     tempExtraObj.extraLevel = "estimate";
                                                     tempExtraObj.estimateVersion = tempObj.estimateVersion,
-                                                    tempExtraObj.extraLevelId = savedAssembly._id;
+                                                        tempExtraObj.extraLevelId = savedAssembly._id;
                                                     // tempExtraObj.extraObj = extrasObj;
                                                     // tempExtraObj.extraObj = {};
                                                     EstimateExtras.saveData(tempExtraObj, function (err, savedSubAssExtra) {
@@ -503,11 +504,11 @@ var model = {
                                         });
                                     }
                                 });
-        
+
                             }
                         });
                     }
-                });            
+                });
             }
         });
     },
@@ -626,10 +627,10 @@ var model = {
                 } else if (_.isEmpty(found)) {
                     callback(null, 'noDataFound');
                 } else {
-                    console.log('**** inside %%%%% of DraftEstimate.js ****',found);
+                    console.log('**** inside %%%%% of DraftEstimate.js ****', found);
                     async.eachSeries(found, function (f, callback) {
                         console.log('**** inside ####### of DraftEstimate.js ****');
-                         f.enquiryNumber = f.enquiryId.enquiryId;
+                        f.enquiryNumber = f.enquiryId.enquiryId;
                         f.customerName = f.enquiryId.customerId.customerName;
                         delete f.enquiryId;
 
@@ -645,6 +646,229 @@ var model = {
                 }
             });
     },
+    generateDraftEstExcel: function (data, callback) {
+        //     DraftEstimate.findOne({
+        //         _id: data._id
+        //     }).lean().exec(function (err, found) {
+        //         if (err) {
+        //             console.log('**** error at function_name of DraftEstimate.js ****', err);
+        //             callback(err, null);
+        //         } else if (_.isEmpty(found)) {
+        //             callback(null, []);
+        //         } else {
+        var workbook = new Excel.Workbook();
+        var worksheet1 = workbook.addWorksheet('Assembly');
+        //                 properties: {
+        //                     tabColor: {
+        //                         argb: 'FFC0000'
+        //                     }
+        //                 }
+        //             });
 
+        //             worksheet1.columns = [{
+        //                 header: 'Assembly details: BLT Chute',
+        //                 key: 'Assembly details: BLT Chute',
+        //                 width: 20
+        //             }]
+
+
+        //             worksheet1.columns = [{
+        //                     header: 'SA Qty.',
+        //                     key: 'assemblyName',
+        //                     width: 20
+        //                 },
+        //                 {
+        //                     header: 'SA name',
+        //                     key: 'subAssemblyName',
+        //                     width: 20
+        //                 },
+        //                 {
+        //                     header: 'Material',
+        //                     key: 'Material',
+        //                     width: 15
+        //                 },
+        //                 {
+        //                     header: 'Type',
+        //                     key: 'Type',
+        //                     width: 18
+        //                 },
+        //                 {
+        //                     header: 'Category / Sub-Cat',
+        //                     key: 'Category / Sub-Cat',
+        //                     width: 15
+        //                 },
+        //                 {
+        //                     header: 'Item',
+        //                     key: 'Item',
+        //                     width: 15
+        //                 },
+        //                 {
+        //                     header: 'KVC Numbers',
+        //                     key: 'keyValueCalculations.numbers',
+        //                     width: 15
+        //                 },
+        //                 {
+        //                     header: 'KVC Hours',
+        //                     key: 'keyValueCalculations.hours',
+        //                     width: 10
+        //                 },
+
+        //                 {
+        //                     header: 'Total Weight',
+        //                     key: 'totalWeight',
+        //                     width: 10
+        //                 }, {
+        //                     header: 'Material Cost',
+        //                     key: 'materialCost',
+        //                     width: 17
+        //                 }, {
+        //                     header: 'Processing Cost',
+        //                     key: 'processingCost',
+        //                     width: 15
+        //                 }, {
+        //                     header: 'Addon Cost',
+        //                     key: 'addonCost',
+        //                     width: 10
+        //                 }, {
+        //                     header: 'Extra Cost',
+        //                     key: 'extrasCost',
+        //                     width: 10
+        //                 }, {
+        //                     header: 'Total Cost',
+        //                     key: 'totalCost',
+        //                     width: 10
+        //                 }, {
+        //                     header: 'Estimate Details',
+        //                     key: 'estimateDetails',
+        //                     width: 16
+        //                 }, {
+        //                     header: 'Estimate Boq',
+        //                     key: 'estimateBoq',
+        //                     width: 17
+        //                 }
+        //             ];
+
+        //             workbook.xlsx.writeFile('./EstimateSheet.xlsx').then(function () {
+        //                 console.log('sheet 1 is written');
+        //                 callback();
+        //             });
+
+        //         }
+        //     });
+        worksheet1.columns = [
+            {
+                header: 'SA Number',
+                key: 'subAssemblyNumber',
+                width: 10
+            },
+            {
+                header: 'SA Qty.',
+                key: 'id',
+                width: 10
+            },
+            {
+                header: 'SA name',
+                key: 'subAssemblyName',
+                width: 32
+            },
+            {
+                header: 'Material',
+                key: 'Material',
+                width: 10,
+                outlineLevel: 1
+            },
+            {
+                header: 'Type',
+                key: 'Type',
+                width: 10,
+                outlineLevel: 1
+            },
+            {
+                header: 'Category / Sub-Cat',
+                key: 'Category / Sub-Cat',
+                width: 10,
+                outlineLevel: 1
+            },
+            {
+                header: 'Item',
+                key: 'Item',
+                width: 10,
+                outlineLevel: 1
+            },
+            {
+                header: 'Weight (kg)',
+                key: 'Weight',
+                width: 10,
+                outlineLevel: 1
+            },
+            {
+                header: 'Cost (Rs.)',
+                key: 'Cost',
+                width: 10,
+                outlineLevel: 1
+            },
+            {
+                header: 'Processing Cost',
+                key: 'Processing Cost',
+                width: 10,
+                outlineLevel: 1
+            },
+            {
+                header: 'Weight',
+                key: 'Weight',
+                width: 10,
+                outlineLevel: 1
+            },
+            {
+                header: 'Cost',
+                key: 'Cost',
+                width: 10,
+                outlineLevel: 1
+            },
+            // {
+            //     header: 'Type',
+            //     key: 'DOB',
+            //     width: 10,
+            //     outlineLevel: 1
+            // },
+
+        ];
+
+        var Col7 = worksheet1.getColumn(7);
+        var Col8 = worksheet1.getColumn(8);
+        var Col9 = worksheet1.getColumn(9);
+        var Col10 = worksheet1.getColumn(10);
+        var Col11 = worksheet1.getColumn(11);
+        var Col12 = worksheet1.getColumn(12);
+        var Col13 = worksheet1.getColumn(13);
+        var Col14 = worksheet1.getColumn(14);
+        var Col15 = worksheet1.getColumn(15);
+        var Col16 = worksheet1.getColumn(16);
+
+        
+        Col7.header = ['Unit details','Part Total', 'Weight'];
+        Col8.header = ['Unit details','Part Total', 'Cost'];
+        Col9.header = ['Unit details','Processing Cost'];
+        Col10.header = ['Unit details','Addons', 'Weight'];
+        Col11.header = ['Unit details','Addons', 'Cost'];
+        Col12.header = ['Unit details','Extra Cost'];
+        Col13.header = ['SA Unit Total','Weight'];
+        Col14.header = ['SA Unit Total', 'Cost'];
+        Col15.header = ['SA Quantity Total','Weight'];
+        Col16.header = ['SA Quantity Total', 'Cost'];
+
+        worksheet1.mergeCells('G1:H1');
+        worksheet1.mergeCells('I1:J1');
+        worksheet1.mergeCells('K1:L1');
+
+        // worksheet1.getCell('G1:H1:I1:J1:K1:L1').value = '        Unit details';
+
+        workbook.xlsx.writeFile('./EstimateSheet.xlsx').then(function () {
+            console.log('sheet 1 is written');
+            callback();
+        });
+
+    },
 };
+
 module.exports = _.assign(module.exports, exports, model);
