@@ -14,7 +14,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   $scope.options = {
     mobile: {
       phone: true,
-      phoneRegionCode: 'IN'      
+      phoneRegionCode: 'IN'
     }
   };
 
@@ -79,11 +79,10 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   //- to delete user
   $scope.deleteUser = function (userId) {
     userService.deleteUser(userId, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getUserData();
@@ -91,37 +90,9 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   }
   //- for pagination of users' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    if (angular.isUndefined(keyword) || keyword == '') {
-      if (numberOfRecords != '10') {
-        userService.getPaginationData(page, numberOfRecords, null, function (data) {
-          $scope.userData = data.results;
-          userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      } else {
-        userService.getPaginationData(page, null, null, function (data) {
-          $scope.userData = data.results;
-          userService.getPaginationDetails(page, 10, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      }
-    } else {
-      userService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-        $scope.userData = data.results;
-        userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-          $scope.obj = obj;
-        });
-
-      });
-    }
-  }
-  //- to search the text in table
-  $scope.serachText = function (keyword, count) {
-    userService.getPaginationData(null, null, keyword, function (data) {
+    userService.getPaginationData(page, numberOfRecords, keyword, function (data) {
       $scope.userData = data.results;
-      userService.getPaginationDetails(1, count, data, function (obj) {
+      userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
         $scope.obj = obj;
       });
     });
@@ -141,11 +112,10 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   //-to delete bulk users
   $scope.deleteBulkUsers = function (users) {
     userService.deleteBulkUsers(users, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.bulkUsers = [];

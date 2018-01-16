@@ -59,11 +59,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterialCat = function (materialCatId) {
         masterMaterialService.deleteMaterialCat(materialCatId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-            }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getMaterialData();
@@ -108,11 +107,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterialSubCat = function (materialSubCatId) {
         masterMaterialService.deleteMaterialSubCat(materialSubCatId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-            }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getMaterialData();
@@ -121,9 +119,9 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
 
     $scope.addOrEditMaterialModal = function (operation, materialSubCatId, material) {
-        masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {           
+        masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {
 
-            $scope.formData = data.material;           
+            $scope.formData = data.material;
             $scope.subCatId = data.materialSubCategory; // pass it to parameter of addOrEditMaterial
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
@@ -137,9 +135,9 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
-        masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {   
-            if(angular.isUndefined(materialData._id)) {
-                toastr.success('Material added successfully');   
+        masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {
+            if (angular.isUndefined(materialData._id)) {
+                toastr.success('Material added successfully');
                 $scope.cancelModal();
                 $scope.getSubCatMaterials(data.data.materialSubCategory);
             } else {
@@ -149,7 +147,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     //- instant edit particular master material
     $scope.editMaterial = function (materialId) {
-        if($scope.editMaterialId == materialId) {
+        if ($scope.editMaterialId == materialId) {
             $scope.editMaterialId = '';
         } else {
             $scope.editMaterialId = materialId;
@@ -178,11 +176,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterial = function (materialId) {
         masterMaterialService.deleteMaterial(materialId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-              }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getMaterialData();
@@ -210,60 +207,59 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
     //- for pagination of materials' records
     $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-        if (angular.isUndefined(keyword) || keyword == '') {
-            if (numberOfRecords != '10') {
-                masterMaterialService.getPaginationData(page, numberOfRecords, null, function (data) {
-                    $scope.subCatMaterials = data.results;
-                    masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-                        $scope.obj = obj;
-                    });
-                });
-            } else {
-                masterMaterialService.getPaginationData(page, null, null, function (data) {
-                    $scope.subCatMaterials = data.results;
-                    masterMaterialService.getPaginationDetails(page, 10, data, function (obj) {
-                        $scope.obj = obj;
-                    });
-                });
-            }
-        } else {
-            masterMaterialService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-                $scope.subCatMaterials = data.results;
-                masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-                    $scope.obj = obj;
-                });
-            });
-        }
-    }
-    //- to search the text in table
-    $scope.searchText = function (keyword, count) {
-        masterMaterialService.getPaginationData(null, null, keyword, function (data) {
+        // if (angular.isUndefined(keyword) || keyword == '') {
+        //     if (numberOfRecords != '10') {
+        //         masterMaterialService.getPaginationData(page, numberOfRecords, null, function (data) {
+        //             $scope.subCatMaterials = data.results;
+        //             masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+        //                 $scope.obj = obj;
+        //             });
+        //         });
+        //     } else {
+        //         masterMaterialService.getPaginationData(page, null, null, function (data) {
+        //             $scope.subCatMaterials = data.results;
+        //             masterMaterialService.getPaginationDetails(page, 10, data, function (obj) {
+        //                 $scope.obj = obj;
+        //             });
+        //         });
+        //     }
+        // } else {
+        masterMaterialService.getPaginationData(page, numberOfRecords, keyword, function (data) {
             $scope.subCatMaterials = data.results;
-            masterMaterialService.getPaginationDetails(1, count, data, function (obj) {
+            masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
                 $scope.obj = obj;
             });
         });
+        // }
     }
+    // //- to search the text in table
+    // $scope.searchText = function (keyword, count) {
+    //     masterMaterialService.getPaginationData(null, null, keyword, function (data) {
+    //         $scope.subCatMaterials = data.results;
+    //         masterMaterialService.getPaginationDetails(1, count, data, function (obj) {
+    //             $scope.obj = obj;
+    //         });
+    //     });
+    // }
     //   //- bulk materials deletion modal
-      $scope.deleteBulkMaterialsModal = function (materialIdArray, getFunction) {
+    $scope.deleteBulkMaterialsModal = function (materialIdArray, getFunction) {
         $scope.idsToDelete = materialIdArray;
         $scope.functionToCall = getFunction;
 
         $scope.modalInstance = $uibModal.open({
-          animation: true,
-          templateUrl: 'views/content/deleteBulkModal.html',
-          scope: $scope,
-          size: 'md'
+            animation: true,
+            templateUrl: 'views/content/deleteBulkModal.html',
+            scope: $scope,
+            size: 'md'
         });
-      }
+    }
     //   //-to delete bulk materials
-      $scope.deleteBulkMaterials = function (materials) {
-                  masterMaterialService.deleteBulkMaterials(materials, function (data) {
-            if(_.isEmpty(data.data)){
+    $scope.deleteBulkMaterials = function (materials) {
+        masterMaterialService.deleteBulkMaterials(materials, function (data) {
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-              }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
 
             $scope.cancelModal();
@@ -272,19 +268,19 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
             $scope.checkboxStatus = false;
             $scope.getSubCatMaterials();
         });
-      }
+    }
     //   //- to get bulk materials
-      $scope.selectBulkMaterials = function (checkboxStatus, materialId) {
+    $scope.selectBulkMaterials = function (checkboxStatus, materialId) {
         masterMaterialService.selectBulkMaterials(checkboxStatus, materialId, function (data) {
-          $scope.bulkMaterials = data;
+            $scope.bulkMaterials = data;
         });
-      }
-      //- to select all records
-      $scope.selectAll = function (materials, checkAll) {
+    }
+    //- to select all records
+    $scope.selectAll = function (materials, checkAll) {
         masterMaterialService.selectAll(materials, checkAll, function (data) {
-          $scope.bulkMaterials = data;
+            $scope.bulkMaterials = data;
         });
-      }
+    }
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {

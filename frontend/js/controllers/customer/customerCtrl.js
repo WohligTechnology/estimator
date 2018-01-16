@@ -1,4 +1,4 @@
-myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerService) {
+myApp.controller('customerCtrl', function ($scope, toastr, $uibModal, customerService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -44,7 +44,7 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   //- to add or edit customer
   $scope.addOrEditCustomer = function (operation, customerData) {
     customerService.addOrEditCustomer(customerData, function (data) {
-      if(angular.isUndefined(data.error)) {
+      if (angular.isUndefined(data.error)) {
         if (operation == 'save') {
           toastr.success('Record added successfully');
         } else {
@@ -72,11 +72,10 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   //- to delete customer
   $scope.deleteCustomer = function (customerId) {
     customerService.deleteCustomer(customerId, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getCustomerData();
@@ -84,41 +83,41 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   }
   //- for pagination of cusomers' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    if (angular.isUndefined(keyword) || keyword == '') {
-      if (numberOfRecords != '10') {
-        customerService.getPaginationData(page, numberOfRecords, null, function (data) {
-          $scope.customerData = data.results;
-          customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      } else {
-        customerService.getPaginationData(page, null, null, function (data) {
-          $scope.customerData = data.results;
-          customerService.getPaginationDetails(page, 10, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      }
-    } else {
-      customerService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-        $scope.customerData = data.results;
-        customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-          $scope.obj = obj;
-        });
-      });
-    }
-  }
-
-  //- to search the text in table
-  $scope.serachText = function (keyword, count) {
-    customerService.getPaginationData(null, null, keyword, function (data) {
+    // if (angular.isUndefined(keyword) || keyword == '') {
+    //   if (numberOfRecords != '10') {
+    //     customerService.getPaginationData(page, numberOfRecords, null, function (data) {
+    //       $scope.customerData = data.results;
+    //       customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   } else {
+    //     customerService.getPaginationData(page, null, null, function (data) {
+    //       $scope.customerData = data.results;
+    //       customerService.getPaginationDetails(page, 10, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   }
+    // } else {
+    customerService.getPaginationData(page, numberOfRecords, keyword, function (data) {
       $scope.customerData = data.results;
-      customerService.getPaginationDetails(1, count, data, function (obj) {
+      customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
         $scope.obj = obj;
       });
     });
+    // }
   }
+
+  // //- to search the text in table
+  // $scope.serachText = function (keyword, count) {
+  //   customerService.getPaginationData(null, null, keyword, function (data) {
+  //     $scope.customerData = data.results;
+  //     customerService.getPaginationDetails(1, count, data, function (obj) {
+  //       $scope.obj = obj;
+  //     });
+  //   });
+  // }
   //- modal to delete bulk customers
   $scope.deleteBulkCustomersModal = function (customerIdArray, getFunction) {
     $scope.idsToDelete = customerIdArray;
@@ -134,11 +133,10 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   //- to delete customers
   $scope.deleteBulkCustomers = function (customers) {
     customerService.deleteBulkCustomers(customers, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getCustomerData();
@@ -149,7 +147,7 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   $scope.selectBulkCustomers = function (checkboxStatus, customerId) {
     customerService.selectBulkCustomers(checkboxStatus, customerId, function (data) {
       if (data.length >= 1) {
-      $scope.bulkCustomers = data;
+        $scope.bulkCustomers = data;
       }
     });
   }

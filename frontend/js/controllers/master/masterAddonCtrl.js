@@ -1,4 +1,4 @@
-myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAddonService) {
+myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterAddonService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -81,11 +81,10 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   //- function for addon deletion
   $scope.deleteAddonType = function (addonId) {
     masterAddonService.deleteAddonType(addonId, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.getAddonData();
       $scope.cancelModal();
@@ -94,41 +93,41 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
 
   //- function for pagination of master addons' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    if (angular.isUndefined(keyword) || keyword == '') {
-      if (numberOfRecords != '10') {
-        masterAddonService.getPaginationData(page, numberOfRecords, null, function (data) {
-          $scope.addonData = data.results;
-          masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      } else {
-        masterAddonService.getPaginationData(page, null, null, function (data) {
-          $scope.addonData = data.results;
-          masterAddonService.getPaginationDetails(page, 10, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      }
-    } else {
-      masterAddonService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-        $scope.addonData = data.results;
-        masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-          $scope.obj = obj;
-        });
-      });
-    }
-  }
-
-  //- function to search the text in table
-  $scope.serachText = function (keyword, count) {
-    masterAddonService.getPaginationData(null, null, keyword, function (data) {
+    // if (angular.isUndefined(keyword) || keyword == '') {
+    //   if (numberOfRecords != '10') {
+    //     masterAddonService.getPaginationData(page, numberOfRecords, null, function (data) {
+    //       $scope.addonData = data.results;
+    //       masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   } else {
+    //     masterAddonService.getPaginationData(page, null, null, function (data) {
+    //       $scope.addonData = data.results;
+    //       masterAddonService.getPaginationDetails(page, 10, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   }
+    // } else {
+    masterAddonService.getPaginationData(page, numberOfRecords, keyword, function (data) {
       $scope.addonData = data.results;
-      masterAddonService.getPaginationDetails(1, count, data, function (obj) {
+      masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
         $scope.obj = obj;
       });
     });
+    // }
   }
+
+  // //- function to search the text in table
+  // $scope.serachText = function (keyword, count) {
+  //   masterAddonService.getPaginationData(null, null, keyword, function (data) {
+  //     $scope.addonData = data.results;
+  //     masterAddonService.getPaginationDetails(1, count, data, function (obj) {
+  //       $scope.obj = obj;
+  //     });
+  //   });
+  // }
 
   //- to dismiss modal instance
   $scope.cancelModal = function () {
@@ -150,11 +149,10 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   //- function to delete addon
   $scope.deleteBulkAddons = function (addons) {
     masterAddonService.deleteBulkAddons(addons, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getAddonData();

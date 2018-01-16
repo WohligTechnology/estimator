@@ -8,7 +8,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   $scope.checkAll = false; //- for all records selection
   $scope.checkboxStatus = false; //- for multiple records selection
 
-  
+
   // *************************** default functions begin here  ********************** //
   //- function to get all enquiries data 
   $scope.getEnquiryData = function () {
@@ -45,11 +45,10 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   //- to delete enquiry
   $scope.deleteEnquiry = function (enquiryId) {
     enquiryService.deleteEnquiry(enquiryId, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getEnquiryData();
@@ -58,41 +57,41 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
 
   //- for pagination of enquiries' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    if (angular.isUndefined(keyword) || keyword == '') {
-      if (numberOfRecords != '10') {
-        enquiryService.getPaginationData(page, numberOfRecords, null, function (data) {
-          $scope.tableData = data.results;
-          enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      } else {
-        enquiryService.getPaginationData(page, null, null, function (data) {
-          $scope.tableData = data.results;
-          enquiryService.getPaginationDetails(page, 10, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      }
-    } else {
-      enquiryService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-        $scope.tableData = data.results;
-        enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-          $scope.obj = obj;
-        });
-      });
-    }
-  }
-
-  //- to search the text in the table
-  $scope.serachText = function (keyword, count) {
-    enquiryService.getPaginationData(null, null, keyword, function (data) {
+    // if (angular.isUndefined(keyword) || keyword == '') {
+    //   if (numberOfRecords != '10') {
+    //     enquiryService.getPaginationData(page, numberOfRecords, null, function (data) {
+    //       $scope.tableData = data.results;
+    //       enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   } else {
+    //     enquiryService.getPaginationData(page, null, null, function (data) {
+    //       $scope.tableData = data.results;
+    //       enquiryService.getPaginationDetails(page, 10, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   }
+    // } else {
+    enquiryService.getPaginationData(page, numberOfRecords, keyword, function (data) {
       $scope.tableData = data.results;
-      enquiryService.getPaginationDetails(1, count, data, function (obj) {
+      enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
         $scope.obj = obj;
       });
     });
+    // }
   }
+
+  // //- to search the text in the table
+  // $scope.serachText = function (keyword, count) {
+  //   enquiryService.getPaginationData(null, null, keyword, function (data) {
+  //     $scope.tableData = data.results;
+  //     enquiryService.getPaginationDetails(1, count, data, function (obj) {
+  //       $scope.obj = obj;
+  //     });
+  //   });
+  // }
 
   //- to dismiss modal instance
   $scope.cancelModal = function () {
@@ -114,11 +113,10 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   //- to delete enquiry
   $scope.deleteBulkEnquiries = function (enquiries) {
     enquiryService.deleteBulkEnquiries(enquiries, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getEnquiryData();

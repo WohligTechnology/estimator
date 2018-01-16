@@ -41,9 +41,9 @@
             </div>
             <div class="portlet-body horizontal_scroll">
                 <div class="table-toolbar">
-                    <div class="row" ng-if="obj.total>obj.count">
+                    <div class="row">
                         <div class="col-md-8">
-                            <div class="btn-group">
+                            <div class="btn-group" ng-show="obj.total>=obj.count">
                                 <button type="button" class="btn btn-default">Show Records</button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
                                     data-close-others="true">
@@ -71,7 +71,7 @@
                                 <div class="portlet-input input-small input-inline">
                                     <div class="input-icon right">
                                         <i class="icon-magnifier"></i>
-                                        <input type="text" class="form-control form-control-solid" ng-model="keyword" ng-change="serachText(keyword, obj.count)"
+                                        <input type="text" class="form-control form-control-solid" ng-model="keyword" ng-change="getPaginationData(1, obj.count, keyword)"
                                             placeholder="search...">
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="row" ng-if="obj.total>obj.count">
+                <div class="row">
                     <div class="col-md-6">
                         <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing {{obj.pageStart}} to {{obj.pageEnd}} of {{obj.total}} records</div>
                     </div>
