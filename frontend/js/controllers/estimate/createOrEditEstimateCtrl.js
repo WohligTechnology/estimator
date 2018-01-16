@@ -375,6 +375,22 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       window[tempVar] = varValue;
     });
 
+    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.length) && $scope.estimatePartObj.selectedShortcut.length != null) {
+      var l = $scope.estimatePartObj.selectedShortcut.length;
+    }
+    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.thickness) && $scope.estimatePartObj.selectedShortcut.thickness != null) {
+      var t = $scope.estimatePartObj.selectedShortcut.thickness;
+    }
+    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.sizeFactor) && $scope.estimatePartObj.selectedShortcut.sizeFactor != null) {
+      var sf = $scope.estimatePartObj.selectedShortcut.sizeFactor;
+    }
+    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.formFactor) && $scope.estimatePartObj.selectedShortcut.formFactor != null) {
+      var ff = $scope.estimatePartObj.selectedShortcut.formFactor;
+    }
+    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.wastage) && $scope.estimatePartObj.selectedShortcut.wastage != null) {
+      var wtg = $scope.estimatePartObj.selectedShortcut.wastage;
+    }
+
 
     $scope.estimatePartObj.keyValueCalculations.perimeter = eval(partFormulae.perimeter);
     $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = eval(partFormulae.sheetMetalArea);
@@ -1171,7 +1187,17 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- get done with all the calculation after selecting processItem
   $scope.getSelectedProessItem = function (proItemObj) {
     //- calculate rate
-    $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);
+
+    debugger;
+    //- is there anything else  user will put in mul5fact while adding processing type
+    if ($scope.partProcessingObj.selectedProcessingType.rate.mulFact == 't') {
+      //- get thickness of corresponding level   
+      //- i.e.  part level, subAssembly level or assemby level 
+      var t = $scope.estimatePartObj.selectedShortcut.thickness;
+    } else {
+      $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);
+    }
+
     $scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom.uomName;
 
   }
