@@ -4,7 +4,7 @@
         <div class="portlet light portlet-fit bordered">
             <div class="portlet-title">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="caption">
                             <i class="icon-settings font-red"></i>
                             <span class="caption-subject font-red sbold uppercase">Items Details</span>
@@ -18,6 +18,9 @@
                     </div>
                     <div class="col-md-3">
                         <label>Icon:</label> {{estimatePartObj.shapeIcon}}
+                    </div>
+                    <div class="col-md-1" ng-hide="estimatePartObj.partUpdateStatus">
+                            <button type="button" class="btn btn-circle green" ng-click="getEstimateView('editPartItemDetail', 'part', estimatePartObj.subAssNumber, estimatePartObj.partNumber)" >Reset</button>                            
                     </div>
                 </div>
             </div>
@@ -51,11 +54,11 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group" ng-if="!disablePartFields.disableShape">
+                                        <div class="form-group">
                                             <label class="col-md-4 control-label">Shape:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="sh.shapeName for sh in estimatePartObj.allShapes track by sh._id" ng-model="estimatePartObj.selectedShape"
-                                                    ng-change="getSelectedShapeData(estimatePartObj.selectedShape)">
+                                                    ng-change="getSelectedShapeData(estimatePartObj.selectedShape)" ng-disabled="disablePartFields.disableShape">
                                                 </select>
                                             </div>
                                         </div>
@@ -138,27 +141,27 @@
                                         <div class="form-group">
                                             <label class="col-md-3 control-label">Size Factor (sf)</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.sizeFactor" required>
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.sizeFactor">
                                             </div>
                                             <label class="col-md-3 control-label">Form Factor(ff)</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.formFactor" required>
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.formFactor">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-3 control-label">Thickness (t)</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.thickness" required>
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.thickness">
                                             </div>
                                             <label class="col-md-3 control-label">Length (l)</label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.length" required>
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.length">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                                 <label class="col-md-3 control-label">Wastage (wtg)</label>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.wastage" required>
+                                                    <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.wastage">
                                                 </div>
                                             </div>
                                         <div class="mar-t">
