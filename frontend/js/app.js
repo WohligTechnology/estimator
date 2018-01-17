@@ -175,9 +175,6 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
       url: "/login",
       templateUrl: "views/content/login/estimatorLogin.html",
       controller: "loginCtrl",
-      // resolve: {
-      //   "isLoggedIn": routeResolve
-      // }
     })
 
     // ********************************** logout module ********************************** //

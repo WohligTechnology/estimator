@@ -109,7 +109,7 @@
                             <td>{{$index+1}} </td>
                             <td>{{user.name | capitalize}} </td>
                             <td>{{user.email}} </td>
-                            <td>{{user.mobile }}</td>
+                            <td>+91 &nbsp; {{user.mobile }}</td>
                             <td>{{user.accessLevel }}</td>
                             <td>
                                 <span class="label label-sm label-success" ng-click="addOrEditUserModal('update',user)">
@@ -122,7 +122,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="row">
+                <div class="row" ng-hide="userData.length == 0">
                     <div class="col-md-6">
                         <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing {{obj.pageStart}} to {{obj.pageEnd}} of {{obj.total}} records</div>
                     </div>
@@ -130,7 +130,7 @@
                         <div class="pull-right">
                             <div class="zui-pager small">
                                 <ol class="btn-group">
-                                    <li class="btn-group__item">
+                                    <li class="btn-group__item" ng-disabled="obj.pageNumber == 1" ng-click="getPaginationData(obj.pageNumber - 1, obj.count, keyword)">
                                         <i class="i-chevron-left"></i>
                                     </li>
                                     <li class="btn-group__item">
@@ -144,7 +144,7 @@
                                             </select>
                                         </div>
                                     </li>
-                                    <li class="btn-group__item">
+                                    <li class="btn-group__item" ng-disabled="obj.pageNumber == numberOfPages" ng-click="getPaginationData(obj.pageNumber + 1, obj.count, keyword)">
                                         <i class="i-chevron-right"></i>
                                     </li>
                                 </ol>

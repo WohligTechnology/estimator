@@ -119,8 +119,8 @@
                                             </tr>
                                         </table>
                                     </td>
-                                    <td> {{c.totalCostRsPerKg}} </td>
-                                    <td> {{c.totalCostRsPerSm}}</td>
+                                    <td> {{c.totalCostRsPerKg.toFixed(2)}} </td>
+                                    <td> {{c.totalCostRsPerSm.toFixed(2)}}</td>
                                     <td> {{c.freeIssue}}</td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" ng-click="addOrEditCustomMaterialModal('update',c)">

@@ -11,7 +11,10 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   //- to get all estimates data
   $scope.getTableData = function () {
     estimateService.getEstimateData(function (data) {
-      $scope.tableData = data;
+      $scope.tableData = data.results;
+      estimateService.getPaginationDetails(1, 10, data, function (obj) {
+        $scope.obj = obj;
+      });
     });
   }
 

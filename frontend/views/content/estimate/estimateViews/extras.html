@@ -75,7 +75,7 @@
                                     <td>{{e.rate}}</td>
                                     <td>{{e.quantity}} </td>
                                     <td>{{e.uom}} </td>
-                                    <td>{{e.totalCost}} </td>
+                                    <td>{{(e.totalCost).toFixed(2)}} </td>
                                     <td>{{e.remark}} </td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" id="add_space" ng-click="addOrEditExtraModal('update', level, estimateViewData.subAssemblyId, estimateViewData.partId, e.extraNumber)">

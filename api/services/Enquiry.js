@@ -53,7 +53,7 @@ var schema = new Schema({
             type: Date
         },
         customerContacts: {
-            type: Number
+            type: String
         },
         customerName: {
             type: String

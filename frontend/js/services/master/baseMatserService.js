@@ -1,31 +1,23 @@
 myApp.service('baseMatserService', function (NavigationService) {
 
     this.getUomData = function (callback) {
-        NavigationService.boxCall('MUom/search', function (data) {
-            var uoms = data.data.results;
+        NavigationService.boxCall('MUom/getMUomData', function (data) {
+            var uoms = data.data;
             callback(uoms);
         });
     }
-    this.getVariableData = function (callback) {
-        NavigationService.boxCall('MVariables/search', function (data) {
-            var variables = data.data.results;
-            callback(variables);
-        });
-    }
     this.getDfData = function (callback) {
-        NavigationService.boxCall('MDifficultyFactor/search', function (data) {
-            var dfs = data.data.results;
+        NavigationService.boxCall('MDifficultyFactor/getMDifficultyFactorData', function (data) {
+            var dfs = data.data;
             callback(dfs);
         });
     }
     this.getMarkupData = function (callback) {
-        NavigationService.boxCall('MMarkup/search', function (data) {
-            var markups = data.data.results;
+        NavigationService.boxCall('MMarkup/getMMarkupData', function (data) {
+            var markups = data.data;
             callback(markups);
         });
     }
-
-
     this.getUomModalData = function (operation, uom, callback) {
         var uomDataObj = {};
         if (angular.isDefined(uom)) {

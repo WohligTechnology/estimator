@@ -11,7 +11,7 @@ myApp.service('masterProcessService', function (NavigationService) {
   //- to get process type data
   this.getProcessTypeData = function (callback) {
     NavigationService.boxCall('MProcessType/getAllProcessType', function (data) {
-      callback(data.data.results);
+      callback(data.data);
     });
   }
 

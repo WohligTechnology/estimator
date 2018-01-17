@@ -17,7 +17,10 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.getProcessTypeData = function () {
         masterProcessService.getProcessTypeData(function (data) {
-            $scope.processData = data;
+            $scope.processData = data.results;
+            masterProcessService.getPaginationDetails(1, 10, data, function (obj) {
+                $scope.obj = obj;
+              });
         });
     }
 

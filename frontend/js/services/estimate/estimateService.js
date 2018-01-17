@@ -18,7 +18,7 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- get pagination data
   this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
-    NavigationService.apiCall('DraftEstimate/search', {
+    NavigationService.apiCall('DraftEstimate/getDraftEstimateCustomerName', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber

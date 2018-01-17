@@ -187,7 +187,7 @@
                 </div>
                 <!-- END BORDERED TABLE PORTLET-->
 
-                <div class="row">
+                <div class="row" ng-hide="processData.length == 0">
                     <div class="col-md-6">
                         <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing {{obj.pageStart}} to {{obj.pageEnd}} of {{obj.total}} records</div>
                     </div>

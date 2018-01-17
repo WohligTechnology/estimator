@@ -14,13 +14,6 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
     commercialRequirement: {},
     preQualificationCriteria: {}
   };
-  //- cleave css 
-  $scope.options = {
-    mobile: {
-      phone: true,
-      phoneRegionCode: 'IN'
-    }
-  };
   $scope.dateNow = $filter('date')(new Date(), "yyyy-MM-dd");
   
 

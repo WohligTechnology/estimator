@@ -11,18 +11,12 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     // *************************** default functions begin here  ********************** //
     $scope.getBaseMasterData = function () {
         $scope.getUomData();
-        $scope.getVariableData();
         $scope.getDfData();
         $scope.getMarkupData();
     }
     $scope.getUomData = function () {
         baseMatserService.getUomData(function (data) {
             $scope.uomData = data;
-        });
-    }
-    $scope.getVariableData = function () {
-        baseMatserService.getVariableData(function (data) {
-            $scope.variableData = data;
         });
     }
     $scope.getDfData = function () {
@@ -75,66 +69,15 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     }
     $scope.deleteUom = function (uomId) {
         baseMatserService.deleteUom(uomId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-            }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getUomData();
         });
     }
-
-
-    //- to add or edit Variable name
-    $scope.addOrEditVariableModal = function (operation, variable) {
-        baseMatserService.getVariableModalData(operation, variable, function (data) {
-            $scope.formData = data.variable;
-            $scope.showSaveBtn = data.saveBtn;
-            $scope.showEditBtn = data.editBtn;
-
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/content/master/base/createOrEditVariable.html',
-                scope: $scope,
-                size: 'md'
-            });
-        });
-    }
-    $scope.addOrEditVariable = function (variableData) {
-        baseMatserService.addOrEditVariable(variableData, function (data) {
-            toastr.success("Variable added successfully");
-            $scope.getVariableData();
-            $scope.cancelModal();
-        });
-    }
-    //- modal to confirm Variable deletion
-    $scope.deleteVariableModal = function (variableId, getFunction) {
-        $scope.idToDelete = variableId;
-        $scope.functionToCall = getFunction;
-
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
-            scope: $scope,
-            size: 'md'
-        });
-    }
-    $scope.deleteVariable = function (variableId) {
-        baseMatserService.deleteVariable(variableId, function (data) {
-            if(_.isEmpty(data.data)){
-                toastr.success('Record deleted successfully');
-            }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
-            }
-            $scope.cancelModal();
-            $scope.getVariableData();
-        });
-    }
-
-
     //- to add or edit DF i.e. Difficulty factor
     $scope.addOrEditDfModal = function (operation, df) {
         baseMatserService.getDfModalData(operation, df, function (data) {
@@ -171,11 +114,10 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     }
     $scope.deleteDf = function (dfId) {
         baseMatserService.deleteDf(dfId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success("Difficulty Factor deleted successfully");
-            }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getDfData();
@@ -201,7 +143,7 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     }
     $scope.addOrEditMarkup = function (markupData) {
         baseMatserService.addOrEditMarkup(markupData, function (data) {
-            toastr.success("Markup added/updated successfully");            
+            toastr.success("Markup added/updated successfully");
             $scope.getMarkupData();
             $scope.cancelModal();
         });
@@ -220,11 +162,10 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     }
     $scope.deleteMarkup = function (markupId) {
         baseMatserService.deleteMarkup(markupId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-            }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getMarkupData();

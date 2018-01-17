@@ -27,9 +27,9 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
   }
   this.getEstimateData = function (enquiryId, callback) {
     var temp = false;
-    NavigationService.boxCall('DraftEstimate/search', function (data) {
+    NavigationService.boxCall('DraftEstimate/getDraftEstimateCustomerName', function (data) {
       angular.forEach(data.data.results,  function (record) {
-        	if (record.enquiryId == enquiryId) {
+        	if (record.enquiry_Id == enquiryId) {
             temp = true;
           }
         });

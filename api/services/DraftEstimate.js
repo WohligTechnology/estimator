@@ -660,7 +660,8 @@ var model = {
                     async.eachSeries(found.results, function (f, callback) {
                         console.log('**** inside ####### of DraftEstimate.js ****');
                         f.enquiryNumber = f.enquiryId.enquiryId;
-                        f.customerName = f.enquiryId.customerId.customerName;
+                        f.enquiry_Id = f.enquiryId._id;
+                        f.customerName = f.enquiryId.customerId.customerName;   
                         delete f.enquiryId;
 
                         callback();

@@ -434,7 +434,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.updatePartDetail($scope.showEditBtn, partObject, function (data) {
       $scope.estimteData = data;
       toastr.success('Part Details Added Successfully...');
-      createOrEditEstimateService.totalCostCalculations();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -468,13 +468,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       }
     }
   }, true);
-  $scope.$watch('estimatePartObj', function (newValue, oldValue) {
-    if (oldValue != undefined) {
-      if (newValue != oldValue) {
-        $scope.changesCounter += 1;
-      }
-    }
-  }, true);
+  // $scope.$watch('estimatePartObj', function (newValue, oldValue) {
+  //   debugger;
+  //   if (oldValue != undefined) {
+  //     if (newValue != oldValue) {
+  //       $scope.changesCounter += 1;
+  //     }
+  //   }
+  // }, true);
   //- to update all calculations at processing, addons & extras 
   // $scope.$watch('estimatePartObj.keyValueCalculations', function (newValue, oldValue) {
   //   
@@ -596,7 +597,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       toastr.success('SubAssembly deleted successfully');
       $scope.getEstimateView('assembly');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function(data) {});
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk subAssemblies
@@ -698,8 +699,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       toastr.success('Part deleted successfully');
       $scope.getEstimateView('subAssembly');
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete multiple parts
