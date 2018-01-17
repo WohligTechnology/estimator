@@ -194,7 +194,6 @@ myApp.service('masterPartService', function (NavigationService) {
 
     }
     this.getPresetViewWithData = function (operation, presetData, callback) {
-        debugger;
         var partPresetObj = {
             presetData: {}
         };
@@ -234,7 +233,6 @@ myApp.service('masterPartService', function (NavigationService) {
         }
 
         presetData.partType = presetData.partTypeData._id;
-        console.log('**** inside -------------------------- of masterPartService.js ****', presetData);
         NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
             callback(data);
         });

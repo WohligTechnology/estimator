@@ -1,4 +1,3 @@
-
 myApp.service('userProfileService', function (NavigationService, $http) {
 
     //to get data of current user
@@ -15,24 +14,6 @@ myApp.service('userProfileService', function (NavigationService, $http) {
             callback(data.data);
         });
     }
-    // this.updateProfilePhoto = function (file, callback) {
-    //     debugger;
-    //     console.log('****file in service..... ****', file);
-    //     var fd = new FormData();
-    //     fd.append('file', file);
-
-    //     $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-    //             transformRequest: angular.identity,
-    //             headers: {
-    //                 'Content-Type': undefined
-    //             }
-    //         })
-    //         .then(function () {
-    //             console.log('**** inside its working of userProfileService.js ****');
-    //         });
-
-
-    // }
     // to reset password
     this.changePassword = function (id, currentpassword, newPassword, callback) {
         NavigationService.apiCall('User/changePassword', {

@@ -143,7 +143,6 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         // if sizes.length == 0 then make disableShape-->false
         $scope.disableShape = false;
         masterPartService.addNewPreset(operation, partTypeId, function (data) {
-            debugger;
             $scope.showPartView = true;
             $scope.presetFormData = data;
             $scope.selectedShape = data.selectedShape;
@@ -163,9 +162,9 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         presetData.shape.variable = presetData.variable;
         $scope.showPresetUpdateForm = true;
         $scope.showPresetSaveForm = false;
-        
+
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
-            
+
             $scope.presetFormData = data.presetData;
             $scope.presetFormData.thickness = data.presetData.shape.thickness;
             $scope.presetFormData.length = data.presetData.shape.length;
@@ -185,7 +184,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         _.map(shapeData.variable, function (n) {
             n.varValue = 0;
         });
-        
+
         $scope.selectedShape = shapeData;
         $scope.presetFormData.thickness = shapeData.thickness;
         $scope.presetFormData.length = shapeData.length;
@@ -193,7 +192,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         $scope.presetFormData.formFactor = shapeData.formFactor;
         $scope.presetFormData.sizeFactor = shapeData.sizeFactor;
 
-      
+
         // _.map(shapeData.variable, function (n) {
         //     varName = n.varName;
         //     varValue = parseFloat(n.varValue);
@@ -241,9 +240,6 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             surfaceArea: 0,
             weight: 0
         };
-
-        console.log('**** inside shape of masterPartCtrl.js ****', selectedShape);
-        debugger;
 
         _.map(selectedShape.variable, function (n) {
             varName = n.varName;
@@ -301,7 +297,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     $scope.getMaterialData = function (partTypeId) {
         $scope.partTypeId = partTypeId;
         masterPartService.getMaterialData(selectedMaterial, function (data) {
-              // $scope.matCatData = data.materialCats;
+            // $scope.matCatData = data.materialCats;
             // $scope.matSubCatData = data.materialSubCats;
             $scope.matData = data.materials;
 
@@ -343,13 +339,13 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
                 toastr.success('Record deleted successfully');
             } else {
 
-            // if(_.isEmpty(data.data)){
-            //     _.remove(selectedMaterial, function (Id) {
-            //         return Id == materialId;
-            //     });
-            //     toastr.success('Record deleted successfully');
-            // }
-            // else{
+                // if(_.isEmpty(data.data)){
+                //     _.remove(selectedMaterial, function (Id) {
+                //         return Id == materialId;
+                //     });
+                //     toastr.success('Record deleted successfully');
+                // }
+                // else{
                 toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();

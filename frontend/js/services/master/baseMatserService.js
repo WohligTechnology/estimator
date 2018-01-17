@@ -49,7 +49,6 @@ myApp.service('baseMatserService', function (NavigationService) {
         idsArray = [];
         idsArray.push(uomId);
         NavigationService.delete('Web/delRestrictions/MUom',{idsArray: idsArray}, function(data){
-            debugger;
             callback(data);
         });
     }

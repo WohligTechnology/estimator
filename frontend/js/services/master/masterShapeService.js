@@ -37,7 +37,6 @@ myApp.service('masterShapeService', function (
     }
 
     this.createOrEditShapeData = function (operation, shape, callback) {
-        console.log('**** createOrEditShapeData inside function_name of masterShapeService.js ****',shape);
         var shapeDataObj = {};
 
         if (angular.isDefined(shape)) {

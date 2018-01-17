@@ -34,7 +34,7 @@
           </div>
         </div>
       </div>
-      <div class="portlet-body">
+      <div class="portlet-body horizontal_scroll">
         <div class="table-toolbar">
           <div class="row">
             <div class="col-md-8">
@@ -119,13 +119,14 @@
               <td>{{table.extrasCost.toFixed(2)}}</td>
               <td>{{table.totalCost.toFixed(2)}}</td>
               <td>
-                  <span class="label label-sm label-info" ui-sref="app.createEstimate({estimateId:table._id})">
+                  <span class="label label-sm label-info" style="margin-right:2px;padding-right:2px;" ui-sref="app.createEstimate({estimateId:table._id})">
                       <i class="fa fa-calculator" title="Estimate"></i>
-                  </span>&nbsp;
+                  </span>
                 <!-- <span class="label label-sm label-success" id="add_space" ng-click="allEstimateEdit()">
                   <i class="fa fa-pencil" title="Edit Estimate "></i>
                 </span> -->
-                <span class="label label-sm label-danger" ng-click="deleteEstimateModal(table._id, 'deleteEstimate')">
+                <span class="label label-sm label-danger" ng-click="deleteEstimateMo
+                dal(table._id, 'deleteEstimate')">
                   <i class="fa fa-trash-o" title="Delete Estimate"></i>
                 </span>
               </td>

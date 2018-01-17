@@ -595,8 +595,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.deleteSubAssembly(subAssemblyId, function () {
       toastr.success('SubAssembly deleted successfully');
       $scope.getEstimateView('assembly');
-      createOrEditEstimateService.totalCostCalculations();
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function(data) {});
     });
   }
   //- to delete bulk subAssemblies

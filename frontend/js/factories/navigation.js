@@ -3,7 +3,6 @@ myApp.factory('NavigationService', function ($http) {
      //var adminurl ="http://192.168.0.11/api/"
     // var adminurl ="http://wohlig.io/api/"
 
-    // console.log('**** inside admin URL of navigation.js ****',adminurl);
     var navigation = [{
             name: "Home",
             classis: "active",

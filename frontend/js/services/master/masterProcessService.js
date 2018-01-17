@@ -4,7 +4,6 @@ myApp.service('masterProcessService', function (NavigationService) {
   this.getProcessData = function (callback) {
 
     NavigationService.boxCall('MProcessCat/search', function (data) {
-      console.log('kdshsbfvld;j');
       callback(data.data.results);
     });
   }

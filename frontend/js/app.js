@@ -99,8 +99,6 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
     $scope.userName = $.jStorage.get('loggedInUser').name;
   }
 
-  // console.log("*********************************************************************",window.location.href );
-  // console.log("*********************************************************************",$state.current);
 
 }]);
 

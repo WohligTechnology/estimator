@@ -182,7 +182,6 @@ myApp
             }
             if (input) {
                 if (input.indexOf('https://') == -1) {
-                    console.log('**** inside readfile of app.js ****');
                     return adminurl + "User/readFile/" + input;
                 } else {
                     return adminurl;

@@ -353,7 +353,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		formData.assembly.addonCost = costCalculations.aCostAtAssemby + costCalculations.aCost;
 		formData.assembly.extrasCost = costCalculations.eCostAtAssemby + costCalculations.eCost;
 		formData.assembly.totalCost += costCalculations.mtAtAssembly + costCalculations.pCost + costCalculations.aCost + costCalculations.eCost;
-		callback()
+		callback();
 	}
 	//- to get a view of the page
 	this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
@@ -782,6 +782,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		if (!_.isEmpty(partObject.selectedCustomMaterial) && partObject.selectedCustomMaterial != undefined) {
 			tempPart.customMaterial = partObject.selectedCustomMaterial; //- selectedCustomeMaterial
 		}
+		debugger;
 		if (!_.isEmpty(partObject.selectedShape) && partObject.selectedShape != undefined) {
 			tempPart.shape = partObject.selectedShape; //- selectedCustomeMaterial
 		}
