@@ -187,7 +187,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				callback(data.data);
 			} else {
 				formData.assembly = data.data;
-				temp.totalCostCalculations(function (data) {});
+				// temp.totalCostCalculations(function (data) {});
 				callback(data.data);
 			}
 		});

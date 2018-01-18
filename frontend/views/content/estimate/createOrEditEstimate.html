@@ -17,12 +17,6 @@
                             <a href="#" data-target="#tab_1_4" data-toggle="tab">Attachments</a>
                         </li>
                     </ul>
-                    <div class="text-right saveEstimateBtn">
-                        <p>
-                            <span style="padding-right: 40%;">{{updatedAssembly}}</span>
-                            <button type="Save" class="btn btn-circle green" ng-click="saveCurrentEstimate()">Update</button>
-                        </p>
-                    </div>
                 </div>
                 <div class="portlet-body">
                     <div class="tab-content">
@@ -185,20 +179,20 @@
                                             <span ng-click="addOrEditCustomMaterialModal('save')" class="customerMaterialCreateIcon">
                                                 <i class="fa fa-plus btn-info" title="Add Custom Material"></i>
                                             </span>
-                                        <ul class="tree_animation">
-                                            <li ng-repeat="cm in customMaterial track by $index">
-                                                <span ng-click="getAllMaterialData('customMaterial')" class="tree_label">{{cm.customMaterialName | capitalize}}
-                                                </span>
-                                                <span ng-click="addOrEditCustomMaterialModal('update', cm)" class="subAssemblyEditIcon">
-                                                    <i class="fa fa-pencil btn-warning" title="Edit Custom Material"></i>
-                                                </span>
-                                                <span ng-click="deleteCustomMaterialModal(cm._id,'deleteCustomMaterial')" class="subAssemblyDeleteIcon">
-                                                    <i class="fa fa-trash-o btn-danger" title="Delete Custom Material"></i>
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    
+                                            <ul class="tree_animation">
+                                                <li ng-repeat="cm in customMaterial track by $index">
+                                                    <span ng-click="getAllMaterialData('customMaterial')" class="tree_label">{{cm.customMaterialName | capitalize}}
+                                                    </span>
+                                                    <span ng-click="addOrEditCustomMaterialModal('update', cm)" class="subAssemblyEditIcon">
+                                                        <i class="fa fa-pencil btn-warning" title="Edit Custom Material"></i>
+                                                    </span>
+                                                    <span ng-click="deleteCustomMaterialModal(cm._id,'deleteCustomMaterial')" class="subAssemblyDeleteIcon">
+                                                        <i class="fa fa-trash-o btn-danger" title="Delete Custom Material"></i>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </li>
+
                                     </ul>
                                 </div>
                                 <div class="col-md-9">

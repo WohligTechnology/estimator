@@ -9,7 +9,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.checkboxStatus = false; //- for multiple records selection
   $scope.checkAll = false; //- for all records selectione
   $scope.hardFacingAlloys = []; //- for dynamic addition of Hard Facing Alloys
-  $scope.changesCounter = 0; //- for save changes before redirecting
 
   $scope.estimatePartObj = {
     allShortcuts: [], //- get all presets name from API
@@ -464,44 +463,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.$watch('estimteData', function (newValue, oldValue) {
     if (oldValue != undefined) {
       if (newValue != oldValue) {
-        $scope.changesCounter += 1;
+        $scope.saveCurrentEstimate();
       }
     }
   }, true);
-  // $scope.$watch('estimatePartObj', function (newValue, oldValue) {
-  //   debugger;
-  //   if (oldValue != undefined) {
-  //     if (newValue != oldValue) {
-  //       $scope.changesCounter += 1;
-  //     }
-  //   }
-  // }, true);
-  //- to update all calculations at processing, addons & extras 
-  // $scope.$watch('estimatePartObj.keyValueCalculations', function (newValue, oldValue) {
-  //   
-  //   if (oldValue != undefined) {
-  //     if (newValue != oldValue) {
-  //       createOrEditEstimateService.updateAllCalculations(newValue, function(data) {
-
-  //       });
-  //     }
-  //   }
-  // }, true);
-  //- to ask user to save changes before redirecting
-  $scope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-    if (fromState.name == 'app.createEstimate' && $scope.changesCounter > '0') {
-      var answer = window.confirm('Please Save Your Changes !!!');
-      if (answer) {
-        event.preventDefault();
-      }
-    }
-  });
-  //- to ask user to save changes before refreshing the page
-  window.onbeforeunload = function (event) {
-    if ($scope.changesCounter > '0') {
-      return 'Are you sure you want to reload?'
-    }
-  };
 
   // **************************************** functions to be triggered form view begin here **************************************** //
   //- to edit assembly name
@@ -519,7 +484,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to edit assembly name
   $scope.editAssemblyName = function (assemblyName) {
     createOrEditEstimateService.editAssemblyName(assemblyName, $scope.draftEstimateId, function (data) {
-      $scope.changesCounter = 0;
       $scope.getEstimateData();
       $scope.cancelModal();
       toastr.success('Estimate data updated successfully');
@@ -527,10 +491,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
   //- to update estimate object in draftEstimate table
   $scope.saveCurrentEstimate = function () {
-    $scope.changesCounter = 0;
     createOrEditEstimateService.saveCurrentEstimate(function (data) {
-      $scope.getEstimateData();
-      toastr.success('Estimate data updated successfully');
+     // $scope.getEstimateData();
     });
   }
   //- import subAssembly modal
@@ -713,11 +675,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
       toastr.success('Parts deleted successfully');
-      // $scope.operationStatus = "***   Records deleted successfully   ***";
-
-      // $timeout(function () {
-      // 	$scope.operationStatus = "";
-      // }, 3000);
     });
   }
   //- import part modal
