@@ -526,7 +526,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					estimatePartObj.allPartTypes = partTypeData.data;
 
 					NavigationService.boxCall('CustomMaterial/getAllCustomMaterial', function (allCustomMaterials) {
-						estimatePartObj.customMaterials = allCustomMaterials.data;
+						if(allCustomMaterials.data != "noDataFound") {
+							estimatePartObj.customMaterials = allCustomMaterials.data;
+						} else {
+							estimatePartObj.customMaterials = [];
+						}
 						NavigationService.boxCall('MShape/getMShapeData', function (shapeData) {
 							estimatePartObj.allShapes = shapeData.data;
 							//- check part calculation data is available or not
@@ -546,6 +550,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 									estimatePartObj.selectedSize = tempPart.size; //- size
 								}
 								if (!_.isEmpty(tempPart.shape) && tempPart.shape != undefined) {
+									debugger;
 									estimatePartObj.selectedShape = tempPart.shape; //- selected material
 								}
 								if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {

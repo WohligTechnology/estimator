@@ -180,8 +180,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
               }
 
               $scope.estimatePartObj.variables = data.variable;
-              $scope.estimatePartObj.shapeImage = data.shapeImage;
-              $scope.estimatePartObj.shapeIcon = data.shapeIcon;
+              $scope.estimatePartObj.shapeImage = data.selectedShape.image.file;
+              $scope.estimatePartObj.shapeIcon = data.selectedShape.icon.file;
               $scope.estimatePartObj.scaleFactor = data.scaleFactor;
 
               $scope.estimatePartObj.keyValueCalculations.perimeter = data.keyValueCalculations.perimeter;
@@ -246,8 +246,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = shortcutObj.partFormulae.sheetMetalArea;
     $scope.estimatePartObj.keyValueCalculations.surfaceArea = shortcutObj.partFormulae.surfaceArea;
     $scope.estimatePartObj.keyValueCalculations.weight = shortcutObj.partFormulae.weight;
-    $scope.estimatePartObj.shapeIcon = shortcutObj.shape.icon;
-    $scope.estimatePartObj.shapeImage = shortcutObj.shape.image;
+    $scope.estimatePartObj.shapeIcon = shortcutObj.shape.icon.file;
+    $scope.estimatePartObj.shapeImage = shortcutObj.shape.image.file;
 
     //- update PAE count
     // $scope.estimatePartObj.processingCount = part.processing.length; /////-
@@ -326,8 +326,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     });
     $scope.estimatePartObj.variables = shapeObj.variable;
     if (angular.isDefined(shapeObj.shape)) {
-      $scope.estimatePartObj.shapeIcon = shapeObj.shape.icon;
-      $scope.estimatePartObj.shapeImage = shapeObj.shape.image;
+      $scope.estimatePartObj.shapeIcon = shapeObj.shape.icon.file;
+      $scope.estimatePartObj.shapeImage = shapeObj.shape.image.file;
     }
     $scope.getPartFinalCalculation();
   }
@@ -347,6 +347,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     $scope.estimatePartObj.selectedShortcut = partTypeObj; /////-
     $scope.estimatePartObj.selectedShape = partTypeObj.shape;
+    $scope.estimatePartObj.shapeIcon = partTypeObj.shape.icon.file;
+    $scope.estimatePartObj.shapeImage = partTypeObj.shape.image.file;
 
     //- update shape related data
     $scope.estimatePartObj.variables = partTypeObj.variable; /////-
@@ -627,7 +629,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.createPart(partData, subAssId, function () {
       $scope.getCurretEstimateObj();
       toastr.success('Part added successfully');
-      $scope.cancelModal();
     });
   }
   //- to edit part data 

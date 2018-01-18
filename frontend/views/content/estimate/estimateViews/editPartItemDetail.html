@@ -17,13 +17,16 @@
                         <label>Part Id:</label> {{estimatePartObj.partNumber}}
                     </div>
                     <div class="col-md-3">
-                        <label>Icon:</label> {{estimatePartObj.shapeIcon}}
+                        <label>Icon:<img alt="" ng-if="estimatePartObj.shapeIcon!=null" ng-src="{{estimatePartObj.shapeIcon|downloadpath}}" style="height: 30px;
+                        width: 50px;margin-left:10px" /></label>
                     </div>
                     <div class="col-md-1" ng-hide="estimatePartObj.partUpdateStatus">
                             <button type="button" class="btn btn-circle green" ng-click="getEstimateView('editPartItemDetail', 'part', estimatePartObj.subAssNumber, estimatePartObj.partNumber)" >Reset</button>                            
                     </div>
                 </div>
             </div>
+            <pre>{{estimatePartObj.shapeImage | json}}</pre>
+            <pre>{{estimatePartObj.shapeIcon | json}}</pre>
             <div class="portlet-body">
                 <div class="table-toolbar">
                     <div class="part-detail-form">
@@ -120,8 +123,7 @@
                                             <label class="col-md-4 control-label">Shape Image:</label>
                                             <div class="col-md-5">
                                                 <div class="img-border">
-                                                    <img src="img/Doraemon.png" alt="" class=" img-responsive">
-                                                    <!-- <img src="{{adminurl}}+'User/download/'+{{estimatePartObj.shapeImage}}" alt="" class="img-responsive"> -->
+                                                     <img alt="" class="img-responsive" ng-if="estimatePartObj.shapeImage!=null" ng-src="{{estimatePartObj.shapeImage|downloadpath}}" />
                                                 </div>
                                             </div>
                                         </div>
