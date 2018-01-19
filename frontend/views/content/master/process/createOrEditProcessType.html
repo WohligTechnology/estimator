@@ -32,7 +32,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Multiplication Factor: <span class="error">&nbsp;*</span></label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.rate.mulFact">
+                                <input type="text" class="form-control" ng-model="formData.rate.mulFact" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -48,9 +48,9 @@
                             </label>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Linkedkey Value:</label>
+                            <label class="col-md-4 control-label">Linkedkey Value:<span class="error">&nbsp;*</span></label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-model="formData.quantity.linkedKeyValue">
+                                <select class="form-control" ng-model="formData.quantity.linkedKeyValue" required>
                                     <option></option>
                                     <option>Perimeter</option>
                                     <option>SMA</option>
@@ -70,13 +70,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Multiplication Factor:</label>
+                            <label class="col-md-4 control-label">Multiplication Factor:<span class="error">&nbsp;*</span></label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="formData.quantity.mulfact">
+                                <input type="text" class="form-control" ng-model="formData.quantity.mulfact" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Utilization:&nbsp;(%)</label>
+                            <label class="col-md-4 control-label">Utilization:&nbsp;(%)<span class="error">&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <input type="text" name="utilization" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.quantity.utilization">
                                 <span class="error" ng-show="myForm.utilization.$invalid && myForm.utilization.$dirty">Please enter a number or floating point number</span>
