@@ -132,7 +132,7 @@
                                 <td>{{p.quantity.utilization}}</td>
                                 <td>{{p.quantity.contengncyOrWastage}}</td>
                                 <td>{{p.quantity.totalQuantity}}</td>
-                                <td>{{(p.rate * p.quantity.totalQuantity).toFixed(2)}}</td>
+                                <td>{{p.totalCost.toFixed(2)}}</td>
                                 <td>{{p.remark}}</td>
                                 <td class="edit-icon">
                                     <span class="label label-sm label-success" id="add_space" ng-click="addOrEditProcessingModal('update',level, estimateViewData.subAssemblyId, estimateViewData.partId, p.processingNumber)">

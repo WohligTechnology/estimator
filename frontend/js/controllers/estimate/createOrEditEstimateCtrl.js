@@ -261,6 +261,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.disablePartFields.displayPresetSize = true;
     $scope.disablePartFields.disableShape = true;
 
+    $scope.updatePartCalculation();
   }
 
   //- call when user will select part type name 
@@ -292,7 +293,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.disablePartFields.disableCustomMaterial = true;
     $scope.estimatePartObj.selectedMaterial = materialObj;
     if ($scope.isAllselected() || angular.isDefined(shapeData)) {
-      $scope.getPartFinalCalculation();
+      $scope.updatePartCalculation();
     }
 
   }
@@ -329,7 +330,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.estimatePartObj.shapeIcon = shapeObj.shape.icon.file;
       $scope.estimatePartObj.shapeImage = shapeObj.shape.image.file;
     }
-    $scope.getPartFinalCalculation();
+    $scope.updatePartCalculation();
   }
   //- call when user will select size (only in case when user selected part type)
   //- update dependent data on the base of selected size data
@@ -378,23 +379,24 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       tempVar = varName;
       window[tempVar] = varValue;
     });
-
-    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.length) && $scope.estimatePartObj.selectedShortcut.length != null) {
-      var l = $scope.estimatePartObj.selectedShortcut.length;
+    if (angular.isDefined($scope.estimatePartObj.selectedMaterial.density) && $scope.estimatePartObj.selectedMaterial.density != null) {
+      var den = parseFloat($scope.estimatePartObj.selectedMaterial.density);
     }
-    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.thickness) && $scope.estimatePartObj.selectedShortcut.thickness != null) {
-      var t = $scope.estimatePartObj.selectedShortcut.thickness;
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.length) && $scope.estimatePartObj.selectedShape.length != null) {
+      var l = parseFloat($scope.estimatePartObj.selectedShape.length);
     }
-    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.sizeFactor) && $scope.estimatePartObj.selectedShortcut.sizeFactor != null) {
-      var sf = $scope.estimatePartObj.selectedShortcut.sizeFactor;
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.thickness) && $scope.estimatePartObj.selectedShape.thickness != null) {
+      var t = parseFloat($scope.estimatePartObj.selectedShape.thickness);
     }
-    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.formFactor) && $scope.estimatePartObj.selectedShortcut.formFactor != null) {
-      var ff = $scope.estimatePartObj.selectedShortcut.formFactor;
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.sizeFactor) && $scope.estimatePartObj.selectedShape.sizeFactor != null) {
+      var sf = parseFloat($scope.estimatePartObj.selectedShape.sizeFactor);
     }
-    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.wastage) && $scope.estimatePartObj.selectedShortcut.wastage != null) {
-      var wtg = $scope.estimatePartObj.selectedShortcut.wastage;
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.formFactor) && $scope.estimatePartObj.selectedShape.formFactor != null) {
+      var ff = parseFloat($scope.estimatePartObj.selectedShape.formFactor);
     }
-
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.wastage) && $scope.estimatePartObj.selectedShape.wastage != null) {
+      var wtg = parseFloat($scope.estimatePartObj.selectedShape.wastage);
+    }
 
     $scope.estimatePartObj.keyValueCalculations.perimeter = eval(partFormulae.perimeter);
     $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = eval(partFormulae.sheetMetalArea);
@@ -1150,17 +1152,18 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- get done with all the calculation after selecting processItem
   $scope.getSelectedProessItem = function (proItemObj) {
     //- calculate rate
-
-    debugger;
     //- is there anything else  user will put in mul5fact while adding processing type
     if ($scope.partProcessingObj.selectedProcessingType.rate.mulFact == 't') {
-      //- get thickness of corresponding level   
-      //- i.e.  part level, subAssembly level or assemby level 
-      var t = $scope.estimatePartObj.selectedShortcut.thickness;
-    } else {
-      $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);
-    }
+      //- get thickness of corresponding level
+      //- i.e.  part level, subAssembly level or assemby level
+      $scope.partProcessingObj.selectedProcessingType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
+    } else if ($scope.partProcessingObj.selectedProcessingType.rate.mulFact == 'den') {
+      //- get density of corresponding level
+      //- i.e.  part level, subAssembly level or assemby level
+      $scope.partProcessingObj.selectedProcessingType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedMaterial.density);
+    } 
 
+    $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);
     $scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom.uomName;
 
   }
@@ -1184,7 +1187,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         contengncyOrWastage: processingData.quantity.contengncyOrWastage
       },
       remark: processingData.remark,
-      totalCost: processingData.totalCost
+      totalCost:  processingData.quantity.totalQuantity * processingData.rate.actualRate 
 
     };
 
@@ -1576,9 +1579,17 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   //- when user select an material
   $scope.getSelectedMaterial = function (selectedMaterial) {
+     //- is there anything else  user will put in mul5fact while adding addon type
+     if ($scope.addonObj.selectedAddonType.rate.mulFact == 't') {
+      //- get thickness of corresponding level
+      //- i.e.  part level, subAssembly level or assemby level
+      $scope.addonObj.selectedAddonType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
+    } else if ($scope.addonObj.selectedAddonType.rate.mulFact == 'den') {
+      //- get density of corresponding level
+      //- i.e.  part level, subAssembly level or assemby level
+      $scope.addonObj.selectedAddonType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedMaterial.density);
+    } 
     //- get rate selectedAddonType-->rate * selectedMaterial --> typicalRatepeKg
-    //- 
-
     $scope.addonObj.rate.value = $scope.addonObj.selectedAddonType.rate.mulFact * selectedMaterial.typicalRatePerKg;
 
     //- update following after change quantity again

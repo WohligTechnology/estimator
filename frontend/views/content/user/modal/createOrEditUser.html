@@ -16,21 +16,21 @@
                             <label class="col-md-4 control-label">Name :<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" name="name" ng-model="formData.name" placeholder="Enter User Name" required autofocus>
-                                <span class="error" ng-show="myForm.name.$dirty && formData.name.length == null">Name field is required !!!</span>
+                                <span class="error" ng-show="myForm.name.$dirty && formData.name.$invalid">Name field is required !!!</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Email Id :<b class="error">&nbsp;&nbsp;*</b></label>
                             <div class="col-md-5">
-                                <input type="email" class="form-control" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" ng-disabled="operation=='update'" ng-model="formData.email" placeholder="Enter Email-Id Number" required>
-                                <span class="error" ng-show="myForm.email.$dirty && formData.email.length == null">Email field is required !!!</span>
+                                <input type="email" class="form-control" name="email" pattern="[a-z._%+-]+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" ng-disabled="operation=='update'" ng-model="formData.email" placeholder="Enter Email-Id Number" required>
+                                <span class="error" ng-show="myForm.email.$dirty && formData.email.$invalid">Please Enter a valid Email !!!</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Mobile :<b class="error">&nbsp;&nbsp;*</b></label>
                             <div class="col-md-5">
                                 <input type="mobile" class="form-control" name="mobile" cleave="options.mobile" placeholder="Enter Mobile Number" ng-model="formData.mobile" required>
-                                <span class="error" ng-show="myForm.mobile.$dirty && formData.mobile.length == null">Mobile field is required !!!</span>
+                                <span class="error" ng-show="myForm.mobile.$dirty && formData.mobile.$invalid">Mobile field is required !!!</span>
                             </div>
                         </div>
                         <div class="form-group">

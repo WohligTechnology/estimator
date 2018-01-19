@@ -268,7 +268,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			//- summation of material cost of all subAssembly
 			mtAtAssembly: 0
 		}
-		debugger;
 		formData.assembly.totalCost = 0;
 		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
 			angular.forEach(subAssembly.subAssemblyParts, function (part) {
@@ -282,11 +281,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				costCalculations.mtAtSubAssembly += costCalculations.mtPart;
 				//- processing cost at part level
 				angular.forEach(part.processing, function (processing) {
-					costCalculations.pCostAtPart += processing.rate * processing.quantity.totalQuantity
+					costCalculations.pCostAtPart += processing.totalCost;
 				});
 				//- addons cost at part level
 				angular.forEach(part.addons, function (addon) {
-					addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
+					//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
 					costCalculations.aCostAtPart += addon.totalCost;
 				});
 				//- extras cost at part level
@@ -324,7 +323,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			costCalculations.mtAtAssembly += subAssembly.materialCost * subAssembly.quantity;
 			//- processing cost at subAssembly level
 			angular.forEach(subAssembly.processing, function (processing) {
-				costCalculations.pCostAtSubAssembly += processing.rate * processing.quantity.totalQuantity;
+				costCalculations.pCostAtSubAssembly += processing.totalCost;
 			});
 			//- addons cost at subAssembly level
 			angular.forEach(subAssembly.addons, function (addon) {
@@ -353,7 +352,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		});
 		//- processing cost at assembly level
 		angular.forEach(formData.assembly.processing, function (processing) {
-			processing.totalCost = processing.rate * processing.quantity.totalQuantity;
+			processing.totalCost = processing.totalCost;
 			costCalculations.pCost += processing.totalCost;
 		});
 		//- addons cost at assembly level
