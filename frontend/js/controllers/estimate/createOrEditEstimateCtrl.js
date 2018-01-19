@@ -374,19 +374,22 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     _.map($scope.estimatePartObj.variables, function (n) {
       varName = n.varName;
-      varValue = parseInt(n.varValue);
+      varValue = parseFloat(n.varValue);
 
       tempVar = varName;
       window[tempVar] = varValue;
     });
+    //- if dynamic varibles present in formulae
     if (angular.isDefined($scope.estimatePartObj.selectedMaterial.density) && $scope.estimatePartObj.selectedMaterial.density != null) {
       var den = parseFloat($scope.estimatePartObj.selectedMaterial.density);
     }
     if (angular.isDefined($scope.estimatePartObj.selectedShape.length) && $scope.estimatePartObj.selectedShape.length != null) {
       var l = parseFloat($scope.estimatePartObj.selectedShape.length);
     }
-    if (angular.isDefined($scope.estimatePartObj.selectedShape.thickness) && $scope.estimatePartObj.selectedShape.thickness != null) {
-      var t = parseFloat($scope.estimatePartObj.selectedShape.thickness);
+    if (angular.isDefined($scope.estimatePartObj.thickness) && $scope.estimatePartObj.thickness != null) {
+      //- update thickness of shape 
+      $scope.estimatePartObj.selectedShape.thickness = $scope.estimatePartObj.thickness
+      var t = parseFloat($scope.estimatePartObj.thickness);
     }
     if (angular.isDefined($scope.estimatePartObj.selectedShape.sizeFactor) && $scope.estimatePartObj.selectedShape.sizeFactor != null) {
       var sf = parseFloat($scope.estimatePartObj.selectedShape.sizeFactor);
@@ -1516,7 +1519,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
           // $scope.addonObj.totalWeight = data;
           // $scope.addonObj.totalWeight = ;
 
-          $scope.addonObj.totalCost = parseFloat(data.quantity.total) * parseFloat(data.selectedMaterial.typicalRatePerKg) * parseFloat(data.quantity.supportingVariable.value);
+          $scope.addonObj.totalCost = parseFloat(data.quantity.total) * parseFloat($scope.addonObj.rate.value) * $scope.addonObj.quantity.supportingVariable.value;
           $scope.addonObj.totalWeight = parseFloat(data.quantity.total) * parseFloat(data.selectedMaterial.weightPerUnit);
           $scope.addonObj.finalUom = data.selectedAddonType.quantity.finalUom.uomName;
 
@@ -1591,7 +1594,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     } 
     //- get rate selectedAddonType-->rate * selectedMaterial --> typicalRatepeKg
     $scope.addonObj.rate.value = $scope.addonObj.selectedAddonType.rate.mulFact * selectedMaterial.typicalRatePerKg;
-
+    
     //- update following after change quantity again
     $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat(selectedMaterial.typicalRatePerKg);
     $scope.addonObj.totalWeight = parseFloat($scope.addonObj.quantity.total) * parseFloat(selectedMaterial.weightPerUnit);
@@ -1599,7 +1602,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
 
   $scope.changeAddonQuantity = function (quantity) {
-    $scope.addonObj.totalCost = parseFloat(quantity) * parseFloat($scope.addonObj.selectedMaterial.typicalRatePerKg) * $scope.addonObj.quantity.supportingVariable.value;
+    $scope.addonObj.totalCost = parseFloat(quantity) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.supportingVariable.value);
     $scope.addonObj.totalWeight = parseFloat(quantity) * parseFloat($scope.addonObj.selectedMaterial.weightPerUnit);
   }
 

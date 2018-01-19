@@ -525,7 +525,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					estimatePartObj.allPartTypes = partTypeData.data;
 
 					NavigationService.boxCall('CustomMaterial/getAllCustomMaterial', function (allCustomMaterials) {
-						if(allCustomMaterials.data != "noDataFound") {
+						if (allCustomMaterials.data != "noDataFound") {
 							estimatePartObj.customMaterials = allCustomMaterials.data;
 						} else {
 							estimatePartObj.customMaterials = [];
@@ -833,11 +833,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			this.KeyValueCalculations(formData.assembly.subAssemblies[subAssIndex].keyValueCalculations, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
 				if (!_.isEmpty(data)) {
 					formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = data;
+				} else {
+					formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = null;
 				}
 			});
 			this.KeyValueCalculations(formData.assembly.keyValueCalculations, formData.assembly.subAssemblies, function (data) {
 				if (!_.isEmpty(data)) {
 					formData.assembly.keyValueCalculations = data;
+				} else {
+					formData.assembly.keyValueCalculations = null;
 				}
 			});
 		}
@@ -853,49 +857,68 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			weight: 0
 		};
 		//- to check access permission
-		var temp = 0;
+		var temp = true;
 		if (level == 'subAssembly') {
-			angular.forEach(records,  function (part) {
-				if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
-					tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
-					tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
-					tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
-					tempObj.weight += parseFloat(part.keyValueCalculations.weight);
-					temp += 1;
-				}
-			});
-		} else {
-			angular.forEach(records,  function (subAssembly) {
-				angular.forEach(subAssembly.subAssemblyParts,  function (part) {
+			_.forEach(records,  function (part) {
+				if (temp) {
 					if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
 						tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
-						temp += 1;
+					} else {
+						//- if perimeter is not present break the loop
+						temp = false;
+						return false;
 					}
 					if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
 						tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
-						temp += 1;
+					} else {
+						temp = false;
+						return false;
 					}
 					if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
 						tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
-						temp += 1;
+					} else {
+						temp = false;
+						return false;
 					}
 					if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
 						tempObj.weight += parseFloat(part.keyValueCalculations.weight);
-						temp += 1;
+					} else {
+						temp = false;
+					}
+				}
+			});
+		} else {
+			_.forEach(records,  function (subAssembly) {
+				_.forEach(subAssembly.subAssemblyParts,  function (part) {
+					if (temp) {
+						if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
+							tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
+						} else {
+							temp = false;
+							return false;
+						}
+						if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
+							tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
+						} else {
+							temp = false;
+							return false;
+						}
+						if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
+							tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
+						} else {
+							temp = false;
+							return false;
+						}
+						if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
+							tempObj.weight += parseFloat(part.keyValueCalculations.weight);
+						} else {
+							temp = false;
+						}
 					}
 				});
 			});
 		}
-		if (temp != 0) {
+		if (temp) {
 			callback(tempObj);
 		} else {
 			callback();
