@@ -26,14 +26,8 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     }
   }
   this.getEstimateData = function (enquiryId, callback) {
-    var temp = false;
-    NavigationService.boxCall('DraftEstimate/getDraftEstimateCustomerName', function (data) {
-      angular.forEach(data.data.results,  function (record) {
-        	if (record.enquiry_Id == enquiryId) {
-            temp = true;
-          }
-        });
-      callback(temp);
+    NavigationService.apiCall('DraftEstimate/checkEnquiryEstimate', {enquiryId : enquiryId},  function (data) {
+        callback(data.data);
     });
   }
   this.getCustomerData = function (callback) {

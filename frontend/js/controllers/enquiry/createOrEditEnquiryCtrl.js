@@ -32,9 +32,9 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
         $scope.formData.enquiryDetails.estimator = data.enquiryDetails.estimator;
         $scope.formData.customerDataObj = data.customerId;
         createOrEditEnquiryService.getEstimateData($scope.enquiryId, function (estimator) {
-          if(estimator) {
+          if(estimator == 'true') {
             $scope.showEstimateBtn = false;
-          } else {
+          } else if (estimator == 'false') {
             $scope.showEstimateBtn = true;
           }
         });
