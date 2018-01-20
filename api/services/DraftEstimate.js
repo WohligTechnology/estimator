@@ -654,59 +654,28 @@ var model = {
                     if (err) {
                         console.log('**** error at search of Estimate.js ****', err);
                         callback(err, null);
-                    } else if (_.isEmpty(found)) {
+                    } else if (_.isEmpty(found.results)) {
                         callback(null, 'noDataFound');
                     } else {
-                    async.eachSeries(found.results, function (f, callback) {
-                        console.log('**** inside ####### of DraftEstimate.js ****');
-                        f.enquiryNumber = f.enquiryId.enquiryId;
-                        f.enquiry_Id = f.enquiryId._id;
-                        f.customerName = f.enquiryId.customerId.customerName;   
-                        delete f.enquiryId;
+                        async.eachSeries(found.results, function (f, callback) {
+                            console.log('**** inside ####### of DraftEstimate.js ****');
+                            f.enquiryNumber = f.enquiryId.enquiryId;
+                            f.enquiry_Id = f.enquiryId._id;
+                            f.customerName = f.enquiryId.customerId.customerName;
+                            delete f.enquiryId;
 
-                        callback();
+                            callback();
 
-                    }, function (err) {
-                        if (err) {
-                            console.log('***** error at final response of async.eachSeries in function_name of DraftEstimate.js*****', err);
-                        } else {
-                            callback(null, found);
-                        }
-                    });
-                }
-            });
-},
-
-
-    // getDraftEstimateCustomerName: function (data, callback) {
-    //     DraftEstimate.find().deepPopulate('estimateCreatedUser estimateUpdatedUser enquiryId.customerId')
-    //         .select('assemblyName assemblyNumber enquiryId estimateCreatedUser estimateUpdatedUser materialCost processingCost addonCost extrasCost totalCost')
-    //         .lean().exec(function (err, found) {
-    //             if (err) {
-    //                 console.log('**** error at function_name of DraftEstimate.js ****', err);
-    //                 callback(err, null);
-    //             } else if (_.isEmpty(found)) {
-    //                 callback(null, 'noDataFound');
-    //             } else {
-    //                 console.log('**** inside %%%%% of DraftEstimate.js ****', found);
-    //                 async.eachSeries(found, function (f, callback) {
-    //                     console.log('**** inside ####### of DraftEstimate.js ****');
-    //                     f.enquiryNumber = f.enquiryId.enquiryId;
-    //                     f.customerName = f.enquiryId.customerId.customerName;
-    //                     delete f.enquiryId;
-
-    //                     callback();
-
-    //                 }, function (err) {
-    //                     if (err) {
-    //                         console.log('***** error at final response of async.eachSeries in function_name of DraftEstimate.js*****', err);
-    //                     } else {
-    //                         callback(null, found);
-    //                     }
-    //                 });
-    //             }
-    //         });
-    // },
+                        }, function (err) {
+                            if (err) {
+                                console.log('***** error at final response of async.eachSeries in function_name of DraftEstimate.js*****', err);
+                            } else {
+                                callback(null, found);
+                            }
+                        });
+                    }
+                });
+    },
 
     generateDraftEstExcel: function (data, callback) {
         DraftEstimate.findOne({
@@ -1004,6 +973,23 @@ var model = {
             }
         });
     },
+
+    checkEnquiryEstimate: function (data, callback) {
+        // console.log('**** inside function_name of DraftEstimate.js ****');
+        DraftEstimate.findOne({
+            enquiryId: data.enquiryId
+        }).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of DraftEstimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                console.log('**** inside empty of DraftEstimate.js ****');
+                callback(null, "false");
+            } else {
+                callback(null, "true");
+            }
+        });
+    }
 
 };
 

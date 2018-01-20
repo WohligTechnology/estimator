@@ -18,7 +18,6 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     //- get all variables to add in shape 
     $scope.getVariablesData = function () {
         masterShapeService.getVariablesData(function (data) {
-            debugger;
             $scope.variablesData = data;
         });
     }
