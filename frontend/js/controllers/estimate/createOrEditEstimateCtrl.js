@@ -180,8 +180,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
               }
 
               $scope.estimatePartObj.variables = data.variable;
-              $scope.estimatePartObj.shapeImage = data.selectedShape.image.file;
-              $scope.estimatePartObj.shapeIcon = data.selectedShape.icon.file;
+              if(data.selectedShape.image) {
+                $scope.estimatePartObj.shapeImage = data.selectedShape.image.file;
+              } 
+              if (data.selectedShape.icon) {
+                $scope.estimatePartObj.shapeIcon = data.selectedShape.icon.file;
+              }
               $scope.estimatePartObj.scaleFactor = data.scaleFactor;
 
               $scope.estimatePartObj.keyValueCalculations.perimeter = data.keyValueCalculations.perimeter;
@@ -192,7 +196,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
               $scope.estimatePartObj.finalCalculation.materialPrice = data.finalCalculation.materialPrice;
               $scope.estimatePartObj.finalCalculation.itemUnitPrice = data.finalCalculation.itemUnitPrice;
               $scope.estimatePartObj.finalCalculation.totalCostForQuantity = data.finalCalculation.totalCostForQuantity;
-
+          
             }
 
           } else {
@@ -246,8 +250,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = shortcutObj.partFormulae.sheetMetalArea;
     $scope.estimatePartObj.keyValueCalculations.surfaceArea = shortcutObj.partFormulae.surfaceArea;
     $scope.estimatePartObj.keyValueCalculations.weight = shortcutObj.partFormulae.weight;
-    $scope.estimatePartObj.shapeIcon = shortcutObj.shape.icon.file;
-    $scope.estimatePartObj.shapeImage = shortcutObj.shape.image.file;
+    if (shortcutObj.shape.icon) {
+      $scope.estimatePartObj.shapeIcon = shortcutObj.shape.icon.file;
+    }
+    if (shortcutObj.shape.image) {
+      $scope.estimatePartObj.shapeImage = shortcutObj.shape.image.file;
+    }
 
     //- update PAE count
     // $scope.estimatePartObj.processingCount = part.processing.length; /////-
@@ -327,8 +335,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     });
     $scope.estimatePartObj.variables = shapeObj.variable;
     if (angular.isDefined(shapeObj.shape)) {
-      $scope.estimatePartObj.shapeIcon = shapeObj.shape.icon.file;
-      $scope.estimatePartObj.shapeImage = shapeObj.shape.image.file;
+      if (shapeObj.shape.icon) {
+        $scope.estimatePartObj.shapeIcon = shapeObj.shape.icon.file;
+      }
+      if (shapeObj.shape.image) {
+        $scope.estimatePartObj.shapeImage = shapeObj.shape.image.file;
+      }
     }
     $scope.updatePartCalculation();
   }
