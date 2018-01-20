@@ -6,6 +6,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     $scope.showEditBtn = false;
     $scope.shapeVariables = [];
     $scope.disableField = false;
+    $scope.variablesData = [];
 
     // *************************** default functions begin here  ********************** //
     //- get data to generate material tree structure dynamically 
@@ -17,6 +18,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     //- get all variables to add in shape 
     $scope.getVariablesData = function () {
         masterShapeService.getVariablesData(function (data) {
+            debugger;
             $scope.variablesData = data;
         });
     }
@@ -28,30 +30,20 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
         $scope.shapeView = 'views/content/master/shape/shapeView.html';
     }
 
-    $scope.createOrEditShapeData = function (operation, shape) {
-             
-        // if(operation == 'save'){
-        //     // $scope.shapeView = 'views/content/master/shape/shapeView.html';
-        //     $scope.formData = {};
-        //     $scope.formData.icon = {};
-        //     $scope.formData.icon.file = "";
-        // }else{
-        //     // $scope.shapeView = 'views/content/master/shape/shapeView.html';
-        //     $scope.formData = shape;
-        //     $scope.formData.icon = {};
-        //     $scope.formData.icon.file = "";
-        // }
-        
+    $scope.createOrEditShapeData = function (operation, shape) {           
+        debugger;
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
             $scope.shapeView = 'views/content/master/shape/tempView.html';
             $scope.formData = data.shape;
             $scope.variablesData = data.shapeVariables;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
-            $scope.disableField = data.disableField;
+            // $scope.disableField = data.disableField;
+            $scope.shapeVariables = data.shapeVarWithoutChunck;
         });
     }
     $scope.createOrEditShape = function (shape, shapeVariables) {
+        debugger;
         shape.variable = shapeVariables;
         masterShapeService.createOrEditShape(shape, function (data) {
             toastr.success('Shape added/updated successfully');
@@ -86,12 +78,15 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     $scope.addVariableToShape = function (checkboxStatus, variableName) {
         if (checkboxStatus == 'unchecked') {
             var index = _.findIndex($scope.shapeVariables, ['varName', variableName]);
+            //- removing shape from array 
             $scope.shapeVariables.splice(index, 1);
+            // $scope.variablesData.splice(index, 1);
         } else if (checkboxStatus == 'checked') {
             var tempVarObj = {
                 varName: variableName
             };
             $scope.shapeVariables.push(tempVarObj);
+            // $scope.variablesData.push(tempVarObj);
         }
     }
 

@@ -58,30 +58,49 @@ myApp.service('masterShapeService', function (
             callback(shapeDataObj);
 
         } else if (operation == "update") {
-            var idsArray = [];
-            idsArray.push(shape._id);
-            var tempArray = _.cloneDeep(this.variableData)
+            shapeDataObj.saveBtn = false;
+            shapeDataObj.editBtn = true;
+            shapeDataObj.shapeVarWithoutChunck = [];
 
-            NavigationService.apiCall('Mshape/restrictShapeVariable', {idsArray: idsArray}, function(data){
-                shapeDataObj.saveBtn = false;
-                shapeDataObj.editBtn = true;
-                if(!_.isEmpty(data.data)){
-                    shapeDataObj.disableField = true;
+            var tempArray = _.cloneDeep(this.variableData);           
+            _.map(tempArray, function (n) {
+                debugger;
+                if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
+                    n.checkboxStatus = false;
+                } else {
+                    shapeDataObj.shapeVarWithoutChunck.push(_.cloneDeep(n));
+                    n.checkboxStatus = true;
                 }
-                else {
-                    shapeDataObj.disableField = false;
-                }
-                _.map(tempArray, function (n) {
-                    if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
-                        n.checkboxStatus = false;
-                    } else {
-                        n.checkboxStatus = true;
-                    }
-                });
-                shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
-                callback(shapeDataObj);
-
             });
+            shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
+            
+            callback(shapeDataObj);
+
+
+            //- user following logic to disable shape fields in order to restrict shape edit 
+
+            // var idsArray = [];
+            // idsArray.push(shape._id);
+            // NavigationService.apiCall('Mshape/restrictShapeVariable', {idsArray: idsArray}, function(data){
+            //     shapeDataObj.saveBtn = false;
+            //     shapeDataObj.editBtn = true;
+            //     // if(!_.isEmpty(data.data)){
+            //     //     shapeDataObj.disableField = true;
+            //     // }
+            //     // else {
+            //     //     shapeDataObj.disableField = false;
+            //     // }
+            //     _.map(tempArray, function (n) {
+            //         if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
+            //             n.checkboxStatus = false;
+            //         } else {
+            //             n.checkboxStatus = true;
+            //         }
+            //     });
+            //     shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
+            //     callback(shapeDataObj);
+
+            // });
         }
 
     }
