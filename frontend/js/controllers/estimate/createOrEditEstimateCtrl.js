@@ -88,125 +88,121 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to get all views of createOrEdit estimate screen dynamically 
   $scope.getEstimateView = function (getViewName, getLevelName, subAssemblyId, partId) {
     createOrEditEstimateService.estimateView(getViewName, getLevelName, subAssemblyId, partId, function (data) {
-      if (data == 'restrictUser') {
-        toastr.warning('You cannot access it now');
-      } else {
-        $scope.estimateView = data;
-        //when first time user click item details of part
-        $scope.estimatePartObj = _.cloneDeep($scope.estimatePartObjTemp);
-        $scope.disablePartFields = _.cloneDeep($scope.disablePartFieldsTemp);
+      $scope.estimateView = data;
+      //when first time user click item details of part
+      $scope.estimatePartObj = _.cloneDeep($scope.estimatePartObjTemp);
+      $scope.disablePartFields = _.cloneDeep($scope.disablePartFieldsTemp);
 
-        createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
-          if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
-            //- get all processing count, addon count & extras count
-            //- get all shortcuts, all part types, all shapes, all custom materials
-            //- get subAss, part name and part number
-            $scope.estimatePartObj.processingCount = data.processingCount;
-            $scope.estimatePartObj.addonCount = data.addonCount;
-            $scope.estimatePartObj.extraCount = data.extraCount;
+      createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
+        if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
+          //- get all processing count, addon count & extras count
+          //- get all shortcuts, all part types, all shapes, all custom materials
+          //- get subAss, part name and part number
+          $scope.estimatePartObj.processingCount = data.processingCount;
+          $scope.estimatePartObj.addonCount = data.addonCount;
+          $scope.estimatePartObj.extraCount = data.extraCount;
 
-            $scope.estimatePartObj.allShortcuts = data.allShortcuts;
-            $scope.estimatePartObj.allPartTypes = data.allPartTypes;
-            $scope.estimatePartObj.allShapes = data.allShapes;
-            $scope.estimatePartObj.customMaterials = data.customMaterials;
+          $scope.estimatePartObj.allShortcuts = data.allShortcuts;
+          $scope.estimatePartObj.allPartTypes = data.allPartTypes;
+          $scope.estimatePartObj.allShapes = data.allShapes;
+          $scope.estimatePartObj.customMaterials = data.customMaterials;
 
-            $scope.estimatePartObj.subAssNumber = data.subAssNumber;
-            $scope.estimatePartObj.partNumber = data.partNumber;
-            $scope.estimatePartObj.partName = data.partName;
+          $scope.estimatePartObj.subAssNumber = data.subAssNumber;
+          $scope.estimatePartObj.partNumber = data.partNumber;
+          $scope.estimatePartObj.partName = data.partName;
 
-            $scope.estimatePartObj.partUpdateStatus = data.partUpdateStatus;
+          $scope.estimatePartObj.partUpdateStatus = data.partUpdateStatus;
 
-            $scope.showSaveBtn = true;
-            $scope.showEditBtn = false;
+          $scope.showSaveBtn = true;
+          $scope.showEditBtn = false;
 
-            //- here data.partUpdateStatus will be true when admin will update all part calculation data
-            //- so, we can get all the data from formData.assembly of createOrEditEstimateService & bind it with  $scope.estimatePartObj
-            if (data.partUpdateStatus) {
-              //- enable save/update buttons
-              $scope.showSaveBtn = false;
-              $scope.showEditBtn = true;
+          //- here data.partUpdateStatus will be true when admin will update all part calculation data
+          //- so, we can get all the data from formData.assembly of createOrEditEstimateService & bind it with  $scope.estimatePartObj
+          if (data.partUpdateStatus) {
+            //- enable save/update buttons
+            $scope.showSaveBtn = false;
+            $scope.showEditBtn = true;
 
-              $scope.estimatePartObj.formFactor = data.formFactor; //- formFactor
-              $scope.estimatePartObj.length = data.length; //- length
-              $scope.estimatePartObj.sizeFactor = data.sizeFactor; //- sizeFactor
-              $scope.estimatePartObj.thickness = data.thickness; //- thickness
-              $scope.estimatePartObj.wastage = data.wastage; //- wastage
+            $scope.estimatePartObj.formFactor = data.formFactor; //- formFactor
+            $scope.estimatePartObj.length = data.length; //- length
+            $scope.estimatePartObj.sizeFactor = data.sizeFactor; //- sizeFactor
+            $scope.estimatePartObj.thickness = data.thickness; //- thickness
+            $scope.estimatePartObj.wastage = data.wastage; //- wastage
 
-              //- get selected shape data
-              $scope.estimatePartObj.selectedShape = data.selectedShape;
-              // $scope.estimatePartObj.allSizes = data.allShortcuts;
-              //- if shortCut is selected 
-              //- get sleceted shortcut, selected part type , selected size, selected material and all materials of respectinve part type
-              //- disable size 
-              //- hide shape
-              if (angular.isDefined(data.selectedShortcut._id)) {
-                $scope.estimatePartObj.selectedShortcut = data.selectedShortcut;
-                $scope.estimatePartObj.selectedPartType = data.selectedPartType;
-                $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
-                $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
-                $scope.estimatePartObj.selectedSize = data.selectedSize;
+            //- get selected shape data
+            $scope.estimatePartObj.selectedShape = data.selectedShape;
+            // $scope.estimatePartObj.allSizes = data.allShortcuts;
+            //- if shortCut is selected 
+            //- get sleceted shortcut, selected part type , selected size, selected material and all materials of respectinve part type
+            //- disable size 
+            //- hide shape
+            if (angular.isDefined(data.selectedShortcut._id)) {
+              $scope.estimatePartObj.selectedShortcut = data.selectedShortcut;
+              $scope.estimatePartObj.selectedPartType = data.selectedPartType;
+              $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
+              $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
+              $scope.estimatePartObj.selectedSize = data.selectedSize;
 
-                $scope.disablePartFields.displayPresetSize = true;
-                $scope.disablePartFields.disableShape = true;
-              } else if (angular.isDefined(data.selectedCustomMaterial._id)) {
+              $scope.disablePartFields.displayPresetSize = true;
+              $scope.disablePartFields.disableShape = true;
+            } else if (angular.isDefined(data.selectedCustomMaterial._id)) {
 
-                //- if custom material is selected
-                //- enable custom material field
-                //- hide shortcut, part type, size
-                //- to get all available materials
-                $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
-                $scope.disablePartFields.showAll = false;
-                $scope.disablePartFields.disableCustomMaterial = false;
-              } else { //- if material is selected
-                //- hide custom material
-                //- enable material field
-                //- get selected materials
-                //- hide shortcut, part type, size
-                //- to get all available materials
-                $scope.disablePartFields.disableCustomMaterial = true;
-                $scope.disablePartFields.disableAllMaterial = false;
-                $scope.disablePartFields.showAll = false;
+              //- if custom material is selected
+              //- enable custom material field
+              //- hide shortcut, part type, size
+              //- to get all available materials
+              $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
+              $scope.disablePartFields.showAll = false;
+              $scope.disablePartFields.disableCustomMaterial = false;
+            } else { //- if material is selected
+              //- hide custom material
+              //- enable material field
+              //- get selected materials
+              //- hide shortcut, part type, size
+              //- to get all available materials
+              $scope.disablePartFields.disableCustomMaterial = true;
+              $scope.disablePartFields.disableAllMaterial = false;
+              $scope.disablePartFields.showAll = false;
 
-                $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
-                createOrEditEstimateService.getAllMaterials(function (data) {
-                  $scope.estimatePartObj.allMaterial = data;
-                });
-              }
-
-              if (data.quantity) {
-                $scope.estimatePartObj.quantity = data.quantity;
-              } else {
-                $scope.estimatePartObj.quantity = 1;
-              }
-
-              $scope.estimatePartObj.variables = data.variable;
-              if(data.selectedShape.image) {
-                $scope.estimatePartObj.shapeImage = data.selectedShape.image.file;
-              } 
-              if (data.selectedShape.icon) {
-                $scope.estimatePartObj.shapeIcon = data.selectedShape.icon.file;
-              }
-              $scope.estimatePartObj.scaleFactor = data.scaleFactor;
-
-              $scope.estimatePartObj.keyValueCalculations.perimeter = data.keyValueCalculations.perimeter;
-              $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = data.keyValueCalculations.sheetMetalArea;
-              $scope.estimatePartObj.keyValueCalculations.surfaceArea = data.keyValueCalculations.surfaceArea;
-              $scope.estimatePartObj.keyValueCalculations.weight = data.keyValueCalculations.weight;
-
-              $scope.estimatePartObj.finalCalculation.materialPrice = data.finalCalculation.materialPrice;
-              $scope.estimatePartObj.finalCalculation.itemUnitPrice = data.finalCalculation.itemUnitPrice;
-              $scope.estimatePartObj.finalCalculation.totalCostForQuantity = data.finalCalculation.totalCostForQuantity;
-          
+              $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
+              createOrEditEstimateService.getAllMaterials(function (data) {
+                $scope.estimatePartObj.allMaterial = data;
+              });
             }
 
-          } else {
+            if (data.quantity) {
+              $scope.estimatePartObj.quantity = data.quantity;
+            } else {
+              $scope.estimatePartObj.quantity = 1;
+            }
 
-            $scope.level = getLevelName;
-            $scope.estimateViewData = data;
-            $scope.bulkItems = [];
+            $scope.estimatePartObj.variables = data.variable;
+            if (data.selectedShape.image) {
+              $scope.estimatePartObj.shapeImage = data.selectedShape.image.file;
+            }
+            if (data.selectedShape.icon) {
+              $scope.estimatePartObj.shapeIcon = data.selectedShape.icon.file;
+            }
+            $scope.estimatePartObj.scaleFactor = data.scaleFactor;
+
+            $scope.estimatePartObj.keyValueCalculations.perimeter = data.keyValueCalculations.perimeter;
+            $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = data.keyValueCalculations.sheetMetalArea;
+            $scope.estimatePartObj.keyValueCalculations.surfaceArea = data.keyValueCalculations.surfaceArea;
+            $scope.estimatePartObj.keyValueCalculations.weight = data.keyValueCalculations.weight;
+
+            $scope.estimatePartObj.finalCalculation.materialPrice = data.finalCalculation.materialPrice;
+            $scope.estimatePartObj.finalCalculation.itemUnitPrice = data.finalCalculation.itemUnitPrice;
+            $scope.estimatePartObj.finalCalculation.totalCostForQuantity = data.finalCalculation.totalCostForQuantity;
+
           }
-        });
-      }
+
+        } else {
+
+          $scope.level = getLevelName;
+          $scope.estimateViewData = data;
+          $scope.bulkItems = [];
+        }
+      });
     });
   }
   //- to perform CRUD of custom material
@@ -511,22 +507,22 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to update estimate object in draftEstimate table
   $scope.saveCurrentEstimate = function () {
     createOrEditEstimateService.saveCurrentEstimate(function (data) {
-     // $scope.getEstimateData();
+      // $scope.getEstimateData();
     });
   }
-  //- import subAssembly modal
-  $scope.importAssemblyModal = function () {
-    $scope.subAssId;
-    createOrEditEstimateService.getAllAssemblyNumbers(function (data) {
-      $scope.assemblyData = data;
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/estimate/estimateModal/importAssembly.html',
-        scope: $scope,
-        size: 'md',
-      });
-    });
-  }
+  // //- import subAssembly modal
+  // $scope.importAssemblyModal = function () {
+  //   $scope.subAssId;
+  //   createOrEditEstimateService.getAllAssemblyNumbers(function (data) {
+  //     $scope.assemblyData = data;
+  //     $scope.modalInstance = $uibModal.open({
+  //       animation: true,
+  //       templateUrl: 'views/content/estimate/estimateModal/importAssembly.html',
+  //       scope: $scope,
+  //       size: 'md',
+  //     });
+  //   });
+  // }
 
 
   //- to add or edit subAssembly data modal
@@ -617,6 +613,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('SubAssembly imported successfully');
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -653,7 +650,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.getCurretEstimateObj();
     toastr.success('Part updated successfully');
     $scope.cancelModal();
-
   }
   //- to add or edit part detail
   $scope.editPartItemDetails = function (subAssemblyId, partId) {
@@ -693,6 +689,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
       toastr.success('Parts deleted successfully');
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- import part modal
@@ -718,9 +715,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.importPart = function (subAssId, partId) {
     createOrEditEstimateService.getImportPartData(subAssId, partId, function () {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Part imported successfully');
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to create a duplicate part for same subAssembly or different subAssembly
@@ -758,27 +755,28 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
 
 
-  //- to add Addon at assembly or subssembly or at partLevel
-  $scope.addAddon = function (addonData, level, subAssemblyId, partId) {
-    createOrEditEstimateService.createAddon(addonData, level, subAssemblyId, partId, function () {
-      $scope.getEstimateView('addons', level, subAssemblyId, partId);
-      toastr.success('Addon added successfully');
-      $scope.cancelModal();
-    });
-  }
-  //- to edit Addon at assembly or subssembly or at partLevel
-  $scope.editAddon = function () {
-    $scope.getCurretEstimateObj();
-    toastr.success('Addon updated successfully');
-    $scope.cancelModal();
-  }
+  // //- to add Addon at assembly or subssembly or at partLevel
+  // $scope.addAddon = function (addonData, level, subAssemblyId, partId) {
+  //   createOrEditEstimateService.createAddon(addonData, level, subAssemblyId, partId, function () {
+  //     $scope.getEstimateView('addons', level, subAssemblyId, partId);
+  //     toastr.success('Addon added successfully');
+  //     $scope.cancelModal();
+  //   });
+  // }
+  // //- to edit Addon at assembly or subssembly or at partLevel
+  // $scope.editAddon = function () {
+  //   $scope.getCurretEstimateObj();
+  //   toastr.success('Addon updated successfully');
+  //   $scope.cancelModal();
+  // }
+  
   //- delete addon
   $scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {
     createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
       toastr.success('Addon deleted successfully');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk addons
@@ -802,6 +800,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Addon imported successfully');
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -924,58 +923,59 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
 
 
-  //- commmon add modal for processing, addons & extras    
-  $scope.addItemModal = function (itemType, level, subAssemblyId, partId) {
-    $scope.formData = undefined;
-    $scope.showSaveBtn = true;
-    $scope.showEditBtn = false;
-    $scope.level = level;
-    $scope.subAssemblyId = subAssemblyId;
-    $scope.partId = partId;
+  // //- commmon add modal for processing, addons & extras    
+  // $scope.addItemModal = function (itemType, level, subAssemblyId, partId) {
+  //   $scope.formData = undefined;
+  //   $scope.showSaveBtn = true;
+  //   $scope.showEditBtn = false;
+  //   $scope.level = level;
+  //   $scope.subAssemblyId = subAssemblyId;
+  //   $scope.partId = partId;
 
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
-      scope: $scope,
-      size: 'md',
-    });
+  //   $scope.modalInstance = $uibModal.open({
+  //     animation: true,
+  //     templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
+  //     scope: $scope,
+  //     size: 'md',
+  //   });
 
-    if (itemType == 'Processing') {
-      // get part type data
-      // get part item data
+  //   if (itemType == 'Processing') {
+  //     // get part type data
+  //     // get part item data
 
-      createOrEditEstimateService.getProcessingData(function (data) {
-        $scope.partProcessingObj.processingTypeData = data.processingTypeData;
-      });
+  //     createOrEditEstimateService.getProcessingData(function (data) {
+  //       $scope.partProcessingObj.processingTypeData = data.processingTypeData;
+  //     });
 
-    } else if (itemType == 'addons') {
-      // get addon type data
-      // get addon item data
+  //   } else if (itemType == 'addons') {
+  //     // get addon type data
+  //     // get addon item data
 
-      createOrEditEstimateService.getAddoneData(function (data) {
-        $scope.addonTypeData = data;
-      });
+  //     createOrEditEstimateService.getAddoneData(function (data) {
+  //       $scope.addonTypeData = data;
+  //     });
 
-    } else if (itemType == 'extras') {
-      // get extra data
-      createOrEditEstimateService.getExtraData(function (data) {
-        $scope.partTypeData = data;
-      });
-    }
-  }
-  //- commmon edit modal for processing, addons & extras
-  $scope.editItemModal = function (itemType, extraObj) {
-    $scope.formData = extraObj;
-    $scope.showSaveBtn = false;
-    $scope.showEditBtn = true;
+  //   } else if (itemType == 'extras') {
+  //     // get extra data
+  //     createOrEditEstimateService.getExtraData(function (data) {
+  //       $scope.partTypeData = data;
+  //     });
+  //   }
+  // }
+  // //- commmon edit modal for processing, addons & extras
+  // $scope.editItemModal = function (itemType, extraObj) {
+  //   $scope.formData = extraObj;
+  //   $scope.showSaveBtn = false;
+  //   $scope.showEditBtn = true;
 
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
-      scope: $scope,
-      size: 'md',
-    });
-  }
+  //   $scope.modalInstance = $uibModal.open({
+  //     animation: true,
+  //     templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
+  //     scope: $scope,
+  //     size: 'md',
+  //   });
+  // }
+
   //- commmon delete modal for processing, addons & extras
   $scope.deleteItemModal = function (getFunction, itemId, level, subAssemblyId, partId) {
     $scope.idToDelete = itemId;
@@ -1176,7 +1176,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       //- get density of corresponding level
       //- i.e.  part level, subAssembly level or assemby level
       $scope.partProcessingObj.selectedProcessingType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedMaterial.density);
-    } 
+    }
 
     $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);
     $scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom.uomName;
@@ -1202,7 +1202,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         contengncyOrWastage: processingData.quantity.contengncyOrWastage
       },
       remark: processingData.remark,
-      totalCost:  processingData.quantity.totalQuantity * processingData.rate.actualRate 
+      totalCost: processingData.quantity.totalQuantity * processingData.rate.actualRate
 
     };
 
@@ -1222,20 +1222,24 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.totalCostCalculations(function (data) {});
 
   }
-  //- to edit processing at assembly or subssembly or at partLevel
-  $scope.editProcessing = function () {
-    $scope.getCurretEstimateObj();
-    createOrEditEstimateService.totalCostCalculations(function (data) {});
-    toastr.success('Processing updated successfully');
-    $scope.cancelModal();
-  }
+  
+  // //- to edit processing at assembly or subssembly or at partLevel
+  // $scope.editProcessing = function () {
+  //   debugger;
+  //   $scope.getCurretEstimateObj();
+  //   createOrEditEstimateService.totalCostCalculations(function (data) {});
+  //   toastr.success('Processing updated successfully');
+  //   $scope.cancelModal();
+  // }
+
   //- to delete processing
   $scope.deleteProcessing = function (processingId, level, subAssemblyId, partId) {
     createOrEditEstimateService.deleteProcessing(processingId, level, subAssemblyId, partId, function (data) {
       toastr.success('Processing deleted successfully');
       $scope.getEstimateView('processing', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+      
     });
   }
   //- to delete bulk processing
@@ -1247,8 +1251,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
       $scope.getEstimateView('processing', level, subAssId, partId);
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Processing deleted successfully');
+      createOrEditEstimateService.totalCostCalculations(function (data) {});      
     });
   }
   //- to get all versions of selected processing
@@ -1259,9 +1263,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.importProcessing = function (processingId, level, subAssemblyId, partId) {
     createOrEditEstimateService.getImportProcessingData(processingId, level, subAssemblyId, partId, function () {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Processing imported successfully');
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});      
     });
   }
 
@@ -1594,8 +1598,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   //- when user select an material
   $scope.getSelectedMaterial = function (selectedMaterial) {
-     //- is there anything else  user will put in mul5fact while adding addon type
-     if ($scope.addonObj.selectedAddonType.rate.mulFact == 't') {
+    //- is there anything else  user will put in mul5fact while adding addon type
+    if ($scope.addonObj.selectedAddonType.rate.mulFact == 't') {
       //- get thickness of corresponding level
       //- i.e.  part level, subAssembly level or assemby level
       $scope.addonObj.selectedAddonType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
@@ -1603,12 +1607,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       //- get density of corresponding level
       //- i.e.  part level, subAssembly level or assemby level
       $scope.addonObj.selectedAddonType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedMaterial.density);
-    } 
+    }
     //- get rate selectedAddonType-->rate * selectedMaterial --> typicalRatepeKg
     $scope.addonObj.rate.value = $scope.addonObj.selectedAddonType.rate.mulFact * selectedMaterial.typicalRatePerKg;
-    
+
     //- update following after change quantity again
-    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) *  parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.supportingVariable.value);
+    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.supportingVariable.value);
     $scope.addonObj.totalWeight = parseFloat($scope.addonObj.quantity.total) * parseFloat(selectedMaterial.weightPerUnit);
 
   }
@@ -1620,12 +1624,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   $scope.changeSVValue = function () {
     // $scope.addonObj.quantity.supportingVariable.value = svValue;
-    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) *  parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.supportingVariable.value);
+    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.supportingVariable.value);
   }
 
   //- to add Addon at assembly or subssembly or at partLevel
   $scope.addAddon = function (operation, addonData, level, subAssemblyId, partId) {
-
+debugger;
     var addon = {
       addonNumber: addonData.addonNumber,
       addonType: addonData.selectedAddonType,
@@ -1651,31 +1655,33 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if (operation == 'save') {
       createOrEditEstimateService.createAddon(addon, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('addons', level, subAssemblyId, partId);
+        createOrEditEstimateService.totalCostCalculations(function (data) {});
         toastr.success('Addon added successfully');
         $scope.cancelModal();
       });
     } else if (operation == 'update') {
       createOrEditEstimateService.updateAddon(addon, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('addons', level, subAssemblyId, partId);
+        createOrEditEstimateService.totalCostCalculations(function (data) {});
         toastr.success('Addon updated successfully');
         $scope.cancelModal();
       });
     }
   }
-  //- to edit Addon at assembly or subssembly or at partLevel
-  $scope.editAddon = function () {
-    $scope.getCurretEstimateObj();
-    toastr.success('Addon updated successfully');
-    createOrEditEstimateService.totalCostCalculations(function (data) {});
-    $scope.cancelModal();
-  }
+  // //- to edit Addon at assembly or subssembly or at partLevel
+  // $scope.editAddon = function () {
+  //   $scope.getCurretEstimateObj();
+  //   toastr.success('Addon updated successfully');
+  //   createOrEditEstimateService.totalCostCalculations(function (data) {});
+  //   $scope.cancelModal();
+  // }
   //- delete addon
   $scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {
     createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
       toastr.success('Addon deleted successfully');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});      
     });
   }
   //- to delete bulk addons
@@ -1687,6 +1693,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getEstimateView('addons', level, subAssId, partId);
       $scope.cancelModal();
       toastr.success('Addons deleted successfully');
+      createOrEditEstimateService.totalCostCalculations(function (data) {});      
     });
   }
   //- Import Addon
@@ -1695,6 +1702,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Addon imported successfully');
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 

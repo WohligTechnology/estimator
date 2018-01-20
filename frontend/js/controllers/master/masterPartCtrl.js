@@ -191,8 +191,9 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         $scope.presetFormData.wastage = shapeData.wastage;
         $scope.presetFormData.formFactor = shapeData.formFactor;
         $scope.presetFormData.sizeFactor = shapeData.sizeFactor;
-
-
+        if (shapeData.image) {
+        $scope.presetFormData.image = shapeData.image.file;
+        }
         // _.map(shapeData.variable, function (n) {
         //     varName = n.varName;
         //     varValue = parseFloat(n.varValue);

@@ -195,38 +195,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to set a view of the page
 	this.estimateView = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
-		var checkAccess = 0;
-		if (estimateView == 'processing' || estimateView == 'addons' || estimateView == 'extras') {
-			if (getLevelName == "assembly") {
-				//var tempObj = formData.assembly.keyValueCalculations;
-				if (formData.assembly.processing.length == 0) {
-					checkAccess += 1;
-				}
-			} else if (getLevelName == "subAssembly") {
-				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-				//var tempObj = formData.assembly.subAssemblies[subAssIndex].keyValueCalculations;
-				if (formData.assembly.subAssemblies[subAssIndex].processing.length == 0) {
-					checkAccess += 1;
-				}
-			} else if (getLevelName == "part") {
-
-				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-				var partIndex = this.getPartIndex(subAssIndex, partId);
-				//var tempObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
-				if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.length == 0) {
-					checkAccess += 1;
-				}
-			}
-			// if ((isNaN(parseFloat(tempObj.perimeter))) && (isNaN(parseFloat(tempObj.sheetMetalArea))) && (isNaN(parseFloat(tempObj.surfaceArea))) && (isNaN(parseFloat(tempObj.weight)))) {
-			// 	checkAccess += 1;
-			// }
-		}
-		if (checkAccess == 0) {
 			getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
 			callback(getEstimateView);
-		} else {
-			callback('restrictUser');
-		}
 	}
 	//- to calculate total cost of addon/processing/extras
 	this.totalCostCalculations = function (callback) {
@@ -272,11 +242,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
 			angular.forEach(subAssembly.subAssemblyParts, function (part) {
 				//- get weight at part level
-				costCalculations.wtAtPart = parseFloat(part.keyValueCalculations.weight);
+				if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
+					costCalculations.wtAtPart = parseFloat(part.keyValueCalculations.weight);
+				}
 				//- get summation of (weight * quantity) of all parts 
 				costCalculations.wtAtSubAssembly += costCalculations.wtAtPart * part.quantity;
 				//- get material cost at part level
-				costCalculations.mtPart = parseFloat(part.finalCalculation.materialPrice);
+				if (!isNaN(parseFloat(part.finalCalculation.materialPrice))) {
+					costCalculations.mtPart = parseFloat(part.finalCalculation.materialPrice);
+				}
 				//- get summation of material cost of all parts 
 				costCalculations.mtAtSubAssembly += costCalculations.mtPart;
 				//- processing cost at part level
@@ -652,12 +626,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 
 
-	//- to get all assembly numbers
-	this.getAllAssemblyNumbers = function (callback) {
-		NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
-			callback(data.data);
-		});
-	}
+	// //- to get all assembly numbers
+	// this.getAllAssemblyNumbers = function (callback) {
+	// 	NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
+	// 		callback(data.data);
+	// 	});
+	// }
+
 	//- to get subAssembly data 
 	this.getAllSubAssModalData = function (operation, subAssembly, callback) {
 		var subAssDataObj = {}
