@@ -195,38 +195,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to set a view of the page
 	this.estimateView = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
-		var checkAccess = 0;
-		if (estimateView == 'processing' || estimateView == 'addons' || estimateView == 'extras') {
-			if (getLevelName == "assembly") {
-				//var tempObj = formData.assembly.keyValueCalculations;
-				if (formData.assembly.processing.length == 0) {
-					checkAccess += 1;
-				}
-			} else if (getLevelName == "subAssembly") {
-				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-				//var tempObj = formData.assembly.subAssemblies[subAssIndex].keyValueCalculations;
-				if (formData.assembly.subAssemblies[subAssIndex].processing.length == 0) {
-					checkAccess += 1;
-				}
-			} else if (getLevelName == "part") {
-
-				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-				var partIndex = this.getPartIndex(subAssIndex, partId);
-				//var tempObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
-				if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.length == 0) {
-					checkAccess += 1;
-				}
-			}
-			// if ((isNaN(parseFloat(tempObj.perimeter))) && (isNaN(parseFloat(tempObj.sheetMetalArea))) && (isNaN(parseFloat(tempObj.surfaceArea))) && (isNaN(parseFloat(tempObj.weight)))) {
-			// 	checkAccess += 1;
-			// }
-		}
-		if (checkAccess == 0) {
 			getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
 			callback(getEstimateView);
-		} else {
-			callback('restrictUser');
-		}
 	}
 	//- to calculate total cost of addon/processing/extras
 	this.totalCostCalculations = function (callback) {
