@@ -242,11 +242,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
 			angular.forEach(subAssembly.subAssemblyParts, function (part) {
 				//- get weight at part level
-				costCalculations.wtAtPart = parseFloat(part.keyValueCalculations.weight);
+				if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
+					costCalculations.wtAtPart = parseFloat(part.keyValueCalculations.weight);
+				}
 				//- get summation of (weight * quantity) of all parts 
 				costCalculations.wtAtSubAssembly += costCalculations.wtAtPart * part.quantity;
 				//- get material cost at part level
-				costCalculations.mtPart = parseFloat(part.finalCalculation.materialPrice);
+				if (!isNaN(parseFloat(part.finalCalculation.materialPrice))) {
+					costCalculations.mtPart = parseFloat(part.finalCalculation.materialPrice);
+				}
 				//- get summation of material cost of all parts 
 				costCalculations.mtAtSubAssembly += costCalculations.mtPart;
 				//- processing cost at part level
@@ -622,12 +626,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 
 
-	//- to get all assembly numbers
-	this.getAllAssemblyNumbers = function (callback) {
-		NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
-			callback(data.data);
-		});
-	}
+	// //- to get all assembly numbers
+	// this.getAllAssemblyNumbers = function (callback) {
+	// 	NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
+	// 		callback(data.data);
+	// 	});
+	// }
+
 	//- to get subAssembly data 
 	this.getAllSubAssModalData = function (operation, subAssembly, callback) {
 		var subAssDataObj = {}
