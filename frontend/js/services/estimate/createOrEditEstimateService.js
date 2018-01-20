@@ -327,7 +327,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			});
 			//- addons cost at subAssembly level
 			angular.forEach(subAssembly.addons, function (addon) {
-				addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
+				//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
 				costCalculations.aCostAtSubAssembly += addon.totalCost;
 			});
 			//- extras cost at subAssembly level
@@ -352,12 +352,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		});
 		//- processing cost at assembly level
 		angular.forEach(formData.assembly.processing, function (processing) {
-			processing.totalCost = processing.totalCost;
 			costCalculations.pCost += processing.totalCost;
 		});
 		//- addons cost at assembly level
 		angular.forEach(formData.assembly.addons, function (addon) {
-			addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
+			//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
 			costCalculations.aCost += addon.totalCost;
 		});
 		//- extras cost at assembly level
@@ -701,13 +700,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else {
 			tempSubAssObj.quantity = 1;
 		}
-		var tempObj = {
-			perimeter: "",
-			sheetMetalArea: "",
-			surfaceArea: "",
-			weight: ""
-		}
-		formData.assembly.keyValueCalculations = tempObj;
 		formData.assembly.subAssemblies.push(tempSubAssObj);
 		callback();
 	}
@@ -766,14 +758,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempPartObj = _.cloneDeep(part);
 		tempPartObj.partNumber = subAssId + 'PT' + id;
 		tempPartObj.partName = partObj.partName;
-		var tempObj = {
-			perimeter: "",
-			sheetMetalArea: "",
-			surfaceArea: "",
-			weight: ""
-		}
-		formData.assembly.keyValueCalculations = tempObj;
-		formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = tempObj;
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(tempPartObj);
 		callback();
 	}
@@ -804,7 +788,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		if (!_.isEmpty(partObject.selectedCustomMaterial) && partObject.selectedCustomMaterial != undefined) {
 			tempPart.customMaterial = partObject.selectedCustomMaterial; //- selectedCustomeMaterial
 		}
-		debugger;
 		if (!_.isEmpty(partObject.selectedShape) && partObject.selectedShape != undefined) {
 			tempPart.shape = partObject.selectedShape; //- selectedCustomeMaterial
 		}

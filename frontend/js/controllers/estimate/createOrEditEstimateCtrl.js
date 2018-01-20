@@ -1334,7 +1334,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.extraObj.uom = extraObjData.rate.uom.uomName;
   }
 
-  $scope.changeQuantity = function (q) {
+  $scope.changeExtraQuantity = function (q) {
     $scope.extraObj.totalCost = parseFloat($scope.extraObj.selectedExtraItem.rate.name) * q;
   }
 
@@ -1596,7 +1596,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.addonObj.rate.value = $scope.addonObj.selectedAddonType.rate.mulFact * selectedMaterial.typicalRatePerKg;
     
     //- update following after change quantity again
-    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat(selectedMaterial.typicalRatePerKg);
+    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) *  parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.supportingVariable.value);
     $scope.addonObj.totalWeight = parseFloat($scope.addonObj.quantity.total) * parseFloat(selectedMaterial.weightPerUnit);
 
   }
@@ -1608,7 +1608,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   $scope.changeSVValue = function () {
     // $scope.addonObj.quantity.supportingVariable.value = svValue;
-    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.selectedMaterial.typicalRatePerKg) * $scope.addonObj.quantity.supportingVariable.value;
+    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) *  parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.supportingVariable.value);
   }
 
   //- to add Addon at assembly or subssembly or at partLevel
