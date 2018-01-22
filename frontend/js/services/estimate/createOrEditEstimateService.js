@@ -2121,7 +2121,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		if (angular.isDefined(customMaterialData)) {
 			customMaterialObj.custMaterialObj = customMaterialData;
 		} else {
-			customMaterial.uniqueId = formData.assembly._id;
+			customMaterial.estimateId = formData.assembly._id;
 			customMaterial.hardFacingAlloys = [_.cloneDeep(hardFacingAlloy)];
 			customMaterialObj.custMaterialObj = _.cloneDeep(customMaterial);
 		}

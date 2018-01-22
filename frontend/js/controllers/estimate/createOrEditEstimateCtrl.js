@@ -398,6 +398,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       //- update thickness of shape 
       $scope.estimatePartObj.selectedShape.thickness = $scope.estimatePartObj.thickness
       var t = parseFloat($scope.estimatePartObj.thickness);
+    } else {
+      var t = 1;
     }
     if (angular.isDefined($scope.estimatePartObj.selectedShape.sizeFactor) && $scope.estimatePartObj.selectedShape.sizeFactor != null) {
       var sf = parseFloat($scope.estimatePartObj.selectedShape.sizeFactor);
@@ -1171,7 +1173,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if ($scope.partProcessingObj.selectedProcessingType.rate.mulFact == 't') {
       //- get thickness of corresponding level
       //- i.e.  part level, subAssembly level or assemby level
-      $scope.partProcessingObj.selectedProcessingType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
+      if(!NaN(parseFloat($scope.estimatePartObj.selectedShape.thickness))) {
+        $scope.partProcessingObj.selectedProcessingType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
+      } else {
+        $scope.partProcessingObj.selectedProcessingType.rate.mulFact = 1;
+      }
+
     } else if ($scope.partProcessingObj.selectedProcessingType.rate.mulFact == 'den') {
       //- get density of corresponding level
       //- i.e.  part level, subAssembly level or assemby level
@@ -1602,7 +1609,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if ($scope.addonObj.selectedAddonType.rate.mulFact == 't') {
       //- get thickness of corresponding level
       //- i.e.  part level, subAssembly level or assemby level
-      $scope.addonObj.selectedAddonType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
+      if (!isNaN(parseFloat($scope.estimatePartObj.selectedShape.thickness))) {
+        $scope.addonObj.selectedAddonType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
+      } else {
+        $scope.addonObj.selectedAddonType.rate.mulFact = 1;
+      }
     } else if ($scope.addonObj.selectedAddonType.rate.mulFact == 'den') {
       //- get density of corresponding level
       //- i.e.  part level, subAssembly level or assemby level

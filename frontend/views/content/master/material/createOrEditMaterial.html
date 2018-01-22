@@ -26,9 +26,9 @@
                            </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Density:</label>
+                            <label class="col-md-4 control-label">Density:<span class="error">&nbsp;*</span></label>
                             <div class="col-md-5">
-                                <input type="text" name="density" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?"  ng-model="formData.density" >
+                                <input type="text" name="density" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?"  ng-model="formData.density" required>
                                 <span class="error" ng-show="myForm.density.$invalid && myForm.density.$dirty">Please enter a number or floating point number</span>
                                 <span class="unit">kg/m
                                     <sup>3</sup>
