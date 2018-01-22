@@ -60,12 +60,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
-                                                    <label class="col-md-2 control-label" for="form_control_1">Customer Name:<span class="error">&nbsp;&nbsp;*</span></label>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Customer Name:
+                                                        <span class="error">&nbsp;&nbsp;*</span>
+                                                    </label>
                                                     <div class="col-md-3">
-                                                            <select class="form-control" name="customername" ng-options="c.customerName for c in customerData track by c._id" ng-model="formData.customerDataObj"
+                                                        <select class="form-control" name="customername" ng-options="c.customerName for c in customerData track by c._id" ng-model="formData.customerDataObj"
                                                             ng-change="setCustomerData(formData.customerDataObj)" required>
-                                                            </select>
-                                                            <span class="error" ng-show="myForm1.customername.$invalid && myForm1.customername.$dirty">Please fill in this field.</span>
+                                                        </select>
+                                                        <span class="error" ng-show="myForm1.customername.$invalid && myForm1.customername.$dirty">Please fill in this field.</span>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Enquiry Type:</label>
@@ -84,7 +86,8 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Estimator:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control" ng-options="u.name for u in userData track by u._id" ng-model="formData.enquiryDetails.estimator" ng-change="setEstimator(formData.enquiryDetails.estimator)">
+                                                        <select class="form-control" ng-options="u.name for u in userData track by u._id" ng-model="formData.enquiryDetails.estimator"
+                                                            ng-change="setEstimator(formData.enquiryDetails.estimator)">
                                                         </select>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
@@ -110,9 +113,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
-                                                    <label class="col-md-2 control-label" for="form_control_1">Delivery Location:<span class="error">&nbsp;&nbsp;*</span></label>
+                                                    <label class="col-md-2 control-label" for="form_control_1">Delivery Location:
+                                                        <span class="error">&nbsp;&nbsp;*</span>
+                                                    </label>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control" name="deliverylocation" id="form_control_1" ng-model="formData.enquiryDetails.deliveryLocation" required>
+                                                        <input type="text" class="form-control" name="deliverylocation" id="form_control_1" ng-model="formData.enquiryDetails.deliveryLocation"
+                                                            required>
                                                         <span class="error" ng-show="myForm1.deliverylocation.$invalid && myForm1.deliverylocation.$dirty">Please fill in this field </span>
 
                                                         <div class="form-control-focus"> </div>
@@ -170,7 +176,7 @@
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ Due Date:</label>
                                                     <div class="col-md-3">
-                                                        <input type="date" class="form-control" id="form_control_1"  min="dateNow" max="3000-12-31" ng-model="formData.enquiryDetails.rfqDueDate">
+                                                        <input type="date" class="form-control" id="form_control_1" min="dateNow" max="3000-12-31" ng-model="formData.enquiryDetails.rfqDueDate">
                                                         <!-- <input-date ng-model="formData.enquiryDetails.rfqDueDate"></input-date> -->
                                                         <div class="form-control-focus"> </div>
                                                     </div>
@@ -184,7 +190,7 @@
                                             <div class="form-actions">
                                                 <div class="row">
                                                     <div class=" col-md-12 text-center">
-                                                        <button type="button" class="btn blue" ng-if="myForm1.$dirty" ng-click="addEnquiryData(formData)" ng-disabled ="myForm1.$dirty && myForm1.$invalid || myForm1.$pristine">Submit</button>
+                                                        <button type="button" class="btn blue" ng-if="myForm1.$dirty" ng-click="addEnquiryData(formData)" ng-disabled="myForm1.$dirty && myForm1.$invalid || myForm1.$pristine">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -260,7 +266,7 @@
                                             <div class="form-actions">
                                                 <div class="row">
                                                     <div class=" col-md-12 text-center">
-                                                        <button type="button" class="btn blue"  ng-if="myForm2.$dirty" ng-click="addEnquiryData(formData)">Submit</button>
+                                                        <button type="button" class="btn blue" ng-if="myForm2.$dirty" ng-click="addEnquiryData(formData)">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -290,7 +296,7 @@
                                                     <label class="col-md-3 control-label" for="form_control_1">NDA agreement:</label>
                                                     <div class="col-md-6">
                                                         <upload-all-files ng-model="formData.keyRequirement.ndaAgreement" is-multiple="true" icon="false" file-location="top"></upload-all-files>
-                                                            <!--<div class="form-control-focus"> </div>-->
+                                                        <!--<div class="form-control-focus"> </div>-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -523,8 +529,8 @@
                         Estimate </button>
                 </div>
                 <!-- start of table-->
-                <div class="portlet-body" ng-if="editPermmission">
-                    <div class="table-scrollable">
+                <div class="portlet-body" ng-if="!showEstimateBtn">
+                    <div class="table-scrollable" ng-hide="versionData.length == 0">
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -534,6 +540,7 @@
                                     <th> Last Updated By User </th>
                                     <th> Created Date </th>
                                     <th> Updated Date </th>
+                                    <th class="text-center"> Excel Export </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -542,8 +549,12 @@
                                     <td> {{v.estimateVersion}} </td>
                                     <td> {{v.estimateCreatedUser.name}} </td>
                                     <td> {{v.estimateUpdatedUser.name}} </td>
-                                    <td> {{v.createdAt}} </td>
-                                    <td> {{v.updatedAt}} </td>
+                                    <td> {{v.createdAt | date:'dd/mm/yyyy'}} </td>
+                                    <td> {{v.updatedAt | date:'dd/mm/yyyy'}} </td>
+                                    <td class="text-center">
+                                        <button id="sample_editable_1_new" class="btn green circle" ng-click="getExcelSheet(v._id)">
+                                            Export </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

@@ -44,6 +44,9 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     NavigationService.apiCall('Estimate/getEstimateVersion', {
       enquiryId: Id
     }, function (data) {
+      if (data.data == "noDataFound") {
+        data.data = [];
+      }
       callback(data.data);
     });
   }
@@ -66,6 +69,8 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     NavigationService.boxCall('Estimate/getVersionsOfAssNo', function (data) {
       callback(data.data);
     });
+  }
+  this.getExcelSheet = function (estimateVersionId, callback) {    
   }
   //- to import assembly
   this.getImportAssemblyData = function (assemblyId, callback) {

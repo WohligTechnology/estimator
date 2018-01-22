@@ -101,6 +101,11 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   $scope.getAssemblyVersionData = function (assemblyObj) {
       $scope.versionData = assemblyObj.versionDetail;
   }
+  //- to get an excel sheet of a particular estimate version
+  $scope.getExcelSheet = function (estimateVersionId) {
+    createOrEditEnquiryService.getExcelSheet(estimateVersionId, function (data) {
+      });
+  }
   //- create new assembly
   $scope.saveAssemblyName = function (assName, enquiryId) {
     createOrEditEnquiryService.saveAssemblyName(assName, enquiryId, function (data) {
