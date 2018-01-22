@@ -90,7 +90,7 @@ var model = {
                 delete found.updatedAt;
                 delete found.__v;
 
-                console.log(' @@@@@@@@@@@@@@@@@ found @@@@@@@@@@@@@@@@@@@', found);
+                // console.log(' @@@@@@@@@@@@@@@@@ found @@@@@@@@@@@@@@@@@@@', found);
 
                 var subAssembliesArray = [];
                 var partsArray = [];
@@ -119,7 +119,7 @@ var model = {
                             console.log('**** inside function_name of DraftEstimate.js & data is ****', estObj);
                         } else {
                             tempObj.estimateVersion = parseInt(estObj.estimateVersion) + 1;
-                            console.log('**** !!!!!!!!!!!!!!!!!! ****', tempObj);
+                            // console.log('**** !!!!!!!!!!!!!!!!!! ****', tempObj);
                         }
                         var assemblyObj = {
                             estimateVersion: tempObj.estimateVersion,
@@ -153,6 +153,12 @@ var model = {
                             } else if (_.isEmpty(savedAssembly)) {
                                 callback(null, 'noDataFound');
                             } else {
+                                
+                                var partError = {
+                                    status:true,
+                                    partName:""
+                                };
+
                                 async.eachSeries(found.subAssemblies, function (subAss, callback) {
 
                                     var subAssObj = {
@@ -178,8 +184,9 @@ var model = {
                                             callback(null, 'noDataFound');
                                         } else {
                                             subAssembliesArray.push(savedSubAss._id);
+
                                             async.eachSeries(subAss.subAssemblyParts, function (part, callback) {
-                                                console.log('**** ^^^^^^^^^^^^^ ****', part);
+                                                // console.log('**** ^^^^^^^^^^^^^ ****', part);
                                                 var partObj = {
                                                     estimateVersion: tempObj.estimateVersion,
                                                     partName: part.partName,
@@ -204,11 +211,16 @@ var model = {
 
                                                 EstimatePart.saveData(partObj, function (err, savedPart) {
                                                     if (err) {
-                                                        console.log('**** error at EstimatePart.saveData of DraftEstimate.js ****', err);
-                                                        callback(err, null);
+                                                        console.log('**** error at $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ EstimatePart.saveData of DraftEstimate.js ****');
+                                                        partError.partName = part.partName;
+                                                        partError.status = false;
+                                                        callback();
                                                     } else if (_.isEmpty(savedPart)) {
                                                         callback(null, 'noDataFound');
                                                     } else {
+
+                                                        console.log('**** success at @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@SS level of DraftEstimate.js ****');
+
                                                         partsArray.push(savedPart._id);
                                                         async.waterfall([
                                                             function (callback) {
@@ -497,7 +509,7 @@ var model = {
                                                     if (err) {
                                                         console.log('**** error at function_name of DraftEstimate.js ****', err);
                                                     } else {
-                                                        callback(null, updatedAss);
+                                                        callback(null, partError);
                                                     }
                                                 });
                                             }

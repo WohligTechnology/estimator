@@ -5,6 +5,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.$parent.isSidebarActive = false;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
+  $scope.loading = false; //- for loading gif
   $scope.bulkItems = []; //- for multiple deletion
   $scope.checkboxStatus = false; //- for multiple records selection
   $scope.checkAll = false; //- for all records selectione
@@ -447,7 +448,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   //- to update part calculation detail into an corresponding part 
   $scope.updatePartDetail = function (partObject) {
-    createOrEditEstimateService.updatePartDetail($scope.showEditBtn, partObject, function (data) {
+    createOrEditEstimateService.updatePartDetail(partObject, function (data) {
       $scope.estimteData = data;
       toastr.success('Part Details Added Successfully...');
       createOrEditEstimateService.totalCostCalculations(function (data) {});
@@ -504,6 +505,18 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getEstimateData();
       $scope.cancelModal();
       toastr.success('Estimate data updated successfully');
+    });
+  }
+  //- to compile estimate object in 6 tables
+  $scope.compileCurrentEstimate = function () {
+    $scope.loading = true;
+    createOrEditEstimateService.compileCurrentEstimate(function (data) {
+      $scope.loading = false;
+      if (data.status) {
+        toastr.success("Estimate Finalized");
+      } else {
+        toastr.error("Please fill part details of " + data.partName + " properly & detils of other parts  also if they are not filled properly");
+      }
     });
   }
   //- to update estimate object in draftEstimate table

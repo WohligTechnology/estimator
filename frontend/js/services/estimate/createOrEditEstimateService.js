@@ -195,8 +195,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to set a view of the page
 	this.estimateView = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
-			getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
-			callback(getEstimateView);
+		getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
+		callback(getEstimateView);
 	}
 	//- to calculate total cost of addon/processing/extras
 	this.totalCostCalculations = function (callback) {
@@ -614,6 +614,33 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			callback(data.data);
 		});
 	}
+	//- to compile current estimate object
+	this.compileCurrentEstimate = function (callback) {
+		var temp = true;
+		_.forEach(formData.assembly.subAssemblies, function (subAssembly) {
+			_.forEach(subAssembly.subAssemblyParts, function (part) {
+				if (temp) {
+					if (!part.partValidationStatus) {
+						temp = false;
+						var tempObj = {
+							status: false,
+							partName: part.partName
+						}
+						callback(tempObj);
+					}
+				}
+			});
+		});
+		if (temp) {
+			var tempObj = {
+				_id: formData.assembly._id,
+				assemblyNumber: formData.assembly.assemblyNumber
+			}
+			NavigationService.apiCall('DraftEstimate/compileEstimate', tempObj, function (data) {
+				callback(data.data);
+			});
+		}
+	}
 	//- to update assebly name
 	this.editAssemblyName = function (estimateName, draftEstimateId, callback) {
 		var tempEstimateObj = {
@@ -737,7 +764,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback();
 	}
 	//- update Part Detail with all calculation & other data
-	this.updatePartDetail = function (isEdit, partObject, callback) {
+	this.updatePartDetail = function (partObject, callback) {
 		//-make proper part Object by removing all unwanted fields 
 		var subAssIndex = this.getSubAssemblyIndex(partObject.subAssNumber);
 		var partIndex = this.getPartIndex(subAssIndex, partObject.partNumber);
@@ -784,25 +811,14 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		tempPart.keyValueCalculations.surfaceArea = partObject.keyValueCalculations.surfaceArea;
 		tempPart.keyValueCalculations.weight = partObject.keyValueCalculations.weight;
 		tempPart.partUpdateStatus = true;
+		//- to check whether user filled all part level data
+		if (!isNaN(tempPart.finalCalculation.totalCostForQuantity)) {
+			tempPart.partValidationStatus = true;
+		} else {
+			tempPart.partValidationStatus = false;
+		}
 
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex] = tempPart;
-		//- update calculaions at all levels
-		if (isEdit) {
-			this.KeyValueCalculations(formData.assembly.subAssemblies[subAssIndex].keyValueCalculations, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
-				if (!_.isEmpty(data)) {
-					formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = data;
-				} else {
-					formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = null;
-				}
-			});
-			this.KeyValueCalculations(formData.assembly.keyValueCalculations, formData.assembly.subAssemblies, function (data) {
-				if (!_.isEmpty(data)) {
-					formData.assembly.keyValueCalculations = data;
-				} else {
-					formData.assembly.keyValueCalculations = null;
-				}
-			});
-		}
 		callback(formData.assembly);
 	}
 	//- keyValue calculation
