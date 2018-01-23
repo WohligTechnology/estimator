@@ -1187,11 +1187,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if ($scope.partProcessingObj.selectedProcessingType.rate.mulFact == 't') {
       //- get thickness of corresponding level
       //- i.e.  part level, subAssembly level or assemby level
-<<<<<<< HEAD
       if($scope.estimatePartObj.selectedShape.thickness != "") {
-=======
-      if (!isNaN(parseFloat($scope.estimatePartObj.selectedShape.thickness))) {
->>>>>>> 39b3bc81897ae145cc1a3f7e80ae79975ac04f3a
+
         $scope.partProcessingObj.selectedProcessingType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
       } else {
         $scope.partProcessingObj.selectedProcessingType.rate.mulFact = 1;
@@ -1659,11 +1656,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   //- to add Addon at assembly or subssembly or at partLevel
   $scope.addAddon = function (operation, addonData, level, subAssemblyId, partId) {
-<<<<<<< HEAD
-     
-=======
-    debugger;
->>>>>>> 39b3bc81897ae145cc1a3f7e80ae79975ac04f3a
     var addon = {
       addonNumber: addonData.addonNumber,
       addonType: addonData.selectedAddonType,
