@@ -1,6 +1,20 @@
 myApp
 
-
+    .directive('loading', function () {
+        return {
+            restrict: 'A',
+            replace: true,
+            template: '<div class="loading"><img style="left: 40%; z-index: 1; position: relative;" src="img/Spin.gif" width="200px" height="200px" /></div>',
+            link: function (scope, element, attr) {
+                scope.$watch('loading', function (val) {
+                    if (val)
+                        $(element).show();
+                    else
+                        $(element).hide();
+                });
+            }
+        }
+    })
 
     .directive('inputDate', function ($compile, $parse) {
         return {
@@ -37,7 +51,7 @@ myApp
             }
         }
     })
-    
+
     .directive('uploadAllFiles', function ($http) {
         return {
             restrict: 'E',
@@ -366,33 +380,33 @@ myApp
             }
         };
     })
-    
+
     .directive('onlyDigits', function () {
         return {
-          require: 'ngModel',
-          restrict: 'A',
-          link: function (scope, element, attr, ctrl) {
-            var digits;
-      
-            function inputValue(val) {
-              if (val) {
-                var otherVal = val + "";
-                if (attr.type == "text") {
-                  digits = otherVal.replace(/[^0-9\-\.\\]/g, '');
-                } else {
-                  digits = otherVal.replace(/[^0-9\-\.\\]/g, '');
+            require: 'ngModel',
+            restrict: 'A',
+            link: function (scope, element, attr, ctrl) {
+                var digits;
+
+                function inputValue(val) {
+                    if (val) {
+                        var otherVal = val + "";
+                        if (attr.type == "text") {
+                            digits = otherVal.replace(/[^0-9\-\.\\]/g, '');
+                        } else {
+                            digits = otherVal.replace(/[^0-9\-\.\\]/g, '');
+                        }
+
+
+                        if (digits !== val) {
+                            ctrl.$setViewValue(digits);
+                            ctrl.$render();
+                        }
+                        return parseInt(digits, 10);
+                    }
+                    return undefined;
                 }
-      
-      
-                if (digits !== val) {
-                  ctrl.$setViewValue(digits);
-                  ctrl.$render();
-                }
-                return parseInt(digits, 10);
-              }
-              return undefined;
+                ctrl.$parsers.push(inputValue);
             }
-            ctrl.$parsers.push(inputValue);
-          }
         };
-      });
+    });

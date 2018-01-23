@@ -10,7 +10,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.checkboxStatus = false; //- for multiple records selection
   $scope.checkAll = false; //- for all records selectione
   $scope.hardFacingAlloys = []; //- for dynamic addition of Hard Facing Alloys
-
+  $scope.loading = false;
   $scope.estimatePartObj = {
     allShortcuts: [], //- get all presets name from API
     allPartTypes: [], //- get all part type from API
@@ -688,7 +688,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.deletePart = function (subAssemblyId, partId) {
     createOrEditEstimateService.deletePart(subAssemblyId, partId, function () {
       toastr.success('Part deleted successfully');
-      $scope.getEstimateView('subAssembly');
+     // $scope.getEstimateView('subAssembly');
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
       createOrEditEstimateService.totalCostCalculations(function (data) {});
@@ -784,7 +784,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //   toastr.success('Addon updated successfully');
   //   $scope.cancelModal();
   // }
-  
+
   //- delete addon
   $scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {
     createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
@@ -1186,7 +1186,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if ($scope.partProcessingObj.selectedProcessingType.rate.mulFact == 't') {
       //- get thickness of corresponding level
       //- i.e.  part level, subAssembly level or assemby level
-      if(!NaN(parseFloat($scope.estimatePartObj.selectedShape.thickness))) {
+      if (!isNaN(parseFloat($scope.estimatePartObj.selectedShape.thickness))) {
         $scope.partProcessingObj.selectedProcessingType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
       } else {
         $scope.partProcessingObj.selectedProcessingType.rate.mulFact = 1;
@@ -1242,7 +1242,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.totalCostCalculations(function (data) {});
 
   }
-  
+
   // //- to edit processing at assembly or subssembly or at partLevel
   // $scope.editProcessing = function () {
   //   debugger;
@@ -1259,7 +1259,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getEstimateView('processing', level, subAssemblyId, partId);
       $scope.cancelModal();
       createOrEditEstimateService.totalCostCalculations(function (data) {});
-      
+
     });
   }
   //- to delete bulk processing
@@ -1272,7 +1272,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getEstimateView('processing', level, subAssId, partId);
       $scope.cancelModal();
       toastr.success('Processing deleted successfully');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});      
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to get all versions of selected processing
@@ -1285,7 +1285,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Processing imported successfully');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});      
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -1653,7 +1653,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   //- to add Addon at assembly or subssembly or at partLevel
   $scope.addAddon = function (operation, addonData, level, subAssemblyId, partId) {
-debugger;
+    debugger;
     var addon = {
       addonNumber: addonData.addonNumber,
       addonType: addonData.selectedAddonType,
@@ -1705,7 +1705,7 @@ debugger;
       toastr.success('Addon deleted successfully');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});      
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk addons
@@ -1717,7 +1717,7 @@ debugger;
       $scope.getEstimateView('addons', level, subAssId, partId);
       $scope.cancelModal();
       toastr.success('Addons deleted successfully');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});      
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- Import Addon
