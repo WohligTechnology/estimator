@@ -522,7 +522,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 									estimatePartObj.selectedSize = tempPart.size; //- size
 								}
 								if (!_.isEmpty(tempPart.shape) && tempPart.shape != undefined) {
-									debugger;
+									 
 									estimatePartObj.selectedShape = tempPart.shape; //- selected material
 								}
 								if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {

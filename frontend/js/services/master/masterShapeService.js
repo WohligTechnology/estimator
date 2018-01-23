@@ -37,7 +37,9 @@ myApp.service('masterShapeService', function (
     }
 
     this.createOrEditShapeData = function (operation, shape, callback) {
-        var shapeDataObj = {};
+        var shapeDataObj = {
+            shapeVarWithoutChunck : []
+        };
 
         if (angular.isDefined(shape)) {
             shapeDataObj.shape = shape;
@@ -60,14 +62,15 @@ myApp.service('masterShapeService', function (
         } else if (operation == "update") {
             shapeDataObj.saveBtn = false;
             shapeDataObj.editBtn = true;
-            shapeDataObj.shapeVarWithoutChunck = [];
+            // shapeDataObj.shapeVarWithoutChunck = [];
 
             var tempArray = _.cloneDeep(this.variableData);           
             _.map(tempArray, function (n) {
-                debugger;
+                 
                 if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
                     n.checkboxStatus = false;
                 } else {
+                     
                     shapeDataObj.shapeVarWithoutChunck.push(_.cloneDeep(n));
                     n.checkboxStatus = true;
                 }

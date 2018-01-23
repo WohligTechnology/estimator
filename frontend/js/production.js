@@ -68895,7 +68895,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- get updated variables 
     //- calculate keyValueCalculations & finalCalculation 
     //- update estimate object --> variable array
-    debugger;
+     
     console.log('**** inside part presetobject of createOrEditEstimateCtrl.js ****',$scope.estimatePartObj.selectedShortcut);
     var partFormulae = $scope.estimatePartObj.selectedShortcut.shape.partFormulae;
 
@@ -70472,11 +70472,11 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     $scope.deleteUom = function (uomId) {
         baseMatserService.deleteUom(uomId, function (data) {
             if(_.isEmpty(data.data)){
-                debugger;
+                 
                 toastr.success('Record deleted successfully');
             }
             else{
-                debugger;
+                 
                 toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
             }
             $scope.cancelModal();
@@ -70522,11 +70522,11 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     $scope.deleteVariable = function (variableId) {
         baseMatserService.deleteVariable(variableId, function (data) {
             if(_.isEmpty(data.data)){
-                debugger;
+                 
                 toastr.success('Record deleted successfully');
             }
             else{
-                debugger;
+                 
                 toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
             }
             $scope.cancelModal();
@@ -70572,11 +70572,11 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     $scope.deleteDf = function (dfId) {
         baseMatserService.deleteDf(dfId, function (data) {
             if(_.isEmpty(data.data)){
-                debugger;
+                 
                 toastr.success('Record deleted successfully');
             }
             else{
-                debugger;
+                 
                 toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
             }
             toastr.success("Difficulty Factor deleted successfully");
@@ -70624,11 +70624,11 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     $scope.deleteMarkup = function (markupId) {
         baseMatserService.deleteMarkup(markupId, function (data) {
             if(_.isEmpty(data.data)){
-                debugger;
+                 
                 toastr.success('Record deleted successfully');
             }
             else{
-                debugger;
+                 
                 toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
             }
             $scope.cancelModal();
@@ -71627,7 +71627,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         // if sizes.length == 0 then make disableShape-->false
         $scope.disableShape = false;
         masterPartService.addNewPreset(operation, partTypeId, function (data) {
-            debugger;
+             
             $scope.showPartView = true;
             $scope.presetFormData = data;
             $scope.selectedShape = data.selectedShape;
@@ -71647,9 +71647,9 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         presetData.shape.variable = presetData.variable;
         $scope.showPresetUpdateForm = true;
         $scope.showPresetSaveForm = false;
-        debugger;
+         
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
-            debugger;
+             
             $scope.presetFormData = data.presetData;
             $scope.presetFormData.thickness = data.presetData.shape.thickness;
             $scope.presetFormData.length = data.presetData.shape.length;
@@ -74922,7 +74922,7 @@ myApp.service('baseMatserService', function (NavigationService) {
         idsArray = [];
         idsArray.push(uomId);
         NavigationService.delete('Web/delRestrictions/MUom',{idsArray: idsArray}, function(data){
-            debugger;
+             
             callback(data);
         });
     }
@@ -75610,7 +75610,7 @@ myApp.service('masterPartService', function (NavigationService) {
 
     }
     this.getPresetViewWithData = function (operation, presetData, callback) {
-        debugger;
+         
         var partPresetObj = {
             presetData: {}
         };
@@ -75974,7 +75974,7 @@ myApp.service('masterShapeService', function (
         });
     }
     this.deleteShape = function (shapeId, callback) {
-        debugger;
+         
         idsArray = [];
         idsArray.push(shapeId);
         NavigationService.delete('Web/delRestrictions/MShape', {idsArray: idsArray}, function (data) {
@@ -76126,7 +76126,7 @@ myApp.service('userProfileService', function (NavigationService, $http) {
         });
     }
     // this.updateProfilePhoto = function (file, callback) {
-    //     debugger;
+    //      
     //     console.log('****file in service..... ****', file);
     //     var fd = new FormData();
     //     fd.append('file', file);

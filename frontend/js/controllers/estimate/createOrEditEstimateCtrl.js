@@ -1183,10 +1183,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.getSelectedProessItem = function (proItemObj) {
     //- calculate rate
     //- is there anything else  user will put in mul5fact while adding processing type
+     
     if ($scope.partProcessingObj.selectedProcessingType.rate.mulFact == 't') {
       //- get thickness of corresponding level
       //- i.e.  part level, subAssembly level or assemby level
-      if(!NaN(parseFloat($scope.estimatePartObj.selectedShape.thickness))) {
+      if($scope.estimatePartObj.selectedShape.thickness != "") {
         $scope.partProcessingObj.selectedProcessingType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
       } else {
         $scope.partProcessingObj.selectedProcessingType.rate.mulFact = 1;
@@ -1245,7 +1246,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   
   // //- to edit processing at assembly or subssembly or at partLevel
   // $scope.editProcessing = function () {
-  //   debugger;
+  //    
   //   $scope.getCurretEstimateObj();
   //   createOrEditEstimateService.totalCostCalculations(function (data) {});
   //   toastr.success('Processing updated successfully');
@@ -1619,6 +1620,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- when user select an material
   $scope.getSelectedMaterial = function (selectedMaterial) {
     //- is there anything else  user will put in mul5fact while adding addon type
+     
     if ($scope.addonObj.selectedAddonType.rate.mulFact == 't') {
       //- get thickness of corresponding level
       //- i.e.  part level, subAssembly level or assemby level
@@ -1630,7 +1632,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     } else if ($scope.addonObj.selectedAddonType.rate.mulFact == 'den') {
       //- get density of corresponding level
       //- i.e.  part level, subAssembly level or assemby level
-      $scope.addonObj.selectedAddonType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedMaterial.density);
+      $scope.addonObj.selectedAddonType.rate.mulFact = parseFloat(selectedMaterial.density);
     }
     //- get rate selectedAddonType-->rate * selectedMaterial --> typicalRatepeKg
     $scope.addonObj.rate.value = $scope.addonObj.selectedAddonType.rate.mulFact * selectedMaterial.typicalRatePerKg;
@@ -1653,7 +1655,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   //- to add Addon at assembly or subssembly or at partLevel
   $scope.addAddon = function (operation, addonData, level, subAssemblyId, partId) {
-debugger;
+     
     var addon = {
       addonNumber: addonData.addonNumber,
       addonType: addonData.selectedAddonType,
