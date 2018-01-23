@@ -24,17 +24,25 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
     callback(userDataObj);
   }
   //- add or edit user
-  this.addOrEditUser = function (userData, callback) {
+  this.addOrEditUser = function (operation, userData, callback) {
     userData.photo = null;
-    NavigationService.apiCall('User/createUser', userData, function (data) {
-      callback(data);
-    });
+    if (operation == 'update') {
+      NavigationService.apiCall('User/save', userData, function (data) {
+        callback(data);
+      });
+    } else {
+      NavigationService.apiCall('User/createUser', userData, function (data) {
+        callback(data);
+      });
+    }
   }
-  //- delete user
+  //- delete useraddOrEditUser
   this.deleteUser = function (userId, callback) {
     var idsArray = [];
     idsArray.push(userId);
-    NavigationService.delete('Web/delRestrictions/User', {idsArray: idsArray}, function (data) {
+    NavigationService.delete('Web/delRestrictions/User', {
+      idsArray: idsArray
+    }, function (data) {
       callback(data);
     });
   }
@@ -79,19 +87,21 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
     callback(bulkArray);
   }
   //- form an array of Ids of all users for deletion
-  this.selectAll = function(users, checkboxStatus, callback) {
+  this.selectAll = function (users, checkboxStatus, callback) {
     bulkArray = [];
     if (checkboxStatus == true) {
       angular.forEach(users,  function (obj) {
         var userId = obj._id;
         bulkArray.push(userId);
       });
-    } 
+    }
     callback(bulkArray);
   }
   //- delete bulk users
   this.deleteBulkUsers = function (users, callback) {
-    NavigationService.apiCall('Web/delRestrictions/User', {idsArray: users}, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/User', {
+      idsArray: users
+    }, function (data) {
       callback(data);
     });
   }
