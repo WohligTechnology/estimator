@@ -15,25 +15,19 @@ myApp.service('masterExtraService', function (NavigationService) {
     if (angular.isDefined(extra)) {
       extraDataObj.extra = extra;
     }
-    if (operation == "save") {
-      extraDataObj.saveBtn = true;
-      extraDataObj.editBtn = false;
 
-      NavigationService.boxCall('MUom/search', function (data) {
-        extraDataObj.uoms = data.data.results;
-        callback(extraDataObj);
-      });
+    NavigationService.boxCall('MUom/search', function (data) {
+      extraDataObj.uoms = data.data.results;
+      if (operation == "save") {
+        extraDataObj.saveBtn = true;
+        extraDataObj.editBtn = false;
+      } else if (operation == "update") {
+        extraDataObj.saveBtn = false;
+        extraDataObj.editBtn = true;     
+      }
 
-    } else if (operation == "update") {
-      extraDataObj.saveBtn = false;
-      extraDataObj.editBtn = true;
-
-      NavigationService.boxCall('MUom/search', function (data) {
-        extraDataObj.uoms = data.data.results;
-        callback(extraDataObj);
-      });
-    }
-
+      callback(extraDataObj);
+    });
   }
   //- add or edit extra
   this.addOrEditExtra = function (extraData, callback) {

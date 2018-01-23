@@ -175,6 +175,9 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
 
 
             $scope.selectedShape = data.presetData.shape;
+            if (angular.isDefined($scope.selectedShape.image)) {
+                    $scope.presetFormData.image = $scope.selectedShape.image.file;
+            }
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
         });
@@ -192,7 +195,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         $scope.presetFormData.formFactor = shapeData.formFactor;
         $scope.presetFormData.sizeFactor = shapeData.sizeFactor;
         if (shapeData.image) {
-        $scope.presetFormData.image = shapeData.image.file;
+            $scope.presetFormData.image = shapeData.image.file;
         }
         // _.map(shapeData.variable, function (n) {
         //     varName = n.varName;
