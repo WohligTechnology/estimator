@@ -65510,8 +65510,6 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
     $scope.userName = $.jStorage.get('loggedInUser').name;
   }
 
-  // console.log("*********************************************************************",window.location.href );
-  // console.log("*********************************************************************",$state.current);
 
 }]);
 
@@ -65588,9 +65586,6 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
       url: "/login",
       templateUrl: "views/content/login/estimatorLogin.html",
       controller: "loginCtrl",
-      // resolve: {
-      //   "isLoggedIn": routeResolve
-      // }
     })
 
     // ********************************** logout module ********************************** //
@@ -66413,7 +66408,21 @@ var LanguageHindi = {
 
 myApp
 
-
+    .directive('loading', function () {
+        return {
+            restrict: 'A',
+            replace: true,
+            template: '<div class="loading"><img style="left: 40%; z-index: 1; position: relative;" src="img/Spin.gif" width="200px" height="200px" /></div>',
+            link: function (scope, element, attr) {
+                scope.$watch('loading', function (val) {
+                    if (val)
+                        $(element).show();
+                    else
+                        $(element).hide();
+                });
+            }
+        }
+    })
 
     .directive('inputDate', function ($compile, $parse) {
         return {
@@ -66450,7 +66459,7 @@ myApp
             }
         }
     })
-    
+
     .directive('uploadAllFiles', function ($http) {
         return {
             restrict: 'E',
@@ -66595,7 +66604,6 @@ myApp
             }
             if (input) {
                 if (input.indexOf('https://') == -1) {
-                    console.log('**** inside readfile of app.js ****');
                     return adminurl + "User/readFile/" + input;
                 } else {
                     return adminurl;
@@ -66780,37 +66788,36 @@ myApp
             }
         };
     })
-    
+
     .directive('onlyDigits', function () {
         return {
-          require: 'ngModel',
-          restrict: 'A',
-          link: function (scope, element, attr, ctrl) {
-            var digits;
-      
-            function inputValue(val) {
-              if (val) {
-                var otherVal = val + "";
-                if (attr.type == "text") {
-                  digits = otherVal.replace(/[^0-9\-\.\\]/g, '');
-                } else {
-                  digits = otherVal.replace(/[^0-9\-\.\\]/g, '');
-                }
-      
-      
-                if (digits !== val) {
-                  ctrl.$setViewValue(digits);
-                  ctrl.$render();
-                }
-                return parseInt(digits, 10);
-              }
-              return undefined;
-            }
-            ctrl.$parsers.push(inputValue);
-          }
-        };
-      });
+            require: 'ngModel',
+            restrict: 'A',
+            link: function (scope, element, attr, ctrl) {
+                var digits;
 
+                function inputValue(val) {
+                    if (val) {
+                        var otherVal = val + "";
+                        if (attr.type == "text") {
+                            digits = otherVal.replace(/[^0-9\-\.\\]/g, '');
+                        } else {
+                            digits = otherVal.replace(/[^0-9\-\.\\]/g, '');
+                        }
+
+
+                        if (digits !== val) {
+                            ctrl.$setViewValue(digits);
+                            ctrl.$render();
+                        }
+                        return parseInt(digits, 10);
+                    }
+                    return undefined;
+                }
+                ctrl.$parsers.push(inputValue);
+            }
+        };
+    });
 myApp  
 
   // JavaScript Document
@@ -66884,9 +66891,8 @@ myApp.service('TemplateService', function () {
 myApp.factory('NavigationService', function ($http) {
 
      //var adminurl ="http://192.168.0.11/api/"
-     var adminurl ="http://wohlig.io/api/"
+    // var adminurl ="http://wohlig.io/api/"
 
-    // console.log('**** inside admin URL of navigation.js ****',adminurl);
     var navigation = [{
             name: "Home",
             classis: "active",
@@ -68188,7 +68194,7 @@ myApp.controller('appCtrl', function($rootScope, $scope, $http, $timeout,$uibMod
 
 });
 
-myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerService) {
+myApp.controller('customerCtrl', function ($scope, toastr, $uibModal, customerService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -68234,7 +68240,7 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   //- to add or edit customer
   $scope.addOrEditCustomer = function (operation, customerData) {
     customerService.addOrEditCustomer(customerData, function (data) {
-      if(angular.isUndefined(data.error)) {
+      if (angular.isUndefined(data.error)) {
         if (operation == 'save') {
           toastr.success('Record added successfully');
         } else {
@@ -68262,11 +68268,10 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   //- to delete customer
   $scope.deleteCustomer = function (customerId) {
     customerService.deleteCustomer(customerId, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getCustomerData();
@@ -68274,41 +68279,41 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   }
   //- for pagination of cusomers' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    if (angular.isUndefined(keyword) || keyword == '') {
-      if (numberOfRecords != '10') {
-        customerService.getPaginationData(page, numberOfRecords, null, function (data) {
-          $scope.customerData = data.results;
-          customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      } else {
-        customerService.getPaginationData(page, null, null, function (data) {
-          $scope.customerData = data.results;
-          customerService.getPaginationDetails(page, 10, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      }
-    } else {
-      customerService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-        $scope.customerData = data.results;
-        customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-          $scope.obj = obj;
-        });
-      });
-    }
-  }
-
-  //- to search the text in table
-  $scope.serachText = function (keyword, count) {
-    customerService.getPaginationData(null, null, keyword, function (data) {
+    // if (angular.isUndefined(keyword) || keyword == '') {
+    //   if (numberOfRecords != '10') {
+    //     customerService.getPaginationData(page, numberOfRecords, null, function (data) {
+    //       $scope.customerData = data.results;
+    //       customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   } else {
+    //     customerService.getPaginationData(page, null, null, function (data) {
+    //       $scope.customerData = data.results;
+    //       customerService.getPaginationDetails(page, 10, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   }
+    // } else {
+    customerService.getPaginationData(page, numberOfRecords, keyword, function (data) {
       $scope.customerData = data.results;
-      customerService.getPaginationDetails(1, count, data, function (obj) {
+      customerService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
         $scope.obj = obj;
       });
     });
+    // }
   }
+
+  // //- to search the text in table
+  // $scope.serachText = function (keyword, count) {
+  //   customerService.getPaginationData(null, null, keyword, function (data) {
+  //     $scope.customerData = data.results;
+  //     customerService.getPaginationDetails(1, count, data, function (obj) {
+  //       $scope.obj = obj;
+  //     });
+  //   });
+  // }
   //- modal to delete bulk customers
   $scope.deleteBulkCustomersModal = function (customerIdArray, getFunction) {
     $scope.idsToDelete = customerIdArray;
@@ -68324,11 +68329,10 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   //- to delete customers
   $scope.deleteBulkCustomers = function (customers) {
     customerService.deleteBulkCustomers(customers, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getCustomerData();
@@ -68339,7 +68343,7 @@ myApp.controller('customerCtrl', function ($scope, toastr,$uibModal, customerSer
   $scope.selectBulkCustomers = function (checkboxStatus, customerId) {
     customerService.selectBulkCustomers(checkboxStatus, customerId, function (data) {
       if (data.length >= 1) {
-      $scope.bulkCustomers = data;
+        $scope.bulkCustomers = data;
       }
     });
   }
@@ -68379,18 +68383,10 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
     commercialRequirement: {},
     preQualificationCriteria: {}
   };
-  //- cleave css 
-  $scope.options = {
-    mobile: {
-      phone: true,
-      phoneRegionCode: 'IN'
-    }
-  };
   $scope.dateNow = $filter('date')(new Date(), "yyyy-MM-dd");
   
 
   if (angular.isDefined($stateParams.enquiryId)) {
-    $scope.showEstimateBtn = true;
     $scope.enquiryId = $stateParams.enquiryId;
     $scope.editPermmission = true;
   }
@@ -68404,6 +68400,13 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
       if ($stateParams.enquiryId) {
         $scope.formData.enquiryDetails.estimator = data.enquiryDetails.estimator;
         $scope.formData.customerDataObj = data.customerId;
+        createOrEditEnquiryService.getEstimateData($scope.enquiryId, function (estimator) {
+          if(estimator == 'true') {
+            $scope.showEstimateBtn = false;
+          } else if (estimator == 'false') {
+            $scope.showEstimateBtn = true;
+          }
+        });
       }
     });
     //- to get all customer names and their locations
@@ -68444,7 +68447,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   }
   //- to bind user name to formData
   $scope.setEstimator = function (userDataObj) {
-    $scope.formData.enquiryDetails.estimator = userDataObj._id;
+    $scope.formData.enquiryDetails.estimator = userDataObj;
   }
   //- to add assembly or to import assembly
   $scope.saveAssemblyNameModal = function (enquiryId) {
@@ -68466,6 +68469,11 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   //- get all estimate versions for particular assembly number
   $scope.getAssemblyVersionData = function (assemblyObj) {
       $scope.versionData = assemblyObj.versionDetail;
+  }
+  //- to get an excel sheet of a particular estimate version
+  $scope.getExcelSheet = function (estimateVersionId) {
+    createOrEditEnquiryService.getExcelSheet(estimateVersionId, function (data) {
+      });
   }
   //- create new assembly
   $scope.saveAssemblyName = function (assName, enquiryId) {
@@ -68509,7 +68517,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   $scope.checkAll = false; //- for all records selection
   $scope.checkboxStatus = false; //- for multiple records selection
 
-  
+
   // *************************** default functions begin here  ********************** //
   //- function to get all enquiries data 
   $scope.getEnquiryData = function () {
@@ -68546,11 +68554,10 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   //- to delete enquiry
   $scope.deleteEnquiry = function (enquiryId) {
     enquiryService.deleteEnquiry(enquiryId, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getEnquiryData();
@@ -68559,41 +68566,41 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
 
   //- for pagination of enquiries' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    if (angular.isUndefined(keyword) || keyword == '') {
-      if (numberOfRecords != '10') {
-        enquiryService.getPaginationData(page, numberOfRecords, null, function (data) {
-          $scope.tableData = data.results;
-          enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      } else {
-        enquiryService.getPaginationData(page, null, null, function (data) {
-          $scope.tableData = data.results;
-          enquiryService.getPaginationDetails(page, 10, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      }
-    } else {
-      enquiryService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-        $scope.tableData = data.results;
-        enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-          $scope.obj = obj;
-        });
-      });
-    }
-  }
-
-  //- to search the text in the table
-  $scope.serachText = function (keyword, count) {
-    enquiryService.getPaginationData(null, null, keyword, function (data) {
+    // if (angular.isUndefined(keyword) || keyword == '') {
+    //   if (numberOfRecords != '10') {
+    //     enquiryService.getPaginationData(page, numberOfRecords, null, function (data) {
+    //       $scope.tableData = data.results;
+    //       enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   } else {
+    //     enquiryService.getPaginationData(page, null, null, function (data) {
+    //       $scope.tableData = data.results;
+    //       enquiryService.getPaginationDetails(page, 10, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   }
+    // } else {
+    enquiryService.getPaginationData(page, numberOfRecords, keyword, function (data) {
       $scope.tableData = data.results;
-      enquiryService.getPaginationDetails(1, count, data, function (obj) {
+      enquiryService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
         $scope.obj = obj;
       });
     });
+    // }
   }
+
+  // //- to search the text in the table
+  // $scope.serachText = function (keyword, count) {
+  //   enquiryService.getPaginationData(null, null, keyword, function (data) {
+  //     $scope.tableData = data.results;
+  //     enquiryService.getPaginationDetails(1, count, data, function (obj) {
+  //       $scope.obj = obj;
+  //     });
+  //   });
+  // }
 
   //- to dismiss modal instance
   $scope.cancelModal = function () {
@@ -68615,11 +68622,10 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   //- to delete enquiry
   $scope.deleteBulkEnquiries = function (enquiries) {
     enquiryService.deleteBulkEnquiries(enquiries, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getEnquiryData();
@@ -68660,17 +68666,18 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.$parent.isSidebarActive = false;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
+  $scope.loading = false; //- for loading gif
   $scope.bulkItems = []; //- for multiple deletion
   $scope.checkboxStatus = false; //- for multiple records selection
   $scope.checkAll = false; //- for all records selectione
   $scope.hardFacingAlloys = []; //- for dynamic addition of Hard Facing Alloys
-  $scope.changesCounter = 0; //- for save changes before redirecting
-
+  $scope.loading = false;
   $scope.estimatePartObj = {
     allShortcuts: [], //- get all presets name from API
     allPartTypes: [], //- get all part type from API
     allMaterial: [], //- get all material of selected partType
     allSizes: [], //- get data from selected preset
+    allShapes: [], //- get all shapes after selecting custom material
 
     selectedShortcut: {}, //- selected partType presets 
     selectedPartType: {}, //- selected partType 
@@ -68679,6 +68686,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     customMaterials: [], //- get all custom material from  API
     selectedCustomMaterial: {}, //- selecetd custom materail  
+    selectedShape: {}, //- seleceted shape after selecting custom material or separate shape
 
     quantity: 1, //- part.quantity
     variables: [], //- part.variables
@@ -68704,9 +68712,18 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       totalCostForQuantity: null //- part.finalCalculation.totalCostForQuantity
     },
 
+    formFactor: "",
+    length: "",
+    sizeFactor: "",
+    thickness: "",
+    wastage: "",
+
+    partUpdateStatus: false,
+
     subAssNumber: "", //- to update part object of corresponding subAssembly
     partNumber: "" //- to update this part object
   };
+  $scope.estimatePartObjTemp = _.cloneDeep($scope.estimatePartObj);
   //- to enable & disable partType fields while creating/updating 
   $scope.disablePartFields = {
     disableField: true,
@@ -68714,9 +68731,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     disablePartTypeName: false,
     disableMaterial: true,
     disableSize: true,
-    disableCustomMaterial: false,
-    displayPresetSize: false
+    disableCustomMaterial: true,
+    displayPresetSize: false,
+    disableShape: false,
+    disableAllMaterial: true,
+    showAll: true
   };
+  $scope.disablePartFieldsTemp = _.cloneDeep($scope.disablePartFields);
 
 
 
@@ -68729,81 +68750,138 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to get all views of createOrEdit estimate screen dynamically 
   $scope.getEstimateView = function (getViewName, getLevelName, subAssemblyId, partId) {
     createOrEditEstimateService.estimateView(getViewName, getLevelName, subAssemblyId, partId, function (data) {
-      if (data == 'restrictUser') {
-        toastr.warning('You cannot access it now');
-      } else {
-        $scope.estimateView = data;
+      $scope.estimateView = data;
+      //when first time user click item details of part
+      $scope.estimatePartObj = _.cloneDeep($scope.estimatePartObjTemp);
+      $scope.disablePartFields = _.cloneDeep($scope.disablePartFieldsTemp);
 
-        createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
-          if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
+      createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
+        if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
+          //- get all processing count, addon count & extras count
+          //- get all shortcuts, all part types, all shapes, all custom materials
+          //- get subAss, part name and part number
+          $scope.estimatePartObj.processingCount = data.processingCount;
+          $scope.estimatePartObj.addonCount = data.addonCount;
+          $scope.estimatePartObj.extraCount = data.extraCount;
 
-            $scope.estimatePartObj.allShortcuts = data.allShortcuts;
-            $scope.estimatePartObj.allPartTypes = data.allPartTypes;
-            $scope.estimatePartObj.subAssNumber = data.subAssNumber;
-            $scope.estimatePartObj.partNumber = data.partNumber;
+          $scope.estimatePartObj.allShortcuts = data.allShortcuts;
+          $scope.estimatePartObj.allPartTypes = data.allPartTypes;
+          $scope.estimatePartObj.allShapes = data.allShapes;
+          $scope.estimatePartObj.customMaterials = data.customMaterials;
 
+          $scope.estimatePartObj.subAssNumber = data.subAssNumber;
+          $scope.estimatePartObj.partNumber = data.partNumber;
+          $scope.estimatePartObj.partName = data.partName;
 
-            //- here data.partUpdateStatus will be true when admin will update all part calculation data
-            //- so, we can get all the data from formData.assembly of createOrEditEstimateService & bind it with  $scope.estimatePartObj
-            if (data.partUpdateStatus) {
-              //- enable save/update buttons
-              $scope.showSaveBtn = false;
-              $scope.showEditBtn = true;
-              $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
-              // $scope.estimatePartObj.allSizes = data.allShortcuts;
+          $scope.estimatePartObj.partUpdateStatus = data.partUpdateStatus;
+
+          $scope.showSaveBtn = true;
+          $scope.showEditBtn = false;
+
+          //- here data.partUpdateStatus will be true when admin will update all part calculation data
+          //- so, we can get all the data from formData.assembly of createOrEditEstimateService & bind it with  $scope.estimatePartObj
+          if (data.partUpdateStatus) {
+            //- enable save/update buttons
+            $scope.showSaveBtn = false;
+            $scope.showEditBtn = true;
+
+            $scope.estimatePartObj.formFactor = data.formFactor; //- formFactor
+            $scope.estimatePartObj.length = data.length; //- length
+            $scope.estimatePartObj.sizeFactor = data.sizeFactor; //- sizeFactor
+            $scope.estimatePartObj.thickness = data.thickness; //- thickness
+            $scope.estimatePartObj.wastage = data.wastage; //- wastage
+
+            //- get selected shape data
+            $scope.estimatePartObj.selectedShape = data.selectedShape;
+            // $scope.estimatePartObj.allSizes = data.allShortcuts;
+            //- if shortCut is selected 
+            //- get sleceted shortcut, selected part type , selected size, selected material and all materials of respectinve part type
+            //- disable size 
+            //- hide shape
+            if (angular.isDefined(data.selectedShortcut._id)) {
               $scope.estimatePartObj.selectedShortcut = data.selectedShortcut;
               $scope.estimatePartObj.selectedPartType = data.selectedPartType;
+              $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
               $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
               $scope.estimatePartObj.selectedSize = data.selectedSize;
+
               $scope.disablePartFields.displayPresetSize = true;
-              $scope.disablePartFields.disableCustomMaterial = true;
+              $scope.disablePartFields.disableShape = true;
+            } else if (angular.isDefined(data.selectedCustomMaterial._id)) {
 
-              $scope.estimatePartObj.customMaterials = data.customMaterials;
+              //- if custom material is selected
+              //- enable custom material field
+              //- hide shortcut, part type, size
+              //- to get all available materials
               $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
+              $scope.disablePartFields.showAll = false;
+              $scope.disablePartFields.disableCustomMaterial = false;
+            } else { //- if material is selected
+              //- hide custom material
+              //- enable material field
+              //- get selected materials
+              //- hide shortcut, part type, size
+              //- to get all available materials
+              $scope.disablePartFields.disableCustomMaterial = true;
+              $scope.disablePartFields.disableAllMaterial = false;
+              $scope.disablePartFields.showAll = false;
 
-              if (data.quantity) {
-                $scope.estimatePartObj.quantity = data.quantity;
-              } else {
-                $scope.estimatePartObj.quantity = 1;
-              }
-
-              $scope.estimatePartObj.variables = data.variable;
-              $scope.estimatePartObj.shapeImage = data.shapeImage;
-              $scope.estimatePartObj.shapeIcon = data.shapeIcon;
-              $scope.estimatePartObj.processingCount = data.processingCount;
-              $scope.estimatePartObj.addonCount = data.addonCount;
-              $scope.estimatePartObj.extraCount = data.extraCount;
-              $scope.estimatePartObj.partName = data.partName;
-              $scope.estimatePartObj.scaleFactor = data.scaleFactor;
-
-              $scope.estimatePartObj.keyValueCalculations.perimeter = data.keyValueCalculations.perimeter;
-              $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = data.keyValueCalculations.sheetMetalArea;
-              $scope.estimatePartObj.keyValueCalculations.surfaceArea = data.keyValueCalculations.surfaceArea;
-              $scope.estimatePartObj.keyValueCalculations.weight = data.keyValueCalculations.weight;
-
-              $scope.estimatePartObj.finalCalculation.materialPrice = data.finalCalculation.materialPrice;
-              $scope.estimatePartObj.finalCalculation.itemUnitPrice = data.finalCalculation.itemUnitPrice;
-              $scope.estimatePartObj.finalCalculation.totalCostForQuantity = data.finalCalculation.totalCostForQuantity;
-
+              $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
+              createOrEditEstimateService.getAllMaterials(function (data) {
+                $scope.estimatePartObj.allMaterial = data;
+              });
             }
 
-          } else {
+            if (data.quantity) {
+              $scope.estimatePartObj.quantity = data.quantity;
+            } else {
+              $scope.estimatePartObj.quantity = 1;
+            }
 
-            $scope.level = getLevelName;
-            $scope.estimateViewData = data;
-            $scope.bulkItems = [];
+            $scope.estimatePartObj.variables = data.variable;
+            if (data.selectedShape.image) {
+              $scope.estimatePartObj.shapeImage = data.selectedShape.image.file;
+            }
+            if (data.selectedShape.icon) {
+              $scope.estimatePartObj.shapeIcon = data.selectedShape.icon.file;
+            }
+            $scope.estimatePartObj.scaleFactor = data.scaleFactor;
+
+            $scope.estimatePartObj.keyValueCalculations.perimeter = data.keyValueCalculations.perimeter;
+            $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = data.keyValueCalculations.sheetMetalArea;
+            $scope.estimatePartObj.keyValueCalculations.surfaceArea = data.keyValueCalculations.surfaceArea;
+            $scope.estimatePartObj.keyValueCalculations.weight = data.keyValueCalculations.weight;
+
+            $scope.estimatePartObj.finalCalculation.materialPrice = data.finalCalculation.materialPrice;
+            $scope.estimatePartObj.finalCalculation.itemUnitPrice = data.finalCalculation.itemUnitPrice;
+            $scope.estimatePartObj.finalCalculation.totalCostForQuantity = data.finalCalculation.totalCostForQuantity;
+
           }
-        });
+
+        } else {
+
+          $scope.level = getLevelName;
+          $scope.estimateViewData = data;
+          $scope.bulkItems = [];
+        }
+      });
+    });
+  }
+  //- to perform CRUD of custom material
+  $scope.getAllMaterialData = function (getViewName) {
+    createOrEditEstimateService.getAllMaterialData(function (data) {
+      $scope.customMaterial = data;
+      if (getViewName == "customMaterial") {
+        $scope.estimateView = "views/content/estimate/estimateViews/customMaterial.html";
+        $scope.estimateViewData = data;
       }
     });
   }
-
   //- =================== part functionality/calculation start =================== //
 
   //- call when user will select shortcut/preset name 
   //- update dependent data on the base of  selected shortcut data
-  $scope.getSelectedShortcutData = function (shortcutObj, partTypes) {
-
+  $scope.getSelectedShortcutData = function (shortcutObj) {
     //- update selectedShortcut
     //- get part type (update selectedPartType) & disable it
     //- get material data to select 
@@ -68816,15 +68894,26 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.selectedPartType = shortcutObj.partType;
     $scope.estimatePartObj.allMaterial = $scope.estimatePartObj.selectedPartType.material;
     $scope.estimatePartObj.selectedSize = shortcutObj.size;
+    $scope.estimatePartObj.selectedShape = shortcutObj.shape;
 
     //- update shape related data
+    $scope.estimatePartObj.formFactor = shortcutObj.formFactor;
+    $scope.estimatePartObj.length = shortcutObj.length;
+    $scope.estimatePartObj.sizeFactor = shortcutObj.sizeFactor;
+    $scope.estimatePartObj.thickness = shortcutObj.thickness;
+    $scope.estimatePartObj.wastage = shortcutObj.wastage;
+
     $scope.estimatePartObj.variables = shortcutObj.variable;
     $scope.estimatePartObj.keyValueCalculations.perimeter = shortcutObj.partFormulae.perimeter;
     $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = shortcutObj.partFormulae.sheetMetalArea;
     $scope.estimatePartObj.keyValueCalculations.surfaceArea = shortcutObj.partFormulae.surfaceArea;
     $scope.estimatePartObj.keyValueCalculations.weight = shortcutObj.partFormulae.weight;
-    $scope.estimatePartObj.shapeIcon = shortcutObj.shape.icon;
-    $scope.estimatePartObj.shapeImage = shortcutObj.shape.image;
+    if (shortcutObj.shape.icon) {
+      $scope.estimatePartObj.shapeIcon = shortcutObj.shape.icon.file;
+    }
+    if (shortcutObj.shape.image) {
+      $scope.estimatePartObj.shapeImage = shortcutObj.shape.image.file;
+    }
 
     //- update PAE count
     // $scope.estimatePartObj.processingCount = part.processing.length; /////-
@@ -68835,58 +68924,110 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.disablePartFields.disablePartType = true;
     $scope.disablePartFields.disableMaterial = false;
     $scope.disablePartFields.disableSize = true;
-    $scope.disablePartFields.disableCustomMaterial = true;
     $scope.disablePartFields.displayPresetSize = true;
+    $scope.disablePartFields.disableShape = true;
 
+    $scope.updatePartCalculation();
   }
 
   //- call when user will select part type name 
   //- update dependent data on the base of selected part type data
   $scope.getSelectedPartTypeData = function (partTypeObj) {
-
     //- all shortcuts data is already there (so, don't  update it corresponding to selected part Type), let user select size to get shortcut
     //- get all materials (corresponding to selected part Type) data to select 
     //- get/update all sizes (corresponding to selected part Type) data to select
     //- custom material --> disable it 
-
+    //- shape --> disable it
+    createOrEditEstimateService.getSelectedPartTypeData(partTypeObj._id, function (data) {
+      $scope.estimatePartObj.allSizes = data; /////-
+    });
     //- $scope.estimatePartObj.allShortcuts = allShortcuts;      /////-  
-    $scope.estimatePartObj.selectedPartType = selectedPartType; /////-
-    $scope.estimatePartObj.allMaterial = allMaterial; /////-
-    $scope.estimatePartObj.allSizes = allSizes; /////-
+    $scope.estimatePartObj.selectedPartType = partTypeObj; /////-
+    $scope.estimatePartObj.allMaterial = partTypeObj.material; /////-
 
     //- disable fields
-    $scope.disablePartFields.disableCustomMaterial = true;
+    $scope.disablePartFields.disableMaterial = false;
+    $scope.disablePartFields.disableSize = false;
+    $scope.disablePartFields.disableShape = true;
+    $scope.disablePartFields.disableShortcut = true;
 
   }
 
   //- call when user will select material (only in case of either shortcut OR part type is selected)
   //- update dependent data on the base of selcted material data
-  $scope.getSelectedMaterialData = function (materialObj) {
+  $scope.getSelectedMaterialData = function (materialObj, shapeData) {
+    $scope.disablePartFields.disableCustomMaterial = true;
     $scope.estimatePartObj.selectedMaterial = materialObj;
-
-    if ($scope.isAllselected()) {
-      $scope.getPartFinalCalculation();
+    if ($scope.isAllselected() || angular.isDefined(shapeData)) {
+      $scope.updatePartCalculation();
     }
 
   }
 
+  //- call when user will select custom material
+  //- update dependent data on the base of selcted custom material data
+  $scope.getSelectedCustomMaterialData = function (materialObj) {
+    //- disable fields part preset shortcut and part type
+    $scope.disablePartFields.disableAllMaterial = true;
+    $scope.estimatePartObj.selectedCustomMaterial = materialObj;
+    $scope.getPartFinalCalculation();
+  }
+
+  //- call when user will select shape after selecting custom materialfalse
+  $scope.getSelectedShapeData = function (shapeObj) {
+    //- disable fields part preset shortcut, part type and custom material if custom material is not selected
+    //- update shape related data
+    //$scope.disablePartFields.disablePartType = true;
+    $scope.disablePartFields.disableAllMaterial = false;
+    $scope.disablePartFields.disableCustomMaterial = false;
+    $scope.disablePartFields.showAll = false;
+
+    $scope.estimatePartObj.length = shapeObj.length; //- length
+    $scope.estimatePartObj.formFactor = shapeObj.formFactor; //- formFactor
+    $scope.estimatePartObj.sizeFactor = shapeObj.sizeFactor; //- sizeFactor
+    $scope.estimatePartObj.thickness = shapeObj.thickness; //- thickness
+    $scope.estimatePartObj.wastage = shapeObj.wastage; //- wastage
+
+    createOrEditEstimateService.getAllMaterials(function (data) {
+      $scope.estimatePartObj.allMaterial = data;
+    });
+    $scope.estimatePartObj.variables = shapeObj.variable;
+    if (angular.isDefined(shapeObj.shape)) {
+      if (shapeObj.shape.icon) {
+        $scope.estimatePartObj.shapeIcon = shapeObj.shape.icon.file;
+      }
+      if (shapeObj.shape.image) {
+        $scope.estimatePartObj.shapeImage = shapeObj.shape.image.file;
+      }
+    }
+    $scope.updatePartCalculation();
+  }
   //- call when user will select size (only in case when user selected part type)
   //- update dependent data on the base of selected size data
-  $scope.getSelectedSizeData = function (size) {
+  $scope.getSelectedSizeData = function (partTypeObj) {
     //- get shortcut corresponding to the selected partType & size
     //- get all material data to select 
     //- get shape data from selected partType & size 
     //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
 
-    $scope.estimatePartObj.selectedShortcut = shortcutObj; /////-
+    $scope.estimatePartObj.formFactor = partTypeObj.formFactor; //- formFactor
+    $scope.estimatePartObj.length = partTypeObj.length; //- length
+    $scope.estimatePartObj.sizeFactor = partTypeObj.sizeFactor; //- sizeFactor
+    $scope.estimatePartObj.thickness = partTypeObj.thickness; //- thickness
+    $scope.estimatePartObj.wastage = partTypeObj.wastage; //- wastage
+
+    $scope.estimatePartObj.selectedShortcut = partTypeObj; /////-
+    $scope.estimatePartObj.selectedShape = partTypeObj.shape;
+    $scope.estimatePartObj.shapeIcon = partTypeObj.shape.icon.file;
+    $scope.estimatePartObj.shapeImage = partTypeObj.shape.image.file;
 
     //- update shape related data
-    $scope.estimatePartObj.variables = shapeData.variables; /////-
-    $scope.estimatePartObj.keyValueCalculations.perimeter = shapeData.perimeter; /////-
-    $scope.estimatePartObj.keyValueCalculations.sma = shapeData.sma; /////-
-    $scope.estimatePartObj.keyValueCalculations.sa = shapeData.sa; /////-
-    $scope.estimatePartObj.keyValueCalculations.weight = shapeData.weight; /////-
-
+    $scope.estimatePartObj.variables = partTypeObj.variable; /////-
+    $scope.estimatePartObj.keyValueCalculations.perimeter = partTypeObj.shape.partFormulae.perimeter; /////-
+    $scope.estimatePartObj.keyValueCalculations.sma = partTypeObj.shape.partFormulae.sma; /////-
+    $scope.estimatePartObj.keyValueCalculations.sa = partTypeObj.shape.partFormulae.sa; /////-
+    $scope.estimatePartObj.keyValueCalculations.weight = partTypeObj.shape.partFormulae.weight; /////-
+    $scope.updatePartCalculation();
   }
 
   $scope.updatePartCalculation = function () {
@@ -68895,20 +69036,41 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- get updated variables 
     //- calculate keyValueCalculations & finalCalculation 
     //- update estimate object --> variable array
-     
-    console.log('**** inside part presetobject of createOrEditEstimateCtrl.js ****',$scope.estimatePartObj.selectedShortcut);
-    var partFormulae = $scope.estimatePartObj.selectedShortcut.shape.partFormulae;
+    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.shape)) {
+      var partFormulae = $scope.estimatePartObj.selectedShortcut.shape.partFormulae;
+    } else {
+      var partFormulae = $scope.estimatePartObj.selectedShape.partFormulae;
+    }
 
     _.map($scope.estimatePartObj.variables, function (n) {
       varName = n.varName;
-      varValue = parseInt(n.varValue);
+      varValue = parseFloat(n.varValue);
 
       tempVar = varName;
       window[tempVar] = varValue;
     });
-
-    if(true){
-
+    //- if dynamic varibles present in formulae
+    if (angular.isDefined($scope.estimatePartObj.selectedMaterial.density) && $scope.estimatePartObj.selectedMaterial.density != null) {
+      var den = parseFloat($scope.estimatePartObj.selectedMaterial.density);
+    }
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.length) && $scope.estimatePartObj.selectedShape.length != null) {
+      var l = parseFloat($scope.estimatePartObj.selectedShape.length);
+    }
+    if (angular.isDefined($scope.estimatePartObj.thickness) && $scope.estimatePartObj.thickness != null) {
+      //- update thickness of shape 
+      $scope.estimatePartObj.selectedShape.thickness = $scope.estimatePartObj.thickness
+      var t = parseFloat($scope.estimatePartObj.thickness);
+    } else {
+      var t = 1;
+    }
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.sizeFactor) && $scope.estimatePartObj.selectedShape.sizeFactor != null) {
+      var sf = parseFloat($scope.estimatePartObj.selectedShape.sizeFactor);
+    }
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.formFactor) && $scope.estimatePartObj.selectedShape.formFactor != null) {
+      var ff = parseFloat($scope.estimatePartObj.selectedShape.formFactor);
+    }
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.wastage) && $scope.estimatePartObj.selectedShape.wastage != null) {
+      var wtg = parseFloat($scope.estimatePartObj.selectedShape.wastage);
     }
 
     $scope.estimatePartObj.keyValueCalculations.perimeter = eval(partFormulae.perimeter);
@@ -68920,19 +69082,23 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   $scope.getPartFinalCalculation = function () {
     //- get all updated variable data & calculate all keyValueCalculations i.e. perimeter, sheetMetalArea, surfaceArea, weight
-    //- also calculate all finalCalculation i.e. materialPrice, itemUnitPrice, totalCostForQuantity  
-
-    $scope.estimatePartObj.finalCalculation.materialPrice = $scope.estimatePartObj.selectedMaterial.typicalRatePerKg;
-    $scope.estimatePartObj.finalCalculation.itemUnitPrice = $scope.estimatePartObj.keyValueCalculations.weight * $scope.estimatePartObj.selectedMaterial.typicalRatePerKg;
+    //- also calculate all finalCalculation i.e. materialPrice, itemUnitPrice, totalCostForQuantity
+    if (angular.isDefined($scope.estimatePartObj.selectedCustomMaterial.totalCostRsPerKg)) {
+      //-if custoMaterial is selected
+      $scope.estimatePartObj.finalCalculation.materialPrice = $scope.estimatePartObj.selectedCustomMaterial.totalCostRsPerKg;
+      $scope.estimatePartObj.finalCalculation.itemUnitPrice = $scope.estimatePartObj.keyValueCalculations.weight * $scope.estimatePartObj.selectedCustomMaterial.totalCostRsPerKg;
+    } else {
+      $scope.estimatePartObj.finalCalculation.materialPrice = $scope.estimatePartObj.selectedMaterial.typicalRatePerKg;
+      $scope.estimatePartObj.finalCalculation.itemUnitPrice = $scope.estimatePartObj.keyValueCalculations.weight * $scope.estimatePartObj.selectedMaterial.typicalRatePerKg;
+    }
     $scope.estimatePartObj.finalCalculation.totalCostForQuantity = $scope.estimatePartObj.quantity * $scope.estimatePartObj.finalCalculation.itemUnitPrice;
-
   }
 
   $scope.isAllselected = function () {
     if ($scope.estimatePartObj.selectedShortcut != {} && $scope.estimatePartObj.selectedShortcut != undefined) {
-      if ($scope.estimatePartObj.selectedPartType && $scope.estimatePartObj.selectedPartType != undefined) {
-        if ($scope.estimatePartObj.selectedMaterial && $scope.estimatePartObj.selectedMaterial != undefined) {
-          if ($scope.estimatePartObj.selectedSize && $scope.estimatePartObj.selectedSize != undefined) {
+      if ($scope.estimatePartObj.selectedPartType != {} && $scope.estimatePartObj.selectedPartType != undefined) {
+        if ($scope.estimatePartObj.selectedMaterial != {} && $scope.estimatePartObj.selectedMaterial != undefined) {
+          if ($scope.estimatePartObj.selectedSize != {} && $scope.estimatePartObj.selectedSize != undefined) {
             return true;
           }
         }
@@ -68943,8 +69109,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   //- to update part calculation detail into an corresponding part 
   $scope.updatePartDetail = function (partObject) {
-    createOrEditEstimateService.updatePartDetail($scope.showEditBtn, partObject, function (data) {
+    createOrEditEstimateService.updatePartDetail(partObject, function (data) {
       $scope.estimteData = data;
+      toastr.success('Part Details Added Successfully...');
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -68963,11 +69131,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.estimteData = data;
     });
   }
-  $scope.getCustomMaterialData = function () {
-    createOrEditEstimateService.getCustomMaterialData(function (customData) {
-      $scope.customData = customData;
-    });
-  }
   //- save estimate object in jStorage
   // $scope.$watch('estimteData', function (newValue, oldValue) {
   //   if (newValue != oldValue) {
@@ -68979,35 +69142,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.$watch('estimteData', function (newValue, oldValue) {
     if (oldValue != undefined) {
       if (newValue != oldValue) {
-        $scope.changesCounter += 1;
+        $scope.saveCurrentEstimate();
       }
     }
   }, true);
-  //- to update all calculations at processing, addons & extras 
-  // $scope.$watch('estimatePartObj.keyValueCalculations', function (newValue, oldValue) {
-  //   
-  //   if (oldValue != undefined) {
-  //     if (newValue != oldValue) {
-  //       createOrEditEstimateService.updateAllCalculations(newValue, function(data) {
-
-  //       });
-  //     }
-  //   }
-  // }, true);
-  //- to ask user to save changes before redirecting
-  $scope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-    if (fromState.name == 'app.createEstimate' && $scope.changesCounter > '0') {
-      var answer = window.confirm('Please Save Your Changes !!!');
-      if (answer) {
-        event.preventDefault();
-      }
-    }
-  });
-  window.onbeforeunload = function (event) {
-    if ($scope.changesCounter > '0') {
-      return 'Are you sure you want to reload?'
-    }
-  };
 
   // **************************************** functions to be triggered form view begin here **************************************** //
   //- to edit assembly name
@@ -69025,33 +69163,42 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to edit assembly name
   $scope.editAssemblyName = function (assemblyName) {
     createOrEditEstimateService.editAssemblyName(assemblyName, $scope.draftEstimateId, function (data) {
-      $scope.changesCounter = 0;
       $scope.getEstimateData();
       $scope.cancelModal();
       toastr.success('Estimate data updated successfully');
     });
   }
+  //- to compile estimate object in 6 tables
+  $scope.compileCurrentEstimate = function () {
+    $scope.loading = true;
+    createOrEditEstimateService.compileCurrentEstimate(function (data) {
+      $scope.loading = false;
+      if (data.status) {
+        toastr.success("Estimate Finalized");
+      } else {
+        toastr.error("Please fill part details of " + data.partName + " properly & detils of other parts  also if they are not filled properly");
+      }
+    });
+  }
   //- to update estimate object in draftEstimate table
   $scope.saveCurrentEstimate = function () {
-    $scope.changesCounter = 0;
     createOrEditEstimateService.saveCurrentEstimate(function (data) {
-      $scope.getEstimateData();
-      toastr.success('Estimate data updated successfully');
+      // $scope.getEstimateData();
     });
   }
-  //- import subAssembly modal
-  $scope.importAssemblyModal = function () {
-    $scope.subAssId;
-    createOrEditEstimateService.getAllAssemblyNumbers(function (data) {
-      $scope.assemblyData = data;
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/estimate/estimateModal/importAssembly.html',
-        scope: $scope,
-        size: 'md',
-      });
-    });
-  }
+  // //- import subAssembly modal
+  // $scope.importAssemblyModal = function () {
+  //   $scope.subAssId;
+  //   createOrEditEstimateService.getAllAssemblyNumbers(function (data) {
+  //     $scope.assemblyData = data;
+  //     $scope.modalInstance = $uibModal.open({
+  //       animation: true,
+  //       templateUrl: 'views/content/estimate/estimateModal/importAssembly.html',
+  //       scope: $scope,
+  //       size: 'md',
+  //     });
+  //   });
+  // }
 
 
   //- to add or edit subAssembly data modal
@@ -69102,8 +69249,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.deleteSubAssembly(subAssemblyId, function () {
       toastr.success('SubAssembly deleted successfully');
       $scope.getEstimateView('assembly');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk subAssemblies
@@ -69142,6 +69289,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('SubAssembly imported successfully');
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -69154,16 +69302,16 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.subAssId = data.subAssId;
       if (operation == 'save') {
         $scope.formData = createOrEditEstimateService.generatePartName(subAssId);
+        $scope.addPart($scope.formData, $scope.subAssId);
       } else {
         $scope.formData = data.partObj;
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/estimate/estimateModal/createOrEditPartName.html',
+          scope: $scope,
+          size: 'md',
+        });
       }
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/estimate/estimateModal/createOrEditPartName.html',
-        scope: $scope,
-        size: 'md',
-      });
-
     });
   }
   //- to add part data
@@ -69171,7 +69319,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.createPart(partData, subAssId, function () {
       $scope.getCurretEstimateObj();
       toastr.success('Part added successfully');
-      $scope.cancelModal();
     });
   }
   //- to edit part data 
@@ -69179,7 +69326,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.getCurretEstimateObj();
     toastr.success('Part updated successfully');
     $scope.cancelModal();
-
   }
   //- to add or edit part detail
   $scope.editPartItemDetails = function (subAssemblyId, partId) {
@@ -69203,10 +69349,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.deletePart = function (subAssemblyId, partId) {
     createOrEditEstimateService.deletePart(subAssemblyId, partId, function () {
       toastr.success('Part deleted successfully');
-      $scope.getEstimateView('subAssembly');
+     // $scope.getEstimateView('subAssembly');
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete multiple parts
@@ -69219,11 +69365,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
       toastr.success('Parts deleted successfully');
-      // $scope.operationStatus = "***   Records deleted successfully   ***";
-
-      // $timeout(function () {
-      // 	$scope.operationStatus = "";
-      // }, 3000);
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- import part modal
@@ -69249,9 +69391,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.importPart = function (subAssId, partId) {
     createOrEditEstimateService.getImportPartData(subAssId, partId, function () {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Part imported successfully');
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to create a duplicate part for same subAssembly or different subAssembly
@@ -69272,7 +69414,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to import current part to  different subAssembly 
   $scope.importPartToDifferentSubAssemblyModal = function (subAssNumber, part) {
     $scope.partData = part;
-    createOrEditEstimateService.getAllSubAssNumbers(subAssNumber, function (data) {
+    createOrEditEstimateService.getAllSubAssNumbers(function (data) {
       if (_.isEmpty(data)) {
         toastr.warning('No SubAssemblies are available to import');
       } else {
@@ -69289,27 +69431,28 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
 
 
-  //- to add Addon at assembly or subssembly or at partLevel
-  $scope.addAddon = function (addonData, level, subAssemblyId, partId) {
-    createOrEditEstimateService.createAddon(addonData, level, subAssemblyId, partId, function () {
-      $scope.getEstimateView('addons', level, subAssemblyId, partId);
-      toastr.success('Addon added successfully');
-      $scope.cancelModal();
-    });
-  }
-  //- to edit Addon at assembly or subssembly or at partLevel
-  $scope.editAddon = function () {
-    $scope.getCurretEstimateObj();
-    toastr.success('Addon updated successfully');
-    $scope.cancelModal();
-  }
+  // //- to add Addon at assembly or subssembly or at partLevel
+  // $scope.addAddon = function (addonData, level, subAssemblyId, partId) {
+  //   createOrEditEstimateService.createAddon(addonData, level, subAssemblyId, partId, function () {
+  //     $scope.getEstimateView('addons', level, subAssemblyId, partId);
+  //     toastr.success('Addon added successfully');
+  //     $scope.cancelModal();
+  //   });
+  // }
+  // //- to edit Addon at assembly or subssembly or at partLevel
+  // $scope.editAddon = function () {
+  //   $scope.getCurretEstimateObj();
+  //   toastr.success('Addon updated successfully');
+  //   $scope.cancelModal();
+  // }
+
   //- delete addon
   $scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {
     createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
       toastr.success('Addon deleted successfully');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk addons
@@ -69333,17 +69476,22 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Addon imported successfully');
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
+  //- ..................................Custom Material Module start.......................... -//
 
   //- modal to add or edit custom material
   $scope.addOrEditCustomMaterialModal = function (operation, customMaterial) {
-    $scope.arr = [];
-    $scope.addMe = {};
     createOrEditEstimateService.getCustomMaterialModalData(operation, customMaterial, function (data) {
 
       $scope.formData = data.custMaterialObj;
+      $scope.customMaterialDataObj = {
+        allBaseMetals: data.allBaseMetals,
+        allAlloys: data.allAlloys,
+        allDifficultyFactors: data.allDifficultyFactors,
+      };
       $scope.showSaveBtn = data.saveBtn;
       $scope.showEditBtn = data.editBtn;
 
@@ -69354,20 +69502,78 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         size: 'lg',
       });
     });
-
-
   }
   //- to add or edit custom material
   $scope.addOrEditCustomMaterial = function (customMaterialdata) {
-    customMaterialdata.hardFacingAlloys = $scope.hardFacingAlloys;
     createOrEditEstimateService.createCustomMaterial(customMaterialdata, function () {
+      $scope.getAllMaterialData();
+      toastr.success("Custom Material Added/Updated Successfully");
       $scope.cancelModal();
     });
   }
-  //-to add hard facing alloy
-  $scope.addHardFacingAlloy = function () {
-    $scope.hardFacingAlloys.push($scope.addMe);
-    $scope.addMe = {};
+  //- to get cost of base metal
+  //- costOfDepRsPerKg is typicalRatePerKg of selected material
+  //- if free issue is ticked then take 20% of costOfDepRsPerKg
+  //- formula for costOfDepRsPerSm is  density * costOfDepRsPerKg * thickness
+  $scope.getCostOfBaseMetal = function (formData, freeIssue) {
+    if (freeIssue) {
+      formData.basePlate.costOfDepRsPerKg = formData.basePlate.baseMetal.typicalRatePerKg * 0.2;
+    } else {
+      formData.basePlate.costOfDepRsPerKg = formData.basePlate.baseMetal.typicalRatePerKg;
+    }
+    formData.basePlate.costOfDepRsPerSm = formData.basePlate.baseMetal.density * formData.basePlate.costOfDepRsPerKg * formData.basePlate.thickness;
+    $scope.calAvgCost(formData);
+  }
+  //- to get cost of base metal
+  //- costOfDepRsPerKg is typicalRatePerKg of selected material
+  //- if free issue is ticked then take 20% of costOfDepRsPerKg
+  //- formula for costOfDepRsPerSm is  density * costOfDepRsPerKg * thickness
+  $scope.getCostOfAlloy = function (formData, alloyObj) {
+    alloyObj.costOfDepRsPerKg = alloyObj.alloy.typicalRatePerKg;
+    alloyObj.costOfDepRsPerSm = alloyObj.alloy.density * alloyObj.alloy.typicalRatePerKg * alloyObj.thickness;
+    $scope.calAvgCost(formData);
+  }
+  //- to get average cost of hardFacing alloys
+  //- to get totalCostRsPerKg and totalCostRsPerSm
+  //- formula for agvRsPerKg is sum(allHardFacingAlloys(thickness * density)) / sum(allHardFacingAlloys(thickness))
+  //- formula for costOfDepRsPerSm is sum(allHardFacingAlloys(costOfDepRsPerSm))
+  //- formula for totalCostRsPerKg is sum(allMaerials(thickness * density)) / sum(allMaerials(thickness)) * mulFact
+  //- formula for totalCostRsPerSm is sum(allMaerials(costOfDepRsPerSm)) * mulFact
+  $scope.calAvgCost = function (customMaterial) {
+    var temp1 = temp2 = 0;
+    customMaterial.hardFacingAlloys.agvRsPerSm = customMaterial.hardFacingAlloys.agvRsPerKg = 0;
+    angular.forEach(customMaterial.hardFacingAlloys,  function (record) {
+      customMaterial.hardFacingAlloys.agvRsPerSm += record.costOfDepRsPerSm;
+      temp1 += parseFloat(record.thickness) * record.alloy.density;
+      temp2 += parseFloat(record.thickness);
+    });
+    customMaterial.hardFacingAlloys.agvRsPerKg = temp1 / temp2;
+    temp1 = 0;
+    angular.forEach(customMaterial.hardFacingAlloys,  function (record) {
+      temp1 += parseFloat(record.thickness) * record.alloy.typicalRatePerKg;
+    });
+    temp1 += parseFloat(customMaterial.basePlate.thickness) * customMaterial.basePlate.costOfDepRsPerKg;
+    temp2 += parseFloat(customMaterial.basePlate.thickness);
+    var mulfact = 1;
+
+    angular.forEach(customMaterial.difficultyFactor,  function (record) {
+      mulfact *= parseFloat(record.mulfact);
+    });
+    customMaterial.totalCostRsPerKg = (temp1 / temp2) * mulfact;
+    customMaterial.totalCostRsPerSm = (customMaterial.hardFacingAlloys.agvRsPerSm + customMaterial.basePlate.costOfDepRsPerSm) * mulfact;
+  }
+  //-to add a hard facing alloy
+  $scope.addNewLayer = function (hardFacingAlloys) {
+    var temp = _.last(hardFacingAlloys);
+    if (temp.thickness != "" && angular.isDefined(temp.alloy._id)) {
+      var tempArray = {
+        thickness: "",
+        alloy: {},
+        costOfDepRsPerKg: "",
+        costOfDepRsPerSm: ""
+      };
+      hardFacingAlloys.push(_.cloneDeep(tempArray));
+    }
   }
   //- modal to delete custom material
   $scope.deleteCustomMaterialModal = function (customMaterialId, getFunction) {
@@ -69382,63 +69588,70 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     });
   }
   //-to delete CustomMterial
-  $scope.deleteCustomMaterial = function () {}
-
-
-
-
-  //- commmon add modal for processing, addons & extras    
-  $scope.addItemModal = function (itemType, level, subAssemblyId, partId) {
-    $scope.formData = undefined;
-    $scope.showSaveBtn = true;
-    $scope.showEditBtn = false;
-    $scope.level = level;
-    $scope.subAssemblyId = subAssemblyId;
-    $scope.partId = partId;
-
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
-      scope: $scope,
-      size: 'md',
-    });
-
-    if (itemType == 'Processing') {
-      // get part type data
-      // get part item data
-
-      createOrEditEstimateService.getProcessingData(function (data) {
-        $scope.partProcessingObj.processingTypeData = data.processingTypeData;
-      });
-
-    } else if (itemType == 'addons') {
-      // get addon type data
-      // get addon item data
-
-      createOrEditEstimateService.getAddoneData(function (data) {
-        $scope.addonTypeData = data;
-      });
-
-    } else if (itemType == 'extras') {
-      // get extra data
-      createOrEditEstimateService.getExtraData(function (data) {
-        $scope.partTypeData = data;
-      });
-    }
-  }
-  //- commmon edit modal for processing, addons & extras
-  $scope.editItemModal = function (itemType, extraObj) {
-    $scope.formData = extraObj;
-    $scope.showSaveBtn = false;
-    $scope.showEditBtn = true;
-
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
-      scope: $scope,
-      size: 'md',
+  $scope.deleteCustomMaterial = function (customMaterialId) {
+    createOrEditEstimateService.deleteCustomMaterial(customMaterialId, function (data) {
+      toastr.success("Custom Material Deleted Successfully");
+      $scope.getAllMaterialData();
+      $scope.cancelModal();
     });
   }
+  //- ..................................Custom Material Module end.......................... -//
+
+
+
+  // //- commmon add modal for processing, addons & extras    
+  // $scope.addItemModal = function (itemType, level, subAssemblyId, partId) {
+  //   $scope.formData = undefined;
+  //   $scope.showSaveBtn = true;
+  //   $scope.showEditBtn = false;
+  //   $scope.level = level;
+  //   $scope.subAssemblyId = subAssemblyId;
+  //   $scope.partId = partId;
+
+  //   $scope.modalInstance = $uibModal.open({
+  //     animation: true,
+  //     templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
+  //     scope: $scope,
+  //     size: 'md',
+  //   });
+
+  //   if (itemType == 'Processing') {
+  //     // get part type data
+  //     // get part item data
+
+  //     createOrEditEstimateService.getProcessingData(function (data) {
+  //       $scope.partProcessingObj.processingTypeData = data.processingTypeData;
+  //     });
+
+  //   } else if (itemType == 'addons') {
+  //     // get addon type data
+  //     // get addon item data
+
+  //     createOrEditEstimateService.getAddoneData(function (data) {
+  //       $scope.addonTypeData = data;
+  //     });
+
+  //   } else if (itemType == 'extras') {
+  //     // get extra data
+  //     createOrEditEstimateService.getExtraData(function (data) {
+  //       $scope.partTypeData = data;
+  //     });
+  //   }
+  // }
+  // //- commmon edit modal for processing, addons & extras
+  // $scope.editItemModal = function (itemType, extraObj) {
+  //   $scope.formData = extraObj;
+  //   $scope.showSaveBtn = false;
+  //   $scope.showEditBtn = true;
+
+  //   $scope.modalInstance = $uibModal.open({
+  //     animation: true,
+  //     templateUrl: 'views/content/estimate/estimateModal/createOrEdit' + itemType + '.html',
+  //     scope: $scope,
+  //     size: 'md',
+  //   });
+  // }
+
   //- commmon delete modal for processing, addons & extras
   $scope.deleteItemModal = function (getFunction, itemId, level, subAssemblyId, partId) {
     $scope.idToDelete = itemId;
@@ -69630,6 +69843,24 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- get done with all the calculation after selecting processItem
   $scope.getSelectedProessItem = function (proItemObj) {
     //- calculate rate
+    //- is there anything else  user will put in mul5fact while adding processing type
+     
+    if ($scope.partProcessingObj.selectedProcessingType.rate.mulFact == 't') {
+      //- get thickness of corresponding level
+      //- i.e.  part level, subAssembly level or assemby level
+      if($scope.estimatePartObj.selectedShape.thickness != "") {
+
+        $scope.partProcessingObj.selectedProcessingType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
+      } else {
+        $scope.partProcessingObj.selectedProcessingType.rate.mulFact = 1;
+      }
+
+    } else if ($scope.partProcessingObj.selectedProcessingType.rate.mulFact == 'den') {
+      //- get density of corresponding level
+      //- i.e.  part level, subAssembly level or assemby level
+      $scope.partProcessingObj.selectedProcessingType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedMaterial.density);
+    }
+
     $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);
     $scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom.uomName;
 
@@ -69654,7 +69885,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         contengncyOrWastage: processingData.quantity.contengncyOrWastage
       },
       remark: processingData.remark,
-      totalCost: processingData.totalCost
+      totalCost: processingData.quantity.totalQuantity * processingData.rate.actualRate
 
     };
 
@@ -69674,20 +69905,24 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.totalCostCalculations(function (data) {});
 
   }
-  //- to edit processing at assembly or subssembly or at partLevel
-  $scope.editProcessing = function () {
-    $scope.getCurretEstimateObj();
-    createOrEditEstimateService.totalCostCalculations(function (data) {});
-    toastr.success('Processing updated successfully');
-    $scope.cancelModal();
-  }
+
+  // //- to edit processing at assembly or subssembly or at partLevel
+  // $scope.editProcessing = function () {
+  //    
+  //   $scope.getCurretEstimateObj();
+  //   createOrEditEstimateService.totalCostCalculations(function (data) {});
+  //   toastr.success('Processing updated successfully');
+  //   $scope.cancelModal();
+  // }
+
   //- to delete processing
   $scope.deleteProcessing = function (processingId, level, subAssemblyId, partId) {
     createOrEditEstimateService.deleteProcessing(processingId, level, subAssemblyId, partId, function (data) {
       toastr.success('Processing deleted successfully');
       $scope.getEstimateView('processing', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
+
     });
   }
   //- to delete bulk processing
@@ -69699,8 +69934,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
       $scope.getEstimateView('processing', level, subAssId, partId);
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Processing deleted successfully');
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to get all versions of selected processing
@@ -69711,9 +69946,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.importProcessing = function (processingId, level, subAssemblyId, partId) {
     createOrEditEstimateService.getImportProcessingData(processingId, level, subAssemblyId, partId, function () {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Processing imported successfully');
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -69792,19 +70027,19 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   $scope.getSelectedExtraItem = function (extraObjData) {
     //- calculate rate
-    
+
     $scope.extraObj.selectedExtraItem = extraObjData;
     $scope.extraObj.totalCost = parseFloat(extraObjData.rate.name) * 1;
     $scope.extraObj.uom = extraObjData.rate.uom.uomName;
   }
 
-  $scope.changeQuantity = function (q) {
+  $scope.changeExtraQuantity = function (q) {
     $scope.extraObj.totalCost = parseFloat($scope.extraObj.selectedExtraItem.rate.name) * q;
   }
 
   //- to add Extra at assembly or subssembly or at partLevel
   $scope.addExtra = function (extraData, level, subAssemblyId, partId) {
-    
+
     var extra = {
       extraItem: extraData.selectedExtraItem,
       extraNumber: extraData.extraNumber,
@@ -69876,7 +70111,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.getEstimateData();
     $scope.getEstimateView('assembly');
     //to get estimate tree structure data 
-    $scope.getCustomMaterialData();
+    $scope.getAllMaterialData();
   }
   $scope.init();
 
@@ -69931,7 +70166,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.addOrEditAddonModal = function (operation, level, subAssemblyId, partId, addonId) {
     $scope.getAddonObject();
 
-    
+
 
     $scope.level = level;
     $scope.subAssemblyId = subAssemblyId;
@@ -69939,48 +70174,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     //- get required data to add processing
     createOrEditEstimateService.getAddonModalData(operation, level, subAssemblyId, partId, addonId, function (data) {
-      
-      if (operation == 'save') {
-        //- get required data to add addon
-        $scope.addonObj.allAddonTypes = data.allAddonTypes;
-      } else if (operation == 'update') {
-        
-        $scope.addonObj.allAddonTypes = data.allAddonTypes;
-        $scope.addonObj.allMaterials = data.allMaterials;
-        $scope.addonObj.selectedAddonType = data.selectedAddonType;
-        $scope.addonObj.selectedMaterial = data.selectedMaterial;
-
-        $scope.addonObj.rate.value = data.rate.value;
-        $scope.addonObj.rate.uom = data.rate.uom;
-
-        $scope.addonObj.quantity.supportingVariable.supportingVariable = data.quantity.supportingVariable.supportingVariable;
-        $scope.addonObj.quantity.supportingVariable.value = data.quantity.supportingVariable.value;
-        $scope.addonObj.quantity.supportingVariable.uom = data.quantity.supportingVariable.uom;
-
-        $scope.addonObj.quantity.keyValue.keyVariable = data.quantity.keyValue.keyVariable;
-        $scope.addonObj.quantity.keyValue.keyValue = data.quantity.keyValue.keyValue;
-        $scope.addonObj.quantity.keyValue.uom = data.quantity.keyValue.uom;
-
-        $scope.addonObj.quantity.utilization = data.quantity.utilization;
-        $scope.addonObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
-        $scope.addonObj.quantity.total = data.quantity.total;
-
-        $scope.addonObj.remark = data.remarks;
-        // $scope.addonObj.currentPartObj = data.currentPartObj;
-        $scope.addonObj.addonNumber = data.addonNumber;
-        // $scope.addonObj.totalWeight = data;
-        // $scope.addonObj.totalWeight = ;
-
-        $scope.addonObj.totalCost = parseFloat(data.quantity.total) * parseFloat(data.selectedMaterial.typicalRatePerKg) * parseFloat(data.quantity.supportingVariable.value);
-        $scope.addonObj.totalWeight = parseFloat(data.quantity.total) * parseFloat(data.selectedMaterial.weightPerUnit);
-        $scope.addonObj.finalUom = data.selectedAddonType.quantity.finalUom.uomName;
-
-        $scope.showSaveBtn = false;
-        $scope.showEditBtn = true;
-      }
 
       //- get linkedKeyValuesAtPartCalculation objet from service
-      
       if (level == 'part') {
         $scope.addonObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtPartCalculation;
       } else if (level == 'subAssembly') {
@@ -69988,18 +70183,56 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       } else if (level == 'assembly') {
         $scope.addonObj.linkedKeyValuesCalculation = data.linkedKeyValuesAtAssemblyCalculation;
       }
+      var tempObj = $scope.addonObj.linkedKeyValuesCalculation;
+      if ((isNaN(parseFloat(tempObj.perimeter))) && (isNaN(parseFloat(tempObj.sheetMetalArea))) && (isNaN(parseFloat(tempObj.surfaceArea))) && (isNaN(parseFloat(tempObj.weight)))) {
+        toastr.warning('You cannot able to access it now');
+      } else {
+        if (operation == 'save') {
+          //- get required data to add addon
+          $scope.addonObj.allAddonTypes = data.allAddonTypes;
+        } else if (operation == 'update') {
 
-      $scope.modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'views/content/estimate/estimateModal/createOrEditAddon.html',
-        scope: $scope,
-        size: 'md',
-      });
+          $scope.addonObj.allAddonTypes = data.allAddonTypes;
+          $scope.addonObj.allMaterials = data.allMaterials;
+          $scope.addonObj.selectedAddonType = data.selectedAddonType;
+          $scope.addonObj.selectedMaterial = data.selectedMaterial;
 
+          $scope.addonObj.rate.value = data.rate.value;
+          $scope.addonObj.rate.uom = data.rate.uom;
+
+          $scope.addonObj.quantity.supportingVariable.supportingVariable = data.quantity.supportingVariable.supportingVariable;
+          $scope.addonObj.quantity.supportingVariable.value = data.quantity.supportingVariable.value;
+          $scope.addonObj.quantity.supportingVariable.uom = data.quantity.supportingVariable.uom;
+
+          $scope.addonObj.quantity.keyValue.keyVariable = data.quantity.keyValue.keyVariable;
+          $scope.addonObj.quantity.keyValue.keyValue = data.quantity.keyValue.keyValue;
+          $scope.addonObj.quantity.keyValue.uom = data.quantity.keyValue.uom;
+
+          $scope.addonObj.quantity.utilization = data.quantity.utilization;
+          $scope.addonObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
+          $scope.addonObj.quantity.total = data.quantity.total;
+
+          $scope.addonObj.remark = data.remarks;
+          // $scope.addonObj.currentPartObj = data.currentPartObj;
+          $scope.addonObj.addonNumber = data.addonNumber;
+          // $scope.addonObj.totalWeight = data;
+          // $scope.addonObj.totalWeight = ;
+
+          $scope.addonObj.totalCost = parseFloat(data.quantity.total) * parseFloat($scope.addonObj.rate.value) * $scope.addonObj.quantity.supportingVariable.value;
+          $scope.addonObj.totalWeight = parseFloat(data.quantity.total) * parseFloat(data.selectedMaterial.weightPerUnit);
+          $scope.addonObj.finalUom = data.selectedAddonType.quantity.finalUom.uomName;
+
+          $scope.showSaveBtn = false;
+          $scope.showEditBtn = true;
+        }
+        $scope.modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'views/content/estimate/estimateModal/createOrEditAddon.html',
+          scope: $scope,
+          size: 'md',
+        });
+      }
     });
-
-
-
   }
 
   //- when user select an addonType
@@ -70014,7 +70247,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     //- bind all data which is dependent on addonType
     $scope.addonObj.rate.uom = selectedAddonType.rate.uom.uomName;
-    
+
 
     //- get it from selecetdAddonType
     $scope.addonObj.quantity.supportingVariable.supportingVariable = selectedAddonType.quantity.additionalInput;
@@ -70044,36 +70277,46 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
 
 
-    console.log('**** inside function_name of createOrEditEstimateCtrl.js ****', $scope.addonObj);
   }
 
   //- when user select an material
   $scope.getSelectedMaterial = function (selectedMaterial) {
-    console.log('**** inside getSelectedMaterial of createOrEditEstimateCtrl.js ****');
+    //- is there anything else  user will put in mul5fact while adding addon type
+     
+    if ($scope.addonObj.selectedAddonType.rate.mulFact == 't') {
+      //- get thickness of corresponding level
+      //- i.e.  part level, subAssembly level or assemby level
+      if (!isNaN(parseFloat($scope.estimatePartObj.selectedShape.thickness))) {
+        $scope.addonObj.selectedAddonType.rate.mulFact = parseFloat($scope.estimatePartObj.selectedShape.thickness);
+      } else {
+        $scope.addonObj.selectedAddonType.rate.mulFact = 1;
+      }
+    } else if ($scope.addonObj.selectedAddonType.rate.mulFact == 'den') {
+      //- get density of corresponding level
+      //- i.e.  part level, subAssembly level or assemby level
+      $scope.addonObj.selectedAddonType.rate.mulFact = parseFloat(selectedMaterial.density);
+    }
     //- get rate selectedAddonType-->rate * selectedMaterial --> typicalRatepeKg
-    //- 
-    
     $scope.addonObj.rate.value = $scope.addonObj.selectedAddonType.rate.mulFact * selectedMaterial.typicalRatePerKg;
 
     //- update following after change quantity again
-    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat(selectedMaterial.typicalRatePerKg);
+    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.supportingVariable.value);
     $scope.addonObj.totalWeight = parseFloat($scope.addonObj.quantity.total) * parseFloat(selectedMaterial.weightPerUnit);
 
   }
 
   $scope.changeAddonQuantity = function (quantity) {
-    $scope.addonObj.totalCost = parseFloat(quantity) * parseFloat($scope.addonObj.selectedMaterial.typicalRatePerKg) * $scope.addonObj.quantity.supportingVariable.value;
+    $scope.addonObj.totalCost = parseFloat(quantity) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.supportingVariable.value);
     $scope.addonObj.totalWeight = parseFloat(quantity) * parseFloat($scope.addonObj.selectedMaterial.weightPerUnit);
   }
 
   $scope.changeSVValue = function () {
     // $scope.addonObj.quantity.supportingVariable.value = svValue;
-    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.selectedMaterial.typicalRatePerKg) * $scope.addonObj.quantity.supportingVariable.value;
+    $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.supportingVariable.value);
   }
 
   //- to add Addon at assembly or subssembly or at partLevel
   $scope.addAddon = function (operation, addonData, level, subAssemblyId, partId) {
-
     var addon = {
       addonNumber: addonData.addonNumber,
       addonType: addonData.selectedAddonType,
@@ -70099,31 +70342,33 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if (operation == 'save') {
       createOrEditEstimateService.createAddon(addon, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('addons', level, subAssemblyId, partId);
-        toastr.info('Addon added successfully', 'Addon Creation!');
+        createOrEditEstimateService.totalCostCalculations(function (data) {});
+        toastr.success('Addon added successfully');
         $scope.cancelModal();
       });
     } else if (operation == 'update') {
       createOrEditEstimateService.updateAddon(addon, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('addons', level, subAssemblyId, partId);
-        toastr.info('Addon updated successfully', 'Addon Creation!');
+        createOrEditEstimateService.totalCostCalculations(function (data) {});
+        toastr.success('Addon updated successfully');
         $scope.cancelModal();
       });
     }
   }
-  //- to edit Addon at assembly or subssembly or at partLevel
-  $scope.editAddon = function () {
-    $scope.getCurretEstimateObj();
-    toastr.success('Addon updated successfully');
-    createOrEditEstimateService.totalCostCalculations(function (data) {});
-    $scope.cancelModal();
-  }
+  // //- to edit Addon at assembly or subssembly or at partLevel
+  // $scope.editAddon = function () {
+  //   $scope.getCurretEstimateObj();
+  //   toastr.success('Addon updated successfully');
+  //   createOrEditEstimateService.totalCostCalculations(function (data) {});
+  //   $scope.cancelModal();
+  // }
   //- delete addon
   $scope.deleteAddon = function (addonId, level, subAssemblyId, partId) {
     createOrEditEstimateService.deleteAddon(addonId, level, subAssemblyId, partId, function () {
-      toastr.info('Addon deleted successfully', 'Addon Deletion!');
+      toastr.success('Addon deleted successfully');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk addons
@@ -70135,14 +70380,16 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getEstimateView('addons', level, subAssId, partId);
       $scope.cancelModal();
       toastr.success('Addons deleted successfully');
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- Import Addon
   $scope.importAddon = function (addonId, level, subAssemblyId, partId) {
     createOrEditEstimateService.getImportAddonData(addonId, level, subAssemblyId, partId, function () {
       $scope.getCurretEstimateObj();
-      toastr.info('Addon imported successfully', 'Addon Import!');
+      toastr.success('Addon imported successfully');
       $scope.cancelModal();
+      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -70166,7 +70413,10 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   //- to get all estimates data
   $scope.getTableData = function () {
     estimateService.getEstimateData(function (data) {
-      $scope.tableData = data;
+      $scope.tableData = data.results;
+      estimateService.getPaginationDetails(1, 10, data, function (obj) {
+        $scope.obj = obj;
+      });
     });
   }
 
@@ -70200,41 +70450,41 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   }
   //- for pagination of estimates' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    if (angular.isUndefined(keyword) || keyword == '') {
-      if (numberOfRecords != '10') {
-        estimateService.getPaginationData(page, numberOfRecords, null, function (data) {
-          $scope.tableData = data.results;
-          estimateService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      } else {
-        estimateService.getPaginationData(page, null, null, function (data) {
-          $scope.tableData = data.results;
-          estimateService.getPaginationDetails(page, 10, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      }
-    } else {
+    // if (angular.isUndefined(keyword) || keyword == '') {
+    //   if (numberOfRecords != '10') {
+    //     estimateService.getPaginationData(page, numberOfRecords, null, function (data) {
+    //       $scope.tableData = data.results;
+    //       estimateService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   } else {
+    //     estimateService.getPaginationData(page, null, null, function (data) {
+    //       $scope.tableData = data.results;
+    //       estimateService.getPaginationDetails(page, 10, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   }
+    // } else {
       estimateService.getPaginationData(page, numberOfRecords, keyword, function (data) {
         $scope.tableData = data.results;
         estimateService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
           $scope.obj = obj;
         });
       });
-    }
+    // }
   }
 
-  //- to search the text in the table
-  $scope.serachText = function (keyword, count) {
-    enquiryService.getPaginationData(null, null, keyword, function (data) {
-      $scope.tableData = data.results;
-      enquiryService.getPaginationDetails(1, count, data, function (obj) {
-        $scope.obj = obj;
-      });
-    });
-  }
+  // //- to search the text in the table
+  // $scope.serachText = function (keyword, count) {
+  //   enquiryService.getPaginationData(null, null, keyword, function (data) {
+  //     $scope.tableData = data.results;
+  //     enquiryService.getPaginationDetails(1, count, data, function (obj) {
+  //       $scope.obj = obj;
+  //     });
+  //   });
+  // }
 
   //- to dismiss modal instance
   $scope.cancelModal = function () {
@@ -70407,18 +70657,12 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     // *************************** default functions begin here  ********************** //
     $scope.getBaseMasterData = function () {
         $scope.getUomData();
-        $scope.getVariableData();
         $scope.getDfData();
         $scope.getMarkupData();
     }
     $scope.getUomData = function () {
         baseMatserService.getUomData(function (data) {
             $scope.uomData = data;
-        });
-    }
-    $scope.getVariableData = function () {
-        baseMatserService.getVariableData(function (data) {
-            $scope.variableData = data;
         });
     }
     $scope.getDfData = function () {
@@ -70471,70 +70715,15 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     }
     $scope.deleteUom = function (uomId) {
         baseMatserService.deleteUom(uomId, function (data) {
-            if(_.isEmpty(data.data)){
-                 
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-            }
-            else{
-                 
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getUomData();
         });
     }
-
-
-    //- to add or edit Variable name
-    $scope.addOrEditVariableModal = function (operation, variable) {
-        baseMatserService.getVariableModalData(operation, variable, function (data) {
-            $scope.formData = data.variable;
-            $scope.showSaveBtn = data.saveBtn;
-            $scope.showEditBtn = data.editBtn;
-
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/content/master/base/createOrEditVariable.html',
-                scope: $scope,
-                size: 'md'
-            });
-        });
-    }
-    $scope.addOrEditVariable = function (variableData) {
-        baseMatserService.addOrEditVariable(variableData, function (data) {
-            toastr.success("Variable added successfully");
-            $scope.getVariableData();
-            $scope.cancelModal();
-        });
-    }
-    //- modal to confirm Variable deletion
-    $scope.deleteVariableModal = function (variableId, getFunction) {
-        $scope.idToDelete = variableId;
-        $scope.functionToCall = getFunction;
-
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/content/master/base/deleteBaseMasterModal.html',
-            scope: $scope,
-            size: 'md'
-        });
-    }
-    $scope.deleteVariable = function (variableId) {
-        baseMatserService.deleteVariable(variableId, function (data) {
-            if(_.isEmpty(data.data)){
-                 
-                toastr.success('Record deleted successfully');
-            }
-            else{
-                 
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
-            }
-            $scope.cancelModal();
-            $scope.getVariableData();
-        });
-    }
-
-
     //- to add or edit DF i.e. Difficulty factor
     $scope.addOrEditDfModal = function (operation, df) {
         baseMatserService.getDfModalData(operation, df, function (data) {
@@ -70571,15 +70760,11 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     }
     $scope.deleteDf = function (dfId) {
         baseMatserService.deleteDf(dfId, function (data) {
-            if(_.isEmpty(data.data)){
-                 
-                toastr.success('Record deleted successfully');
+            if (_.isEmpty(data.data)) {
+                toastr.success("Difficulty Factor deleted successfully");
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
-            else{
-                 
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
-            }
-            toastr.success("Difficulty Factor deleted successfully");
             $scope.cancelModal();
             $scope.getDfData();
         });
@@ -70604,7 +70789,7 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     }
     $scope.addOrEditMarkup = function (markupData) {
         baseMatserService.addOrEditMarkup(markupData, function (data) {
-            toastr.success("Markup added/updated successfully");            
+            toastr.success("Markup added/updated successfully");
             $scope.getMarkupData();
             $scope.cancelModal();
         });
@@ -70623,13 +70808,10 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     }
     $scope.deleteMarkup = function (markupId) {
         baseMatserService.deleteMarkup(markupId, function (data) {
-            if(_.isEmpty(data.data)){
-                 
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-            }
-            else{
-                 
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getMarkupData();
@@ -70654,7 +70836,7 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     $scope.init();
 
 });
-myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAddonService) {
+myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterAddonService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -70737,11 +70919,10 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   //- function for addon deletion
   $scope.deleteAddonType = function (addonId) {
     masterAddonService.deleteAddonType(addonId, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.getAddonData();
       $scope.cancelModal();
@@ -70750,41 +70931,41 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
 
   //- function for pagination of master addons' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    if (angular.isUndefined(keyword) || keyword == '') {
-      if (numberOfRecords != '10') {
-        masterAddonService.getPaginationData(page, numberOfRecords, null, function (data) {
-          $scope.addonData = data.results;
-          masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      } else {
-        masterAddonService.getPaginationData(page, null, null, function (data) {
-          $scope.addonData = data.results;
-          masterAddonService.getPaginationDetails(page, 10, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      }
-    } else {
-      masterAddonService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-        $scope.addonData = data.results;
-        masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-          $scope.obj = obj;
-        });
-      });
-    }
-  }
-
-  //- function to search the text in table
-  $scope.serachText = function (keyword, count) {
-    masterAddonService.getPaginationData(null, null, keyword, function (data) {
+    // if (angular.isUndefined(keyword) || keyword == '') {
+    //   if (numberOfRecords != '10') {
+    //     masterAddonService.getPaginationData(page, numberOfRecords, null, function (data) {
+    //       $scope.addonData = data.results;
+    //       masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   } else {
+    //     masterAddonService.getPaginationData(page, null, null, function (data) {
+    //       $scope.addonData = data.results;
+    //       masterAddonService.getPaginationDetails(page, 10, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   }
+    // } else {
+    masterAddonService.getPaginationData(page, numberOfRecords, keyword, function (data) {
       $scope.addonData = data.results;
-      masterAddonService.getPaginationDetails(1, count, data, function (obj) {
+      masterAddonService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
         $scope.obj = obj;
       });
     });
+    // }
   }
+
+  // //- function to search the text in table
+  // $scope.serachText = function (keyword, count) {
+  //   masterAddonService.getPaginationData(null, null, keyword, function (data) {
+  //     $scope.addonData = data.results;
+  //     masterAddonService.getPaginationDetails(1, count, data, function (obj) {
+  //       $scope.obj = obj;
+  //     });
+  //   });
+  // }
 
   //- to dismiss modal instance
   $scope.cancelModal = function () {
@@ -70806,11 +70987,10 @@ myApp.controller('masterAddonCtrl', function ($scope,toastr, $uibModal, masterAd
   //- function to delete addon
   $scope.deleteBulkAddons = function (addons) {
     masterAddonService.deleteBulkAddons(addons, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getAddonData();
@@ -70969,11 +71149,10 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   //- function for  extra deletion
   $scope.deleteExtra = function (extraId) {
     masterExtraService.deleteExtra(extraId, function (data) {
-      if(_.isEmpty(data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getMasterExtraData();
@@ -70982,41 +71161,41 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
 
   //- function for pagination of master extras' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    if (angular.isUndefined(keyword) || keyword == '') {
-      if (numberOfRecords != '10') {
-        masterExtraService.getPaginationData(page, numberOfRecords, null, function (data) {
-          $scope.extraData = data.results;
-          masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      } else {
-        masterExtraService.getPaginationData(page, null, null, function (data) {
-          $scope.extraData = data.results;
-          masterExtraService.getPaginationDetails(page, 10, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      }
-    } else {
-      masterExtraService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-        $scope.extraData = data.results;
-        masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-          $scope.obj = obj;
-        });
-      });
-    }
-  }
-
-  //- function to search the text in table
-  $scope.serachText = function (keyword, count) {
-    masterExtraService.getPaginationData(null, null, keyword, function (data) {
+    // if (angular.isUndefined(keyword) || keyword == '') {
+    //   if (numberOfRecords != '10') {
+    //     masterExtraService.getPaginationData(page, numberOfRecords, null, function (data) {
+    //       $scope.extraData = data.results;
+    //       masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   } else {
+    //     masterExtraService.getPaginationData(page, null, null, function (data) {
+    //       $scope.extraData = data.results;
+    //       masterExtraService.getPaginationDetails(page, 10, data, function (obj) {
+    //         $scope.obj = obj;
+    //       });
+    //     });
+    //   }
+    // } else {
+    masterExtraService.getPaginationData(page, numberOfRecords, keyword, function (data) {
       $scope.extraData = data.results;
-      masterExtraService.getPaginationDetails(1, count, data, function (obj) {
+      masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
         $scope.obj = obj;
       });
     });
+    // }
   }
+
+  // //- function to search the text in table
+  // $scope.serachText = function (keyword, count) {
+  //   masterExtraService.getPaginationData(null, null, keyword, function (data) {
+  //     $scope.extraData = data.results;
+  //     masterExtraService.getPaginationDetails(1, count, data, function (obj) {
+  //       $scope.obj = obj;
+  //     });
+  //   });
+  // }
 
   //- to dismiss modal instance
   $scope.cancelModal = function () {
@@ -71038,11 +71217,10 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   //- function to delete extra
   $scope.deleteBulkExtras = function (extras) {
     masterExtraService.deleteBulkExtras(extras, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getMasterExtraData();
@@ -71132,11 +71310,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterialCat = function (materialCatId) {
         masterMaterialService.deleteMaterialCat(materialCatId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-            }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getMaterialData();
@@ -71181,11 +71358,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterialSubCat = function (materialSubCatId) {
         masterMaterialService.deleteMaterialSubCat(materialSubCatId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-            }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getMaterialData();
@@ -71194,9 +71370,9 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
 
     $scope.addOrEditMaterialModal = function (operation, materialSubCatId, material) {
-        masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {           
+        masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {
 
-            $scope.formData = data.material;           
+            $scope.formData = data.material;
             $scope.subCatId = data.materialSubCategory; // pass it to parameter of addOrEditMaterial
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
@@ -71210,15 +71386,19 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
-        masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {    
-            toastr.Success('Material added successfully');      
-            $scope.cancelModal();
-            $scope.getMaterialData();
+        masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {
+            if (angular.isUndefined(materialData._id)) {
+                toastr.success('Material added successfully');
+                $scope.cancelModal();
+                $scope.getSubCatMaterials(data.data.materialSubCategory);
+            } else {
+                $scope.getMaterialData();
+            }
         });
     }
     //- instant edit particular master material
     $scope.editMaterial = function (materialId) {
-        if($scope.editMaterialId == materialId) {
+        if ($scope.editMaterialId == materialId) {
             $scope.editMaterialId = '';
         } else {
             $scope.editMaterialId = materialId;
@@ -71247,11 +71427,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterial = function (materialId) {
         masterMaterialService.deleteMaterial(materialId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-              }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getMaterialData();
@@ -71279,60 +71458,59 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
     //- for pagination of materials' records
     $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-        if (angular.isUndefined(keyword) || keyword == '') {
-            if (numberOfRecords != '10') {
-                masterMaterialService.getPaginationData(page, numberOfRecords, null, function (data) {
-                    $scope.subCatMaterials = data.results;
-                    masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-                        $scope.obj = obj;
-                    });
-                });
-            } else {
-                masterMaterialService.getPaginationData(page, null, null, function (data) {
-                    $scope.subCatMaterials = data.results;
-                    masterMaterialService.getPaginationDetails(page, 10, data, function (obj) {
-                        $scope.obj = obj;
-                    });
-                });
-            }
-        } else {
-            masterMaterialService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-                $scope.subCatMaterials = data.results;
-                masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-                    $scope.obj = obj;
-                });
-            });
-        }
-    }
-    //- to search the text in table
-    $scope.searchText = function (keyword, count) {
-        masterMaterialService.getPaginationData(null, null, keyword, function (data) {
+        // if (angular.isUndefined(keyword) || keyword == '') {
+        //     if (numberOfRecords != '10') {
+        //         masterMaterialService.getPaginationData(page, numberOfRecords, null, function (data) {
+        //             $scope.subCatMaterials = data.results;
+        //             masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+        //                 $scope.obj = obj;
+        //             });
+        //         });
+        //     } else {
+        //         masterMaterialService.getPaginationData(page, null, null, function (data) {
+        //             $scope.subCatMaterials = data.results;
+        //             masterMaterialService.getPaginationDetails(page, 10, data, function (obj) {
+        //                 $scope.obj = obj;
+        //             });
+        //         });
+        //     }
+        // } else {
+        masterMaterialService.getPaginationData(page, numberOfRecords, keyword, function (data) {
             $scope.subCatMaterials = data.results;
-            masterMaterialService.getPaginationDetails(1, count, data, function (obj) {
+            masterMaterialService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
                 $scope.obj = obj;
             });
         });
+        // }
     }
+    // //- to search the text in table
+    // $scope.searchText = function (keyword, count) {
+    //     masterMaterialService.getPaginationData(null, null, keyword, function (data) {
+    //         $scope.subCatMaterials = data.results;
+    //         masterMaterialService.getPaginationDetails(1, count, data, function (obj) {
+    //             $scope.obj = obj;
+    //         });
+    //     });
+    // }
     //   //- bulk materials deletion modal
-      $scope.deleteBulkMaterialsModal = function (materialIdArray, getFunction) {
+    $scope.deleteBulkMaterialsModal = function (materialIdArray, getFunction) {
         $scope.idsToDelete = materialIdArray;
         $scope.functionToCall = getFunction;
 
         $scope.modalInstance = $uibModal.open({
-          animation: true,
-          templateUrl: 'views/content/deleteBulkModal.html',
-          scope: $scope,
-          size: 'md'
+            animation: true,
+            templateUrl: 'views/content/deleteBulkModal.html',
+            scope: $scope,
+            size: 'md'
         });
-      }
+    }
     //   //-to delete bulk materials
-      $scope.deleteBulkMaterials = function (materials) {
+    $scope.deleteBulkMaterials = function (materials) {
         masterMaterialService.deleteBulkMaterials(materials, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-              }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
 
             $scope.cancelModal();
@@ -71341,19 +71519,19 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
             $scope.checkboxStatus = false;
             $scope.getSubCatMaterials();
         });
-      }
+    }
     //   //- to get bulk materials
-      $scope.selectBulkMaterials = function (checkboxStatus, materialId) {
+    $scope.selectBulkMaterials = function (checkboxStatus, materialId) {
         masterMaterialService.selectBulkMaterials(checkboxStatus, materialId, function (data) {
-          $scope.bulkMaterials = data;
+            $scope.bulkMaterials = data;
         });
-      }
-      //- to select all records
-      $scope.selectAll = function (materials, checkAll) {
+    }
+    //- to select all records
+    $scope.selectAll = function (materials, checkAll) {
         masterMaterialService.selectAll(materials, checkAll, function (data) {
-          $scope.bulkMaterials = data;
+            $scope.bulkMaterials = data;
         });
-      }
+    }
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {
@@ -71507,6 +71685,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     var sheetMetalArea = 0;
     var surfaceArea = 0;
     var weight = 0;
+    var selectedMaterial = [];
     // $scope.formData = {};
 
 
@@ -71558,11 +71737,11 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     $scope.deletePartTypeCat = function (partTypeCatId) {
         masterPartService.deletePartTypeCat(partTypeCatId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-            }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+
             }
             $scope.getPartData();
             $scope.cancelModal();
@@ -71586,19 +71765,18 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     $scope.addOrEditPartType = function (partTypeData, partTypeCatId) {
         masterPartService.addOrEditPartType(partTypeData, partTypeCatId, function (data) {
-                        toastr.success('Part type  added/updated successfully');
-                        $scope.getPartData();
-                        $scope.cancelModal();
+            toastr.success('Part type  added/updated successfully');
+            $scope.getPartData();
+            $scope.cancelModal();
         });
     }
 
     $scope.deletePartType = function (partTypeId) {
         masterPartService.deletePartType(partTypeId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-            }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getPartData();
@@ -71610,6 +71788,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     $scope.getPartTypeSizes = function (partTypeId) {
         $scope.partTypeId = partTypeId;
         masterPartService.getPartTypeSizes(partTypeId, function (data) {
+            selectedMaterial = data.materialArray;
             $scope.partTypeSizes = data.partSizes;
             $scope.partTypeMaterials = data.materials;
             $scope.showPartTypeSize = true;
@@ -71627,7 +71806,6 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         // if sizes.length == 0 then make disableShape-->false
         $scope.disableShape = false;
         masterPartService.addNewPreset(operation, partTypeId, function (data) {
-             
             $scope.showPartView = true;
             $scope.presetFormData = data;
             $scope.selectedShape = data.selectedShape;
@@ -71647,17 +71825,18 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         presetData.shape.variable = presetData.variable;
         $scope.showPresetUpdateForm = true;
         $scope.showPresetSaveForm = false;
-         
+
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
-             
+
             $scope.presetFormData = data.presetData;
             $scope.presetFormData.thickness = data.presetData.shape.thickness;
             $scope.presetFormData.length = data.presetData.shape.length;
             $scope.presetFormData.wastage = data.presetData.shape.wastage;
             $scope.presetFormData.formFactor = data.presetData.shape.formFactor;
             $scope.presetFormData.sizeFactor = data.presetData.shape.sizeFactor;
-            $scope.presetFormData.presetName = data.presetData.shape.thickness;
-            
+            $scope.presetFormData.presetName = data.presetData.presetName;
+
+
             $scope.selectedShape = data.presetData.shape;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
@@ -71668,7 +71847,50 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         _.map(shapeData.variable, function (n) {
             n.varValue = 0;
         });
+
         $scope.selectedShape = shapeData;
+        $scope.presetFormData.thickness = shapeData.thickness;
+        $scope.presetFormData.length = shapeData.length;
+        $scope.presetFormData.wastage = shapeData.wastage;
+        $scope.presetFormData.formFactor = shapeData.formFactor;
+        $scope.presetFormData.sizeFactor = shapeData.sizeFactor;
+        if (shapeData.image) {
+        $scope.presetFormData.image = shapeData.image.file;
+        }
+        // _.map(shapeData.variable, function (n) {
+        //     varName = n.varName;
+        //     varValue = parseFloat(n.varValue);
+        //     // perimeter = shapeData.partFormulae.perimeter;
+        //     // sheetMetalArea = shapeData.partFormulae.sheetMetalArea;
+        //     // surfaceArea = shapeData.partFormulae.surfaceArea;
+        //     // weight = shapeData.partFormulae.weight;
+        //     tempVar = varName;
+        //     window[tempVar] = varValue;
+        // });
+
+        // if (angular.isDefined(shapeData.length) && shapeData.length != null) {
+        //     var l = shapeData.length;
+        // }
+        // if (angular.isDefined(shapeData.thickness) && shapeData.thickness != null) {
+        //     var t = shapeData.thickness;
+        // }
+        // if (angular.isDefined(shapeData.sizeFactor) && shapeData.sizeFactor != null) {
+        //     var sf = shapeData.sizeFactor;
+        // }
+        // if (angular.isDefined(shapeData.formFactor) && shapeData.formFactor != null) {
+        //     var ff = shapeData.formFactor;
+        // }
+        // if (angular.isDefined(shapeData.wastage) && shapeData.wastage != null) {
+        //     var wtg = shapeData.wastage;
+        // }
+
+        // $scope.presetData.partFormulae.perimeter = eval(shapeData.partFormulae.perimeter);
+        // $scope.presetData.partFormulae.sheetMetalArea = eval(shapeData.partFormulae.sheetMetalArea);
+        // $scope.presetData.partFormulae.surfaceArea = eval(shapeData.partFormulae.surfaceArea);
+        // $scope.presetData.partFormulae.weight = eval(shapeData.partFormulae.weight);
+        // $scope.presetFormData.partFormulae = presetData.partFormulae;
+
+
     }
     //- to add or edir part presets 
     //- called when click on --> save/update/save as new  button 
@@ -71677,24 +71899,41 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         presetData.shape = selectedShape._id;
         presetData.variable = selectedShape.variable;
         presetData.partFormulae = {
-            perimeter: "",
-            sheetMetalArea: "",
-            surfaceArea: "",
-            weight: ""
+            perimeter: 0,
+            sheetMetalArea: 0,
+            surfaceArea: 0,
+            weight: 0
         };
 
         _.map(selectedShape.variable, function (n) {
             varName = n.varName;
-            varValue = parseInt(n.varValue);
-            perimeter = selectedShape.partFormulae.perimeter;
-            sheetMetalArea = selectedShape.partFormulae.sheetMetalArea;
-            surfaceArea = selectedShape.partFormulae.surfaceArea;
-            weight = selectedShape.partFormulae.weight;
+            varValue = parseFloat(n.varValue);
+
+            // perimeter = selectedShape.partFormulae.perimeter;
+            // sheetMetalArea = selectedShape.partFormulae.sheetMetalArea;
+            // surfaceArea = selectedShape.partFormulae.surfaceArea;
+            // weight = selectedShape.partFormulae.weight;
 
             tempVar = varName;
             window[tempVar] = varValue;
 
         });
+
+        if (angular.isDefined($scope.presetFormData.length) && $scope.presetFormData.length != null) {
+            var l = parseFloat($scope.presetFormData.length);
+        }
+        if (angular.isDefined($scope.presetFormData.thickness) && $scope.presetFormData.thickness != null) {
+            var t = parseFloat($scope.presetFormData.thickness);
+        }
+        if (angular.isDefined($scope.presetFormData.sizeFactor) && $scope.presetFormData.sizeFactor != null) {
+            var sf = parseFloat($scope.presetFormData.sizeFactor);
+        }
+        if (angular.isDefined($scope.presetFormData.formFactor) && $scope.presetFormData.formFactor != null) {
+            var ff = parseFloat($scope.presetFormData.formFactor);
+        }
+        if (angular.isDefined($scope.presetFormData.wastage) && $scope.presetFormData.wastage != null) {
+            var wtg = parseFloat($scope.presetFormData.wastage);
+        }
 
         presetData.partFormulae.perimeter = eval(selectedShape.partFormulae.perimeter);
         presetData.partFormulae.sheetMetalArea = eval(selectedShape.partFormulae.sheetMetalArea);
@@ -71703,6 +71942,10 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         $scope.presetFormData.partFormulae = presetData.partFormulae;
 
     }
+
+    // $scope.changeVariableValues = function(presetData, selectedShape){
+
+    // }
     $scope.addOrEditPartPreset = function (presetData, action) {
         masterPartService.addOrEditPartPreset(presetData, action, function (data) {
             if (_.isUndefined(data.error)) {
@@ -71710,14 +71953,14 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             } else {
                 toastr.error('Enter Part Details Properly');
             }
-            
-        }); 
+
+        });
     }
 
     //- to add material to partType 
     $scope.getMaterialData = function (partTypeId) {
         $scope.partTypeId = partTypeId;
-        masterPartService.getMaterialData(function (data) {
+        masterPartService.getMaterialData(selectedMaterial, function (data) {
             // $scope.matCatData = data.materialCats;
             // $scope.matSubCatData = data.materialSubCats;
             $scope.matData = data.materials;
@@ -71734,6 +71977,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     };
 
     $scope.addMaterialToPartType = function (selectedMatId, partTypeId) {
+        selectedMaterial.push(selectedMatId);
         masterPartService.addMaterialToPartType(selectedMatId, partTypeId, function (data) {
             toastr.success('Material Added To The PartType Successfully');
             $scope.cancelModal();
@@ -71755,11 +71999,18 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     $scope.deletePartTypeMaterial = function (materialId, partTypeId) {
         masterPartService.deletePartTypeMaterial(materialId, partTypeId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-            }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+
+                // if(_.isEmpty(data.data)){
+                //     _.remove(selectedMaterial, function (Id) {
+                //         return Id == materialId;
+                //     });
+                //     toastr.success('Record deleted successfully');
+                // }
+                // else{
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getPartTypeSizes(partTypeId);
@@ -71818,7 +72069,10 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.getProcessTypeData = function () {
         masterProcessService.getProcessTypeData(function (data) {
-            $scope.processData = data;
+            $scope.processData = data.results;
+            masterProcessService.getPaginationDetails(1, 10, data, function (obj) {
+                $scope.obj = obj;
+              });
         });
     }
 
@@ -71848,9 +72102,13 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     $scope.addOrEditProcessCat = function (processCatData, selectedUomId) {
         processCatData.uom = selectedUomId;
         masterProcessService.addOrEditProcessCat(processCatData, function (data) {
-            toastr.success('Record added successfully', 'Process Creation!');
-            $scope.getProcessData();
-            $scope.cancelModal();
+            if (angular.isUndefined(data.error)) {
+                toastr.success('Record added successfully');
+                $scope.getProcessData();
+                $scope.cancelModal();
+            } else {
+                toastr.error('Please enter data properly');
+            }
         });
     }
     $scope.deleteProcessCatModal = function (processCatId, getFunction) {
@@ -71866,11 +72124,10 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessCat = function (processCatId) {
         masterProcessService.deleteProcessCat(processCatId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-                }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getProcessData();
@@ -71895,7 +72152,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.addOrEditProcessItem = function (processItemData, processCatId) {
         masterProcessService.addOrEditProcessItem(processItemData, processCatId, function (data) {
-            toastr.success('Record added successfully', 'Process Creation!');
+            toastr.success('Record added successfully');
             $scope.getProcessData();
             $scope.cancelModal();
         });
@@ -71913,11 +72170,10 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessItem = function (processItemId) {
         masterProcessService.deleteProcessItem(processItemId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-                }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getProcessData();
@@ -71958,9 +72214,13 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         processData.quantity.uom = selectedQuaLinkedKeyUom;
         processData.quantity.finalUom = selectedQuaFinalUom;
         masterProcessService.addOrEditProcessType(processData, function (data) {
-            toastr.success('Record added successfully', 'Process Creation!');
-            $scope.getProcessTypeData();
-            $scope.cancelModal();
+            if (angular.isUndefined(data.error)) {
+                toastr.success('Record added successfully');
+                $scope.getProcessTypeData();
+                $scope.cancelModal();
+            } else {
+                toastr.error('Please enter data properly');
+            }
         });
     }
     $scope.deleteProcessTypeModal = function (processId, getFunction) {
@@ -71976,11 +72236,10 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessType = function (processId) {
         masterProcessService.deleteProcessType(processId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-                }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getProcessTypeData();
@@ -71995,40 +72254,40 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
 
     //- function for pagination of processes' records
     $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-        if (angular.isUndefined(keyword) || keyword == '') {
-            if (numberOfRecords != '10') {
-                masterProcessService.getPaginationData(page, numberOfRecords, null, function (data) {
-                    $scope.processData = data.results;
-                    masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-                        $scope.obj = obj;
-                    });
-                });
-            } else {
-                masterProcessService.getPaginationData(page, null, null, function (data) {
-                    $scope.processData = data.results;
-                    masterProcessService.getPaginationDetails(page, 10, data, function (obj) {
-                        $scope.obj = obj;
-                    });
-                });
-            }
-        } else {
-            masterProcessService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-                $scope.processData = data.results;
-                masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-                    $scope.obj = obj;
-                });
-            });
-        }
-    }
-    //- function to search the text in table
-    $scope.serachText = function (keyword, count) {
-        masterProcessService.getSearchResult(null, null, keyword, function (data) {
+        // if (angular.isUndefined(keyword) || keyword == '') {
+        //     if (numberOfRecords != '10') {
+        //         masterProcessService.getPaginationData(page, numberOfRecords, null, function (data) {
+        //             $scope.processData = data.results;
+        //             masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
+        //                 $scope.obj = obj;
+        //             });
+        //         });
+        //     } else {
+        //         masterProcessService.getPaginationData(page, null, null, function (data) {
+        //             $scope.processData = data.results;
+        //             masterProcessService.getPaginationDetails(page, 10, data, function (obj) {
+        //                 $scope.obj = obj;
+        //             });
+        //         });
+        //     }
+        // } else {
+        masterProcessService.getPaginationData(page, numberOfRecords, keyword, function (data) {
             $scope.processData = data.results;
-            masterProcessService.getPaginationDetails(1, count, data, function (obj) {
+            masterProcessService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
                 $scope.obj = obj;
             });
         });
+        // }
     }
+    // //- function to search the text in table
+    // $scope.serachText = function (keyword, count) {
+    //     masterProcessService.getSearchResult(null, null, keyword, function (data) {
+    //         $scope.processData = data.results;
+    //         masterProcessService.getPaginationDetails(1, count, data, function (obj) {
+    //             $scope.obj = obj;
+    //         });
+    //     });
+    // }
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
@@ -72049,11 +72308,10 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     //- function to delete process
     $scope.deleteBulkProcesses = function (processes) {
         masterProcessService.deleteBulkProcesses(processes, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-                }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getProcessTypeData();
@@ -72080,7 +72338,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         $scope.getProcessData();
     }
     $scope.init();
-    
+
 });
 myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterShapeService) {
     // *************************** default variables/tasks begin here ***************** //
@@ -72090,6 +72348,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     $scope.showEditBtn = false;
     $scope.shapeVariables = [];
     $scope.disableField = false;
+    $scope.variablesData = [];
 
     // *************************** default functions begin here  ********************** //
     //- get data to generate material tree structure dynamically 
@@ -72112,30 +72371,20 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
         $scope.shapeView = 'views/content/master/shape/shapeView.html';
     }
 
-    $scope.createOrEditShapeData = function (operation, shape) {
-             
-        // if(operation == 'save'){
-        //     // $scope.shapeView = 'views/content/master/shape/shapeView.html';
-        //     $scope.formData = {};
-        //     $scope.formData.icon = {};
-        //     $scope.formData.icon.file = "";
-        // }else{
-        //     // $scope.shapeView = 'views/content/master/shape/shapeView.html';
-        //     $scope.formData = shape;
-        //     $scope.formData.icon = {};
-        //     $scope.formData.icon.file = "";
-        // }
-        
+    $scope.createOrEditShapeData = function (operation, shape) {           
+        debugger;
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
             $scope.shapeView = 'views/content/master/shape/tempView.html';
             $scope.formData = data.shape;
             $scope.variablesData = data.shapeVariables;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
-            $scope.disableField = data.disableField;
+            // $scope.disableField = data.disableField;
+            $scope.shapeVariables = data.shapeVarWithoutChunck;
         });
     }
     $scope.createOrEditShape = function (shape, shapeVariables) {
+        debugger;
         shape.variable = shapeVariables;
         masterShapeService.createOrEditShape(shape, function (data) {
             toastr.success('Shape added/updated successfully');
@@ -72170,12 +72419,15 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     $scope.addVariableToShape = function (checkboxStatus, variableName) {
         if (checkboxStatus == 'unchecked') {
             var index = _.findIndex($scope.shapeVariables, ['varName', variableName]);
+            //- removing shape from array 
             $scope.shapeVariables.splice(index, 1);
+            // $scope.variablesData.splice(index, 1);
         } else if (checkboxStatus == 'checked') {
             var tempVarObj = {
                 varName: variableName
             };
             $scope.shapeVariables.push(tempVarObj);
+            // $scope.variablesData.push(tempVarObj);
         }
     }
 
@@ -72208,7 +72460,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   $scope.options = {
     mobile: {
       phone: true,
-      phoneRegionCode: 'IN'      
+      phoneRegionCode: 'IN'
     }
   };
 
@@ -72255,7 +72507,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
           toastr.success('Record updated successfully');
         }
       } else {
-        toastr.Warning('Please enter details properly');
+        toastr.error("Email must be unique");
       }
     });
   }
@@ -72273,11 +72525,10 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   //- to delete user
   $scope.deleteUser = function (userId) {
     userService.deleteUser(userId, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.getUserData();
@@ -72285,37 +72536,9 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   }
   //- for pagination of users' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    if (angular.isUndefined(keyword) || keyword == '') {
-      if (numberOfRecords != '10') {
-        userService.getPaginationData(page, numberOfRecords, null, function (data) {
-          $scope.userData = data.results;
-          userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      } else {
-        userService.getPaginationData(page, null, null, function (data) {
-          $scope.userData = data.results;
-          userService.getPaginationDetails(page, 10, data, function (obj) {
-            $scope.obj = obj;
-          });
-        });
-      }
-    } else {
-      userService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-        $scope.userData = data.results;
-        userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-          $scope.obj = obj;
-        });
-
-      });
-    }
-  }
-  //- to search the text in table
-  $scope.serachText = function (keyword, count) {
-    userService.getPaginationData(null, null, keyword, function (data) {
+    userService.getPaginationData(page, numberOfRecords, keyword, function (data) {
       $scope.userData = data.results;
-      userService.getPaginationDetails(1, count, data, function (obj) {
+      userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
         $scope.obj = obj;
       });
     });
@@ -72335,11 +72558,10 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   //-to delete bulk users
   $scope.deleteBulkUsers = function (users) {
     userService.deleteBulkUsers(users, function (data) {
-      if(_.isEmpty(data.data)){
+      if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
-      }
-      else{
-        toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+      } else {
+        toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
       $scope.bulkUsers = [];
@@ -72478,33 +72700,6 @@ myApp.controller('UserProfileController', function ($scope, toastr, userProfileS
     $scope.updateProfile = function (formData) {
         userProfileService.updateProfile(formData, function (data) {
             toastr.success("Your Profile has been updated successfully");
-        });
-    }
-    // $scope.updateProfilePhoto = function () {
-    //     var file = $scope.myFile;
-    //     console.log('file is ' );
-    //     console.dir(file);
-    //     userProfileService.updateProfilePhoto(file, function (data) {
-    //         if(data.data.data != "No files selected"){
-    //             toastr.success("Your Profile Photo has been updated successfully");
-    //         } else {
-    //             toastr.warning("Photo Updation Failed");
-    //         } 
-
-    //    });
-    // }
-
-    $scope.uploadFile = function () {
-        var file = $scope.myFile;
-        console.log('file is ---------------------------------------' );
-        console.dir(file);
-        userProfileService.updateProfilePhoto(file, function (data) {
-            console.log('file is ' + JSON.stringify(file.name));            
-            if (data.data.data != "No files selected") {
-                toastr.success("Your Profile Photo has been updated successfully");
-            } else {
-                toastr.warning("Photo Updation Failed");
-            }
         });
     }
 
@@ -72661,6 +72856,11 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       });
     }
   }
+  this.getEstimateData = function (enquiryId, callback) {
+    NavigationService.apiCall('DraftEstimate/checkEnquiryEstimate', {enquiryId : enquiryId},  function (data) {
+        callback(data.data);
+    });
+  }
   this.getCustomerData = function (callback) {
     NavigationService.boxCall('Customer/getCustomerNameLocationAndPayTerms', function (data) {
       callback(data.data);
@@ -72675,6 +72875,9 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     NavigationService.apiCall('Estimate/getEstimateVersion', {
       enquiryId: Id
     }, function (data) {
+      if (data.data == "noDataFound") {
+        data.data = [];
+      }
       callback(data.data);
     });
   }
@@ -72697,6 +72900,8 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     NavigationService.boxCall('Estimate/getVersionsOfAssNo', function (data) {
       callback(data.data);
     });
+  }
+  this.getExcelSheet = function (estimateVersionId, callback) {    
   }
   //- to import assembly
   this.getImportAssemblyData = function (assemblyId, callback) {
@@ -72943,27 +73148,24 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	};
 
 	var customMaterial = {
+		customMaterialName: "",
+		uniqueId: "",
 		basePlate: {
 			thickness: "",
-			freeIssue: "",
-			baseMetal: ""
+			baseMetal: {}
 		},
 		hardFacingAlloys: [_.cloneDeep(hardFacingAlloy)],
-		mulFact: "",
-		codPerKg: "",
-		codPerMeterSquare: ""
+		difficultyFactor: [],
+		freeIssue: "",
+		totalCostRsPerSm: "",
+		totalCostRsPerKg: ""
 	};
 
 	var hardFacingAlloy = {
 		thickness: "",
-		alloy: "",
-		codPerKg: "",
-		codPerMeterSquare: ""
-	}
-
-	//- to get customer material data
-	this.getCustomMaterialData = function (callback) {
-		callback(formData.customMaterial);
+		alloy: {},
+		costOfDepRsPerKg: "",
+		costOfDepRsPerSm: ""
 	}
 	//-to get current estimate object
 	this.getCurretEstimateObj = function (callback) {
@@ -72983,7 +73185,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				callback(data.data);
 			} else {
 				formData.assembly = data.data;
-				temp.totalCostCalculations(function (data) {});
+				// temp.totalCostCalculations(function (data) {});
 				callback(data.data);
 			}
 		});
@@ -72991,105 +73193,117 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to set a view of the page
 	this.estimateView = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
-		var checkAccess = 0;
-		if (estimateView == 'processing' || estimateView == 'addons' || estimateView == 'extras') {
-			if (getLevelName == "assembly") {
-				//var tempObj = formData.assembly.keyValueCalculations;
-				if (formData.assembly.processing.length == 0) {
-					checkAccess += 1;
-				}
-			} else if (getLevelName == "subAssembly") {
-				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-				//var tempObj = formData.assembly.subAssemblies[subAssIndex].keyValueCalculations;
-				if (formData.assembly.subAssemblies[subAssIndex].processing.length == 0) {
-					checkAccess += 1;
-				}
-			} else if (getLevelName == "part") {
-
-				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-				var partIndex = this.getPartIndex(subAssIndex, partId);
-				//var tempObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
-				if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.length == 0) {
-					checkAccess += 1;
-				}
-			}
-			// if ((isNaN(parseFloat(tempObj.perimeter))) && (isNaN(parseFloat(tempObj.sheetMetalArea))) && (isNaN(parseFloat(tempObj.surfaceArea))) && (isNaN(parseFloat(tempObj.weight)))) {
-			// 	checkAccess += 1;
-			// }
-		}
-		if (checkAccess == 0) {
-			getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
-			callback(getEstimateView);
-		} else {
-			callback('restrictUser');
-		}
+		getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
+		callback(getEstimateView);
 	}
 	//- to calculate total cost of addon/processing/extras
 	this.totalCostCalculations = function (callback) {
 		var costCalculations = {
+			//- summation of processing cost at part, subAssembly
 			pCost: 0,
-			pCost: 0,
+			//- summation of addon cost at part, subAssembly
 			aCost: 0,
+			//- summation of extra cost at part, subAssembly
 			eCost: 0,
+			//- separate summation (used in loop for processing) of processing cost at part
 			pCostAtPart: 0,
+			//- separate summation (used in loop for processing) of processing cost at subAssembly
 			pCostAtSubAssembly: 0,
+			//- separate summation (used in loop for processing) of processing cost at assembly level
 			pCostAtAssemby: 0,
+			//- separate summation (used in loop for processing) of addon cost at part
 			aCostAtPart: 0,
+			//- separate summation (used in loop for processing) of addon cost at subAssembly
 			aCostAtSubAssembly: 0,
+			//- separate summation (used in loop for processing) of addon cost at assembly level
 			aCostAtAssemby: 0,
+			//- separate summation (used in loop for processing) of extra cost at part
 			eCostAtPart: 0,
+			//- separate summation (used in loop for processing) of extra cost at subAssembly
 			eCostAtSubAssembly: 0,
+			//- separate summation (used in loop for processing) of extra cost at assembly level
 			eCostAtAssemby: 0,
+			//- weight of a part 
 			wtAtPart: 0,
+			//- summation of weight of all parts
 			wtAtSubAssembly: 0,
+			//- summation of weight of all subAssembly
+			wtAtAssembly: 0,
+			//- materila cost of a part 
+			mtPart: 0,
+			//- summation of material cost of all parts
 			mtAtSubAssembly: 0,
+			//- summation of material cost of all subAssembly
 			mtAtAssembly: 0
 		}
+		formData.assembly.totalCost = 0;
 		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
 			angular.forEach(subAssembly.subAssemblyParts, function (part) {
-				costCalculations.wtAtPart += parseFloat(part.keyValueCalculations.weight);
-				costCalculations.mtAtSubAssembly += parseFloat(part.finalCalculation.materialPrice);
+				//- get weight at part level
+				if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
+					costCalculations.wtAtPart = parseFloat(part.keyValueCalculations.weight);
+				}
+				//- get summation of (weight * quantity) of all parts 
+				costCalculations.wtAtSubAssembly += costCalculations.wtAtPart * part.quantity;
+				//- get material cost at part level
+				if (!isNaN(parseFloat(part.finalCalculation.materialPrice))) {
+					costCalculations.mtPart = parseFloat(part.finalCalculation.materialPrice);
+				}
+				//- get summation of material cost of all parts 
+				costCalculations.mtAtSubAssembly += costCalculations.mtPart;
+				//- processing cost at part level
 				angular.forEach(part.processing, function (processing) {
-					costCalculations.pCostAtPart += processing.rate * processing.quantity.totalQuantity
+					costCalculations.pCostAtPart += processing.totalCost;
 				});
+				//- addons cost at part level
 				angular.forEach(part.addons, function (addon) {
+					//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
 					costCalculations.aCostAtPart += addon.totalCost;
 				});
+				//- extras cost at part level
 				angular.forEach(part.extras,  function (extra) {
 					costCalculations.eCostAtPart += extra.totalCost;
 				});
+				//- bind processing cost, addon cost & extra cost to part level variables
 				part.processingCost = costCalculations.pCostAtPart;
 				part.addonCost = costCalculations.aCostAtPart;
 				part.extrasCost = costCalculations.eCostAtPart;
+				//- calculate summation of all processing available at part level
 				if (part.processing.length != 0) {
 					costCalculations.pCost += costCalculations.pCostAtPart;
-					costCalculations.pCostAtPart = 0;
 				}
+				//- calculate summation of all addons available at part level
 				if (part.addons.length != 0) {
 					costCalculations.aCost += costCalculations.aCostAtPart;
-					costCalculations.aCostAtPart = 0;
 				}
+				//- calculate summation of all extras available at part level
 				if (part.extras.length != 0) {
 					costCalculations.eCost += costCalculations.eCostAtPart;
-					costCalculations.eCostAtPart = 0;
 				}
-				if (part.processing.length != 0 || part.addons.length != 0 || part.extras.length != 0) {
-					part.totalCost = costCalculations.wtAtPart + costCalculations.mtAtSubAssembly + part.processingCost + part.addonCost + part.extrasCost;
-				}
+				//- total cost at each part 
+				part.totalCost = (costCalculations.mtPart * costCalculations.wtAtPart + part.processingCost + part.addonCost + part.extrasCost) * part.quantity;
+				costCalculations.mtPart = costCalculations.pCostAtPart = costCalculations.aCostAtPart = costCalculations.eCostAtPart = costCalculations.wtAtPart = 0;
 			});
 
-			subAssembly.totalWeight = costCalculations.wtAtPart;
-			costCalculations.wtAtSubAssembly += subAssembly.totalWeight;
+			//- bind weight of all parts of paricular subAssembly to variable 'totalWeight'
+			subAssembly.totalWeight = costCalculations.wtAtSubAssembly;
+			//- get summation of (weight * quantity) of all subassemblies
+			costCalculations.wtAtAssembly += subAssembly.totalWeight * subAssembly.quantity;
+
+			//- bind material cost of all parts of paricular subAssembly to variable 'material cost'
 			subAssembly.materialCost = costCalculations.mtAtSubAssembly;
-			costCalculations.mtAtAssembly += subAssembly.materialCost;
-
+			costCalculations.mtAtAssembly += subAssembly.materialCost * subAssembly.quantity;
+			//- processing cost at subAssembly level
 			angular.forEach(subAssembly.processing, function (processing) {
-				costCalculations.pCostAtSubAssembly += processing.rate * processing.quantity.totalQuantity
+				costCalculations.pCostAtSubAssembly += processing.totalCost;
 			});
-			angular.forEach(formData.assembly.addons, function (addon) {
+			//- addons cost at subAssembly level
+			angular.forEach(subAssembly.addons, function (addon) {
+				//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
 				costCalculations.aCostAtSubAssembly += addon.totalCost;
 			});
-			angular.forEach(formData.assembly.extras, function (extra) {
+			//- extras cost at subAssembly level
+			angular.forEach(subAssembly.extras, function (extra) {
 				costCalculations.eCostAtSubAssembly += extra.totalCost;
 			});
 			costCalculations.pCost += costCalculations.pCostAtSubAssembly;
@@ -73098,28 +73312,43 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			subAssembly.processingCost = costCalculations.pCost;
 			subAssembly.addonCost = costCalculations.aCost;
 			subAssembly.extrasCost = costCalculations.eCost;
-			subAssembly.totalCost = subAssembly.totalWeight + subAssembly.materialCost + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost;			
-			costCalculations.pCostAtAssemby += costCalculations.pCost;
-			costCalculations.aCostAtAssemby += costCalculations.aCost;
-			costCalculations.eCostAtAssemby += costCalculations.eCost;
+			//- total cost at each part 
+			subAssembly.totalCost = (subAssembly.materialCost * subAssembly.totalWeight + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost) * subAssembly.quantity;
+			formData.assembly.totalCost += subAssembly.totalCost * subAssembly.quantity;
+			costCalculations.pCostAtAssemby += costCalculations.pCost * subAssembly.quantity;
+			costCalculations.aCostAtAssemby += costCalculations.aCost * subAssembly.quantity;
+			costCalculations.eCostAtAssemby += costCalculations.eCost * subAssembly.quantity;
 			costCalculations.pCostAtSubAssembly = costCalculations.aCostAtSubAssembly = costCalculations.eCostAtSubAssembly = 0;
 			costCalculations.pCost = costCalculations.aCost = costCalculations.eCost = 0;
+			costCalculations.mtAtSubAssembly = costCalculations.wtAtSubAssembly = 0;
 		});
-		formData.assembly.totalWeight = costCalculations.wtAtSubAssembly;
+		//- processing cost at assembly level
+		angular.forEach(formData.assembly.processing, function (processing) {
+			costCalculations.pCost += processing.totalCost;
+		});
+		//- addons cost at assembly level
+		angular.forEach(formData.assembly.addons, function (addon) {
+			//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
+			costCalculations.aCost += addon.totalCost;
+		});
+		//- extras cost at assembly level
+		angular.forEach(formData.assembly.extras, function (extra) {
+			costCalculations.eCost += extra.totalCost;
+		});
+		formData.assembly.totalWeight = costCalculations.wtAtAssembly;
 		formData.assembly.materialCost = costCalculations.mtAtAssembly;
-		formData.assembly.processingCost = costCalculations.pCostAtAssemby;
-		formData.assembly.addonCost = costCalculations.aCostAtAssemby;
-		formData.assembly.extrasCost = costCalculations.eCostAtAssemby;
-		formData.assembly.totalCost = costCalculations.wtAtSubAssembly + costCalculations.mtAtAssembly + costCalculations.pCostAtAssemby + costCalculations.aCostAtAssemby + costCalculations.eCostAtAssemby;
-		callback()
+		formData.assembly.processingCost = costCalculations.pCostAtAssemby + costCalculations.pCost;
+		formData.assembly.addonCost = costCalculations.aCostAtAssemby + costCalculations.aCost;
+		formData.assembly.extrasCost = costCalculations.eCostAtAssemby + costCalculations.eCost;
+		//formData.assembly.totalCost += costCalculations.mtAtAssembly * costCalculations.wtAtAssembly + costCalculations.pCost + costCalculations.aCost + costCalculations.eCost;
+		callback();
 	}
 	//- to get a view of the page
 	this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
-
 		var getViewData = [];
 
 		if (estimateView == 'assembly') {
-			formData.assembly.quantity = 1;
+			//formData.assembly.quantity = 1;
 			getViewData = formData.assembly;
 		} else if (estimateView == 'subAssembly') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
@@ -73127,7 +73356,91 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (estimateView == 'partDetail') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
-			getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+			var estimatePartObj = {
+
+				selectedShortcut: {}, //- selected partType presets 
+				selectedPartType: {}, //- selected partType
+				selectedMaterial: {}, //- selected material     
+				selectedSize: {}, //- slected size
+				selectedShape: {}, //- selected shape
+
+				selectedCustomMaterial: {}, //- selecetd custom materail  
+
+				quantity: null, //- part.quantity
+				variables: [], //- part.variables
+				shapeImage: null, //- get it from slected partPreset --> shape.shapeImage      
+				shapeIcon: null, //- get it from slected partPreset --> shape.shapeIcon
+				processingCount: null, //- part.processing.length
+				addonCount: null, //- part.addons.length
+				extraCount: null, //- part.extars.length
+
+				partName: formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partName, //- part.partName
+				partNumber: null, //- part.partNumber 
+				scaleFactor: null, //- part.scaleFactor
+
+				keyValueCalculations: {
+					perimeter: "", //- part.keyValueCalculation.perimeter
+					sheetMetalArea: "", //- part.keyValueCalculation.sheetMetalArea
+					surfaceArea: "", //- part.keyValueCalculation.surfaceArea
+					weight: "" //- part.keyValueCalculation.weight
+				},
+				finalCalculation: {
+					materialPrice: null, //- part.finalCalculation.materialPrice
+					itemUnitPrice: null, //- part.finalCalculation.itemUnitPrice
+					totalCostForQuantity: null //- part.finalCalculation.totalCostForQuantity
+				},
+				subAssNumber: subAssemblyId,
+				partNumber: partId
+			};
+
+			estimatePartObj.processingCount = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.length;
+			estimatePartObj.addonCount = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.length;
+			estimatePartObj.extraCount = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras.length;
+			//- check part calculation data is available or not
+			if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partUpdateStatus) {
+				var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
+
+				if (!_.isEmpty(tempPart.shortcut) && tempPart.shortcut != undefined) {
+					estimatePartObj.selectedShortcut = tempPart.shortcut; //- selecetd shortCut
+				}
+				if (!_.isEmpty(tempPart.partType) && tempPart.partType != undefined) {
+					estimatePartObj.selectedPartType = tempPart.partType; //- selected partType
+				}
+				if (!_.isEmpty(tempPart.material) && tempPart.material != undefined) {
+					estimatePartObj.selectedMaterial = tempPart.material; //- selected material
+				}
+				if (!_.isEmpty(tempPart.size) && tempPart.size != undefined) {
+					estimatePartObj.selectedSize = tempPart.size; //- size
+				}
+				if (!_.isEmpty(tempPart.shape) && tempPart.shape != undefined) {
+					estimatePartObj.selectedShape = tempPart.shape; //- selected material
+				}
+				if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
+					estimatePartObj.selectedCustomMaterial = tempPart.customMaterial; //- selectedCustomeMaterial
+				}
+				estimatePartObj.formFactor = tempPart.formFactor; //- formFactor
+				estimatePartObj.length = tempPart.length; //- length
+				estimatePartObj.sizeFactor = tempPart.sizeFactor; //- sizeFactor
+				estimatePartObj.thickness = tempPart.thickness; //- thickness
+				estimatePartObj.wastage = tempPart.wastage; //- wastage
+
+				estimatePartObj.quantity = tempPart.quantity; //- quantity
+				estimatePartObj.variable = tempPart.variable; //- variable
+
+				estimatePartObj.finalCalculation.materialPrice = tempPart.finalCalculation.materialPrice;
+				estimatePartObj.finalCalculation.itemUnitPrice = tempPart.finalCalculation.itemUnitPrice;
+				estimatePartObj.finalCalculation.totalCostForQuantity = tempPart.finalCalculation.totalCostForQuantity
+
+				estimatePartObj.keyValueCalculations.perimeter = tempPart.keyValueCalculations.perimeter;
+				estimatePartObj.keyValueCalculations.sheetMetalArea = tempPart.keyValueCalculations.sheetMetalArea;
+				estimatePartObj.keyValueCalculations.surfaceArea = tempPart.keyValueCalculations.surfaceArea;
+				estimatePartObj.keyValueCalculations.weight = tempPart.keyValueCalculations.weight
+				estimatePartObj.partUpdateStatus = true;
+
+			}
+			callback(estimatePartObj);
+
 		} else if (estimateView == 'editPartItemDetail') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
@@ -73135,11 +73448,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var estimatePartObj = {
 				allShortcuts: [], //- get all presets name from API
 				allPartTypes: [], //- get all part type from API
+				allShapes: [], //- get all shape data from API
 
 				selectedShortcut: {}, //- selected partType presets 
 				selectedPartType: {}, //- selected partType
 				selectedMaterial: {}, //- selected material     
 				selectedSize: {}, //- slected size
+				selectedShape: {}, //- selected shape
 
 				customMaterials: [], //- get all custom material from  API
 				selectedCustomMaterial: {}, //- selecetd custom materail  
@@ -73180,45 +73495,62 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				NavigationService.boxCall('MPartType/getPartTypeData', function (partTypeData) {
 					estimatePartObj.allPartTypes = partTypeData.data;
 
-					//- check part calculation data is available or not
-					if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partUpdateStatus) {
-
-						var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
-
-						if (!_.isEmpty(tempPart.shortcut) && tempPart.shortcut != undefined) {
-							estimatePartObj.selectedShortcut = tempPart.shortcut; //- selecetd shortCut
+					NavigationService.boxCall('CustomMaterial/getAllCustomMaterial', function (allCustomMaterials) {
+						if (allCustomMaterials.data != "noDataFound") {
+							estimatePartObj.customMaterials = allCustomMaterials.data;
+						} else {
+							estimatePartObj.customMaterials = [];
 						}
-						if (!_.isEmpty(tempPart.partType) && tempPart.partType != undefined) {
-							estimatePartObj.selectedPartType = tempPart.partType; //- selected partType
-						}
-						if (!_.isEmpty(tempPart.material) && tempPart.material != undefined) {
-							estimatePartObj.selectedMaterial = tempPart.material; //- selected material
-						}
-						if (!_.isEmpty(tempPart.size) && tempPart.size != undefined) {
-							estimatePartObj.selectedSize = tempPart.size; //- size
-						}
-						if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
-							estimatePartObj.selectedCustomMaterial = tempPart.customMaterial; //- selectedCustomeMaterial
-						}
+						NavigationService.boxCall('MShape/getMShapeData', function (shapeData) {
+							estimatePartObj.allShapes = shapeData.data;
+							//- check part calculation data is available or not
+							if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partUpdateStatus) {
+								var tempPart = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
 
-						estimatePartObj.quantity = tempPart.quantity; //- quantity
-						estimatePartObj.variable = tempPart.variable; //- variable
+								if (!_.isEmpty(tempPart.shortcut) && tempPart.shortcut != undefined) {
+									estimatePartObj.selectedShortcut = tempPart.shortcut; //- selecetd shortCut
+								}
+								if (!_.isEmpty(tempPart.partType) && tempPart.partType != undefined) {
+									estimatePartObj.selectedPartType = tempPart.partType; //- selected partType
+								}
+								if (!_.isEmpty(tempPart.material) && tempPart.material != undefined) {
+									estimatePartObj.selectedMaterial = tempPart.material; //- selected material
+								}
+								if (!_.isEmpty(tempPart.size) && tempPart.size != undefined) {
+									estimatePartObj.selectedSize = tempPart.size; //- size
+								}
+								if (!_.isEmpty(tempPart.shape) && tempPart.shape != undefined) {
+									 
+									estimatePartObj.selectedShape = tempPart.shape; //- selected material
+								}
+								if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
+									estimatePartObj.selectedCustomMaterial = tempPart.customMaterial; //- selectedCustomeMaterial
+								}
 
-						estimatePartObj.finalCalculation.materialPrice = tempPart.finalCalculation.materialPrice;
-						estimatePartObj.finalCalculation.itemUnitPrice = tempPart.finalCalculation.itemUnitPrice;
-						estimatePartObj.finalCalculation.totalCostForQuantity = tempPart.finalCalculation.totalCostForQuantity
+								estimatePartObj.quantity = tempPart.quantity; //- quantity
+								estimatePartObj.variable = tempPart.variable; //- variable
 
-						estimatePartObj.keyValueCalculations.perimeter = tempPart.keyValueCalculations.perimeter;
-						estimatePartObj.keyValueCalculations.sheetMetalArea = tempPart.keyValueCalculations.sheetMetalArea;
-						estimatePartObj.keyValueCalculations.surfaceArea = tempPart.keyValueCalculations.surfaceArea;
-						estimatePartObj.keyValueCalculations.weight = tempPart.keyValueCalculations.weight
-						estimatePartObj.partUpdateStatus = true;
+								estimatePartObj.formFactor = tempPart.formFactor; //- formFactor
+								estimatePartObj.length = tempPart.length; //- length
+								estimatePartObj.sizeFactor = tempPart.sizeFactor; //- sizeFactor
+								estimatePartObj.thickness = tempPart.thickness; //- thickness
+								estimatePartObj.wastage = tempPart.wastage; //- wastage
 
-						callback(estimatePartObj);
-					} else {
-						callback(estimatePartObj);
-					}
+								estimatePartObj.finalCalculation.materialPrice = tempPart.finalCalculation.materialPrice;
+								estimatePartObj.finalCalculation.itemUnitPrice = tempPart.finalCalculation.itemUnitPrice;
+								estimatePartObj.finalCalculation.totalCostForQuantity = tempPart.finalCalculation.totalCostForQuantity
 
+								estimatePartObj.keyValueCalculations.perimeter = tempPart.keyValueCalculations.perimeter;
+								estimatePartObj.keyValueCalculations.sheetMetalArea = tempPart.keyValueCalculations.sheetMetalArea;
+								estimatePartObj.keyValueCalculations.surfaceArea = tempPart.keyValueCalculations.surfaceArea;
+								estimatePartObj.keyValueCalculations.weight = tempPart.keyValueCalculations.weight
+								estimatePartObj.partUpdateStatus = true;
+
+							}
+							callback(estimatePartObj);
+
+						});
+					});
 				});
 			});
 		} else if (estimateView == 'processing') {
@@ -73268,17 +73600,44 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 
 		//- this if is bcoz we are already sending callback in case of editPartItemDetail & partDetail view
-		if (estimateView != 'editPartItemDetail' || estimateView != 'partDetail') {
+		if (estimateView != 'editPartItemDetail' && estimateView != 'partDetail') {
 			callback(getViewData);
 		}
 
 	}
 	//- to save current estimate object
-	this.saveCurrentEstimate = function () {
+	this.saveCurrentEstimate = function (callback) {
 		NavigationService.apiCall('DraftEstimate/save', formData.assembly, function (data) {
 			// $.jStorage.deleteKey("estimateObject");
 			callback(data.data);
 		});
+	}
+	//- to compile current estimate object
+	this.compileCurrentEstimate = function (callback) {
+		var temp = true;
+		_.forEach(formData.assembly.subAssemblies, function (subAssembly) {
+			_.forEach(subAssembly.subAssemblyParts, function (part) {
+				if (temp) {
+					if (!part.partValidationStatus) {
+						temp = false;
+						var tempObj = {
+							status: false,
+							partName: part.partName
+						}
+						callback(tempObj);
+					}
+				}
+			});
+		});
+		if (temp) {
+			var tempObj = {
+				_id: formData.assembly._id,
+				assemblyNumber: formData.assembly.assemblyNumber
+			}
+			NavigationService.apiCall('DraftEstimate/compileEstimate', tempObj, function (data) {
+				callback(data.data);
+			});
+		}
 	}
 	//- to update assebly name
 	this.editAssemblyName = function (estimateName, draftEstimateId, callback) {
@@ -73292,12 +73651,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 
 
-	//- to get all assembly numbers
-	this.getAllAssemblyNumbers = function (callback) {
-		NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
-			callback(data.data);
-		});
-	}
+	// //- to get all assembly numbers
+	// this.getAllAssemblyNumbers = function (callback) {
+	// 	NavigationService.boxCall('Estimate/getAllAssembliesNo', function (data) {
+	// 		callback(data.data);
+	// 	});
+	// }
+
 	//- to get subAssembly data 
 	this.getAllSubAssModalData = function (operation, subAssembly, callback) {
 		var subAssDataObj = {}
@@ -73335,18 +73695,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempSubAssObj = _.cloneDeep(subAssembly);
 		tempSubAssObj.subAssemblyNumber = formData.assembly.assemblyNumber + "SA" + id;
 		tempSubAssObj.subAssemblyName = subAssObj.subAssemblyName;
-		if(angular.isDefined(subAssObj.quantity)) {
+		if (angular.isDefined(subAssObj.quantity)) {
 			tempSubAssObj.quantity = subAssObj.quantity;
 		} else {
 			tempSubAssObj.quantity = 1;
 		}
-		var tempObj = {
-			perimeter: "",
-			sheetMetalArea: "",
-			surfaceArea: "",
-			weight: ""
-		}
-		formData.assembly.keyValueCalculations = tempObj;
 		formData.assembly.subAssemblies.push(tempSubAssObj);
 		callback();
 	}
@@ -73389,6 +73742,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			callback(data.data);
 		});
 	}
+	//- to get sizes of selected part type
+	this.getSelectedPartTypeData = function (partTypeId, callback) {
+		var partTypeObj = {
+			partType: partTypeId
+		}
+		NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
+			callback(data.data);
+		});
+	}
 	//- to add a part
 	this.createPart = function (partObj, subAssId, callback) {
 		var subAssIndex = this.getSubAssemblyIndex(subAssId);
@@ -73396,19 +73758,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempPartObj = _.cloneDeep(part);
 		tempPartObj.partNumber = subAssId + 'PT' + id;
 		tempPartObj.partName = partObj.partName;
-		var tempObj = {
-			perimeter: "",
-			sheetMetalArea: "",
-			surfaceArea: "",
-			weight: ""
-		}
-		formData.assembly.keyValueCalculations = tempObj;
-		formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = tempObj;
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.push(tempPartObj);
 		callback();
 	}
 	//- update Part Detail with all calculation & other data
-	this.updatePartDetail = function (isEdit, partObject, callback) {
+	this.updatePartDetail = function (partObject, callback) {
 		//-make proper part Object by removing all unwanted fields 
 		var subAssIndex = this.getSubAssemblyIndex(partObject.subAssNumber);
 		var partIndex = this.getPartIndex(subAssIndex, partObject.partNumber);
@@ -73425,13 +73779,25 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			tempPart.material = partObject.selectedMaterial; //- selected material
 		}
 		if (!_.isEmpty(partObject.selectedSize) && partObject.selectedSize != undefined) {
-			tempPart.size = partObject.selectedSize; //- size
+			if (angular.isDefined(partObject.selectedSize._id)) {
+				tempPart.size = partObject.selectedSize.size;
+			} else {
+				tempPart.size = partObject.selectedSize; //- size
+			}
 		}
 		if (!_.isEmpty(partObject.selectedCustomMaterial) && partObject.selectedCustomMaterial != undefined) {
 			tempPart.customMaterial = partObject.selectedCustomMaterial; //- selectedCustomeMaterial
 		}
+		if (!_.isEmpty(partObject.selectedShape) && partObject.selectedShape != undefined) {
+			tempPart.shape = partObject.selectedShape; //- selectedCustomeMaterial
+		}
 
 		tempPart.quantity = partObject.quantity; //- quantity
+		tempPart.formFactor = partObject.formFactor; //- formFactor
+		tempPart.length = partObject.length; //- length
+		tempPart.sizeFactor = partObject.sizeFactor; //- sizeFactor
+		tempPart.thickness = partObject.thickness; //- thickness
+		tempPart.wastage = partObject.wastage; //- wastage
 		tempPart.variable = partObject.variables; //- variables 
 		tempPart.finalCalculation = {};
 		tempPart.finalCalculation.materialPrice = partObject.finalCalculation.materialPrice;
@@ -73441,23 +73807,16 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		tempPart.keyValueCalculations.perimeter = partObject.keyValueCalculations.perimeter;
 		tempPart.keyValueCalculations.sheetMetalArea = partObject.keyValueCalculations.sheetMetalArea;
 		tempPart.keyValueCalculations.surfaceArea = partObject.keyValueCalculations.surfaceArea;
-		tempPart.keyValueCalculations.weight = partObject.keyValueCalculations.weight
+		tempPart.keyValueCalculations.weight = partObject.keyValueCalculations.weight;
 		tempPart.partUpdateStatus = true;
+		//- to check whether user filled all part level data
+		if (!isNaN(tempPart.finalCalculation.totalCostForQuantity)) {
+			tempPart.partValidationStatus = true;
+		} else {
+			tempPart.partValidationStatus = false;
+		}
 
 		formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex] = tempPart;
-		//- update calculaions at all levels
-		if (isEdit) {
-			this.KeyValueCalculations(formData.assembly.subAssemblies[subAssIndex].keyValueCalculations, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
-				if (!_.isEmpty(data)) {
-					formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = data;
-				}
-			});
-			this.KeyValueCalculations(formData.assembly.keyValueCalculations, formData.assembly.subAssemblies, function (data) {
-				if (!_.isEmpty(data)) {
-					formData.assembly.keyValueCalculations = data;
-				}
-			});
-		}
 		callback(formData.assembly);
 	}
 	//- keyValue calculation
@@ -73470,53 +73829,78 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			weight: 0
 		};
 		//- to check access permission
-		var temp = 0;
+		var temp = true;
 		if (level == 'subAssembly') {
-			angular.forEach(records,  function (part) {
-				if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
-					tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
-					tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
-					tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
-					temp += 1;
-				}
-				if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
-					tempObj.weight += parseFloat(part.keyValueCalculations.weight);
-					temp += 1;
-				}
-			});
-		} else {
-			angular.forEach(records,  function (subAssembly) {
-				angular.forEach(subAssembly.subAssemblyParts,  function (part) {
+			_.forEach(records,  function (part) {
+				if (temp) {
 					if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
 						tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
-						temp += 1;
+					} else {
+						//- if perimeter is not present break the loop
+						temp = false;
+						return false;
 					}
 					if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
 						tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
-						temp += 1;
+					} else {
+						temp = false;
+						return false;
 					}
 					if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
 						tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
-						temp += 1;
+					} else {
+						temp = false;
+						return false;
 					}
 					if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
 						tempObj.weight += parseFloat(part.keyValueCalculations.weight);
-						temp += 1;
+					} else {
+						temp = false;
 					}
-				});	
+				}
+			});
+		} else {
+			_.forEach(records,  function (subAssembly) {
+				_.forEach(subAssembly.subAssemblyParts,  function (part) {
+					if (temp) {
+						if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
+							tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
+						} else {
+							temp = false;
+							return false;
+						}
+						if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
+							tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
+						} else {
+							temp = false;
+							return false;
+						}
+						if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
+							tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
+						} else {
+							temp = false;
+							return false;
+						}
+						if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
+							tempObj.weight += parseFloat(part.keyValueCalculations.weight);
+						} else {
+							temp = false;
+						}
+					}
+				});
 			});
 		}
-		if (temp != 0) {
+		if (temp) {
 			callback(tempObj);
 		} else {
 			callback();
 		}
+	}
+	//- get all materials in case if user selects a shape first
+	this.getAllMaterials = function (callback) {
+		NavigationService.boxCall('MMaterial/getAllMaterials', function (data) {
+			callback(data.data);
+		});
 	}
 	//- to delete a part
 	this.deletePart = function (subAssemblyId, partId, callback) {
@@ -73903,7 +74287,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
 				if (!_.isEmpty(data)) {
-					addonObject.linkedKeyValuesAtSubAssemblyCalculation =  {
+					addonObject.linkedKeyValuesAtSubAssemblyCalculation = {
 						perimeter: data.perimeter,
 						SMA: data.sheetMetalArea,
 						SA: data.surfaceArea,
@@ -74109,33 +74493,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 		bulkArray = [];
 		callback();
-	}
-
-
-
-	//- to get customer data
-	this.getCustomMaterialModalData = function (operation, customMaterial, callback) {
-		var custMaterialDataObj = {}
-
-		if (angular.isDefined(customMaterial)) {
-			custMaterialDataObj.custMaterialObj = customMaterial;
-		}
-		if (operation == "save") {
-			custMaterialDataObj.saveBtn = true;
-			custMaterialDataObj.editBtn = false;
-		} else if (operation == "update") {
-			custMaterialDataObj.saveBtn = false;
-			custMaterialDataObj.editBtn = true;
-		}
-
-		callback(custMaterialDataObj)
-
-	}
-	//- to save customer material object
-	this.createCustomMaterial = function (customMaterialObj) {
-		// NavigationService.apiCall('/save', customMaterialObj, function (data) {
-		// 	callback(data.data);
-		//});
 	}
 
 
@@ -74754,6 +75111,72 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback();
 	}
 
+	//**********************************Custom Material***********************************************//
+
+	this.getAllMaterialData = function (callback) {
+		var temp = [];
+		NavigationService.boxCall('CustomMaterial/getAllCustomMaterial', function (data) {
+			if (data.data == "noDataFound") {
+				temp = [];
+			} else {
+				temp = data.data;
+			}
+			callback(temp);
+		});
+	}
+	//- to get custom material data
+	this.getCustomMaterialModalData = function (operation, customMaterialData, callback) {
+		var customMaterialObj = {
+			allBaseMetals: [],
+			allAlloys: [],
+			allDifficultyFactors: []
+		};
+		var allMaterials;
+		if (angular.isDefined(customMaterialData)) {
+			customMaterialObj.custMaterialObj = customMaterialData;
+		} else {
+			customMaterial.estimateId = formData.assembly._id;
+			customMaterial.hardFacingAlloys = [_.cloneDeep(hardFacingAlloy)];
+			customMaterialObj.custMaterialObj = _.cloneDeep(customMaterial);
+		}
+		if (operation == "save") {
+			customMaterialObj.saveBtn = true;
+			customMaterialObj.editBtn = false;
+		} else if (operation == "update") {
+			customMaterialObj.saveBtn = false;
+			customMaterialObj.editBtn = true;
+		}
+		NavigationService.boxCall('MMaterial/getAllMaterials', function (data) {
+			allMaterials = data.data;
+			angular.forEach(allMaterials,  function (record) {
+				if (record.type == 'customBase') {
+					customMaterialObj.allBaseMetals.push(record);
+				} else if (record.type == 'customOverlay') {
+					customMaterialObj.allAlloys.push(record);
+				}
+			});
+			NavigationService.boxCall('MDifficultyFactor/getMDifficultyFactorData', function (data) {
+				customMaterialObj.allDifficultyFactors = data.data;
+				callback(customMaterialObj)
+			});
+		});
+	}
+	//- to save custome material object
+	this.createCustomMaterial = function (customMaterialObj, callback) {
+		NavigationService.apiCall('CustomMaterial/save', customMaterialObj, function (data) {
+			callback(data.data);
+		});
+	}
+	//- to delete custom material
+	this.deleteCustomMaterial = function (customMaterialId, callback) {
+		var idsArray = [];
+		idsArray.push(customMaterialId);
+		NavigationService.delete('Web/delRestrictions/CustomMaterial', {
+			idsArray: idsArray
+		}, function (data) {
+			callback(data);
+		});
+	}
 });
 myApp.service('estimateService', function (NavigationService) {
 
@@ -74775,7 +75198,7 @@ myApp.service('estimateService', function (NavigationService) {
   }
   //- get pagination data
   this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
-    NavigationService.apiCall('DraftEstimate/search', {
+    NavigationService.apiCall('DraftEstimate/getDraftEstimateCustomerName', {
       keyword: searchKeyword,
       totalRecords: count,
       page: pageNumber
@@ -74874,31 +75297,23 @@ myApp.service('loginService', function (NavigationService) {
 myApp.service('baseMatserService', function (NavigationService) {
 
     this.getUomData = function (callback) {
-        NavigationService.boxCall('MUom/search', function (data) {
-            var uoms = data.data.results;
+        NavigationService.boxCall('MUom/getMUomData', function (data) {
+            var uoms = data.data;
             callback(uoms);
         });
     }
-    this.getVariableData = function (callback) {
-        NavigationService.boxCall('MVariables/search', function (data) {
-            var variables = data.data.results;
-            callback(variables);
-        });
-    }
     this.getDfData = function (callback) {
-        NavigationService.boxCall('MDifficultyFactor/search', function (data) {
-            var dfs = data.data.results;
+        NavigationService.boxCall('MDifficultyFactor/getMDifficultyFactorData', function (data) {
+            var dfs = data.data;
             callback(dfs);
         });
     }
     this.getMarkupData = function (callback) {
-        NavigationService.boxCall('MMarkup/search', function (data) {
-            var markups = data.data.results;
+        NavigationService.boxCall('MMarkup/getMMarkupData', function (data) {
+            var markups = data.data;
             callback(markups);
         });
     }
-
-
     this.getUomModalData = function (operation, uom, callback) {
         var uomDataObj = {};
         if (angular.isDefined(uom)) {
@@ -74922,7 +75337,6 @@ myApp.service('baseMatserService', function (NavigationService) {
         idsArray = [];
         idsArray.push(uomId);
         NavigationService.delete('Web/delRestrictions/MUom',{idsArray: idsArray}, function(data){
-             
             callback(data);
         });
     }
@@ -75575,7 +75989,7 @@ myApp.service('masterPartService', function (NavigationService) {
                         callback(presetData);
                     });
                 });
-            }   
+            }
         });
 
         // get shape data
@@ -75593,7 +76007,9 @@ myApp.service('masterPartService', function (NavigationService) {
         var partTypeObj = {
             partType: partTypeId
         }
-        var partTypeDataObj = {};
+        var partTypeDataObj = {
+            materialArray: []
+        };
 
         NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
             if (data.data) {
@@ -75604,13 +76020,15 @@ myApp.service('masterPartService', function (NavigationService) {
                 _id: partTypeId
             }, function (matData) {
                 partTypeDataObj.materials = matData.data.material;
+                angular.forEach(partTypeDataObj.materials,  function (record) {
+                    partTypeDataObj.materialArray.push(record._id);
+                });
                 callback(partTypeDataObj);
             });
         });
 
     }
     this.getPresetViewWithData = function (operation, presetData, callback) {
-         
         var partPresetObj = {
             presetData: {}
         };
@@ -75648,20 +76066,24 @@ myApp.service('masterPartService', function (NavigationService) {
             delete presetData.updatedAt;
             delete presetData.$$hashKey;
         }
-        
+
         presetData.partType = presetData.partTypeData._id;
-        console.log('**** inside -------------------------- of masterPartService.js ****', presetData);
         NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
             callback(data);
         });
     }
 
-    this.getMaterialData = function (callback) {
+    this.getMaterialData = function (selectedMaterial, callback) {
         var getMatData = {};
         NavigationService.boxCall('MMaterial/getAllMaterials', function (data) {
             getMatData.materials = data.data;
+            angular.forEach(selectedMaterial,  function (materiaId) {
+                _.remove(getMatData.materials, function (record) {
+                    return record._id == materiaId;
+                });
+            });
             callback(getMatData);
-        })
+        });
     }
     this.addMaterialToPartType = function (selectedMatId, partTypeId, callback) {
         var tempObj = {
@@ -75689,7 +76111,6 @@ myApp.service('masterProcessService', function (NavigationService) {
   this.getProcessData = function (callback) {
 
     NavigationService.boxCall('MProcessCat/search', function (data) {
-      console.log('kdshsbfvld;j');
       callback(data.data.results);
     });
   }
@@ -75697,7 +76118,7 @@ myApp.service('masterProcessService', function (NavigationService) {
   //- to get process type data
   this.getProcessTypeData = function (callback) {
     NavigationService.boxCall('MProcessType/getAllProcessType', function (data) {
-      callback(data.data.results);
+      callback(data.data);
     });
   }
 
@@ -75809,8 +76230,7 @@ myApp.service('masterProcessService', function (NavigationService) {
   }
   this.addOrEditProcessType = function (processData, callback) {
     NavigationService.apiCall('MProcessType/save', processData, function (data) {
-      var process = data.data.results;
-      callback(process);
+      callback(data);
     });
   }
   this.deleteProcessType = function (processId, callback) {
@@ -75919,8 +76339,9 @@ myApp.service('masterShapeService', function (
     }
 
     this.createOrEditShapeData = function (operation, shape, callback) {
-        console.log('**** createOrEditShapeData inside function_name of masterShapeService.js ****',shape);
-        var shapeDataObj = {};
+        var shapeDataObj = {
+            shapeVarWithoutChunck : []
+        };
 
         if (angular.isDefined(shape)) {
             shapeDataObj.shape = shape;
@@ -75941,30 +76362,50 @@ myApp.service('masterShapeService', function (
             callback(shapeDataObj);
 
         } else if (operation == "update") {
-            var idsArray = [];
-            idsArray.push(shape._id);
-            NavigationService.apiCall('Mshape/restrictShapeVariable', {idsArray: idsArray}, function(data){
-                shapeDataObj.saveBtn = false;
-                shapeDataObj.editBtn = true;
-                if(!_.isEmpty(data.data)){
-                    shapeDataObj.disableField = true;
-                }
-                else {
-                    shapeDataObj.disableField = false;
-                }
-                var tempArray = _.cloneDeep(this.variableData)
+            shapeDataObj.saveBtn = false;
+            shapeDataObj.editBtn = true;
+            // shapeDataObj.shapeVarWithoutChunck = [];
 
-                _.map(tempArray, function (n) {
-                    if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
-                        n.checkboxStatus = false;
-                    } else {
-                        n.checkboxStatus = true;
-                    }
-                });
-                shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
-                callback(shapeDataObj);
-
+            var tempArray = _.cloneDeep(this.variableData);           
+            _.map(tempArray, function (n) {
+                 
+                if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
+                    n.checkboxStatus = false;
+                } else {
+                     
+                    shapeDataObj.shapeVarWithoutChunck.push(_.cloneDeep(n));
+                    n.checkboxStatus = true;
+                }
             });
+            shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
+            
+            callback(shapeDataObj);
+
+
+            //- user following logic to disable shape fields in order to restrict shape edit 
+
+            // var idsArray = [];
+            // idsArray.push(shape._id);
+            // NavigationService.apiCall('Mshape/restrictShapeVariable', {idsArray: idsArray}, function(data){
+            //     shapeDataObj.saveBtn = false;
+            //     shapeDataObj.editBtn = true;
+            //     // if(!_.isEmpty(data.data)){
+            //     //     shapeDataObj.disableField = true;
+            //     // }
+            //     // else {
+            //     //     shapeDataObj.disableField = false;
+            //     // }
+            //     _.map(tempArray, function (n) {
+            //         if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
+            //             n.checkboxStatus = false;
+            //         } else {
+            //             n.checkboxStatus = true;
+            //         }
+            //     });
+            //     shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
+            //     callback(shapeDataObj);
+
+            // });
         }
 
     }
@@ -75974,7 +76415,6 @@ myApp.service('masterShapeService', function (
         });
     }
     this.deleteShape = function (shapeId, callback) {
-         
         idsArray = [];
         idsArray.push(shapeId);
         NavigationService.delete('Web/delRestrictions/MShape', {idsArray: idsArray}, function (data) {
@@ -76010,7 +76450,8 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
   //- add or edit user
   this.addOrEditUser = function (userData, callback) {
-    NavigationService.apiCall('User/save', userData, function (data) {
+    userData.photo = null;
+    NavigationService.apiCall('User/createUser', userData, function (data) {
       callback(data);
     });
   }
@@ -76108,7 +76549,6 @@ myApp.service('roleService', function ($http, $uibModal, NavigationService) {
         callback();
     }
 });
-
 myApp.service('userProfileService', function (NavigationService, $http) {
 
     //to get data of current user
@@ -76125,24 +76565,6 @@ myApp.service('userProfileService', function (NavigationService, $http) {
             callback(data.data);
         });
     }
-    // this.updateProfilePhoto = function (file, callback) {
-    //      
-    //     console.log('****file in service..... ****', file);
-    //     var fd = new FormData();
-    //     fd.append('file', file);
-
-    //     $http.post('http://wohlig.io/api/User/uploadAvtar', fd, {
-    //             transformRequest: angular.identity,
-    //             headers: {
-    //                 'Content-Type': undefined
-    //             }
-    //         })
-    //         .then(function () {
-    //             console.log('**** inside its working of userProfileService.js ****');
-    //         });
-
-
-    // }
     // to reset password
     this.changePassword = function (id, currentpassword, newPassword, callback) {
         NavigationService.apiCall('User/changePassword', {
