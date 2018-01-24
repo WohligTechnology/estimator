@@ -42,11 +42,15 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
         });
     }
     $scope.createOrEditShape = function (shape, shapeVariables) {
-        debugger;
         shape.variable = shapeVariables;
         masterShapeService.createOrEditShape(shape, function (data) {
-            toastr.success('Shape added/updated successfully');
-            $scope.getShapeData();
+            if (data.value) {
+                toastr.success('Shape added/updated successfully');
+                $scope.getShapeData();
+            } else {
+                toastr.error('Shape is not added/updated');
+            }
+
         });
     }
     $scope.deleteShapeModal = function (shapeId, getFunction) {

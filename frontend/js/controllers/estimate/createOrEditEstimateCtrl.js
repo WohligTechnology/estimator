@@ -236,11 +236,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.selectedShape = shortcutObj.shape;
 
     //- update shape related data
-    $scope.estimatePartObj.formFactor = shortcutObj.formFactor;
-    $scope.estimatePartObj.length = shortcutObj.length;
-    $scope.estimatePartObj.sizeFactor = shortcutObj.sizeFactor;
-    $scope.estimatePartObj.thickness = shortcutObj.thickness;
-    $scope.estimatePartObj.wastage = shortcutObj.wastage;
+    $scope.estimatePartObj.formFactor = shortcutObj.shape.formFactor;
+    $scope.estimatePartObj.length = shortcutObj.shape.length;
+    $scope.estimatePartObj.sizeFactor = shortcutObj.shape.sizeFactor;
+    $scope.estimatePartObj.thickness = shortcutObj.shape.thickness;
+    $scope.estimatePartObj.wastage = shortcutObj.shape.wastage;
 
     $scope.estimatePartObj.variables = shortcutObj.variable;
     $scope.estimatePartObj.keyValueCalculations.perimeter = shortcutObj.partFormulae.perimeter;

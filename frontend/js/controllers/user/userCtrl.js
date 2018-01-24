@@ -51,7 +51,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   }
   //- to add or edit user
   $scope.addOrEditUser = function (operation, userData) {
-    userService.addOrEditUser(userData, function (data) {
+    userService.addOrEditUser(operation, userData, function (data) {
       if (angular.isDefined(data.data)) {
         $scope.getUserData();
         $scope.cancelModal();

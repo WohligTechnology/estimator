@@ -51,13 +51,17 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     $scope.addOrEditPartTypeCat = function (operation, partTypeCatData) {
         masterPartService.addOrEditPartTypeCat(partTypeCatData, function (data) {
-            if (operation == 'update') {
-                toastr.success('Part Category Name Updated Successfully');
-
+            if (data.value) {
+                if (operation == 'update') {
+                    toastr.success('Part Category Name Updated Successfully');
+    
+                } else {
+                    toastr.success('Part Category Name Added Successfully');
+                }
+                $scope.getPartData();                
             } else {
-                toastr.success('Part Category Name Added Successfully');
+                toastr.error('Part Category Name is not saved properly');  
             }
-            $scope.getPartData();
             $scope.cancelModal();
         });
     }
@@ -102,8 +106,12 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     $scope.addOrEditPartType = function (partTypeData, partTypeCatId) {
         masterPartService.addOrEditPartType(partTypeData, partTypeCatId, function (data) {
-            toastr.success('Part type  added/updated successfully');
-            $scope.getPartData();
+            if (data.value) {
+                toastr.success('Part type  added/updated successfully');
+                $scope.getPartData();
+            } else {
+                toastr.error('Part type  is not added/updated properly');
+            }
             $scope.cancelModal();
         });
     }
@@ -164,7 +172,6 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         $scope.showPresetSaveForm = false;
 
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
-
             $scope.presetFormData = data.presetData;
             $scope.presetFormData.thickness = data.presetData.shape.thickness;
             $scope.presetFormData.length = data.presetData.shape.length;
@@ -175,6 +182,9 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
 
 
             $scope.selectedShape = data.presetData.shape;
+            if (angular.isDefined($scope.selectedShape.image)) {
+                    $scope.presetFormData.image = $scope.selectedShape.image.file;
+            }
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
         });
@@ -186,13 +196,13 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         });
 
         $scope.selectedShape = shapeData;
-        $scope.presetFormData.thickness = shapeData.thickness;
-        $scope.presetFormData.length = shapeData.length;
-        $scope.presetFormData.wastage = shapeData.wastage;
-        $scope.presetFormData.formFactor = shapeData.formFactor;
-        $scope.presetFormData.sizeFactor = shapeData.sizeFactor;
+        // $scope.presetFormData.thickness = shapeData.thickness;
+        // $scope.presetFormData.length = shapeData.length;
+        // $scope.presetFormData.wastage = shapeData.wastage;
+        // $scope.presetFormData.formFactor = shapeData.formFactor;
+        // $scope.presetFormData.sizeFactor = shapeData.sizeFactor;
         if (shapeData.image) {
-        $scope.presetFormData.image = shapeData.image.file;
+            $scope.presetFormData.image = shapeData.image.file;
         }
         // _.map(shapeData.variable, function (n) {
         //     varName = n.varName;
@@ -231,7 +241,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     //- to add or edir part presets 
     //- called when click on --> save/update/save as new  button 
-    $scope.getPresetFinalData = function (presetData, selectedShape) {
+    $scope.getPresetFinalData = function (presetData, selectedShape, selectedMaterial) {
 
         presetData.shape = selectedShape._id;
         presetData.variable = selectedShape.variable;
@@ -256,20 +266,25 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
 
         });
 
-        if (angular.isDefined($scope.presetFormData.length) && $scope.presetFormData.length != null) {
-            var l = parseFloat($scope.presetFormData.length);
+        if (angular.isDefined($scope.selectedShape.length) && $scope.selectedShape.length != null) {
+            var l = parseFloat($scope.selectedShape.length);
         }
-        if (angular.isDefined($scope.presetFormData.thickness) && $scope.presetFormData.thickness != null) {
-            var t = parseFloat($scope.presetFormData.thickness);
+        if (angular.isDefined($scope.selectedShape.thickness) && $scope.selectedShape.thickness != null) {
+            var t = parseFloat($scope.selectedShape.thickness);
         }
-        if (angular.isDefined($scope.presetFormData.sizeFactor) && $scope.presetFormData.sizeFactor != null) {
-            var sf = parseFloat($scope.presetFormData.sizeFactor);
+        if (angular.isDefined($scope.selectedShape.sizeFactor) && $scope.selectedShape.sizeFactor != null) {
+            var sf = parseFloat($scope.selectedShape.sizeFactor);
         }
-        if (angular.isDefined($scope.presetFormData.formFactor) && $scope.presetFormData.formFactor != null) {
-            var ff = parseFloat($scope.presetFormData.formFactor);
+        if (angular.isDefined($scope.selectedShape.formFactor) && $scope.selectedShape.formFactor != null) {
+            var ff = parseFloat($scope.selectedShape.formFactor);
         }
-        if (angular.isDefined($scope.presetFormData.wastage) && $scope.presetFormData.wastage != null) {
-            var wtg = parseFloat($scope.presetFormData.wastage);
+        if (angular.isDefined($scope.selectedShape.wastage) && $scope.selectedShape.wastage != null) {
+            var wtg = parseFloat($scope.selectedShape.wastage);
+        }
+        if (angular.isDefined(selectedMaterial)) {
+            if (angular.isDefined(selectedMaterial.density)) {
+                var den = selectedMaterial.density;
+            }
         }
 
         presetData.partFormulae.perimeter = eval(selectedShape.partFormulae.perimeter);
@@ -285,7 +300,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     // }
     $scope.addOrEditPartPreset = function (presetData, action) {
         masterPartService.addOrEditPartPreset(presetData, action, function (data) {
-            if (_.isUndefined(data.error)) {
+            if (data.value) {
                 toastr.success('Record added successfully');
             } else {
                 toastr.error('Enter Part Details Properly');
@@ -316,9 +331,13 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     $scope.addMaterialToPartType = function (selectedMatId, partTypeId) {
         selectedMaterial.push(selectedMatId);
         masterPartService.addMaterialToPartType(selectedMatId, partTypeId, function (data) {
-            toastr.success('Material Added To The PartType Successfully');
+            if (data.value) {
+                toastr.success('Material Added To The PartType Successfully');
+                $scope.getPartTypeSizes(data.data._id);
+            } else {
+                toastr.error('Material is not Added To The PartType');
+            }
             $scope.cancelModal();
-            $scope.getPartTypeSizes(data._id);
         });
     }
 

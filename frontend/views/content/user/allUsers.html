@@ -130,7 +130,10 @@
                         <div class="pull-right">
                             <div class="zui-pager small">
                                 <ol class="btn-group">
-                                    <li class="btn-group__item" ng-disabled="obj.pageNumber == 1" ng-click="getPaginationData(obj.pageNumber - 1, obj.count, keyword)">
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber != 1" >
+                                        <i class="i-chevron-left"></i>
+                                    </li>
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber == 1" ng-click="getPaginationData(obj.pageNumber - 1, obj.count, keyword)">
                                         <i class="i-chevron-left"></i>
                                     </li>
                                     <li class="btn-group__item">
@@ -144,7 +147,10 @@
                                             </select>
                                         </div>
                                     </li>
-                                    <li class="btn-group__item" ng-disabled="obj.pageNumber == numberOfPages" ng-click="getPaginationData(obj.pageNumber + 1, obj.count, keyword)">
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber == obj.numberOfPages" ng-click="getPaginationData(obj.pageNumber + 1, obj.count, keyword)">
+                                        <i class="i-chevron-right"></i>
+                                    </li>
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber != obj.numberOfPages">
                                         <i class="i-chevron-right"></i>
                                     </li>
                                 </ol>

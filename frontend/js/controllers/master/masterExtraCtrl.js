@@ -25,14 +25,14 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   // *************************** functions to be triggered form view begin here ***** // 
   //- modal to create new extra 
   $scope.addOrEditExtraModal = function (operation, extra) {
-
+    
     masterExtraService.getExtraModalData(operation, extra, function (data) {
 
       $scope.formData = data.extra;
       $scope.uoms = data.uoms;
 
-      if (angular.isDefined(data.extra)) {
-        $scope.selectedRateUom = data.extra.rate.uom;
+      if(operation == "update"){
+        $scope.selectedRateUom = extra.rate.uom;
       }
 
       $scope.showSaveBtn = data.saveBtn;
