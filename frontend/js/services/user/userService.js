@@ -7,6 +7,17 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
       callback(data.data);
     });
   }
+  this.checkEmailAvailability = function (obj, callback) {
+    this.getUserData(function (data) {
+      var users = data.results;
+      var temp = false;
+      _.forEach(users, function (user) {
+        if (user.email == obj.email && obj._id != user._id)
+          temp = true;
+      });
+      callback(temp);
+    });
+  }
   //- get user modal data
   this.getUserModalData = function (operation, user, callback) {
     var userDataObj = {};

@@ -123,7 +123,7 @@ var model = {
         };
         MAddonType.find({}).sort({
                 createdAt: -1
-            }).lean().deepPopulate('materialCat materialSubCat')
+            }).lean().deepPopulate('materialCat materialCat.subCat materialSubCat')
             .order(options)
             .keyword(options)
             .page(options,

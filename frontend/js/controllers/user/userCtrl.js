@@ -10,6 +10,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   $scope.bulkUsers = []; //- for multiple records deletion
   $scope.checkAll = false; //- for all records selection
   $scope.checkboxStatus = false; //- for multiple records selection
+  $scope.isEmailIdPresent = false;
   //- for cleave validation
   $scope.options = {
     mobile: {
@@ -32,8 +33,18 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
 
 
   // *************************** functions to be triggered form view begin here ***** //
+  $scope.checkEmailAvailability = function (obj) {
+    userService.checkEmailAvailability(obj, function (data) {
+      if (data) {
+        $scope.isEmailIdPresent = true;
+      } else {
+        $scope.isEmailIdPresent = false;
+      }
+    });
+  }
   //- to add or edit user 
   $scope.addOrEditUserModal = function (operation, user) {
+    $scope.isEmailIdPresent = false;
     userService.getUserModalData(operation, user, function (data) {
       $scope.formData = data.user;
       $scope.showSaveBtn = data.saveBtn;
@@ -52,8 +63,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
   //- to add or edit user
   $scope.addOrEditUser = function (operation, userData) {
     userService.addOrEditUser(operation, userData, function (data) {
-      if (angular.isDefined(data.data)) {
-        $scope.getUserData();
+      if (data.value) {
         $scope.cancelModal();
         if (operation == 'save') {
           toastr.success('Record added successfully');
@@ -63,6 +73,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
       } else {
         toastr.error("Email must be unique");
       }
+      $scope.getUserData();
     });
   }
   //- user deletion modal

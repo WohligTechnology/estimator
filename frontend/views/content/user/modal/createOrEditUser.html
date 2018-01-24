@@ -22,8 +22,9 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Email Id :<b class="error">&nbsp;&nbsp;*</b></label>
                             <div class="col-md-5">
-                                <input type="email" class="form-control" name="email" pattern="[a-z._%+-]+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" ng-disabled="operation=='update'" ng-model="formData.email" placeholder="Enter Email-Id Number" required>
+                                <input type="email" class="form-control" name="email" ng-change="checkEmailAvailability(formData)" pattern="[a-z._%+-]+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"  ng-model="formData.email" placeholder="Enter Email-Id Number" required>
                                 <span class="error" ng-show="myForm.email.$dirty && formData.email.$invalid">Please Enter a valid Email !!!</span>
+                                <b class="error" ng-show="isEmailIdPresent">&nbsp;&nbsp;Email Id is already present</b>
                             </div>
                         </div>
                         <div class="form-group">
@@ -43,8 +44,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine" ng-click="addOrEditUser(operation, formData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine" ng-click="addOrEditUser(operation, formData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="isEmailIdPresent || myForm.$invalid && myForm.$dirty || myForm.$pristine" ng-click="addOrEditUser(operation, formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="isEmailIdPresent || myForm.$invalid && myForm.$dirty || myForm.$pristine" ng-click="addOrEditUser(operation, formData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

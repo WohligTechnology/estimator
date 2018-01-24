@@ -52,7 +52,7 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
   }
   this.createEnquiry = function (enquiryData, callback) {
     NavigationService.apiCall('Enquiry/createEnquiry', enquiryData, function (data) {
-      callback(data.data);
+      callback(data);
     });
   }
   this.saveAssemblyName = function (assName, enquiryId, callback) {
@@ -62,7 +62,7 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     }
 
     NavigationService.apiCall('DraftEstimate/createDraftEstimate', estimateData, function (data) {
-      callback(data.data);
+      callback(data);
     });
   }
   this.getVersionsOfAssNo = function (callback) {
@@ -77,7 +77,7 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     NavigationService.apiCall('Estimate/importAssembly', {"_id":assemblyId}, function (data) {
       var tempObj = data.data.assemblyObj;
       NavigationService.apiCall('DraftEstimate/save', tempObj, function (data1) {
-        callback(data1.data);
+        callback(data1);
       });
     });
   }

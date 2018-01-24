@@ -59,13 +59,17 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   //- add  enquiry data
   $scope.addEnquiryData = function (enquiryData) {
     createOrEditEnquiryService.createEnquiry(enquiryData, function (data) {
-      if ($scope.editPermmission) {
-        toastr.success('Enquiry Updated Successfully');
+      if (data.value) {
+        if ($scope.editPermmission) {
+          toastr.success('Enquiry Updated Successfully');
+        } else {
+          toastr.success('Enquiry Added Successfully');
+          $state.go('app.editEnquiry', {
+            'enquiryId': data.data._id
+          });
+        }
       } else {
-        toastr.success('Enquiry Added Successfully');
-        $state.go('app.editEnquiry', {
-          'enquiryId': data._id
-        });
+        toastr.error('Enquiry is not added/updated');
       }
     });
   }
@@ -109,17 +113,27 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   //- create new assembly
   $scope.saveAssemblyName = function (assName, enquiryId) {
     createOrEditEnquiryService.saveAssemblyName(assName, enquiryId, function (data) {
-      $state.go('app.createEstimate', {
-        'estimateId': data._id
-      });
+      if (data.value) {
+        $state.go('app.createEstimate', {
+          'estimateId': data.data._id
+        });
+        toastr.success(assName + ' Assembly is created successfully');
+      } else {
+        toastr.error('Assembly is not created');
+      }
+
     });
   }
   //- import assembly
   $scope.importAssembly = function (assemblyId) {
     createOrEditEnquiryService.getImportAssemblyData(assemblyId, function (data) {
-      $state.go('app.createEstimate', {
-        'estimateId': data._id,
-      });
+      if (data.value) {
+        $state.go('app.createEstimate', {
+          'estimateId': data.data._id,
+        });
+      } else {
+        toastr.error('Assembly is not imported');
+      }
     });
   }
   //- dismiss current modalInstance
