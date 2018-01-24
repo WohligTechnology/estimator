@@ -1,4 +1,7 @@
 // estimate collection schema
+
+
+
 var schema = new Schema({
     enquiryId: {
         type: Schema.Types.ObjectId,
@@ -489,7 +492,7 @@ var model = {
     //             });
     //             var worksheet2 = workbook.addWorksheet('Sub Assembly');
     //             var worksheet3 = workbook.addWorksheet('Sub Assembly Parts');
-    //             var worksheet4 = workbook.addWorksheet('Part Processing');
+    //             var worksheet1 = workbook.addWorksheet('Part Processing');
     //             var worksheet5 = workbook.addWorksheet('Part Addons');
     //             var worksheet6 = workbook.addWorksheet('Part Extras');
     //             var worksheet7 = workbook.addWorksheet('Sub Assembly Processing');
@@ -811,7 +814,7 @@ var model = {
     //                         function (callback) {
     //                             async.eachSeries(part.processing, function (proObj, callback) {
     //                                 // tempProObj.processingObj = proObj;
-    //                                 worksheet4.columns = [
+    //                                 worksheet1.columns = [
     //                                     // {
     //                                     //     header: 'processingLevel',
     //                                     //     key: 'processingLevel',
@@ -871,7 +874,7 @@ var model = {
 
     //                                 ];
 
-    //                                 worksheet4.addRow({
+    //                                 worksheet1.addRow({
     //                                     // processingLevel: proObj.processingLevel,
     //                                     processingLevelId: proObj.processingLevelId,
     //                                     processingNumber: proObj.processingNumber,
@@ -1596,5 +1599,837 @@ var model = {
 
     //     });
     // },
+
+
+    generateDraftEstExcel: function (data, callback) {
+        Estimate.findOne({
+            _id: data._id
+        }).lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                var workbook = new Excel.Workbook();
+
+                var finalExcelObj = {
+                    assemblySheet: [],
+                    enquirySheet: {},
+                    subAssembliesSheets: [],
+                    partSheet: []
+                }
+
+                var tempPartSheetArrays = [];
+
+                async.auto({
+                        part: function (callback) {
+                            var worksheet1 = workbook.addWorksheet('Part Records');
+                            worksheet1.columns = [{
+                                    // header: 'Sub Assembly Number',
+                                    key: '',
+                                    width: 17
+                                }, {
+                                    // header: 'Sub Assembly Number',
+                                    key: 'Part Qty.(Nos.)',
+                                    width: 17
+                                }, {
+                                    // header: 'SA Qty (Nos.)',
+                                    key: 'Part Name',
+                                    width: 20
+                                },
+                                {
+                                    // header: 'SA name',
+                                    key: 'PartNumber',
+                                    width: 24
+                                },
+                                {
+                                    // header: 'Unit details',
+                                    key: 'Material',
+                                    width: 20,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'Type',
+                                    width: 20,
+                                },
+
+                                {
+                                    // header: '',
+                                    key: 'Category/Sub-Cat',
+                                    width: 25,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'Item',
+                                    width: 30,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'PartUnitdetails.QuantityWithinPart.Value',
+                                    width: 10,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'PartUnitdetails.QuantityWithinPart.UOM',
+                                    width: 15,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'PartUnitdetails.Part.Weight(kg)',
+                                    width: 15,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'PartUnitdetails.Part.Cost(Rs.)',
+                                    width: 15,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'PartUnitDetails.ProcessingCost(Rs.)',
+                                    width: 20,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'PartUnitDetails.Addons.Weight(Kg)',
+                                    width: 20,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'PartUnitDetails.Addons.Cost(Rs)',
+                                    width: 20,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'PartUnitDetails.ExtraCost(Rs)',
+                                    width: 20,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'PartUnitTotal.Weight(Kg)',
+                                    width: 20,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'PartUnitTotal.Cost(kg)',
+                                    width: 15,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'QuantityTotal.Weighth(Kg.)',
+                                    width: 20,
+                                },
+                                {
+                                    // header: '',
+                                    key: 'QuantityTotal.Cost(Rs)',
+                                    width: 15,
+                                }
+                            ];
+                            // worksheet1.getCell('A3').value = '';
+
+                            worksheet1.mergeCells('B2', 'B4');
+                            worksheet1.getCell('B3').value = 'Part Qty.(Nos.)';
+                            worksheet1.getCell('B3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('C2', 'C4');
+                            worksheet1.getCell('C3').value = 'Part Name';
+                            worksheet1.getCell('C3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('D2', 'D4');
+                            worksheet1.getCell('D3').value = 'PartNumber';
+                            worksheet1.getCell('D3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('E2', 'E4');
+                            worksheet1.getCell('E3').value = 'Material';
+                            worksheet1.getCell('E3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('F2', 'F4');
+                            worksheet1.getCell('F3').value = 'Type';
+                            worksheet1.getCell('F3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('G2', 'G4');
+                            worksheet1.getCell('G3').value = 'Category/Sub-Cat';
+                            worksheet1.getCell('G3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('H2', 'H4');
+                            worksheet1.getCell('H3').value = 'Item';
+                            worksheet1.getCell('H3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('I2', 'P2');
+                            worksheet1.getCell('I2').value = '                                                 Part Unit Details';
+                            worksheet1.getCell('I2').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('I3', 'J3');
+                            worksheet1.getCell('I3').value = '               Quantity Within Part';
+                            worksheet1.getCell('I3').font = {
+                                bold: true
+                            };
+                            worksheet1.getCell('I4').value = 'Value';
+                            worksheet1.getCell('I4').font = {
+                                bold: true
+                            };
+                            worksheet1.getCell('J4').value = 'UOM';
+                            worksheet1.getCell('J4').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('K3', 'L3');
+                            worksheet1.getCell('K3').value = '                        Part';
+                            worksheet1.getCell('K3').font = {
+                                bold: true
+                            };
+                            worksheet1.getCell('K4').value = 'Weight(kg)';
+                            worksheet1.getCell('K4').font = {
+                                bold: true
+                            };
+                            worksheet1.getCell('L4').value = 'Cost(Rs.)';
+                            worksheet1.getCell('L4').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('M3', 'M4');
+                            worksheet1.getCell('M4').value = 'Processing Cost(Rs.)';
+                            worksheet1.getCell('M4').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('N3', 'O3');
+                            worksheet1.getCell('N3').value = '                                     Addons';
+                            worksheet1.getCell('N3').font = {
+                                bold: true
+                            };
+                            worksheet1.getCell('N4').value = 'Weight(kg)';
+                            worksheet1.getCell('N4').font = {
+                                bold: true
+                            };
+                            worksheet1.getCell('O4').value = 'Cost(Rs.)';
+                            worksheet1.getCell('O4').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('P3', 'P4');
+                            worksheet1.getCell('P3').value = 'Extra Cost(Rs.)';
+                            worksheet1.getCell('P3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('Q2', 'R2');
+                            worksheet1.getCell('R2').value = '                       Part Unit Total';
+                            worksheet1.getCell('R2').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('Q3', 'Q4');
+                            worksheet1.getCell('Q3').value = 'Weight(Kg)';
+                            worksheet1.getCell('Q3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('R3', 'R4');
+                            worksheet1.getCell('R3').value = 'Cost(Rs.)';
+                            worksheet1.getCell('R3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('S2', 'T2');
+                            worksheet1.getCell('S2').value = '                   Quantity Total';
+                            worksheet1.getCell('S2').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('S3', 'S4');
+                            worksheet1.getCell('S3').value = 'Weight(kg)';
+                            worksheet1.getCell('S3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('T3', 'T4');
+                            worksheet1.getCell('T3').value = 'Cost(Rs.)';
+                            worksheet1.getCell('T3').font = {
+                                bold: true
+                            };
+
+                            // finalExcelObj.count = 0;
+                            var partTotalDetailTempRow = {
+                                partQty: 0,
+                                partName: "",
+                                partNum: "",
+                                material: "",
+                                type: "Part Total",
+                                catSubCat: "",
+
+                                item: "",
+                                value: 0,
+                                uom: "",
+                                weight: 0,
+                                partCost: 0,
+                                processingCost: 0,
+
+                                addonWeight: 0,
+                                addonCost: 0,
+                                extraCost: 0,
+                                partUnitWeight: 0,
+                                partUnitCost: 0,
+                                partQtyWeight: 0,
+                                partQtyCost: 0
+
+                            };
+
+                            async.eachSeries(found.assemblyObj.subAssemblies, function (subAss, callback) {
+                                async.eachSeries(subAss.subAssemblyParts, function (subAssPart, callback) {
+                                    partTotalDetailTempRow.partName = subAssPart.partName;
+                                    partTotalDetailTempRow.partQty = subAssPart.quantity;
+                                    partTotalDetailTempRow.partNum = subAssPart.partNumber;
+
+                                    var partExcelArray = [];
+                                    MMaterial.findOne({
+                                        _id: subAssPart.material
+                                    }).populate('materialSubCategory').lean().exec(function (err, materialSubCatName) {
+                                        if (err) {
+                                            console.log('**** error at function_name of Estimate.js ****', err);
+                                            callback(err, null);
+                                        } else if (_.isEmpty(materialSubCatName)) {
+                                            callback(null, []);
+                                        } else {
+                                            partExcelObj = {
+                                                "Part Qty.(Nos.)": "",
+                                                "Part Name": "",
+                                                "PartNumber": "",
+                                                "Material": "",
+                                                "Type": "Part",
+                                                "Category/Sub-Cat": materialSubCatName.materialSubCategory.materialSubCatName,
+                                                "Item": materialSubCatName.materialName,
+                                                "PartUnitdetails.QuantityWithinPart.Value": subAssPart.quantity,
+                                                "PartUnitdetails.QuantityWithinPart.UOM": "",
+                                                "PartUnitdetails.Part.Weight(kg)": subAssPart.keyValueCalculations.weight,
+                                                "PartUnitdetails.Part.Cost(Rs.)": subAssPart.finalCalculation.itemUnitPrice,
+                                                "PartUnitDetails.ProcessingCost(Rs.)": "",
+                                                "PartUnitDetails.Addons.Weight(Kg)": "",
+                                                "PartUnitDetails.Addons.Cost(Rs)": "",
+                                                "PartUnitDetails.ExtraCost(Rs)": "",
+                                                "PartUnitTotal.Weight(Kg)": "",
+                                                "PartUnitTotal.Cost(kg)": "",
+                                                "QuantityTotal.Weighth(Kg.)": "",
+                                                "QuantityTotal.Cost(Rs)": ""
+                                            };
+                                            partExcelArray.push(partExcelObj);
+                                            async.waterfall([
+                                                    //- part processing operation
+                                                    function (callback) {
+                                                        partTotalDetailTempRow.processingCost = 0;
+                                                        async.eachSeries(subAssPart.processing, function (partProc, callback) {
+                                                            MProcessItem.findOne({
+                                                                _id: partProc.processItem
+                                                            }).select('processItemName').lean().exec(function (err, proItemName) {
+                                                                if (err) {
+                                                                    console.log('**** error at function_name of Estimate.js ****', err);
+                                                                    callback(err, null);
+                                                                } else if (_.isEmpty(proItemName)) {
+                                                                    callback(null, []);
+                                                                } else {
+                                                                    MProcessType.findOne({
+                                                                        _id: partProc.processType
+                                                                    }).deepPopulate('processCat quantity.finalUom').lean().exec(function (err, partProcessTypeData) {
+                                                                        if (err) {
+                                                                            console.log('**** error at function_name of Estimate.js ****', err);
+                                                                            callback(err, null);
+                                                                        } else if (_.isEmpty(partProcessTypeData)) {
+                                                                            callback(null, []);
+                                                                        } else {
+                                                                            var partProUomId = partProcessTypeData.quantity.finalUom._id;
+                                                                            MUom.findOne({
+                                                                                _id: partProUomId
+                                                                            }).select('uomName').lean().exec(function (err, proUom) {
+                                                                                if (err) {
+                                                                                    console.log('**** error at function_name of Estimate.js ****', err);
+                                                                                    callback(err, null);
+                                                                                } else if (_.isEmpty(proUom)) {
+                                                                                    callback(null, 'noDataFound');
+                                                                                } else {
+                                                                                    processingTotalCost = partProc.totalCost * partProc.quantity.totalQuantity;
+                                                                                    partTotalDetailTempRow.processingCost = partTotalDetailTempRow.processingCost + processingTotalCost;
+
+                                                                                    // proCatName = partProcessTypeData.processCat.processCatName;
+                                                                                    partProExcelObj = {
+                                                                                        "Part Qty.(Nos.)": "",
+                                                                                        "Part Name": "",
+                                                                                        "PartNumber": "",
+                                                                                        "Material": "",
+                                                                                        "Type": "Processing",
+                                                                                        "Category/Sub-Cat": partProcessTypeData.processCat.processCatName,
+                                                                                        "Item": proItemName.processItemName,
+                                                                                        "PartUnitdetails.QuantityWithinPart.Value": partProc.quantity.total,
+                                                                                        "PartUnitdetails.QuantityWithinPart.UOM": proUom.uomName,
+                                                                                        "PartUnitdetails.Part.Weight(kg)": "",
+                                                                                        "PartUnitdetails.Part.Cost(Rs.)": "",
+                                                                                        "PartUnitDetails.ProcessingCost(Rs.)": processingTotalCost,
+                                                                                        "PartUnitDetails.Addons.Weight(Kg)": "",
+                                                                                        "PartUnitDetails.Addons.Cost(Rs)": "",
+                                                                                        "PartUnitDetails.ExtraCost(Rs)": "",
+                                                                                        "PartUnitTotal.Weight(Kg)": "",
+                                                                                        "PartUnitTotal.Cost(kg)": "",
+                                                                                        "QuantityTotal.Weighth(Kg.)": "",
+                                                                                        "QuantityTotal.Cost(Rs)": ""
+                                                                                    };
+                                                                                    partExcelArray.push(partProExcelObj);
+                                                                                    callback();
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+                                                        }, function (err) {
+                                                            if (err) {
+                                                                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                                            } else {
+                                                                callback(null, "done");
+                                                            }
+                                                        });
+                                                    },
+                                                    //- part addons operation
+                                                    function (dsds, callback) {
+                                                        partTotalDetailTempRow.addonCost = 0;
+                                                        partTotalDetailTempRow.addonWeight = 0;
+                                                        async.eachSeries(subAssPart.addons, function (partAddons, callback) {
+                                                            MAddonType.findOne({
+                                                                _id: partAddons.addonType
+                                                            }).deepPopulate('materialSubCat').lean().exec(function (err, addMatSubCatName) {
+                                                                var addonMaterialSubCatName = addMatSubCatName.materialSubCat.materialSubCatName;
+                                                                if (err) {
+                                                                    console.log('**** error at function_name of Estimate.js ****', err);
+                                                                    callback(err, null);
+                                                                } else if (_.isEmpty(addMatSubCatName)) {
+                                                                    callback(null, 'noDataFound');
+                                                                } else {
+                                                                    MUom.findOne({
+                                                                        _id: addMatSubCatName.rate.uom
+                                                                    }).lean().exec(function (err, addUom) {
+                                                                        if (err) {
+                                                                            console.log('**** error at function_name of Estimate.js ****', err);
+                                                                            callback(err, null);
+                                                                        } else if (_.isEmpty(addUom)) {
+                                                                            callback(null, []);
+                                                                        } else {
+                                                                            MMaterial.findOne({
+                                                                                _id: partAddons.addonItem
+                                                                            }).select('materialName weightPerUnit').lean().exec(function (err, addonsMatName) {
+                                                                                if (err) {
+                                                                                    console.log('**** error at function_name of Estimate.js ****', err);
+                                                                                    callback(err, null);
+                                                                                } else if (_.isEmpty(found)) {
+                                                                                    callback(null, 'noDataFound');
+                                                                                } else {
+
+                                                                                    //- calculation of part addon unit cost
+                                                                                    partTotalCost = partAddons.quantity.total * partAddons.totalCost;
+
+                                                                                    partTotalDetailTempRow.addonCost = partTotalDetailTempRow.addonCost + partTotalCost;
+
+                                                                                    partTotalDetailTempRow.addonWeight = partTotalDetailTempRow.addonWeight + addonsMatName.weightPerUnit;
+
+                                                                                    partAddonsExcelObj = {
+                                                                                        "Part Qty.(Nos.)": "",
+                                                                                        "Part Name": "",
+                                                                                        "PartNumber": "",
+                                                                                        "Material": "",
+                                                                                        "Type": "Addon",
+                                                                                        "Category/Sub-Cat": addonMaterialSubCatName,
+                                                                                        "Item": addonsMatName.materialName,
+                                                                                        "PartUnitdetails.QuantityWithinPart.Value": partAddons.quantity.total,
+                                                                                        "PartUnitdetails.QuantityWithinPart.UOM": addUom.uomName,
+                                                                                        "PartUnitdetails.Part.Weight(kg)": "",
+                                                                                        "PartUnitdetails.Part.Cost(Rs.)": "",
+                                                                                        "PartUnitDetails.ProcessingCost(Rs.)": "",
+                                                                                        "PartUnitDetails.Addons.Weight(Kg)": addonsMatName.weightPerUnit,
+                                                                                        "PartUnitDetails.Addons.Cost(Rs)": partTotalCost,
+                                                                                        "PartUnitDetails.ExtraCost(Rs)": "",
+                                                                                        "PartUnitTotal.Weight(Kg)": "",
+                                                                                        "PartUnitTotal.Cost(kg)": "",
+                                                                                        "QuantityTotal.Weighth(Kg.)": "",
+                                                                                        "QuantityTotal.Cost(Rs)": ""
+                                                                                    };
+                                                                                    partExcelArray.push(partAddonsExcelObj);
+                                                                                    callback();
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+
+                                                        }, function (err) {
+                                                            if (err) {
+                                                                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                                            } else {
+                                                                callback(null, "done");
+                                                            }
+                                                        });
+                                                    },
+                                                    //-part extras operation
+                                                    function (sdsd, callback) {
+                                                        partTotalDetailTempRow.extraCost = 0;
+                                                        async.eachSeries(subAssPart.extras, function (partExtras, callback) {
+                                                            MExtra.findOne({
+                                                                _id: partExtras.extraItem
+                                                            }).deepPopulate('extraItem').lean().exec(function (err, extrasItem) {
+                                                                if (err) {
+                                                                    console.log('**** error at function_name of Estimate.js ****', err);
+                                                                    callback(err, null);
+                                                                } else if (_.isEmpty(extrasItem)) {
+                                                                    callback(null, 'noDataFound');
+                                                                } else {
+                                                                    MUom.findOne({
+                                                                        _id: extrasItem.rate.uom
+                                                                    }).lean().exec(function (err, extraUom) {
+                                                                        if (err) {
+                                                                            console.log('**** error at function_name of Estimate.js ****', err);
+                                                                            callback(err, null);
+                                                                        } else if (_.isEmpty(extraUom)) {
+                                                                            callback(null, 'noDataFound');
+                                                                        } else {
+                                                                            var extraTotalCost = partExtras.totalCost * partExtras.quantity;
+                                                                            partTotalDetailTempRow.extraCost = partTotalDetailTempRow.extraCost + extraTotalCost;
+                                                                            partExtrasExcelObj = {
+                                                                                "Part Qty.(Nos.)": "",
+                                                                                "Part Name": "",
+                                                                                "PartNumber": "",
+                                                                                "Material": "",
+                                                                                "Type": "Extra",
+                                                                                "Category/Sub-Cat": "",
+                                                                                "Item": extrasItem.extraName,
+                                                                                "PartUnitdetails.QuantityWithinPart.Value": partExtras.quantity,
+                                                                                "PartUnitdetails.QuantityWithinPart.UOM": extraUom.uomName,
+                                                                                "PartUnitdetails.Part.Weight(kg)": "",
+                                                                                "PartUnitdetails.Part.Cost(Rs.)": "",
+                                                                                "PartUnitDetails.ProcessingCost(Rs.)": "",
+                                                                                "PartUnitDetails.Addons.Weight(Kg)": "",
+                                                                                "PartUnitDetails.Addons.Cost(Rs)": "",
+                                                                                "PartUnitDetails.ExtraCost(Rs)": extraTotalCost,
+                                                                                "PartUnitTotal.Weight(Kg)": "",
+                                                                                "PartUnitTotal.Cost(kg)": "",
+                                                                                "QuantityTotal.Weighth(Kg.)": "",
+                                                                                "QuantityTotal.Cost(Rs)": ""
+                                                                            };
+                                                                            partExcelArray.push(partExtrasExcelObj);
+                                                                            callback();
+                                                                        }
+
+                                                                    });
+
+                                                                }
+                                                            });
+                                                        }, function (err) {
+                                                            if (err) {
+                                                                console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                                            } else {
+                                                                callback(null, "done");
+                                                            }
+                                                        });
+                                                    }
+                                                ],
+                                                function (err, finalResults) {
+                                                    if (err) {
+                                                        console.log('********** error at final response of async.parallel  Estimate.js ************', err);
+                                                        callback(err, null);
+                                                    } else if (_.isEmpty(finalResults)) {
+                                                        callback();
+                                                    } else {
+                                                        partTotalDetailTempRow.partUnitWeight = 0;
+
+                                                        //-part unit total weight calculation
+                                                        partTotalDetailTempRow.partUnitWeight = subAssPart.keyValueCalculations.weight + partTotalDetailTempRow.addonWeight;
+
+                                                        partTotalDetailTempRow.partUnitCost = 0;
+
+                                                        //-part unit total cost calculation
+                                                        partTotalDetailTempRow.partUnitCost = subAssPart.finalCalculation.itemUnitPrice + partTotalDetailTempRow.processingCost +
+                                                            partTotalDetailTempRow.addonCost + partTotalDetailTempRow.extraCost
+
+                                                        //- part qunaityty total cost calculation
+                                                        partTotalDetailTempRow.partQtyCost = 0;
+                                                        partTotalDetailTempRow.partQtyCost = partTotalDetailTempRow.partUnitCost * partTotalDetailTempRow.partQty;
+
+                                                        //-part qunaityty total wieght calculation
+                                                        partTotalDetailTempRow.partQtyWeight = 0;
+                                                        partTotalDetailTempRow.partQtyWeight = partTotalDetailTempRow.partUnitWeight * partTotalDetailTempRow.partQty;
+
+                                                        var partTotalDetailFinalRow = {
+                                                            "Part Qty.(Nos.)": partTotalDetailTempRow.partQty,
+                                                            "Part Name": partTotalDetailTempRow.partName,
+                                                            "PartNumber": partTotalDetailTempRow.partNum,
+                                                            "Material": materialSubCatName.materialName,
+                                                            "Type": "Part Total",
+                                                            "Category/Sub-Cat": "",
+                                                            "Item": "",
+                                                            "PartUnitdetails.QuantityWithinPart.Value": "",
+                                                            "PartUnitdetails.QuantityWithinPart.UOM": "",
+                                                            "PartUnitdetails.Part.Weight(kg)": subAssPart.keyValueCalculations.weight,
+                                                            "PartUnitdetails.Part.Cost(Rs.)": subAssPart.finalCalculation.itemUnitPrice,
+                                                            "PartUnitDetails.ProcessingCost(Rs.)": partTotalDetailTempRow.processingCost,
+                                                            "PartUnitDetails.Addons.Weight(Kg)": partTotalDetailTempRow.addonWeight,
+                                                            "PartUnitDetails.Addons.Cost(Rs)": partTotalDetailTempRow.addonCost,
+                                                            "PartUnitDetails.ExtraCost(Rs)": partTotalDetailTempRow.extraCost,
+                                                            "PartUnitTotal.Weight(Kg)": partTotalDetailTempRow.partUnitWeight,
+                                                            "PartUnitTotal.Cost(kg)": partTotalDetailTempRow.partUnitCost,
+                                                            "QuantityTotal.Weighth(Kg.)": partTotalDetailTempRow.partQtyWeight,
+                                                            "QuantityTotal.Cost(Rs)": partTotalDetailTempRow.partQtyCost
+                                                        };
+                                                        // partTotalDetailFinalRow.partName.push(partTotalDetailTempRow.partName);
+
+                                                        //  var partTotalDetailFinalRowArray = [];
+                                                        //- pushing partTotalDetailFinalRow
+                                                        tempPartSheetArrays.push(partTotalDetailFinalRow);
+
+                                                        worksheet1.addRow(partTotalDetailFinalRow);
+
+                                                        //- pushing part Detail Array, processing Array, addon array, extra array
+                                                        //  tempPartSheetArrays.push(partExcelArray);
+
+                                                        _.map(partExcelArray, function (p) {
+                                                            worksheet1.addRow(p);
+                                                            tempPartSheetArrays.push(p);
+                                                        });
+                                                        worksheet1.addRow({
+                                                            "": ""
+                                                        });
+                                                        worksheet1.addRow({
+                                                            "": ""
+                                                        });
+
+                                                        finalExcelObj.partSheet.push(tempPartSheetArrays);
+                                                        tempPartSheetArrays = [];
+
+                                                        workbook.xlsx.writeFile('./EstimateSheet.xlsx').then(function () {
+                                                            console.log('Part sheet is written');
+                                                            callback();
+                                                        });
+                                                    }
+                                                });
+                                        }
+                                    });
+
+
+                                }, function (err) {
+                                    if (err) {
+                                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                    } else {
+                                        callback();
+                                    }
+                                });
+                            }, function (err) {
+                                if (err) {
+                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                } else {
+                                    callback(null, finalExcelObj.partSheet);
+                                }
+                            });
+                        },
+
+                        // -Operation to generate excel sheets for Sub Assembly.
+                        subAss: ['part', function (partObj, callback) {
+                            console.log('**** ######### ****', partObj);
+                            async.eachSeries(found.assemblyObj.subAssemblies, function (subAssObj, callback) {
+
+                                var subSheetName = subAssObj.subAssemblyName;
+                                var subAssemblyNumber = subAssObj.subAssemblyNumber;
+
+                                var worksheet = workbook.addWorksheet(subSheetName);
+                                worksheet.getCell('A2').value = 'Sub Assembly Number';
+                                worksheet.getCell('A2').font = {
+                                    bold: true
+                                };
+                                worksheet.getCell('B2').value = subAssemblyNumber;
+
+                                worksheet.columns = [{
+                                        // header: 'SA Qty (Nos.)',
+                                        key: '',
+                                        width: 20
+                                    }, {
+                                        // header: 'SA Qty (Nos.)',
+                                        key: 'Part Qty. (Nos.)',
+                                        width: 15
+                                    },
+                                    {
+                                        // header: 'SA name',
+                                        key: 'Part Name',
+                                        width: 15
+                                    },
+                                    {
+                                        // header: 'Unit details',
+                                        key: 'Unit details.Part Total.Weight(kg)',
+                                        width: 15,
+                                    },
+                                    {
+                                        // header: '',
+                                        key: 'Unit details.Part Total.Cost(Rs)',
+                                        width: 10,
+                                    },
+                                    {
+                                        // header: '',
+                                        key: 'Unit details.Processing Cost(Rs.)',
+                                        width: 20,
+                                    },
+                                    {
+                                        // header: '',
+                                        key: 'Unit details.Addons.Weight(kg)',
+                                        width: 15,
+                                    },
+                                    {
+                                        // header: '',
+                                        key: 'Unit details.Addons.Cost(kg)',
+                                        width: 10,
+                                    },
+                                    {
+                                        // header: '',
+                                        key: 'Unit details.Extra Cost(Rs.)',
+                                        width: 15,
+                                    },
+                                    {
+                                        // header: '',
+                                        key: 'Part Unit Total.Weight(kg)',
+                                        width: 10,
+                                    },
+                                    {
+                                        // header: '',
+                                        key: 'Part Unit Total.Cost(Rs.)',
+                                        width: 10,
+                                    },
+                                    {
+                                        // header: '',
+                                        key: 'Part Quantity Total.Weight(kg)',
+                                        width: 15,
+                                    },
+                                    {
+                                        // header: '',
+                                        key: 'Part Quantity Total.Cost(Rs.',
+                                        width: 15,
+                                    }
+                                ];
+
+                                worksheet.mergeCells('B4', 'B6');
+                                worksheet.getCell('B5').value = 'Part Qty (Nos.)';
+
+                                worksheet.getCell('B5').font = {
+                                    bold: true
+                                };
+
+                                worksheet.mergeCells('C4', 'C6');
+                                worksheet.getCell('C5').value = 'Part name';
+                                worksheet.getCell('C5').font = {
+                                    bold: true
+                                };
+
+                                worksheet.mergeCells('D4', 'I4');
+                                worksheet.getCell('D4').font = {
+                                    bold: true
+                                };
+
+                                // worksheet1.getCell('G1').value = 'Unit Details';
+
+                                worksheet.mergeCells('D5', 'E5');
+                                worksheet.getCell('D5').value = '           Part Total';
+                                worksheet.getCell('D5').font = {
+                                    bold: true
+                                };
+
+                                worksheet.getCell('D6').value = 'Weight(kg)';
+                                worksheet.getCell('D6').font = {
+                                    bold: true
+                                };
+
+                                worksheet.getCell('E6').value = 'Cost(Rs)';
+                                worksheet.getCell('E6').font = {
+                                    bold: true
+                                };
+
+                                worksheet.mergeCells('F5', 'F6');
+                                worksheet.getCell('F5').value = 'Processing Cost(Rs.)';
+                                worksheet.getCell('F5').font = {
+                                    bold: true
+                                };
+
+                                worksheet.mergeCells('G5', 'H5');
+                                worksheet.getCell('G5').value = '                Addons';
+                                worksheet.getCell('G5').font = {
+                                    bold: true
+                                };
+
+                                worksheet.getCell('G6').value = 'Weight(kg)';
+                                worksheet.getCell('G6').font = {
+                                    bold: true
+                                };
+
+                                worksheet.getCell('H6').value = 'Cost(Rs)';
+                                worksheet.getCell('H6').font = {
+                                    bold: true
+                                };
+
+                                worksheet.mergeCells('I5', 'I6');
+                                worksheet.getCell('I5').value = 'Extra Cost(Rs.)';
+                                worksheet.getCell('I5').font = {
+                                    bold: true
+                                };
+
+                                worksheet.mergeCells('J4', 'K4');
+                                worksheet.getCell('J4').value = '         Part Unit Total';
+                                worksheet.getCell('J4').font = {
+                                    bold: true
+                                };
+
+                                worksheet.mergeCells('J5', 'J6');
+                                worksheet.getCell('J5').value = 'Weight(kg)';
+                                worksheet.getCell('J5').font = {
+                                    bold: true
+                                };
+
+                                worksheet.mergeCells('K5', 'K6');
+                                worksheet.getCell('K5').value = 'Cost(Rs.)';
+                                worksheet.getCell('K5').font = {
+                                    bold: true
+                                };
+
+                                worksheet.mergeCells('L5', 'L6');
+                                worksheet.getCell('L5').value = 'Weight(kg)';
+                                worksheet.getCell('L5').font = {
+                                    bold: true
+                                };
+
+                                worksheet.mergeCells('L4', 'M4');
+                                worksheet.getCell('L4').value = '        Part Quantity Total';
+                                worksheet.getCell('L4').font = {
+                                    bold: true
+                                };
+
+                                worksheet.mergeCells('M5', 'M6');
+                                worksheet.getCell('M5').value = 'Cost(Rs.)';
+                                worksheet.getCell('M5').font = {
+                                    bold: true
+                                };
+
+                                worksheet.getCell('D4').value = '                                                                       Unit details';
+                                worksheet.getCell('D4').font = {
+                                    bold: true
+                                };
+                                console.log('**** ============ ****', subAssObj);
+                                workbook.xlsx.writeFile('./EstimateSheet.xlsx').then(function () {
+                                    console.log('SA sheets are written');
+                                    callback();
+                                });
+                            }, function (err) {
+                                if (err) {
+                                    console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                                } else {
+                                    callback();
+                                }
+                            });
+                        }],
+                    },
+                    function (err, results) {
+                        // console.log('**** inside final success/response of User.js ****', results);
+                        callback(null, finalExcelObj);
+                    });
+            }
+        });
+
+    },
 };
 module.exports = _.assign(module.exports, exports, model);
