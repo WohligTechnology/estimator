@@ -113,7 +113,7 @@
                                     <label class="col-md-2 control-label">Shape :</label>
                                     <div class="col-md-2">
                                         <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape"
-                                            ng-change="showSelectedShapeData(selectedShape)" ng-disabled="selectedShape != null">
+                                            ng-change="showSelectedShapeData(selectedShape)">
                                         </select>
                                     </div>
                                     <label class="col-md-2 control-label">Part Type Code :</label>
@@ -146,30 +146,6 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">Thickness (t)</label>
-                                            <div class="col-md-3">
-                                                <input type="text" class="form-control" ng-model="presetFormData.thickness">
-                                            </div>
-                                            <label class="col-md-3 control-label">Length (L)</label>
-                                            <div class="col-md-3">
-                                                <input type="text" class="form-control " ng-model="presetFormData.length">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Wastage (wtg)</label>
-                                            <div class="col-md-3">
-                                                <input type="text" class="form-control " ng-model="presetFormData.wastage">
-                                            </div>
-                                            <label class="col-md-3 control-label">Form Factor (ff)</label>
-                                            <div class="col-md-3">
-                                                <input type="text" class="form-control " ng-model="presetFormData.formFactor">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Size Factor (sf)</label>
-                                            <div class="col-md-3">
-                                                <input type="text" class="form-control " ng-model="presetFormData.sizeFactor">
-                                            </div>
                                             <label class="col-md-3 control-label">Preset Shortcut</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control " ng-model="presetFormData.presetName" required>
@@ -224,7 +200,7 @@
                                     <label class="col-md-2 control-label">Shape :</label>
                                     <div class="col-md-2">
                                         <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape"
-                                            ng-change="showSelectedShapeData(selectedShape)" ng-disabled="true">
+                                            ng-change="showSelectedShapeData(selectedShape)">
                                         </select>
                                     </div>
                                     <label class="col-md-2 control-label">Part Type Code :</label>
