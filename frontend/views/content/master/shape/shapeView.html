@@ -9,7 +9,9 @@
         <form class="form-horizontal" name="myForm">
             <div class="form-body">
                 <div class="form-group">
-                    <label class="col-md-2 control-label">Shape Name: <span class="error">&nbsp;*</span> </label>
+                    <label class="col-md-2 control-label">Shape Name:
+                        <span class="error">&nbsp;*</span>
+                    </label>
                     <div class="col-md-4">
                         <input type="text" ng-model="formData.shapeName" class="form-control input-circle" required autofocus>
                     </div>
@@ -20,30 +22,100 @@
                 </div>
                 <hr>
                 <div class="form-group">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div>
                             <!-- <img src="img/Doraemon.png" alt="" class=" img-responsive"> -->
                             <upload-all-files ng-model="formData.image.file" pdf-file="true" icon="false" file-location="top"></upload-all-files>
                         </div>
-                        <div class="displayBlock pull-left">Global Variables : <br>
-                            <br>Size Factor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>sf</strong> 
-                            <br>Form Factor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>ff</strong> 
-                            <br>Thickness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>t</strong> 
-                            <br>Length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>l</strong> 
-                            <br>Wastage &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>wtg</strong> 
-
-                            <br>Perimeter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>p</strong>
-                            <br>Sheet Metal Area &nbsp;&nbsp;&nbsp;:&nbsp; <strong>sma</strong> 
-                            <br>Surface Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>sa</strong> 
-                            <br>Weight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>wt</strong> 
-                            <br>Density&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>den</strong> 
-                            <br>Rolling Index &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>ri</strong>
-                            <br>Cutting Index &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>ci</strong>
-                            <br>Bending Index &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>bi</strong>
-                            <br>Fabrication Index &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <strong>fi</strong>
+                        <div class="displayBlock pull-left">Global Variables :
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>varName</th>
+                                        <th>Alias</th>
+                                        <th>Unit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Size Factor</td>
+                                        <td>sf</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Form Factor</td>
+                                        <td>ff</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thickness</td>
+                                        <td>t</td>
+                                        <td>mm</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Length</td>
+                                        <td>l</td>
+                                        <td>m</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Wastage</td>
+                                        <td>wtg</td>
+                                        <td>%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Perimeter</td>
+                                        <td>p</td>
+                                        <td>m</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sheet Metal Area</td>
+                                        <td>sma</td>
+                                        <td>m</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Surface Area</td>
+                                        <td>sa</td>
+                                        <td>m</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Weight</td>
+                                        <td>wt</td>
+                                        <td>kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Density</td>
+                                        <td>den</td>
+                                        <td>
+                                            <span>g/cm
+                                                <sup>3</sup>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rolling Index </td>
+                                        <td>ri</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cutting Index</td>
+                                        <td>ci</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bending Index</td>
+                                        <td>bi</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fabrication Index</td>
+                                        <td>fi</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <div class="form-group">
                             <label>
                                 <b>Variables:</b>
@@ -57,96 +129,119 @@
                                         {{var.varName}}
                                         <input type="checkbox" id="checkbox-f" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
                                             ng-checked="var.checkboxStatus" ng-model="checkedVariable">
-                                         -->                                      
+                                         -->
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">{{var.varName}}
                                             <input type="checkbox" id="checkAll" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
-                                                ng-checked="var.checkboxStatus" ng-model="checkedVariable"  />
+                                                ng-checked="var.checkboxStatus" ng-model="checkedVariable" />
                                             <span></span>
                                         </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                       <hr><br>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Size Factor (sf) <span class="error">&nbsp;*</span> </label>
+                            <label class="col-md-2 control-label">Size Factor (sf)
+                                <span class="error">&nbsp;*</span>
+                            </label>
                             <div class="col-md-3">
-                                <input type="text" name="sizeFactor" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.sizeFactor" placeholder=""  required>
+                                <input type="text" name="sizeFactor" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.sizeFactor"
+                                    placeholder="" required>
                                 <span class="error" ng-show="myForm.sizeFactor.$invalid && myForm.sizeFactor.$dirty">Please enter a number or floating point number</span>
                             </div>
-                            <label class="col-md-3 control-label">Form Factor (ff) <span class="error">&nbsp;*</span> </label>
+                            <label class="col-md-3 control-label">Form Factor (ff)
+                                <span class="error">&nbsp;*</span>
+                            </label>
                             <div class="col-md-3">
-                                <input type="text" name="formFactor" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.formFactor" placeholder=""  required>
+                                <input type="text" name="formFactor" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.formFactor"
+                                    placeholder="" required>
                                 <span class="error" ng-show="!myForm.formFactor.$valid && myForm.formFactor.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Thickness (t)</label>
                             <div class="col-md-3">
-                                <input type="text" name="thickness" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.thickness" placeholder="" >
+                                <input type="text" name="thickness" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.thickness"
+                                    placeholder="">
                                 <span class="unit">mm</span>
-                                <span class="error" ng-show="!myForm.thickness.$valid && myForm.thickness.$dirty">Please enter a number or floating point number</span>                                
+                                <span class="error" ng-show="!myForm.thickness.$valid && myForm.thickness.$dirty">Please enter a number or floating point number</span>
                             </div>
                             <label class="col-md-3 control-label">Length (l)</label>
                             <div class="col-md-3">
-                                <input type="text" name="length" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.length" placeholder="" >
-                                <span class="unit">mm</span>
+                                <input type="text" name="length" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.length" placeholder="">
+                                <span class="unit">m</span>
                                 <span class="error" ng-show="!myForm.length.$valid && myForm.length.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Wastage (wtg) <span class="error">&nbsp;*</span> </label>
+                            <label class="col-md-2 control-label">Wastage (wtg)
+                                <span class="error">&nbsp;*</span>
+                            </label>
                             <div class="col-md-3">
-                                <input type="text" name="wastage" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.wastage" placeholder=""  required >
+                                <input type="text" name="wastage" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.wastage" placeholder=""
+                                    required>
                                 <span class="unit">%</span>
                                 <span class="error" ng-show="!myForm.wastage.$valid && myForm.wastage.$dirty">Please enter a number or floating point number</span>
+                            </div>
+                        </div>
+                       <hr><br>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                <b>Formulas:</b>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Perimeter (p)
+                                <span class="error">&nbsp;*</span>
+                            </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control " ng-model="formData.partFormulae.perimeter" placeholder="" required>
+                                <span class="unit">m</span>
+                            </div>
+                            <label class="col-md-3 control-label">Sheet Metal Area (sma)
+                                <span class="error">&nbsp;*</span>
+                            </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control " ng-model="formData.partFormulae.sheetMetalArea" placeholder="" required>
+                                <span class="unit">sq. m</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Surface Area (sa)
+                                <span class="error">&nbsp;*</span>
+                            </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control " ng-model="formData.partFormulae.surfaceArea" placeholder="" required>
+                                <span class="unit">sq. m</span>
+                            </div>
+                            <label class="col-md-3 control-label">Weight (wt)
+                                <span class="error">&nbsp;*</span>
+                            </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control " ng-model="formData.partFormulae.weight" placeholder="" required>
+                                <span class="unit">kg</span>
+                            </div>
+                        </div>
+                        <hr><br>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Naming Convention
+                                <span class="error">&nbsp;*</span>
+                            </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control " ng-model="formData.namingConvenstion" placeholder="" required>
                             </div>
                         </div>
                     </div>
                 </div>
                 <hr>
-                <div class="form-group">
-                    <label class="col-md-2 control-label">
-                        <b>Formulas:</b>
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-2 control-label">Perimeter (p) <span class="error">&nbsp;*</span> </label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.perimeter" placeholder=""  required>
-                        <span class="unit">m</span>
-                    </div>
-                    <label class="col-md-2 control-label">Sheet Metal Area (sma) <span class="error">&nbsp;*</span> </label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.sheetMetalArea" placeholder=""  required>
-                        <span class="unit">sq. m</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-2 control-label">Surface Area (sa) <span class="error">&nbsp;*</span> </label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.surfaceArea" placeholder=""  required>
-                        <span class="unit">sq. m</span>
-                    </div>
-                    <label class="col-md-2 control-label">Weight (wt)<span class="error">&nbsp;*</span> </label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.partFormulae.weight" placeholder=""  required>
-                        <span class="unit">kg</span>
-                    </div>
-                </div>
-                <hr>
-                <div class="form-group">
-                    <label class="col-md-2 control-label">Naming Convention <span class="error">&nbsp;*</span> </label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control " ng-model="formData.namingConvenstion" placeholder=""  required>
-                    </div>
-                </div>
+
             </div>
             <div class="form-actions">
                 <div class="row">
                     <div class="col-md-13 text-center">
-                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="myForm.$invalid && myForm.$dirty" ng-click="createOrEditShape(formData,shapeVariables)">Save</button>
+                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="myForm.$invalid && myForm.$dirty" ng-click="createOrEditShape(formData,            )">Save</button>
                         <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="myForm.$invalid && myForm.$dirty" ng-click="createOrEditShape(formData,shapeVariables)">Update</button>
-                        
+
                     </div>
                 </div>
             </div>
