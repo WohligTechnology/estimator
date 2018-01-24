@@ -5,12 +5,15 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   //- to show/hide sidebar of dashboard   
   $scope.$parent.isSidebarActive = true;
   $scope.bulkEstimates = []; //- for multiple records deletion
+  $scope.loading = false; //- show loader when api takes time to load
   $scope.checkAll = false; //- for all records selection
   $scope.checkboxStatus = false; //- for multiple records selection
 
   //- to get all estimates data
   $scope.getTableData = function () {
+    $scope.loading = true;
     estimateService.getEstimateData(function (data) {
+      $scope.loading = false;
       $scope.tableData = data.results;
       estimateService.getPaginationDetails(1, 10, data, function (obj) {
         $scope.obj = obj;

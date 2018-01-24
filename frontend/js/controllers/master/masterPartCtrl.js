@@ -6,6 +6,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     //- to show/hide save & update button on pop-up according to operation
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
+    $scope.loading = false; //- show loader when api takes time to load
     $scope.showPartView = false;
     $scope.showPartTypeProcessing = false;
     $scope.showPartTypeAddons = false;
@@ -166,12 +167,14 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     //- called when click on + icon at partType (i.e. to add new preset ) &
     //- click on the preset size to edit preset 
     $scope.getPresetViewWithData = function (operation, presetData) {
+        $scope.loading = true;
         $scope.showPartView = true;
         presetData.shape.variable = presetData.variable;
         $scope.showPresetUpdateForm = true;
         $scope.showPresetSaveForm = false;
 
         masterPartService.getPresetViewWithData(operation, presetData, function (data) {
+            $scope.loading = false;
             $scope.presetFormData = data.presetData;
             $scope.presetFormData.thickness = data.presetData.shape.thickness;
             $scope.presetFormData.length = data.presetData.shape.length;

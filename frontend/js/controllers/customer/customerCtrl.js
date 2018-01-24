@@ -6,6 +6,7 @@ myApp.controller('customerCtrl', function ($scope, toastr, $uibModal, customerSe
   $scope.$parent.isSidebarActive = true;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
+  $scope.loading = false; //- show loader when api takes time to load
   $scope.bulkCustomers = []; // for multiple records deletion
   $scope.checkAll = false; //- for all records selection
   $scope.checkboxStatus = false; //- for multiple records selection
@@ -14,7 +15,9 @@ myApp.controller('customerCtrl', function ($scope, toastr, $uibModal, customerSe
   // *************************** default functions begin here  ********************** //
   //- function to get all customers data
   $scope.getCustomerData = function () {
+    $scope.loading = true;
     customerService.getCustomerData(function (data) {
+      $scope.loading = false;
       $scope.customerData = data.results;
       customerService.getPaginationDetails(1, 10, data, function (obj) {
         $scope.obj = obj;

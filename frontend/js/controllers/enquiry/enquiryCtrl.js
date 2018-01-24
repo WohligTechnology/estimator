@@ -5,6 +5,7 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   //- to show/hide sidebar of dashboard   
   $scope.$parent.isSidebarActive = true;
   $scope.bulkEnquiries = []; //- for multiple records deletion
+  $scope.loading = false; //- show loader when api takes time to load
   $scope.checkAll = false; //- for all records selection
   $scope.checkboxStatus = false; //- for multiple records selection
 
@@ -12,7 +13,9 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   // *************************** default functions begin here  ********************** //
   //- function to get all enquiries data 
   $scope.getEnquiryData = function () {
+    $scope.loading = true;
     enquiryService.getEnquiryData(function (data, obj) {
+      $scope.loading = false;
       $scope.detailsActive = obj.detailsActive;
       $scope.infoActive = obj.infoActive;
       $scope.keyReqActive = obj.keyReqActive;

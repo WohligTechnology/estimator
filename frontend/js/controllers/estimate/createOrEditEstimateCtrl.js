@@ -10,7 +10,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.checkboxStatus = false; //- for multiple records selection
   $scope.checkAll = false; //- for all records selectione
   $scope.hardFacingAlloys = []; //- for dynamic addition of Hard Facing Alloys
-  $scope.loading = false;
   $scope.estimatePartObj = {
     allShortcuts: [], //- get all presets name from API
     allPartTypes: [], //- get all part type from API
@@ -88,6 +87,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   // **************************************** default functions begin here  **************************************** //
   //- to get all views of createOrEdit estimate screen dynamically 
   $scope.getEstimateView = function (getViewName, getLevelName, subAssemblyId, partId) {
+    $scope.loading = true;
     createOrEditEstimateService.estimateView(getViewName, getLevelName, subAssemblyId, partId, function (data) {
       $scope.estimateView = data;
       //when first time user click item details of part
@@ -95,6 +95,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.disablePartFields = _.cloneDeep($scope.disablePartFieldsTemp);
 
       createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
+        $scope.loading = false;
         if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
           //- get all processing count, addon count & extras count
           //- get all shortcuts, all part types, all shapes, all custom materials
@@ -232,7 +233,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.selectedShortcut = shortcutObj;
     $scope.estimatePartObj.selectedPartType = shortcutObj.partType;
     $scope.estimatePartObj.allMaterial = $scope.estimatePartObj.selectedPartType.material;
-    $scope.estimatePartObj.selectedSize = shortcutObj.size;
+    $scope.estimatePartObj.selectedSize = shortcutObj;
     $scope.estimatePartObj.selectedShape = shortcutObj.shape;
 
     //- update shape related data
@@ -253,17 +254,20 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if (shortcutObj.shape.image) {
       $scope.estimatePartObj.shapeImage = shortcutObj.shape.image.file;
     }
-
+    createOrEditEstimateService.getSelectedPartTypeData(shortcutObj.partType._id, function (data) {
+      $scope.estimatePartObj.allSizes = data; /////-
+    });
     //- update PAE count
     // $scope.estimatePartObj.processingCount = part.processing.length; /////-
     // $scope.estimatePartObj.addonCount = part.addons.length; /////-
     // $scope.estimatePartObj.extraCount = part.extras.length; /////-
-
+    if ($scope.disablePartFields.displayPresetSize) {
+      $scope.disablePartFields.displayPresetSize = false;
+    }
+    $scope.disablePartFields.disableSize = false;
     //- disable fields
     $scope.disablePartFields.disablePartType = true;
     $scope.disablePartFields.disableMaterial = false;
-    $scope.disablePartFields.disableSize = true;
-    $scope.disablePartFields.displayPresetSize = true;
     $scope.disablePartFields.disableShape = true;
 
     $scope.updatePartCalculation();
@@ -700,7 +704,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.bulkItems = [];
       $scope.checkAll = false;
       $scope.checkboxStatus = false;
-      $scope.getEstimateView('subAssembly');
+      //$scope.getEstimateView('subAssembly');
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
       toastr.success('Parts deleted successfully');
