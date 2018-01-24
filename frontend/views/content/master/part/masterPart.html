@@ -69,7 +69,7 @@
                         <th>Action</th>
                     </tr>
                     <tr ng-repeat="m in partTypeMaterials">
-                        <td>{{m.materialName}}</td>
+                        <td  ng-click="getPresetFinalData(presetFormData,selectedShape,m)">{{m.materialName}}</td>
                         <td class="edit-icon">
                             <a ng-click="deletePartTypeMaterialModal(partTypeId,m._id,'deletePartTypeMaterial')">
                                 <span class="label label-sm label-danger">

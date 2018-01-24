@@ -141,8 +141,8 @@
                         </div>
                        <hr><br>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Size Factor (sf)
-                                <span class="error">&nbsp;*</span>
+                            <label class="col-md-2 control-label">Size Factor(sf)
+                                <span class="error">*</span>
                             </label>
                             <div class="col-md-3">
                                 <input type="text" name="sizeFactor" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.sizeFactor"
@@ -174,8 +174,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Wastage (wtg)
-                                <span class="error">&nbsp;*</span>
+                            <label class="col-md-2 control-label">Wastage(wtg)
+                                <span class="error">*</span>
                             </label>
                             <div class="col-md-3">
                                 <input type="text" name="wastage" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.wastage" placeholder=""
@@ -239,7 +239,7 @@
             <div class="form-actions">
                 <div class="row">
                     <div class="col-md-13 text-center">
-                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="myForm.$invalid && myForm.$dirty" ng-click="createOrEditShape(formData,            )">Save</button>
+                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="myForm.$invalid && myForm.$dirty" ng-click="createOrEditShape(formData,shapeVariables)">Save</button>
                         <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="myForm.$invalid && myForm.$dirty" ng-click="createOrEditShape(formData,shapeVariables)">Update</button>
 
                     </div>

@@ -257,7 +257,7 @@ myApp.service('masterPartService', function (NavigationService) {
         }
 
         NavigationService.apiCall('MPartType/addPartTypeMaterial', tempObj, function (data) {
-            callback(data.data);
+            callback(data);
         });
     }
     this.deletePartTypeMaterial = function (materialId, partTypeId, callback) {
