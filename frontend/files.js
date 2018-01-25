@@ -1,7 +1,7 @@
 module.exports = [
   //JS & jQuery Libs
   'bower_components/jquery/jquery.min.js',
-  'bower_components/jStorage/jstorage.min.js',  
+  'bower_components/jStorage/jstorage.min.js',
   'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js',
   'bower_components/fancybox/dist/jquery.fancybox.js',
   'bower_components/smart-app-banner/smart-app-banner.js',
@@ -10,6 +10,7 @@ module.exports = [
   //Angular Libs   
   'bower_components/angular/angular.js',
   'bower_components/cleave.js/dist/cleave-angular.min.js',
+  'bower_components/angular-moment-picker/dist/angular-moment-picker.min.js',
   'bower_components/cleave.js/dist/addons/cleave-phone.in.js',
   'bower_components/angular-bootstrap/ui-bootstrap.min.js',
   'bower_components/angular-ui-router/release/angular-ui-router.min.js',
@@ -28,7 +29,7 @@ module.exports = [
   "frontend/themeassets/global/plugins/angularjs/plugins/ocLazyLoad.min.js",
   "frontend/themeassets/global/plugins/angularjs/plugins/ui-bootstrap-tpls.min.js",
   "bower_components/oclazyload/dist/ocLazyLoad.min.js",
-  
+
   "frontend/themeassets/global/scripts/app.min.js",
   "frontend/themeassets/layouts/layout/scripts/layout.js",
   "frontend/themeassets/layouts/global/scripts/quick-sidebar.min.js",
@@ -73,7 +74,7 @@ module.exports = [
   'frontend/js/controllers/user/userCtrl.js',
   'frontend/js/controllers/settings/roleCtrl.js',
   'frontend/js/controllers/UserProfileController.js',
-  
+
 
   'frontend/js/services/customer/customerService.js',
   'frontend/js/services/enquiry/createOrEditEnquiryService.js',

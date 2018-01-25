@@ -168,23 +168,16 @@
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ Received Date:</label>
-                                                    <div class="col-md-3">
-                                                        <input type="date" class="form-control" id="form_control_1" min="2001-01-01" max="dateNow" ng-model="formData.enquiryDetails.rfqReceiveddDate">
-                                                        <div class="form-control-focus"> </div>
+                                                    <div class="col-md-3" moment-picker="formData.enquiryDetails.rfqReceiveddDate" format="YYYY-MM-DD">
+                                                        <input class="form-control" ng-model="formData.enquiryDetails.rfqReceiveddDate" ng-model-options="{ updateOn: 'blur' }" placeholder="Select a date in YYYY-MM-DD format">
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">RFQ Due Date:</label>
-                                                    <div class="col-md-3">
-                                                        <input type="date" class="form-control" id="form_control_1" min="dateNow" max="3000-12-31" ng-model="formData.enquiryDetails.rfqDueDate">
-                                                        <!-- <input-date ng-model="formData.enquiryDetails.rfqDueDate"></input-date> -->
-                                                        <div class="form-control-focus"> </div>
+                                                    <div class="col-md-3" moment-picker="formData.enquiryDetails.rfqDueDate" format="YYYY-MM-DD">
+                                                        <input class="form-control" name="dueDate" ng-model="formData.enquiryDetails.rfqDueDate" ng-model-options="{ updateOn: 'blur' }"
+                                                            placeholder="Select a date in YYYY-MM-DD format">
                                                     </div>
-                                                    <!-- <label class="col-md-2 control-label" for="form_control_1">Saleman:</label>
-                                                    <div class="col-md-3">
-                                                        <input type="text" class="form-control" id="form_control_1" ng-model="formData.enquiryDetails.salesman">
-                                                        <div class="form-control-focus"> </div>
-                                                    </div> -->
                                                 </div>
                                             </div>
                                             <div class="form-actions">

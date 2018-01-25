@@ -4,18 +4,19 @@
  @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
  @import "../../bower_components/flexslider/flexslider";
  @import "../../bower_components/font-awesome/scss/font-awesome";
- @import "../../bower_components/angular-ui-swiper/dist/angular-ui-swiper";
+ @import "../../bower_components/angular-ui-swiper/dist/angular-ui-swiper"; 
  //  @import "../../bower_components/fancyBox/dist/jquery.fancybox";
  @import "../../bower_components/smart-app-banner/smart-app-banner";
  @import "../../bower_components/angular-promise-buttons/src/styles/style";
  @import "../../bower_components/angular-toastr/dist/angular-toastr";
  /****** Please Import Libraries Above This!!!!!! ******/
 
-@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
-@import "main";
+ @import "../../bower_components/angular-moment-picker/dist/angular-moment-picker.min.css";
+ @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+ @import "main";
 
  @import "http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all";
-//  @import "../themeassets/global/plugins/font-awesome/css/font-awesome.min.css";
+ //  @import "../themeassets/global/plugins/font-awesome/css/font-awesome.min.css";
  @import "../themeassets/global/plugins/simple-line-icons/simple-line-icons.min.css";
  @import "../themeassets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css";
  @import "../themeassets/global/css/components.min.css";
