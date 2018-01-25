@@ -69,7 +69,7 @@
                         <th>Action</th>
                     </tr>
                     <tr ng-repeat="m in partTypeMaterials">
-                        <td  ng-click="getPresetFinalData(presetFormData,selectedShape,m)">{{m.materialName}}</td>
+                        <td ng-click="getPresetFinalData(presetFormData,selectedShape,m)">{{m.materialName}}</td>
                         <td class="edit-icon">
                             <a ng-click="deletePartTypeMaterialModal(partTypeId,m._id,'deletePartTypeMaterial')">
                                 <span class="label label-sm label-danger">
@@ -146,6 +146,30 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-md-3 control-label">Thickness (t)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-model="presetFormData.thickness" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                            </div>
+                                            <label class="col-md-3 control-label">Length (L)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.length" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Wastage (wtg)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.wastage" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                            </div>
+                                            <label class="col-md-3 control-label">Form Factor (ff)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.formFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Size Factor (sf)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.sizeFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                            </div>
                                             <label class="col-md-3 control-label">Preset Shortcut</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control " ng-model="presetFormData.presetName" required>
@@ -185,14 +209,14 @@
                                         <b>Cost Price:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFormData.partFormulae.perimeter.toFixed(2)}}</div>
+                                        <div>{{presetFormData.totalCost.toFixed(2)}}</div>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-                <div class="portlet-body" ng-if="showPresetUpdateForm">
+                <div class="portlet-body" ng-show="showPresetUpdateForm">
                     <div class="portlet-body">
                         <form class="form-horizontal">
                             <div class="form-body">
@@ -232,6 +256,30 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-md-3 control-label">Thickness (t)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-model="presetFormData.thickness" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                            </div>
+                                            <label class="col-md-3 control-label">Length (L)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.length" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Wastage (wtg)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.wastage" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                            </div>
+                                            <label class="col-md-3 control-label">Form Factor (ff)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.formFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Size Factor (sf)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control " ng-model="presetFormData.sizeFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                            </div>
                                             <label class="col-md-3 control-label">Preset Shortcut</label>
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control " ng-model="presetFormData.presetName">
@@ -271,7 +319,7 @@
                                         <b>Cost Price:</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFormData.partFormulae.perimeter}}</div>
+                                        <div>{{presetFormData.totalCost}}</div>
                                     </div>
                                 </div>
                             </div>

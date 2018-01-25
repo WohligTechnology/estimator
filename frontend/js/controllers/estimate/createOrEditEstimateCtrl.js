@@ -1,6 +1,7 @@
 myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $stateParams, createOrEditEstimateService, $uibModal) {
 
   // **************************************** default variables/tasks begin here **************************************** //
+  var pi = 3.1415;  
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
   $scope.showSaveBtn = true;
