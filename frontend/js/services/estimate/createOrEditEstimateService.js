@@ -152,6 +152,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	var customMaterial = {
 		customMaterialName: "",
 		uniqueId: "",
+		density: "",
+		rollingIndex: "",
+		bendingIndex: "",
+		fabrictionIndex:"",
+		cuttingIndex: "",
 		basePlate: {
 			thickness: "",
 			baseMetal: {}

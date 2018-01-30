@@ -30,6 +30,21 @@ var schema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MDifficultyFactor'
     }],
+    density: {
+        type: Number
+    },
+    rollingIndex: {
+        type: Number
+    },
+    bendingIndex: {
+        type: Number
+    },
+    fabrictionIndex: {
+        type: Number
+    },
+    cuttingIndex: {
+        type: Number
+    },
     freeIssue: Boolean,
     totalCostRsPerKg: Number,
     totalCostRsPerSm: Number,

@@ -873,6 +873,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     } else {
       formData.basePlate.costOfDepRsPerKg = formData.basePlate.baseMetal.typicalRatePerKg;
     }
+    formData.rollingIndex = formData.basePlate.baseMetal.rollingIndex;
+    formData.bendingIndex = formData.basePlate.baseMetal.bendingIndex;
+    formData.fabrictionIndex = formData.basePlate.baseMetal.fabrictionIndex;
+    formData.cuttingIndex = formData.basePlate.baseMetal.cuttingIndex;
     formData.basePlate.costOfDepRsPerSm = formData.basePlate.baseMetal.density * formData.basePlate.costOfDepRsPerKg * formData.basePlate.thickness;
     $scope.calAvgCost(formData);
   }
@@ -893,12 +897,15 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- formula for totalCostRsPerSm is sum(allMaerials(costOfDepRsPerSm)) * mulFact
   $scope.calAvgCost = function (customMaterial) {
     var temp1 = temp2 = 0;
+    //- to calculate density
+    var temp3 = 0;
     customMaterial.hardFacingAlloys.agvRsPerSm = customMaterial.hardFacingAlloys.agvRsPerKg = 0;
     angular.forEach(customMaterial.hardFacingAlloys,  function (record) {
       customMaterial.hardFacingAlloys.agvRsPerSm += record.costOfDepRsPerSm;
       temp1 += parseFloat(record.thickness) * record.alloy.density;
       temp2 += parseFloat(record.thickness);
     });
+    temp3 = temp1; //- get sum(density * thickness)
     customMaterial.hardFacingAlloys.agvRsPerKg = temp1 / temp2;
     temp1 = 0;
     angular.forEach(customMaterial.hardFacingAlloys,  function (record) {
@@ -913,6 +920,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     });
     customMaterial.totalCostRsPerKg = (temp1 / temp2) * mulfact;
     customMaterial.totalCostRsPerSm = (customMaterial.hardFacingAlloys.agvRsPerSm + customMaterial.basePlate.costOfDepRsPerSm) * mulfact;
+    //- calculate total density
+    temp3 += parseFloat(customMaterial.basePlate.thickness) * customMaterial.basePlate.baseMetal.density;
+    customMaterial.density = temp3 / temp2;
   }
   //-to add a hard facing alloy
   $scope.addNewLayer = function (hardFacingAlloys) {
@@ -1195,7 +1205,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.surfaceArea) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
       } else if (tempLinkedKeyValue == "Gwt") {
         $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.grossWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-      }else if (tempLinkedKeyValue == "Nwt") {
+      } else if (tempLinkedKeyValue == "Nwt") {
         $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.netWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
       } else if (tempLinkedKeyValue == "Nos") {
         $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Nos) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
