@@ -63,7 +63,7 @@
           <div class="portlet-title">
             <div class="row">
               <div class="col-md-3">
-                <label> Name:</label> {{estimateViewData.subAssemblyName | capitalize}}
+                <label> SubAssembly Name:</label> {{estimateViewData.subAssemblyName | capitalize}}
               </div>
               <div class="col-md-3">
                 <label> Id:</label> {{estimateViewData.subAssemblyNumber}}
@@ -113,13 +113,13 @@
                     <td> 2 </td>
                     <td> {{p.partName | capitalize}} </td>
                     <td> {{p.quantity}} </td>
-                    <td> {{p.keyValueCalculations.weight.toFixed(2)}} </td>
+                    <td> {{p.keyValueCalculations.grossWeight.toFixed(2)}} </td>
                     <td> {{p.finalCalculation.materialPrice.toFixed(2)}} </td>
                     <td> {{p.processingCost.toFixed(2)}} </td>
                     <td> {{p.addonCost.toFixed(2)}} </td>
                     <td> {{p.extrasCost.toFixed(2)}} </td>
-                    <td> {{(p.finalCalculation.materialPrice * p.keyValueCalculations.weight + p.processingCost + p.addonCost + p.extrasCost).toFixed(2)}}</td>
-                    <td> {{(p.quantity * p.keyValueCalculations.weight).toFixed(2)}} </td>
+                    <td> {{(p.finalCalculation.materialPrice * p.keyValueCalculations.grossWeight + p.processingCost + p.addonCost + p.extrasCost).toFixed(2)}}</td>
+                    <td> {{(p.quantity * p.keyValueCalculations.grossWeight).toFixed(2)}} </td>
                     <td> {{p.totalCost.toFixed(2)}} </td>
                     <td class="edit-icon">
                       <span class="label label-sm label-success" id="add_space" ng-click="addOrEditPartModal('update',estimateViewData.subAssemblyNumber,p)">

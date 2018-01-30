@@ -73,7 +73,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			perimeter: "",
 			sheetMetalArea: "",
 			surfaceArea: "",
-			weight: ""
+			grossWeight: "",
+			netWeight: ""
 		},
 		processingCost: "",
 		addonCost: "",
@@ -146,7 +147,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	var formData = {
 		assembly: {},
-		customMaterial: [],
 	};
 
 	var customMaterial = {
@@ -158,6 +158,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		},
 		hardFacingAlloys: [_.cloneDeep(hardFacingAlloy)],
 		difficultyFactor: [],
+		favourite: false,
 		freeIssue: "",
 		totalCostRsPerSm: "",
 		totalCostRsPerKg: ""
@@ -242,8 +243,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
 			angular.forEach(subAssembly.subAssemblyParts, function (part) {
 				//- get weight at part level
-				if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
-					costCalculations.wtAtPart = parseFloat(part.keyValueCalculations.weight);
+				if (!isNaN(parseFloat(part.keyValueCalculations.grossWeight))) {
+					costCalculations.wtAtPart = parseFloat(part.keyValueCalculations.grossWeight);
 				}
 				//- get summation of (weight * quantity) of all parts 
 				costCalculations.wtAtSubAssembly += costCalculations.wtAtPart * part.quantity;
@@ -385,7 +386,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					perimeter: "", //- part.keyValueCalculation.perimeter
 					sheetMetalArea: "", //- part.keyValueCalculation.sheetMetalArea
 					surfaceArea: "", //- part.keyValueCalculation.surfaceArea
-					weight: "" //- part.keyValueCalculation.weight
+					grossWeight: "", //- part.keyValueCalculation.grossWeight
+					netWeight: "" //- part.keyValueCalculation.netWeight
 				},
 				finalCalculation: {
 					materialPrice: null, //- part.finalCalculation.materialPrice
@@ -437,7 +439,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				estimatePartObj.keyValueCalculations.perimeter = tempPart.keyValueCalculations.perimeter;
 				estimatePartObj.keyValueCalculations.sheetMetalArea = tempPart.keyValueCalculations.sheetMetalArea;
 				estimatePartObj.keyValueCalculations.surfaceArea = tempPart.keyValueCalculations.surfaceArea;
-				estimatePartObj.keyValueCalculations.weight = tempPart.keyValueCalculations.weight
+				estimatePartObj.keyValueCalculations.grossWeight = tempPart.keyValueCalculations.grossWeight;
+				estimatePartObj.keyValueCalculations.netWeight = tempPart.keyValueCalculations.netWeight;
 				estimatePartObj.partUpdateStatus = true;
 
 			}
@@ -477,7 +480,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					perimeter: "", //- part.keyValueCalculation.perimeter
 					sheetMetalArea: "", //- part.keyValueCalculation.sheetMetalArea
 					surfaceArea: "", //- part.keyValueCalculation.surfaceArea
-					weight: "" //- part.keyValueCalculation.weight
+					grossWeight: "", //- part.keyValueCalculation.grossWeight
+					netWeight: "" //- part.keyValueCalculation.netWeight
 				},
 				finalCalculation: {
 					materialPrice: null, //- part.finalCalculation.materialPrice
@@ -522,7 +526,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 									estimatePartObj.selectedSize = tempPart.size; //- size
 								}
 								if (!_.isEmpty(tempPart.shape) && tempPart.shape != undefined) {
-									 
+
 									estimatePartObj.selectedShape = tempPart.shape; //- selected material
 								}
 								if (!_.isEmpty(tempPart.customMaterial) && tempPart.customMaterial != undefined) {
@@ -545,7 +549,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 								estimatePartObj.keyValueCalculations.perimeter = tempPart.keyValueCalculations.perimeter;
 								estimatePartObj.keyValueCalculations.sheetMetalArea = tempPart.keyValueCalculations.sheetMetalArea;
 								estimatePartObj.keyValueCalculations.surfaceArea = tempPart.keyValueCalculations.surfaceArea;
-								estimatePartObj.keyValueCalculations.weight = tempPart.keyValueCalculations.weight
+								estimatePartObj.keyValueCalculations.grossWeight = tempPart.keyValueCalculations.grossWeight;
+								estimatePartObj.keyValueCalculations.netWeight = tempPart.keyValueCalculations.netWeight;
 								estimatePartObj.partUpdateStatus = true;
 
 							}
@@ -809,7 +814,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		tempPart.keyValueCalculations.perimeter = partObject.keyValueCalculations.perimeter;
 		tempPart.keyValueCalculations.sheetMetalArea = partObject.keyValueCalculations.sheetMetalArea;
 		tempPart.keyValueCalculations.surfaceArea = partObject.keyValueCalculations.surfaceArea;
-		tempPart.keyValueCalculations.weight = partObject.keyValueCalculations.weight;
+		tempPart.keyValueCalculations.grossWeight = partObject.keyValueCalculations.grossWeight;
+		tempPart.keyValueCalculations.netWeight = partObject.keyValueCalculations.netWeight;
 		tempPart.partUpdateStatus = true;
 		//- to check whether user filled all part level data
 		if (!isNaN(tempPart.finalCalculation.totalCostForQuantity)) {
@@ -828,7 +834,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			perimeter: 0,
 			sheetMetalArea: 0,
 			surfaceArea: 0,
-			weight: 0
+			grossWeight: 0,
+			netWeight: 0
 		};
 		//- to check access permission
 		var temp = true;
@@ -854,8 +861,14 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						temp = false;
 						return false;
 					}
-					if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
-						tempObj.weight += parseFloat(part.keyValueCalculations.weight);
+					if (!isNaN(parseFloat(part.keyValueCalculations.grossWeight))) {
+						tempObj.grossWeight += parseFloat(part.keyValueCalculations.grossWeight);
+					} else {
+						temp = false;
+						return false;
+					}
+					if (!isNaN(parseFloat(part.keyValueCalculations.netWeight))) {
+						tempObj.netWeight += parseFloat(part.keyValueCalculations.netWeight);
 					} else {
 						temp = false;
 					}
@@ -883,8 +896,14 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 							temp = false;
 							return false;
 						}
-						if (!isNaN(parseFloat(part.keyValueCalculations.weight))) {
-							tempObj.weight += parseFloat(part.keyValueCalculations.weight);
+						if (!isNaN(parseFloat(part.keyValueCalculations.grossWeight))) {
+							tempObj.grossWeight += parseFloat(part.keyValueCalculations.grossWeight);
+						} else {
+							temp = false;
+							return false;
+						}
+						if (!isNaN(parseFloat(part.keyValueCalculations.netWeight))) {
+							tempObj.netWeight += parseFloat(part.keyValueCalculations.netWeight);
 						} else {
 							temp = false;
 						}
@@ -989,26 +1008,30 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				perimeter: null,
 				sheetMetalArea: null,
 				surfaceArea: null,
-				weight: null
+				grossWeight: null,
+				netWeight: null
 			},
 
 			linkedKeyValuesAtPartCalculation: {
 				perimeter: null,
 				sheetMetalArea: null,
 				surfaceArea: null,
-				weight: null
+				grossWeight: null,
+				netWeight: null
 			},
 			linkedKeyValuesAtSubAssemblyCalculation: {
 				perimeter: null,
 				sheetMetalArea: null,
 				surfaceArea: null,
-				weight: null
+				grossWeight: null,
+				netWeight: null
 			},
 			linkedKeyValuesAtAssemblyCalculation: {
 				perimeter: null,
 				sheetMetalArea: null,
 				surfaceArea: null,
-				weight: null
+				grossWeight: null,
+				netWeight: null
 			}
 		};
 
@@ -1247,7 +1270,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				perimeter: null,
 				SMA: null,
 				SA: null,
-				St: null,
+				grossWeight: null,
+				netWeight: null,
 				Nos: null,
 				Hrs: null
 			},
@@ -1255,7 +1279,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				perimeter: null,
 				SMA: null,
 				SA: null,
-				St: null,
+				grossWeight: null,
+				netWeight: null,
 				Nos: null,
 				Hrs: null
 			},
@@ -1263,7 +1288,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				perimeter: null,
 				SMA: null,
 				SA: null,
-				St: null,
+				grossWeight: null,				
+				netWeight: null,
 				Nos: null,
 				Hrs: null
 			}
@@ -1279,21 +1305,23 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				perimeter: tempPartCal.perimeter,
 				SMA: tempPartCal.sheetMetalArea,
 				SA: tempPartCal.surfaceArea,
-				Wt: tempPartCal.weight,
+				grossWeight: tempPartCal.grossWeight,
+				netWeight: tempPartCal.netWeight,
 				Nos: null,
 				Hrs: null
 			};
 		} else if (level == 'subAssembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-
+			
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
 				if (!_.isEmpty(data)) {
 					addonObject.linkedKeyValuesAtSubAssemblyCalculation = {
 						perimeter: data.perimeter,
 						SMA: data.sheetMetalArea,
 						SA: data.surfaceArea,
-						Wt: data.weight,
+						grossWeight: data.grossWeight,
+						netWeight: data.netWeight,
 						Nos: null,
 						Hrs: null
 					};
@@ -1309,7 +1337,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						perimeter: data.perimeter,
 						SMA: data.sheetMetalArea,
 						SA: data.surfaceArea,
-						Wt: data.weight,
+						grossWeight: data.grossWeight,
+						netWeight: data.netWeight,
 						Nos: null,
 						Hrs: null
 					};
@@ -2178,5 +2207,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}, function (data) {
 			callback(data);
 		});
+	}
+	//- to import custom material 
+	this.importCustomMaterial = function (custMat, callback) {
 	}
 });

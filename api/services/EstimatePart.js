@@ -52,7 +52,8 @@ var schema = new Schema({
         perimeter: Number,
         sheetMetalArea: Number,
         surfaceArea: Number,
-        weight: Number
+        grossWeight: Number,
+        netWeight: Number        
     },
 
     processing: [{
