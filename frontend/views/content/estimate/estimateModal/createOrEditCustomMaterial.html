@@ -16,7 +16,14 @@
                             <div class="col-md-3">
                                 <input type="text" class="form-control" ng-model="formData.customMaterialName" autofocus required>
                             </div>
-                            <div class="col-md-3"></div>
+                            <div class="col-md-2" style="margin-left: -10px;">
+                                <label class="control-label">Favourite:</label>
+                            </div>
+                            <div class="col-md-1" style="margin-left: -30px;">
+                                <div class="btn-switch" ng-class="{'btn-switch--on':formData.favourite}" ng-model="formData.favourite" ng-click="formData.favourite = !formData.favourite">
+                                    <div class="btn-switch-circle" ng-class="{'btn-switch-circle--on':formData.favourite}" ng-model="formData.favourite" ng-click="formData.favourite = !formData.favourite"></div>
+                                </div>
+                            </div>
                             <div class="col-md-2">
                                 <label class="control-label" style="padding-left:50px">Free Issue:</label>
                             </div>

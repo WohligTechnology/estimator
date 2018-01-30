@@ -39,7 +39,7 @@ var schema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Estimate'
     },
-    contingencyOrWastage: {
+    efficiency: {
         type: Number
     },
     weightPerUnit: {

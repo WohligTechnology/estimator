@@ -88,7 +88,11 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.addOrEditMaterialSubCat = function (materialSubCatData, materialCatId) {
         // materialSubCatData.catId = materialCatId;
         masterMaterialService.addOrEditMaterialSubCat(materialSubCatData, materialCatId, function (data) {
-            toastr.success('Material SubCategory added successfully');
+            if (data.value) {
+                toastr.success('Material SubCategory added successfully');                
+            } else {
+                toastr.error('Material SubCategory is not added');                
+            }
             $scope.getMaterialData();
             $scope.cancelModal();
         });
@@ -134,14 +138,16 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
             });
         });
     }
-    $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
+    $scope.addOrEditMaterial = function (materialData, materialSubCatId) {        
         masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {
-            if (angular.isUndefined(materialData._id)) {
-                toastr.success('Material added successfully');
+            if (data.value) {
+                toastr.success('Material added/updated successfully');
                 $scope.cancelModal();
-                $scope.getSubCatMaterials(data.data.materialSubCategory);
+                //$scope.getMaterialData();
+                $scope.getSubCatMaterials(materialSubCatId);
+
             } else {
-                $scope.getMaterialData();
+                toastr.error('Material not added/updated');
             }
         });
     }

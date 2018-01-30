@@ -1,7 +1,7 @@
 myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPartService) {
 
     // *************************** default variables/tasks begin here ***************** //
-    var pi = 3.1415;    
+    var pi = 3.1415;
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = false;
     //- to show/hide save & update button on pop-up according to operation
@@ -23,7 +23,8 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     var perimeter = 0;
     var sheetMetalArea = 0;
     var surfaceArea = 0;
-    var weight = 0;
+    var grossWeight = 0;
+    var netWeight = 0;
     var selectedMaterial = [];
     // $scope.formData = {};
 
@@ -56,13 +57,13 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             if (data.value) {
                 if (operation == 'update') {
                     toastr.success('Part Category Name Updated Successfully');
-    
+
                 } else {
                     toastr.success('Part Category Name Added Successfully');
                 }
-                $scope.getPartData();                
+                $scope.getPartData();
             } else {
-                toastr.error('Part Category Name is not saved properly');  
+                toastr.error('Part Category Name is not saved properly');
             }
             $scope.cancelModal();
         });
@@ -188,7 +189,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
 
             $scope.selectedShape = data.presetData.shape;
             if (angular.isDefined($scope.selectedShape.image)) {
-                    $scope.presetFormData.image = $scope.selectedShape.image.file;
+                $scope.presetFormData.image = $scope.selectedShape.image.file;
             }
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
@@ -201,11 +202,11 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         });
 
         $scope.selectedShape = shapeData;
-         $scope.presetFormData.thickness = shapeData.thickness;
-         $scope.presetFormData.length = shapeData.length;
-         $scope.presetFormData.wastage = shapeData.wastage;
-         $scope.presetFormData.formFactor = shapeData.formFactor;
-         $scope.presetFormData.sizeFactor = shapeData.sizeFactor;
+        $scope.presetFormData.thickness = shapeData.thickness;
+        $scope.presetFormData.length = shapeData.length;
+        $scope.presetFormData.wastage = shapeData.wastage;
+        $scope.presetFormData.formFactor = shapeData.formFactor;
+        $scope.presetFormData.sizeFactor = shapeData.sizeFactor;
         if (shapeData.image) {
             $scope.presetFormData.image = shapeData.image.file;
         }
@@ -247,14 +248,15 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     //- to add or edir part presets 
     //- called when click on --> save/update/save as new  button 
     $scope.getPresetFinalData = function (presetData, selectedShape, selectedMaterial) {
-        
+
         presetData.shape = selectedShape._id;
         presetData.variable = selectedShape.variable;
         presetData.partFormulae = {
             perimeter: 0,
             sheetMetalArea: 0,
             surfaceArea: 0,
-            weight: 0
+            grossWeight: 0,
+            netWeight: 0
         };
 
         _.map(selectedShape.variable, function (n) {
@@ -290,15 +292,20 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             if (angular.isDefined(selectedMaterial.density)) {
                 var den = selectedMaterial.density;
             }
+            if (angular.isDefined(selectedMaterial.efficiency)) {
+                var eff = selectedMaterial.efficiency;
+            }
         }
 
         presetData.partFormulae.perimeter = eval(selectedShape.partFormulae.perimeter);
         presetData.partFormulae.sheetMetalArea = eval(selectedShape.partFormulae.sheetMetalArea);
         presetData.partFormulae.surfaceArea = eval(selectedShape.partFormulae.surfaceArea);
-        presetData.partFormulae.weight = eval(selectedShape.partFormulae.weight);
+        presetData.partFormulae.grossWeight = eval(selectedShape.partFormulae.grossWeight);
+        presetData.partFormulae.netWeight = eval(selectedShape.partFormulae.netWeight);
         $scope.presetFormData.partFormulae = presetData.partFormulae;
         if (angular.isDefined(selectedMaterial)) {
-            $scope.presetFormData.totalCost = presetData.partFormulae.weight * selectedMaterial.typicalRatePerKg;
+            $scope.presetFormData.totalCostGwt = presetData.partFormulae.grossWeight * selectedMaterial.typicalRatePerKg;
+            $scope.presetFormData.totalCostNwt = presetData.partFormulae.netWeight * selectedMaterial.typicalRatePerKg;
         }
     }
 
@@ -308,7 +315,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     $scope.addOrEditPartPreset = function (presetData, action) {
         masterPartService.addOrEditPartPreset(presetData, action, function (data) {
             if (data.value) {
-                toastr.success('Record added successfully');
+                toastr.success('Record added/updated successfully');
             } else {
                 toastr.error('Enter Part Details Properly');
             }

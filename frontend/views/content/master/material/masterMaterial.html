@@ -188,7 +188,7 @@
                                     <th title="Cutting Index">CI</th>
                                     <th title="Bending Index">BI</th>
                                     <th title="Fabrication Index">FI</th>
-                                    <th>Wastage (%)</th>
+                                    <th>Efficiency (%)</th>
                                     <th>Action</th>
                                     <!-- <th>Custom Base Material</th> -->
                                     <!-- <th>Custom Overlay</th> -->
@@ -233,7 +233,7 @@
                                         />
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="m.contingencyOrWastage" ng-disabled="editMaterialId != m._id && !editAll" class="form-control"
+                                        <input type="text" ng-model="m.efficiency" ng-disabled="editMaterialId != m._id && !editAll" class="form-control"
                                             ng-change="addOrEditMaterial(m, materialSubCategory)" />
                                     </td>
                                     <td>

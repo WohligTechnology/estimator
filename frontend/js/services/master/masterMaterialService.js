@@ -78,11 +78,11 @@ myApp.service('masterMaterialService', function (NavigationService) {
         if (operation == "save") {
             materialObj.saveBtn = true;
             materialObj.editBtn = false;
-            materialObj.materialSubCategory = materialSubCatId;
         } else if (operation == "update") {
             materialObj.saveBtn = false;
             materialObj.editBtn = true;
         }
+        materialObj.materialSubCategory = materialSubCatId;        
         callback(materialObj);
     }
     this.addOrEditMaterial = function (materialData, materialSubCatId, callback) {

@@ -28,7 +28,7 @@
                             <upload-all-files ng-model="formData.image.file" pdf-file="true" icon="false" file-location="top"></upload-all-files>
                         </div>
                         <div class="displayBlock myDisplayBox pull-left">Global Variables :
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-bordered table-hover" style="margin-left: -15px;">
                                 <thead>
                                     <tr>
                                         <th>varName</th>
@@ -78,9 +78,19 @@
                                         <td>m</td>
                                     </tr>
                                     <tr>
-                                        <td>Weight</td>
-                                        <td>wt</td>
+                                        <td>Gross Weight</td>
+                                        <td>gwt</td>
                                         <td>kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Net Weight</td>
+                                        <td>nwt</td>
+                                        <td>kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Efficiency</td>
+                                        <td>eff</td>
+                                        <td>%</td>
                                     </tr>
                                     <tr>
                                         <td>Density</td>
@@ -139,7 +149,7 @@
                                 </div>
                             </div>
                         </div>
-                       <hr><br>
+                        <hr><br>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Size Factor(sf)
                                 <span class="error">*</span>
@@ -184,7 +194,8 @@
                                 <span class="error" ng-show="!myForm.wastage.$valid && myForm.wastage.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
-                       <hr><br>
+                        <hr>
+                        <br>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
                                 <b>Formulas:</b>
@@ -208,17 +219,26 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Surface Area (sa)
-                                <span class="error">&nbsp;*</span>
+                                <span class="error">*</span>
                             </label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control " ng-model="formData.partFormulae.surfaceArea" placeholder="" required>
                                 <span class="unit">sq. m</span>
                             </div>
-                            <label class="col-md-3 control-label">Weight (wt)
+                            <label class="col-md-3 control-label">Net Weight (gwt)
+                                <span class="error">*</span>
+                            </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" ng-model="formData.partFormulae.netWeight"  ng-change="calculateGrossWeight(formData.partFormulae.netWeight, formData.wastage)" placeholder="" required>
+                                <span class="unit">kg</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Gross Weight (gwt)
                                 <span class="error">&nbsp;*</span>
                             </label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control " ng-model="formData.partFormulae.weight" placeholder="" required>
+                                <input type="text" class="form-control " ng-model="formData.partFormulae.grossWeight" required>
                                 <span class="unit">kg</span>
                             </div>
                         </div>
@@ -244,7 +264,7 @@
 
                     </div>
                 </div>
-            </div>  
+            </div>
         </form>
         <!-- END FORM-->
     </div>

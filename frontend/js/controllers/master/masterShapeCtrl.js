@@ -25,11 +25,11 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
 
     // *************************** functions to be triggered form view begin here ***** //
 
-    $scope.temp = function(){
+    $scope.temp = function () {
         $scope.shapeView = 'views/content/master/shape/shapeView.html';
     }
 
-    $scope.createOrEditShapeData = function (operation, shape) {           
+    $scope.createOrEditShapeData = function (operation, shape) {
         debugger;
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
             $scope.shapeView = 'views/content/master/shape/tempView.html';
@@ -66,11 +66,10 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     }
     $scope.deleteShape = function (shapeId) {
         masterShapeService.deleteShape(shapeId, function (data) {
-            if(_.isEmpty(data.data)){
+            if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
-                }
-            else{
-                toastr.error('Record cannot deleted.Dependency on '+ data.data[0].model + ' database');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
             $scope.cancelModal();
             $scope.getShapeData();
@@ -91,6 +90,10 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
             $scope.shapeVariables.push(tempVarObj);
             // $scope.variablesData.push(tempVarObj);
         }
+    }
+    //- create formulae for net weight dynamically
+    $scope.calculateGrossWeight = function (nwt, wastage) {
+        $scope.formData.partFormulae.grossWeight = "(" + nwt + ") + ( wtg /" + 100 + ") * (" + nwt + ")";
     }
 
     //- to dismiss modal instance

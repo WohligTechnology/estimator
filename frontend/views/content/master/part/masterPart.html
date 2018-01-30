@@ -186,13 +186,13 @@
                                         <div>{{presetFormData.partFormulae.perimeter.toFixed(2)}}</div>
                                     </div>
                                     <label class="col-md-2">
-                                        <b>Sheet Metal Area:</b>
+                                        <b>Sheet Metal Area (sma):</b>
                                     </label>
                                     <div class="col-md-2">
                                         <div>{{presetFormData.partFormulae.sheetMetalArea.toFixed(2)}}</div>
                                     </div>
                                     <label class="col-md-2">
-                                        <b>Surface Area:</b>
+                                        <b>Surface Area (sa):</b>
                                     </label>
                                     <div class="col-md-2">
                                         <div>{{presetFormData.partFormulae.surfaceArea.toFixed(2)}}</div>
@@ -200,16 +200,30 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2">
-                                        <b>Weight:</b>
+                                        <b>Gross Weight (gwt):</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFormData.partFormulae.weight.toFixed(2)}}</div>
+                                        <div>{{presetFormData.partFormulae.grossWeight.toFixed(2)}}</div>
                                     </div>
                                     <label class="col-md-2">
-                                        <b>Cost Price:</b>
+                                        <b>Net Weight (nwt):</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFormData.totalCost.toFixed(2)}}</div>
+                                        <div>{{presetFormData.partFormulae.netWeight.toFixed(2)}}</div>
+                                    </div>
+                                    <label class="col-md-2">
+                                        <b>Cost Price<br>(On Gross Weight):</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.totalCostGwt.toFixed(2)}}</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2">
+                                        <b>Cost Price<br>(On Net Weight):</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.totalCostNwt.toFixed(2)}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -296,13 +310,13 @@
                                         <div>{{presetFormData.partFormulae.perimeter}}</div>
                                     </div>
                                     <label class="col-md-2">
-                                        <b>Sheet Metal Area:</b>
+                                        <b>Sheet Metal Area (sma):</b>
                                     </label>
                                     <div class="col-md-2">
                                         <div>{{presetFormData.partFormulae.sheetMetalArea}}</div>
                                     </div>
                                     <label class="col-md-2">
-                                        <b>Surface Area:</b>
+                                        <b>Surface Area (sa):</b>
                                     </label>
                                     <div class="col-md-2">
                                         <div>{{presetFormData.partFormulae.surfaceArea}}</div>
@@ -310,16 +324,30 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2">
-                                        <b>Weight:</b>
+                                        <b>Gross Weight (gwt):</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFormData.partFormulae.weight}}</div>
+                                        <div>{{presetFormData.partFormulae.grossWeight}}</div>
                                     </div>
                                     <label class="col-md-2">
-                                        <b>Cost Price:</b>
+                                        <b>Net Weight (nwt):</b>
                                     </label>
                                     <div class="col-md-2">
-                                        <div>{{presetFormData.totalCost}}</div>
+                                        <div>{{presetFormData.partFormulae.netWeight}}</div>
+                                    </div>
+                                    <label class="col-md-2">
+                                        <b>Cost Price<br>(On Gross Weight):</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.totalCostGwt}}</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2">
+                                        <b>Cost Price<br>(On Net Weight):</b>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div>{{presetFormData.totalCostNwt}}</div>
                                     </div>
                                 </div>
                             </div>

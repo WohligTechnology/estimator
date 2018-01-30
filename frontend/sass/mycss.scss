@@ -606,9 +606,38 @@ tree css*/
  .loading { 
    display: none;
    height: 0px;
-  //border: 1px solid #ddd; 
-  //padding:20px; 
-  //margin:40px 5px;
-  //background: grey;
   opacity: 1;
 }
+//- CSS for toggle button at custom material start
+.btn-switch {
+  position: relative;
+  display: block;
+  width: 60px;
+  height: 26px;
+  cursor: pointer;
+  background-color: #ef3633;
+  border: 2px solid #ef3633;
+  border-radius: 40px !important;
+  
+  .btn-switch-circle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      height: 22px;
+      width: 22px;
+      background-color: #fff;
+      border-radius: 40px !important;
+  }
+}
+
+.btn-switch--on {
+  background-color: #38b82a;
+  border: 2px solid #38b82a;
+  
+  .btn-switch-circle--on {
+      left: auto;
+      right: 0;
+  }
+}
+//- CSS for toggle button at custom material end

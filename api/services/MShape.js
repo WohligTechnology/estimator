@@ -38,7 +38,8 @@ var schema = new Schema({
         perimeter: String,
         sheetMetalArea: String,
         surfaceArea: String,
-        weight: String,
+        grossWeight: String,
+        netWeight: String       
     },
     namingConvenstion: {
         type: String

@@ -2,6 +2,11 @@ var schema = new Schema({
     customMaterialName: {
         type: String
     },
+    estimateId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Estimate'
+    },
+    favourite: Boolean,    
     uniqueId: String,
     basePlate: {
         thickness: Number,
