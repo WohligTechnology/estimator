@@ -6,8 +6,8 @@ var schema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Estimate'
     },
-    favourite: Boolean,    
-    uniqueId: String,
+    favourite: Boolean,
+    customMaterialId: String,
     basePlate: {
         thickness: Number,
         baseMetal: {
@@ -128,6 +128,68 @@ var model = {
                         callback(null, finalResult);
                     }
                 });
+            }
+        });
+    },
+
+
+    // what this function will do ?
+    // req data --> ?
+    createCustomMat: function (data, callback) {
+        CustomMaterial.findOne().sort({
+            createdAt: -1
+        }).limit(1).lean().exec(function (err, found) {
+            if (err) {
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                data.customMaterialId = "cm1";
+                CustomMaterial.saveData(data, function (err, savedData) {
+                    if (err) {
+                        callback(err, null);
+                    } else if (_.isEmpty(savedData)) {
+                        callback(null, 'noDataFound');
+                    } else {
+                        callback(null, savedData);
+                    }
+                });
+            } else {
+                if (data._id) {
+                    data._id = data._id;
+                } else {
+                    var custMatNewId = found.customMaterialId;
+                    custMatNewId = custMatNewId.replace(/\d+$/, function (n) {
+                        return ++n
+                    });
+                    data.customMaterialId = custMatNewId;
+                }
+
+                CustomMaterial.saveData(data, function (err, savedData) {
+                    if (err) {
+                        console.log('**** error at function_name of Components.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(savedData)) {
+                        callback(null, 'noDataFound');
+                    } else {
+                        callback(null, savedData);
+                    }
+                });
+
+            }
+        });
+    },
+
+
+    // what this function will do ?
+    // req data --> ?
+    getAllFavouriteCm: function (data, callback) {
+        CustomMaterial.find({favourite:true}).exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of CustomMaterial.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                callback(null, found);
             }
         });
     },
