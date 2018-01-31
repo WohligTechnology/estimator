@@ -68,13 +68,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.disablePartFields = {
     disableField: true,
     disableShortcut: false,
-    disablePartTypeName: false,
+    //disablePartType: false,
     disableMaterial: true,
     disableSize: true,
-    disableCustomMaterial: true,
+    disableCustomMaterial: false,
     displayPresetSize: false,
     disableShape: false,
-    disableAllMaterial: true,
+    disableAllMaterial: false,
     showAll: true
   };
   $scope.disablePartFieldsTemp = _.cloneDeep($scope.disablePartFields);
@@ -143,35 +143,46 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
             if (angular.isDefined(data.selectedShortcut._id)) {
               $scope.estimatePartObj.selectedShortcut = data.selectedShortcut;
               $scope.estimatePartObj.selectedPartType = data.selectedPartType;
-              $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
-              $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
               $scope.estimatePartObj.selectedSize = data.selectedSize;
-
+              if (data.selectedCustomMaterial._id) {
+                //- custom material is selected
+                //- hide material
+                $scope.disablePartFields.disableAllMaterial = true;
+                $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
+                $scope.disablePartFields.disableCustomMaterial = false;
+              } else { //- material is seleceted
+                $scope.estimatePartObj.allMaterial = data.selectedPartType.material;
+                $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
+                $scope.disablePartFields.disableCustomMaterial = true;
+              }
+              //- disable size & shape 
               $scope.disablePartFields.displayPresetSize = true;
               $scope.disablePartFields.disableShape = true;
-            } else if (angular.isDefined(data.selectedCustomMaterial._id)) {
-
-              //- if custom material is selected
-              //- enable custom material field
+            } else {
               //- hide shortcut, part type, size
-              //- to get all available materials
-              $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
               $scope.disablePartFields.showAll = false;
-              $scope.disablePartFields.disableCustomMaterial = false;
-            } else { //- if material is selected
-              //- hide custom material
-              //- enable material field
-              //- get selected materials
-              //- hide shortcut, part type, size
-              //- to get all available materials
-              $scope.disablePartFields.disableCustomMaterial = true;
-              $scope.disablePartFields.disableAllMaterial = false;
-              $scope.disablePartFields.showAll = false;
+              $scope.disablePartFields.disableShape = false;
+              if (angular.isDefined(data.selectedCustomMaterial._id)) {
 
-              $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
-              createOrEditEstimateService.getAllMaterials(function (data) {
-                $scope.estimatePartObj.allMaterial = data;
-              });
+                //- if custom material is selected
+                //- enable custom material field
+                //- to get all available materials
+                //- hide material field
+                $scope.estimatePartObj.selectedCustomMaterial = data.selectedCustomMaterial;
+                $scope.disablePartFields.disableAllMaterial = true;
+                $scope.disablePartFields.disableCustomMaterial = false;
+              } else { //- if material is selected
+                //- hide custom material
+                //- enable material field
+                //- get selected materials
+                //- to get all available materials
+                $scope.disablePartFields.disableCustomMaterial = true;
+                $scope.disablePartFields.disableMaterial = false;
+                $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
+                createOrEditEstimateService.getAllMaterials(function (data) {
+                  $scope.estimatePartObj.allMaterial = data;
+                });
+              }
             }
 
             if (data.quantity) {
@@ -270,7 +281,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     }
     $scope.disablePartFields.disableSize = false;
     //- disable fields
-    $scope.disablePartFields.disablePartType = true;
+    //$scope.disablePartFields.disablePartType = true;
     $scope.disablePartFields.disableMaterial = false;
     $scope.disablePartFields.disableShape = true;
 
@@ -297,6 +308,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.disablePartFields.disableSize = false;
     $scope.disablePartFields.disableShape = true;
     $scope.disablePartFields.disableShortcut = true;
+    //- enable change size functionality
+    if ($scope.disablePartFields.displayPresetSize) {
+      $scope.disablePartFields.displayPresetSize = false;
+    }
 
   }
 
@@ -316,8 +331,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.getSelectedCustomMaterialData = function (materialObj) {
     //- disable fields part preset shortcut and part type
     $scope.disablePartFields.disableAllMaterial = true;
+    //$scope.disablePartFields.disableMaterial = true;
     $scope.estimatePartObj.selectedCustomMaterial = materialObj;
-    $scope.getPartFinalCalculation();
+    $scope.updatePartCalculation();
   }
 
   //- call when user will select shape after selecting custom materialfalse
@@ -325,8 +341,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- disable fields part preset shortcut, part type and custom material if custom material is not selected
     //- update shape related data
     //$scope.disablePartFields.disablePartType = true;
-    $scope.disablePartFields.disableAllMaterial = false;
-    $scope.disablePartFields.disableCustomMaterial = false;
+    $scope.disablePartFields.disableMaterial = false;
     $scope.disablePartFields.showAll = false;
 
     $scope.estimatePartObj.length = shapeObj.length; //- length
@@ -400,6 +415,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- if dynamic varibles present in formulae
     if (angular.isDefined($scope.estimatePartObj.selectedMaterial.density) && $scope.estimatePartObj.selectedMaterial.density != null) {
       var den = parseFloat($scope.estimatePartObj.selectedMaterial.density);
+    } else if (angular.isDefined($scope.estimatePartObj.selectedCustomMaterial.density) && $scope.estimatePartObj.selectedCustomMaterial.density != null) {
+      var den = parseFloat($scope.estimatePartObj.selectedCustomMaterial.density);
     }
     if (angular.isDefined($scope.estimatePartObj.selectedMaterial.efficiency) && $scope.estimatePartObj.selectedMaterial.efficiency != null) {
       var eff = parseFloat($scope.estimatePartObj.selectedMaterial.efficiency);
@@ -476,6 +493,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.getEstimateData = function () {
     createOrEditEstimateService.getEstimateData($scope.draftEstimateId, function (data) {
       $scope.estimteData = data;
+      $scope.getAllMaterialData();
     });
   }
   $scope.getCurretEstimateObj = function () {
@@ -857,9 +875,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
   //- to add or edit custom material
   $scope.addOrEditCustomMaterial = function (customMaterialdata) {
-    createOrEditEstimateService.createCustomMaterial(customMaterialdata, function () {
-      $scope.getAllMaterialData();
-      toastr.success("Custom Material Added/Updated Successfully");
+    createOrEditEstimateService.createCustomMaterial(customMaterialdata, function (data) {
+      if (data.value) {
+        $scope.getAllMaterialData();
+        toastr.success("Custom Material Added/Updated Successfully");  
+      } else {
+        toatre.error('Custom Material is not added');
+      }
       $scope.cancelModal();
     });
   }
@@ -959,16 +981,28 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
   //- to import custom material
   $scope.importCustoMaterialModal = function () {
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/estimate/estimateModal/importCustomMaterial.html',
-      scope: $scope,
-      size: 'md',
+    createOrEditEstimateService.getImportCustomMaterialData(function (data) {
+      if (data.value) {
+        if (data.data.length == 0) {
+          toastr.info("Custom material favourite list is empty");
+        } else {
+          $scope.allCustMat = data.data;
+          $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/estimate/estimateModal/importCustomMaterial.html',
+            scope: $scope,
+            size: 'md',
+          });
+        }
+      } else {
+        toastr.error("There is some error while adding custom material");
+      }
     });
   }
   $scope.importCustomMaterial = function (custMat) {
     createOrEditEstimateService.importCustomMaterial(custMat, function (data) {
-
+      $scope.cancelModal();
+      $scope.getAllMaterialData();
     });
   }
   //- ..................................Custom Material Module end.......................... -//
@@ -1495,7 +1529,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.getEstimateData();
     $scope.getEstimateView('assembly');
     //to get estimate tree structure data 
-    $scope.getAllMaterialData();
   }
   $scope.init();
 

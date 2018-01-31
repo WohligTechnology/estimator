@@ -13,9 +13,13 @@
                 <form class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-5 control-label">Select Custom Material :</label>
+                            <label class="col-md-5 control-label">Select Custom Material :<br><br>
+                                <span><b>Note:</b> To select multiple Difficulty Factors Press <b>'Ctrl Key'</b>.</span>                                
+                            </label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-options="c.customMaterialName for c in custMatData" ng-model="customMat" autofocus required>
+                                <!-- <select class="form-control" ng-options="c.customMaterialName for c in allCustMat" ng-model="customMat" autofocus required>
+                                </select> -->
+                                <select multiple class="form-control" ng-options="c.customMaterialName for c in allCustMat track by $index" ng-model="customMat">
                                 </select>
                             </div>
                         </div>

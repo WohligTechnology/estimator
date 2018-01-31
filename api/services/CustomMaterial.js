@@ -68,8 +68,9 @@ var model = {
     // what this function will do ?
     // req data --> ?
     getAllCustomMaterial: function (data, callback) {
-        CustomMaterial.find().deepPopulate('difficultyFactor').lean().exec(function (err, found) {
-
+        CustomMaterial.find({
+            estimateId: data.estimateId
+        }).deepPopulate('difficultyFactor').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of CustomMaterial.js ****', err);
                 callback(err, null);
@@ -143,6 +144,7 @@ var model = {
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 data.customMaterialId = "cm1";
+                data.customMaterialName = data.customMaterialName + "_" + data.customMaterialId;
                 CustomMaterial.saveData(data, function (err, savedData) {
                     if (err) {
                         callback(err, null);
@@ -161,6 +163,7 @@ var model = {
                         return ++n
                     });
                     data.customMaterialId = custMatNewId;
+                    data.customMaterialName = data.customMaterialName + "_" + custMatNewId;
                 }
 
                 CustomMaterial.saveData(data, function (err, savedData) {
@@ -182,7 +185,9 @@ var model = {
     // what this function will do ?
     // req data --> ?
     getAllFavouriteCm: function (data, callback) {
-        CustomMaterial.find({favourite:true}).exec(function (err, found) {
+        CustomMaterial.find({
+            favourite: true
+        }).exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of CustomMaterial.js ****', err);
                 callback(err, null);

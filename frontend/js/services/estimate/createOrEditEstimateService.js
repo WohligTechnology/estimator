@@ -155,7 +155,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		density: "",
 		rollingIndex: "",
 		bendingIndex: "",
-		fabrictionIndex:"",
+		fabrictionIndex: "",
 		cuttingIndex: "",
 		basePlate: {
 			thickness: "",
@@ -506,7 +506,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				NavigationService.boxCall('MPartType/getPartTypeData', function (partTypeData) {
 					estimatePartObj.allPartTypes = partTypeData.data;
 
-					NavigationService.boxCall('CustomMaterial/getAllCustomMaterial', function (allCustomMaterials) {
+					NavigationService.apiCall('CustomMaterial/getAllCustomMaterial', {estimateId: formData.assembly._id}, function (allCustomMaterials) {
 						if (allCustomMaterials.data != "noDataFound") {
 							estimatePartObj.customMaterials = allCustomMaterials.data;
 						} else {
@@ -1293,7 +1293,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				perimeter: null,
 				SMA: null,
 				SA: null,
-				grossWeight: null,				
+				grossWeight: null,
 				netWeight: null,
 				Nos: null,
 				Hrs: null
@@ -1318,7 +1318,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (level == 'subAssembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			
+
 			this.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
 				if (!_.isEmpty(data)) {
 					addonObject.linkedKeyValuesAtSubAssemblyCalculation = {
@@ -2151,7 +2151,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	this.getAllMaterialData = function (callback) {
 		var temp = [];
-		NavigationService.boxCall('CustomMaterial/getAllCustomMaterial', function (data) {
+		var tempObj = {
+			estimateId: formData.assembly._id
+		};
+		NavigationService.apiCall('CustomMaterial/getAllCustomMaterial', tempObj, function (data) {
 			if (data.data == "noDataFound") {
 				temp = [];
 			} else {
@@ -2199,8 +2202,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to save custome material object
 	this.createCustomMaterial = function (customMaterialObj, callback) {
-		NavigationService.apiCall('CustomMaterial/save', customMaterialObj, function (data) {
-			callback(data.data);
+		NavigationService.apiCall('CustomMaterial/createCustomMat', customMaterialObj, function (data) {
+			callback(data);
 		});
 	}
 	//- to delete custom material
@@ -2213,7 +2216,25 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			callback(data);
 		});
 	}
+	//- to get all favourite custom material 
+	this.getImportCustomMaterialData = function (callback) {
+		NavigationService.boxCall('CustomMaterial/getAllFavouriteCm', function (data) {
+			callback(data);
+		});
+	}
 	//- to import custom material 
-	this.importCustomMaterial = function (custMat, callback) {
+	this.importCustomMaterial = function (customMaterialData, callback) {
+		var tempArray = [];
+		_.forEach(customMaterialData, function (customMaterialObj) {
+			customMaterialObj = _.omit(customMaterialObj, ['_id', 'customMaterialId']);
+			customMaterialObj.estimateId = formData.assembly._id;
+			customMaterialObj.favourite = false;
+			var temp = _.split(customMaterialObj.customMaterialName, '_');
+			customMaterialObj.customMaterialName = temp[0];
+			tempArray.push(customMaterialObj);
+		});
+		NavigationService.apiCall('CustomMaterial/createCustomMat', {cmArray: tempArray}, function (data) {
+			callback();
+		});
 	}
 });

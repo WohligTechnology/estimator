@@ -40,7 +40,7 @@
                                         <div class="form-group" ng-if="disablePartFields.showAll">
                                             <label class="col-md-4 control-label">Shortcut:</label>
                                             <div class="col-md-5">
-                                                <select class="form-control" ng-options="s.presetName for s in estimatePartObj.allShortcuts track by s._id" ng-model="estimatePartObj.selectedShortcut"
+                                                <select class="form-control" ng-options="s.presetName for s in estimatePartObj.allShortcuts track by $index" ng-model="estimatePartObj.selectedShortcut"
                                                     placeholder="Select" ng-change="getSelectedShortcutData(estimatePartObj.selectedShortcut)"
                                                     ng-disabled="disablePartFields.disableShortcut" required>
                                                 </select>
@@ -64,7 +64,7 @@
                                             </div>
                                         </div>
                                         <!-- after selecting part preset/part type it will be enable -->
-                                        <div class="form-group" ng-if="disablePartFields.showAll">
+                                        <!-- <div class="form-group" ng-if="disablePartFields.showAll">
                                             <label class="col-md-4 control-label">Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id"
@@ -72,14 +72,14 @@
                                                     ng-disabled="disablePartFields.disableMaterial" required>
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <!-- after selecting shape it will be enable -->
                                         <div class="form-group" ng-if="!disablePartFields.disableAllMaterial">
                                             <label class="col-md-4 control-label">Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id"
                                                     ng-model="estimatePartObj.selectedMaterial" placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial, estimatePartObj.selectedShape)"
-                                                    required>
+                                                    ng-disabled="disablePartFields.disableMaterial" required>
                                                 </select>
                                             </div>
                                         </div>
