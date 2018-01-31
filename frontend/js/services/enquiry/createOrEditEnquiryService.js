@@ -70,7 +70,14 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       callback(data.data);
     });
   }
-  this.getExcelSheet = function (estimateVersionId, callback) {    
+  this.getExcelSheet = function (estimateVersionId, callback) {  
+    debugger;
+    var tempObj = {
+      _id: estimateVersionId
+    }
+    NavigationService.apiCall('Estimate/generateDraftEstExcel', tempObj, function (data) {
+      callback(data);
+    });  
   }
   //- to import assembly
   this.getImportAssemblyData = function (assemblyId, callback) {

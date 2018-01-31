@@ -493,6 +493,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.getEstimateData = function () {
     createOrEditEstimateService.getEstimateData($scope.draftEstimateId, function (data) {
       $scope.estimteData = data;
+      $scope.getAllMaterialData();
     });
   }
   $scope.getCurretEstimateObj = function () {
@@ -874,9 +875,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
   //- to add or edit custom material
   $scope.addOrEditCustomMaterial = function (customMaterialdata) {
-    createOrEditEstimateService.createCustomMaterial(customMaterialdata, function () {
-      $scope.getAllMaterialData();
-      toastr.success("Custom Material Added/Updated Successfully");
+    createOrEditEstimateService.createCustomMaterial(customMaterialdata, function (data) {
+      if (data.value) {
+        $scope.getAllMaterialData();
+        toastr.success("Custom Material Added/Updated Successfully");  
+      } else {
+        toatre.error('Custom Material is not added');
+      }
       $scope.cancelModal();
     });
   }
@@ -976,16 +981,28 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
   //- to import custom material
   $scope.importCustoMaterialModal = function () {
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/estimate/estimateModal/importCustomMaterial.html',
-      scope: $scope,
-      size: 'md',
+    createOrEditEstimateService.getImportCustomMaterialData(function (data) {
+      if (data.value) {
+        if (data.data.length == 0) {
+          toastr.info("Custom material favourite list is empty");
+        } else {
+          $scope.allCustMat = data.data;
+          $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/estimate/estimateModal/importCustomMaterial.html',
+            scope: $scope,
+            size: 'md',
+          });
+        }
+      } else {
+        toastr.error("There is some error while adding custom material");
+      }
     });
   }
   $scope.importCustomMaterial = function (custMat) {
     createOrEditEstimateService.importCustomMaterial(custMat, function (data) {
-
+      $scope.cancelModal();
+      $scope.getAllMaterialData();
     });
   }
   //- ..................................Custom Material Module end.......................... -//
@@ -1512,7 +1529,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.getEstimateData();
     $scope.getEstimateView('assembly');
     //to get estimate tree structure data 
-    $scope.getAllMaterialData();
   }
   $scope.init();
 

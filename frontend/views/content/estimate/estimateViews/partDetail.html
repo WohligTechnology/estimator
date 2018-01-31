@@ -22,82 +22,111 @@
                                         <div class="portlet-body form">
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Part Name:</label>
-                                                <div class="col-md-3">
-                                                    <div><span>{{estimatePartObj.partName}}</span></div>
+                                                <div class="col-md-2">
+                                                    <div>
+                                                        <span>{{estimatePartObj.partName}}</span>
+                                                    </div>
                                                 </div>
-                                                  <label class="col-md-2" for="form_control_1">Icon :</label>
-                                                <div class="col-md-6">
-                                                    <div><span></span></div>
+                                                <label class="col-md-2" for="form_control_1">Icon :</label>
+                                                <div class="col-md-2">
+                                                    <img alt="" ng-if="estimatePartObj.shapeIcon!=null" ng-src="{{estimatePartObj.shapeIcon|downloadpath}}" style="height: 30px;
+                                                        width: 50px;margin-left:10px" />
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4 " for="form_control_1">Part Id:</label>
                                                 <div class="col-md-6">
-                                                    <div><span>{{estimatePartObj.partNumber}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.partNumber}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-4" for="form_control_1"><b>Item Detail:</b></label>
+                                                <label class="col-md-4" for="form_control_1">
+                                                    <b>Item Detail:</b>
+                                                </label>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Short Cut:</label>
                                                 <div class="col-md-6">
-                                                    <div><span>{{estimatePartObj.selectedShortcut.presetName}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.selectedShortcut.presetName}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Part Type Name:</label>
                                                 <div class="col-md-5">
-                                                    <div><span>{{estimatePartObj.selectedPartType.partTypeName}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.selectedPartType.partTypeName}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Material:</label>
                                                 <div class="col-md-5">
-                                                    <div><span>{{estimatePartObj.selectedMaterial.materialName}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.selectedMaterial.materialName}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Size:</label>
                                                 <div class="col-md-5">
-                                                    <div><span>{{estimatePartObj.selectedShortcut.size}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.selectedShortcut.size}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Custom Material:</label>
                                                 <div class="col-md-5">
-                                                    <div><span>{{estimatePartObj.selectedCustomMaterial.customMaterialName}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.selectedCustomMaterial.customMaterialName}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Quantity:</label>
                                                 <div class="col-md-5">
-                                                    <div><span>{{estimatePartObj.quantity}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.quantity}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Shape Image:</label>
-                                                <div class="col-md-5">
+                                                <!-- <div class="col-md-5">
                                                     <div class="img-border"><img src="img/Doraemon.png" alt="" class=" img-responsive">
-                                                    </div>
+                                                    </div> -->
+                                                <div class="col-md-5 img-border">
+                                                    <img alt="" class="img-responsive" ng-if="estimatePartObj.shapeImage!=null" ng-src="{{estimatePartObj.shapeImage|downloadpath}}"
+                                                    />
+                                                    <!-- </div> -->
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Processing Count:</label>
                                                 <div class="col-md-5">
-                                                    <div><span>{{estimatePartObj.processingCount}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.processingCount}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Addons Count:</label>
                                                 <div class="col-md-5">
-                                                    <div><span>{{estimatePartObj.addonCount}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.addonCount}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Extras Count:</label>
                                                 <div class="col-md-5">
-                                                    <div><span>{{estimatePartObj.extraCount}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.extraCount}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -109,13 +138,17 @@
                             <div class="part-detail-form">
                                 <form role="form" class="form-horizontal">
                                     <div class="portlet-body form">
-                                        <div class="form-group form-md-line-input has-success" >
-                                            <label class="col-md-1" for="form_control_1"><b>Variables:</b></label>
+                                        <div class="form-group form-md-line-input has-success">
+                                            <label class="col-md-1" for="form_control_1">
+                                                <b>Variables:</b>
+                                            </label>
                                         </div>
                                         <div class="form-group form-md-line-input has-success" ng-repeat="v in estimatePartObj.variables track by $index">
                                             <label class="col-md-1" for="form_control_1">{{v.varName}}</label>
                                             <div class="col-md-3">
-                                                <div><span>{{v.varValue}}</span></div>
+                                                <div>
+                                                    <span>{{v.varValue}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group form-md-line-input has-success">
@@ -162,25 +195,41 @@
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-5" for="form_control_1">Perimeter:</label>
                                                 <div class="col-md-6">
-                                                    <div><span>{{estimatePartObj.keyValueCalculations.perimeter}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.keyValueCalculations.perimeter}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-5" for="form_control_1">SMA:</label>
                                                 <div class="col-md-6">
-                                                    <div><span>{{estimatePartObj.keyValueCalculations.sheetMetalArea}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.keyValueCalculations.sheetMetalArea}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-5" for="form_control_1">SA:</label>
                                                 <div class="col-md-6">
-                                                    <div><span>{{estimatePartObj.keyValueCalculations.surfaceArea}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.keyValueCalculations.surfaceArea}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-5" for="form_control_1">Weight/input:</label>
+                                                <label class="col-md-5" for="form_control_1">Gross Weight/input:</label>
                                                 <div class="col-md-6">
-                                                    <div><span>{{estimatePartObj.keyValueCalculations.weight}}</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.keyValueCalculations.grossWeight}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-md-line-input has-success">
+                                                <label class="col-md-5" for="form_control_1">Net Weight/input:</label>
+                                                <div class="col-md-6">
+                                                    <div>
+                                                        <span>{{estimatePartObj.keyValueCalculations.netWeight}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -188,19 +237,25 @@
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-5" for="form_control_1">Material Price:</label>
                                                 <div class="col-md-6">
-                                                    <div><span>{{estimatePartObj.finalCalculation.materialPrice}} Rs/kg</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.finalCalculation.materialPrice}} Rs/kg</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-5" for="form_control_1">Item Unit Price :</label>
                                                 <div class="col-md-6">
-                                                    <div><span>{{estimatePartObj.finalCalculation.itemUnitPrice}} Rs</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.finalCalculation.itemUnitPrice}} Rs</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-5" for="form_control_1">Total Price For Quatntity:</label>
                                                 <div class="col-md-6">
-                                                    <div><span>{{estimatePartObj.finalCalculation.totalCostForQuantity}} Rs</span></div>
+                                                    <div>
+                                                        <span>{{estimatePartObj.finalCalculation.totalCostForQuantity}} Rs</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
