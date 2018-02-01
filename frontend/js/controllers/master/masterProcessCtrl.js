@@ -83,12 +83,13 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
 
 
-    $scope.addOrEditProcessItemModal = function (operation, processCatId, processItem) {
-        masterProcessService.getProcessItemModalData(operation, processCatId, processItem, function (data) {
+    $scope.addOrEditProcessItemModal = function (operation, processCat, processItem) {
+        masterProcessService.getProcessItemModalData(operation, processCat._id, processItem, function (data) {
             $scope.formData = data.processItem;
             $scope.processCat = data.processCat;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
+            $scope.processCatUom = processCat.uom.uomName;
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,

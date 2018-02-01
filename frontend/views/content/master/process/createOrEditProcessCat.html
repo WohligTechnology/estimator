@@ -34,7 +34,7 @@
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessCat(formData,selectedUom._id)" ng-disabled ="myForm.$dirty && myForm.$invalid || myForm.$pristine">Save</button>
                                   <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditProcessCat(formData,selectedUom._id)">Update</button>
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
                     </div>

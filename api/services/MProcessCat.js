@@ -30,7 +30,7 @@ var model = {
 
     //-Get all MProcessCatData records from MProcessCat table.
     getMProcessCatData: function (data, callback) {
-        MProcessCat.find().lean().exec(function (err, found) {
+        MProcessCat.find().deepPopulate('processItems uom').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at getMProcessCatData of MProcessCat.js ****', err);
                 callback(err, null);

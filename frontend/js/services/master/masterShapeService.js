@@ -26,8 +26,8 @@ myApp.service('masterShapeService', function (
     }];
     
     this.geShapeData = function (callback) {
-        NavigationService.boxCall('MShape/search', function (data) {
-            callback(data.data.results);
+        NavigationService.boxCall('MShape/getMShapeData', function (data) {
+            callback(data.data);
         });
     }
 

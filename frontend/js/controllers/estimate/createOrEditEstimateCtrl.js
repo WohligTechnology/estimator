@@ -878,7 +878,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.createCustomMaterial(customMaterialdata, function (data) {
       if (data.value) {
         $scope.getAllMaterialData();
-        toastr.success("Custom Material Added/Updated Successfully");  
+        toastr.success("Custom Material Added/Updated Successfully");
       } else {
         toatre.error('Custom Material is not added');
       }
@@ -1001,8 +1001,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
   $scope.importCustomMaterial = function (custMat) {
     createOrEditEstimateService.importCustomMaterial(custMat, function (data) {
+      if (data.value) {
+        $scope.getAllMaterialData();
+        toastr.success('Custom material is imported successfully');
+      } else {
+        toastr.error('Custom material is not imported');
+      }
       $scope.cancelModal();
-      $scope.getAllMaterialData();
     });
   }
   //- ..................................Custom Material Module end.......................... -//

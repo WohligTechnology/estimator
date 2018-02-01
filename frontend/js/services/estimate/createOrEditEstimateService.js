@@ -2233,8 +2233,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			customMaterialObj.customMaterialName = temp[0];
 			tempArray.push(customMaterialObj);
 		});
-		NavigationService.apiCall('CustomMaterial/createCustomMat', {cmArray: tempArray}, function (data) {
-			callback();
+		NavigationService.apiCall('CustomMaterial/saveImportedCustMat', {cmArray: tempArray}, function (data) {
+			callback(data);
 		});
 	}
 });

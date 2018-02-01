@@ -3,8 +3,8 @@ myApp.service('masterProcessService', function (NavigationService) {
   //- to get master process tree structure data
   this.getProcessData = function (callback) {
 
-    NavigationService.boxCall('MProcessCat/search', function (data) {
-      callback(data.data.results);
+    NavigationService.boxCall('MProcessCat/getMProcessCatData', function (data) {
+      callback(data.data);
     });
   }
 
@@ -25,8 +25,8 @@ myApp.service('masterProcessService', function (NavigationService) {
       processCatObj.saveBtn = true;
       processCatObj.editBtn = false;
 
-      NavigationService.boxCall('MUom/search', function (data) {
-        processCatObj.uoms = data.data.results;
+      NavigationService.boxCall('MUom/getMUomData', function (data) {
+        processCatObj.uoms = data.data;
         callback(processCatObj);
       });
 
@@ -34,8 +34,8 @@ myApp.service('masterProcessService', function (NavigationService) {
       processCatObj.saveBtn = false;
       processCatObj.editBtn = true;
 
-      NavigationService.boxCall('MUom/search', function (data) {
-        processCatObj.uoms = data.data.results;
+      NavigationService.boxCall('MUom/getMUomData', function (data) {
+        processCatObj.uoms = data.data;
         callback(processCatObj);
       });
     }
@@ -95,11 +95,11 @@ myApp.service('masterProcessService', function (NavigationService) {
       processDataObj.saveBtn = true;
       processDataObj.editBtn = false;
 
-      NavigationService.boxCall('MProcessCat/search', function (data) {
-        processDataObj.processCats = data.data.results;
+      NavigationService.boxCall('MProcessCat/getMProcessCatData', function (data) {
+        processDataObj.processCats = data.data;
 
-        NavigationService.boxCall('MUom/search', function (data) {
-          processDataObj.uoms = data.data.results;
+        NavigationService.boxCall('MUom/getMUomData', function (data) {
+          processDataObj.uoms = data.data;
           callback(processDataObj);
         });
 
@@ -109,11 +109,11 @@ myApp.service('masterProcessService', function (NavigationService) {
       processDataObj.saveBtn = false;
       processDataObj.editBtn = true;
 
-      NavigationService.boxCall('MProcessCat/search', function (data) {
-        processDataObj.processCats = data.data.results;
+      NavigationService.boxCall('MProcessCat/getMProcessCatData', function (data) {
+        processDataObj.processCats = data.data;
 
-        NavigationService.boxCall('MUom/search', function (data) {
-          processDataObj.uoms = data.data.results;
+        NavigationService.boxCall('MUom/getMUomData', function (data) {
+          processDataObj.uoms = data.data;
           callback(processDataObj);
         });
 
