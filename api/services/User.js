@@ -170,7 +170,7 @@ var model = {
 
             },
             estimateCount: function (callback) {
-                Estimate.count().exec(function (err, count) {
+                DraftEstimate.count().exec(function (err, count) {
                     callback(null, count);
                 });
 

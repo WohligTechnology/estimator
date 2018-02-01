@@ -37,7 +37,8 @@
                                                 <b>Items Details</b>
                                             </label>
                                         </div>
-                                        <div class="form-group" ng-if="disablePartFields.showAll">
+                                        <pre>{{estimatePartObj.selectedShortcut | json}}</pre>
+                                        <div class="form-group" ng-show="disablePartFields.showAll">
                                             <label class="col-md-4 control-label">Shortcut:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="s.presetName for s in estimatePartObj.allShortcuts track by $index" ng-model="estimatePartObj.selectedShortcut"

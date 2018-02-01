@@ -40,7 +40,13 @@
     <!-- END CONTAINER -->
     <!-- BEGIN FOOTER -->
     <div data-ng-include="'../frontend/views/tpl/footer.html'" ng-if="loginTemplate" data-ng-controller="FooterController" class="page-footer"> </div>
-
+    <nav class="quick-nav myQquick-nav">
+        <a class="quick-nav-trigger" ng-href="views/content/globalVariableModal.html">
+            <span aria-hidden="true"></span>
+        </a>
+      
+        <span aria-hidden="true" class="quick-nav-bg"></span>
+    </nav>
     <!-- END FOOTER -->
    
     <div class="quick-nav-overlay"></div>

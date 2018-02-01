@@ -641,3 +641,16 @@ tree css*/
   }
 }
 //- CSS for toggle button at custom material end
+//- CSS for global variable toggle button start
+.myQquick-nav {
+  position: absolute;
+  z-index: 1012811111111;
+  right: 10px !important;
+  bottom: 15% !important;
+  pointer-events: none;
+}
+
+.quick-nav-bg{
+  height: 13% !important;
+}
+//- CSS for global variable toggle button end

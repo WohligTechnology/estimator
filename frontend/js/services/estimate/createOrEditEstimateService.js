@@ -1250,6 +1250,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	//- to get the required data in order to add / edit addon at any level
 	this.getAddonModalData = function (operation, level, subAssemblyId, partId, addonId, callback) {
+		debugger;
 		var addonObject = {
 			allAddonTypes: [],
 			allMaterials: [],
@@ -1455,7 +1456,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var getAddonIndex = this.getAddonIndex(addonData.addonNumber, subAssIndex, partIndex);
 			var tempAddonObject = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex];
 		}
-
+debugger;
 		tempAddonObject.addonNumber = addonData.addonNumber;
 		tempAddonObject.addonType = addonData.addonType;
 		tempAddonObject.addonItem = addonData.addonItem;
