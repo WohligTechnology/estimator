@@ -1601,7 +1601,7 @@ var model = {
     // },
 
 
-    generateDraftEstExcel: function (data, callback) {
+    generateEstimateExcel: function (data, callback) {
         Estimate.findOne({
             _id: data._id
         }).lean().exec(function (err, found) {
@@ -1623,35 +1623,38 @@ var model = {
                 var tempPartSheetArrays = [];
 
                 async.auto({
+                        //- Operation to generate excel sheet for Sub Assembly Part.
                         part: function (callback) {
                             var worksheet1 = workbook.addWorksheet('Part Records');
+
+
                             worksheet1.columns = [{
                                     // header: 'Sub Assembly Number',
                                     key: '',
-                                    width: 17
+                                    width: 2
                                 }, {
                                     // header: 'Sub Assembly Number',
                                     key: 'Part Qty.(Nos.)',
-                                    width: 17
+                                    width: 10
                                 }, {
                                     // header: 'SA Qty (Nos.)',
                                     key: 'Part Name',
-                                    width: 20
+                                    width: 15
                                 },
                                 {
                                     // header: 'SA name',
                                     key: 'PartNumber',
-                                    width: 24
+                                    width: 15
                                 },
                                 {
                                     // header: 'Unit details',
                                     key: 'Material',
-                                    width: 20,
+                                    width: 15,
                                 },
                                 {
                                     // header: '',
                                     key: 'Type',
-                                    width: 20,
+                                    width: 15,
                                 },
 
                                 {
@@ -1662,67 +1665,67 @@ var model = {
                                 {
                                     // header: '',
                                     key: 'Item',
-                                    width: 30,
+                                    width: 20,
                                 },
                                 {
                                     // header: '',
                                     key: 'PartUnitdetails.QuantityWithinPart.Value',
-                                    width: 10,
+                                    width: 7,
                                 },
                                 {
                                     // header: '',
                                     key: 'PartUnitdetails.QuantityWithinPart.UOM',
-                                    width: 15,
+                                    width: 10,
                                 },
                                 {
                                     // header: '',
                                     key: 'PartUnitdetails.Part.Weight(kg)',
-                                    width: 15,
+                                    width: 10,
                                 },
                                 {
                                     // header: '',
                                     key: 'PartUnitdetails.Part.Cost(Rs.)',
-                                    width: 15,
+                                    width: 10,
                                 },
                                 {
                                     // header: '',
                                     key: 'PartUnitDetails.ProcessingCost(Rs.)',
-                                    width: 20,
+                                    width: 10,
                                 },
                                 {
                                     // header: '',
                                     key: 'PartUnitDetails.Addons.Weight(Kg)',
-                                    width: 20,
+                                    width: 10,
                                 },
                                 {
                                     // header: '',
                                     key: 'PartUnitDetails.Addons.Cost(Rs)',
-                                    width: 20,
+                                    width: 10,
                                 },
                                 {
                                     // header: '',
                                     key: 'PartUnitDetails.ExtraCost(Rs)',
-                                    width: 20,
+                                    width: 10,
                                 },
                                 {
                                     // header: '',
                                     key: 'PartUnitTotal.Weight(Kg)',
-                                    width: 20,
+                                    width: 10,
                                 },
                                 {
                                     // header: '',
                                     key: 'PartUnitTotal.Cost(kg)',
-                                    width: 15,
+                                    width: 10,
                                 },
                                 {
                                     // header: '',
                                     key: 'QuantityTotal.Weighth(Kg.)',
-                                    width: 20,
+                                    width: 10,
                                 },
                                 {
                                     // header: '',
                                     key: 'QuantityTotal.Cost(Rs)',
-                                    width: 15,
+                                    width: 10,
                                 }
                             ];
                             // worksheet1.getCell('A3').value = '';
@@ -1763,12 +1766,12 @@ var model = {
                                 bold: true
                             };
                             worksheet1.mergeCells('I2', 'P2');
-                            worksheet1.getCell('I2').value = '                                                 Part Unit Details';
+                            worksheet1.getCell('I2').value = '                                         Part Unit Details';
                             worksheet1.getCell('I2').font = {
                                 bold: true
                             };
                             worksheet1.mergeCells('I3', 'J3');
-                            worksheet1.getCell('I3').value = '               Quantity Within Part';
+                            worksheet1.getCell('I3').value = ' Quantity Within Part';
                             worksheet1.getCell('I3').font = {
                                 bold: true
                             };
@@ -1781,7 +1784,7 @@ var model = {
                                 bold: true
                             };
                             worksheet1.mergeCells('K3', 'L3');
-                            worksheet1.getCell('K3').value = '                        Part';
+                            worksheet1.getCell('K3').value = '            Part';
                             worksheet1.getCell('K3').font = {
                                 bold: true
                             };
@@ -1799,7 +1802,7 @@ var model = {
                                 bold: true
                             };
                             worksheet1.mergeCells('N3', 'O3');
-                            worksheet1.getCell('N3').value = '                                     Addons';
+                            worksheet1.getCell('N3').value = '             Addons';
                             worksheet1.getCell('N3').font = {
                                 bold: true
                             };
@@ -1817,7 +1820,7 @@ var model = {
                                 bold: true
                             };
                             worksheet1.mergeCells('Q2', 'R2');
-                            worksheet1.getCell('R2').value = '                       Part Unit Total';
+                            worksheet1.getCell('R2').value = '            Part Unit Total';
                             worksheet1.getCell('R2').font = {
                                 bold: true
                             };
@@ -1832,7 +1835,7 @@ var model = {
                                 bold: true
                             };
                             worksheet1.mergeCells('S2', 'T2');
-                            worksheet1.getCell('S2').value = '                   Quantity Total';
+                            worksheet1.getCell('S2').value = '     Quantity Total';
                             worksheet1.getCell('S2').font = {
                                 bold: true
                             };
@@ -1846,6 +1849,342 @@ var model = {
                             worksheet1.getCell('T3').font = {
                                 bold: true
                             };
+
+                            // worksheet1.views = [{
+                            //     state: 'split',
+                            //     ySplit: 600,
+                            //     topLeftCell: 'A4',
+                            //     activeCell: 'A4'
+                            // }];
+
+                            //-Giving boarder to part header
+
+                            worksheet1.getCell('B2').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                left: {
+                                    style: 'thin'
+                                },
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+
+                            worksheet1.getCell('C2').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+
+                            worksheet1.getCell('D2').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('E2').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('F2').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('G2').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet1.getCell('H2').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('I2').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('I3').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('I4').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet1.getCell('J4').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('K3').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('K4').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet1.getCell('L4').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('M3').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet1.getCell('N3').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet1.getCell('N4').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('O4').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet1.getCell('P3').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('Q2').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('Q3').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('R3').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet1.getCell('S2').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('S3').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('T3  ').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+
+
+
+
                             partTotalData = [];
                             // finalExcelObj.count = 0;
                             var partTotalDetailTempRow = {
@@ -1958,7 +2297,7 @@ var model = {
                                                                                         "Type": "Processing",
                                                                                         "Category/Sub-Cat": partProcessTypeData.processCat.processCatName,
                                                                                         "Item": proItemName.processItemName,
-                                                                                        "PartUnitdetails.QuantityWithinPart.Value": partProc.quantity.total,
+                                                                                        "PartUnitdetails.QuantityWithinPart.Value": partProc.quantity.totalQuantity,
                                                                                         "PartUnitdetails.QuantityWithinPart.UOM": proUom.uomName,
                                                                                         "PartUnitdetails.Part.Weight(kg)": "",
                                                                                         "PartUnitdetails.Part.Cost(Rs.)": "",
@@ -2014,6 +2353,7 @@ var model = {
                                                                             MMaterial.findOne({
                                                                                 _id: partAddons.addonItem
                                                                             }).select('materialName weightPerUnit').lean().exec(function (err, addonsMatName) {
+                                                                                console.log('****vijjjjjjj****',addonsMatName);
                                                                                 if (err) {
                                                                                     console.log('**** error at function_name of Estimate.js ****', err);
                                                                                     callback(err, null);
@@ -2027,6 +2367,7 @@ var model = {
                                                                                     partTotalDetailTempRow.addonCost = partTotalDetailTempRow.addonCost + partTotalCost;
 
                                                                                     partTotalDetailTempRow.addonWeight = partTotalDetailTempRow.addonWeight + addonsMatName.weightPerUnit;
+                                                                                    console.log('**** &&&&&&&&', partTotalDetailTempRow.addonWeight);
 
                                                                                     partAddonsExcelObj = {
                                                                                         "Part Qty.(Nos.)": "",
@@ -2138,7 +2479,9 @@ var model = {
                                                         partTotalDetailTempRow.partUnitWeight = 0;
 
                                                         //-part unit total weight calculation
-                                                        partTotalDetailTempRow.partUnitWeight = subAssPart.keyValueCalculations.weight + partTotalDetailTempRow.addonWeight;
+                                                        partTotalDetailTempRow.partUnitWeight = (subAssPart.keyValueCalculations.weight + partTotalDetailTempRow.addonWeight);
+
+                                                        console.log('****^^^^^^^^^ ****', partTotalDetailTempRow.partUnitWeight);
 
                                                         partTotalDetailTempRow.partUnitCost = 0;
 
@@ -2153,6 +2496,11 @@ var model = {
                                                         //-part qunaityty total wieght calculation
                                                         partTotalDetailTempRow.partQtyWeight = 0;
                                                         partTotalDetailTempRow.partQtyWeight = partTotalDetailTempRow.partUnitWeight * partTotalDetailTempRow.partQty;
+
+
+
+
+                                                        // //--------------------------------
 
                                                         partTotalDetailFinalRow = {
                                                             "Part Qty.(Nos.)": partTotalDetailTempRow.partQty,
@@ -2177,6 +2525,96 @@ var model = {
                                                             "SubAssName": subAssName
                                                         };
 
+
+
+                                                        //-========================================================================================================
+
+                                                        //-Push the part total rows in part sheets having blod rows.
+
+                                                        var row = worksheet1.lastRow;
+                                                        var rowsNum = 0
+                                                        rowsNum = row._number;
+                                                        console.log('**** %%%%%%%% ****', rowsNum);
+
+                                                        rowNumMoreOne = row._number + 1;
+
+                                                        console.log('**** ============== ****', rowNumMoreOne);
+
+                                                        worksheet1.getCell('B' + rowNumMoreOne).value = partTotalDetailTempRow.partQty
+                                                        worksheet1.getCell('B' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('C' + rowNumMoreOne).value = partTotalDetailTempRow.partName
+                                                        worksheet1.getCell('C' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('D' + rowNumMoreOne).value = partTotalDetailTempRow.partNum
+                                                        worksheet1.getCell('D' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('E' + rowNumMoreOne).value = materialSubCatName.materialName
+                                                        worksheet1.getCell('E' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('F' + rowNumMoreOne).value = "Part Total"
+                                                        worksheet1.getCell('F' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('K' + rowNumMoreOne).value = subAssPart.keyValueCalculations.weight
+                                                        worksheet1.getCell('K' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('L' + rowNumMoreOne).value = subAssPart.finalCalculation.itemUnitPrice
+                                                        worksheet1.getCell('L' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('M' + rowNumMoreOne).value = partTotalDetailTempRow.processingCost
+                                                        worksheet1.getCell('M' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('N' + rowNumMoreOne).value = partTotalDetailTempRow.addonWeight
+                                                        worksheet1.getCell('N' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('O' + rowNumMoreOne).value = partTotalDetailTempRow.addonCost
+                                                        worksheet1.getCell('O' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('P' + rowNumMoreOne).value = partTotalDetailTempRow.extraCost
+                                                        worksheet1.getCell('P' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('Q' + rowNumMoreOne).value = partTotalDetailTempRow.partUnitWeight
+                                                        worksheet1.getCell('Q' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('R' + rowNumMoreOne).value = partTotalDetailTempRow.partUnitCost
+                                                        worksheet1.getCell('R' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+
+                                                        worksheet1.getCell('S' + rowNumMoreOne).value = partTotalDetailTempRow.partQtyWeight
+                                                        worksheet1.getCell('S' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+                                                        worksheet1.getCell('T' + rowNumMoreOne).value = partTotalDetailTempRow.partQtyCost
+                                                        worksheet1.getCell('T' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+                                                        //-==================================================================================================================================================================
+
                                                         var partTotalMyData = {
                                                             "PartQty": partTotalDetailTempRow.partQty,
                                                             "PartName": partTotalDetailTempRow.partName,
@@ -2199,14 +2637,17 @@ var model = {
                                                             "QuantityTotalCost": partTotalDetailTempRow.partQtyCost,
                                                         };
 
+
+                                                        //-Bold part total Data
+
                                                         partTotalData.push(partTotalMyData);
                                                         // partTotalDetailFinalRow.partName.push(partTotalDetailTempRow.partName);
 
                                                         //  var partTotalDetailFinalRowArray = [];
                                                         //- pushing partTotalDetailFinalRow
-                                                        tempPartSheetArrays.push(partTotalDetailFinalRow);
+                                                        // tempPartSheetArrays.push(partTotalDetailFinalRow);
 
-                                                        worksheet1.addRow(partTotalDetailFinalRow);
+                                                        // worksheet1.addRow(partTotalDetailFinalRow);
 
                                                         //- pushing part Detail Array, processing Array, addon array, extra array
                                                         //  tempPartSheetArrays.push(partExcelArray);
@@ -2215,9 +2656,8 @@ var model = {
                                                             worksheet1.addRow(p);
                                                             tempPartSheetArrays.push(p);
                                                         });
-                                                        worksheet1.addRow({
-                                                            "": ""
-                                                        });
+
+
                                                         worksheet1.addRow({
                                                             "": ""
                                                         });
@@ -2225,8 +2665,127 @@ var model = {
                                                         finalExcelObj.partSheet.push(tempPartSheetArrays);
                                                         tempPartSheetArrays = [];
 
+
+
+                                                        var row = worksheet1.lastRow;
+                                                        var rowsNum = 0
+                                                        rowsNum = row._number;
+
+
+                                                        //- Boardering at left side of part sheet
+
+                                                        worksheet1.getCell('B' + rowsNum).border = {
+                                                            left: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+
+
+                                                        //-Boardering of completetion of one array of object of part
+
+                                                        worksheet1.getCell('B' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('C' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('D' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('E' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('F' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('G' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('H' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('I' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('J' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+
+                                                        worksheet1.getCell('K' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+
+                                                        worksheet1.getCell('L' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('M' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('N' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('O' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('P' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('Q' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('R' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('S' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+                                                        worksheet1.getCell('T' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+
+
+
+
                                                         workbook.xlsx.writeFile('./EstimateSheet.xlsx').then(function () {
-                                                            // console.log('Part sheet is written');
+                                                            console.log('Part sheet is written');
                                                             callback();
                                                         });
                                                     }
@@ -2253,7 +2812,6 @@ var model = {
                         },
 
                         //- Operation to generate excel sheets for Sub Assembly.
-
                         subAss: ['part', function (partData, callback) {
                             subAssTotalData = [];
                             async.eachSeries(found.assemblyObj.subAssemblies, function (subAssObj, callback) {
@@ -2266,15 +2824,21 @@ var model = {
                                 //- creating subAssembly sheet dynamically
                                 var worksheet = workbook.addWorksheet(subSheetName);
 
+                                worksheet.mergeCells('A2', 'B2');
+                                worksheet.getCell('A2').value = 'Sub-Assembly Number : ' + subAssemblyNumber;
+                                worksheet.getCell('A2').font = {
+                                    bold: true
+                                };
+
                                 //- header for corresponsing subssembly sheet
                                 worksheet.columns = [{
                                         // header: 'SA Qty.',
                                         key: 'PartQty',
-                                        width: 17
+                                        width: 12
                                     }, {
                                         // header: 'Sub Assembly Name',
                                         key: 'PartName',
-                                        width: 17
+                                        width: 18
                                     },
                                     {
                                         // header: '',
@@ -2289,27 +2853,27 @@ var model = {
                                     {
                                         // header: '',
                                         key: 'UnitDetails.ProcessingCost(Rs.)',
-                                        width: 20,
+                                        width: 15,
                                     },
                                     {
                                         // header: '',
                                         key: 'UnitDetails.Addons.Weight(Kg)',
-                                        width: 20,
+                                        width: 15,
                                     },
                                     {
                                         // header: '',
                                         key: 'UnitDetails.Addons.Cost(Rs)',
-                                        width: 20,
+                                        width: 15,
                                     },
                                     {
                                         // header: '',
                                         key: 'UnitDetails.ExtraCost(Rs)',
-                                        width: 20,
+                                        width: 15,
                                     },
                                     {
                                         // header: '',
                                         key: 'PartUnitTotal.Weight(Kg)',
-                                        width: 20,
+                                        width: 15,
                                     },
                                     {
                                         // header: '',
@@ -2319,7 +2883,7 @@ var model = {
                                     {
                                         // header: '',
                                         key: 'PartQuantityTotal.Weighth(Kg.)',
-                                        width: 20,
+                                        width: 15,
                                     },
                                     {
                                         // header: '',
@@ -2386,6 +2950,14 @@ var model = {
                                 worksheet.getCell('H5').font = {
                                     bold: true
                                 };
+
+                                worksheet.mergeCells('I4', 'J4');
+                                worksheet.getCell('I4').value = '                   Part Unit Total';
+                                worksheet.getCell('I4').font = {
+                                    bold: true
+                                };
+
+
                                 worksheet.mergeCells('I5', 'I6');
                                 worksheet.getCell('I5').value = 'Weight(kg)';
                                 worksheet.getCell('I5').font = {
@@ -2398,7 +2970,7 @@ var model = {
                                 };
 
                                 worksheet.mergeCells('K4', 'L4');
-                                worksheet.getCell('K4').value = '             SA Quantity Total';
+                                worksheet.getCell('K4').value = '                     Part Quantity Total';
                                 worksheet.getCell('K4').font = {
                                     bold: true
                                 };
@@ -2412,6 +2984,243 @@ var model = {
                                 worksheet.getCell('L5').font = {
                                     bold: true
                                 };
+
+                                //-Giving boarder to sub assembly header
+
+                                worksheet.getCell('A4').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    left: {
+                                        style: 'thin'
+                                    },
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+
+                                worksheet.getCell('B4').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+
+                                worksheet.getCell('C4').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('C5').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('C6').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('D6').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('E5').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('F5').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('F6').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('G6').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('H5').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('I4').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('I5').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('J5').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('K4').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('K5').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('K6').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('L6').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
 
                                 var getSubAssPartArray = [];
 
@@ -2515,7 +3324,7 @@ var model = {
                                 })
                                 var subAssPartTotalTotal = {
                                     "PartQty": "",
-                                    "PartName": "TOTAL",
+                                    "PartName": "Total",
                                     "PartNumber": "",
                                     "Unitdetails.PartTotal.Weight(kg)": partTotalTotalWeight,
                                     "Unitdetails.PartTotal.Cost(Rs.)": partTotalTotalCost,
@@ -2547,6 +3356,180 @@ var model = {
                                 worksheet.addRow(subAssPartTotalTotal);
 
                                 subAssTotalData.push(subAssPartTotalFinal);
+
+                                var row = worksheet.lastRow;
+                                var rowsNum = 0
+                                rowsNum = row._number;
+
+                                rowNumLessOne = row._number - 1;
+                                //-Boardering to sub Asembly
+
+                                worksheet.getCell('A' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('B' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('C' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('D' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('E' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('F' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('G' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('H' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('I' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('J' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('K' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('L' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+
+
+                                worksheet.getCell('A' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('B' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('C' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('D' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('E' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('F' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('G' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('H' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('I' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('J' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('K' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('L' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+                                // worksheet.getCell('M' + rowsNum).border = {
+                                //     bottom: {
+                                //         style: 'thin'
+                                //     }
+                                // };
+                                // worksheet.getCell('N' + rowsNum).border = {
+                                //     bottom: {
+                                //         style: 'thin'
+                                //     }
+                                // };
+                                // worksheet1.getCell('O' + rowsNum).border = {
+                                //     bottom: {
+                                //         style: 'thin'
+                                //     }
+                                // };
+                                // worksheet1.getCell('P' + rowsNum).border = {
+                                //     bottom: {
+                                //         style: 'thin'
+                                //     }
+                                // };
+                                // worksheet1.getCell('Q' + rowsNum).border = {
+                                //     bottom: {
+                                //         style: 'thin'
+                                //     }
+                                // };
+                                // worksheet1.getCell('R' + rowsNum).border = {
+                                //     bottom: {
+                                //         style: 'thin'
+                                //     }
+                                // };
+                                // worksheet1.getCell('S' + rowsNum).border = {
+                                //     bottom: {
+                                //         style: 'thin'
+                                //     }
+                                // };
+                                // worksheet1.getCell('T' + rowsNum).border = {
+                                //     bottom: {
+                                //         style: 'thin'
+                                //     }
+                                // };
 
                                 var tempSubAssSheetArrays = [];
 
@@ -2591,18 +3574,26 @@ var model = {
                                                                     var subAssProExcelObj = {
                                                                         "PartQty": "",
                                                                         "PartName": "Processing",
-                                                                        "PartNumber": subAssProcessTypeData.processCat.processCatName,
-                                                                        "Unitdetails.PartTotal.Weight(kg)": "",
-                                                                        "Unitdetails.PartTotal.Cost(Rs.)": "",
-                                                                        "UnitDetails.ProcessingCost(Rs.)": "",
-                                                                        "UnitDetails.Addons.Weight(Kg)": "",
-                                                                        "UnitDetails.Addons.Cost(Rs)": "",
+                                                                        // "PartNumber": subAssProcessTypeData.processCat.processCatName,
+                                                                        "Unitdetails.PartTotal.Weight(kg)": subAssProcessTypeData.processCat.processCatName,
+                                                                        "Unitdetails.PartTotal.Cost(Rs.)": subAssProItemName.processItemName,
+                                                                        "UnitDetails.ProcessingCost(Rs.)": subAssProc.quantity.totalQuantity,
+                                                                        "UnitDetails.Addons.Weight(Kg)": subAssProUom.uomName,
+                                                                        "UnitDetails.Addons.Cost(Rs)": subAssProcessingTotalCost,
                                                                         "UnitDetails.ExtraCost(Rs)": "",
                                                                         "PartUnitTotal.Weight(Kg)": "",
                                                                         "PartUnitTotal.Cost(kg)": "",
                                                                         "PartQuantityTotal.Weight(Kg.)": "",
                                                                         "PartQuantityTotal.Cost(Rs)": ""
                                                                     };
+
+                                                                    // "Category/Sub-Cat": partProcessTypeData.processCat.processCatName,
+                                                                    // "Item": proItemName.processItemName,
+                                                                    // "PartUnitdetails.QuantityWithinPart.Value": partProc.quantity.total,
+                                                                    // "PartUnitdetails.QuantityWithinPart.UOM": proUom.uomName,
+                                                                    // "PartUnitdetails.Part.Weight(kg)": "",
+                                                                    // "PartUnitdetails.Part.Cost(Rs.)": "",
+                                                                    // "PartUnitDetails.ProcessingCost(Rs.)": processingTotalCost,
 
 
                                                                     //- processing header
@@ -2611,21 +3602,61 @@ var model = {
                                                                         worksheet.addRow({
                                                                             "": ""
                                                                         });
-                                                                        worksheet.addRow({
-                                                                            "PartQty": "",
-                                                                            "PartName": "Processing Name",
-                                                                            "PartNumber": "Category",
-                                                                            "Unitdetails.PartTotal.Weight(kg)": "Item",
-                                                                            "Unitdetails.PartTotal.Cost(Rs.)": "Quantity",
-                                                                            "UnitDetails.ProcessingCost(Rs.)": "UOM",
-                                                                            "UnitDetails.Addons.Weight(Kg)": "Total Cost",
-                                                                            "UnitDetails.Addons.Cost(Rs)": '',
-                                                                            "UnitDetails.ExtraCost(Rs)": '',
-                                                                            "PartUnitTotal.Weight(Kg)": "",
-                                                                            "PartUnitTotal.Cost(kg)": "",
-                                                                            "PartQuantityTotal.Weighth(Kg.)": "",
-                                                                            "PartQuantityTotal.Cost(Rs)": "",
-                                                                        });
+
+                                                                        var row = worksheet.lastRow;
+                                                                        var rowsNum = 0
+                                                                        rowsNum = row._number;
+
+                                                                        rowNumMoreOne = row._number + 1;
+
+                                                                        worksheet.getCell('B' + rowNumMoreOne).value = "Proessing Name"
+                                                                        worksheet.getCell('B' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+
+                                                                        worksheet.getCell('C' + rowNumMoreOne).value = "Category"
+                                                                        worksheet.getCell('C' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+
+                                                                        worksheet.getCell('D' + rowNumMoreOne).value = "Item"
+                                                                        worksheet.getCell('D' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+
+                                                                        worksheet.getCell('E' + rowNumMoreOne).value = "Quantity"
+                                                                        worksheet.getCell('E' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+
+                                                                        worksheet.getCell('F' + rowNumMoreOne).value = "UOM"
+                                                                        worksheet.getCell('F' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+                                                                        worksheet.getCell('G' + rowNumMoreOne).value = "Total Cost"
+                                                                        worksheet.getCell('G' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+
+
+
+                                                                        //-==================================================================================================================================================================
+
+                                                                        // worksheet.addRow({
+                                                                        //     "PartQty": "",
+                                                                        //     "PartName": "Processing Name",
+                                                                        //     // "PartNumber": "Category",
+                                                                        //     "Unitdetails.PartTotal.Weight(kg)": "Category",
+                                                                        //     "Unitdetails.PartTotal.Cost(Rs.)": "Item",
+                                                                        //     "UnitDetails.ProcessingCost(Rs.)": "Quantity",
+                                                                        //     "UnitDetails.Addons.Weight(Kg)": "UOM",
+                                                                        //     "UnitDetails.Addons.Cost(Rs)": 'Total Cost',
+                                                                        //     "UnitDetails.ExtraCost(Rs)": '',
+                                                                        //     "PartUnitTotal.Weight(Kg)": "",
+                                                                        //     "PartUnitTotal.Cost(kg)": "",
+                                                                        //     "PartQuantityTotal.Weighth(Kg.)": "",
+                                                                        //     "PartQuantityTotal.Cost(Rs)": "",
+                                                                        // });
                                                                     }
 
                                                                     // key: 'PartQty',
@@ -2650,18 +3681,151 @@ var model = {
                                                                         worksheet.addRow({
                                                                             "PartQty": "",
                                                                             "PartName": "",
-                                                                            "PartNumber": "",
+                                                                            // "PartNumber": "",
                                                                             "Unitdetails.PartTotal.Weight(kg)": "",
                                                                             "Unitdetails.PartTotal.Cost(Rs.)": "",
                                                                             "UnitDetails.ProcessingCost(Rs.)": "",
-                                                                            "UnitDetails.Addons.Weight(Kg)": subAssProcessingTotalTotalCost,
-                                                                            "UnitDetails.Addons.Cost(Rs)": '',
+                                                                            "UnitDetails.Addons.Weight(Kg)": "",
+                                                                            "UnitDetails.Addons.Cost(Rs)": subAssProcessingTotalTotalCost,
                                                                             "UnitDetails.ExtraCost(Rs)": '',
                                                                             "PartUnitTotal.Weight(Kg)": "",
                                                                             "PartUnitTotal.Cost(kg)": "",
                                                                             "PartQuantityTotal.Weighth(Kg.)": "",
                                                                             "PartQuantityTotal.Cost(Rs)": "",
                                                                         });
+
+                                                                        var row = worksheet.lastRow;
+                                                                        var rowsNum = 0
+                                                                        rowsNum = row._number;
+
+                                                                        rowNumLessOne = row._number - 1;
+                                                                        worksheet.getCell('A' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('B' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('C' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('D' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('E' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('F' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('G' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('H' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('I' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('J' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
+                                                                        worksheet.getCell('K' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
+                                                                        worksheet.getCell('L' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
+
+                                                                        worksheet.getCell('A' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('B' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('C' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('D' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('E' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('F' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('G' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('H' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('I' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('J' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
+                                                                        worksheet.getCell('K' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
+                                                                        worksheet.getCell('L' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
                                                                     }
 
                                                                     subAssExcelArray.push(subAssProExcelObj);
@@ -2719,13 +3883,13 @@ var model = {
                                                                     subAssAddonsTotalTotalCost = addonsTotalCost + subAssAddonsTotalTotalCost;
                                                                     subAssAddonsExcelObj = {
                                                                         "PartQty": "",
-                                                                        "PartName": "",
-                                                                        "PartNumber": addonMaterialSubCatName,
-                                                                        "Unitdetails.PartTotal.Weight(kg)": addonsMatName.materialName,
-                                                                        "Unitdetails.PartTotal.Cost(Rs.)": subAssAddons.quantity.total,
-                                                                        "UnitDetails.ProcessingCost(Rs.)": addUom.uomName,
-                                                                        "UnitDetails.Addons.Weight(Kg)": addonsTotalCost,
-                                                                        "UnitDetails.Addons.Cost(Rs)": "",
+                                                                        "PartName": "Addon",
+                                                                        // "PartNumber":,
+                                                                        "Unitdetails.PartTotal.Weight(kg)": addonMaterialSubCatName,
+                                                                        "Unitdetails.PartTotal.Cost(Rs.)": addonsMatName.materialName,
+                                                                        "UnitDetails.ProcessingCost(Rs.)": subAssAddons.quantity.total,
+                                                                        "UnitDetails.Addons.Weight(Kg)": addUom.uomName,
+                                                                        "UnitDetails.Addons.Cost(Rs)": addonsTotalCost,
                                                                         "UnitDetails.ExtraCost(Rs)": "",
                                                                         "PartUnitTotal.Weight(Kg)": "",
                                                                         "PartUnitTotal.Cost(kg)": "",
@@ -2737,23 +3901,58 @@ var model = {
                                                                         worksheet.addRow({
                                                                             "": ""
                                                                         });
-                                                                        worksheet.addRow({
-                                                                            "PartQty": "",
-                                                                            "PartName": "Addons Name",
-                                                                            "PartNumber": "Category",
-                                                                            "Unitdetails.PartTotal.Weight(kg)": "Item",
-                                                                            "Unitdetails.PartTotal.Cost(Rs.)": "Quantity",
-                                                                            "UnitDetails.ProcessingCost(Rs.)": "UOM",
-                                                                            "UnitDetails.Addons.Weight(Kg)": "Total Cost",
-                                                                            "UnitDetails.Addons.Cost(Rs)": '',
-                                                                            "UnitDetails.ExtraCost(Rs)": '',
-                                                                            "PartUnitTotal.Weight(Kg)": "",
-                                                                            "PartUnitTotal.Cost(kg)": "",
-                                                                            "PartQuantityTotal.Weighth(Kg.)": "",
-                                                                            "PartQuantityTotal.Cost(Rs)": ""
-                                                                        });
+                                                                        // worksheet.addRow({
+                                                                        //     "PartQty": "",
+                                                                        //     "PartName": "Addon Name",
+                                                                        //     // "PartNumber": "Category",
+                                                                        //     "Unitdetails.PartTotal.Weight(kg)": "Category",
+                                                                        //     "Unitdetails.PartTotal.Cost(Rs.)": "Item",
+                                                                        //     "UnitDetails.ProcessingCost(Rs.)": "Quantity",
+                                                                        //     "UnitDetails.Addons.Weight(Kg)": "UOM",
+                                                                        //     "UnitDetails.Addons.Cost(Rs)": 'Total Cost',
+                                                                        //     "UnitDetails.ExtraCost(Rs)": '',
+                                                                        //     "PartUnitTotal.Weight(Kg)": "",
+                                                                        //     "PartUnitTotal.Cost(kg)": "",
+                                                                        //     "PartQuantityTotal.Weighth(Kg.)": "",
+                                                                        //     "PartQuantityTotal.Cost(Rs)": "",
+                                                                        // });
+                                                                        var row = worksheet.lastRow;
+                                                                        var rowsNum = 0
+                                                                        rowsNum = row._number;
+
+                                                                        rowNumMoreOne = row._number + 1;
+
+                                                                        worksheet.getCell('B' + rowNumMoreOne).value = "Addon Name"
+                                                                        worksheet.getCell('B' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+
+                                                                        worksheet.getCell('C' + rowNumMoreOne).value = "Category"
+                                                                        worksheet.getCell('C' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+
+                                                                        worksheet.getCell('D' + rowNumMoreOne).value = "Item"
+                                                                        worksheet.getCell('D' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+
+                                                                        worksheet.getCell('E' + rowNumMoreOne).value = "Quantity"
+                                                                        worksheet.getCell('E' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+
+                                                                        worksheet.getCell('F' + rowNumMoreOne).value = "UOM"
+                                                                        worksheet.getCell('F' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+                                                                        worksheet.getCell('G' + rowNumMoreOne).value = "Total Cost"
+                                                                        worksheet.getCell('G' + rowNumMoreOne).font = {
+                                                                            bold: true
+                                                                        };
+
                                                                     }
-                                                                
+
 
                                                                     worksheet.addRow(subAssAddonsExcelObj);
                                                                     var lastIndex = subAssObj.addons.length - 1;
@@ -2761,18 +3960,151 @@ var model = {
                                                                         worksheet.addRow({
                                                                             "PartQty": "",
                                                                             "PartName": "",
-                                                                            "PartNumber": "",
+                                                                            // "PartNumber": "",
                                                                             "Unitdetails.PartTotal.Weight(kg)": "",
                                                                             "Unitdetails.PartTotal.Cost(Rs.)": "",
                                                                             "UnitDetails.ProcessingCost(Rs.)": "",
-                                                                            "UnitDetails.Addons.Weight(Kg)": subAssAddonsTotalTotalCost,
-                                                                            "UnitDetails.Addons.Cost(Rs)": "",
+                                                                            "UnitDetails.Addons.Weight(Kg)": "",
+                                                                            "UnitDetails.Addons.Cost(Rs)": subAssAddonsTotalTotalCost,
                                                                             "UnitDetails.ExtraCost(Rs)": "",
                                                                             "PartUnitTotal.Weight(Kg)": "",
                                                                             "PartUnitTotal.Cost(kg)": "",
                                                                             "PartQuantityTotal.Weighth(Kg.)": "",
                                                                             "PartQuantityTotal.Cost(Rs)": "",
                                                                         });
+                                                                        var row = worksheet.lastRow;
+                                                                        var rowsNum = 0
+                                                                        rowsNum = row._number;
+
+                                                                        rowNumLessOne = row._number - 1;
+                                                                        worksheet.getCell('A' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('B' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('C' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('D' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('E' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('F' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('G' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('H' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('I' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('J' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
+                                                                        worksheet.getCell('K' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
+                                                                        worksheet.getCell('L' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
+
+                                                                        worksheet.getCell('A' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('B' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('C' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('D' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('E' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('F' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('G' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('H' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('I' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('J' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
+                                                                        worksheet.getCell('K' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
+                                                                        worksheet.getCell('L' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
+
                                                                     }
                                                                     subAssExcelArray.push(subAssAddonsExcelObj);
                                                                     index++;
@@ -2827,32 +4159,58 @@ var model = {
                                                                 worksheet.addRow({
                                                                     "": ""
                                                                 });
-                                                                worksheet.addRow({
-                                                                    "PartQty": "",
-                                                                    "PartName": "Extra Name",
-                                                                    "PartNumber": "",
-                                                                    "Unitdetails.PartTotal.Weight(kg)": '',
-                                                                    "Unitdetails.PartTotal.Cost(Rs.)": '',
-                                                                    "UnitDetails.ProcessingCost(Rs.)": "",
-                                                                    "UnitDetails.Addons.Weight(Kg)": "",
-                                                                    "UnitDetails.Addons.Cost(Rs)": "",
-                                                                    "UnitDetails.ExtraCost(Rs)": "",
-                                                                    "PartUnitTotal.Weight(Kg)": "",
-                                                                    "PartUnitTotal.Cost(kg)": "",
-                                                                    "PartQuantityTotal.Weighth(Kg.)": "",
-                                                                    "PartQuantityTotal.Cost(Rs)": ""
-                                                                });
+                                                                // worksheet.addRow({
+                                                                //     "PartQty": "",
+                                                                //     "PartName": "Extra Name",
+                                                                //     // "PartNumber": "Category",
+                                                                //     "Unitdetails.PartTotal.Weight(kg)": "",
+                                                                //     "Unitdetails.PartTotal.Cost(Rs.)": "",
+                                                                //     "UnitDetails.ProcessingCost(Rs.)": "Quantity",
+                                                                //     "UnitDetails.Addons.Weight(Kg)": "UOM",
+                                                                //     "UnitDetails.Addons.Cost(Rs)": 'Total Cost',
+                                                                //     "UnitDetails.ExtraCost(Rs)": '',
+                                                                //     "PartUnitTotal.Weight(Kg)": "",
+                                                                //     "PartUnitTotal.Cost(kg)": "",
+                                                                //     "PartQuantityTotal.Weighth(Kg.)": "",
+                                                                //     "PartQuantityTotal.Cost(Rs)": "",
+                                                                // });
+                                                                var row = worksheet.lastRow;
+                                                                var rowsNum = 0
+                                                                rowsNum = row._number;
+
+                                                                rowNumMoreOne = row._number + 1;
+
+                                                                worksheet.getCell('B' + rowNumMoreOne).value = "Extra Name"
+                                                                worksheet.getCell('B' + rowNumMoreOne).font = {
+                                                                    bold: true
+                                                                };
+                                                                worksheet.getCell('E' + rowNumMoreOne).value = "Quantity"
+                                                                worksheet.getCell('E' + rowNumMoreOne).font = {
+                                                                    bold: true
+                                                                };
+                                                                worksheet.getCell('F' + rowNumMoreOne).value = "UOM"
+                                                                worksheet.getCell('F' + rowNumMoreOne).font = {
+                                                                    bold: true
+                                                                };
+                                                                worksheet.getCell('G' + rowNumMoreOne).value = "Total Cost"
+                                                                worksheet.getCell('G' + rowNumMoreOne).font = {
+                                                                    bold: true
+                                                                };
+
                                                             }
+
+
+
 
                                                             subAssExtrasExcelObj = {
                                                                 "PartQty": "",
                                                                 "PartName": "Extra",
-                                                                "PartNumber": "",
+                                                                // "PartNumber": "",
                                                                 "Unitdetails.PartTotal.Weight(kg)": "",
                                                                 "Unitdetails.PartTotal.Cost(Rs.)": "",
-                                                                "UnitDetails.ProcessingCost(Rs.)": "",
-                                                                "UnitDetails.Addons.Weight(Kg)": "",
-                                                                "UnitDetails.Addons.Cost(Rs": "",
+                                                                "UnitDetails.ProcessingCost(Rs.)": subAssExtras.quantity,
+                                                                "UnitDetails.Addons.Weight(Kg)": extraUom.uomName,
+                                                                "UnitDetails.Addons.Cost(Rs)": extraTotalCost,
                                                                 "UnitDetails.ExtraCost(Rs)": "",
                                                                 "PartUnitTotal.Weight(Kg)": "",
                                                                 "PartUnitTotal.Cost(kg)": "",
@@ -2861,25 +4219,157 @@ var model = {
                                                             };
 
 
-
                                                             worksheet.addRow(subAssExtrasExcelObj);
                                                             var lastIndex = subAssObj.extras.length - 1;
                                                             if (lastIndex == index) {
                                                                 worksheet.addRow({
                                                                     "PartQty": "",
                                                                     "PartName": "",
-                                                                    "PartNumber": "",
+                                                                    // "PartNumber": "",
                                                                     "Unitdetails.PartTotal.Weight(kg)": "",
                                                                     "Unitdetails.PartTotal.Cost(Rs.)": "",
                                                                     "UnitDetails.ProcessingCost(Rs.)": "",
                                                                     "UnitDetails.Addons.Weight(Kg)": "",
-                                                                    "UnitDetails.Addons.Cost(Rs)": "",
+                                                                    "UnitDetails.Addons.Cost(Rs)": extraTotalTotalCost,
                                                                     "UnitDetails.ExtraCost(Rs)": '',
                                                                     "PartUnitTotal.Weight(Kg)": "",
                                                                     "PartUnitTotal.Cost(kg)": "",
                                                                     "PartQuantityTotal.Weighth(Kg.)": "",
                                                                     "PartQuantityTotal.Cost(Rs)": ""
                                                                 });
+                                                                var row = worksheet.lastRow;
+                                                                var rowsNum = 0
+                                                                rowsNum = row._number;
+
+                                                                rowNumLessOne = row._number - 1;
+                                                                worksheet.getCell('A' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('B' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('C' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('D' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('E' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('F' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('G' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('H' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('I' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('J' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+
+                                                                worksheet.getCell('K' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+
+                                                                worksheet.getCell('L' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+
+
+                                                                worksheet.getCell('A' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('B' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('C' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('D' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('E' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('F' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('G' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('H' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('I' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('J' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+
+                                                                worksheet.getCell('K' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+
+                                                                worksheet.getCell('L' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+
+
                                                             }
 
                                                             // tempSubAssSheetArrays.push(sa);
@@ -2920,22 +4410,30 @@ var model = {
                             });
                         }],
 
+                        //-Operation to generate excel sheet for Assembly.
                         assembly: ['subAss', function (subAssData, callback) {
                             assSheetName = found.assemblyObj.assemblyName;
-                            var subAssemblyNumber = found.assemblyObj.assemblyNumber;
+                            var assemblyNumber = found.assemblyObj.assemblyNumber;
+
 
                             //- creating Assembly sheet dynamically
                             var worksheet2 = workbook.addWorksheet(assSheetName);
+
+                            worksheet2.mergeCells('A2', 'B2');
+                            worksheet2.getCell('A2').value = 'Assembly Number : ' + assemblyNumber;
+                            worksheet2.getCell('A2').font = {
+                                bold: true
+                            };
 
                             //- header for corresponsing Assembly sheet
                             worksheet2.columns = [{
                                     // header: 'SA Qty.',
                                     key: 'SAQty',
-                                    width: 17
+                                    width: 10
                                 }, {
                                     // header: 'Sub Assembly Name',
                                     key: 'SubAssemblyName',
-                                    width: 17
+                                    width: 18
                                 },
                                 {
                                     // header: '',
@@ -2950,27 +4448,27 @@ var model = {
                                 {
                                     // header: '',
                                     key: 'UnitDetails.ProcessingCost(Rs.)',
-                                    width: 20,
+                                    width: 15,
                                 },
                                 {
                                     // header: '',
                                     key: 'UnitDetails.Addons.Weight(Kg)',
-                                    width: 20,
+                                    width: 15,
                                 },
                                 {
                                     // header: '',
                                     key: 'UnitDetails.Addons.Cost(Rs)',
-                                    width: 20,
+                                    width: 15,
                                 },
                                 {
                                     // header: '',
                                     key: 'UnitDetails.ExtraCost(Rs)',
-                                    width: 20,
+                                    width: 15,
                                 },
                                 {
                                     // header: '',
                                     key: 'SAUnitTotal.Weight(Kg)',
-                                    width: 20,
+                                    width: 15,
                                 },
                                 {
                                     // header: '',
@@ -2980,7 +4478,7 @@ var model = {
                                 {
                                     // header: '',
                                     key: 'SAQuantityTotal.Weighth(Kg.)',
-                                    width: 20,
+                                    width: 15,
                                 },
                                 {
                                     // header: '',
@@ -3047,6 +4545,14 @@ var model = {
                             worksheet2.getCell('H5').font = {
                                 bold: true
                             };
+
+                            worksheet2.mergeCells('I4', 'J4');
+                            worksheet2.getCell('I4').value = '                 SA Unit Total';
+                            worksheet2.getCell('I4').font = {
+                                bold: true
+                            };
+
+
                             worksheet2.mergeCells('I5', 'I6');
                             worksheet2.getCell('I5').value = 'Weight(kg)';
                             worksheet2.getCell('I5').font = {
@@ -3074,6 +4580,244 @@ var model = {
                                 bold: true
                             };
 
+                            //-Giving boarder to assembly header
+
+                            worksheet2.getCell('A4').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                left: {
+                                    style: 'thin'
+                                },
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+
+                            worksheet2.getCell('B4').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+
+                            worksheet2.getCell('C4').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('C5').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('C6').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('D6').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('E5').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('F5').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('F6').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('G6').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('H5').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('I4').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('I5').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('J5').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('K4').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('K5').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('K6').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('L6').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+
+
                             assFinalPartTotalWeight = 0;
                             assFinalPartTotalCost = 0;
                             assFinalProcessingCost = 0;
@@ -3086,8 +4830,6 @@ var model = {
                             AssSaQuantityTotalCost = 0;
                             // var getSubAssPartArray = [];
                             _.find(subAssData.subAss, function (o) {
-                                console.log('---------', o);
-
                                 var finalAssemblyTotalData = {
                                     "SAQty": o.SAQty,
                                     "SubAssemblyName": o.SAName,
@@ -3106,7 +4848,6 @@ var model = {
 
                                 assFinalPartTotalWeight = o.UnitdetailsPartTotalWeight + assFinalPartTotalWeight;
                                 o.UnitdetailsPartTotalWeight = 0;
-                                console.log('**************** ****', assFinalPartTotalWeight);
 
                                 assFinalPartTotalCost = o.UnitdetailsPartTotalCost + assFinalPartTotalCost;
                                 o.UnitdetailsPartTotalCost = 0;
@@ -3153,6 +4894,139 @@ var model = {
 
                             worksheet2.addRow(assTotalCalculatedData);
 
+                            var row = worksheet2.lastRow;
+                            var rowsNum = 0
+                            rowsNum = row._number;
+
+                            rowNumLessOne = row._number - 1;
+                            worksheet2.getCell('A' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('B' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('C' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('D' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('E' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('F' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('G' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('H' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('I' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('J' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('K' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('L' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+
+
+                            worksheet2.getCell('A' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('B' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('C' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('D' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('E' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('F' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('G' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('H' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('I' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+                            worksheet2.getCell('J' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('K' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet2.getCell('L' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+
+
                             // console.log('**** @@@@@@@@ ****', subAssData.subAss);
 
 
@@ -3172,8 +5046,6 @@ var model = {
                             //-add one more row for total calculation
 
                             var tempAssSheetArrays = [];
-
-                            console.log('**** ^^^^^ ****');
 
                             async.waterfall([
                                 function (callback) {
@@ -3237,21 +5109,57 @@ var model = {
                                                                     worksheet2.addRow({
                                                                         "": ""
                                                                     });
-                                                                    worksheet2.addRow({
-                                                                        "SAQty": "",
-                                                                        "SubAssemblyName": "Processing Name",
-                                                                        "Unitdetails.PartTotal.Weight(kg)": "Category",
-                                                                        "Unitdetails.PartTotal.Cost(Rs.)": "Item",
-                                                                        "UnitDetails.ProcessingCost(Rs.)": "Quantity",
-                                                                        "UnitDetails.Addons.Weight(Kg)": "UOM",
-                                                                        "UnitDetails.Addons.Cost(Rs)": "Total Cost",
-                                                                        "UnitDetails.ExtraCost(Rs)": "",
-                                                                        "SAUnitTotal.Weight(Kg)": '',
-                                                                        "SAUnitTotal.Weight(Kg)": '',
-                                                                        "SAUnitTotal.Cost(kg)": "",
-                                                                        "SAQuantityTotal.Weighth(Kg.)": "",
-                                                                        "SAQuantityTotal.Cost(Rs)": "",
-                                                                    });
+
+                                                                    // worksheet2.addRow({
+                                                                    //     "SAQty": "",
+                                                                    //     "SubAssemblyName": "Processing Name",
+                                                                    //     "Unitdetails.PartTotal.Weight(kg)": "Category",
+                                                                    //     "Unitdetails.PartTotal.Cost(Rs.)": "Item",
+                                                                    //     "UnitDetails.ProcessingCost(Rs.)": "Quantity",
+                                                                    //     "UnitDetails.Addons.Weight(Kg)": "UOM",
+                                                                    //     "UnitDetails.Addons.Cost(Rs)": "Total Cost",
+                                                                    //     "UnitDetails.ExtraCost(Rs)": "",
+                                                                    //     "SAUnitTotal.Weight(Kg)": '',
+                                                                    //     "SAUnitTotal.Weight(Kg)": '',
+                                                                    //     "SAUnitTotal.Cost(kg)": "",
+                                                                    //     "SAQuantityTotal.Weighth(Kg.)": "",
+                                                                    //     "SAQuantityTotal.Cost(Rs)": "",
+                                                                    // });
+                                                                    var row = worksheet2.lastRow;
+                                                                    var rowsNum = 0
+                                                                    rowsNum = row._number;
+
+                                                                    rowNumMoreOne = row._number + 1;
+
+                                                                    worksheet2.getCell('B' + rowNumMoreOne).value = "Processing Name"
+                                                                    worksheet2.getCell('B' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+
+                                                                    worksheet2.getCell('C' + rowNumMoreOne).value = "Category"
+                                                                    worksheet2.getCell('C' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+
+                                                                    worksheet2.getCell('D' + rowNumMoreOne).value = "Item"
+                                                                    worksheet2.getCell('D' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+
+                                                                    worksheet2.getCell('E' + rowNumMoreOne).value = "Quantity"
+                                                                    worksheet2.getCell('E' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+
+                                                                    worksheet2.getCell('F' + rowNumMoreOne).value = "UOM"
+                                                                    worksheet2.getCell('F' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+                                                                    worksheet2.getCell('G' + rowNumMoreOne).value = "Total Cost"
+                                                                    worksheet2.getCell('G' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+
                                                                 }
 
                                                                 worksheet2.addRow(assProExcelObj);
@@ -3272,6 +5180,138 @@ var model = {
                                                                         "SAQuantityTotal.Weighth(Kg.)": "",
                                                                         "SAQuantityTotal.Cost(Rs)": "",
                                                                     });
+                                                                    var row = worksheet2.lastRow;
+                                                                    var rowsNum = 0
+                                                                    rowsNum = row._number;
+
+                                                                    rowNumLessOne = row._number - 1;
+                                                                    worksheet2.getCell('A' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('B' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('C' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('D' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('E' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('F' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('G' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('H' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('I' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('J' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+
+                                                                    worksheet2.getCell('K' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+
+                                                                    worksheet2.getCell('L' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+
+
+                                                                    worksheet2.getCell('A' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('B' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('C' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('D' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('E' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('F' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('G' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('H' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('I' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('J' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+
+                                                                    worksheet2.getCell('K' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+
+                                                                    worksheet2.getCell('L' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+
                                                                 }
 
                                                                 assExcelArray.push(assProExcelObj);
@@ -3348,21 +5388,57 @@ var model = {
                                                                     worksheet2.addRow({
                                                                         "": ""
                                                                     });
-                                                                    worksheet2.addRow({
-                                                                        "SAQty": "",
-                                                                        "SubAssemblyName": "Addons Name ",
-                                                                        "Unitdetails.PartTotal.Weight(kg)": "Category",
-                                                                        "Unitdetails.PartTotal.Cost(Rs.)": "Item",
-                                                                        "UnitDetails.ProcessingCost(Rs.)": "Quantity",
-                                                                        "UnitDetails.Addons.Weight(Kg)": "UOM",
-                                                                        "UnitDetails.Addons.Cost(Rs)": "Total Cost",
-                                                                        "UnitDetails.ExtraCost(Rs)": "",
-                                                                        "SAUnitTotal.Weight(Kg)": '',
-                                                                        "SAUnitTotal.Weight(Kg)": '',
-                                                                        "SAUnitTotal.Cost(kg)": "",
-                                                                        "SAQuantityTotal.Weighth(Kg.)": "",
-                                                                        "SAQuantityTotal.Cost(Rs)": "",
-                                                                    });
+                                                                    // worksheet2.addRow({
+                                                                    //     "SAQty": "",
+                                                                    //     "SubAssemblyName": "Addons Name ",
+                                                                    //     "Unitdetails.PartTotal.Weight(kg)": "Category",
+                                                                    //     "Unitdetails.PartTotal.Cost(Rs.)": "Item",
+                                                                    //     "UnitDetails.ProcessingCost(Rs.)": "Quantity",
+                                                                    //     "UnitDetails.Addons.Weight(Kg)": "UOM",
+                                                                    //     "UnitDetails.Addons.Cost(Rs)": "Total Cost",
+                                                                    //     "UnitDetails.ExtraCost(Rs)": "",
+                                                                    //     "SAUnitTotal.Weight(Kg)": '',
+                                                                    //     "SAUnitTotal.Weight(Kg)": '',
+                                                                    //     "SAUnitTotal.Cost(kg)": "",
+                                                                    //     "SAQuantityTotal.Weighth(Kg.)": "",
+                                                                    //     "SAQuantityTotal.Cost(Rs)": "",
+                                                                    // });
+
+                                                                    var row = worksheet2.lastRow;
+                                                                    var rowsNum = 0
+                                                                    rowsNum = row._number;
+
+                                                                    rowNumMoreOne = row._number + 1;
+
+                                                                    worksheet2.getCell('B' + rowNumMoreOne).value = "Addon Name"
+                                                                    worksheet2.getCell('B' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+
+                                                                    worksheet2.getCell('C' + rowNumMoreOne).value = "Category"
+                                                                    worksheet2.getCell('C' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+
+                                                                    worksheet2.getCell('D' + rowNumMoreOne).value = "Item"
+                                                                    worksheet2.getCell('D' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+
+                                                                    worksheet2.getCell('E' + rowNumMoreOne).value = "Quantity"
+                                                                    worksheet2.getCell('E' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+
+                                                                    worksheet2.getCell('F' + rowNumMoreOne).value = "UOM"
+                                                                    worksheet2.getCell('F' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+                                                                    worksheet2.getCell('G' + rowNumMoreOne).value = "Total Cost"
+                                                                    worksheet2.getCell('G' + rowNumMoreOne).font = {
+                                                                        bold: true
+                                                                    };
+
                                                                 }
 
 
@@ -3386,6 +5462,135 @@ var model = {
                                                                         "SAQuantityTotal.Weighth(Kg.)": "",
                                                                         "SAQuantityTotal.Cost(Rs)": "",
                                                                     });
+                                                                    var row = worksheet2.lastRow;
+                                                                    var rowsNum = 0
+                                                                    rowsNum = row._number;
+
+                                                                    rowNumLessOne = row._number - 1;
+                                                                    worksheet2.getCell('A' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('B' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('C' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('D' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('E' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('F' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('G' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('H' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('I' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('J' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+
+                                                                    worksheet2.getCell('K' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+
+                                                                    worksheet2.getCell('L' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('A' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('B' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('C' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('D' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('E' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('F' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('G' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('H' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('I' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('J' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+
+                                                                    worksheet2.getCell('K' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+
+                                                                    worksheet2.getCell('L' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
                                                                 }
                                                                 assExcelArray.push(assAddonsExcelObj);
                                                                 index++;
@@ -3443,21 +5648,46 @@ var model = {
                                                             });
 
 
-                                                            worksheet2.addRow({
-                                                                "SAQty": "",
-                                                                "SubAssemblyName": "Extra Name",
-                                                                "Unitdetails.PartTotal.Weight(kg)": "",
-                                                                "Unitdetails.PartTotal.Cost(Rs.)": "",
-                                                                "UnitDetails.ProcessingCost(Rs.)": "Quantity",
-                                                                "UnitDetails.Addons.Weight(Kg)": "UOM",
-                                                                "UnitDetails.Addons.Cost(Rs)": "Total Cost",
-                                                                "UnitDetails.ExtraCost(Rs)": "",
-                                                                "SAUnitTotal.Weight(Kg)": '',
-                                                                "SAUnitTotal.Weight(Kg)": '',
-                                                                "SAUnitTotal.Cost(kg)": "",
-                                                                "SAQuantityTotal.Weighth(Kg.)": "",
-                                                                "SAQuantityTotal.Cost(Rs)": "",
-                                                            });
+                                                            // worksheet2.addRow({
+                                                            //     "SAQty": "",
+                                                            //     "SubAssemblyName": "Extra Name",
+                                                            //     "Unitdetails.PartTotal.Weight(kg)": "",
+                                                            //     "Unitdetails.PartTotal.Cost(Rs.)": "",
+                                                            //     "UnitDetails.ProcessingCost(Rs.)": "Quantity",
+                                                            //     "UnitDetails.Addons.Weight(Kg)": "UOM",
+                                                            //     "UnitDetails.Addons.Cost(Rs)": "Total Cost",
+                                                            //     "UnitDetails.ExtraCost(Rs)": "",
+                                                            //     "SAUnitTotal.Weight(Kg)": '',
+                                                            //     "SAUnitTotal.Weight(Kg)": '',
+                                                            //     "SAUnitTotal.Cost(kg)": "",
+                                                            //     "SAQuantityTotal.Weighth(Kg.)": "",
+                                                            //     "SAQuantityTotal.Cost(Rs)": "",
+                                                            // });
+                                                            var row = worksheet2.lastRow;
+                                                            var rowsNum = 0
+                                                            rowsNum = row._number;
+
+                                                            rowNumMoreOne = row._number + 1;
+
+                                                            worksheet2.getCell('B' + rowNumMoreOne).value = "Extra Name"
+                                                            worksheet2.getCell('B' + rowNumMoreOne).font = {
+                                                                bold: true
+                                                            };
+
+                                                            worksheet2.getCell('E' + rowNumMoreOne).value = "Quantity"
+                                                            worksheet2.getCell('E' + rowNumMoreOne).font = {
+                                                                bold: true
+                                                            };
+
+                                                            worksheet2.getCell('F' + rowNumMoreOne).value = "UOM"
+                                                            worksheet2.getCell('F' + rowNumMoreOne).font = {
+                                                                bold: true
+                                                            };
+                                                            worksheet2.getCell('G' + rowNumMoreOne).value = "Total Cost"
+                                                            worksheet2.getCell('G' + rowNumMoreOne).font = {
+                                                                bold: true
+                                                            };
+
                                                         }
 
                                                         assExtrasExcelObj = {
@@ -3494,6 +5724,138 @@ var model = {
                                                                 "SAQuantityTotal.Weighth(Kg.)": "",
                                                                 "SAQuantityTotal.Cost(Rs)": "",
                                                             });
+                                                            var row = worksheet2.lastRow;
+                                                            var rowsNum = 0
+                                                            rowsNum = row._number;
+
+                                                            rowNumLessOne = row._number - 1;
+                                                            worksheet2.getCell('A' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('B' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('C' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('D' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('E' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('F' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('G' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('H' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('I' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('J' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+
+                                                            worksheet2.getCell('K' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+
+                                                            worksheet2.getCell('L' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+
+
+                                                            worksheet2.getCell('A' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('B' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('C' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('D' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('E' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('F' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('G' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('H' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('I' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+                                                            worksheet2.getCell('J' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+
+                                                            worksheet2.getCell('K' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+
+                                                            worksheet2.getCell('L' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
+
                                                         }
                                                         // tempSubAssSheetArrays.push(sa);
 

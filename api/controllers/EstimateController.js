@@ -98,9 +98,9 @@ var controller = {
             })
         }
     },
-    generateDraftEstExcel: function (req, res) {
+    generateEstimateExcel: function (req, res) {
         if (req.body) {
-            Estimate.generateDraftEstExcel(req.body, res.callback);
+            Estimate.generateEstimateExcel(req.body, res.callback);
         } else {
             res.json({
                 value: false,
