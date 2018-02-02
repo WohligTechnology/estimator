@@ -71,7 +71,6 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     });
   }
   this.getExcelSheet = function (estimateVersionId, callback) {  
-    debugger;
     var tempObj = {
       _id: estimateVersionId
     }

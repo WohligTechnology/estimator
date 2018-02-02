@@ -154,7 +154,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="process in processData">
+                                <tr ng-repeat="process in processData track by process._id">
                                     <td>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                             <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'

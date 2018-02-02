@@ -1112,8 +1112,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					partProcessingObj.quantity.contengncyOrWastage = tempProcessingObj.quantity.contengncyOrWastage;
 					partProcessingObj.quantity.totalQuantity = tempProcessingObj.quantity.totalQuantity;
 
-					partProcessingObj.finalUom = tempProcessingObj.processType.quantity.finalUom.uomName;;
+					partProcessingObj.finalUom = tempProcessingObj.processType.quantity.finalUom.uomName;
 					partProcessingObj.remark = tempProcessingObj.remark;
+					partProcessingObj.totalCost = tempProcessingObj.totalCost;
 					// partProcessingObj.quantity.uom = tempProcessingObj.quantity.uom;
 					// partProcessingObj.quantity.mulFact = tempProcessingObj.quantity.mulFact;
 					//partProcessingObj.currentPartObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
@@ -1252,7 +1253,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	//- to get the required data in order to add / edit addon at any level
 	this.getAddonModalData = function (operation, level, subAssemblyId, partId, addonId, callback) {
-		debugger;
 		var addonObject = {
 			allAddonTypes: [],
 			allMaterials: [],
@@ -1458,7 +1458,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var getAddonIndex = this.getAddonIndex(addonData.addonNumber, subAssIndex, partIndex);
 			var tempAddonObject = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex];
 		}
-		debugger;
 		tempAddonObject.addonNumber = addonData.addonNumber;
 		tempAddonObject.addonType = addonData.addonType;
 		tempAddonObject.addonItem = addonData.addonItem;

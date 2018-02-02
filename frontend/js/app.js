@@ -100,7 +100,6 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
     $scope.userName = $.jStorage.get('loggedInUser').name;
   }
   $scope.getGlobalVariableModal = function () {
-    debugger;
     $scope.modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'views/content/globalVariableModal.html',

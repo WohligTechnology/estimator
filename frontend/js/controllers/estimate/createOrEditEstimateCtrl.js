@@ -96,7 +96,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       //when first time user click item details of part
       $scope.estimatePartObj = _.cloneDeep($scope.estimatePartObjTemp);
       $scope.disablePartFields = _.cloneDeep($scope.disablePartFieldsTemp);
-      debugger;
 
       createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
         $scope.loading = false;
@@ -373,7 +372,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- get all material data to select 
     //- get shape data from selected partType & size 
     //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
-    debugger;
     $scope.estimatePartObj.formFactor = partTypeObj.formFactor; //- formFactor
     $scope.estimatePartObj.length = partTypeObj.length; //- length
     $scope.estimatePartObj.sizeFactor = partTypeObj.sizeFactor; //- sizeFactor
@@ -396,7 +394,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
 
   $scope.updatePartCalculation = function () {
-
     //- get shape formulae
     //- get updated variables 
     //- calculate keyValueCalculations & finalCalculation 
@@ -1153,7 +1150,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         },
         totalQuantity: 1,
         utilization: 100,
-        contengncyOrWastage: 10
+        contengncyOrWastage: 0
       },
       remark: "",
       totalCost: null,
@@ -1220,6 +1217,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
           $scope.partProcessingObj.remark = data.remark;
           //$scope.partProcessingObj.currentPartObj = data.currentPartObj;
           $scope.partProcessingObj.processingNumber = data.processingNumber;
+          $scope.partProcessingObj.totalCost = data.totalCost;
 
           $scope.showSaveBtn = false;
           $scope.showEditBtn = true;
@@ -1269,6 +1267,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       }
 
       $scope.partProcessingObj.finalUom = $scope.partProcessingObj.selectedProcessingType.quantity.finalUom.uomName;
+      $scope.updateProcessingCost();
       // $scope.partProcessingObj.totalCost = $scope.partProcessingObj.selectedProcessingType.quantity.totalQuantity * $scope.partProcessingObj.rate;
 
     });
@@ -1302,9 +1301,18 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);
     $scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom.uomName;
+    $scope.updateProcessingCost();
 
   }
+  //- to do process object final cost calculation
+  $scope.updateProcessingCost = function () {
+    if ($scope.partProcessingObj.quantity.contengncyOrWastage != 0) {
+      $scope.partProcessingObj.totalCost = ($scope.partProcessingObj.quantity.totalQuantity * $scope.partProcessingObj.rate.actualRate) * (($scope.partProcessingObj.quantity.utilization)/100) * ((100+$scope.partProcessingObj.quantity.contengncyOrWastage)/100);
+    } else {
+      $scope.partProcessingObj.totalCost = ($scope.partProcessingObj.quantity.totalQuantity * $scope.partProcessingObj.rate.actualRate) * (($scope.partProcessingObj.quantity.utilization)/100);
+    }
 
+  }
   //- to add processing at assembly or subssembly or at partLevel
   $scope.addProcessing = function (operation, processingData, level, subAssemblyId, partId) {
     //- make processingData properly & then pass it to createProcessing
@@ -1324,7 +1332,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         contengncyOrWastage: processingData.quantity.contengncyOrWastage
       },
       remark: processingData.remark,
-      totalCost: processingData.quantity.totalQuantity * processingData.rate.actualRate
+      totalCost: processingData.totalCost
 
     };
 
