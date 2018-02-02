@@ -506,7 +506,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				NavigationService.boxCall('MPartType/getPartTypeData', function (partTypeData) {
 					estimatePartObj.allPartTypes = partTypeData.data;
 
-					NavigationService.apiCall('CustomMaterial/getAllCustomMaterial', {estimateId: formData.assembly._id}, function (allCustomMaterials) {
+					NavigationService.apiCall('CustomMaterial/getAllCustomMaterial', {
+						estimateId: formData.assembly._id
+					}, function (allCustomMaterials) {
 						if (allCustomMaterials.data != "noDataFound") {
 							estimatePartObj.customMaterials = allCustomMaterials.data;
 						} else {
@@ -916,7 +918,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				});
 			});
 		}
-		if (temp) {
+		if (temp && records.length != 0) {
 			callback(tempObj);
 		} else {
 			callback();
@@ -1456,7 +1458,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var getAddonIndex = this.getAddonIndex(addonData.addonNumber, subAssIndex, partIndex);
 			var tempAddonObject = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex];
 		}
-debugger;
+		debugger;
 		tempAddonObject.addonNumber = addonData.addonNumber;
 		tempAddonObject.addonType = addonData.addonType;
 		tempAddonObject.addonItem = addonData.addonItem;
@@ -1999,6 +2001,13 @@ debugger;
 				angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts,  function (obj) {
 					bulkArray.push(obj.partNumber);
 				});
+			} else if (type == 'customMaterial') {
+				this.getAllMaterialData(function (data) {
+					var allCustomMaterials = data;
+					angular.forEach(allCustomMaterials,  function (obj) {
+						bulkArray.push(obj._id);
+					})
+				});
 			}
 		}
 		callback(bulkArray);
@@ -2208,9 +2217,15 @@ debugger;
 		});
 	}
 	//- to delete custom material
-	this.deleteCustomMaterial = function (customMaterialId, callback) {
+	this.deleteCustomMaterial = function (customMaterialId, customMaterialIds, callback) {
 		var idsArray = [];
-		idsArray.push(customMaterialId);
+		if (angular.isDefined(customMaterialIds)) {
+			angular.forEach(customMaterialIds,  function (record) {
+				idsArray.push(record);
+			});
+		} else {
+			idsArray.push(customMaterialId);
+		}
 		NavigationService.delete('Web/delRestrictions/CustomMaterial', {
 			idsArray: idsArray
 		}, function (data) {
@@ -2234,7 +2249,9 @@ debugger;
 			customMaterialObj.customMaterialName = temp[0];
 			tempArray.push(customMaterialObj);
 		});
-		NavigationService.apiCall('CustomMaterial/saveImportedCustMat', {cmArray: tempArray}, function (data) {
+		NavigationService.apiCall('CustomMaterial/saveImportedCustMat', {
+			cmArray: tempArray
+		}, function (data) {
 			callback(data);
 		});
 	}

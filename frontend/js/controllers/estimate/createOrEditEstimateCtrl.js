@@ -90,6 +90,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to get all views of createOrEdit estimate screen dynamically 
   $scope.getEstimateView = function (getViewName, getLevelName, subAssemblyId, partId) {
     $scope.loading = true;
+    $scope.bulkItems = []; //- for multiple deletion
     createOrEditEstimateService.estimateView(getViewName, getLevelName, subAssemblyId, partId, function (data) {
       $scope.estimateView = data;
       //when first time user click item details of part
@@ -372,7 +373,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- get all material data to select 
     //- get shape data from selected partType & size 
     //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
-debugger;
+    debugger;
     $scope.estimatePartObj.formFactor = partTypeObj.formFactor; //- formFactor
     $scope.estimatePartObj.length = partTypeObj.length; //- length
     $scope.estimatePartObj.sizeFactor = partTypeObj.sizeFactor; //- sizeFactor
@@ -414,19 +415,15 @@ debugger;
       window[tempVar] = varValue;
     });
     //- if dynamic varibles present in formulae
-
-    if (angular.isDefined($scope.estimatePartObj.selectedMaterial) && $scope.estimatePartObj.selectedMaterial != null) {
-      var eff = parseFloat($scope.estimatePartObj.selectedMaterial.efficiency);      
-      var den = parseFloat($scope.estimatePartObj.selectedMaterial.density);
-    } else if (angular.isDefined($scope.estimatePartObj.selectedCustomMaterial.density) && $scope.estimatePartObj.selectedCustomMaterial.density != null) {
+    if (angular.isDefined($scope.estimatePartObj.selectedCustomMaterial.density) && $scope.estimatePartObj.selectedCustomMaterial.density != null) {
       var den = parseFloat($scope.estimatePartObj.selectedCustomMaterial.density);
     }
-    // if (angular.isDefined($scope.estimatePartObj.selectedMaterial.efficiency) && $scope.estimatePartObj.selectedMaterial.efficiency != null) {
-    //   var eff = parseFloat($scope.estimatePartObj.selectedMaterial.efficiency);
-    // }
-    // if (angular.isDefined($scope.estimatePartObj.selectedShape.length) && $scope.estimatePartObj.selectedShape.length != null) {
-    //   var l = parseFloat($scope.estimatePartObj.selectedShape.length);
-    // }
+    if (angular.isDefined($scope.estimatePartObj.selectedMaterial.efficiency) && $scope.estimatePartObj.selectedMaterial.efficiency != null) {
+      var eff = parseFloat($scope.estimatePartObj.selectedMaterial.efficiency);
+    }
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.length) && $scope.estimatePartObj.selectedShape.length != null) {
+      var l = parseFloat($scope.estimatePartObj.selectedShape.length);
+    }
     if (angular.isDefined($scope.estimatePartObj.thickness) && $scope.estimatePartObj.thickness != null) {
       //- update thickness of shape 
       $scope.estimatePartObj.selectedShape.thickness = $scope.estimatePartObj.thickness
@@ -434,14 +431,12 @@ debugger;
     } else {
       var t = 1;
     }
-    if (angular.isDefined($scope.estimatePartObj.selectedShape) && $scope.estimatePartObj.selectedShape != null) {
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.sizeFactor) && $scope.estimatePartObj.selectedShape.sizeFactor != null) {
       var sf = parseFloat($scope.estimatePartObj.selectedShape.sizeFactor);
-      var ff = parseFloat($scope.estimatePartObj.selectedShape.formFactor);
-      var l = parseFloat($scope.estimatePartObj.selectedShape.length);
     }
-    //if (angular.isDefined($scope.estimatePartObj.selectedShape.formFactor) && $scope.estimatePartObj.selectedShape.formFactor != null) {
-      // var ff = parseFloat($scope.estimatePartObj.selectedShape.formFactor);
-   // }
+    if (angular.isDefined($scope.estimatePartObj.selectedShape.formFactor) && $scope.estimatePartObj.selectedShape.formFactor != null) {
+      var ff = parseFloat($scope.estimatePartObj.selectedShape.formFactor);
+   }
     if (angular.isDefined($scope.estimatePartObj.wastage) && $scope.estimatePartObj.wastage != null) {
       var wtg = parseFloat($scope.estimatePartObj.wastage);
     }
@@ -978,12 +973,25 @@ debugger;
   }
   //-to delete CustomMterial
   $scope.deleteCustomMaterial = function (customMaterialId) {
-    createOrEditEstimateService.deleteCustomMaterial(customMaterialId, function (data) {
+    var temp;
+    createOrEditEstimateService.deleteCustomMaterial(customMaterialId, temp, function (data) {
       toastr.success("Custom Material Deleted Successfully");
       $scope.getAllMaterialData();
       $scope.cancelModal();
     });
   }
+    //- to delete bulk custom material
+    $scope.deleteMultipleCustomMaterial = function (cmIds) {
+      var temp;
+      createOrEditEstimateService.deleteCustomMaterial(temp, cmIds, function () {
+        $scope.bulkItems = [];
+        $scope.checkAll = false;
+        $scope.checkboxStatus = false;
+        toastr.success("Custom Material Deleted Successfully");
+        $scope.getAllMaterialData();
+        $scope.cancelModal();
+      });
+    }
   //- to import custom material
   $scope.importCustoMaterialModal = function () {
     createOrEditEstimateService.getImportCustomMaterialData(function (data) {
