@@ -130,7 +130,7 @@
                                     </span>
                                 </td>                             
                                 <td>
-                                    {{p.quantity.keyValue.keyValue}}
+                                    {{p.quantity.keyValue.keyValue.toFixed(2)}}
                                     <br>
                                     <span>
                                         <b>{{p.quantity.keyValue.keyVariable}} ({{p.addonType.quantity.linkedKeyUom.uomName}})</b>
@@ -140,7 +140,7 @@
                                 <td> {{p.quantity.contengncyOrWastage}} </td>
                                 <td> {{p.quantity.total}} </td>
                                 <td> {{(p.quantity.supportingVariable.value * p.rate* p.quantity.total).toFixed(2)}} </td>
-                                <td> {{p.remarks}} </td>
+                                <td> {{p.addonType.remarks}} </td>
                                 <td class="edit-icon">
                                     <span class="label label-sm label-success" id="add_space" ng-click="addOrEditAddonModal('update', level,  estimateViewData.subAssemblyId, estimateViewData.partId, p.addonNumber)">
                                         <i class="fa fa-pencil"></i>

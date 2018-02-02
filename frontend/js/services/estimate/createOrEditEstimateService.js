@@ -506,7 +506,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				NavigationService.boxCall('MPartType/getPartTypeData', function (partTypeData) {
 					estimatePartObj.allPartTypes = partTypeData.data;
 
-					NavigationService.apiCall('CustomMaterial/getAllCustomMaterial', {estimateId: formData.assembly._id}, function (allCustomMaterials) {
+					NavigationService.apiCall('CustomMaterial/getAllCustomMaterial', {
+						estimateId: formData.assembly._id
+					}, function (allCustomMaterials) {
 						if (allCustomMaterials.data != "noDataFound") {
 							estimatePartObj.customMaterials = allCustomMaterials.data;
 						} else {
@@ -916,7 +918,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				});
 			});
 		}
-		if (temp) {
+		if (temp && records.length != 0) {
 			callback(tempObj);
 		} else {
 			callback();
@@ -1110,8 +1112,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					partProcessingObj.quantity.contengncyOrWastage = tempProcessingObj.quantity.contengncyOrWastage;
 					partProcessingObj.quantity.totalQuantity = tempProcessingObj.quantity.totalQuantity;
 
-					partProcessingObj.finalUom = tempProcessingObj.processType.quantity.finalUom.uomName;;
+					partProcessingObj.finalUom = tempProcessingObj.processType.quantity.finalUom.uomName;
 					partProcessingObj.remark = tempProcessingObj.remark;
+					partProcessingObj.totalCost = tempProcessingObj.totalCost;
 					// partProcessingObj.quantity.uom = tempProcessingObj.quantity.uom;
 					// partProcessingObj.quantity.mulFact = tempProcessingObj.quantity.mulFact;
 					//partProcessingObj.currentPartObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex];
@@ -1455,7 +1458,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var getAddonIndex = this.getAddonIndex(addonData.addonNumber, subAssIndex, partIndex);
 			var tempAddonObject = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons[getAddonIndex];
 		}
-
 		tempAddonObject.addonNumber = addonData.addonNumber;
 		tempAddonObject.addonType = addonData.addonType;
 		tempAddonObject.addonItem = addonData.addonItem;
@@ -1998,6 +2000,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts,  function (obj) {
 					bulkArray.push(obj.partNumber);
 				});
+			} else if (type == 'customMaterial') {
+				this.getAllMaterialData(function (data) {
+					var allCustomMaterials = data;
+					angular.forEach(allCustomMaterials,  function (obj) {
+						bulkArray.push(obj._id);
+					})
+				});
 			}
 		}
 		callback(bulkArray);
@@ -2207,9 +2216,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		});
 	}
 	//- to delete custom material
-	this.deleteCustomMaterial = function (customMaterialId, callback) {
+	this.deleteCustomMaterial = function (customMaterialId, customMaterialIds, callback) {
 		var idsArray = [];
-		idsArray.push(customMaterialId);
+		if (angular.isDefined(customMaterialIds)) {
+			angular.forEach(customMaterialIds,  function (record) {
+				idsArray.push(record);
+			});
+		} else {
+			idsArray.push(customMaterialId);
+		}
 		NavigationService.delete('Web/delRestrictions/CustomMaterial', {
 			idsArray: idsArray
 		}, function (data) {
@@ -2233,7 +2248,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			customMaterialObj.customMaterialName = temp[0];
 			tempArray.push(customMaterialObj);
 		});
-		NavigationService.apiCall('CustomMaterial/saveImportedCustMat', {cmArray: tempArray}, function (data) {
+		NavigationService.apiCall('CustomMaterial/saveImportedCustMat', {
+			cmArray: tempArray
+		}, function (data) {
 			callback(data);
 		});
 	}

@@ -37,11 +37,11 @@
                                                 <b>Items Details</b>
                                             </label>
                                         </div>
-                                        <div class="form-group" ng-if="disablePartFields.showAll">
+                                        <div class="form-group" ng-show="disablePartFields.showAll">
                                             <label class="col-md-4 control-label">Shortcut:</label>
                                             <div class="col-md-5">
-                                                <select class="form-control" ng-options="s.presetName for s in estimatePartObj.allShortcuts track by $index" ng-model="estimatePartObj.selectedShortcut"
-                                                    placeholder="Select" ng-change="getSelectedShortcutData(estimatePartObj.selectedShortcut)"
+                                                <select class="form-control" ng-options="s.presetName for s in estimatePartObj.allShortcuts track by s._id" ng-model="estimatePartObj.selectedShortcut"
+                                                    placeholder="Select" ng-click="getSelectedShortcutData(estimatePartObj.selectedShortcut)"
                                                     ng-disabled="disablePartFields.disableShortcut" required>
                                                 </select>
                                             </div>
@@ -50,7 +50,7 @@
                                             <label class="col-md-4 control-label">Part Type Name:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="ptn.partTypeName for ptn in estimatePartObj.allPartTypes track by ptn._id" ng-model="estimatePartObj.selectedPartType"
-                                                    placeholder="Select" ng-change="getSelectedPartTypeData(estimatePartObj.selectedPartType)"
+                                                    placeholder="Select" ng-click="getSelectedPartTypeData(estimatePartObj.selectedPartType)"
                                                     ng-disabled="disablePartFields.disablePartType" required>
                                                 </select>
                                             </div>
@@ -59,7 +59,7 @@
                                             <label class="col-md-4 control-label">Shape:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="sh.shapeName for sh in estimatePartObj.allShapes track by sh._id" ng-model="estimatePartObj.selectedShape"
-                                                    ng-change="getSelectedShapeData(estimatePartObj.selectedShape)" ng-disabled="disablePartFields.disableShape">
+                                                    ng-click="getSelectedShapeData(estimatePartObj.selectedShape)" ng-disabled="disablePartFields.disableShape">
                                                 </select>
                                             </div>
                                         </div>
@@ -68,7 +68,7 @@
                                             <label class="col-md-4 control-label">Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id"
-                                                    ng-model="estimatePartObj.selectedMaterial" placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial)"
+                                                    ng-model="estimatePartObj.selectedMaterial" placeholder="Select" ng-click="getSelectedMaterialData(estimatePartObj.selectedMaterial)"
                                                     ng-disabled="disablePartFields.disableMaterial" required>
                                                 </select>
                                             </div>
@@ -78,7 +78,7 @@
                                             <label class="col-md-4 control-label">Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="allMat.materialName for allMat in estimatePartObj.allMaterial track by allMat._id"
-                                                    ng-model="estimatePartObj.selectedMaterial" placeholder="Select" ng-change="getSelectedMaterialData(estimatePartObj.selectedMaterial, estimatePartObj.selectedShape)"
+                                                    ng-model="estimatePartObj.selectedMaterial" placeholder="Select" ng-click="getSelectedMaterialData(estimatePartObj.selectedMaterial, estimatePartObj.selectedShape)"
                                                     ng-disabled="disablePartFields.disableMaterial" required>
                                                 </select>
                                             </div>
@@ -88,7 +88,7 @@
                                             <label class="col-md-4 control-label">Size:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="s.size for s in estimatePartObj.allSizes track by s._id" ng-model="estimatePartObj.selectedSize"
-                                                    placeholder="Select" ng-change="getSelectedSizeData(estimatePartObj.selectedSize)"
+                                                    placeholder="Select" ng-click="getSelectedSizeData(estimatePartObj.selectedSize)"
                                                     ng-disabled="disablePartFields.disableSize" required>
                                                 </select>
                                             </div>
@@ -107,7 +107,7 @@
                                             <label class="col-md-4 control-label">Custom Material:</label>
                                             <div class="col-md-5">
                                                 <select class="form-control" ng-options="cmd.customMaterialName for cmd in estimatePartObj.customMaterials track by cmd._id"
-                                                    ng-model="estimatePartObj.selectedCustomMaterial" ng-change="getSelectedCustomMaterialData(estimatePartObj.selectedCustomMaterial)">
+                                                    ng-model="estimatePartObj.selectedCustomMaterial" ng-click="getSelectedCustomMaterialData(estimatePartObj.selectedCustomMaterial)">
                                                 </select>
                                             </div>
                                         </div>

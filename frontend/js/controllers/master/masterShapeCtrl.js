@@ -30,7 +30,6 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     }
 
     $scope.createOrEditShapeData = function (operation, shape) {
-        debugger;
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
             $scope.shapeView = 'views/content/master/shape/tempView.html';
             $scope.formData = data.shape;

@@ -73,7 +73,7 @@
                             <label class="col-md-4 control-label">Utilization:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5 text-left">
                                 <div class="display-inline">
-                                    <input type="text" class="form-control" name="utilization" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="partProcessingObj.quantity.utilization" placeholder="100"
+                                    <input type="text" class="form-control" name="utilization" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="partProcessingObj.quantity.utilization" ng-change="updateProcessingCost()" placeholder="100"
                                         required>
                                 </div>
                                 <div class="display-inline">
@@ -86,7 +86,7 @@
                             <label class="col-md-4 control-label">Contigency or Wastage:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5 text-left">
                                 <div class="display-inline">
-                                    <input type="text" class="form-control" name="contengncyOrWastage" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="partProcessingObj.quantity.contengncyOrWastage"
+                                    <input type="text" class="form-control" name="contengncyOrWastage" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="partProcessingObj.quantity.contengncyOrWastage" ng-change="updateProcessingCost()"
                                         placeholder="10" required>
                                 </div>
                                 <div class="display-inline">
@@ -98,7 +98,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Total Quantity:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5 text-left">
-                                <input type="number" class="form-control" ng-model="partProcessingObj.quantity.totalQuantity" required>
+                                <input type="number" class="form-control" ng-model="partProcessingObj.quantity.totalQuantity"  ng-change="updateProcessingCost()" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -112,7 +112,7 @@
                             <label class="col-md-4 control-label">Total Cost:</label>
                             <div class="col-md-5 text-left">
                                 <div>
-                                    <label class="padd-t">{{partProcessingObj.quantity.totalQuantity * partProcessingObj.rate.actualRate}}</label>
+                                    <label class="padd-t">{{partProcessingObj.totalCost}}</label>
                                     <span>
                                         <b>{{partProcessingObj.finalUom}}</b>
                                     </span>

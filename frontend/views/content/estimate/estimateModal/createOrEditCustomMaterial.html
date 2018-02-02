@@ -53,7 +53,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="control-label">Base Metal: </label>
-                                <select class="form-control" ng-options="m.materialName for m in customMaterialDataObj.allBaseMetals track by m._id" ng-model="formData.basePlate.baseMetal"
+                                <select class="form-control" ng-options="m.materialName for m in customMaterialDataObj.allBaseMetals track by $index" ng-model="formData.basePlate.baseMetal"
                                     ng-change="getCostOfBaseMetal(formData, formData.freeIssue)"></select>
                             </div>
                         </div>

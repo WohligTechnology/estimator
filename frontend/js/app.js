@@ -99,6 +99,14 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
     $scope.userPhoto = $.jStorage.get('loggedInUser').photo;
     $scope.userName = $.jStorage.get('loggedInUser').name;
   }
+  $scope.getGlobalVariableModal = function () {
+    $scope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/content/globalVariableModal.html',
+      scope: $scope,
+      size: 'md'
+    });
+  }
 
 
 }]);

@@ -103,7 +103,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="customer in customerData | orderBy : 'customerName'">
+                        <tr ng-repeat="customer in customerData track by customer._id | orderBy : 'customerName'">
                             <td>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                     <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
