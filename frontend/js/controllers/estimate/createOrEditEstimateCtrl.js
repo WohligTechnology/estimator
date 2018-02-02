@@ -418,6 +418,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if (angular.isDefined($scope.estimatePartObj.selectedCustomMaterial.density) && $scope.estimatePartObj.selectedCustomMaterial.density != null) {
       var den = parseFloat($scope.estimatePartObj.selectedCustomMaterial.density);
     }
+    if (angular.isDefined($scope.estimatePartObj.selectedMaterial.density) && $scope.estimatePartObj.selectedMaterial.density != null) {
+      var den = parseFloat($scope.estimatePartObj.selectedMaterial.density);
+    }
     if (angular.isDefined($scope.estimatePartObj.selectedMaterial.efficiency) && $scope.estimatePartObj.selectedMaterial.efficiency != null) {
       var eff = parseFloat($scope.estimatePartObj.selectedMaterial.efficiency);
     }
