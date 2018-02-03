@@ -27,6 +27,12 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     var netWeight = 0;
     var selectedMaterial = [];
     // $scope.formData = {};
+    
+// Validation of select for part master
+    $scope.partMaster = {
+        enterName: ""
+        }
+        
 
 
     // *************************** default functions begin here  ********************** //
@@ -344,6 +350,15 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
 
     $scope.addMaterialToPartType = function (selectedMatId, partTypeId) {
         selectedMaterial.push(selectedMatId);
+        var errorCount = 0;
+        //Enter Name field is not selected by user
+        if (_.isEmpty(selectedMatId)) {
+        $scope.partMaster.enterName = "Select Material";
+        errorCount++;
+        } else {
+        $scope.partMaster.enterName = " ";
+        }
+if(errorCount==0){
         masterPartService.addMaterialToPartType(selectedMatId, partTypeId, function (data) {
             if (data.value) {
                 toastr.success('Material Added To The PartType Successfully');
@@ -353,6 +368,7 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             }
             $scope.cancelModal();
         });
+    }
     }
 
     $scope.deletePartTypeMaterialModal = function (partTypeId, materialId, getFunction) {

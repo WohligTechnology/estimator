@@ -7,7 +7,8 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
 
-
+    // validation for select case in Marksup
+    $scope.selectMarksup=""; 
     // *************************** default functions begin here  ********************** //
     $scope.getBaseMasterData = function () {
         $scope.getUomData();
@@ -142,11 +143,20 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
 
     }
     $scope.addOrEditMarkup = function (markupData) {
+        var errorCount=0;
+        if(_.isEmpty(markupData.markupType)){
+        $scope.selectMarksup ="Select Markups";
+        errorCount++;
+        }else{
+            $scope.selectMarksup ="";
+        }
+        if(errorCount==0){
         baseMatserService.addOrEditMarkup(markupData, function (data) {
             toastr.success("Markup added/updated successfully");
             $scope.getMarkupData();
             $scope.cancelModal();
         });
+    }
     }
     //- modal to confirm Markups deletion
     $scope.deleteMarkupModal = function (markupId, getFunction) {
