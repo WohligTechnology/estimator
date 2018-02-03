@@ -20,7 +20,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
             $scope.processData = data.results;
             masterProcessService.getPaginationDetails(1, 10, data, function (obj) {
                 $scope.obj = obj;
-              });
+            });
         });
     }
 
@@ -134,16 +134,41 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         masterProcessService.getProcessTypeModalData(operation, process, function (data) {
 
             $scope.selectedProcessCat = {};
-            $scope.formData = data.process;
             $scope.processCats = data.processCats;
             $scope.uoms = data.uoms;
-
+            //- edit case
             if (angular.isDefined(data.process)) {
+                $scope.formData = data.process;
                 $scope.selectedProcessCat = data.process.processCat;
                 $scope.selectedRateMUlFactUom = data.process.rate.uom;
                 $scope.selectedQuaLinkedKeyUom = data.process.quantity.uom;
                 $scope.selectedQuaFinalUom = data.process.quantity.finalUom;
 
+                //- 2nd toggle button at MProcess  is on
+                if ($scope.formData.showQuantityFields) {
+                    $scope.formData.showFields = true;
+                } else {
+                    $scope.formData.showFields = false;
+                }
+                //- 1st toggle button at MProcess  is on
+                if ($scope.formData.showRateFields) {
+                    $scope.formData.showMulFact = true;
+                } else {
+                    $scope.formData.showMulFact = false;
+                }
+            } else { //- save case
+                $scope.formData = {
+                    showQuantityFields: true,
+                    showRateFields: true,
+                    showFields: true,
+                    showMulFact: true,
+                    rate: {},
+                    quantity: {}
+                }
+                $scope.selectedProcessCat = "";
+                $scope.selectedRateMUlFactUom = "";
+                $scope.selectedQuaLinkedKeyUom = "";
+                $scope.selectedQuaFinalUom = "";
             }
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
@@ -278,6 +303,18 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         masterProcessService.selectAll(processes, checkboxStatus, function (data) {
             $scope.bulkProcesses = data;
         });
+    }
+    //- to select Nos or Hrs
+    //- 2nd toggle button
+    $scope.setToggleForQuantity = function (formData) {
+        formData.showQuantityFields = !formData.showQuantityFields;
+        formData.showFields = formData.showQuantityFields;
+    }
+    //- to select Nos or Hrs
+    //- 1st toggle button
+    $scope.setToggleForRate = function (formData) {
+        formData.showRateFields = !formData.showRateFields;
+        formData.showMulFact = formData.showRateFields;
     }
 
     // *************************** init all default functions begin here ************** //

@@ -18,7 +18,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-if="partProcessingObj.showFields && partProcessingObj.showMulFact">
                             <label class="col-md-4 control-label">Process Item:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="pi.processItemName for pi in partProcessingObj.processingItemData track by pi._id" ng-model="partProcessingObj.selectedProcessingItem"
@@ -26,7 +26,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-if="partProcessingObj.showFields && partProcessingObj.showMulFact">
                             <label class="col-md-4 control-label">Rate:</label>
                             <div class="col-md-5 text-left">
                                 <div>
@@ -37,12 +37,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-if="!partProcessingObj.showFields || !partProcessingObj.showMulFact">
+                            <label class="col-md-4 control-label">Rate:<span class="error">&nbsp;&nbsp;*</span></label>
+                            <div class="col-md-5 text-left">
+                                <input type="text" class="form-control" ng-model="partProcessingObj.rate.actualRate" name="rate" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-change="updateProcessingCost()" required>
+                                <span class="unit">
+                                    {{partProcessingObj.rate.uom}}
+                                </span>
+                                <span class="error" ng-show="myForm.rate.$invalid && myForm.rate.$dirty">Please enter a number or floating point number</span>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="partProcessingObj.showFields">
                             <label class="col-md-6 tex-right">
                                 <b>Quantity -</b>
                             </label>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-if="partProcessingObj.showFields">
                             <label class="col-md-4 control-label">Key Value:</label>
                             <div class="col-md-5 text-left">
                                 <div>
@@ -69,7 +79,7 @@
                                 </div>
                             </div>
                         </div> -->
-                        <div class="form-group">
+                        <div class="form-group" ng-if="partProcessingObj.showFields">
                             <label class="col-md-4 control-label">Utilization:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5 text-left">
                                 <div class="display-inline">
@@ -82,7 +92,7 @@
                                 <span class="error" ng-show="myForm.utilization.$invalid && myForm.utilization.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-if="partProcessingObj.showFields">
                             <label class="col-md-4 control-label">Contigency or Wastage:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5 text-left">
                                 <div class="display-inline">
@@ -95,16 +105,25 @@
                                 <span class="error" ng-show="myForm.contengncyOrWastage.$invalid && myForm.contengncyOrWastage.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-if="partProcessingObj.showFields">
                             <label class="col-md-4 control-label">Total Quantity:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5 text-left">
                                 <input type="number" class="form-control" ng-model="partProcessingObj.quantity.totalQuantity"  ng-change="updateProcessingCost()" required>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Remark:<span class="error">&nbsp;&nbsp;*</span></label>
+                        <div class="form-group" ng-if="!partProcessingObj.showFields">
+                            <label class="col-md-4 control-label">Quantity:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5 text-left">
-                                <textarea class="form-control" ng-model="partProcessingObj.remark" required>
+                                <input type="number" class="form-control" ng-model="partProcessingObj.quantity.totalQuantity"  ng-change="updateProcessingCost()" required>
+                                <span class="unit">
+                                    {{partProcessingObj.selectedProcessingType.quantity.uom.uomName}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Remark:</label>
+                            <div class="col-md-5 text-left">
+                                <textarea class="form-control" ng-model="partProcessingObj.remark">
                                 </textarea>
                             </div>
                         </div>

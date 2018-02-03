@@ -436,7 +436,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     }
     if (angular.isDefined($scope.estimatePartObj.selectedShape.formFactor) && $scope.estimatePartObj.selectedShape.formFactor != null) {
       var ff = parseFloat($scope.estimatePartObj.selectedShape.formFactor);
-   }
+    }
     if (angular.isDefined($scope.estimatePartObj.wastage) && $scope.estimatePartObj.wastage != null) {
       var wtg = parseFloat($scope.estimatePartObj.wastage);
     }
@@ -980,18 +980,18 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.cancelModal();
     });
   }
-    //- to delete bulk custom material
-    $scope.deleteMultipleCustomMaterial = function (cmIds) {
-      var temp;
-      createOrEditEstimateService.deleteCustomMaterial(temp, cmIds, function () {
-        $scope.bulkItems = [];
-        $scope.checkAll = false;
-        $scope.checkboxStatus = false;
-        toastr.success("Custom Material Deleted Successfully");
-        $scope.getAllMaterialData();
-        $scope.cancelModal();
-      });
-    }
+  //- to delete bulk custom material
+  $scope.deleteMultipleCustomMaterial = function (cmIds) {
+    var temp;
+    createOrEditEstimateService.deleteCustomMaterial(temp, cmIds, function () {
+      $scope.bulkItems = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
+      toastr.success("Custom Material Deleted Successfully");
+      $scope.getAllMaterialData();
+      $scope.cancelModal();
+    });
+  }
   //- to import custom material
   $scope.importCustoMaterialModal = function () {
     createOrEditEstimateService.getImportCustomMaterialData(function (data) {
@@ -1152,6 +1152,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         utilization: 100,
         contengncyOrWastage: 0
       },
+      //- for Nos & Hrs
+      showFields: true,
+      showMulFact: true,
       remark: "",
       totalCost: null,
       finalUom: null,
@@ -1204,13 +1207,24 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
           $scope.partProcessingObj.selectedProcessingType = data.selectedProcessingType;
           $scope.partProcessingObj.selectedProcessingItem = data.selectedProcessingItem;
 
-          $scope.partProcessingObj.rate.actualRate = data.rate.actualRate;
           $scope.partProcessingObj.rate.uom = data.selectedProcessingType.rate.uom.uomName;
-
-          $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = data.quantity.linkedKeyValue.keyVariable;
-          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = data.quantity.linkedKeyValue.keyValue;
-          $scope.partProcessingObj.quantity.utilization = data.quantity.utilization;
-          $scope.partProcessingObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
+          //- 1st toggle button at MProcess  is on
+          if ($scope.partProcessingObj.selectedProcessingType.showRateFields) {
+            $scope.partProcessingObj.showMulFact = true;
+          } else {
+            $scope.partProcessingObj.showMulFact = false;
+          }
+          $scope.partProcessingObj.rate.actualRate = data.rate.actualRate;
+          //- 2nd toggle button at MProcess  is on
+          if ($scope.partProcessingObj.selectedProcessingType.showQuantityFields) {
+            $scope.partProcessingObj.showFields = true;
+            $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = data.quantity.linkedKeyValue.keyVariable;
+            $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = data.quantity.linkedKeyValue.keyValue;
+            $scope.partProcessingObj.quantity.utilization = data.quantity.utilization;
+            $scope.partProcessingObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
+          } else {
+            $scope.partProcessingObj.showFields = false;
+          }
           $scope.partProcessingObj.quantity.totalQuantity = data.quantity.totalQuantity;
 
           $scope.partProcessingObj.finalUom = data.finalUom;
@@ -1240,31 +1254,42 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- get done with all calculation dependent on processTYpe
   $scope.getSelectedProessType = function (proTypeObj) {
     createOrEditEstimateService.getSelectedProessType(proTypeObj._id, function (data) {
+      if (proTypeObj.showRateFields) {
+        $scope.partProcessingObj.showMulFact = true;
+      } else {
+        $scope.partProcessingObj.showMulFact = false;
+      }
+      if (proTypeObj.showQuantityFields) {
+        $scope.partProcessingObj.showFields = true;
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = "";
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = "";
+
+        //- get the value of selected linkedKeyValue of processType from part --> keyValueCalculation --> selected linkedKeyValue   
+
+        var tempLinkedKeyValue = $scope.partProcessingObj.selectedProcessingType.quantity.linkedKeyValue;
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = tempLinkedKeyValue;
+
+        if (tempLinkedKeyValue == "Perimeter") {
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.perimeter) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        } else if (tempLinkedKeyValue == "SMA") {
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.sheetMetalArea) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        } else if (tempLinkedKeyValue == "SA") {
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.surfaceArea) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        } else if (tempLinkedKeyValue == "Gwt") {
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.grossWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        } else if (tempLinkedKeyValue == "Nwt") {
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.netWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        } else if (tempLinkedKeyValue == "Nos") {
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Nos) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        } else if (tempLinkedKeyValue == "Hrs") {
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Hrs) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        }
+      } else {
+        $scope.partProcessingObj.showFields = false;
+      }
       $scope.disableProcessingFields.disableProcessItem = false;
       $scope.partProcessingObj.processingItemData = data;
-      $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = "";
-      $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = "";
-
-      //- get the value of selected linkedKeyValue of processType from part --> keyValueCalculation --> selected linkedKeyValue   
-
-      var tempLinkedKeyValue = $scope.partProcessingObj.selectedProcessingType.quantity.linkedKeyValue;
-      $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = tempLinkedKeyValue;
-
-      if (tempLinkedKeyValue == "Perimeter") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.perimeter) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-      } else if (tempLinkedKeyValue == "SMA") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.sheetMetalArea) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-      } else if (tempLinkedKeyValue == "SA") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.surfaceArea) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-      } else if (tempLinkedKeyValue == "Gwt") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.grossWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-      } else if (tempLinkedKeyValue == "Nwt") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.netWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-      } else if (tempLinkedKeyValue == "Nos") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Nos) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-      } else if (tempLinkedKeyValue == "Hrs") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Hrs) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-      }
+      $scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom.uomName;
 
       $scope.partProcessingObj.finalUom = $scope.partProcessingObj.selectedProcessingType.quantity.finalUom.uomName;
       $scope.updateProcessingCost();
@@ -1300,16 +1325,21 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     }
 
     $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);
-    $scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom.uomName;
+    //$scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom.uomName;
     $scope.updateProcessingCost();
 
   }
   //- to do process object final cost calculation
   $scope.updateProcessingCost = function () {
-    if ($scope.partProcessingObj.quantity.contengncyOrWastage != 0) {
-      $scope.partProcessingObj.totalCost = ($scope.partProcessingObj.quantity.totalQuantity * $scope.partProcessingObj.rate.actualRate) * (($scope.partProcessingObj.quantity.utilization)/100) * ((100+$scope.partProcessingObj.quantity.contengncyOrWastage)/100);
+    //- 2nd toggle button at MProcess  is on
+    if ($scope.partProcessingObj.showFields) {
+      if ($scope.partProcessingObj.quantity.contengncyOrWastage != 0) {
+        $scope.partProcessingObj.totalCost = ($scope.partProcessingObj.quantity.totalQuantity * $scope.partProcessingObj.rate.actualRate) * (($scope.partProcessingObj.quantity.utilization) / 100) * ((100 + $scope.partProcessingObj.quantity.contengncyOrWastage) / 100);
+      } else {
+        $scope.partProcessingObj.totalCost = ($scope.partProcessingObj.quantity.totalQuantity * $scope.partProcessingObj.rate.actualRate) * (($scope.partProcessingObj.quantity.utilization) / 100);
+      }
     } else {
-      $scope.partProcessingObj.totalCost = ($scope.partProcessingObj.quantity.totalQuantity * $scope.partProcessingObj.rate.actualRate) * (($scope.partProcessingObj.quantity.utilization)/100);
+      $scope.partProcessingObj.totalCost = $scope.partProcessingObj.rate.actualRate * $scope.partProcessingObj.quantity.totalQuantity;
     }
 
   }
@@ -1332,8 +1362,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         contengncyOrWastage: processingData.quantity.contengncyOrWastage
       },
       remark: processingData.remark,
-      totalCost: processingData.totalCost
-
+      totalCost: processingData.totalCost,
+      showQuantityFields: processingData.showQuantityFields,
+      showRateFields: processingData.showRateFields
     };
 
     if (operation == 'save') {

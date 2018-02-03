@@ -3,10 +3,11 @@ var schema = new Schema({
         type: String,
         required: true
     },
+    showRateFields: Boolean,
+    showQuantityFields: Boolean,
     processCat: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'MProcessCat',
-        required: true
+        ref: 'MProcessCat'
     },
     rate: {
         mulFact: String,
