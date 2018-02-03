@@ -9,6 +9,17 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
   $scope.mMatSubCatData = [];
   $scope.bulkAddons = [];
 
+  // obj for validation of select for Master Addon
+  $scope.masterAddon = {
+  materialCategory: "",
+  materialSubCategory:"",
+  UOM1:"",
+  UOM2:"",
+  UOM3:"",
+  finalUOM:"",
+  linkedkeyValue:""
+  }
+
 
   // *************************** default functions begin here  ********************** //
   //- function to get all addons data
@@ -50,21 +61,73 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
       });
     });
   }
+
   //- function to  create new addon     
-  $scope.addOrEditAddonType = function (addonTypeData, selectedMatCatId, selectedMatSubCatId, selectedRateUomId, selectedAdditionalUomId, selectedKinkedKeyUomId, selectedFinalUomId) {
+  $scope.addOrEditAddonType = function (addonTypeData, selectedMatCatId, selectedMatSubCatId, selectedRateUomId, selectedAdditionalUomId, selectedKinkedKeyUomId, selectedFinalUomId) {s
     addonTypeData.materialCat = selectedMatCatId;
     addonTypeData.materialSubCat = selectedMatSubCatId;
     addonTypeData.rate.uom = selectedRateUomId;
     addonTypeData.quantity.additionalInputUom = selectedAdditionalUomId;
     addonTypeData.quantity.linkedKeyUom = selectedKinkedKeyUomId;
     addonTypeData.quantity.finalUom = selectedFinalUomId;
-
+    // Validation of select for Master Addon
+    var errorCount = 0;
+    // MaterialCategory field is not selected by user
+    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+    $scope.masterAddon.materialCategory = "Select Material Category.";
+    errorCount++;
+    } else {
+    $scope.masterAddon.materialCategory = " ";
+    }
+    // materialSubCategory field is not selected by user
+    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+    $scope.masterAddon.materialSubCategory = "Select MaterialSubCategory.";
+    errorCount++;
+    } else {
+    $scope.masterAddon.materialSubCategory = " ";
+    }
+    // UOM field is not selected by user
+    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+      $scope.masterAddon.UOM1 = "Select UOM.";
+      errorCount++;
+      } else {
+      $scope.masterAddon.UOM1 = " ";
+      }
+    // UOM field is not selected by user
+    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+      $scope.masterAddon.UOM2 = "Select UOM.";
+      errorCount++;
+      } else {
+      $scope.masterAddon.UOM2 = " ";
+      }
+    // UOM field is not selected by user
+    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+      $scope.masterAddon.UOM3 = "Select UOM.";
+      errorCount++;
+      } else {
+      $scope.masterAddon.UOM3 = " ";
+      }
+    // finalUOM field is not selected by user
+    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+      $scope.masterAddon.finalUOM = "Select finalUOM.";
+      errorCount++;
+      } else {
+      $scope.masterAddon.finalUOM = " ";
+      }
+    // linkedkeyValue field is not selected by user
+    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+      $scope.masterAddon.linkedkeyValue = "Select LinkedkeyValue.";
+      errorCount++;
+      } else {
+      $scope.masterAddon.linkedkeyValue = " ";
+      }
+      if(errorCount==0){
     masterAddonService.addOrEditAddonType(addonTypeData, function (data) {
       toastr.success('Addon added/updated successfully');
       $scope.getAddonData();
       $scope.cancelModal();
     });
-
+  }
   }
 
   //- modal to confirm addon deletion

@@ -42,6 +42,7 @@
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="u.uomName for u in uoms track by u._id" ng-model="selectedRateUom" required>
                                 </select>
+                                <span class="error">{{extraMaster.uom}}</span>
                             </div>
                         </div>
                     </div>

@@ -8,6 +8,11 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   $scope.showEditBtn = false;
   $scope.bulkExtras = [];
 
+  //- obj for validation of select 
+  $scope.extraMaster ={
+    uom :""
+  }
+
 
   // *************************** default functions begin here  ********************** //
   //- function to get all extras data
@@ -48,12 +53,20 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   //- function to  create new customer
   $scope.addOrEditExtra = function (extraData, selectedRateUom) {
     extraData.rate.uom = selectedRateUom;
-
+    var errorCount=0;
+    if(_.isEmpty(selectedRateUom)){
+      $scope.extraMaster.uom = "Select UOM."
+      errorCount++;
+    }else{
+      $scope.extraMaster.uom = ""
+    }
+if(errorCount==0){
     masterExtraService.addOrEditExtra(extraData, function (data) {
       toastr.success('Extra added/updated successfully');
       $scope.getMasterExtraData();
       $scope.cancelModal();
     });
+  }
   }
 
   //- modal to confirm extra deletion

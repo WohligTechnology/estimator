@@ -16,6 +16,7 @@
                             <label class="col-md-4 control-label">Enter Name:</label>
                             <div class="col-md-5">
                                 <select class="form-control select_tag_dashboard" ng-options="m.materialName for m in matData track by m._id" ng-model="selectedMatCat"></select>
+                               <span class="error">{{partMaster.enterName}}</span> 
                             </div>
                         </div>
                     </div>
