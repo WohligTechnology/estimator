@@ -1,10 +1,15 @@
 myApp.service('TemplateService', function () {
-    this.title = "Home";
+    this.title = "";
     this.meta = "";
     this.metadesc = "";
 
     var d = new Date();
     this.year = d.getFullYear();
+
+    this.getTitle = function(title){
+        console.log('**** inside function_name of template.js ****');
+       this.title = title;
+    };
 
     this.init = function () {
         this.header = "views/template/header.html";
