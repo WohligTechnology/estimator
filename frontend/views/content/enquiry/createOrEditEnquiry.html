@@ -56,6 +56,7 @@
                                                             <option value='close'>Close</option>
                                                             <option value='hold'>Hold</option>
                                                         </select>
+                                                        <span class="error">{{enquiries.status}}</span>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
@@ -67,6 +68,7 @@
                                                         <select class="form-control" name="customername" ng-options="c.customerName for c in customerData track by c._id" ng-model="formData.customerDataObj"
                                                             ng-change="setCustomerData(formData.customerDataObj)" required>
                                                         </select>
+                                                        <span class="error">{{enquiries.customerName}}</span>
                                                         <span class="error" ng-show="myForm1.customername.$invalid && myForm1.customername.$dirty">Please fill in this field.</span>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
@@ -89,6 +91,7 @@
                                                         <select class="form-control" ng-options="u.name for u in userData track by u._id" ng-model="formData.enquiryDetails.estimator"
                                                             ng-change="setEstimator(formData.enquiryDetails.estimator)">
                                                         </select>
+                                                        <span class="error">{{enquiries.estimator}}</span>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Contact:</label>
@@ -500,6 +503,7 @@
                                             </div>
                                             <div class="form-actions">
                                                 <div class="row">
+
                                                     <div class=" col-md-12 text-center">
                                                         <button type="button" class="btn blue" ng-if="myForm6.$dirty" ng-click="addEnquiryData(formData)">Submit</button>
                                                     </div>
