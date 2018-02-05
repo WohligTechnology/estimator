@@ -1,4 +1,4 @@
-myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterExtraService) {
+myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterExtraService, TemplateService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -7,10 +7,11 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
   $scope.bulkExtras = [];
-
+  //- for title
+  TemplateService.getTitle("ExtraMaster");
   //- obj for validation of select 
-  $scope.extraMaster ={
-    uom :""
+  $scope.extraMaster = {
+    uom: ""
   }
 
 
@@ -30,13 +31,13 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   // *************************** functions to be triggered form view begin here ***** // 
   //- modal to create new extra 
   $scope.addOrEditExtraModal = function (operation, extra) {
-    
+
     masterExtraService.getExtraModalData(operation, extra, function (data) {
 
       $scope.formData = data.extra;
       $scope.uoms = data.uoms;
 
-      if(operation == "update"){
+      if (operation == "update") {
         $scope.selectedRateUom = extra.rate.uom;
       }
 
@@ -53,20 +54,20 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   //- function to  create new customer
   $scope.addOrEditExtra = function (extraData, selectedRateUom) {
     extraData.rate.uom = selectedRateUom;
-    var errorCount=0;
-    if(_.isEmpty(selectedRateUom)){
+    var errorCount = 0;
+    if (_.isEmpty(selectedRateUom)) {
       $scope.extraMaster.uom = "Select UOM."
       errorCount++;
-    }else{
+    } else {
       $scope.extraMaster.uom = ""
     }
-if(errorCount==0){
-    masterExtraService.addOrEditExtra(extraData, function (data) {
-      toastr.success('Extra added/updated successfully');
-      $scope.getMasterExtraData();
-      $scope.cancelModal();
-    });
-  }
+    if (errorCount == 0) {
+      masterExtraService.addOrEditExtra(extraData, function (data) {
+        toastr.success('Extra added/updated successfully');
+        $scope.getMasterExtraData();
+        $scope.cancelModal();
+      });
+    }
   }
 
   //- modal to confirm extra deletion

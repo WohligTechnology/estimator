@@ -17,7 +17,11 @@ var schema = new Schema({
         default: ""
     },
     variable: [{
-        varName: String
+        varName: String,
+        uom: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'MUom'
+        }
     }],
     sizeFactor: {
         type: String

@@ -1,4 +1,4 @@
-myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterAddonService) {
+myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterAddonService, TemplateService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -8,6 +8,8 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
   $scope.showEditBtn = false;
   $scope.mMatSubCatData = [];
   $scope.bulkAddons = [];
+  //- for title
+  TemplateService.getTitle("AddonMaster");
 
   // obj for validation of select for Master Addon
   $scope.masterAddon = {

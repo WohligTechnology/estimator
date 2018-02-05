@@ -1,4 +1,4 @@
-myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
+myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, TemplateService) {
 
 
 
@@ -19,6 +19,8 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService) {
       phoneRegionCode: 'IN'
     }
   };
+  //- for title
+  TemplateService.getTitle("User");
 
 
   // *************************** default functions begin here  ********************** //

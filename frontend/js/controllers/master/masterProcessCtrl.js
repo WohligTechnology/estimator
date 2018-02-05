@@ -1,4 +1,4 @@
-myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, masterProcessService) {
+myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, masterProcessService, TemplateService) {
 
 
     // *************************** default variables/tasks begin here ***************** //
@@ -16,10 +16,12 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         finalUom: "",
         rateMultiplicationFactor: "",
         processCatValidation: "",
-        quantityMultiplicationFactor:"",
-        quantityUtilization:"",
-        quantityWastage:""
+        quantityMultiplicationFactor: "",
+        quantityUtilization: "",
+        quantityWastage: ""
     }
+    //- for title
+    TemplateService.getTitle("ProcessMaster");
 
     // *************************** default functions begin here  ********************** //
     $scope.getProcessData = function () {

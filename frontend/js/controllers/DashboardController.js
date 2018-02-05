@@ -1,8 +1,10 @@
-myApp.controller('DashboardController', function ($scope, $http, dashboardService) {
+myApp.controller('DashboardController', function ($scope, $http, dashboardService, TemplateService) {
 
   // *************************** default variables/tasks begin here ***************** //
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = true;
+  //- for title
+  TemplateService.getTitle("Dashboard");
 
   // *************************** default functions begin here  ********************** //
   $scope.getDashboardData = function () {
