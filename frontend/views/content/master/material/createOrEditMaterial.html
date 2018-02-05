@@ -37,11 +37,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Typical Rate per kg:</label>
+                            <label class="col-md-4 control-label">Rate Per Unit:</label>
                             <div class="col-md-5">
                                 <input type="text" name="rateperkg" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.typicalRatePerKg" >
                                 <span class="error" ng-show="myForm.rateperkg.$invalid && myForm.rateperkg.$dirty">Please enter a number or floating point number</span>
-                                <span class="unit">Rs/kg</span>
+                                <span class="unit">Rs</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Weight Per Unit:</label>
+                            <div class="col-md-5">
+                                <input type="text" name="weightPerUnit" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.weightPerUnit" >
+                                <span class="error" ng-show="myForm.weightPerUnit.$invalid && myForm.weightPerUnit.$dirty">Please enter a number or floating point number</span>
+                                <span class="unit">kg</span>
                             </div>
                         </div>
                         <div class="form-group">

@@ -1,5 +1,5 @@
 myApp.service('TemplateService', function () {
-  this.title = "Home";
+  this.title = "";
   this.meta = "Google";
   this.metadesc = "Home";
   this.pageMax = 10;
@@ -8,6 +8,9 @@ myApp.service('TemplateService', function () {
   var d = new Date();
   this.year = d.getFullYear();
   this.profile = $.jStorage.get("profile");
+  this.getTitle = function(title) {
+    this.title = title;
+  };
   this.init = function () {
     this.header = "views/header.html";
     this.menu = "views/menu.html";

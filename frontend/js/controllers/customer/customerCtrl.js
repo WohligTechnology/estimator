@@ -1,4 +1,4 @@
-myApp.controller('customerCtrl', function ($scope, toastr, $uibModal, customerService) {
+myApp.controller('customerCtrl', function ($scope, toastr, $uibModal, customerService,TemplateService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -10,6 +10,7 @@ myApp.controller('customerCtrl', function ($scope, toastr, $uibModal, customerSe
   $scope.bulkCustomers = []; // for multiple records deletion
   $scope.checkAll = false; //- for all records selection
   $scope.checkboxStatus = false; //- for multiple records selection
+  TemplateService.getTitle("Customer");
 
 
   // *************************** default functions begin here  ********************** //

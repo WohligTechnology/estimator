@@ -18,7 +18,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" ng-if="partProcessingObj.showFields && partProcessingObj.showMulFact">
+                        <div class="form-group" ng-if="partProcessingObj.showMulFact">
                             <label class="col-md-4 control-label">Process Item:<span class="error">&nbsp;&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="pi.processItemName for pi in partProcessingObj.processingItemData track by pi._id" ng-model="partProcessingObj.selectedProcessingItem"

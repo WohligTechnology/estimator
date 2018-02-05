@@ -23,7 +23,12 @@ var schema = new Schema({
     },
     variable: [{
         varName: String,
-        varValue: Number
+        varValue: Number,
+        uom: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'MUom',
+            required: true
+        }
     }],
     sizeFactor: {
         type: String

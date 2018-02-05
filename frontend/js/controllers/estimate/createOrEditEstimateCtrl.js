@@ -1,9 +1,11 @@
-myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $stateParams, createOrEditEstimateService, $uibModal) {
+myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $stateParams, createOrEditEstimateService, $uibModal, TemplateService) {
 
   // **************************************** default variables/tasks begin here **************************************** //
   var pi = 3.1415;
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
+  //- for title
+  TemplateService.getTitle("Estimate");
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
   $scope.loading = false; //- for loading gif
@@ -379,10 +381,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     $scope.estimatePartObj.selectedShortcut = partTypeObj; /////-
     $scope.estimatePartObj.selectedShape = partTypeObj.shape;
-    if (angular.isDefined (partTypeObj.shape.icon)) {
+    if (angular.isDefined(partTypeObj.shape.icon)) {
       $scope.estimatePartObj.shapeIcon = partTypeObj.shape.icon.file;
     }
-    if (angular.isDefined (partTypeObj.shape.image)) {
+    if (angular.isDefined(partTypeObj.shape.image)) {
       $scope.estimatePartObj.shapeImage = partTypeObj.shape.image.file;
     }
 
@@ -775,15 +777,25 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
   //- to create a duplicate part for same subAssembly or different subAssembly
   $scope.duplicatePart = function (subAssId, part, option) {
-    if (createOrEditEstimateService.getSubAssemblyIndex(subAssId) != -1) {
-      //$scope.message = '';
-      createOrEditEstimateService.formDuplicatePart(subAssId, part, function () {
-        if (option == 'import') {
-          $scope.cancelModal();
-        }
-        createOrEditEstimateService.totalCostCalculations(function (data) {});
-        toastr.success('Part added successfully');
-      });
+    var errorCount = 0;
+    $scope.partName = "";
+    if (_.isEmpty(subAssId)) {
+      $scope.partName = "Select SubAssembly";
+      errorCount++;
+    } else {
+      $scope.partName = "";
+    }
+    if (errorCount == 0) {
+      if (createOrEditEstimateService.getSubAssemblyIndex(subAssId) != -1) {
+        //$scope.message = '';
+        createOrEditEstimateService.formDuplicatePart(subAssId, part, function () {
+          if (option == 'import') {
+            $scope.cancelModal();
+          }
+          createOrEditEstimateService.totalCostCalculations(function (data) {});
+          toastr.success('Part added successfully');
+        });
+      }
     } else {
       toastr.warning('Please Enter Valid SubAssembly Number');
     }

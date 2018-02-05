@@ -1,4 +1,4 @@
-myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryService) {
+myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryService, TemplateService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -8,6 +8,8 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   $scope.loading = false; //- show loader when api takes time to load
   $scope.checkAll = false; //- for all records selection
   $scope.checkboxStatus = false; //- for multiple records selection
+  //- for title
+  TemplateService.getTitle("Enquiry");
 
 
   // *************************** default functions begin here  ********************** //

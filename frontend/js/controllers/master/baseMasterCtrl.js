@@ -1,4 +1,4 @@
-myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMatserService) {
+myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMatserService, TemplateService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -6,9 +6,11 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     //- to show/hide save & update button on pop-up according to operation
     $scope.showSaveBtn = true;
     $scope.showEditBtn = false;
+    //- for title
+    TemplateService.getTitle("BaseMaster");
 
     // validation for select case in Marksup
-    $scope.selectMarksup=""; 
+    $scope.selectMarksup = "";
     // *************************** default functions begin here  ********************** //
     $scope.getBaseMasterData = function () {
         $scope.getUomData();
@@ -143,20 +145,20 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
 
     }
     $scope.addOrEditMarkup = function (markupData) {
-        var errorCount=0;
-        if(_.isEmpty(markupData.markupType)){
-        $scope.selectMarksup ="Select Markups";
-        errorCount++;
-        }else{
-            $scope.selectMarksup ="";
+        var errorCount = 0;
+        if (_.isEmpty(markupData.markupType)) {
+            $scope.selectMarksup = "Select Markups";
+            errorCount++;
+        } else {
+            $scope.selectMarksup = "";
         }
-        if(errorCount==0){
-        baseMatserService.addOrEditMarkup(markupData, function (data) {
-            toastr.success("Markup added/updated successfully");
-            $scope.getMarkupData();
-            $scope.cancelModal();
-        });
-    }
+        if (errorCount == 0) {
+            baseMatserService.addOrEditMarkup(markupData, function (data) {
+                toastr.success("Markup added/updated successfully");
+                $scope.getMarkupData();
+                $scope.cancelModal();
+            });
+        }
     }
     //- modal to confirm Markups deletion
     $scope.deleteMarkupModal = function (markupId, getFunction) {

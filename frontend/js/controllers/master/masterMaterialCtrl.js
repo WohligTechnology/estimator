@@ -1,4 +1,4 @@
-myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, masterMaterialService) {
+myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, masterMaterialService, TemplateService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -14,6 +14,8 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.bulkMaterials = []; //- for multiple records deletion
     $scope.checkAll = false; //- for all records selection
     $scope.checkboxStatus = false; //- for multiple records selection
+    //- for title
+    TemplateService.getTitle("MaterialMaterial");
 
 
     // *************************** default functions begin here  ********************** //
@@ -89,9 +91,9 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         // materialSubCatData.catId = materialCatId;
         masterMaterialService.addOrEditMaterialSubCat(materialSubCatData, materialCatId, function (data) {
             if (data.value) {
-                toastr.success('Material SubCategory added successfully');                
+                toastr.success('Material SubCategory added successfully');
             } else {
-                toastr.error('Material SubCategory is not added');                
+                toastr.error('Material SubCategory is not added');
             }
             $scope.getMaterialData();
             $scope.cancelModal();
@@ -138,7 +140,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
             });
         });
     }
-    $scope.addOrEditMaterial = function (materialData, materialSubCatId) {        
+    $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
         masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {
             if (data.value) {
                 toastr.success('Material added/updated successfully');

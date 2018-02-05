@@ -560,7 +560,7 @@ tree css*/
  } //- css to add a unit into textbox
  .unit {
    position: absolute;
-   color: #c2c2c2;
+   color: #939292;
    top: 5px;
    right: 22px;
  } 
@@ -656,7 +656,7 @@ tree css*/
 //- CSS for global variable toggle button end
 
 
-//CSS for changing border color during validation
+//- CSS for changing border color during validation start
 input.ng-invalid.ng-dirty {
   border: 1px solid red;
 }
@@ -680,3 +680,13 @@ textarea.ng-invalid.ng-dirty {
 textarea.ng-valid.ng-dirty {
   border: 1px solid green;
 }
+//- CSS for changing border color during validation end
+
+//- css for Uom With variables @ShapeView start
+.selectCss {
+  margin-left: 10px;
+  width: 70px;
+  margin-bottom: 35px;
+  height: 20px;
+}
+//- css for Uom With variables @ShapeView end

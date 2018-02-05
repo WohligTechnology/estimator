@@ -1,4 +1,4 @@
-myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, masterProcessService) {
+myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, masterProcessService, TemplateService) {
 
 
     // *************************** default variables/tasks begin here ***************** //
@@ -7,7 +7,21 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     $scope.showEditBtn = false;
     $scope.selectedProcessCat = {};
     $scope.bulkProcesses = [];
-
+    // object for Validation of select in process Type
+    $scope.validationSelect = {
+        processCategory: "",
+        quantityUom: "",
+        rateUom: "",
+        linkedkeyValue: "",
+        finalUom: "",
+        rateMultiplicationFactor: "",
+        processCatValidation: "",
+        quantityMultiplicationFactor: "",
+        quantityUtilization: "",
+        quantityWastage: ""
+    }
+    //- for title
+    TemplateService.getTitle("ProcessMaster");
 
     // *************************** default functions begin here  ********************** //
     $scope.getProcessData = function () {
@@ -48,16 +62,28 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         });
     }
     $scope.addOrEditProcessCat = function (processCatData, selectedUomId) {
+        debugger;
         processCatData.uom = selectedUomId;
-        masterProcessService.addOrEditProcessCat(processCatData, function (data) {
-            if (angular.isUndefined(data.error)) {
-                toastr.success('Record added successfully');
-                $scope.getProcessData();
-                $scope.cancelModal();
-            } else {
-                toastr.error('Please enter data properly');
-            }
-        });
+        //Validation of select in process Catergory.
+        var errorCount = 0;
+        $scope.selecteduom = "";
+        if (typeof (selectedUomId) == "undefined") {
+            $scope.selecteduom = "select UOM.";
+            errorCount++;
+        } else {
+            $scope.selectedUom = "";
+        }
+        if (errorCount == 0) {
+            masterProcessService.addOrEditProcessCat(processCatData, function (data) {
+                if (angular.isUndefined(data.error)) {
+                    toastr.success('Record added successfully');
+                    $scope.getProcessData();
+                    $scope.cancelModal();
+                } else {
+                    toastr.error('Please enter data properly');
+                }
+            });
+        }
     }
     $scope.deleteProcessCatModal = function (processCatId, getFunction) {
         $scope.idToDelete = processCatId;
@@ -183,19 +209,92 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         });
     }
     $scope.addOrEditProcessType = function (processData, selectedProcessCatId, selectedRateMUlFactUom, selectedQuaLinkedKeyUom, selectedQuaFinalUom) {
+        debugger;
         processData.processCat = selectedProcessCatId;
         processData.rate.uom = selectedRateMUlFactUom;
         processData.quantity.uom = selectedQuaLinkedKeyUom;
         processData.quantity.finalUom = selectedQuaFinalUom;
-        masterProcessService.addOrEditProcessType(processData, function (data) {
-            if (angular.isUndefined(data.error)) {
-                toastr.success('Record added successfully');
-                $scope.getProcessTypeData();
-                $scope.cancelModal();
+        //-  Validation of select in process Type
+        var errorCount = 0;
+        if ((processData.showRateFields) == true) {
+            if (angular.isUndefined(selectedProcessCatId)) {
+                $scope.processCategory = "Select Process Catergory."
+                errorCount++;
             } else {
-                toastr.error('Please enter data properly');
+                $scope.processCategory = ""
             }
-        });
+            if (_.isEmpty(selectedProcessCatId)) {
+                $scope.processCatValidation = " Process Category field is required."
+                errorCount++;
+            } else {
+                $scope.processCatValidation = " "
+            }
+            if (_.isEmpty(processData.rate.mulFact)) {
+                $scope.rateMultiplicationFactor = "Multiplication Factor field is required."
+                errorCount++;
+            } else {
+                $scope.rateMultiplicationFactor = " "
+            }
+        }
+        if (angular.isUndefined(processData.rate.uom)) {
+            $scope.rateUom = "Select UOM"
+            errorCount++;
+        } else {
+            $scope.rateUom = ""
+        }
+        if (_.isEmpty(processData.quantity.uom)) {
+            $scope.quantityUom = "Select UOM"
+            errorCount++;
+        } else {
+            $scope.quantityUom = ""
+        }
+        if ((processData.showQuantityFields) == true) {
+            if (_.isEmpty(processData.quantity.linkedKeyValue)) {
+                $scope.linkedkeyValue = "Select LinkedKey Value."
+                errorCount++;
+            } else {
+                $scope.linkedkeyValue = " "
+            }
+            if (_.isEmpty(processData.quantity.mulfact)) {
+                $scope.quantityMultiplicationFactor = "Multiplication Factor field is required."
+                errorCount++;
+            } else {
+                $scope.quantityMultiplicationFactor = " "
+            }
+            if (_.isEmpty(processData.quantity.utilization)) {
+                $scope.quantityUtilization = "Utilization field is required."
+                errorCount++;
+            } else {
+                $scope.quantityUtilization = " "
+            }
+            if (_.isEmpty(processData.quantity.contengncyOrWastage)) {
+                $scope.quantityWastage = "Contegency or Wastage field is required."
+                errorCount++;
+            } else {
+                $scope.quantityWastage = " "
+            }
+
+        } else {
+            $scope.linkedkeyValue = " "
+        }
+
+        if (_.isEmpty(processData.quantity.finalUom)) {
+            $scope.finalUom = "Select FinalUOM"
+            errorCount++
+        } else {
+            $scope.finalUom = ""
+        }
+        if (errorCount == 0) {
+            masterProcessService.addOrEditProcessType(processData, function (data) {
+                if (angular.isUndefined(data.error)) {
+                    toastr.success('Record added successfully');
+                    $scope.getProcessTypeData();
+                    $scope.cancelModal();
+                } else {
+                    toastr.error('Please enter data properly');
+                }
+            });
+        }
     }
     $scope.deleteProcessTypeModal = function (processId, getFunction) {
         $scope.idToDelete = processId;
