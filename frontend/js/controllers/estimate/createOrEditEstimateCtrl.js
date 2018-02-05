@@ -775,6 +775,15 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
   //- to create a duplicate part for same subAssembly or different subAssembly
   $scope.duplicatePart = function (subAssId, part, option) {
+    var errorCount=0;
+    $scope.partName="";
+    if(_.isEmpty(subAssId)){
+      $scope.partName="Select SubAssembly";
+      errorCount++;
+    }else{
+      $scope.partName="";
+    }
+    if(errorCount==0){
     if (createOrEditEstimateService.getSubAssemblyIndex(subAssId) != -1) {
       //$scope.message = '';
       createOrEditEstimateService.formDuplicatePart(subAssId, part, function () {
@@ -784,6 +793,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         createOrEditEstimateService.totalCostCalculations(function (data) {});
         toastr.success('Part added successfully');
       });
+    }
     } else {
       toastr.warning('Please Enter Valid SubAssembly Number');
     }
