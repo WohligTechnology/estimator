@@ -26,6 +26,7 @@
                                   <select class="form-control" ng-options="u.uomName for u in uoms track by u._id"
                                     ng-model= "selectedUom" required>
                                 </select>
+                                <span class="error">{{selecteduom}}</span>
                             </div>
                         </div>
                     </div>
