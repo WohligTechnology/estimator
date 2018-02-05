@@ -64,9 +64,8 @@ myApp
             templateUrl: '/views/directive/uploadAllFiles.html',
 
             link: function (scope, element, attrs) {
-
                 if (scope.isMultiple) {
-                    if (!scope.model) {
+                   if (!scope.model) {
                         scope.model = [];
                     }
                 } else {
@@ -161,6 +160,7 @@ myApp
     })
 
     .filter('downloadpath', function () {
+        debugger;        
         return function (input, width, height, style) {
             var other = "";
             if (width && width !== "") {
@@ -183,6 +183,7 @@ myApp
     })
 
     .filter('readFile', function () {
+        debugger;
         return function (input, width, height, style) {
             var other = "";
             if (width && width !== "") {
@@ -213,6 +214,16 @@ myApp
                 return temp[2][0] + "/" + temp[1] + "/" + temp[0];
             } else {
                 return temp;
+            }
+        }
+    })
+
+    .filter('getExtension',function(){
+        return function (input) {  
+            if (input) {
+                return input.split(".").pop();;
+            } else {
+                return "";
             }
         }
     })
