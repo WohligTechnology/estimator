@@ -310,8 +310,8 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
         presetData.partFormulae.netWeight = eval(selectedShape.partFormulae.netWeight);
         $scope.presetFormData.partFormulae = presetData.partFormulae;
         if (angular.isDefined(selectedMaterial)) {
-            $scope.presetFormData.totalCostGwt = presetData.partFormulae.grossWeight * selectedMaterial.typicalRatePerKg;
-            $scope.presetFormData.totalCostNwt = presetData.partFormulae.netWeight * selectedMaterial.typicalRatePerKg;
+            $scope.presetFormData.totalCostGwt = presetData.partFormulae.grossWeight * selectedMaterial.typicalRatePerKg * ff * sf;
+            $scope.presetFormData.totalCostNwt = presetData.partFormulae.netWeight * selectedMaterial.typicalRatePerKg * ff * sf;
         }
     }
 

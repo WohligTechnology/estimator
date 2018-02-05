@@ -244,7 +244,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- custom material --> disable it
     //- get shape data from selected shortcut (i.e part presetName)
     //- update variable [] --> put variables of shape into an variable[] of estimatePartObj.variables
-    console.log('**** &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ****');
     $scope.estimatePartObj.selectedShortcut = shortcutObj;
     $scope.estimatePartObj.selectedPartType = shortcutObj.partType;
     $scope.estimatePartObj.allMaterial = $scope.estimatePartObj.selectedPartType.material;
@@ -252,11 +251,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.selectedShape = shortcutObj.shape;
 
     //- update shape related data
-    $scope.estimatePartObj.formFactor = shortcutObj.shape.formFactor;
-    $scope.estimatePartObj.length = shortcutObj.shape.length;
-    $scope.estimatePartObj.sizeFactor = shortcutObj.shape.sizeFactor;
-    $scope.estimatePartObj.thickness = shortcutObj.shape.thickness;
-    $scope.estimatePartObj.wastage = shortcutObj.shape.wastage;
+    $scope.estimatePartObj.formFactor = parseFloat(shortcutObj.formFactor);
+    $scope.estimatePartObj.length = parseFloat(shortcutObj.length);
+    $scope.estimatePartObj.sizeFactor = parseFloat(shortcutObj.sizeFactor);
+    $scope.estimatePartObj.thickness = parseFloat(shortcutObj.thickness);
+    $scope.estimatePartObj.wastage = parseFloat(shortcutObj.wastage);
 
     $scope.estimatePartObj.variables = shortcutObj.variable;
     $scope.estimatePartObj.keyValueCalculations.perimeter = shortcutObj.partFormulae.perimeter;
@@ -380,8 +379,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     $scope.estimatePartObj.selectedShortcut = partTypeObj; /////-
     $scope.estimatePartObj.selectedShape = partTypeObj.shape;
-    $scope.estimatePartObj.shapeIcon = partTypeObj.shape.icon.file;
-    $scope.estimatePartObj.shapeImage = partTypeObj.shape.image.file;
+    if (angular.isDefined (partTypeObj.shape.icon)) {
+      $scope.estimatePartObj.shapeIcon = partTypeObj.shape.icon.file;
+    }
+    if (angular.isDefined (partTypeObj.shape.image)) {
+      $scope.estimatePartObj.shapeImage = partTypeObj.shape.image.file;
+    }
 
     //- update shape related data
     $scope.estimatePartObj.variables = partTypeObj.variable; /////-
@@ -431,12 +434,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     } else {
       var t = 1;
     }
-    if (angular.isDefined($scope.estimatePartObj.selectedShape.sizeFactor) && $scope.estimatePartObj.selectedShape.sizeFactor != null) {
-      var sf = parseFloat($scope.estimatePartObj.selectedShape.sizeFactor);
-    }
-    if (angular.isDefined($scope.estimatePartObj.selectedShape.formFactor) && $scope.estimatePartObj.selectedShape.formFactor != null) {
-      var ff = parseFloat($scope.estimatePartObj.selectedShape.formFactor);
-    }
     if (angular.isDefined($scope.estimatePartObj.wastage) && $scope.estimatePartObj.wastage != null) {
       var wtg = parseFloat($scope.estimatePartObj.wastage);
     }
@@ -450,15 +447,25 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
 
   $scope.getPartFinalCalculation = function () {
+    if (angular.isDefined($scope.estimatePartObj.sizeFactor) && $scope.estimatePartObj.sizeFactor != null) {
+      var sf = parseFloat($scope.estimatePartObj.sizeFactor);
+    } else {
+      var sf = 1;
+    }
+    if (angular.isDefined($scope.estimatePartObj.formFactor) && $scope.estimatePartObj.formFactor != null) {
+      var ff = parseFloat($scope.estimatePartObj.formFactor);
+    } else {
+      var ff = 1;
+    }
     //- get all updated variable data & calculate all keyValueCalculations i.e. perimeter, sheetMetalArea, surfaceArea, weight
     //- also calculate all finalCalculation i.e. materialPrice, itemUnitPrice, totalCostForQuantity
     if (angular.isDefined($scope.estimatePartObj.selectedCustomMaterial.totalCostRsPerKg)) {
       //-if custoMaterial is selected
       $scope.estimatePartObj.finalCalculation.materialPrice = $scope.estimatePartObj.selectedCustomMaterial.totalCostRsPerKg;
-      $scope.estimatePartObj.finalCalculation.itemUnitPrice = $scope.estimatePartObj.keyValueCalculations.grossWeight * $scope.estimatePartObj.selectedCustomMaterial.totalCostRsPerKg;
+      $scope.estimatePartObj.finalCalculation.itemUnitPrice = $scope.estimatePartObj.keyValueCalculations.grossWeight * $scope.estimatePartObj.selectedCustomMaterial.totalCostRsPerKg * ff * sf;
     } else {
       $scope.estimatePartObj.finalCalculation.materialPrice = $scope.estimatePartObj.selectedMaterial.typicalRatePerKg;
-      $scope.estimatePartObj.finalCalculation.itemUnitPrice = $scope.estimatePartObj.keyValueCalculations.grossWeight * $scope.estimatePartObj.selectedMaterial.typicalRatePerKg;
+      $scope.estimatePartObj.finalCalculation.itemUnitPrice = $scope.estimatePartObj.keyValueCalculations.grossWeight * $scope.estimatePartObj.selectedMaterial.typicalRatePerKg * ff * sf;
     }
     $scope.estimatePartObj.finalCalculation.totalCostForQuantity = $scope.estimatePartObj.quantity * $scope.estimatePartObj.finalCalculation.itemUnitPrice;
   }
