@@ -18,7 +18,7 @@
                                 <input type="text" class="form-control" ng-model="formData.processTypeName" autofocus required>
                             </div>
                         </div>
-                        <div class="form-group" ng-show="formData.showFields">
+                        <div class="form-group" ng-if="formData.showFields">
                             <label class="col-md-4 control-label">Process Category:
                                 <span class="error">&nbsp;*</span>
                             </label>
@@ -42,7 +42,7 @@
                             </div>
                             <div class="col-md-4 text-left" style="margin-left: -50px;"> <b>ON</b></div>
                         </div>
-                        <div class="form-group" ng-show="formData.showMulFact">
+                        <div class="form-group" ng-if="formData.showMulFact">
                             <label class="col-md-4 control-label">Multiplication Factor:
                                 <span class="error">&nbsp;*</span>
                             </label>
@@ -73,7 +73,7 @@
                             </div>
                             <div class="col-md-4 text-left" style="margin-left: -50px;"><b>ON</b></div>
                         </div>
-                        <div class="form-group" ng-show="formData.showFields">
+                        <div class="form-group" ng-if="formData.showFields">
                             <label class="col-md-4 control-label">Linkedkey Value:
                                 <span class="error">&nbsp;*</span>
                             </label>
@@ -99,7 +99,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" ng-show="formData.showFields">
+                        <div class="form-group" ng-if="formData.showFields">
                             <label class="col-md-4 control-label">Multiplication Factor:
                                 <span class="error">&nbsp;*</span>
                             </label>
@@ -107,21 +107,21 @@
                                 <input type="text" class="form-control" ng-model="formData.quantity.mulfact" required>
                             </div>
                         </div>
-                        <div class="form-group" ng-show="formData.showFields">
+                        <div class="form-group" ng-if="formData.showFields">
                             <label class="col-md-4 control-label">Utilization:&nbsp;(%)
                                 <span class="error">&nbsp;*</span>
                             </label>
                             <div class="col-md-5">
                                 <input type="text" name="utilization" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.quantity.utilization">
-                                <span class="error" ng-show="myForm.utilization.$invalid && myForm.utilization.$dirty">Please enter a number or floating point number</span>
+                                <span class="error" ng-if="myForm.utilization.$invalid && myForm.utilization.$dirty">Please enter a number or floating point number</span>
                                 <span class="unit">%</span>
                             </div>
                         </div>
-                        <div class="form-group" ng-show="formData.showFields">
+                        <div class="form-group" ng-if="formData.showFields">
                             <label class="col-md-4 control-label">Contegency or Wastage:&nbsp;(%)</label>
                             <div class="col-md-5">
                                 <input type="text" name="wastage" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.quantity.contengncyOrWastage">
-                                <span class="error" ng-show="myForm.wastage.$invalid && myForm.wastage.$dirty">Please enter a number or floating point number</span>
+                                <span class="error" ng-if="myForm.wastage.$invalid && myForm.wastage.$dirty">Please enter a number or floating point number</span>
                                 <span class="unit">%</span>
                             </div>
                         </div>
@@ -138,9 +138,9 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-show="showSaveBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)"
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)"
                                     ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-show="showEditBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)"
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)"
                                     ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
