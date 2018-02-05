@@ -49,7 +49,9 @@
                             </label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="formData.rate.mulFact" required>
+                                <span class="error">{{rateMultiplicationFactor}}</span>
                             </div>
+                            
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">UOM:
@@ -109,6 +111,8 @@
                             </label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="formData.quantity.mulfact" required>
+                                <span class="error">{{quantityMultiplicationFactor}}</span> 
+                                
                             </div>
                         </div>
                         <div class="form-group" ng-show="formData.showFields">
@@ -117,6 +121,7 @@
                             </label>
                             <div class="col-md-5">
                                 <input type="text" name="utilization" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.quantity.utilization">
+                                <span class="error">{{quantityUtilization}}</span> 
                                 <span class="error" ng-show="myForm.utilization.$invalid && myForm.utilization.$dirty">Please enter a number or floating point number</span>
                                 <span class="unit">%</span>
                             </div>
@@ -127,6 +132,7 @@
                             </label>
                             <div class="col-md-5">
                                 <input type="text" name="wastage" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.quantity.contengncyOrWastage" required>
+                                <span class="error">{{quantityWastage}}</span>
                                 <span class="error" ng-show="myForm.wastage.$invalid && myForm.wastage.$dirty">Please enter a number or floating point number</span>
                                 <span class="unit">%</span>
                             </div>
