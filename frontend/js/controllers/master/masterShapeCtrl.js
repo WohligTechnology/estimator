@@ -92,7 +92,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     }
     //- create formulae for net weight dynamically
     $scope.calculateGrossWeight = function (nwt, wastage) {
-        $scope.formData.partFormulae.grossWeight = "(" + nwt + ")+(wtg/" + 100 + ")*(" + nwt + ")";
+        $scope.formData.partFormulae.grossWeight = "(" + nwt + ")*((wtg+" + 100 + ")/100)";
     }
 
     //- to dismiss modal instance

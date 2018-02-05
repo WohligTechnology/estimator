@@ -90,7 +90,7 @@
                                     <th rowspan="2" class="align-left"> Action </th>
                                 </tr>
                                 <tr>
-                                    <th>Weight</th>
+                                    <th>Gross Weight(gwt)</th>
                                     <th>Material Cost</th>
                                     <th>Processing Cost</th>
                                     <th>Addon Cost</th>
@@ -113,7 +113,7 @@
                                     <td> {{p.subAssemblyName  | capitalize}} </td>
                                     <td> {{p.quantity}} </td>
                                     <td> {{p.totalWeight.toFixed(2)}} </td>
-                                    <td> {{p.materialCost.toFixed(2)}} </td>
+                                    <td> {{(p.materialCost * p.totalWeight).toFixed(2)}} </td>
                                     <td> {{p.processingCost.toFixed(2)}} </td>
                                     <td> {{p.addonCost.toFixed(2)}} </td>
                                     <td> {{p.extrasCost.toFixed(2)}} </td>

@@ -181,8 +181,9 @@
                                     </th>
                                     <th>Id</th>
                                     <th>Name</th>
-                                    <th>Rate (Rs/Kg)</th>
-                                    <th>Density (Kg/m
+                                    <th>RatePerUnit (Rs)</th>
+                                    <th>WeightPerUnit (Kg)</th>
+                                    <th>Density (g/cm
                                         <sup>3</sup>)</th>
                                     <th title="Rolling Index">RI</th>
                                     <th title="Cutting Index">CI</th>
@@ -210,6 +211,10 @@
                                     </td>
                                     <td>
                                         <input type="text" ng-model="m.typicalRatePerKg" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="m.weightPerUnit" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
                                         />
                                     </td>
                                     <td>
