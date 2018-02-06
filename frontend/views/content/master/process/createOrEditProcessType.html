@@ -26,7 +26,7 @@
                                 <select class="form-control" ng-options="pc.processCatName for pc in processCats track by pc._id" ng-model="selectedProcessCat"
                                     ng-required="true">
                                 </select>
-                                <span class="error">{{processCategory}}</span>
+                                <span class="error">{{validationSelect.processCategory}}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -49,7 +49,7 @@
                             </label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="formData.rate.mulFact" required>
-                                <span class="error">{{rateMultiplicationFactor}}</span>
+                                <span class="error">{{validationSelect.rateMultiplicationFactor}}</span>
                             </div>
                             
                         </div>
@@ -60,7 +60,7 @@
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="u.uomName for u in uoms track by u._id" ng-model="selectedRateMUlFactUom" required>
                                 </select>
-                                <span class="error">{{rateUom}}</span>
+                                <span class="error">{{validationSelect.tionSelectrateUom}}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -92,7 +92,7 @@
                                     <option>Nos</option>
                                     <option>Hrs</option>
                                 </select>
-                                <span class="error">{{linkedkeyValue}}</span>
+                                <span class="error">{{validationSelect.linkedkeyValue}}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -102,7 +102,7 @@
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="u.uomName for u in uoms track by u._id" ng-model="selectedQuaLinkedKeyUom" required>
                                 </select>
-                                <span class="error">{{quantityUom}}</span>
+                                <span class="error">{{validationSelect.quantityUom}}</span>
                             </div>
                         </div>
                         <div class="form-group" ng-show="formData.showFields">
@@ -111,7 +111,7 @@
                             </label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="formData.quantity.mulfact" required>
-                                <span class="error">{{quantityMultiplicationFactor}}</span> 
+                                <span class="error">{{validationSelect.quantityMultiplicationFactor}}</span> 
                                 
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                             </label>
                             <div class="col-md-5">
                                 <input type="text" name="utilization" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.quantity.utilization">
-                                <span class="error">{{quantityUtilization}}</span> 
+                                <span class="error">{{validationSelect.quantityUtilization}}</span> 
                                 <span class="error" ng-show="myForm.utilization.$invalid && myForm.utilization.$dirty">Please enter a number or floating point number</span>
                                 <span class="unit">%</span>
                             </div>
@@ -132,7 +132,7 @@
                             </label>
                             <div class="col-md-5">
                                 <input type="text" name="wastage" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.quantity.contengncyOrWastage" required>
-                                <span class="error">{{quantityWastage}}</span>
+                                <span class="error">{{validationSelect.quantityWastage}}</span>
                                 <span class="error" ng-show="myForm.wastage.$invalid && myForm.wastage.$dirty">Please enter a number or floating point number</span>
                                 <span class="unit">%</span>
                             </div>
@@ -144,7 +144,7 @@
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="u.uomName for u in uoms track by u._id" ng-model="selectedQuaFinalUom" required>
                                 </select>
-                                <span class="error">{{finalUom}}</span>
+                                <span class="error">{{validationSelect.finalUom}}</span>
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-circle green" ng-show="showSaveBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)"
                                 >Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-show="showEditBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-show="showEditBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)" ng-disabled="myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
