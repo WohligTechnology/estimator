@@ -108,14 +108,14 @@
                                 <th>Price</th>
                             </tr>
                         </thead>
-                        
+
                         <tbody>
                             <tr ng-repeat="p in estimateViewData track by $index">
                                 <td>
                                     <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
                                             ng-change="selectBulkItems(checkboxStatus,p.addonNumber)" />
-                                            <span></span>
+                                        <span></span>
                                     </label>
                                 </td>
                                 <td> {{p.addonNumber}}</td>
@@ -128,7 +128,7 @@
                                     <span>
                                         <b>{{p.quantity.supportingVariable.supportingVariable}} ({{p.addonType.quantity.additionalInputUom.uomName}})</b>
                                     </span>
-                                </td>                             
+                                </td>
                                 <td>
                                     {{p.quantity.keyValue.keyValue.toFixed(2)}}
                                     <br>
@@ -149,6 +149,11 @@
                                         <i class="fa fa-trash-o"></i>
                                     </span>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" class="align-right"> Total</td>
+                                <!--<td> </td>-->
+                                <td colspan="3">{{estimateViewData.totalCost.toFixed(2)}}</td>
                             </tr>
                         </tbody>
                     </table>

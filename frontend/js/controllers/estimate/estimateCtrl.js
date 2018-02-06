@@ -1,4 +1,4 @@
-myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $uibModal, estimateService) {
+myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $uibModal, estimateService, TemplateService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -8,6 +8,8 @@ myApp.controller('estimateCtrl', function ($rootScope, $scope, $http, toastr, $u
   $scope.loading = false; //- show loader when api takes time to load
   $scope.checkAll = false; //- for all records selection
   $scope.checkboxStatus = false; //- for multiple records selection
+    //- for title
+    TemplateService.getTitle("Estimate");
 
   //- to get all estimates data
   $scope.getTableData = function () {

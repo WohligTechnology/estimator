@@ -569,14 +569,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			});
 		} else if (estimateView == 'processing') {
 			if (getLevelName == "assembly") {
-
 				getViewData = formData.assembly.processing;
 			} else if (getLevelName == "subAssembly") {
 				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 				getViewData = formData.assembly.subAssemblies[subAssIndex].processing;
 				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
 			} else if (getLevelName == "part") {
-
 				var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 				var partIndex = this.getPartIndex(subAssIndex, partId);
 				getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing;
@@ -615,6 +613,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 		//- this if is bcoz we are already sending callback in case of editPartItemDetail & partDetail view
 		if (estimateView != 'editPartItemDetail' && estimateView != 'partDetail') {
+			if (estimateView == 'processing' || estimateView == 'addons' || estimateView == 'extras') {
+				getViewData.totalCost = 0;
+				_.forEach(getViewData, function(record) {
+					getViewData.totalCost += record.totalCost;
+				});
+			}
 			callback(getViewData);
 		}
 

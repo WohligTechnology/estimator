@@ -1,4 +1,4 @@
-myApp.controller('roleCtrl', function ($scope, toastr, $uibModal, roleService) {
+myApp.controller('roleCtrl', function ($scope, toastr, $uibModal, roleService, TemplateService) {
 
 
 
@@ -9,6 +9,8 @@ myApp.controller('roleCtrl', function ($scope, toastr, $uibModal, roleService) {
   $scope.showEditBtn = false;
   $scope.moduleNames = ['Enquiry', 'Estimate', 'Customer', 'User', 'Master'];
   $scope.formData = {};
+  //- for title
+  TemplateService.getTitle("Role");
 
   // *************************** default functions begin here  ********************** //
   //- function to get all roles from database
@@ -23,22 +25,22 @@ myApp.controller('roleCtrl', function ($scope, toastr, $uibModal, roleService) {
   //- modal to add or edit Role 
   $scope.addOrEditRoleModal = function (operation, role) {
     roleService.addOrEditRoleModal(operation, role, function (data) {
-    $scope.formData = data.role;
-    $scope.showSaveBtn = data.saveBtn;
-    $scope.showEditBtn = data.editBtn;
-    $scope.operation = operation;
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/settings/modal/createOrEditRole.html',
-      scope: $scope,
-      size: 'md'
-    });
+      $scope.formData = data.role;
+      $scope.showSaveBtn = data.saveBtn;
+      $scope.showEditBtn = data.editBtn;
+      $scope.operation = operation;
+      $scope.modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/content/settings/modal/createOrEditRole.html',
+        scope: $scope,
+        size: 'md'
+      });
 
-     });
+    });
   }
   //- to add or edit role 
   $scope.addOrEditRole = function (role) {
-    roleService.addOrEditRole(role, function(data) {
+    roleService.addOrEditRole(role, function (data) {
 
     });
   }
@@ -57,9 +59,9 @@ myApp.controller('roleCtrl', function ($scope, toastr, $uibModal, roleService) {
   //- to delete user
   $scope.deleteUser = function (roleId) {
     roleService.deleteRole(roleId, function (data) {
-    $scope.cancelModal();
-    $scope.getRoleData();
-    toastr.info('Record deleted successfully');
+      $scope.cancelModal();
+      $scope.getRoleData();
+      toastr.info('Record deleted successfully');
     });
   }
   //- to dismiss modal instance

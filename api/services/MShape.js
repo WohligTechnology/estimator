@@ -60,7 +60,7 @@ var model = {
 
     //-Get all MShape data from MShape table.
     getMShapeData: function (data, callback) {
-        MShape.find().lean().exec(function (err, found) {
+        MShape.find().deepPopulate('variable.uom').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at getMShapeData of MShape.js ****', err);
                 callback(err, null);

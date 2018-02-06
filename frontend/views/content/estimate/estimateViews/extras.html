@@ -20,78 +20,85 @@
                                 <i class="fa fa-trash-o"></i>
                             </button>
                         </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="btn-group pull-right">
-                                <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools
-                                    <i class="fa fa-angle-down"></i>
-                                </button>
-                                <ul class="dropdown-menu pull-right">
-                                    <li>
-                                        <a href="javascript:;"> Save as PDF </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;"> Export to Excel </a>
-                                    </li>
-                                </ul>
-                            </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="btn-group pull-right">
+                            <button class="btn green btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;"> Save as PDF </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;"> Export to Excel </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <div class="portlet-body">
-                    <!-- BEGIN BORDERED TABLE PORTLET-->
-                    <div class="portlet-body vertical_scroll">
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th rowspan="2" class="align-top">
-                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                            <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-disabled="estimateViewData.length <= 0" ng-model="checkAll" ng-change="selectAll('extras', level, estimateViewData, checkAll, estimateViewData.subAssemblyId, estimateViewData.partId)"/>
-                                            <span></span>
-                                        </label>
-                                    </th>
-                                    <th rowspan="2" class="align-top"> Id </th>
-                                    <th rowspan="2" class="align-top">Item</th>
-                                    <th rowspan="2" class="align-top">Rate</th>
-                                    <th colspan="2" class="text-center">Quantity</th>
-                                    <th> Total Cost</th>
-                                    <th rowspan="2" class="align-top">Remark</th>
-                                    <th rowspan="2" class="align-top">Action</th>
-                                </tr>
-                                <tr>
-                                    <th>Value</th>
-                                    <th>UOM</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="e in estimateViewData track by $index">
-                                    <td>
-                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                            <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes"  ng-checked='checkAll'
+            </div>
+            <div class="portlet-body">
+                <!-- BEGIN BORDERED TABLE PORTLET-->
+                <div class="portlet-body vertical_scroll">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="align-top">
+                                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="estimateViewData.length <= 0"
+                                            ng-model="checkAll" ng-change="selectAll('extras', level, estimateViewData, checkAll, estimateViewData.subAssemblyId, estimateViewData.partId)"
+                                        />
+                                        <span></span>
+                                    </label>
+                                </th>
+                                <th rowspan="2" class="align-top"> Id </th>
+                                <th rowspan="2" class="align-top">Item</th>
+                                <th rowspan="2" class="align-top">Rate</th>
+                                <th colspan="2" class="text-center">Quantity</th>
+                                <th> Total Cost</th>
+                                <th rowspan="2" class="align-top">Remark</th>
+                                <th rowspan="2" class="align-top">Action</th>
+                            </tr>
+                            <tr>
+                                <th>Value</th>
+                                <th>UOM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="e in estimateViewData track by $index">
+                                <td>
+                                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <input type="checkbox" ng-model="checkboxStatus" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked='checkAll'
                                             ng-change="selectBulkItems(checkboxStatus, e.extraNumber)" />
-                                            <span></span>
-                                        </label>
-                                    </td>
-                                    <td> {{e.extraNumber}}</td>
-                                    <td>{{e.extraItem.extraName}} </td>
-                                    <td>{{e.rate}}</td>
-                                    <td>{{e.quantity}} </td>
-                                    <td>{{e.uom}} </td>
-                                    <td>{{(e.totalCost).toFixed(2)}} </td>
-                                    <td>{{e.remark}} </td>
-                                    <td class="edit-icon">
-                                        <span class="label label-sm label-success" id="add_space" ng-click="addOrEditExtraModal('update', level, estimateViewData.subAssemblyId, estimateViewData.partId, e.extraNumber)">
-                                            <i class="fa fa-pencil"></i>
-                                        </span>
-                                        <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteExtra', e.extraNumber, level, estimateViewData.subAssemblyId, estimateViewData.partId)">
-                                            <i class="fa fa-trash-o"></i>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- <div class="row">
+                                        <span></span>
+                                    </label>
+                                </td>
+                                <td> {{e.extraNumber}}</td>
+                                <td>{{e.extraItem.extraName}} </td>
+                                <td>{{e.rate}}</td>
+                                <td>{{e.quantity}} </td>
+                                <td>{{e.uom}} </td>
+                                <td>{{(e.totalCost).toFixed(2)}} </td>
+                                <td>{{e.remark}} </td>
+                                <td class="edit-icon">
+                                    <span class="label label-sm label-success" id="add_space" ng-click="addOrEditExtraModal('update', level, estimateViewData.subAssemblyId, estimateViewData.partId, e.extraNumber)">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    <span class="label label-sm label-danger" ng-click="deleteItemModal('deleteExtra', e.extraNumber, level, estimateViewData.subAssemblyId, estimateViewData.partId)">
+                                        <i class="fa fa-trash-o"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" class="align-right"> Total</td>
+                                <!--<td> </td>-->
+                                <td colspan="3">{{estimateViewData.totalCost.toFixed(2)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <div class="row">
                     <div class="col-md-6">
                         <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div>
                     </div>
@@ -102,8 +109,8 @@
                         </div>
                     </div>
                 </div> -->
-                </div>
             </div>
-            <!-- END EXAMPLE TABLE PORTLET-->
         </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
     </div>
+</div>

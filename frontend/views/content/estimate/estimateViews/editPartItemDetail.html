@@ -17,11 +17,13 @@
                         <label>Part Id:</label> {{estimatePartObj.partNumber}}
                     </div>
                     <div class="col-md-3">
-                        <label>Icon:<img alt="" ng-if="estimatePartObj.shapeIcon!=null" ng-src="{{estimatePartObj.shapeIcon|downloadpath}}" style="height: 30px;
-                        width: 50px;margin-left:10px" /></label>
+                        <label>Icon:
+                            <img alt="" ng-if="estimatePartObj.shapeIcon!=null" ng-src="{{estimatePartObj.shapeIcon|downloadpath}}" style="height: 30px;
+                        width: 50px;margin-left:10px" />
+                        </label>
                     </div>
                     <div class="col-md-1" ng-hide="estimatePartObj.partUpdateStatus">
-                            <button type="button" class="btn btn-circle green" ng-click="getEstimateView('editPartItemDetail', 'part', estimatePartObj.subAssNumber, estimatePartObj.partNumber)" >Reset</button>                            
+                        <button type="button" class="btn btn-circle green" ng-click="getEstimateView('editPartItemDetail', 'part', estimatePartObj.subAssNumber, estimatePartObj.partNumber)">Reset</button>
                     </div>
                 </div>
             </div>
@@ -121,7 +123,8 @@
                                             <label class="col-md-4 control-label">Shape Image:</label>
                                             <div class="col-md-5">
                                                 <div class="img-border">
-                                                     <img alt="" class="img-responsive" ng-if="estimatePartObj.shapeImage!=null" ng-src="{{estimatePartObj.shapeImage|downloadpath}}" />
+                                                    <img alt="" class="img-responsive" ng-if="estimatePartObj.shapeImage!=null" ng-src="{{estimatePartObj.shapeImage|downloadpath}}"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -159,11 +162,11 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                                <label class="col-md-3 control-label">Wastage (wtg)</label>
-                                                <div class="col-md-3">
-                                                    <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.wastage">
-                                                </div>
+                                            <label class="col-md-3 control-label">Wastage (wtg)</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" ng-change="updatePartCalculation()" ng-model="estimatePartObj.wastage">
                                             </div>
+                                        </div>
                                         <div class="mar-t">
                                             <div class="form-group">
                                                 <label class="col-md-3 ">
@@ -175,7 +178,7 @@
                                                 <label class="col-md-5 ">Perimeter:</label>
                                                 <div class="col-md-4">
                                                     <div>
-                                                        <p>{{estimatePartObj.keyValueCalculations.perimeter}}
+                                                        <p>{{estimatePartObj.keyValueCalculations.perimeter.toFixed(2)}}
                                                             <span>m</span>
                                                         </p>
                                                     </div>
@@ -185,7 +188,7 @@
                                                 <label class="col-md-5 ">SMA:</label>
                                                 <div class="col-md-4">
                                                     <div>
-                                                        <p>{{estimatePartObj.keyValueCalculations.sheetMetalArea}}
+                                                        <p>{{estimatePartObj.keyValueCalculations.sheetMetalArea.toFixed(2)}}
                                                             <span>sq m</span>
                                                         </p>
                                                     </div>
@@ -195,7 +198,17 @@
                                                 <label class="col-md-5 ">SA:</label>
                                                 <div class="col-md-4">
                                                     <div>
-                                                        <p>{{estimatePartObj.keyValueCalculations.surfaceArea}}
+                                                        <p>{{estimatePartObj.keyValueCalculations.surfaceArea.toFixed(2)}}
+                                                            <span>sq m</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-5 ">Net Weight/Unit:</label>
+                                                <div class="col-md-4">
+                                                    <div>
+                                                        <p>{{estimatePartObj.keyValueCalculations.netWeight.toFixed(2)}}
                                                             <span>sq m</span>
                                                         </p>
                                                     </div>
@@ -205,23 +218,12 @@
                                                 <label class="col-md-5 ">Gross Weight/Unit:</label>
                                                 <div class="col-md-4">
                                                     <div>
-                                                        <p>{{estimatePartObj.keyValueCalculations.grossWeight}}
+                                                        <p>{{estimatePartObj.keyValueCalculations.grossWeight.toFixed(2)}}
                                                             <span>sq m</span>
                                                         </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-md-5 ">Net  Weight/Unit:</label>
-                                                <div class="col-md-4">
-                                                    <div>
-                                                        <p>{{estimatePartObj.keyValueCalculations.netWeight}}
-                                                            <span>sq m</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
                                         </div>
                                         <div class="mar-t">
                                             <div class="form-group">
@@ -235,7 +237,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 ">Item Unit Price:</label>
+                                                <label class="col-md-5 ">Item Unit Price:
+                                                    <br>(On Gross Weight)</label>
                                                 <div class="col-md-4">
                                                     <div>
                                                         <p>{{estimatePartObj.finalCalculation.itemUnitPrice.toFixed(2)}}

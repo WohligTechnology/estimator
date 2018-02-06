@@ -29,7 +29,7 @@
                         </span>
                         <ul class="">
                             <li ng-repeat="pi in pc.processItems">
-                                <span class="tree_label" class="partName">{{pi.processItemName | capitalize}}</span>
+                                <span class="tree_label" class="partName">{{pi.processItemName | capitalize}} ({{pi.rate}} {{pc.uom.uomName}})</span>
                                 <span ng-click="addOrEditProcessItemModal('update',pc,pi)" class="partEditIcon">
                                     <i class="fa fa-pencil btn-warning" title="Edit Process Item"></i>
                                 </span>
