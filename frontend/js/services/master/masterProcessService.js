@@ -199,19 +199,11 @@ myApp.service('masterProcessService', function (NavigationService) {
   } else {
     validationSelect.linkedkeyValue = " "
   }
-
-    if (_.isEmpty(processData.quantity.finalUom)) {
+     if (_.isEmpty(processData.quantity.finalUom)) {
         validationSelect.finalUom = "Select FinalUOM"
         validationSelect.errorCount++
     } else {
         validationSelect.finalUom = ""
-    }
-
-    if(processData==processData){
-      validationSelect.updateMessage="gff"
-    }
-    else{
-      validationSelect.updateMessage=""
     }
 callback(validationSelect);
   }
