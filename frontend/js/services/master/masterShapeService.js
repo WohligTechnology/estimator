@@ -30,7 +30,15 @@ myApp.service('masterShapeService', function (
             callback(data.data);
         });
     }
-
+    this.getAllUom = function (callback) {
+        NavigationService.boxCall('MUom/search', function (data) {
+            if (data.value) {
+                callback(data.data.results)
+            } else {
+                callback();
+            }
+        });
+    }
     this.getVariablesData = function (callback) {
         var tempObj = _.chunk(this.variableData, 3);
         callback(tempObj);
@@ -73,6 +81,10 @@ myApp.service('masterShapeService', function (
                      
                     shapeDataObj.shapeVarWithoutChunck.push(_.cloneDeep(n));
                     n.checkboxStatus = true;
+                    _.forEach(shape.variable, function(record){
+                        if(record.varName == n.varName);                        
+                        n.uom = record.uom;
+                    });
                 }
             });
             shapeDataObj.shapeVariables = _.chunk(tempArray, 3);

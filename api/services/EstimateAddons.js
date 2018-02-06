@@ -4,6 +4,8 @@ var schema = new Schema({
         enum: ['estimate', 'subAssembly', 'part'],
         default: 'estimate'
     },
+    showRateFields: Boolean,
+    showQuantityFields: Boolean,
     addonsLevelId: {
         type: String,
         required: true

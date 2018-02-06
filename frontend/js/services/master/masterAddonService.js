@@ -36,7 +36,7 @@ myApp.service('masterAddonService', function (NavigationService) {
   //- add or edit addon
   this.addOrEditAddonType = function (addonData, callback) {
     NavigationService.apiCall('MAddonType/save', addonData, function (data) {
-      callback(data.data);
+      callback(data);
     });
   }
   //- delete addon

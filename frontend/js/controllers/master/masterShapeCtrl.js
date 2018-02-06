@@ -1,4 +1,4 @@
-myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterShapeService) {
+myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterShapeService, TemplateService) {
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = false;
@@ -7,6 +7,8 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     $scope.shapeVariables = [];
     $scope.disableField = false;
     $scope.variablesData = [];
+    //- for title
+    TemplateService.getTitle("ShapeMaster");
 
     // *************************** default functions begin here  ********************** //
     //- get data to generate material tree structure dynamically 
@@ -20,6 +22,9 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
         masterShapeService.getVariablesData(function (data) {
             $scope.variablesData = data;
         });
+        masterShapeService.getAllUom(function (data) {
+            $scope.uomData = data;
+        });
     }
 
 
@@ -29,7 +34,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
         $scope.shapeView = 'views/content/master/shape/shapeView.html';
     }
 
-    $scope.createOrEditShapeData = function (operation, shape) {
+    $scope.createOrEditShapeData = function (operation, shape) {        
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
             $scope.shapeView = 'views/content/master/shape/tempView.html';
             $scope.formData = data.shape;
@@ -76,7 +81,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     }
 
     //- to add/remove seleted variables in the shape's-->variable array 
-    $scope.addVariableToShape = function (checkboxStatus, variableName) {
+    $scope.addVariableToShape = function (checkboxStatus, variableName, uom) {
         if (checkboxStatus == 'unchecked') {
             var index = _.findIndex($scope.shapeVariables, ['varName', variableName]);
             //- removing shape from array 
@@ -84,7 +89,8 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
             // $scope.variablesData.splice(index, 1);
         } else if (checkboxStatus == 'checked') {
             var tempVarObj = {
-                varName: variableName
+                varName: variableName,
+                uom: uom
             };
             $scope.shapeVariables.push(tempVarObj);
             // $scope.variablesData.push(tempVarObj);

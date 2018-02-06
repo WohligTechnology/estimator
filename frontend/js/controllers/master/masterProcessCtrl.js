@@ -63,7 +63,6 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         });
     }
     $scope.addOrEditProcessCat = function (processCatData, selectedUomId) {
-        debugger;
         processCatData.uom = selectedUomId;
         //Validation of select in process Catergory.
         var errorCount = 0;
@@ -210,7 +209,6 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
         });
     }
     $scope.addOrEditProcessType = function (processData, selectedProcessCatId, selectedRateMUlFactUom, selectedQuaLinkedKeyUom, selectedQuaFinalUom) {
-        debugger;
         processData.processCat = selectedProcessCatId;
         processData.rate.uom = selectedRateMUlFactUom;
         processData.quantity.uom = selectedQuaLinkedKeyUom;

@@ -3,6 +3,8 @@ var schema = new Schema({
         type: String,
         required: true
     },
+    showRateFields: Boolean,
+    showQuantityFields: Boolean,
     materialCat: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MMaterialCat'
@@ -23,8 +25,7 @@ var schema = new Schema({
         additionalInput: String, // additional input
         additionalInputUom: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'MUom',
-            required: true
+            ref: 'MUom'
         },
         linkedKey: String,
         linkedKeyUom: {

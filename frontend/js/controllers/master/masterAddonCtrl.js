@@ -13,13 +13,13 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
 
   // obj for validation of select for Master Addon
   $scope.masterAddon = {
-  materialCategory: "",
-  materialSubCategory:"",
-  UOM1:"",
-  UOM2:"",
-  UOM3:"",
-  finalUOM:"",
-  linkedkeyValue:""
+    materialCategory: "",
+    materialSubCategory: "",
+    UOM1: "",
+    UOM2: "",
+    UOM3: "",
+    finalUOM: "",
+    linkedkeyValue: ""
   }
 
 
@@ -40,19 +40,33 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
   $scope.addOrEditAddonTypeModal = function (operation, addonType) {
 
     masterAddonService.getAddonTypeModalData(operation, addonType, function (data) {
-      $scope.formData = data.addonTypeData;
+
       $scope.mMatCatData = data.mMatData;
       $scope.mUomData = data.mUomData;
       $scope.showSaveBtn = data.saveBtn;
       $scope.showEditBtn = data.editBtn;
 
       if (angular.isDefined(data.addonTypeData)) {
+        $scope.formData = data.addonTypeData;
         $scope.selectedMatCat = $scope.formData.materialCat;
         $scope.selectedMatSubCat = $scope.formData.materialSubCat;
         $scope.selectedRateUom = $scope.formData.rate.uom;
         $scope.selectedAdditionalUom = $scope.formData.quantity.additionalInputUom;
         $scope.selectedKinkedKeyUom = $scope.formData.quantity.linkedKeyUom;
         $scope.selectedFinalUom = $scope.formData.quantity.finalUom;
+      } else {
+        $scope.formData = {
+          showQuantityFields: true,
+          showRateFields: true,
+          rate: {},
+          quantity: {}
+        }
+        $scope.selectedMatCat = "";
+        $scope.selectedMatSubCat = "";
+        $scope.selectedRateUom = "";
+        $scope.selectedAdditionalUom = "";
+        $scope.selectedKinkedKeyUom = "";
+        $scope.selectedFinalUom = "";
       }
 
       $scope.modalInstance = $uibModal.open({
@@ -65,7 +79,8 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
   }
 
   //- function to  create new addon     
-  $scope.addOrEditAddonType = function (addonTypeData, selectedMatCatId, selectedMatSubCatId, selectedRateUomId, selectedAdditionalUomId, selectedKinkedKeyUomId, selectedFinalUomId) {s
+  $scope.addOrEditAddonType = function (addonTypeData, selectedMatCatId, selectedMatSubCatId, selectedRateUomId, selectedAdditionalUomId, selectedKinkedKeyUomId, selectedFinalUomId) {
+    debugger;
     addonTypeData.materialCat = selectedMatCatId;
     addonTypeData.materialSubCat = selectedMatSubCatId;
     addonTypeData.rate.uom = selectedRateUomId;
@@ -73,63 +88,67 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
     addonTypeData.quantity.linkedKeyUom = selectedKinkedKeyUomId;
     addonTypeData.quantity.finalUom = selectedFinalUomId;
     // Validation of select for Master Addon
-    var errorCount = 0;
-    // MaterialCategory field is not selected by user
-    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
-    $scope.masterAddon.materialCategory = "Select Material Category.";
-    errorCount++;
-    } else {
-    $scope.masterAddon.materialCategory = " ";
-    }
-    // materialSubCategory field is not selected by user
-    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
-    $scope.masterAddon.materialSubCategory = "Select MaterialSubCategory.";
-    errorCount++;
-    } else {
-    $scope.masterAddon.materialSubCategory = " ";
-    }
-    // UOM field is not selected by user
-    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
-      $scope.masterAddon.UOM1 = "Select UOM.";
-      errorCount++;
-      } else {
-      $scope.masterAddon.UOM1 = " ";
-      }
-    // UOM field is not selected by user
-    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
-      $scope.masterAddon.UOM2 = "Select UOM.";
-      errorCount++;
-      } else {
-      $scope.masterAddon.UOM2 = " ";
-      }
-    // UOM field is not selected by user
-    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
-      $scope.masterAddon.UOM3 = "Select UOM.";
-      errorCount++;
-      } else {
-      $scope.masterAddon.UOM3 = " ";
-      }
-    // finalUOM field is not selected by user
-    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
-      $scope.masterAddon.finalUOM = "Select finalUOM.";
-      errorCount++;
-      } else {
-      $scope.masterAddon.finalUOM = " ";
-      }
-    // linkedkeyValue field is not selected by user
-    if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
-      $scope.masterAddon.linkedkeyValue = "Select LinkedkeyValue.";
-      errorCount++;
-      } else {
-      $scope.masterAddon.linkedkeyValue = " ";
-      }
-      if(errorCount==0){
+    // var errorCount = 0;
+    // // MaterialCategory field is not selected by user
+    // if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+    // $scope.masterAddon.materialCategory = "Select Material Category.";
+    // errorCount++;
+    // } else {
+    // $scope.masterAddon.materialCategory = " ";
+    // }
+    // // materialSubCategory field is not selected by user
+    // if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+    // $scope.masterAddon.materialSubCategory = "Select MaterialSubCategory.";
+    // errorCount++;
+    // } else {
+    // $scope.masterAddon.materialSubCategory = " ";
+    // }
+    // // UOM field is not selected by user
+    // if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+    //   $scope.masterAddon.UOM1 = "Select UOM.";
+    //   errorCount++;
+    //   } else {
+    //   $scope.masterAddon.UOM1 = " ";
+    //   }
+    // // UOM field is not selected by user
+    // if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+    //   $scope.masterAddon.UOM2 = "Select UOM.";
+    //   errorCount++;
+    //   } else {
+    //   $scope.masterAddon.UOM2 = " ";
+    //   }
+    // // UOM field is not selected by user
+    // if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+    //   $scope.masterAddon.UOM3 = "Select UOM.";
+    //   errorCount++;
+    //   } else {
+    //   $scope.masterAddon.UOM3 = " ";
+    //   }
+    // // finalUOM field is not selected by user
+    // if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+    //   $scope.masterAddon.finalUOM = "Select finalUOM.";
+    //   errorCount++;
+    //   } else {
+    //   $scope.masterAddon.finalUOM = " ";
+    //   }
+    // // linkedkeyValue field is not selected by user
+    // if (_.isEmpty(masterAddon.instituteDetail.selectedState)) {
+    //   $scope.masterAddon.linkedkeyValue = "Select LinkedkeyValue.";
+    //   errorCount++;
+    //   } else {
+    //   $scope.masterAddon.linkedkeyValue = " ";
+    //   }
+    //   if(errorCount==0){
     masterAddonService.addOrEditAddonType(addonTypeData, function (data) {
-      toastr.success('Addon added/updated successfully');
-      $scope.getAddonData();
-      $scope.cancelModal();
+      if (data.value) {
+        toastr.success('Addon added/updated successfully');
+        $scope.getAddonData();
+        $scope.cancelModal();
+      } else {
+        toastr.error('There is some error while adding it');
+      }
     });
-  }
+    // }
   }
 
   //- modal to confirm addon deletion
@@ -236,7 +255,18 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
       $scope.bulkAddons = data;
     });
   }
-
+  //- to select Nos or Hrs
+  //- 2nd toggle button
+  $scope.setToggleForQuantity = function (formData) {
+    formData.showQuantityFields = !formData.showQuantityFields;
+    // formData.showFields = formData.showQuantityFields;
+  }
+  //- to select Nos or Hrs
+  //- 1st toggle button
+  $scope.setToggleForRate = function (formData) {
+    formData.showRateFields = !formData.showRateFields;
+    // formData.showMulFact = formData.showRateFields;
+  }
 
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 

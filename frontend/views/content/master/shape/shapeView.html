@@ -146,8 +146,12 @@
                                             ng-checked="var.checkboxStatus" ng-model="checkedVariable">
                                          -->
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">{{var.varName}}
-                                            <input type="checkbox" id="checkAll" ng-click="checkedVariable ? addVariableToShape('checked',var.varName) : addVariableToShape('unchecked',var.varName)"
-                                                ng-checked="var.checkboxStatus" ng-model="checkedVariable"  ng-disabled="disableField"/>
+                                            <input type="checkbox" id="checkAll" ng-click="checkedVariable == false ? addVariableToShape('checked',var.varName, var.uom) : false"
+                                                ng-checked="var.checkboxStatus" ng-model="checkedVariable" ng-disabled="disableField"
+                                            />
+                                            <select class="" ng-if="var.checkboxStatus || checkedVariable" ng-options="u.uomName for u in uomData track by u._id" ng-click="checkedVariable ? addVariableToShape('checked',var.varName, var.uom) : false"
+                                                ng-model="var.uom" required>
+                                            </select>
                                             <span></span>
                                         </label>
                                     </div>
@@ -184,7 +188,8 @@
                             </div>
                             <label class="col-md-3 control-label">Length (l)</label>
                             <div class="col-md-3">
-                                <input type="text" name="length" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.length" placeholder="" ng-disabled="disableField">
+                                <input type="text" name="length" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.length" placeholder=""
+                                    ng-disabled="disableField">
                                 <span class="unit">m</span>
                                 <span class="error" ng-show="!myForm.length.$valid && myForm.length.$dirty">Please enter a number or floating point number</span>
                             </div>
@@ -234,7 +239,7 @@
                                 <span class="unit">sq. m</span>
                             </div>
                         </div>
-                        <div class="form-group">                            
+                        <div class="form-group">
                             <label class="col-md-3 control-label">Net Weight (nwt)
                                 <span class="error">*</span>
                             </label>
@@ -271,8 +276,8 @@
             <div class="form-actions">
                 <div class="row">
                     <div class="col-md-13 text-center">
-                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="myForm.$invalid && myForm.$dirty" ng-click="createOrEditShape(formData,shapeVariables)">Save</button>
-                        <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="myForm.$invalid && myForm.$dirty" ng-click="createOrEditShape(formData,shapeVariables)">Update</button>
+                        <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="createOrEditShape(formData,shapeVariables)">Save</button>
+                        <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="createOrEditShape(formData,shapeVariables)">Update</button>
 
                     </div>
                 </div>
