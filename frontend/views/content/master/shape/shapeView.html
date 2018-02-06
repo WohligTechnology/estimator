@@ -149,11 +149,11 @@
                                             <input type="checkbox" id="checkAll" ng-click="checkedVariable == false ? addVariableToShape('checked',var.varName, var.uom) : false"
                                                 ng-checked="var.checkboxStatus" ng-model="checkedVariable" ng-disabled="disableField"
                                             />
-                                            <select class="" ng-if="var.checkboxStatus || checkedVariable" ng-options="u.uomName for u in uomData track by u._id" ng-click="checkedVariable ? addVariableToShape('checked',var.varName, var.uom) : false"
-                                                ng-model="var.uom" required>
-                                            </select>
                                             <span></span>
-                                        </label>
+                                        </label>&nbsp;&nbsp;
+                                        <select class="" ng-if="var.checkboxStatus || checkedVariable" ng-options="u.uomName for u in uomData track by u._id" ng-click="checkedVariable ? addVariableToShape('checked',var.varName, var.uom) : false"
+                                            ng-model="var.uom" required>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

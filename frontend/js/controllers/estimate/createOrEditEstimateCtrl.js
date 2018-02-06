@@ -1623,6 +1623,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       allMaterials: [],
       selectedAddonType: {},
       selectedMaterial: {},
+      showRateFields: true,//- for 1st toggle  @MProcess
+      showQuantityFields: true, //- for 2nd toggle @MProcess
       rate: {
         value: "", //- selectedAddonType-->rate-->mulFact *  selectedMaterial-->typicaRatePerKg
         uom: "" //- selectedAddonType-->rate-->uom
@@ -1691,23 +1693,27 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
           $scope.addonObj.allAddonTypes = data.allAddonTypes;
           $scope.addonObj.allMaterials = data.allMaterials;
           $scope.addonObj.selectedAddonType = data.selectedAddonType;
-          $scope.addonObj.selectedMaterial = data.selectedMaterial;
+          if (!data.showRateFields) {
+            $scope.addonObj.selectedMaterial = data.selectedMaterial;
+          }
+          if (!showQuantityFields) {
 
+            $scope.addonObj.quantity.supportingVariable.supportingVariable = data.quantity.supportingVariable.supportingVariable;
+            $scope.addonObj.quantity.supportingVariable.value = data.quantity.supportingVariable.value;
+            $scope.addonObj.quantity.supportingVariable.uom = data.quantity.supportingVariable.uom;
+
+            $scope.addonObj.quantity.keyValue.keyVariable = data.quantity.keyValue.keyVariable;
+            $scope.addonObj.quantity.keyValue.keyValue = data.quantity.keyValue.keyValue;
+
+            $scope.addonObj.quantity.utilization = data.quantity.utilization;
+            $scope.addonObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
+          }
           $scope.addonObj.rate.value = data.rate.value;
           $scope.addonObj.rate.uom = data.rate.uom;
 
-          $scope.addonObj.quantity.supportingVariable.supportingVariable = data.quantity.supportingVariable.supportingVariable;
-          $scope.addonObj.quantity.supportingVariable.value = data.quantity.supportingVariable.value;
-          $scope.addonObj.quantity.supportingVariable.uom = data.quantity.supportingVariable.uom;
-
-          $scope.addonObj.quantity.keyValue.keyVariable = data.quantity.keyValue.keyVariable;
-          $scope.addonObj.quantity.keyValue.keyValue = data.quantity.keyValue.keyValue;
           $scope.addonObj.quantity.keyValue.uom = data.quantity.keyValue.uom;
 
-          $scope.addonObj.quantity.utilization = data.quantity.utilization;
-          $scope.addonObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
           $scope.addonObj.quantity.total = data.quantity.total;
-
           $scope.addonObj.remark = data.remarks;
           // $scope.addonObj.currentPartObj = data.currentPartObj;
           $scope.addonObj.addonNumber = data.addonNumber;
@@ -1837,6 +1843,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         contengncyOrWastage: addonData.quantity.contengncyOrWastage,
         total: addonData.quantity.total
       },
+      showRateFields: addonData.showRateFields,
+      showQuantityFields: addonData.showQuantityFields,
       totalCost: addonData.totalCost,
       remarks: addonData.remarks
     };
