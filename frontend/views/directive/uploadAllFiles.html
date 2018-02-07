@@ -1,6 +1,6 @@
 <div class="form-group" ng-class="{'leftPosition':fileLocation=='left' || icon,'rightPosition':fileLocation=='right', 'topPosition':fileLocation=='top', 'iconWidth':icon}">
-
-    <!-- In case of multiple files -->
+ 
+    <!-- In case of single file -->
     <div class="clearfix" ng-if="!isMultiple">
         <div class="img-box" style="float:left;">
             <a ng-if="model != 'broken'" href="{{model|readFile}}" target="_blank">
@@ -12,15 +12,14 @@
         </div>
     </div>
 
-    <!-- In case of single file -->
+    <!-- In case of multiple files -->
     <div class="clearfix" ng-if="isMultiple" style="display:flex;">
         <div class="img-box" class="horizontal_scroll" ng-repeat="file in model" ng-init="fileType = (file | getExtension)">
             <!-- <input type="text" style="visibility:hidden;" ng-model="fileType" ng-value="file.slice(str.length-3, str.length)"> -->
             <a ng-if="model != 'broken'" href="{{file|readFile}}" target="_blank">
-                <img alt="" ng-src="{{file|downloadpath}}" class="img-responsive" ng-if="fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png'"
-                />
-                <img alt="" ng-src="frontend/img/pdf.jpg" ng-if="fileType == 'pdf'" class="img-responsive" />
-                <img alt="" ng-src="frontend/img/doc.png" ng-if="fileType == 'doc' || fileType == 'docx'" class="img-responsive" />
+                <img alt="" ng-src="{{file|downloadpath}}" style="width:3em!important; height:4em!important;" class="img-responsive" ng-if="fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png'"/>
+                <img alt="" ng-src="frontend/img/pdf.jpg" style="width:3em!important; height:4em!important;" ng-if="fileType == 'pdf'" class="img-responsive" />
+                <img alt="" ng-src="frontend/img/doc.png" style="width:3em!important; height:4em!important;" ng-if="fileType == 'doc' || fileType == 'docx'" class="img-responsive" />
                 <!-- <img alt="" ng-src="frontend/img/pdf.jpg" ng-if="fileType == 'pdf' || fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png' || fileType == 'doc' || fileType == 'docx'"
                     class="img-responsive" /> -->
             </a>
