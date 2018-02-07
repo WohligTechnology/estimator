@@ -11,18 +11,24 @@
                 <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Process Type:<span class="error">&nbsp;&nbsp;*</span></label>
+                            <label class="col-md-4 control-label">Process Type:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-options="pt.processTypeName for pt in partProcessingObj.processingTypeData track by pt._id" ng-model="partProcessingObj.selectedProcessingType"
-                                    placeholder="Select" ng-change="getSelectedProessType(partProcessingObj.selectedProcessingType)" required>
+                                <select class="form-control" ng-options="pt.processTypeName for pt in partProcessingObj.processingTypeData track by pt._id"
+                                    ng-model="partProcessingObj.selectedProcessingType" placeholder="Select" ng-change="getSelectedProessType(partProcessingObj.selectedProcessingType)"
+                                    required>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group" ng-if="partProcessingObj.showMulFact">
-                            <label class="col-md-4 control-label">Process Item:<span class="error">&nbsp;&nbsp;*</span></label>
+                            <label class="col-md-4 control-label">Process Item:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-options="pi.processItemName for pi in partProcessingObj.processingItemData track by pi._id" ng-model="partProcessingObj.selectedProcessingItem"
-                                    placeholder="Select" ng-click="getSelectedProessItem(partProcessingObj.selectedProcessingItem)" ng-disabled="disableProcessingFields.disableProcessItem" required>
+                                <select class="form-control" ng-options="pi.processItemName for pi in partProcessingObj.processingItemData track by pi._id"
+                                    ng-model="partProcessingObj.selectedProcessingItem" placeholder="Select" ng-click="getSelectedProessItem(partProcessingObj.selectedProcessingItem)"
+                                    ng-disabled="disableProcessingFields.disableProcessItem" required>
                                 </select>
                             </div>
                         </div>
@@ -38,9 +44,12 @@
                             </div>
                         </div>
                         <div class="form-group" ng-if="!partProcessingObj.showFields || !partProcessingObj.showMulFact">
-                            <label class="col-md-4 control-label">Rate:<span class="error">&nbsp;&nbsp;*</span></label>
+                            <label class="col-md-4 control-label">Rate:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5 text-left">
-                                <input type="text" class="form-control" ng-model="partProcessingObj.rate.actualRate" name="rate" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-change="updateProcessingCost()" required>
+                                <input type="number" class="form-control" ng-model="partProcessingObj.rate.actualRate" name="rate" pattern="[\-\+]?[0-9]*(\.[0-9]+)?"
+                                    ng-change="updateProcessingCost()" required>
                                 <span class="unit">
                                     {{partProcessingObj.rate.uom}}
                                 </span>
@@ -80,11 +89,13 @@
                             </div>
                         </div> -->
                         <div class="form-group" ng-if="partProcessingObj.showFields">
-                            <label class="col-md-4 control-label">Utilization:<span class="error">&nbsp;&nbsp;*</span></label>
+                            <label class="col-md-4 control-label">Utilization:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5 text-left">
                                 <div class="display-inline">
-                                    <input type="text" class="form-control" name="utilization" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="partProcessingObj.quantity.utilization" ng-change="updateProcessingCost()" placeholder="100"
-                                        required>
+                                    <input type="text" class="form-control" name="utilization" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="partProcessingObj.quantity.utilization"
+                                        ng-change="updateProcessingCost()" placeholder="100" required>
                                 </div>
                                 <div class="display-inline">
                                     <span>%</span>
@@ -93,11 +104,13 @@
                             </div>
                         </div>
                         <div class="form-group" ng-if="partProcessingObj.showFields">
-                            <label class="col-md-4 control-label">Contigency or Wastage:<span class="error">&nbsp;&nbsp;*</span></label>
+                            <label class="col-md-4 control-label">Contigency or Wastage:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5 text-left">
                                 <div class="display-inline">
-                                    <input type="text" class="form-control" name="contengncyOrWastage" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="partProcessingObj.quantity.contengncyOrWastage" ng-change="updateProcessingCost()"
-                                        placeholder="10" required>
+                                    <input type="text" class="form-control" name="contengncyOrWastage" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="partProcessingObj.quantity.contengncyOrWastage"
+                                        ng-change="updateProcessingCost()" placeholder="10" required>
                                 </div>
                                 <div class="display-inline">
                                     <span>%</span>
@@ -106,15 +119,21 @@
                             </div>
                         </div>
                         <div class="form-group" ng-if="partProcessingObj.showFields">
-                            <label class="col-md-4 control-label">Total Quantity:<span class="error">&nbsp;&nbsp;*</span></label>
+                            <label class="col-md-4 control-label">Total Quantity:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5 text-left">
-                                <input type="number" class="form-control" ng-model="partProcessingObj.quantity.totalQuantity"  ng-change="updateProcessingCost()" required>
+                                <input type="number" class="form-control" ng-model="partProcessingObj.quantity.totalQuantity" ng-change="updateProcessingCost()"
+                                    required>
                             </div>
                         </div>
                         <div class="form-group" ng-if="!partProcessingObj.showFields">
-                            <label class="col-md-4 control-label">Quantity:<span class="error">&nbsp;&nbsp;*</span></label>
+                            <label class="col-md-4 control-label">Quantity:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5 text-left">
-                                <input type="number" class="form-control" ng-model="partProcessingObj.quantity.totalQuantity"  ng-change="updateProcessingCost()" required>
+                                <input type="number" class="form-control" ng-model="partProcessingObj.quantity.totalQuantity" ng-change="updateProcessingCost()"
+                                    required>
                                 <span class="unit">
                                     {{partProcessingObj.selectedProcessingType.quantity.uom.uomName}}
                                 </span>
@@ -142,8 +161,10 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addProcessing('save',partProcessingObj, level, subAssemblyId, partId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addProcessing('update',partProcessingObj, level, subAssemblyId, partId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addProcessing('save',partProcessingObj, level, subAssemblyId, partId)"
+                                    ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addProcessing('update',partProcessingObj, level, subAssemblyId, partId)"
+                                    ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

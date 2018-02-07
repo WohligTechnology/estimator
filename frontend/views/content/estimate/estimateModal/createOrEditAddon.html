@@ -13,30 +13,46 @@
                 <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label"> Addon Type:<span class="error">&nbsp;&nbsp;*</span></label>
+                            <label class="col-md-4 control-label"> Addon Type:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="at.addonTypeName for at in addonObj.allAddonTypes track by at._id" ng-model="addonObj.selectedAddonType"
                                     placeholder="Select" ng-change="getSelectedAddonType(addonObj.selectedAddonType)">
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label"> Material:<span class="error">&nbsp;&nbsp;*</span></label>
+                        <div class="form-group" ng-show="addonObj.showRateFields">
+                            <label class="col-md-4 control-label"> Material:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="m.materialName for m in addonObj.allMaterials track by m._id" ng-model="addonObj.selectedMaterial"
                                     placeholder="Select" ng-change="getSelectedMaterial(addonObj.selectedMaterial)">
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-show="addonObj.showRateFields && addonObj.showQuantityFields">
                             <label class="col-md-4 control-label">Rate:</label>
                             <div class="col-md-5">
                                 <div>
-                                    <label class="padd-t">{{addonObj.rate.value}}</label>
+                                    <label class="padd-t">{{addonObj.rate.value.toFixed(2)}}</label>
                                     <span>
                                         <b>{{addonObj.rate.uom}}</b>
                                     </span>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="!addonObj.showRateFields || !addonObj.showQuantityFields">
+                            <label class="col-md-4 control-label">Rate:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
+                            <div class="col-md-5 text-left">
+                                <input type="number" class="form-control" ng-model="addonObj.rate.value" name="rate" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-change="updateAddonCost()" required>
+                                <span class="unit">
+                                    {{addonObj.rate.uom}}
+                                </span>
+                                <span class="error" ng-show="myForm.rate.$invalid && myForm.rate.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -44,7 +60,7 @@
                                 <b>Quantity -</b>
                             </label>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-show="addonObj.showQuantityFields">
                             <label class="col-md-4 control-label">Supporting Variables:</label>
                             <div class="col-md-5">
 
@@ -53,7 +69,7 @@
                                 </div>
 
                                 <div class="display-inline">
-                                    <input type="number" class="form-control" placeholder="" ng-change="changeSVValue()" ng-model="addonObj.quantity.supportingVariable.value">
+                                    <input type="number" class="form-control" placeholder="" ng-change="updateAddonCost()" ng-model="addonObj.quantity.supportingVariable.value">
                                 </div>
 
                                 <div class="display-inline">
@@ -67,7 +83,7 @@
                                 </span> -->
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-show="addonObj.showQuantityFields">
                             <label class="col-md-4 control-label">Key Value:</label>
                             <div class="col-md-5">
                                 <div>
@@ -85,42 +101,54 @@
                             </div>
                         </div> -->
 
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">% Use:<span class="error">&nbsp;&nbsp;*</span></label>
+                        <div class="form-group" ng-show="addonObj.showQuantityFields">
+                            <label class="col-md-4 control-label">% Use:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
-                                <div class="display-inline">
-                                    <input type="text" class="form-control" placeholder="100" name="utilization" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="addonObj.quantity.utilization" required>
-                                </div>
-                                <div class="display-inline">
-                                    <span>%</span>
-                                </div>
+                                    <input type="text" class="form-control" placeholder="100" name="utilization" ng-change="updateAddonCost()" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="addonObj.quantity.utilization"
+                                        required>
+                                        <span class="unit">%</span>
                                 <span class="error" ng-show="myForm.utilization.$invalid && myForm.utilization.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Contegency or Wastage:<span class="error">&nbsp;&nbsp;*</span></label>
+                        <div class="form-group" ng-show="addonObj.showQuantityFields">
+                            <label class="col-md-4 control-label">Contegency or Wastage:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
+                                    <input type="text" class="form-control" placeholder="10" ng-change="updateAddonCost()" name="contengncyOrWastage" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="addonObj.quantity.contengncyOrWastage"
+                                        required>
+                                        <span class="unit">%</span>
                                 <div class="display-inline">
-                                    <input type="text" class="form-control" placeholder="10" name="contengncyOrWastage" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="addonObj.quantity.contengncyOrWastage" required>
-                                </div>
-                                <div class="display-inline">
-                                    <span>%</span>
-                                        <span class="error" ng-show="myForm.contengncyOrWastage.$invalid && myForm.contengncyOrWastage.$dirty">Please enter a number or floating point number</span>
+                                    <span class="error" ng-show="myForm.contengncyOrWastage.$invalid && myForm.contengncyOrWastage.$dirty">Please enter a number or floating point number</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Total Quantity:<span class="error">&nbsp;&nbsp;*</span></label>
+                        <div class="form-group" ng-show="addonObj.showQuantityFields">
+                            <label class="col-md-4 control-label">Total Quantity:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="addonObj.quantity.total" ng-change="changeAddonQuantity(addonObj.quantity.total)"
+                                <input type="text" class="form-control" ng-model="addonObj.quantity.total" ng-change="updateAddonCost(addonObj.quantity.total)"
                                     required>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-show="!addonObj.showQuantityFields">
+                            <label class="col-md-4 control-label">Quantity:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" ng-model="addonObj.quantity.total" ng-change="updateAddonCost(addonObj.quantity.total)"
+                                    required>
+                                    <span class="unit">{{addonObj.quantity.keyValue.uom}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="addonObj.showRateFields">
                             <label class="col-md-4 control-label">Total Weight:</label>
                             <div class="col-md-5">
                                 <div>
-                                    <label class="padd-t">{{addonObj.totalWeight}} Kg</label>
+                                    <label class="padd-t">{{addonObj.totalWeight.toFixed(2)}} Kg</label>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +156,7 @@
                             <label class="col-md-4 control-label">Total Cost:</label>
                             <div class="col-md-5">
                                 <div>
-                                    <label class="padd-t">{{addonObj.totalCost}}</label>
+                                    <label class="padd-t">{{addonObj.totalCost.toFixed(2)}}</label>
                                     <strong>{{addonObj.finalUom}}</strong>
                                 </div>
                             </div>
@@ -147,8 +175,10 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addAddon('save', addonObj, level, subAssemblyId, partId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addAddon('update', addonObj, level, subAssemblyId, partId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-show="showSaveBtn" ng-click="addAddon('save', addonObj, level, subAssemblyId, partId)"
+                                    ng-disabled="myForm.$pristine">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-show="showEditBtn" ng-click="addAddon('update', addonObj, level, subAssemblyId, partId)"
+                                    ng-disabled="myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
