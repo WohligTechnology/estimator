@@ -16,8 +16,8 @@ myApp.service('masterExtraService', function (NavigationService) {
       extraDataObj.extra = extra;
     }
 
-    NavigationService.boxCall('MUom/search', function (data) {
-      extraDataObj.uoms = data.data.results;
+    NavigationService.boxCall('MUom/getMUomData', function (data) {
+      extraDataObj.uoms = data.data;
       if (operation == "save") {
         extraDataObj.saveBtn = true;
         extraDataObj.editBtn = false;

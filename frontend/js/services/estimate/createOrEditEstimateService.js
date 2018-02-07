@@ -615,7 +615,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		if (estimateView != 'editPartItemDetail' && estimateView != 'partDetail') {
 			if (estimateView == 'processing' || estimateView == 'addons' || estimateView == 'extras') {
 				getViewData.totalCost = 0;
-				_.forEach(getViewData, function(record) {
+				_.forEach(getViewData, function (record) {
 					getViewData.totalCost += record.totalCost;
 				});
 			}
@@ -2167,11 +2167,18 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		var tempObj = {
 			estimateId: formData.assembly._id
 		};
+		debugger;
 		NavigationService.apiCall('CustomMaterial/getAllCustomMaterial', tempObj, function (data) {
 			if (data.data == "noDataFound") {
 				temp = [];
 			} else {
 				temp = data.data;
+				temp.costOfDepRsPerKg = 0;
+				temp.costOfDepRsPerSm = 0;
+				_.forEach(temp, function (record) {
+					temp.costOfDepRsPerKg += record.totalCostRsPerKg;
+					temp.costOfDepRsPerSm += record.totalCostRsPerSm;
+				});
 			}
 			callback(temp);
 		});

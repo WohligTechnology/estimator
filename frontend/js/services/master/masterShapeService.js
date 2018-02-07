@@ -31,9 +31,9 @@ myApp.service('masterShapeService', function (
         });
     }
     this.getAllUom = function (callback) {
-        NavigationService.boxCall('MUom/search', function (data) {
+        NavigationService.boxCall('MUom/getMUomData', function (data) {
             if (data.value) {
-                callback(data.data.results)
+                callback(data.data)
             } else {
                 callback();
             }
