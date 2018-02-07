@@ -116,21 +116,22 @@
                                 </td>
                                 <td> {{p.processingNumber}}</td>
                                 <td> {{p.processType.processTypeName}} </td>
-                                <td>{{p.processItem.processItemName}}</td>
+                                <td> <p ng-show="p.processType.showRateFields">{{p.processItem.processItemName}}</p></td>
                                 <td>{{p.rate}}
                                     <br>
                                     <span>
                                         <b>{{p.processType.rate.uom.uomName}}</b>
                                     </span>
                                 </td>
-                                <td>{{p.quantity.linkedKeyValue.keyValue.toFixed(2)}}
+                                <td><p ng-show="p.processType.showQuantityFields">{{p.quantity.linkedKeyValue.keyValue.toFixed(2)}}
                                     <br>
                                     <span>
                                         <b>{{p.quantity.linkedKeyValue.keyVariable}} {{(p.processType.quantity.uom.uomName)}}</b>
                                     </span>
+                                </p>
                                 </td>
-                                <td>{{p.quantity.utilization}}</td>
-                                <td>{{p.quantity.contengncyOrWastage}}</td>
+                                <td><p ng-show="p.processType.showQuantityFields">{{p.quantity.utilization}}</p></td>
+                                <td><p ng-show="p.processType.showQuantityFields">{{p.quantity.contengncyOrWastage}}</p></td>
                                 <td>{{p.quantity.totalQuantity}}</td>
                                 <td>{{p.totalCost.toFixed(2)}}</td>
                                 <td>{{p.remark}}</td>

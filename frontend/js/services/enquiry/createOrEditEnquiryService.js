@@ -7,7 +7,7 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       }, function (data) {
         if (data.data != "ObjectId Invalid") {
           var temp = data.data;
-          temp.enquiryDetails.rfqReceiveddDate =  new Date(temp.enquiryDetails.rfqReceiveddDate);
+          temp.enquiryDetails.rfqReceiveddDate = new Date(temp.enquiryDetails.rfqReceiveddDate);
           temp.enquiryDetails.rfqDueDate = new Date(temp.enquiryDetails.rfqDueDate);
           callback(temp);
         } else {
@@ -26,8 +26,10 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     }
   }
   this.getEstimateData = function (enquiryId, callback) {
-    NavigationService.apiCall('DraftEstimate/checkEnquiryEstimate', {enquiryId : enquiryId},  function (data) {
-        callback(data.data);
+    NavigationService.apiCall('DraftEstimate/checkEnquiryEstimate', {
+      enquiryId: enquiryId
+    }, function (data) {
+      callback(data.data);
     });
   }
   this.getCustomerData = function (callback) {
@@ -70,22 +72,31 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       callback(data.data);
     });
   }
-  this.getExcelSheet = function (estimateVersionId, callback) {  
+  this.getExcelSheet = function (estimateVersionId, callback) {
+    debugger;
     var tempObj = {
       _id: estimateVersionId
     }
-    NavigationService.apiCall('Estimate/generateDraftEstExcel', tempObj, function (data) {
+    NavigationService.apiCall('Estimate/generateEstimateExcel', tempObj, function (data) {
       if (data.value) {
-        callback(data.data);
-      } else {
-        callback();
-      }
+        // $http.get("Estimate/downloadExcel/" + data.data)
+        // .then(function(response) {
+        //     this.myWelcome = response.data;
+        // });
+        //adminurl = adminurl + "Estimate/downloadExcel/" + data.data;
+        // NavigationService.apiCall('Estimate/downloadExcel/' + data.data, function (data1) {
+        //     callback(data1)
+        //   });
+       
+      } 
 
-    });  
+    });
   }
   //- to import assembly
   this.getImportAssemblyData = function (assemblyId, callback) {
-    NavigationService.apiCall('Estimate/importAssembly', {"_id":assemblyId}, function (data) {
+    NavigationService.apiCall('Estimate/importAssembly', {
+      "_id": assemblyId
+    }, function (data) {
       var tempObj = data.data.assemblyObj;
       NavigationService.apiCall('DraftEstimate/save', tempObj, function (data1) {
         callback(data1);
