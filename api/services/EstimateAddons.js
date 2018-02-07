@@ -41,6 +41,7 @@ var schema = new Schema({
         total: Number
     },
     totalCost: Number,
+    totalWeight: Number,
     remarks: String,
     addonObj: {},
     estimateVersion: {

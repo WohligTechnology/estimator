@@ -157,6 +157,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
 
 
     $scope.addOrEditProcessTypeModal = function (operation, process) {
+        $scope.validationSelect = {}; //- to clear validation object
         masterProcessService.getProcessTypeModalData(operation, process, function (data) {
 
             $scope.selectedProcessCat = {};

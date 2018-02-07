@@ -75,7 +75,12 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
       _id: estimateVersionId
     }
     NavigationService.apiCall('Estimate/generateDraftEstExcel', tempObj, function (data) {
-      callback(data);
+      if (data.value) {
+        callback(data.data);
+      } else {
+        callback();
+      }
+
     });  
   }
   //- to import assembly

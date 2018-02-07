@@ -1389,22 +1389,31 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					addonObject.allAddonTypes = addonTypeData.data;
 					addonObject.allMaterials = getAllMaterials.data;
 					addonObject.selectedAddonType = tempAddonObj.addonType;
-					addonObject.selectedMaterial = tempAddonObj.addonItem;
+
+
+					addonObject.showQuantityFields = tempAddonObj.showQuantityFields;
+					addonObject.showRateFields = tempAddonObj.showRateFields;
 
 					addonObject.rate.value = tempAddonObj.rate;
 					addonObject.rate.uom = tempAddonObj.addonType.rate.uom.uomName;
 
-					addonObject.quantity.supportingVariable.supportingVariable = tempAddonObj.quantity.supportingVariable.supportingVariable;
-					addonObject.quantity.supportingVariable.value = tempAddonObj.quantity.supportingVariable.value;
-					addonObject.quantity.supportingVariable.uom = tempAddonObj.addonType.quantity.additionalInputUom.uomName;
-
-					addonObject.quantity.keyValue.keyVariable = tempAddonObj.quantity.keyValue.keyVariable;
-					addonObject.quantity.keyValue.keyValue = tempAddonObj.quantity.keyValue.keyValue;
+					if (addonObject.showQuantityFields) {
+						addonObject.quantity.supportingVariable.supportingVariable = tempAddonObj.quantity.supportingVariable.supportingVariable;
+						addonObject.quantity.supportingVariable.value = tempAddonObj.quantity.supportingVariable.value;
+						addonObject.quantity.supportingVariable.uom = tempAddonObj.addonType.quantity.additionalInputUom.uomName;
+						addonObject.quantity.keyValue.keyVariable = tempAddonObj.quantity.keyValue.keyVariable;
+						addonObject.quantity.utilization = tempAddonObj.quantity.utilization;
+						addonObject.quantity.contengncyOrWastage = tempAddonObj.quantity.contengncyOrWastage;	
+						addonObject.quantity.keyValue.keyValue = tempAddonObj.quantity.keyValue.keyValue;
+					} 
+					if (addonObject.showRateFields) {
+						addonObject.selectedMaterial = tempAddonObj.addonItem;
+						addonObject.totalWeight = tempAddonObj.totalWeight;						
+					}
 					addonObject.quantity.keyValue.uom = tempAddonObj.addonType.quantity.linkedKeyUom.uomName;
 
-					addonObject.quantity.utilization = tempAddonObj.quantity.utilization;
-					addonObject.quantity.contengncyOrWastage = tempAddonObj.quantity.contengncyOrWastage;
 					addonObject.quantity.total = tempAddonObj.quantity.total;
+					addonObject.totalCost = tempAddonObj.totalCost;
 					addonObject.remarks = tempAddonObj.remarks;
 
 					addonObject.addonNumber = tempAddonObj.addonNumber;
@@ -1428,6 +1437,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	//- to add an addon
 	this.createAddon = function (addonObj, level, subAssemblyId, partId, callback) {
+		debugger;
 		if (level == 'assembly') {
 			id = this.getAddonNumber(level);
 			addonObj.addonNumber = formData.assembly.assemblyNumber + 'AD' + id;

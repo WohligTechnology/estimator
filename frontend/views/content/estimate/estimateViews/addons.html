@@ -82,7 +82,7 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th rowspan="2" class="align-top">
+                                <th rowspan="2" class="align-left">
                                     <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                         <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-checked="checkAll" ng-disabled="estimateViewData.length <= 0"
                                             ng-model="checkAll" ng-change="selectAll('addons', level, estimateViewData, checkAll, estimateViewData.subAssemblyId, estimateViewData.partId)"
@@ -90,14 +90,14 @@
                                         <span></span>
                                     </label>
                                 </th>
-                                <th rowspan="2" class="align-top"> Id </th>
-                                <th rowspan="2" class="align-top"> Addon Type </th>
-                                <th rowspan="2" class="align-top"> Material Type</th>
-                                <th rowspan="2" class="align-top"> Rate </th>
+                                <th rowspan="2" class="align-left"> Id </th>
+                                <th rowspan="2" class="align-left"> Addon Type </th>
+                                <th rowspan="2" class="align-left"> Material Type</th>
+                                <th rowspan="2" class="align-left"> Rate </th>
                                 <th colspan="5" class="text-center"> Quentity </th>
                                 <th> Total Cost</th>
-                                <th rowspan="2" class="align-top">Remark </th>
-                                <th rowspan="2" class="align-top"> Action </th>
+                                <th rowspan="2" class="align-left">Remark </th>
+                                <th rowspan="2" class="align-left"> Action </th>
                             </tr>
                             <tr>
                                 <th>Item</th>
@@ -120,26 +120,28 @@
                                 </td>
                                 <td> {{p.addonNumber}}</td>
                                 <td> {{p.addonType.addonTypeName}} </td>
-                                <td> {{p.addonItem.materialName}} </td>
+                                <td><p ng-show="p.showRateFields"> {{p.addonItem.materialName}} </p></td>
                                 <td> {{p.rate}} </td>
-                                <td>
+                                <td><p  ng-show="p.showQuantityFields">
                                     {{p.quantity.supportingVariable.value}}
                                     <br>
                                     <span>
                                         <b>{{p.quantity.supportingVariable.supportingVariable}} ({{p.addonType.quantity.additionalInputUom.uomName}})</b>
                                     </span>
+                                </p>
                                 </td>
-                                <td>
+                                <td><p  ng-show="p.showQuantityFields">
                                     {{p.quantity.keyValue.keyValue.toFixed(2)}}
                                     <br>
                                     <span>
                                         <b>{{p.quantity.keyValue.keyVariable}} ({{p.addonType.quantity.linkedKeyUom.uomName}})</b>
                                     </span>
+                                </p>
                                 </td>
-                                <td> {{p.quantity.utilization}} </td>
-                                <td> {{p.quantity.contengncyOrWastage}} </td>
+                                <td><p  ng-show="p.showQuantityFields"> {{p.quantity.utilization}} </p></td>
+                                <td><p  ng-show="p.showQuantityFields"> {{p.quantity.contengncyOrWastage}}</p> </td>
                                 <td> {{p.quantity.total}} </td>
-                                <td> {{(p.quantity.supportingVariable.value * p.rate* p.quantity.total).toFixed(2)}} </td>
+                                <td> {{p.totalCost.toFixed(2)}} </td>
                                 <td> {{p.addonType.remarks}} </td>
                                 <td class="edit-icon">
                                     <span class="label label-sm label-success" id="add_space" ng-click="addOrEditAddonModal('update', level,  estimateViewData.subAssemblyId, estimateViewData.partId, p.addonNumber)">

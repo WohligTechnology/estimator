@@ -26,9 +26,9 @@ myApp.service('masterAddonService', function (NavigationService) {
     }
 
     NavigationService.boxCall('MMaterialCat/getMaterialStructure', function (mMatData) {
-      NavigationService.boxCall('MUom/search', function (mUomData) {
+      NavigationService.boxCall('MUom/getMUomData', function (mUomData) {
         addonTempObj.mMatData = mMatData.data;
-        addonTempObj.mUomData = mUomData.data.results;
+        addonTempObj.mUomData = mUomData.data;
         callback(addonTempObj);
       });
     });
