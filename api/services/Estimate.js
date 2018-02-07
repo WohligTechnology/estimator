@@ -1,6 +1,8 @@
 // estimate collection schema
 
-
+// var mongoXlsx = require('mongo-xlsx');
+var uniqid = require('uniqid');
+var download = require('download-file')
 
 var schema = new Schema({
     enquiryId: {
@@ -75,6 +77,11 @@ var schema = new Schema({
     estimateVersion: {
         type: String,
     },
+    estimateExcel: {
+        type: String,
+        index: true
+    },
+
 });
 
 schema.plugin(deepPopulate, {
@@ -2353,7 +2360,7 @@ var model = {
                                                                             MMaterial.findOne({
                                                                                 _id: partAddons.addonItem
                                                                             }).select('materialName weightPerUnit').lean().exec(function (err, addonsMatName) {
-                                                                                console.log('****vijjjjjjj****',addonsMatName);
+                                                                                console.log('****vijjjjjjj****', addonsMatName);
                                                                                 if (err) {
                                                                                     console.log('**** error at function_name of Estimate.js ****', err);
                                                                                     callback(err, null);
@@ -2784,7 +2791,7 @@ var model = {
 
 
 
-                                                        workbook.xlsx.writeFile('./EstimateSheet.xlsx').then(function () {
+                                                        workbook.xlsx.writeFile('./assets/importFormat/EstimateSheet.xlsx').then(function () {
                                                             console.log('Part sheet is written');
                                                             callback();
                                                         });
@@ -4395,7 +4402,7 @@ var model = {
                                     if (err) {
                                         console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
                                     } else {
-                                        workbook.xlsx.writeFile('./EstimateSheet.xlsx').then(function () {
+                                        workbook.xlsx.writeFile('./assets/importFormat/EstimateSheet.xlsx').then(function () {
                                             console.log('SA sheet is written');
                                             callback();
                                         });
@@ -5880,9 +5887,30 @@ var model = {
                                 if (err) {
                                     console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
                                 } else {
-                                    workbook.xlsx.writeFile('./EstimateSheet.xlsx').then(function () {
-                                        console.log('Assembly sheet is written');
-                                        callback();
+                                    var myUniqueId = (uniqid());
+                                    workbook.xlsx.writeFile('./assets/importFormat/' + myUniqueId + '.xlsx').then(function () {
+                                        var excelFileName = './assets/importFormat/' + myUniqueId + '.xlsx';
+                                        // console.log('**** excel file nameeeeee ****', excelFileName);
+                                        file = myUniqueId.split('.').pop();
+                                        Estimate.findOneAndUpdate({
+                                            _id: data._id,
+                                        }, {
+                                            estimateExcel: file
+                                        }).exec(function (err, updatedData) {
+                                            if (err) {
+                                                console.log('**** error at function_name of Estimate.js ****', err);
+                                                callback(err, null);
+                                            } else if (_.isEmpty(updatedData)) {
+                                                callback(null, 'noDataFound');
+                                            } else {
+                                                console.log('Assembly sheet is written');
+                                                Estimate.downloadExcel(excelFileName, callback);
+                                                callback();
+                                            }
+
+                                        });
+                                        // // excelName = myUniqueId.split('.').pop();
+                                        // console.log('**** inside excelName of Estimate.js & data is ****', excelName);
                                     });
                                 }
                             });
@@ -5890,12 +5918,78 @@ var model = {
                     },
                     function (err, results) {
                         // console.log('**** inside final success/response of User.js ****', results);
-                        callback(null, finalExcelObj);
+                        callback(null, file);
                     });
 
             }
         });
 
+    },
+
+    downloadExcel: function (fileName, res) {
+        console.log('****in download excel', fileName);
+
+
+        myFile = fileName.split('/').pop();
+        var url = "http://wohlig.io/"
+
+        console.log('**** urlurlurl ****', url);
+
+        console.log('***file name ****', myFile);
+        // myPath = "./assets/importFormat/"
+
+        var options = {
+            directory: "./assets/importFormat/",
+            filename: myFile
+        }
+        // console.log('**** myPathmyPathmyPathmyPath ****',myPath);
+        download(url, options, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('downloading successful');
+            }
+        });
+    },
+
+
+    rollbackTheData: function (data, callback) {
+        DraftEstimate.findOne({
+            _id: data._id
+        }).lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of Estimate.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                async.eachSeries(found.subAssemblies, function (subAss, callback) {
+                    var saveDataObj = {
+                        subAssemblyName: data.subAssemblyName,
+                        subAssemblyNumber: data.subAssemblyNumber,
+                        quantity: data.quantity,
+                        materialCost: data.materilCost
+                    };
+
+                    EstimateSubAssembly.saveData(saveDataObj, function (err, savedData) {
+                        if (err) {
+                            console.log('**** error at function_name of Estimate.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(savedData)) {
+                            callback(null, 'noDataFound');
+                        } else {
+                            callback(null, savedData);
+                        }
+                    });
+                }, function (err) {
+                    if (err) {
+                        console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
+                    } else {
+                        callback();
+                    }
+                });
+            }
+        });
     },
 };
 module.exports = _.assign(module.exports, exports, model);
