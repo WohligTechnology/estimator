@@ -72,7 +72,11 @@ module.exports.routes = {
         controller: "WebController",
         action: "delRestrictions"
 
-    }
+    },
+    "/api/Estimate/downloadExcel/:file(*)": {
+        controller: "EstimateController",
+        action: "downloadExcel"
+    },
 
 
     /***************************************************************************
