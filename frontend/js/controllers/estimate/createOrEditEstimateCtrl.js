@@ -4,6 +4,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   var pi = 3.1415;
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
+  $scope.activeTab = 'assembly';
   //- for title
   TemplateService.getTitle("Estimate");
   $scope.showSaveBtn = true;
@@ -1503,6 +1504,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       } else if ('update') {
         $scope.extraObj.allExtraItem = data.allExtraItem;
         $scope.extraObj.selectedExtraItem = data.selecetdExtraItem;
+        $scope.extraObj.rate = data.rate;        
         $scope.extraObj.extraNumber = data.extraNumber;
         $scope.extraObj.totalCost = data.totalCost;
         $scope.extraObj.remark = data.remark;
@@ -1524,14 +1526,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   $scope.getSelectedExtraItem = function (extraObjData) {
     //- calculate rate
-
     $scope.extraObj.selectedExtraItem = extraObjData;
-    $scope.extraObj.totalCost = parseFloat(extraObjData.rate.name) * 1;
+    $scope.extraObj.rate = parseFloat(extraObjData.rate.name);
     $scope.extraObj.uom = extraObjData.rate.uom.uomName;
+    $scope.updateExtraCost();
   }
 
-  $scope.changeExtraQuantity = function (q) {
-    $scope.extraObj.totalCost = parseFloat($scope.extraObj.selectedExtraItem.rate.name) * q;
+  $scope.updateExtraCost = function () {
+    $scope.extraObj.totalCost = parseFloat($scope.extraObj.rate) * parseFloat($scope.extraObj.quantity);
   }
 
   //- to add Extra at assembly or subssembly or at partLevel
@@ -1544,7 +1546,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       remark: extraData.remark,
       quantity: extraData.quantity,
       rate: extraData.selectedExtraItem.rate.name,
-      uom: extraData.uom
+      uom: extraData.uom,
+      rate: extraData.rate
     }
     createOrEditEstimateService.addExtra(extra, level, subAssemblyId, partId, function () {
       $scope.getEstimateView('extras', level, subAssemblyId, partId);

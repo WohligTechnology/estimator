@@ -1403,12 +1403,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						addonObject.quantity.supportingVariable.uom = tempAddonObj.addonType.quantity.additionalInputUom.uomName;
 						addonObject.quantity.keyValue.keyVariable = tempAddonObj.quantity.keyValue.keyVariable;
 						addonObject.quantity.utilization = tempAddonObj.quantity.utilization;
-						addonObject.quantity.contengncyOrWastage = tempAddonObj.quantity.contengncyOrWastage;	
+						addonObject.quantity.contengncyOrWastage = tempAddonObj.quantity.contengncyOrWastage;
 						addonObject.quantity.keyValue.keyValue = tempAddonObj.quantity.keyValue.keyValue;
-					} 
+					}
 					if (addonObject.showRateFields) {
 						addonObject.selectedMaterial = tempAddonObj.addonItem;
-						addonObject.totalWeight = tempAddonObj.totalWeight;						
+						addonObject.totalWeight = tempAddonObj.totalWeight;
 					}
 					addonObject.quantity.keyValue.uom = tempAddonObj.addonType.quantity.linkedKeyUom.uomName;
 
@@ -2036,7 +2036,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			remark: "",
 			totalCost: "",
 			rate: "",
-			uom: ""
+			uom: "",
 		};
 		if (operation == 'update') {;
 			if (level == 'assembly') {
@@ -2061,6 +2061,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			} else {
 				extraObj.allExtraItem = data.data;
 				extraObj.selecetdExtraItem = tempExtraObj.extraItem;
+				extraObj.uom = tempExtraObj.uom;
 				extraObj.extraNumber = tempExtraObj.extraNumber;
 				extraObj.totalCost = tempExtraObj.totalCost;
 				extraObj.remark = tempExtraObj.remark;
@@ -2088,13 +2089,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var extraIndex = this.getExtraIndex(extraObj.extraNumber, subAssIndex, partIndex);
 			var tempExtraObj = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras[extraIndex];
 		}
-		tempExtraObj.extraItem = extraObj.selectedExtraItem.extraName,
-			tempExtraObj.extraNumber = extraObj.extraNumber,
-			tempExtraObj.totalCost = extraObj.totalCost,
-			tempExtraObj.remark = extraObj.remark,
-			tempExtraObj.quantity = extraObj.quantity,
-			tempExtraObj.rate = extraObj.rate,
-			tempExtraObj.uom = extraObj.uom
+		tempExtraObj.extraItem = extraObj.selectedExtraItem;
+		tempExtraObj.extraNumber = extraObj.extraNumber;
+		tempExtraObj.totalCost = extraObj.totalCost;
+		tempExtraObj.remark = extraObj.remark;
+		tempExtraObj.quantity = extraObj.quantity;
+		tempExtraObj.rate = extraObj.rate;
+		tempExtraObj.uom = extraObj.uom;
 
 		callback();
 	}

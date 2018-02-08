@@ -23,21 +23,36 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Rate:
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
+                            <div class="col-md-5">
+                                <input type="number" class="form-control" ng-model="extraObj.rate" name="rate" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-change="updateExtraCost()"
+                                    required>
+                                <span class="unit">
+                                    {{extraObj.selectedExtraItem.rate.uom.uomName}}
+                                </span>
+                                <span class="error" ng-show="myForm.rate.$invalid && myForm.rate.$dirty">Please enter a number or floating point number</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">
                                 <b>Quantity:
                                     <span class="error">&nbsp;&nbsp;*</span>
                                 </b>
                             </label>
                             <div class="col-md-5">
-                                <input type="number" class="form-control" ng-change="changeExtraQuantity(extraObj.quantity)" ng-model="extraObj.quantity" required>
+                                <input type="number" class="form-control" ng-change="updateExtraCost()" ng-model="extraObj.quantity" required>
+                                <span class="unit">
+                                    {{extraObj.selectedExtraItem.quantity.uom.uomName}}
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Remarks:
-                                <span class="error">&nbsp;&nbsp;*</span>
                             </label>
                             <div class="col-md-5">
-                                <textarea class="form-control" ng-model="extraObj.remark" required>
+                                <textarea class="form-control" ng-model="extraObj.remark">
                                 </textarea>
                             </div>
                         </div>
@@ -52,7 +67,7 @@
                                     <b>{{extraObj.totalCost}}</b>
                                 </label>
                                 <span>
-                                    <b>{{extraObj.uom}}</b>
+                                    <b>{{extraObj.uom}} {{extraObj.selectedExtraItem.quantity.uom.uomName}}</b>
                                 </span>
                             </div>
                         </div>
@@ -60,8 +75,10 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addExtra(extraObj,level, subAssemblyId, partId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="updateExtra(extraObj,level, subAssemblyId, partId, extraId)" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addExtra(extraObj,level, subAssemblyId, partId)"
+                                    ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="updateExtra(extraObj,level, subAssemblyId, partId, extraId)"
+                                    ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

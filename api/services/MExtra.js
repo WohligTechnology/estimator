@@ -7,6 +7,13 @@ var schema = new Schema({
             ref: 'MUom',
             required: true
         }
+    },
+    quantity: {
+        uom: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'MUom',
+            required: true
+        }
     }
 });
 
@@ -26,7 +33,7 @@ var model = {
 
     //-Get All Master extra data from MExtra table.
     getMExtraData: function (data, callback) {
-        MExtra.find().lean().exec(function (err, found) {
+        MExtra.find().lean().deepPopulate('quantity.uom').exec(function (err, found) {
             if (err) {
                 console.log('**** error at getMExtraData of MExtra.js ****', err);
                 callback(err, null);
@@ -86,6 +93,7 @@ var model = {
         MExtra.find({}).sort({
                 createdAt: -1
             }).lean()
+            .deepPopulate('quantity.uom')
             .order(options)
             .keyword(options)
             .page(options,
