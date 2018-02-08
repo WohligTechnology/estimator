@@ -1,4 +1,4 @@
-myApp.service('createOrEditEnquiryService', function ($http, NavigationService) {
+myApp.service('createOrEditEnquiryService', function ($http, $state, NavigationService) {
 
   this.getEnquiryObj = function (id, callback) {
     if (angular.isDefined(id)) {
@@ -79,16 +79,8 @@ myApp.service('createOrEditEnquiryService', function ($http, NavigationService) 
     }
     NavigationService.apiCall('Estimate/generateEstimateExcel', tempObj, function (data) {
       if (data.value) {
-        // $http.get("Estimate/downloadExcel/" + data.data)
-        // .then(function(response) {
-        //     this.myWelcome = response.data;
-        // });
-        //adminurl = adminurl + "Estimate/downloadExcel/" + data.data;
-        // NavigationService.apiCall('Estimate/downloadExcel/' + data.data, function (data1) {
-        //     callback(data1)
-        //   });
-       
-      } 
+        window.open(adminurl + "Estimate/downloadExcel/" + data.data, '_blank');
+      }
 
     });
   }
