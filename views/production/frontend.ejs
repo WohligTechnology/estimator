@@ -38,13 +38,19 @@
     <div data-ng-include="'views/tpl/footer.html'"   ng-if="loginTemplate" data-ng-controller="FooterController" class="page-footer"> </div>
     <!-- END FOOTER -->
     <!-- BEGIN QUICK NAV -->
+    <nav class="quick-nav myQquick-nav">
+        <p class="quick-nav-trigger myQuick-nav-trigger"  ng-click="getGlobalVariableModal()">
+            <span aria-hidden="true"></span>
+        </p>      
+        <span aria-hidden="true" class="quick-nav-bg"></span>
+    </nav>
 
     <div class="quick-nav-overlay"></div>
 
     <link rel="stylesheet" type="text/css" href="css/production.css" />
 
     <script>
-        var adminurl = "<%= ((typeof adminurl) == "undefined") ? "" : adminurl  %>";
+        var adminurl = "<%= ((typeof adminurl) == 'undefined') ? '' : adminurl  %>";
         var isproduction = false;
         var chintan = function(content) {
             console.log("%c ---------------------------------------", 'background: #222; color: #bada55');

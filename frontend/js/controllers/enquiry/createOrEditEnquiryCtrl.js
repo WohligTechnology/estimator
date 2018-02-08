@@ -1,7 +1,7 @@
 myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toastr, $uibModal, $interpolate, $state, $scope, createOrEditEnquiryService, TemplateService) {
 
   // *************************** default variables/tasks begin here ***************** //
-
+  
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
   $scope.showEstimateBtn = false;
@@ -65,7 +65,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   // *************************** functions to be triggered form view begin here ***** //      
   //- add  enquiry data
   $scope.addEnquiryData = function (enquiryData) {
-    debugger;
+    
     // Validation of select for ENQUIRIES
     var errorCount = 0;
     if (_.isEmpty(enquiryData.customerDataObj.customerName)) {

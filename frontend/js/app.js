@@ -88,7 +88,7 @@ myApp.factory('settings', ['$rootScope', function ($rootScope) {
 }]);
 
 /* Setup App Main Controller */
-myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
+myApp.controller('AppController', function ($scope, $rootScope, $state, $uibModal) {
 
   $scope.$on('$viewContentLoaded', function () {
     App.initComponents(); // init core components
@@ -99,6 +99,7 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
     $scope.userPhoto = $.jStorage.get('loggedInUser').photo;
     $scope.userName = $.jStorage.get('loggedInUser').name;
   }
+
   $scope.getGlobalVariableModal = function () {
     $scope.modalInstance = $uibModal.open({
       animation: true,
@@ -108,8 +109,12 @@ myApp.controller('AppController', ['$scope', '$rootScope', '$state', function ($
     });
   }
 
+  $scope.cancelModal = function () {
+    $scope.modalInstance.dismiss();
+  }
 
-}]);
+
+});
 
 /***
 Layout Partials.

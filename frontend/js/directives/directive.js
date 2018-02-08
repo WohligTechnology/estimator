@@ -160,7 +160,7 @@ myApp
     })
 
     .filter('downloadpath', function () {
-        debugger;        
+                
         return function (input, width, height, style) {
             var other = "";
             if (width && width !== "") {
@@ -183,7 +183,7 @@ myApp
     })
 
     .filter('readFile', function () {
-        debugger;
+        
         return function (input, width, height, style) {
             var other = "";
             if (width && width !== "") {

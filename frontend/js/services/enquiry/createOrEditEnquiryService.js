@@ -57,12 +57,14 @@ myApp.service('createOrEditEnquiryService', function ($http, $state, NavigationS
       callback(data);
     });
   }
+   
   this.saveAssemblyName = function (assName, enquiryId, callback) {
     var estimateData = {
       assemblyName: assName,
-      enquiryId: enquiryId
+      enquiryId: enquiryId,
+      estimateCreatedUser:$.jStorage.get("loggedInUser")._id
     }
-
+    
     NavigationService.apiCall('DraftEstimate/createDraftEstimate', estimateData, function (data) {
       callback(data);
     });
@@ -73,7 +75,7 @@ myApp.service('createOrEditEnquiryService', function ($http, $state, NavigationS
     });
   }
   this.getExcelSheet = function (estimateVersionId, callback) {
-    debugger;
+    
     var tempObj = {
       _id: estimateVersionId
     }

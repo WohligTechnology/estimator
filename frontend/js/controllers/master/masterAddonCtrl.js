@@ -80,7 +80,7 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
 
   //- function to  create new addon     
   $scope.addOrEditAddonType = function (addonTypeData, selectedMatCatId, selectedMatSubCatId, selectedRateUomId, selectedAdditionalUomId, selectedKinkedKeyUomId, selectedFinalUomId) {
-    debugger;
+    
     addonTypeData.materialCat = selectedMatCatId;
     addonTypeData.materialSubCat = selectedMatSubCatId;
     addonTypeData.rate.uom = selectedRateUomId;
