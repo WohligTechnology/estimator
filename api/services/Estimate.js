@@ -1,7 +1,6 @@
 // estimate collection schema
 
 // var mongoXlsx = require('mongo-xlsx');
-var uniqid = require('uniqid');
 
 var schema = new Schema({
     enquiryId: {
