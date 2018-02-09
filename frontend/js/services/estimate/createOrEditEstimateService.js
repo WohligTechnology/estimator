@@ -264,7 +264,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					costCalculations.mtPart = parseFloat(part.finalCalculation.materialPrice);
 				}
 				//- get summation of material cost of all parts 
-				costCalculations.mtAtSubAssembly += costCalculations.mtPart;
+				costCalculations.mtAtSubAssembly += costCalculations.mtPart * costCalculations.wtAtPart * part.quantity;
 				//- processing cost at part level
 				angular.forEach(part.processing, function (processing) {
 					costCalculations.pCostAtPart += processing.totalCost;
@@ -282,7 +282,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					costCalculations.eCostAtPart += extra.totalCost;
 				});
 				//- bind processing cost, addon cost & extra cost to part level variables
-				part.processingCost = costCalculations.pCostAtPart;				
+				part.processingCost = costCalculations.pCostAtPart;
 				part.addonCost = costCalculations.aCostAtPart;
 				part.addonWeight = costCalculations.addonWtAtPart;
 				part.extrasCost = costCalculations.eCostAtPart;
@@ -292,7 +292,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				}
 				//- calculate summation of all addons available at part level
 				if (part.addons.length != 0) {
-					costCalculations.aCost += costCalculations.aCostAtPart;
+					costCalculations.aCost += costCalculations.aCostAtPart * part.quantity;
 					costCalculations.aWeight += costCalculations.addonWtAtPart * part.quantity;
 				}
 				//- calculate summation of all extras available at part level
@@ -300,12 +300,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					costCalculations.eCost += costCalculations.eCostAtPart;
 				}
 				//- get summation of (partWeight * addonWeight * quantity) of all parts 
-				costCalculations.wtAtSubAssembly += costCalculations.wtAtPart * part.addonWeight * part.quantity;
+				costCalculations.wtAtSubAssembly += costCalculations.wtAtPart * part.quantity;
 				//- total cost at each part 
-				part.totalCost = (costCalculations.mtPart * costCalculations.wtAtPart * part.addonWeight + part.processingCost + part.addonCost + part.extrasCost) * part.quantity;
+				part.totalCost = (costCalculations.mtPart * costCalculations.wtAtPart + part.processingCost + part.addonCost + part.extrasCost) * part.quantity;
 				costCalculations.mtPart = costCalculations.addonWtAtPart = costCalculations.pCostAtPart = costCalculations.aCostAtPart = costCalculations.eCostAtPart = costCalculations.wtAtPart = 0;
 			});
-
 			//- bind weight of all parts of paricular subAssembly to variable 'totalWeight'
 			subAssembly.totalWeight = costCalculations.wtAtSubAssembly;
 			//- bind material cost of all parts of paricular subAssembly to variable 'material cost'
@@ -336,11 +335,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			subAssembly.addonWeight = costCalculations.aWeight;
 			subAssembly.extrasCost = costCalculations.eCost;
 			costCalculations.addonWtAtAssembly += costCalculations.aWeight * subAssembly.quantity;
-			//subAssembly.addonWeight = costCalculations.addonWtAtSubAssembly;
 			//- get summation of (SubAssemblyweight * addonWeight * quantity) of all subassemblies
-			costCalculations.wtAtAssembly += subAssembly.totalWeight * subAssembly.addonWeight * subAssembly.quantity;
+			costCalculations.wtAtAssembly += (subAssembly.totalWeight + subAssembly.addonWeight) * subAssembly.quantity;
 			//- total cost at each part 
-			subAssembly.totalCost = (subAssembly.materialCost * subAssembly.totalWeight * subAssembly.addonWeight + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost) * subAssembly.quantity;
+			subAssembly.totalCost = (subAssembly.materialCost + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost) * subAssembly.quantity;
 			costCalculations.pCostAtAssemby += costCalculations.pCost * subAssembly.quantity;
 			costCalculations.aCostAtAssemby += costCalculations.aCost * subAssembly.quantity;
 			costCalculations.eCostAtAssemby += costCalculations.eCost * subAssembly.quantity;
@@ -371,7 +369,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		formData.assembly.processingCost = costCalculations.pCostAtAssemby + costCalculations.pCost;
 		formData.assembly.addonCost = costCalculations.aCostAtAssemby + costCalculations.aCost;
 		formData.assembly.extrasCost = costCalculations.eCostAtAssemby + costCalculations.eCost;
-		formData.assembly.totalCost = (formData.assembly.materialCost * formData.assembly.totalWeight * formData.assembly.addonWeight + formData.assembly.processingCost + formData.assembly.addonCost + formData.assembly.extrasCost);
+		formData.assembly.totalCost = (formData.assembly.materialCost + formData.assembly.processingCost + formData.assembly.addonCost + formData.assembly.extrasCost);
 		//formData.assembly.totalCost += costCalculations.mtAtAssembly * costCalculations.wtAtAssembly + costCalculations.pCost + costCalculations.aCost + costCalculations.eCost;
 		callback();
 	}
@@ -717,7 +715,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 		callback(subAssDataObj);
 	}
-	//- to get all subAssembly numbers
+	//- to get all subAssembly numbers of all assemblies
 	this.getAllSubAssNumbers = function (callback) {
 		// var subAssNumbersArray = [];
 		// angular.forEach(formData.assembly.subAssemblies,  function (record) {
@@ -730,6 +728,17 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		NavigationService.boxCall('EstimateSubAssembly/getVersionsOfSubAssNo', function (data) {
 			callback(data.data);
 		});
+	}
+	//- to get all subAssembly numbers of current assemblies
+	this.getAllSubAssData = function (subAssNumber, callback) {
+		var subAssNumbersArray = [];
+		angular.forEach(formData.assembly.subAssemblies,  function (record) {
+			subAssNumbersArray.push(record.subAssemblyNumber);
+		});
+		_.remove(subAssNumbersArray, function (n) {
+			return n == subAssNumber;
+		});
+		callback(subAssNumbersArray);
 	}
 	//- to add a subAssembly
 	this.createSubAssembly = function (subAssObj, callback) {

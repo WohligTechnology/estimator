@@ -797,11 +797,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
   //- to import current part to  different subAssembly 
   $scope.importPartToDifferentSubAssemblyModal = function (subAssNumber, part) {
-    $scope.partData = part;
-    createOrEditEstimateService.getAllSubAssNumbers(function (data) {
+    createOrEditEstimateService.getAllSubAssData(subAssNumber, function (data) {
       if (_.isEmpty(data)) {
         toastr.warning('No SubAssemblies are available to import');
       } else {
+        $scope.partData = part;
         $scope.subAssemblyData = data;
         $scope.modalInstance = $uibModal.open({
           animation: true,

@@ -704,12 +704,12 @@ textarea.ng-valid.ng-dirty {
 
 //- CSS for global variable toggle button start
 .myQquick-nav {
-  position: absolute;
-  z-index: 1012811111111;
+  position: absolute !important;
+  z-index: 1012811111111 !important;;
   right: 10px !important;
-  pointer-events: none;
+  pointer-events: none !important;;
   top: unset !important;
-}
+ }
 
 // .quick-nav-bg{
 //   height: 13% !important;
