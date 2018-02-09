@@ -491,7 +491,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.updatePartDetail(partObject, function (data) {
       $scope.estimteData = data;
       toastr.success('Part Details Added Successfully...');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -525,6 +524,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.saveCurrentEstimate();
       }
     }
+    createOrEditEstimateService.totalCostCalculations(function (data) {});
   }, true);
 
   // **************************************** functions to be triggered form view begin here **************************************** //
@@ -630,7 +630,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       toastr.success('SubAssembly deleted successfully');
       $scope.getEstimateView('assembly');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk subAssemblies
@@ -669,7 +668,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('SubAssembly imported successfully');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -732,7 +730,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       // $scope.getEstimateView('subAssembly');
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete multiple parts
@@ -745,7 +742,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
       toastr.success('Parts deleted successfully');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- import part modal
@@ -773,7 +769,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Part imported successfully');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to create a duplicate part for same subAssembly or different subAssembly
@@ -793,7 +788,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
           if (option == 'import') {
             $scope.cancelModal();
           }
-          createOrEditEstimateService.totalCostCalculations(function (data) {});
           toastr.success('Part added successfully');
         });
       }
@@ -842,7 +836,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       toastr.success('Addon deleted successfully');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk addons
@@ -866,7 +859,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Addon imported successfully');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -1280,6 +1272,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.partProcessingObj.showMulFact = false;
       }
       if (proTypeObj.showQuantityFields) {
+        $scope.partProcessingObj.quantity.utilization = proTypeObj.quantity.utilization;
+        $scope.partProcessingObj.quantity.contengncyOrWastage = proTypeObj.quantity.contengncyOrWastage;
         $scope.partProcessingObj.showFields = true;
         $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = "";
         $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = "";
@@ -1400,7 +1394,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.cancelModal();
       });
     }
-    createOrEditEstimateService.totalCostCalculations(function (data) {});
 
   }
 
@@ -1419,8 +1412,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       toastr.success('Processing deleted successfully');
       $scope.getEstimateView('processing', level, subAssemblyId, partId);
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
-
     });
   }
   //- to delete bulk processing
@@ -1433,7 +1424,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getEstimateView('processing', level, subAssId, partId);
       $scope.cancelModal();
       toastr.success('Processing deleted successfully');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to get all versions of selected processing
@@ -1446,7 +1436,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Processing imported successfully');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -1551,7 +1540,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     }
     createOrEditEstimateService.addExtra(extra, level, subAssemblyId, partId, function () {
       $scope.getEstimateView('extras', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Extra added successfully');
       $scope.cancelModal();
     });
@@ -1560,7 +1548,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.updateExtra = function (extraObj, level, subAssemblyId, partId, extraId) {
     createOrEditEstimateService.updateExtra(extraObj, level, subAssemblyId, partId, extraId, function (data) {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Extra updated successfully');
       $scope.cancelModal();
     });
@@ -1571,7 +1558,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.deleteExtra(extraId, level, subAssemblyId, partId, function () {
       toastr.success('Extra deleted successfully');
       $scope.getEstimateView('extras', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
     });
   }
@@ -1583,7 +1569,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.checkboxStatus = false;
 
       $scope.getEstimateView('extras', level, subAssId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
       toastr.success('Extras deleted successfully');
     });
@@ -1596,7 +1581,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.importExtra = function (extraId, level, subAssemblyId, partId) {
     createOrEditEstimateService.getImportExtraData(extraId, level, subAssemblyId, partId, function () {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Extra imported successfully');
       $scope.cancelModal();
     });
@@ -1758,6 +1742,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     }
     if ($scope.addonObj.showQuantityFields) {
+      $scope.addonObj.quantity.utilization = selectedAddonType.quantity.percentageUse;
+      //$scope.addonObj.quantity.contengncyOrWastage = selectedAddonType.quantity.contengncyOrWastage; 
       //- get it from selecetdAddonType
       $scope.addonObj.quantity.supportingVariable.supportingVariable = selectedAddonType.quantity.additionalInput;
       $scope.addonObj.quantity.supportingVariable.uom = selectedAddonType.quantity.additionalInputUom.uomName; //- get it from selecetdAddonType
@@ -1865,14 +1851,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if (operation == 'save') {
       createOrEditEstimateService.createAddon(addon, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('addons', level, subAssemblyId, partId);
-        createOrEditEstimateService.totalCostCalculations(function (data) {});
         toastr.success('Addon added successfully');
         $scope.cancelModal();
       });
     } else if (operation == 'update') {
       createOrEditEstimateService.updateAddon(addon, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('addons', level, subAssemblyId, partId);
-        createOrEditEstimateService.totalCostCalculations(function (data) {});
         toastr.success('Addon updated successfully');
         $scope.cancelModal();
       });
@@ -1891,7 +1875,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       toastr.success('Addon deleted successfully');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk addons
@@ -1903,7 +1886,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getEstimateView('addons', level, subAssId, partId);
       $scope.cancelModal();
       toastr.success('Addons deleted successfully');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- Import Addon
@@ -1912,7 +1894,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Addon imported successfully');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
