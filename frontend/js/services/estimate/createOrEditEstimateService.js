@@ -211,6 +211,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			pCost: 0,
 			//- summation of addon cost at part, subAssembly
 			aCost: 0,
+			//- summation of addon weight at part, subAssembly
 			aWeight: 0,
 			//- summation of extra cost at part, subAssembly
 			eCost: 0,
@@ -238,11 +239,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			wtAtSubAssembly: 0,
 			//- summation of weight of all subAssembly
 			wtAtAssembly: 0,
-			//- weight of a part 
+			//- addon weight of a part 
 			addonWtAtPart: 0,
-			//- summation of weight of all parts
+			//- summation of addon weight of all parts
 			addonWtAtSubAssembly: 0,
-			//- summation of weight of all subAssembly
+			//- summation of addon weight of all subAssembly
 			addonWtAtAssembly: 0,
 			//- materila cost of a part 
 			mtPart: 0,
@@ -281,8 +282,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					costCalculations.eCostAtPart += extra.totalCost;
 				});
 				//- bind processing cost, addon cost & extra cost to part level variables
+				part.processingCost = costCalculations.pCostAtPart;				
 				part.addonCost = costCalculations.aCostAtPart;
-				part.processingCost = costCalculations.pCostAtPart;
 				part.addonWeight = costCalculations.addonWtAtPart;
 				part.extrasCost = costCalculations.eCostAtPart;
 				//- calculate summation of all processing available at part level
@@ -301,13 +302,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				//- get summation of (partWeight * addonWeight * quantity) of all parts 
 				costCalculations.wtAtSubAssembly += costCalculations.wtAtPart * part.addonWeight * part.quantity;
 				//- total cost at each part 
-				part.totalCost = (costCalculations.mtPart * costCalculations.wtAtPart + part.processingCost + part.addonCost + part.extrasCost) * part.quantity;
+				part.totalCost = (costCalculations.mtPart * costCalculations.wtAtPart * part.addonWeight + part.processingCost + part.addonCost + part.extrasCost) * part.quantity;
 				costCalculations.mtPart = costCalculations.addonWtAtPart = costCalculations.pCostAtPart = costCalculations.aCostAtPart = costCalculations.eCostAtPart = costCalculations.wtAtPart = 0;
 			});
 
 			//- bind weight of all parts of paricular subAssembly to variable 'totalWeight'
 			subAssembly.totalWeight = costCalculations.wtAtSubAssembly;
-			//costCalculations.addonWtAtSubAssembly += costCalculations.aWeight;
 			//- bind material cost of all parts of paricular subAssembly to variable 'material cost'
 			subAssembly.materialCost = costCalculations.mtAtSubAssembly;
 			costCalculations.mtAtAssembly += subAssembly.materialCost * subAssembly.quantity;
@@ -341,7 +341,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			costCalculations.wtAtAssembly += subAssembly.totalWeight * subAssembly.addonWeight * subAssembly.quantity;
 			//- total cost at each part 
 			subAssembly.totalCost = (subAssembly.materialCost * subAssembly.totalWeight * subAssembly.addonWeight + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost) * subAssembly.quantity;
-			//formData.assembly.totalCost += subAssembly.totalCost * subAssembly.quantity;
 			costCalculations.pCostAtAssemby += costCalculations.pCost * subAssembly.quantity;
 			costCalculations.aCostAtAssemby += costCalculations.aCost * subAssembly.quantity;
 			costCalculations.eCostAtAssemby += costCalculations.eCost * subAssembly.quantity;
@@ -366,7 +365,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		angular.forEach(formData.assembly.extras, function (extra) {
 			costCalculations.eCost += extra.totalCost;
 		});
-		debugger;
 		formData.assembly.addonWeight = costCalculations.addonWtAtAssembly;
 		formData.assembly.totalWeight = costCalculations.wtAtAssembly;
 		formData.assembly.materialCost = costCalculations.mtAtAssembly;
@@ -374,8 +372,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		formData.assembly.addonCost = costCalculations.aCostAtAssemby + costCalculations.aCost;
 		formData.assembly.extrasCost = costCalculations.eCostAtAssemby + costCalculations.eCost;
 		formData.assembly.totalCost = (formData.assembly.materialCost * formData.assembly.totalWeight * formData.assembly.addonWeight + formData.assembly.processingCost + formData.assembly.addonCost + formData.assembly.extrasCost);
-		console.log('**** formData.assembly $$$$$$$$$$****', formData.assembly.totalCost);
-		costCalculations.aWeight = 0;
 		//formData.assembly.totalCost += costCalculations.mtAtAssembly * costCalculations.wtAtAssembly + costCalculations.pCost + costCalculations.aCost + costCalculations.eCost;
 		callback();
 	}

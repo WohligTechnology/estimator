@@ -1650,7 +1650,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.getAddonObject();
 
   $scope.addOrEditAddonModal = function (operation, level, subAssemblyId, partId, addonId) {
-    debugger;
     $scope.getAddonObject();
 
 
