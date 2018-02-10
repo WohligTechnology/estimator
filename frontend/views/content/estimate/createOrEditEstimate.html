@@ -5,10 +5,10 @@
                 <div class="portlet-title tabbable-line tabs-left">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a href="#" data-target="#tab_1_1" data-toggle="tab">Details</a>
+                            <a href="#" data-target="#tab_1_2" data-toggle="tab">Estimate</a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_2" data-toggle="tab">Estimate</a>
+                            <a href="#" data-target="#tab_1_1" data-toggle="tab">Details</a>
                         </li>
                         <li>
                             <a href="#" data-target="#tab_1_3" data-toggle="tab">BOQ</a>
@@ -18,16 +18,15 @@
                         </li>
                     </ul>
                     <div class="text-right saveEstimateBtn">
-                        <p>
-                            <button type="Save" class="btn btn-circle green" ng-click="compileCurrentEstimate()">Finalize</button>
-                        </p>
+                        <button type="Save" class="btn btn-circle green" ng-click="compileCurrentEstimate()">Finalize</button>
+                        <button type="Save" class="btn btn-circle green" >Export to Excel</button>
                     </div>
                 </div>
                 <div loading></div>
                 <div class="portlet-body">
                     <div class="tab-content">
                         <!-- DETAILS TAB -->
-                        <div class="tab-pane active" id="tab_1_1">
+                        <div class="tab-pane" id="tab_1_1">
                             <div class="portlet-body">
                                 <div class="table-scrollable">
                                     <table class="bordered-table">
@@ -67,7 +66,7 @@
                         </div>
                         <!-- END DETAIL TAB -->
                         <!-- Estimate TAB -->
-                        <div class="tab-pane" id="tab_1_2">
+                        <div class="tab-pane active" id="tab_1_2">
                             <div class="row">
                                 <div class="col-md-3">
                                     <ul class="tree">

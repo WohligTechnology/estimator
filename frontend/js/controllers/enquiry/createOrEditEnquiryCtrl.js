@@ -1,7 +1,7 @@
 myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toastr, $uibModal, $interpolate, $state, $scope, createOrEditEnquiryService, TemplateService) {
 
   // *************************** default variables/tasks begin here ***************** //
-  
+
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
   $scope.showEstimateBtn = false;
@@ -22,12 +22,6 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   if (angular.isDefined($stateParams.enquiryId)) {
     $scope.enquiryId = $stateParams.enquiryId;
     $scope.editPermmission = true;
-  }
-  // obj for Validation of select in ENQUIRIES
-  $scope.enquiries = {
-    customerName: "",
-    estimator: "",
-    status: "",
   }
 
   // *************************** default functions begin here  ********************** //
@@ -65,43 +59,26 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   // *************************** functions to be triggered form view begin here ***** //      
   //- add  enquiry data
   $scope.addEnquiryData = function (enquiryData) {
-    
     // Validation of select for ENQUIRIES
-    var errorCount = 0;
-    if (_.isEmpty(enquiryData.customerDataObj.customerName)) {
-      $scope.enquiries.customerName = "Select Customer Name."
-      errorCount++;
-    } else {
-      $scope.enquiries.customerName = ""
-    }
-    if (_.isEmpty(enquiryData.enquiryDetails.estimator)) {
-      $scope.enquiries.estimator = "Select Estimator."
-      errorCount++;
-    } else {
-      $scope.enquiries.estimator = ""
-    }
-    if (_.isEmpty(enquiryData.enquiryDetails.enquiryStatus)) {
-      $scope.enquiries.status = "Select Status."
-      errorCount++;
-    } else {
-      $scope.enquiries.status = " "
-    }
-    if (errorCount == 0) {
-      createOrEditEnquiryService.createEnquiry(enquiryData, function (data) {
-        if (data.value) {
-          if ($scope.editPermmission) {
-            toastr.success('Enquiry Updated Successfully');
+    createOrEditEnquiryService.validationOfEnquiry(enquiryData, function (enquiryValidation) {
+      $scope.enquiryValidation = enquiryValidation;
+      if (enquiryValidation.errorCount == 0) {
+        createOrEditEnquiryService.createEnquiry(enquiryData, function (data) {
+          if (data.value) {
+            if ($scope.editPermmission) {
+              toastr.success('Enquiry Updated Successfully');
+            } else {
+              toastr.success('Enquiry Added Successfully');
+              $state.go('app.editEnquiry', {
+                'enquiryId': data.data._id
+              });
+            }
           } else {
-            toastr.success('Enquiry Added Successfully');
-            $state.go('app.editEnquiry', {
-              'enquiryId': data.data._id
-            });
+            toastr.error('Enquiry is not added/updated');
           }
-        } else {
-          toastr.error('Enquiry is not added/updated');
-        }
-      });
-    }
+        });
+      }
+    });
   }
   //- to bind customer data to formData
   $scope.setCustomerData = function (customerDataObj) {

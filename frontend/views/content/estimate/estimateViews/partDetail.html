@@ -144,8 +144,8 @@
                                             </label>
                                         </div>
                                         <div class="form-group form-md-line-input has-success" ng-repeat="v in estimatePartObj.variables track by $index">
-                                            <label class="col-md-1" for="form_control_1">{{v.varName}}</label>
-                                            <div class="col-md-3">
+                                            <label class="col-md-4" for="form_control_1">{{v.varName}}</label>
+                                            <div class="col-md-6">
                                                 <div>
                                                     <span>{{v.varValue}}</span>
                                                 </div>
@@ -193,68 +193,68 @@
                                         </div>
                                         <div class="mar-t">
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-5" for="form_control_1">Perimeter:</label>
+                                                <label class="col-md-4" for="form_control_1">Perimeter:</label>
                                                 <div class="col-md-6">
                                                     <div>
-                                                        <span>{{estimatePartObj.keyValueCalculations.perimeter}}</span>
+                                                        <span>{{estimatePartObj.keyValueCalculations.perimeter.toFixed(2)}}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-5" for="form_control_1">SMA:</label>
+                                                <label class="col-md-4" for="form_control_1">SMA:</label>
                                                 <div class="col-md-6">
                                                     <div>
-                                                        <span>{{estimatePartObj.keyValueCalculations.sheetMetalArea}}</span>
+                                                        <span>{{estimatePartObj.keyValueCalculations.sheetMetalArea.toFixed(2)}}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-5" for="form_control_1">SA:</label>
+                                                <label class="col-md-4" for="form_control_1">SA:</label>
                                                 <div class="col-md-6">
                                                     <div>
-                                                        <span>{{estimatePartObj.keyValueCalculations.surfaceArea}}</span>
+                                                        <span>{{estimatePartObj.keyValueCalculations.surfaceArea.toFixed(2)}}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-5" for="form_control_1">Gross Weight/input:</label>
+                                                <label class="col-md-4" for="form_control_1">Gross Weight:</label>
                                                 <div class="col-md-6">
                                                     <div>
-                                                        <span>{{estimatePartObj.keyValueCalculations.grossWeight}}</span>
+                                                        <span>{{estimatePartObj.keyValueCalculations.grossWeight.toFixed(2)}} Kg</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-5" for="form_control_1">Net Weight/input:</label>
+                                                <label class="col-md-4" for="form_control_1">Net Weight:</label>
                                                 <div class="col-md-6">
                                                     <div>
-                                                        <span>{{estimatePartObj.keyValueCalculations.netWeight}}</span>
+                                                        <span>{{estimatePartObj.keyValueCalculations.netWeight.toFixed(2)}} Kg</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mar-t">
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-5" for="form_control_1">Material Price:</label>
+                                                <label class="col-md-4" for="form_control_1">Material Price:</label>
                                                 <div class="col-md-6">
                                                     <div>
-                                                        <span>{{estimatePartObj.finalCalculation.materialPrice}} Rs/kg</span>
+                                                        <span>{{estimatePartObj.finalCalculation.materialPrice.toFixed(2)}} Rs/kg</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-5" for="form_control_1">Item Unit Price :</label>
+                                                <label class="col-md-4" for="form_control_1">Item Unit Price :</label>
                                                 <div class="col-md-6">
                                                     <div>
-                                                        <span>{{estimatePartObj.finalCalculation.itemUnitPrice}} Rs</span>
+                                                        <span>{{estimatePartObj.finalCalculation.itemUnitPrice.toFixed(2)}} Rs</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-5" for="form_control_1">Total Price For Quatntity:</label>
+                                                <label class="col-md-4" for="form_control_1">Total Price For Quatntity:</label>
                                                 <div class="col-md-6">
                                                     <div>
-                                                        <span>{{estimatePartObj.finalCalculation.totalCostForQuantity}} Rs</span>
+                                                        <span>{{estimatePartObj.finalCalculation.totalCostForQuantity.toFixed(2)}} Rs</span>
                                                     </div>
                                                 </div>
                                             </div>

@@ -128,8 +128,8 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     }
 
 
-    //- to add or edit Markups name
-    $scope.addOrEditMarkupModal = function (operation, markup) {
+    //- to add or edit Variable Markups name
+    $scope.addOrEditVariableMarkupModal = function (operation, markup) {
         baseMatserService.getMarkupModalData(operation, markup, function (data) {
             $scope.formData = data.markup;
             $scope.showSaveBtn = data.saveBtn;
@@ -137,12 +137,26 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: 'views/content/master/base/createOrEditMarkup.html',
+                templateUrl: 'views/content/master/base/createOrEditVariableMarkup.html',
                 scope: $scope,
                 size: 'md'
             });
         });
+    }
+    //- to add or edit Variable Markups name
+    $scope.addOrEditFixedMarkupModal = function (operation, markup) {
+        baseMatserService.getMarkupModalData(operation, markup, function (data) {
+            $scope.formData = data.markup;
+            $scope.showSaveBtn = data.saveBtn;
+            $scope.showEditBtn = data.editBtn;
 
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/content/master/base/createOrEditFixedMarkup.html',
+                scope: $scope,
+                size: 'md'
+            });
+        });
     }
     $scope.addOrEditMarkup = function (markupData) {
         var errorCount = 0;

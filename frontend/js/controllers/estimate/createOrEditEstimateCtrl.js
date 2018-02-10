@@ -1348,12 +1348,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- 2nd toggle button at MProcess  is on
     if ($scope.partProcessingObj.showFields) {
       if ($scope.partProcessingObj.quantity.contengncyOrWastage != 0) {
-        $scope.partProcessingObj.totalCost = ($scope.partProcessingObj.quantity.totalQuantity * $scope.partProcessingObj.rate.actualRate * $scope.partProcessingObj.quantity.linkedKeyValue.keyValue) * (($scope.partProcessingObj.quantity.utilization) / 100) * ((100 + $scope.partProcessingObj.quantity.contengncyOrWastage) / 100);
+        $scope.partProcessingObj.totalCost = (parseFloat($scope.partProcessingObj.quantity.totalQuantity) * parseFloat($scope.partProcessingObj.rate.actualRate) * parseFloat($scope.partProcessingObj.quantity.linkedKeyValue.keyValue)) * ((parseFloat($scope.partProcessingObj.quantity.utilization)) / 100) * ((100 + parseFloat($scope.partProcessingObj.quantity.contengncyOrWastage)) / 100);
       } else {
-        $scope.partProcessingObj.totalCost = ($scope.partProcessingObj.quantity.totalQuantity * $scope.partProcessingObj.rate.actualRate * $scope.partProcessingObj.quantity.linkedKeyValue.keyValue) * (($scope.partProcessingObj.quantity.utilization) / 100);
+        $scope.partProcessingObj.totalCost = (parseFloat($scope.partProcessingObj.quantity.totalQuantity) * parseFloat($scope.partProcessingObj.rate.actualRate) * parseFloat($scope.partProcessingObj.quantity.linkedKeyValue.keyValue)) * ((parseFloat($scope.partProcessingObj.quantity.utilization)) / 100);
       }
     } else {
-      $scope.partProcessingObj.totalCost = $scope.partProcessingObj.rate.actualRate * $scope.partProcessingObj.quantity.totalQuantity;
+      $scope.partProcessingObj.totalCost = parseFloat($scope.partProcessingObj.rate.actualRate) * parseFloat($scope.partProcessingObj.quantity.totalQuantity);
     }
 
   }
@@ -1675,6 +1675,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         if (operation == 'save') {
           //- get required data to add addon
           $scope.addonObj.allAddonTypes = data.allAddonTypes;
+          $scope.showSaveBtn = true;
+          $scope.showEditBtn = false;
         } else if (operation == 'update') {
 
           $scope.addonObj.allAddonTypes = data.allAddonTypes;
@@ -1807,9 +1809,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.updateAddonCost = function () {
     if ($scope.addonObj.showQuantityFields) {
       if ($scope.addonObj.quantity.contengncyOrWastage != 0) {
-        $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.keyValue.keyValue) * parseFloat($scope.addonObj.quantity.supportingVariable.value) * (($scope.addonObj.quantity.utilization) / 100) * ((100 + $scope.addonObj.quantity.contengncyOrWastage) / 100);
+        $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.keyValue.keyValue) * parseFloat($scope.addonObj.quantity.supportingVariable.value) * (parseFloat($scope.addonObj.quantity.utilization) / 100) * ((100 + parseFloat($scope.addonObj.quantity.contengncyOrWastage)) / 100);
       } else {
-        $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.keyValue.keyValue) * parseFloat($scope.addonObj.quantity.supportingVariable.value) * (($scope.addonObj.quantity.utilization) / 100);
+        $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.keyValue.keyValue) * parseFloat($scope.addonObj.quantity.supportingVariable.value) * (parseFloat($scope.addonObj.quantity.utilization) / 100);
       }
 
     } else {

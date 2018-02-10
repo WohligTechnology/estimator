@@ -49,9 +49,9 @@
                                 <li>
                                     <a href="javascript:;"> Save as PDF </a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="javascript:;"> Export to Excel </a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -85,13 +85,13 @@
                                     <th rowspan="3" class="align-left"> Id </th>
                                     <th rowspan="3" class="align-left"> SubAssembly Name</th>
                                     <th rowspan="3" class="align-left"> Quantity (Nos) </th>
-                                    <th colspan="6" class="text-center"> Per Item Detail </th>
+                                    <th colspan="7" class="text-center"> Per Item Detail </th>
                                     <th colspan="2" class="text-center"> SA Unit Detail </th>
                                     <th colspan="2" class="align-left text-center">SA Quantity Total</th>
                                     <th rowspan="3" class="align-left"> Action </th>
                                 </tr>
                                 <tr>
-                                    <th colspan="2" class="text-center">SA Total</th>
+                                    <th colspan="3" class="text-center">SA Total</th>
                                     <th rowspan="2" class="align-left">Processing Cost (Rs)</th>
                                     <th colspan="2" class="text-center">Addon</th>
                                     <th rowspan="2" class="align-left">Extra Cost (Rs)</th>
@@ -101,6 +101,7 @@
                                     <th rowspan="2" class="align-left">Price (Rs)</th>
                                 </tr>
                                 <tr>
+                                    <th class="text-center">Net Weight (Kg)</th>
                                     <th class="text-center">Gross Weight (Kg)</th>
                                     <th class="text-center">Material Cost (Rs)</th>
                                     <th class="text-center">Weight (Kg)</th>                                    
@@ -117,8 +118,9 @@
                                         </label>
                                     </td>
                                     <td> {{$index + 1}} </td>
-                                    <td> {{p.subAssemblyName | capitalize}} </td>
+                                    <td ng-click="getEstimateView('subAssembly', 'assembly', p.subAssemblyNumber)" > {{p.subAssemblyName | capitalize}} </td>
                                     <td> {{p.quantity}} </td>
+                                    <td>  </td>
                                     <td> {{p.totalWeight.toFixed(2)}} </td>
                                     <td> {{(p.materialCost).toFixed(2)}} </td>
                                     <td> {{p.processingCost.toFixed(2)}} </td>

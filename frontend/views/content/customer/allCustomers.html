@@ -97,9 +97,9 @@
                             <th rowspan="2" class="text-left"> Action </th>
                         </tr>
                         <tr>
-                            <th>Negotiations (%)</th>
-                            <th>Commission (%)</th>
-                            <th>Others (%)</th>
+                            <th class="text-center">Negotiations (%)</th>
+                            <th class="text-center">Commission (%)</th>
+                            <th class="text-center">Others (%)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -114,10 +114,10 @@
                             <td>{{$index + 1}} </td>
                             <td>{{customer.customerName | capitalize}} </td>
                             <td>{{customer.location | capitalize}} </td>
-                            <td class="center"> {{customer.paymentTerms | capitalize}} </td>
-                            <td>{{customer.margins.negotiation}}</td>
-                            <td>{{customer.margins.commission}}</td>
-                            <td>{{customer.margins.other}}</td>
+                            <td> {{customer.paymentTerms | capitalize}} </td>
+                            <td class="text-center">{{customer.margins.negotiation}}</td>
+                            <td class="text-center">{{customer.margins.commission}}</td>
+                            <td class="text-center">{{customer.margins.other}}</td>
                             <td>
                                 <span class="label label-sm label-success" ng-click="addOrEditCustomerModal('update',customer)">
                                     <i class="fa fa-pencil" title="Edit Customers Details"></i>
