@@ -130,6 +130,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
             //- enable save/update buttons
             $scope.showSaveBtn = false;
             $scope.showEditBtn = true;
+            $scope.disablePartFields.disableMaterial = false;
 
             $scope.estimatePartObj.formFactor = data.formFactor; //- formFactor
             $scope.estimatePartObj.length = data.length; //- length
@@ -181,7 +182,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
                 //- get selected materials
                 //- to get all available materials
                 $scope.disablePartFields.disableCustomMaterial = true;
-                $scope.disablePartFields.disableMaterial = false;
                 $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
                 createOrEditEstimateService.getAllMaterials(function (data) {
                   $scope.estimatePartObj.allMaterial = data;
@@ -1293,10 +1293,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
           $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.grossWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
         } else if (tempLinkedKeyValue == "Nwt") {
           $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.netWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-        } else if (tempLinkedKeyValue == "Nos") {
-          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Nos) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-        } else if (tempLinkedKeyValue == "Hrs") {
-          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Hrs) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
         }
       } else {
         $scope.partProcessingObj.showFields = false;
@@ -1764,10 +1760,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.grossWeight) * parseFloat(selectedAddonType.quantity.mulFact);
       } else if (tempLinkedKeyValue == "Nwt") {
         $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.netWeight) * parseFloat(selectedAddonType.quantity.mulFact);
-      } else if (tempLinkedKeyValue == "Nos") {
-        $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.Nos) * parseFloat(selectedAddonType.quantity.mulFact);
-      } else if (tempLinkedKeyValue == "Hrs") {
-        $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.Hrs) * parseFloat(selectedAddonType.quantity.mulFact);
       }
     }
 
@@ -1813,7 +1805,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       } else {
         $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.keyValue.keyValue) * parseFloat($scope.addonObj.quantity.supportingVariable.value) * (parseFloat($scope.addonObj.quantity.utilization) / 100);
       }
-
     } else {
       $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value);
     }

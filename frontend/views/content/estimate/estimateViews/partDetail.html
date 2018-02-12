@@ -217,18 +217,18 @@
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-4" for="form_control_1">Gross Weight:</label>
-                                                <div class="col-md-6">
-                                                    <div>
-                                                        <span>{{estimatePartObj.keyValueCalculations.grossWeight.toFixed(2)}} Kg</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-4" for="form_control_1">Net Weight:</label>
                                                 <div class="col-md-6">
                                                     <div>
                                                         <span>{{estimatePartObj.keyValueCalculations.netWeight.toFixed(2)}} Kg</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-md-line-input has-success">
+                                                <label class="col-md-4" for="form_control_1">Gross Weight:</label>
+                                                <div class="col-md-6">
+                                                    <div>
+                                                        <span>{{estimatePartObj.keyValueCalculations.grossWeight.toFixed(2)}} Kg</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -243,7 +243,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group form-md-line-input has-success">
-                                                <label class="col-md-4" for="form_control_1">Item Unit Price :</label>
+                                                <label class="col-md-4" for="form_control_1">Item Unit Price :
+                                                    <br>(On Gross Weight)</label>
                                                 <div class="col-md-6">
                                                     <div>
                                                         <span>{{estimatePartObj.finalCalculation.itemUnitPrice.toFixed(2)}} Rs</span>
@@ -254,7 +255,9 @@
                                                 <label class="col-md-4" for="form_control_1">Total Price For Quatntity:</label>
                                                 <div class="col-md-6">
                                                     <div>
-                                                        <span>{{estimatePartObj.finalCalculation.totalCostForQuantity.toFixed(2)}} Rs</span>
+                                                        <span>{{estimatePartObj.finalCalculation.totalCostForQuantity.toFixed(2)}}
+                                                            Rs
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>

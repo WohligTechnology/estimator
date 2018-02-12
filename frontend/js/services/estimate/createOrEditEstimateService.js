@@ -265,11 +265,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					costCalculations.mtPart = parseFloat(part.finalCalculation.materialPrice);
 				}
 				//- get summation of material cost of all parts 
-				costCalculations.mtAtSubAssembly += costCalculations.mtPart * costCalculations.wtAtPart * part.quantity;				
+				costCalculations.mtAtSubAssembly += costCalculations.mtPart * costCalculations.wtAtPart * part.quantity;
 				//- processing cost at part level
-				costCalculations.pCostAtPart = thisRef.getProcessingTotalCost(part.processing);
+				costCalculations.pCostAtPart = thisRef.getProcessingTotalCost('part', part.processing);
 				//- addons cost at part level
-				var obj = thisRef.getAddonTotalCost(part.addons);
+				var obj = thisRef.getAddonTotalCost('part', part.addons);
 				costCalculations.aCostAtPart = obj.totalCost;
 				costCalculations.addonWtAtPart = obj.totalWeight;
 				//- extras cost at part level
@@ -304,9 +304,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			subAssembly.materialCost = costCalculations.mtAtSubAssembly;
 			costCalculations.mtAtAssembly += subAssembly.materialCost * subAssembly.quantity;
 			//- processing cost at subAssembly level
-			costCalculations.pCostAtSubAssembly = thisRef.getProcessingTotalCost(subAssembly.processing);
+			costCalculations.pCostAtSubAssembly = thisRef.getProcessingTotalCost('subAssembly', subAssembly.processing, subAssembly.subAssemblyNumber);
 			//- addons cost at subAssembly level
-			var obj = thisRef.getAddonTotalCost(subAssembly.addons);
+			var obj = thisRef.getAddonTotalCost('subAssembly', subAssembly.addons, subAssembly.subAssemblyNumber);
 			costCalculations.aCostAtSubAssembly = obj.totalCost;
 			costCalculations.addonWtAtSubAssembly = obj.totalWeight;
 			//- extras cost at subAssembly level
@@ -331,18 +331,18 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			costCalculations.pCost = costCalculations.aCost = costCalculations.eCost = costCalculations.aWeight = 0;
 			costCalculations.mtAtSubAssembly = costCalculations.wtAtSubAssembly = costCalculations.addonWtAtSubAssembly = 0;
 		});
-		
+
 		//- processing cost at assembly level
-		costCalculations.pCost = thisRef.getProcessingTotalCost(formData.assembly.processing);
+		costCalculations.pCost = thisRef.getProcessingTotalCost('assembly', formData.assembly.processing);
 		//- addons cost at assembly level
-		var obj = thisRef.getAddonTotalCost(formData.assembly.addons);
+		var obj = thisRef.getAddonTotalCost('assembly', formData.assembly.addons);
 		costCalculations.aCost = obj.totalCost;
 		costCalculations.addonWtAtAssembly += obj.totalWeight;
 		//- extras cost at assembly level
 		costCalculations.eCostAtSubAssembly = thisRef.getExtraTotalCost(formData.assembly.extras);
 		formData.assembly.addonWeight = costCalculations.addonWtAtAssembly;
 		formData.assembly.totalWeight = costCalculations.wtAtAssembly;
-		formData.assembly.materialCost = costCalculations.mtAtAssembly;		
+		formData.assembly.materialCost = costCalculations.mtAtAssembly;
 		formData.assembly.processingCost = costCalculations.pCostAtAssemby + costCalculations.pCost;
 		formData.assembly.addonCost = costCalculations.aCostAtAssemby + costCalculations.aCost;
 		formData.assembly.extrasCost = costCalculations.eCostAtAssemby + costCalculations.eCost;
@@ -351,22 +351,91 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback();
 	}
 	//- to get processing totalCost
-	this.getProcessingTotalCost = function (processings) {
+	this.getProcessingTotalCost = function (level, processings, subAssId) {
+		var thisRef = this;
 		var totalCost = 0;
+		var keyValues;
 		angular.forEach(processings, function (processing) {
-			//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
+			//- 2nd toggle button at MProcess  is on
+			if (processing.processType.showQuantityFields) {
+				//- to get keyValue calculations
+				if (level == 'subAssembly' || level == 'assembly') {
+					if (level == 'subAssembly') {
+						//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly		
+						var subAssIndex = thisRef.getSubAssemblyIndex(subAssId);
+						thisRef.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
+							keyValues = data;
+						});
+					} else if (level == 'assembly') {
+						//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
+						thisRef.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
+							keyValues = data;
+						});
+					}
+					if (processing.quantity.linkedKeyValue.keyVariable == "Perimeter") {
+						processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.perimeter) * parseFloat(processing.processType.quantity.mulfact);
+					} else if (processing.quantity.linkedKeyValue.keyVariable == "SMA") {
+						processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.sheetMetalArea) * parseFloat(processing.processType.quantity.mulfact);
+					} else if (processing.quantity.linkedKeyValue.keyVariable == "SA") {
+						processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.surfaceArea) * parseFloat(processing.processType.quantity.mulfact);
+					} else if (processing.quantity.linkedKeyValue.keyVariable == "Gwt") {
+						processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.grossWeight) * parseFloat(processing.processType.quantity.mulfact);
+					} else if (processing.quantity.linkedKeyValue.keyVariable == "Nwt") {
+						processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.netWeight) * parseFloat(processing.processType.quantity.mulfact);
+					}
+					if (processing.quantity.contengncyOrWastage != 0) {
+						processing.totalCost = (parseFloat(processing.quantity.totalQuantity) * parseFloat(processing.rate) * parseFloat(processing.quantity.linkedKeyValue.keyValue)) * ((parseFloat(processing.quantity.utilization)) / 100) * ((100 + parseFloat(processing.quantity.contengncyOrWastage)) / 100);
+					} else {
+						processing.totalCost = (parseFloat(processing.quantity.totalQuantity) * parseFloat(processing.rate) * parseFloat(processing.quantity.linkedKeyValue.keyValue)) * ((parseFloat(processing.quantity.utilization)) / 100);
+					}
+				}
+			}
 			totalCost += processing.totalCost;
 		});
 		return totalCost;
 	}
 	//- to get addons totalCost
-	this.getAddonTotalCost = function (addons) {
+	this.getAddonTotalCost = function (level, addons, subAssId) {
 		var obj = {
 			totalCost: 0,
 			totalWeight: 0
 		}
+		var thisRef = this;
+		var keyValues;
 		angular.forEach(addons, function (addon) {
-			//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
+			//- 2nd toggle button at MProcess  is on
+			if (addon.showQuantityFields) {
+				if (level == 'subAssembly' || level == 'assembly') {
+					if (level == 'subAssembly') {
+						//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly		
+						var subAssIndex = thisRef.getSubAssemblyIndex(subAssId);
+						thisRef.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
+							keyValues = data;
+						});
+					} else if (level == 'assembly') {
+						//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
+						thisRef.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
+							keyValues = data;
+						});
+					}
+					if (addon.quantity.keyValue.keyVariable == "Perimeter") {
+						addon.quantity.keyValue.keyValue = parseFloat(keyValues.perimeter) * parseFloat(addon.addonType.quantity.mulFact);
+					} else if (addon.quantity.keyValue.keyVariable == "SMA") {
+						addon.quantity.keyValue.keyValue = parseFloat(keyValues.sheetMetalArea) * parseFloat(addon.addonType.quantity.mulFact);
+					} else if (addon.quantity.keyValue.keyVariable == "SA") {
+						processing.quantity.keyValue.keyValue = parseFloat(keyValues.surfaceArea) * parseFloat(addon.addonType.quantity.mulFact);
+					} else if (processing.quantity.keyValue.keyVariable == "Gwt") {
+						processing.quantity.keyValue.keyValue = parseFloat(keyValues.grossWeight) * parseFloat(addon.addonType.quantity.mulFact);
+					} else if (processing.quantity.keyValue.keyVariable == "Nwt") {
+						processing.quantity.keyValue.keyValue = parseFloat(keyValues.netWeight) * parseFloat(addon.addonType.quantity.mulFact);
+					}
+					if (addon.quantity.contengncyOrWastage != 0) {
+						addon.totalCost = parseFloat(addon.quantity.total) * parseFloat(addon.rate) * parseFloat(addon.quantity.keyValue.keyValue) * parseFloat(addon.quantity.supportingVariable.value) * (parseFloat(addon.quantity.utilization) / 100) * ((100 + parseFloat(addon.quantity.contengncyOrWastage)) / 100);
+					} else {
+						addon.totalCost = parseFloat(addon.quantity.total) * parseFloat(addon.rate.value) * parseFloat(addon.quantity.keyValue.keyValue) * parseFloat(addon.quantity.supportingVariable.value) * (parseFloat(addon.quantity.utilization) / 100);
+					}
+				}
+			}
 			obj.totalCost += addon.totalCost;
 			if (!isNaN(parseFloat(addon.totalWeight))) {
 				obj.totalWeight += parseFloat(addon.totalWeight);
@@ -378,7 +447,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	this.getExtraTotalCost = function (extras) {
 		var totalCost = 0;
 		angular.forEach(extras, function (extra) {
-			//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
 			totalCost += extra.totalCost;
 		});
 		return totalCost;
