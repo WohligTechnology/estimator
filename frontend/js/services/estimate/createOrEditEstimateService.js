@@ -253,6 +253,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			mtAtAssembly: 0
 		}
 		formData.assembly.totalCost = 0;
+		var thisRef = this;
 		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
 			angular.forEach(subAssembly.subAssemblyParts, function (part) {
 				//- get weight at part level
@@ -264,23 +265,15 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					costCalculations.mtPart = parseFloat(part.finalCalculation.materialPrice);
 				}
 				//- get summation of material cost of all parts 
-				costCalculations.mtAtSubAssembly += costCalculations.mtPart * costCalculations.wtAtPart * part.quantity;
+				costCalculations.mtAtSubAssembly += costCalculations.mtPart * costCalculations.wtAtPart * part.quantity;				
 				//- processing cost at part level
-				angular.forEach(part.processing, function (processing) {
-					costCalculations.pCostAtPart += processing.totalCost;
-				});
+				costCalculations.pCostAtPart = thisRef.getProcessingTotalCost(part.processing);
 				//- addons cost at part level
-				angular.forEach(part.addons, function (addon) {
-					//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
-					costCalculations.aCostAtPart += addon.totalCost;
-					if (!isNaN(parseFloat(addon.totalWeight))) {
-						costCalculations.addonWtAtPart += parseFloat(addon.totalWeight);
-					}
-				});
+				var obj = thisRef.getAddonTotalCost(part.addons);
+				costCalculations.aCostAtPart = obj.totalCost;
+				costCalculations.addonWtAtPart = obj.totalWeight;
 				//- extras cost at part level
-				angular.forEach(part.extras,  function (extra) {
-					costCalculations.eCostAtPart += extra.totalCost;
-				});
+				costCalculations.eCostAtPart = thisRef.getExtraTotalCost(part.extras);
 				//- bind processing cost, addon cost & extra cost to part level variables
 				part.processingCost = costCalculations.pCostAtPart;
 				part.addonCost = costCalculations.aCostAtPart;
@@ -311,21 +304,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			subAssembly.materialCost = costCalculations.mtAtSubAssembly;
 			costCalculations.mtAtAssembly += subAssembly.materialCost * subAssembly.quantity;
 			//- processing cost at subAssembly level
-			angular.forEach(subAssembly.processing, function (processing) {
-				costCalculations.pCostAtSubAssembly += processing.totalCost;
-			});
+			costCalculations.pCostAtSubAssembly = thisRef.getProcessingTotalCost(subAssembly.processing);
 			//- addons cost at subAssembly level
-			angular.forEach(subAssembly.addons, function (addon) {
-				//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
-				costCalculations.aCostAtSubAssembly += addon.totalCost;
-				if (!isNaN(parseFloat(addon.totalWeight))) {
-					costCalculations.addonWtAtSubAssembly += parseFloat(addon.totalWeight);
-				}
-			});
+			var obj = thisRef.getAddonTotalCost(subAssembly.addons);
+			costCalculations.aCostAtSubAssembly = obj.totalCost;
+			costCalculations.addonWtAtSubAssembly = obj.totalWeight;
 			//- extras cost at subAssembly level
-			angular.forEach(subAssembly.extras, function (extra) {
-				costCalculations.eCostAtSubAssembly += extra.totalCost;
-			});
+			costCalculations.eCostAtSubAssembly = thisRef.getExtraTotalCost(subAssembly.extras);
 			costCalculations.pCost += costCalculations.pCostAtSubAssembly;
 			costCalculations.aCost += costCalculations.aCostAtSubAssembly;
 			costCalculations.aWeight += costCalculations.addonWtAtSubAssembly;
@@ -346,32 +331,57 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			costCalculations.pCost = costCalculations.aCost = costCalculations.eCost = costCalculations.aWeight = 0;
 			costCalculations.mtAtSubAssembly = costCalculations.wtAtSubAssembly = costCalculations.addonWtAtSubAssembly = 0;
 		});
-
+		
 		//- processing cost at assembly level
-		angular.forEach(formData.assembly.processing, function (processing) {
-			costCalculations.pCost += processing.totalCost;
-		});
+		costCalculations.pCost = thisRef.getProcessingTotalCost(formData.assembly.processing);
 		//- addons cost at assembly level
-		angular.forEach(formData.assembly.addons, function (addon) {
-			//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
-			costCalculations.aCost += addon.totalCost;
-			if (!isNaN(parseFloat(addon.totalWeight))) {
-				costCalculations.addonWtAtAssembly += parseFloat(addon.totalWeight);
-			}
-		});
+		var obj = thisRef.getAddonTotalCost(formData.assembly.addons);
+		costCalculations.aCost = obj.totalCost;
+		costCalculations.addonWtAtAssembly += obj.totalWeight;
 		//- extras cost at assembly level
-		angular.forEach(formData.assembly.extras, function (extra) {
-			costCalculations.eCost += extra.totalCost;
-		});
+		costCalculations.eCostAtSubAssembly = thisRef.getExtraTotalCost(formData.assembly.extras);
 		formData.assembly.addonWeight = costCalculations.addonWtAtAssembly;
 		formData.assembly.totalWeight = costCalculations.wtAtAssembly;
-		formData.assembly.materialCost = costCalculations.mtAtAssembly;
+		formData.assembly.materialCost = costCalculations.mtAtAssembly;		
 		formData.assembly.processingCost = costCalculations.pCostAtAssemby + costCalculations.pCost;
 		formData.assembly.addonCost = costCalculations.aCostAtAssemby + costCalculations.aCost;
 		formData.assembly.extrasCost = costCalculations.eCostAtAssemby + costCalculations.eCost;
 		formData.assembly.totalCost = (formData.assembly.materialCost + formData.assembly.processingCost + formData.assembly.addonCost + formData.assembly.extrasCost);
 		//formData.assembly.totalCost += costCalculations.mtAtAssembly * costCalculations.wtAtAssembly + costCalculations.pCost + costCalculations.aCost + costCalculations.eCost;
 		callback();
+	}
+	//- to get processing totalCost
+	this.getProcessingTotalCost = function (processings) {
+		var totalCost = 0;
+		angular.forEach(processings, function (processing) {
+			//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
+			totalCost += processing.totalCost;
+		});
+		return totalCost;
+	}
+	//- to get addons totalCost
+	this.getAddonTotalCost = function (addons) {
+		var obj = {
+			totalCost: 0,
+			totalWeight: 0
+		}
+		angular.forEach(addons, function (addon) {
+			//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
+			obj.totalCost += addon.totalCost;
+			if (!isNaN(parseFloat(addon.totalWeight))) {
+				obj.totalWeight += parseFloat(addon.totalWeight);
+			}
+		});
+		return obj;
+	}
+	//- to get extras totalCost
+	this.getExtraTotalCost = function (extras) {
+		var totalCost = 0;
+		angular.forEach(extras, function (extra) {
+			//addon.totalCost = addon.quantity.supportingVariable.value * addon.rate * addon.quantity.total;
+			totalCost += extra.totalCost;
+		});
+		return totalCost;
 	}
 	//- to get a view of the page
 	this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
