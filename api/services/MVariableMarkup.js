@@ -5,11 +5,7 @@ var schema = new Schema({
         required: true
     },
     overhead: Number,
-    minProfit: Number,
-    negotiation: Number,
-    commission: Number,
-    other: Number,
-    totalValue: Number
+    minProfit: Number
 });
 
 schema.plugin(deepPopulate, {});
