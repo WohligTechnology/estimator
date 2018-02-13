@@ -88,52 +88,6 @@
                         <div class="portlet-title">
                             <div class="padd-caption">
                                 <i class="icon-bubble font-green-sharp"></i>
-                                <span class="caption-subject font-green-sharp sbold">Fixed Markups</span>
-                            </div>
-                            <div class="padd-action">
-                                <div class="btn-group">
-                                    <a class="btn green-haze btn-outline btn-circle btn-sm" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"
-                                        ng-click="addOrEditFixedMarkupModal('save')">
-                                        <i class="fa fa-plus"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portlet-body">
-                            <ul class="tree">
-                                <li class="mainLi">
-                                    <input type="checkbox" id="c6" />
-                                    <label class="tree_label" for="c6"></label>
-                                    <span class="assebmlyName">Fixed Markups</span>
-                                    <ul>
-                                        <li ng-repeat="ma in markupData">
-                                            <li>
-                                                <span class="tree_label" class="partName">Negotiation: {{ma.negotiation}}</span>
-                                            </li>
-                                            <li>
-                                                <span class="tree_label" class="partName">Commission: {{ma.commission}}</span>
-                                            </li>
-                                            <li>
-                                                <span class="tree_label" class="partName">Other: {{ma.other}}</span>
-                                            </li>
-                                            <span ng-click="addOrEditFixedMarkupModal('update',va)" class="baseMasterEditIcon">
-                                                <i class="fa fa-pencil btn-warning"></i>
-                                            </span>
-                                            <span ng-click="deleteVariableModal(va._id,'deleteFixedMarkup')" class="subAssemblyDeleteIcon">
-                                                <i class="fa fa-trash-o btn-danger "></i>
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="portlet light bordered" id="blockui_sample_1_portlet_body">
-                        <div class="portlet-title">
-                            <div class="padd-caption">
-                                <i class="icon-bubble font-green-sharp"></i>
                                 <span class="caption-subject font-green-sharp sbold">Variables Markups</span>
                             </div>
                             <div class="padd-action">
@@ -189,6 +143,165 @@
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="portlet light bordered" id="blockui_sample_1_portlet_body">
+                        <div class="portlet-title">
+                            <div class="padd-caption">
+                                <i class="icon-bubble font-green-sharp"></i>
+                                <span class="caption-subject font-green-sharp sbold">Fixed Markups</span>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" name="myForm1">
+                            <div class="portlet-body">
+                                <!-- <ul class="tree">
+                                <li class="mainLi">
+                                    <input type="checkbox" id="c6" />
+                                    <label class="tree_label" for="c6"></label>
+                                    <span class="assebmlyName">Fixed Markups</span>
+                                    <ul>
+                                        <li ng-repeat="ma in markupData">
+                                            <li>
+                                                <span class="tree_label" class="partName">Negotiation: {{ma.negotiation}}</span>
+                                            </li>
+                                            <li>
+                                                <span class="tree_label" class="partName">Commission: {{ma.commission}}</span>
+                                            </li>
+                                            <li>
+                                                <span class="tree_label" class="partName">Other: {{ma.other}}</span>
+                                            </li>
+                                            <span ng-click="addOrEditFixedMarkupModal('update',va)" class="baseMasterEditIcon">
+                                                <i class="fa fa-pencil btn-warning"></i>
+                                            </span>
+                                            <span ng-click="deleteVariableModal(va._id,'deleteFixedMarkup')" class="subAssemblyDeleteIcon">
+                                                <i class="fa fa-trash-o btn-danger "></i>
+                                            </span>
+                                        </li>
+                                    </ul> -->
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label">Negotiation:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" name="negotiation" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="fixedMarkupData.fixedMarkups.negotiation" class="form-control">
+                                        <span class="unit">%</span>
+                                        <span class="error" ng-show="myForm1.negotiation.$invalid && myForm1.negotiation.$touched">Please enter a number or floating point number</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label">Commission:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" name="comission" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="fixedMarkupData.fixedMarkups.commission" class="form-control">
+                                        <span class="unit">%</span>
+                                        <span class="error" ng-show="myForm1.comission.$invalid && myForm1.comission.$touched">Please enter a number or floating point number</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label">Other:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" name="other" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="fixedMarkupData.fixedMarkups.other" class="form-control">
+                                        <span class="unit">%</span>
+                                        <span class="error" ng-show="myForm1.other.$invalid && myForm1.other.$touched">Please enter a number or floating point number</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-left:60px;">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-circle green" ng-if="showMarkupSaveBtn" ng-disabled="myForm1.$dirty && myForm1.$invalid || myForm1.$pristine"
+                                            ng-click="addOrEditFixedMarkup('save', fixedMarkupData)">Save</button>
+                                        <button type="submit" class="btn btn-circle green" ng-if="showMarkupEditBtn" ng-disabled="myForm1.$dirty && myForm1.$invalid || myForm1.$pristine"
+                                            ng-click="addOrEditFixedMarkup('update', fixedMarkupData)">Update</button>
+                                    </div>
+                                </div>
+                                </li>
+                                </ul>
+                            </div>
+                        </form>
+                        <hr>
+                        <div class="portlet-title">
+                            <div class="padd-caption">
+                                <i class="icon-bubble font-green-sharp"></i>
+                                <span class="caption-subject font-green-sharp sbold">Markup Scaling</span>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" name="myForm">
+                            <div class="portlet-body">
+                                <!-- <ul class="tree">
+                                <li class="mainLi">
+                                    <input type="checkbox" id="c6" />
+                                    <label class="tree_label" for="c6"></label>
+                                    <span class="assebmlyName">Markup Scaling</span>
+                                    <ul>
+
+                                        <li>
+                                            <span class="tree_label" class="partName">Low:
+                                                <input type="text" />
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="tree_label" class="partName">Medium:
+                                                <input type="text" />
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="tree_label" class="partName">High:
+                                                <input type="text" />
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="tree_label" class="partName">Budgetary:
+                                                <input type="text" />
+                                            </span>
+                                        </li>
+                                        <span ng-click="addOrEditFixedMarkupModal('update',va)" class="baseMasterEditIcon">
+                                            <i class="fa fa-pencil btn-warning"></i>
+                                        </span>
+                                        <span ng-click="deleteVariableModal(va._id,'deleteFixedMarkup')" class="subAssemblyDeleteIcon">
+                                            <i class="fa fa-trash-o btn-danger "></i>
+                                        </span>
+                                    </ul>
+                                </li>
+                            </ul> -->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Low:</label>
+                                    <div class="col-md-7">
+                                        <input type="text" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" class="form-control" name="low" ng-model="fixedMarkupData.scaleFactors.low">
+                                        <span class="unit">%</span>
+                                        <span class="error" ng-show="myForm.low.$invalid && myForm.low.$touched">Please enter a number or floating point number</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Medium:</label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="medium" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" class="form-control" ng-model="fixedMarkupData.scaleFactors.medium">
+                                        <span class="unit">%</span>
+                                        <span class="error" ng-show="myForm.medium.$invalid && myForm.medium.$touched">Please enter a number or floating point number</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">High:</label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="high" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" class="form-control" ng-model="fixedMarkupData.scaleFactors.high">
+                                        <span class="unit">%</span>
+                                        <span class="error" ng-show="myForm.high.$invalid && myForm.high.$touched">Please enter a number or floating point number</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Budgetory:</label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="budgetory" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" class="form-control" ng-model="fixedMarkupData.scaleFactors.budgetory">
+                                        <span class="unit">%</span>
+                                        <span class="error" ng-show="myForm.budgetory.$invalid && myForm.budgetory.$touched">Please enter a number or floating point number</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-left:60px;">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-circle green" ng-if="showScaleSaveBtn" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine"
+                                            ng-click="addOrEditMarkupScaling('save', fixedMarkupData)">Save</button>
+                                        <button type="submit" class="btn btn-circle green" ng-if="showScaleEditBtn" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine"
+                                            ng-click="addOrEditMarkupScaling('update', fixedMarkupData)">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -13,9 +13,20 @@ myApp.service('baseMatserService', function (NavigationService) {
         });
     }
     this.getMarkupData = function (callback) {
-        NavigationService.boxCall('MMarkup/getMMarkupData', function (data) {
+        NavigationService.boxCall('MVariableMarkup/getMMarkupData', function (data) {
             var markups = data.data;
             callback(markups);
+        });
+    }
+    this.getFixedMarkupData = function (callback) {
+        var tempArr = [];
+        NavigationService.boxCall('MFixedMarkup/search', function (data) {
+            if (data.value) {
+                tempArr = data.data.results;
+                callback(tempArr[tempArr.length - 1]);
+            } else {
+                callback(tempArr);
+            }
         });
     }
     this.getUomModalData = function (operation, uom, callback) {
@@ -115,12 +126,12 @@ myApp.service('baseMatserService', function (NavigationService) {
         callback(markupDataObj);
     }
     this.addOrEditFixedMarkup = function (markupData, callback) {
-        NavigationService.apiCall('MMarkup/save', markupData, function (data) {
+        NavigationService.apiCall('MFixedMarkup/save', markupData, function (data) {
             callback(data);
         });
     }
     this.addOrEditVariableMarkup = function (markupData, callback) {
-        NavigationService.apiCall('MMarkup/save', markupData, function (data) {
+        NavigationService.apiCall('MVariableMarkup/save', markupData, function (data) {
             callback(data);
         });
     }
