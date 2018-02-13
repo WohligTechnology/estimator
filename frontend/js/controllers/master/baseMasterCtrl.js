@@ -158,16 +158,25 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
             });
         });
     }
-    $scope.addOrEditMarkup = function (markupData) {
-        var errorCount = 0;
-        if (_.isEmpty(markupData.markupType)) {
-            $scope.selectMarksup = "Select Markups";
-            errorCount++;
-        } else {
-            $scope.selectMarksup = "";
+    $scope.addOrEditFixedMarkup = function (markupData) {
+        baseMatserService.addOrEditFixedMarkup(markupData, function (data) {
+            toastr.success("Markup added/updated successfully");
+            $scope.getMarkupData();
+            $scope.cancelModal();
+        });
+    }
+    $scope.addOrEditVariableMarkup = function (markupData) {
+        $scope.validationObj = {
+            errorCount: 0
         }
-        if (errorCount == 0) {
-            baseMatserService.addOrEditMarkup(markupData, function (data) {
+        if (_.isEmpty(markupData.markupType)) {
+            $scope.validationObj.selectMarksup = "Select Markups";
+            $scope.validationObj.errorCount++;
+        } else {
+            $scope.validationObj.selectMarksup = "";
+        }
+        if ($scope.validationObj.errorCount == 0) {
+            baseMatserService.addOrEditVariableMarkup(markupData, function (data) {
                 toastr.success("Markup added/updated successfully");
                 $scope.getMarkupData();
                 $scope.cancelModal();
@@ -186,8 +195,19 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
             size: 'md'
         });
     }
-    $scope.deleteMarkup = function (markupId) {
-        baseMatserService.deleteMarkup(markupId, function (data) {
+    $scope.deleteVariableMarkup = function (markupId) {
+        baseMatserService.deleteVariableMarkup(markupId, function (data) {
+            if (_.isEmpty(data.data)) {
+                toastr.success('Record deleted successfully');
+            } else {
+                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+            }
+            $scope.cancelModal();
+            $scope.getMarkupData();
+        });
+    }
+    $scope.deleteFixedMarkup = function (markupId) {
+        baseMatserService.deleteFixedMarkup(markupId, function (data) {
             if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
             } else {

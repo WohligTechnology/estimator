@@ -106,12 +106,20 @@
                                     <label class="tree_label" for="c6"></label>
                                     <span class="assebmlyName">Fixed Markups</span>
                                     <ul>
-                                        <li ng-repeat="va in variableData">
-                                            <span class="tree_label" class="partName">{{va.variableName}}</span>
-                                            <span ng-click="addOrEditVariableModal('update',va)" class="baseMasterEditIcon">
+                                        <li ng-repeat="ma in markupData">
+                                            <li>
+                                                <span class="tree_label" class="partName">Negotiation: {{ma.negotiation}}</span>
+                                            </li>
+                                            <li>
+                                                <span class="tree_label" class="partName">Commission: {{ma.commission}}</span>
+                                            </li>
+                                            <li>
+                                                <span class="tree_label" class="partName">Other: {{ma.other}}</span>
+                                            </li>
+                                            <span ng-click="addOrEditFixedMarkupModal('update',va)" class="baseMasterEditIcon">
                                                 <i class="fa fa-pencil btn-warning"></i>
                                             </span>
-                                            <span ng-click="deleteVariableModal(va._id,'deleteVariable')" class="subAssemblyDeleteIcon">
+                                            <span ng-click="deleteVariableModal(va._id,'deleteFixedMarkup')" class="subAssemblyDeleteIcon">
                                                 <i class="fa fa-trash-o btn-danger "></i>
                                             </span>
                                         </li>
@@ -131,7 +139,7 @@
                             <div class="padd-action">
                                 <div class="btn-group">
                                     <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown"
-                                        data-close-others="true" ng-click="addOrEditMarkupModal('save')">
+                                        data-close-others="true" ng-click="addOrEditVariableMarkupModal('save')">
                                         <i class="fa fa-plus" title="Add Markup"></i>
                                     </a>
                                 </div>
@@ -142,7 +150,7 @@
                                 <li class="mainLi">
                                     <input type="checkbox" id="c8" />
                                     <label class="tree_label" for="c8"></label>
-                                    <span ng-click="getAssemblyView()" class="assebmlyName">Vriables Markups</span>
+                                    <span ng-click="getAssemblyView()" class="assebmlyName">Variables Markups</span>
                                     <!--<span ng-click="createSubAssemblyModal()" class="assemblyCreateIcon"><i class="fa fa-plus btn-info" ng-click="createOrEditUom();"></i></span>-->
                                     <ul>
                                         <li ng-repeat="ma in markupData">
@@ -153,7 +161,7 @@
                                             <span ng-click="addOrEditVariableMarkupModal('update',ma)" class="baseMasterEditIcon">
                                                 <i class="fa fa-pencil btn-warning" title="Edit Markup"></i>
                                             </span>
-                                            <span ng-click="deleteMarkupModal(ma._id,'deleteMarkup')" class="subAssemblyDeleteIcon">
+                                            <span ng-click="deleteMarkupModal(ma._id,'deleteVariableMarkup')" class="subAssemblyDeleteIcon">
                                                 <i class="fa fa-trash-o btn-danger" title="Delete Markup"></i>
                                             </span>
                                             <ul>
@@ -163,7 +171,7 @@
                                                 <li>
                                                     <span class="tree_label" class="partName">Min Profit: {{ma.minProfit}}</span>
                                                 </li>
-                                                <li>
+                                                <!-- <li>
                                                     <span class="tree_label" class="partName">Negotiation: {{ma.negotiation}}</span>
                                                 </li>
                                                 <li>
@@ -174,7 +182,7 @@
                                                 </li>
                                                 <li>
                                                     <span class="tree_label" class="partName">Total Value: {{ma.totalValue}}</span>
-                                                </li>
+                                                </li> -->
                                             </ul>
                                         </li>
                                     </ul>

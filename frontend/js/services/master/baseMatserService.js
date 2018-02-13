@@ -114,13 +114,31 @@ myApp.service('baseMatserService', function (NavigationService) {
         }
         callback(markupDataObj);
     }
-    this.addOrEditMarkup = function (markupData, callback) {
+    this.addOrEditFixedMarkup = function (markupData, callback) {
         NavigationService.apiCall('MMarkup/save', markupData, function (data) {
             callback(data);
         });
-
     }
-    this.deleteMarkup = function(markupId,callback){
+    this.addOrEditVariableMarkup = function (markupData, callback) {
+        NavigationService.apiCall('MMarkup/save', markupData, function (data) {
+            callback(data);
+        });
+    }
+    this.deleteFixedMarkup = function(markupId,callback){
+        idsArray = [];
+        idsArray.push(markupId);
+        NavigationService.delete('Web/delRestrictions/MMarkup',{idsArray: idsArray}, function(data){
+            callback(data);
+        });
+    }
+    this.deleteVariableMarkup = function(markupId,callback){
+        idsArray = [];
+        idsArray.push(markupId);
+        NavigationService.delete('Web/delRestrictions/MMarkup',{idsArray: idsArray}, function(data){
+            callback(data);
+        });
+    }
+    this.deleteFixedMarkup = function(markupId,callback){
         idsArray = [];
         idsArray.push(markupId);
         NavigationService.delete('Web/delRestrictions/MMarkup',{idsArray: idsArray}, function(data){

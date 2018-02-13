@@ -3,7 +3,7 @@
         <div class="portlet box green ">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Markups
+                    <i class="fa fa-gift"></i>Variable Markups
                 </div>
                 <div class="tools">
                 </div>
@@ -24,25 +24,27 @@
                                     <option value="addon">Addon</option>
                                     <option value="extra">Extras</option>
                                 </select>
-                                <span class="error">{{selectMarksup}}</span>
+                                <span class="error">{{validationObj.selectMarksup}}</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Overhead:</label>
+                            <label class="col-md-4 control-label">Overhead:
+                                    <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
                                 <input type="text" name="overhead" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.overhead" class="form-control" required>
                                 <span class="unit">%</span>
-                                <span class="error">&nbsp;&nbsp;*</span>
                                 <span class="error" ng-show="myForm.overhead.$invalid && myForm.overhead.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">MinProfit:</label>
+                            <label class="col-md-4 control-label">MinProfit:
+                                    <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
                                 <input type="text" name="minprofit" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.minProfit" class="form-control"
                                     required>
                                 <span class="unit">%</span>
-                                <span class="error">&nbsp;&nbsp;*</span>
                                 <span class="error" ng-show="myForm.minprofit.$invalid && myForm.minprofit.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
@@ -56,8 +58,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditMarkup(formData)" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditMarkup(formData)" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditVariableMarkup(formData)" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditVariableMarkup(formData)" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
