@@ -3169,6 +3169,7 @@ var model = {
                         //-Operation to generate excel sheet for Assembly.
                         assembly: ['subAss', function (subAssData, callback) {
                             assSheetName = found.assemblyObj.assemblyName;
+                            estVersion = found.estimateVersion;
                             var assemblyNumber = found.assemblyObj.assemblyNumber;
                             // var estVersion = found.assemblyObj.estimateVersion;
 
@@ -4607,9 +4608,9 @@ var model = {
                                     console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
                                 } else {
                                     var myUniqueId = (uniqid());
-                                    workbook.xlsx.writeFile('./assets/importFormat/' + assemblyNumber + '_' + assSheetName + '.xlsx').then(function () {
-                                        var excelFileName = './assets/importFormat/' + assemblyNumber + '_' + assSheetName + '.xlsx';
-                                        console.log('**** excel file nameeeeee ****', excelFileName);
+                                    workbook.xlsx.writeFile('./assets/importFormat/' + assSheetName + '_v' + estVersion + '.xlsx').then(function () {
+                                        var excelFileName = './assets/importFormat/' + assSheetName + '_v' + estVersion + '.xlsx';
+                                        // console.log('**** excel file nameeeeee ****', excelFileName);
                                         file = excelFileName.split('/').pop();
                                         console.log('file name', file)
                                         Estimate.findOneAndUpdate({
@@ -4624,7 +4625,6 @@ var model = {
                                                 callback(null, 'noDataFound');
                                             } else {
                                                 console.log('Assembly sheet is written');
-                                                // Estimate.downloadExcel(excelFileName, callback);
                                                 callback();
                                             }
 
