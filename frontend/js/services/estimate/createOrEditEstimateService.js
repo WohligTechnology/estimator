@@ -405,18 +405,17 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					markup.minProfit = 10;
 				}
 				if (markup.markupType == "material") {
-					formData.assembly.materialCost += (formData.assembly.mtAtAssembly * (markup.overhead / 100)) + (formData.assembly.mtAtAssembly * (markup.minProfit / 100));
+					formData.assembly.materialCost += (formData.assembly.mtAtAssembly * ((markup.overhead + markup.minProfit) / 100));
 				} else if (markup.markupType == "process") {
-					formData.assembly.processingCost += (formData.assembly.pCostAtAssemby * (markup.overhead / 100)) + (formData.assembly.pCostAtAssemby * (markup.minProfit / 100));
+					formData.assembly.processingCost += (formData.assembly.pCostAtAssemby * ((markup.overhead + markup.minProfit) / 100));
 				} else if (markup.markupType == "addon") {
-					formData.assembly.addonCost += (formData.assembly.aCostAtAssemby * (markup.overhead / 100)) + (formData.assembly.aCostAtAssemby * (markup.minProfit / 100));
+					formData.assembly.addonCost += (formData.assembly.aCostAtAssemby * ((markup.overhead + markup.minProfit) / 100));
 				} else {
-					formData.assembly.extrasCost += (formData.assembly.eCostAtAssemby * (markup.overhead / 100)) + (formData.assembly.eCostAtAssemby * (markup.minProfit / 100));
+					formData.assembly.extrasCost += (formData.assembly.eCostAtAssemby * ((markup.overhead + markup.minProfit) / 100));
 				}
 			});
 			formData.assembly.totalCost = (formData.assembly.materialCost + formData.assembly.processingCost + formData.assembly.addonCost + formData.assembly.extrasCost);
 			sellingObj.markups = [];
-			debugger;
 			//- only 1st time allow it
 			if (angular.isUndefined(formData.assembly.negotiation) || angular.isUndefined(formData.assembly.commission) || angular.isUndefined(formData.assembly.other)) {
 				//- get all fixed markups & update total cost
@@ -451,16 +450,18 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						formData.assembly.negotiation = sellingObj.negotiation;
 						formData.assembly.commission = sellingObj.commission;
 						formData.assembly.other = sellingObj.other;
+						formData.assembly.totalCost += (formData.assembly.totalCost * ((formData.assembly.negotiation + formData.assembly.commission + formData.assembly.other) / 100));
 					}
 				});
+			} else {
+				formData.assembly.totalCost += (formData.assembly.totalCost * ((formData.assembly.negotiation + formData.assembly.commission + formData.assembly.other) / 100));
 			}
-			formData.assembly.totalCost += (formData.assembly.totalCost * (formData.assembly.negotiation / 100)) + (formData.assembly.totalCost * (formData.assembly.commission / 100)) + (formData.assembly.totalCost * (formData.assembly.other / 100));
 		});
 	}
 	//-to update totalCost on the basis of negotiation, commission & other 
 	this.addCNOToCost = function () {
 		formData.assembly.totalCost = (parseFloat(formData.assembly.materialCost) + parseFloat(formData.assembly.processingCost) + parseFloat(formData.assembly.addonCost) + parseFloat(formData.assembly.extrasCost));
-		formData.assembly.totalCost += (formData.assembly.totalCost * (parseFloat(formData.assembly.negotiation) / 100)) + (formData.assembly.totalCost * (parseFloat(formData.assembly.commission) / 100)) + (formData.assembly.totalCost * (parseFloat(formData.assembly.other) / 100));
+		formData.assembly.totalCost += (formData.assembly.totalCost * ((parseFloat(formData.assembly.negotiation) + parseFloat(formData.assembly.commission) + parseFloat(formData.assembly.other)) / 100));
 	}
 	//- to get processing totalCost
 	this.getProcessingTotalCost = function (level, processings, subAssId) {

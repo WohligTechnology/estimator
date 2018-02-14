@@ -193,11 +193,12 @@ var model = {
                                                     partIcon: part.partIcon,
                                                     partNumber: part.partNumber,
                                                     subAssemblyId: savedSubAss._id,
-                                                    shortcut: part.shortcut,
-                                                    partType: part.partType,
-                                                    material: part.material,
+                                                    shortcut: part.shortcut._id,
+                                                    partType: part.partType._id,
+                                                    material: part.material._id,
+                                                    // shape:shape._id,
                                                     size: part.size,
-                                                    // customMaterial:part.customMaterial,
+                                                    customMaterial:part.customMaterial._id,
                                                     quantity: part.quantity,
                                                     variable: part.variable,
                                                     scaleFactor: part.scaleFactor,
@@ -208,10 +209,9 @@ var model = {
                                                     extras: [],
                                                     partObj: part
                                                 };
-
                                                 EstimatePart.saveData(partObj, function (err, savedPart) {
                                                     if (err) {
-                                                        console.log('**** error at $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ EstimatePart.saveData of DraftEstimate.js ****');
+                                                        console.log('**** error attttttt $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ EstimatePart.saveData of DraftEstimate.js ****',err);
                                                         partError.partName = part.partName;
                                                         partError.status = false;
                                                         callback();
