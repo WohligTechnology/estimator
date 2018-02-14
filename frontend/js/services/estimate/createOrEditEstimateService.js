@@ -257,13 +257,16 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			//- summation of material cost of all subAssembly
 			mtAtAssembly: 0
 		}
-		formData.assembly.totalCost = 0;
+		formData.assembly.totalCost = formData.assembly.materialCost = formData.assembly.processingCost = formData.assembly.addonCost = formData.assembly.extrasCost = 0;
 		var thisRef = this;
 		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
 			angular.forEach(subAssembly.subAssemblyParts, function (part) {
-				//- get weight at part level
+				//- get gross weight at part level
 				if (!isNaN(parseFloat(part.keyValueCalculations.grossWeight))) {
 					costCalculations.wtAtPart = parseFloat(part.keyValueCalculations.grossWeight);
+				}
+				//- get net weight at part level
+				if (!isNaN(parseFloat(part.keyValueCalculations.netWeight))) {
 					costCalculations.netWtAtPart = parseFloat(part.keyValueCalculations.netWeight);
 				}
 				//- get material cost at part level
@@ -273,13 +276,19 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				//- get summation of material cost of all parts 
 				costCalculations.mtAtSubAssembly += costCalculations.mtPart * costCalculations.wtAtPart * part.quantity;
 				//- processing cost at part level
-				costCalculations.pCostAtPart = thisRef.getProcessingTotalCost('part', part.processing);
+				if (part.processing.length > 0) {
+					costCalculations.pCostAtPart = thisRef.getProcessingTotalCost('part', part.processing);
+				}
 				//- addons cost at part level
-				var obj = thisRef.getAddonTotalCost('part', part.addons);
-				costCalculations.aCostAtPart = obj.totalCost;
-				costCalculations.addonWtAtPart = obj.totalWeight;
+				if (part.addons.length > 0) {
+					var obj = thisRef.getAddonTotalCost('part', part.addons);
+					costCalculations.aCostAtPart = obj.totalCost;
+					costCalculations.addonWtAtPart = obj.totalWeight;
+				}
 				//- extras cost at part level
-				costCalculations.eCostAtPart = thisRef.getExtraTotalCost(part.extras);
+				if (part.extras.length > 0) {
+					costCalculations.eCostAtPart = thisRef.getExtraTotalCost(part.extras);
+				}
 				//- bind processing cost, addon cost & extra cost to part level variables
 				part.processingCost = costCalculations.pCostAtPart;
 				part.addonCost = costCalculations.aCostAtPart;
@@ -312,13 +321,19 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			subAssembly.materialCost = costCalculations.mtAtSubAssembly;
 			costCalculations.mtAtAssembly += subAssembly.materialCost * subAssembly.quantity;
 			//- processing cost at subAssembly level
-			costCalculations.pCostAtSubAssembly = thisRef.getProcessingTotalCost('subAssembly', subAssembly.processing, subAssembly.subAssemblyNumber);
+			if (subAssembly.processing.length > 0) {
+				costCalculations.pCostAtSubAssembly = thisRef.getProcessingTotalCost('subAssembly', subAssembly.processing, subAssembly.subAssemblyNumber);
+			}
 			//- addons cost at subAssembly level
-			var obj = thisRef.getAddonTotalCost('subAssembly', subAssembly.addons, subAssembly.subAssemblyNumber);
-			costCalculations.aCostAtSubAssembly = obj.totalCost;
-			costCalculations.addonWtAtSubAssembly = obj.totalWeight;
+			if (subAssembly.addons.length > 0) {
+				var obj = thisRef.getAddonTotalCost('subAssembly', subAssembly.addons, subAssembly.subAssemblyNumber);
+				costCalculations.aCostAtSubAssembly = obj.totalCost;
+				costCalculations.addonWtAtSubAssembly = obj.totalWeight;
+			}
 			//- extras cost at subAssembly level
-			costCalculations.eCostAtSubAssembly = thisRef.getExtraTotalCost(subAssembly.extras);
+			if (subAssembly.extras.length > 0) {
+				costCalculations.eCostAtSubAssembly = thisRef.getExtraTotalCost(subAssembly.extras);
+			}
 			costCalculations.pCost += costCalculations.pCostAtSubAssembly;
 			costCalculations.aCost += costCalculations.aCostAtSubAssembly;
 			costCalculations.aWeight += costCalculations.addonWtAtSubAssembly;
@@ -342,13 +357,19 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		});
 		if (viewName == 'assembly') {
 			//- processing cost at assembly level
-			costCalculations.pCost = thisRef.getProcessingTotalCost('assembly', formData.assembly.processing);
+			if (angular.isDefined(formData.assembly.processing)) {
+				costCalculations.pCost = thisRef.getProcessingTotalCost('assembly', formData.assembly.processing);
+			}
 			//- addons cost at assembly level
-			var obj = thisRef.getAddonTotalCost('assembly', formData.assembly.addons);
-			costCalculations.aCost = obj.totalCost;
-			costCalculations.aWeight += obj.totalWeight;
+			if (angular.isDefined(formData.assembly.addons)) {
+				var obj = thisRef.getAddonTotalCost('assembly', formData.assembly.addons);
+				costCalculations.aCost = obj.totalCost;
+				costCalculations.aWeight += obj.totalWeight;
+			}
 			//- extras cost at assembly level
-			costCalculations.eCostAtSubAssembly = thisRef.getExtraTotalCost(formData.assembly.extras);
+			if (angular.isDefined(formData.assembly.extras)) {
+				costCalculations.eCostAtSubAssembly = thisRef.getExtraTotalCost(formData.assembly.extras);
+			}
 			formData.assembly.addonWeight = costCalculations.addonWtAtAssembly + costCalculations.aWeight;
 			formData.assembly.totalWeight = formData.assembly.wtAtAssembly = costCalculations.wtAtAssembly + costCalculations.aWeight;
 			formData.assembly.netWtAtAssembly = costCalculations.netWtAtAssembly + costCalculations.aWeight;
@@ -358,7 +379,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			formData.assembly.extrasCost = formData.assembly.eCostAtAssemby = costCalculations.eCostAtAssemby + costCalculations.eCost;
 			formData.assembly.costPrice = (formData.assembly.mtAtAssembly + formData.assembly.pCostAtAssemby + formData.assembly.aCostAtAssemby + formData.assembly.eCostAtAssemby);
 			//formData.assembly.totalCost += costCalculations.mtAtAssembly * costCalculations.wtAtAssembly + costCalculations.pCost + costCalculations.aCost + costCalculations.eCost;
-			if (!_.isNaN(formData.assembly.costPrice)) {
+			if (!isNaN(formData.assembly.costPrice)) {
 				this.addMarginsToCost();
 			}
 		}
@@ -430,10 +451,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						formData.assembly.negotiation = sellingObj.negotiation;
 						formData.assembly.commission = sellingObj.commission;
 						formData.assembly.other = sellingObj.other;
-						formData.assembly.totalCost += (formData.assembly.totalCost * (sellingObj.negotiation / 100)) + (formData.assembly.totalCost * (sellingObj.commission / 100)) + (formData.assembly.totalCost * (sellingObj.other / 100));
 					}
 				});
 			}
+			formData.assembly.totalCost += (formData.assembly.totalCost * (formData.assembly.negotiation / 100)) + (formData.assembly.totalCost * (formData.assembly.commission / 100)) + (formData.assembly.totalCost * (formData.assembly.other / 100));
 		});
 	}
 	//-to update totalCost on the basis of negotiation, commission & other 
