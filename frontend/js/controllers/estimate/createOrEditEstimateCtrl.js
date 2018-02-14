@@ -224,6 +224,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         }
       });
     });
+    if (getViewName == 'assembly' || getViewName == 'subAssembly') {
+      createOrEditEstimateService.totalCostCalculations(getViewName, function (data) {});
+    }
   }
   //- to perform CRUD of custom material
   $scope.getAllMaterialData = function (getViewName) {
@@ -503,6 +506,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.getEstimateData($scope.draftEstimateId, function (data) {
       $scope.estimteData = data;
       $scope.getAllMaterialData();
+      createOrEditEstimateService.totalCostCalculations('assembly', function (data) {});
     });
   }
   $scope.getCurretEstimateObj = function () {
@@ -524,9 +528,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.saveCurrentEstimate();
       }
     }
-    createOrEditEstimateService.totalCostCalculations(function (data) {});
   }, true);
 
+  //- get all fixed markups & update total cost
+  $scope.addCNOToCost = function () {
+    createOrEditEstimateService.addCNOToCost();
+  }
   // **************************************** functions to be triggered form view begin here **************************************** //
   //- to edit assembly name
   //- Edit Assembly Name modal start
@@ -543,7 +550,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to edit assembly name
   $scope.editAssemblyName = function (assemblyName) {
     createOrEditEstimateService.editAssemblyName(assemblyName, $scope.draftEstimateId, function (data) {
-      $scope.getEstimateData();
+      //$scope.getEstimateData();
       $scope.cancelModal();
       toastr.success('Estimate data updated successfully');
     });
@@ -1489,7 +1496,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       } else if ('update') {
         $scope.extraObj.allExtraItem = data.allExtraItem;
         $scope.extraObj.selectedExtraItem = data.selecetdExtraItem;
-        $scope.extraObj.rate = data.rate;        
+        $scope.extraObj.rate = data.rate;
         $scope.extraObj.extraNumber = data.extraNumber;
         $scope.extraObj.totalCost = data.totalCost;
         $scope.extraObj.remark = data.remark;

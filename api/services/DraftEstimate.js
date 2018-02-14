@@ -51,7 +51,7 @@ var schema = new Schema({
 schema.plugin(deepPopulate, {
     populate: {
         'enquiryId.customerId': {
-            select: 'customerName',
+            select: '',
         },
 
         'estimateCreatedUser': {
@@ -66,7 +66,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('DraftEstimate', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'enquiryId enquiryId.customerId','enquiryId enquiryId.customerId'));
 var model = {
 
     //- compile draft estimate & store it into the 6 collections.

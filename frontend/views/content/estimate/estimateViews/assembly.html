@@ -120,7 +120,7 @@
                                     <td> {{$index + 1}} </td>
                                     <td ng-click="getEstimateView('subAssembly', 'assembly', p.subAssemblyNumber)" > {{p.subAssemblyName | capitalize}} </td>
                                     <td> {{p.quantity}} </td>
-                                    <td>  </td>
+                                    <td> {{p.totalNetWeight.toFixed(2)}} </td>
                                     <td> {{p.totalWeight.toFixed(2)}} </td>
                                     <td> {{(p.materialCost).toFixed(2)}} </td>
                                     <td> {{p.processingCost.toFixed(2)}} </td>

@@ -193,7 +193,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				callback(data.data);
 			} else {
 				formData.assembly = data.data;
-				// temp.totalCostCalculations(function (data) {});
 				callback(data.data);
 			}
 		});
@@ -205,7 +204,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback(getEstimateView);
 	}
 	//- to calculate total cost of addon/processing/extras
-	this.totalCostCalculations = function (callback) {
+	this.totalCostCalculations = function (viewName, callback) {
 		var costCalculations = {
 			//- summation of processing cost at part, subAssembly
 			pCost: 0,
@@ -239,6 +238,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			wtAtSubAssembly: 0,
 			//- summation of weight of all subAssembly
 			wtAtAssembly: 0,
+			//- weight of a part 
+			netWtAtPart: 0,
+			//- summation of weight of all parts
+			netWtAtSubAssembly: 0,
+			//- summation of weight of all subAssembly
+			netWtAtAssembly: 0,
 			//- addon weight of a part 
 			addonWtAtPart: 0,
 			//- summation of addon weight of all parts
@@ -259,6 +264,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				//- get weight at part level
 				if (!isNaN(parseFloat(part.keyValueCalculations.grossWeight))) {
 					costCalculations.wtAtPart = parseFloat(part.keyValueCalculations.grossWeight);
+					costCalculations.netWtAtPart = parseFloat(part.keyValueCalculations.netWeight);
 				}
 				//- get material cost at part level
 				if (!isNaN(parseFloat(part.finalCalculation.materialPrice))) {
@@ -292,14 +298,16 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				if (part.extras.length != 0) {
 					costCalculations.eCost += costCalculations.eCostAtPart;
 				}
-				//- get summation of (partWeight * addonWeight * quantity) of all parts 
+				//- get summation of (partWeight * quantity) of all parts 
 				costCalculations.wtAtSubAssembly += costCalculations.wtAtPart * part.quantity;
+				costCalculations.netWtAtSubAssembly += costCalculations.netWtAtPart * part.quantity;
 				//- total cost at each part 
 				part.totalCost = (costCalculations.mtPart * costCalculations.wtAtPart + part.processingCost + part.addonCost + part.extrasCost) * part.quantity;
 				costCalculations.mtPart = costCalculations.addonWtAtPart = costCalculations.pCostAtPart = costCalculations.aCostAtPart = costCalculations.eCostAtPart = costCalculations.wtAtPart = 0;
 			});
 			//- bind weight of all parts of paricular subAssembly to variable 'totalWeight'
 			subAssembly.totalWeight = costCalculations.wtAtSubAssembly;
+			subAssembly.totalNetWeight = costCalculations.netWtAtSubAssembly;
 			//- bind material cost of all parts of paricular subAssembly to variable 'material cost'
 			subAssembly.materialCost = costCalculations.mtAtSubAssembly;
 			costCalculations.mtAtAssembly += subAssembly.materialCost * subAssembly.quantity;
@@ -322,6 +330,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			costCalculations.addonWtAtAssembly += costCalculations.aWeight * subAssembly.quantity;
 			//- get summation of (SubAssemblyweight * addonWeight * quantity) of all subassemblies
 			costCalculations.wtAtAssembly += (subAssembly.totalWeight + subAssembly.addonWeight) * subAssembly.quantity;
+			costCalculations.netWtAtAssembly += (costCalculations.netWtAtSubAssembly + subAssembly.addonWeight) * subAssembly.quantity;
 			//- total cost at each part 
 			subAssembly.totalCost = (subAssembly.materialCost + subAssembly.processingCost + subAssembly.addonCost + subAssembly.extrasCost) * subAssembly.quantity;
 			costCalculations.pCostAtAssemby += costCalculations.pCost * subAssembly.quantity;
@@ -329,26 +338,108 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			costCalculations.eCostAtAssemby += costCalculations.eCost * subAssembly.quantity;
 			costCalculations.pCostAtSubAssembly = costCalculations.aCostAtSubAssembly = costCalculations.eCostAtSubAssembly = 0;
 			costCalculations.pCost = costCalculations.aCost = costCalculations.eCost = costCalculations.aWeight = 0;
-			costCalculations.mtAtSubAssembly = costCalculations.wtAtSubAssembly = costCalculations.addonWtAtSubAssembly = 0;
+			costCalculations.mtAtSubAssembly = costCalculations.wtAtSubAssembly = costCalculations.netWtAtSubAssembly = costCalculations.addonWtAtSubAssembly = 0;
 		});
-
-		//- processing cost at assembly level
-		costCalculations.pCost = thisRef.getProcessingTotalCost('assembly', formData.assembly.processing);
-		//- addons cost at assembly level
-		var obj = thisRef.getAddonTotalCost('assembly', formData.assembly.addons);
-		costCalculations.aCost = obj.totalCost;
-		costCalculations.addonWtAtAssembly += obj.totalWeight;
-		//- extras cost at assembly level
-		costCalculations.eCostAtSubAssembly = thisRef.getExtraTotalCost(formData.assembly.extras);
-		formData.assembly.addonWeight = costCalculations.addonWtAtAssembly;
-		formData.assembly.totalWeight = costCalculations.wtAtAssembly;
-		formData.assembly.materialCost = costCalculations.mtAtAssembly;
-		formData.assembly.processingCost = costCalculations.pCostAtAssemby + costCalculations.pCost;
-		formData.assembly.addonCost = costCalculations.aCostAtAssemby + costCalculations.aCost;
-		formData.assembly.extrasCost = costCalculations.eCostAtAssemby + costCalculations.eCost;
-		formData.assembly.totalCost = (formData.assembly.materialCost + formData.assembly.processingCost + formData.assembly.addonCost + formData.assembly.extrasCost);
-		//formData.assembly.totalCost += costCalculations.mtAtAssembly * costCalculations.wtAtAssembly + costCalculations.pCost + costCalculations.aCost + costCalculations.eCost;
+		if (viewName == 'assembly') {
+			//- processing cost at assembly level
+			costCalculations.pCost = thisRef.getProcessingTotalCost('assembly', formData.assembly.processing);
+			//- addons cost at assembly level
+			var obj = thisRef.getAddonTotalCost('assembly', formData.assembly.addons);
+			costCalculations.aCost = obj.totalCost;
+			costCalculations.aWeight += obj.totalWeight;
+			//- extras cost at assembly level
+			costCalculations.eCostAtSubAssembly = thisRef.getExtraTotalCost(formData.assembly.extras);
+			formData.assembly.addonWeight = costCalculations.addonWtAtAssembly + costCalculations.aWeight;
+			formData.assembly.totalWeight = formData.assembly.wtAtAssembly = costCalculations.wtAtAssembly + costCalculations.aWeight;
+			formData.assembly.netWtAtAssembly = costCalculations.netWtAtAssembly + costCalculations.aWeight;
+			formData.assembly.materialCost = formData.assembly.mtAtAssembly = costCalculations.mtAtAssembly;
+			formData.assembly.processingCost = formData.assembly.pCostAtAssemby = costCalculations.pCostAtAssemby + costCalculations.pCost;
+			formData.assembly.addonCost = formData.assembly.aCostAtAssemby = costCalculations.aCostAtAssemby + costCalculations.aCost;
+			formData.assembly.extrasCost = formData.assembly.eCostAtAssemby = costCalculations.eCostAtAssemby + costCalculations.eCost;
+			formData.assembly.costPrice = (formData.assembly.mtAtAssembly + formData.assembly.pCostAtAssemby + formData.assembly.aCostAtAssemby + formData.assembly.eCostAtAssemby);
+			//formData.assembly.totalCost += costCalculations.mtAtAssembly * costCalculations.wtAtAssembly + costCalculations.pCost + costCalculations.aCost + costCalculations.eCost;
+			if (!_.isNaN(formData.assembly.costPrice)) {
+				this.addMarginsToCost();
+			}
+		}
 		callback();
+	}
+	//- to calculate selling cost 
+	this.addMarginsToCost = function () {
+		var sellingObj = {
+			markups: [],
+			negotiation: 10,
+			commission: 10,
+			other: 10,
+			temp: {},
+		};
+		//- get all variable markups & update total cost
+		NavigationService.boxCall('MVariableMarkup/getMMarkupData', function (data) {
+			sellingObj.markups = data.data;
+			angular.forEach(sellingObj.markups, function (markup) {
+				if (_.isNaN(parseFloat(markup.overhead))) {
+					markup.overhead = 10;
+				}
+				if (_.isNaN(parseFloat(markup.minProfit))) {
+					markup.minProfit = 10;
+				}
+				if (markup.markupType == "material") {
+					formData.assembly.materialCost += (formData.assembly.mtAtAssembly * (markup.overhead / 100)) + (formData.assembly.mtAtAssembly * (markup.minProfit / 100));
+				} else if (markup.markupType == "process") {
+					formData.assembly.processingCost += (formData.assembly.pCostAtAssemby * (markup.overhead / 100)) + (formData.assembly.pCostAtAssemby * (markup.minProfit / 100));
+				} else if (markup.markupType == "addon") {
+					formData.assembly.addonCost += (formData.assembly.aCostAtAssemby * (markup.overhead / 100)) + (formData.assembly.aCostAtAssemby * (markup.minProfit / 100));
+				} else {
+					formData.assembly.extrasCost += (formData.assembly.eCostAtAssemby * (markup.overhead / 100)) + (formData.assembly.eCostAtAssemby * (markup.minProfit / 100));
+				}
+			});
+			formData.assembly.totalCost = (formData.assembly.materialCost + formData.assembly.processingCost + formData.assembly.addonCost + formData.assembly.extrasCost);
+			sellingObj.markups = [];
+			debugger;
+			//- only 1st time allow it
+			if (angular.isUndefined(formData.assembly.negotiation) || angular.isUndefined(formData.assembly.commission) || angular.isUndefined(formData.assembly.other)) {
+				//- get all fixed markups & update total cost
+				NavigationService.boxCall('MFixedMarkup/search', function (data) {
+					if (data.value) {
+						sellingObj.markups = data.data.results;
+						sellingObj.markups = sellingObj.markups[sellingObj.markups.length - 1]
+
+						if (angular.isDefined(sellingObj.markups.fixedMarkups)) {
+							if (!_.isNaN(parseFloat(sellingObj.markups.fixedMarkups.negotiation))) {
+								sellingObj.negotiation = sellingObj.markups.fixedMarkups.negotiation;
+							}
+							if (!_.isNaN(parseFloat(sellingObj.markups.fixedMarkups.commission))) {
+								sellingObj.commission = sellingObj.markups.fixedMarkups.commission;
+							}
+							if (!_.isNaN(parseFloat(sellingObj.markups.fixedMarkups.other))) {
+								sellingObj.other = sellingObj.markups.fixedMarkups.other;
+							}
+						}
+						if (angular.isDefined(formData.assembly.enquiryId)) {
+							sellingObj.temp = formData.assembly.enquiryId.customerId.margins;
+							if (angular.isDefined(sellingObj.temp.negotiation)) {
+								sellingObj.negotiation = parseFloat(sellingObj.temp.negotiation);
+							}
+							if (angular.isDefined(sellingObj.temp.commission)) {
+								sellingObj.commission = parseFloat(sellingObj.temp.commission);
+							}
+							if (angular.isDefined(sellingObj.temp.other)) {
+								sellingObj.other = parseFloat(sellingObj.temp.other);
+							}
+						}
+						formData.assembly.negotiation = sellingObj.negotiation;
+						formData.assembly.commission = sellingObj.commission;
+						formData.assembly.other = sellingObj.other;
+						formData.assembly.totalCost += (formData.assembly.totalCost * (sellingObj.negotiation / 100)) + (formData.assembly.totalCost * (sellingObj.commission / 100)) + (formData.assembly.totalCost * (sellingObj.other / 100));
+					}
+				});
+			}
+		});
+	}
+	//-to update totalCost on the basis of negotiation, commission & other 
+	this.addCNOToCost = function () {
+		formData.assembly.totalCost = (parseFloat(formData.assembly.materialCost) + parseFloat(formData.assembly.processingCost) + parseFloat(formData.assembly.addonCost) + parseFloat(formData.assembly.extrasCost));
+		formData.assembly.totalCost += (formData.assembly.totalCost * (parseFloat(formData.assembly.negotiation) / 100)) + (formData.assembly.totalCost * (parseFloat(formData.assembly.commission) / 100)) + (formData.assembly.totalCost * (parseFloat(formData.assembly.other) / 100));
 	}
 	//- to get processing totalCost
 	this.getProcessingTotalCost = function (level, processings, subAssId) {

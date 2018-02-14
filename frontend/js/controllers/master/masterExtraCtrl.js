@@ -41,6 +41,9 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
       if (operation == "update") {
         $scope.selectedRateUom = extra.rate.uom;
         $scope.selectedQuantityUom = extra.quantity.uom;
+      } else {
+        $scope.selectedRateUom = "";
+        $scope.selectedQuantityUom = "";
       }
 
       $scope.showSaveBtn = data.saveBtn;
