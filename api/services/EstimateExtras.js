@@ -19,6 +19,7 @@ var schema = new Schema({
         ref: "MExtra",
         index: true,
     },
+    rate: Number,
     quantity: Number,
     totalCost: Number,
     remarks: String,

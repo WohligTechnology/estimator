@@ -52,17 +52,43 @@ myApp.service('createOrEditEnquiryService', function ($http, $state, NavigationS
       callback(data.data);
     });
   }
+  this.validationOfEnquiry = function (enquiryData, callback) {
+    var enquiryValidation = {
+      errorCount: 0
+    };
+    if (_.isEmpty(enquiryData.customerDataObj.customerName)) {
+      enquiryValidation.customerName = "Select Customer Name."
+      enquiryValidation.errorCount++;
+    } else {
+      enquiryValidation.customerName = ""
+    }
+    if (_.isEmpty(enquiryData.enquiryDetails.estimator)) {
+      enquiryValidation.estimator = "Select Estimator."
+      enquiryValidation. errorCount++;
+    } else {
+      enquiryValidation.estimator = ""
+    }
+    if (_.isEmpty(enquiryData.enquiryDetails.enquiryStatus)) {
+      enquiryValidation.status = "Select Status."
+      enquiryValidation.errorCount++;
+    } else {
+      enquiryValidation.status = " "
+    }
+    callback(enquiryValidation);
+  }
   this.createEnquiry = function (enquiryData, callback) {
     NavigationService.apiCall('Enquiry/createEnquiry', enquiryData, function (data) {
       callback(data);
     });
   }
+   
   this.saveAssemblyName = function (assName, enquiryId, callback) {
     var estimateData = {
       assemblyName: assName,
-      enquiryId: enquiryId
+      enquiryId: enquiryId,
+      estimateCreatedUser:$.jStorage.get("loggedInUser")._id
     }
-
+    
     NavigationService.apiCall('DraftEstimate/createDraftEstimate', estimateData, function (data) {
       callback(data);
     });
@@ -73,7 +99,7 @@ myApp.service('createOrEditEnquiryService', function ($http, $state, NavigationS
     });
   }
   this.getExcelSheet = function (estimateVersionId, callback) {
-    debugger;
+    
     var tempObj = {
       _id: estimateVersionId
     }

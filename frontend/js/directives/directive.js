@@ -72,6 +72,7 @@ myApp
                     if (scope.model) {
                         var fileName = _.split(scope.model, '.');
                         var fileType = fileName[1];
+
                         scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
                         scope.isPdf = (fileType == 'pdf');
                         scope.isDocs = (fileType == 'doc' || fileType == 'docx');
@@ -84,10 +85,20 @@ myApp
                     var fileName = _.split(files[0].name, '.');
                     var fileType = fileName[1];
 
-                    scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
-                    scope.isPdf = (fileType == 'pdf');
-                    scope.isDocs = (fileType == 'doc' || fileType == 'docx');
-                    scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
+                    if(fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png'){
+                        scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
+                    }else if(fileType == 'pdf'){
+                        scope.fileImage = "frontend/img/pdf.jpg";
+                    }else if(fileType == 'doc' || fileType == 'docx'){
+                        scope.fileImage = "frontend/img/doc.png";
+                    }else {
+                        scope.fileImage = "frontend/img/file.png";
+                    }
+
+                    //  = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
+                    // scope.isPdf = (fileType == 'pdf');
+                    // scope.isDocs = (fileType == 'doc' || fileType == 'docx');
+                    // scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
 
                     if (files.length > 1 && scope.isMultiple) {
                         angular.forEach(files, function (file) {
@@ -160,7 +171,7 @@ myApp
     })
 
     .filter('downloadpath', function () {
-        debugger;        
+                
         return function (input, width, height, style) {
             var other = "";
             if (width && width !== "") {
@@ -183,7 +194,7 @@ myApp
     })
 
     .filter('readFile', function () {
-        debugger;
+        
         return function (input, width, height, style) {
             var other = "";
             if (width && width !== "") {

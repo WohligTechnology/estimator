@@ -7060,7 +7060,6 @@ tbody.collapse.in {
     overflow-y: auto; }
   @media (min-width: 768px) {
     .navbar-collapse {
-      width: auto;
       border-top: 0;
       box-shadow: none; }
       .navbar-collapse.collapse {
@@ -9771,16 +9770,6 @@ body {
     left: auto;
     right: 0; }
 
-.myQquick-nav {
-  position: absolute;
-  z-index: 1012811111111;
-  right: 10px !important;
-  bottom: 15% !important;
-  pointer-events: none; }
-
-.quick-nav-bg {
-  height: 13% !important; }
-
 input.ng-invalid.ng-dirty {
   border: 1px solid red; }
 
@@ -9804,6 +9793,20 @@ textarea.ng-valid.ng-dirty {
   width: 70px;
   margin-bottom: 35px;
   height: 20px; }
+
+.myQuick-nav-trigger span {
+  left: 50% !important;
+  right: auto !important; }
+
+.myQuick-nav-trigger {
+  top: unset !important; }
+
+.myQquick-nav {
+  position: absolute;
+  z-index: 1012811111111;
+  right: 10px !important;
+  pointer-events: none;
+  top: unset !important; }
 
 #fancybox-loading,
 .fancybox-close,

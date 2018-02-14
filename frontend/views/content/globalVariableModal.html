@@ -5,6 +5,9 @@
                 <div class="caption">
                     <i class="fa fa-info-circle"></i>Global Variables
                 </div>
+                <span style="padding-top: 12px;" ng-click="cancelModal()" class="pull-right">
+                    <i class="fa fa-times btn-info"></i>
+                </span>
             </div>
             <div class="portlet-body form">
                 <form class="form-horizontal">
@@ -13,9 +16,9 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>varName</th>
-                                        <th>Alias</th>
-                                        <th>Unit</th>
+                                        <th class="text-center">Var Name</th>
+                                        <th class="text-center">Alias</th>
+                                        <th class="text-center">Unit</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,6 +70,11 @@
                                     <tr>
                                         <td>Net Weight</td>
                                         <td>nwt</td>
+                                        <td>kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Weight Per Unit</td>
+                                        <td>wup</td>
                                         <td>kg</td>
                                     </tr>
                                     <tr>

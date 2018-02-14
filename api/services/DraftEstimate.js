@@ -51,7 +51,7 @@ var schema = new Schema({
 schema.plugin(deepPopulate, {
     populate: {
         'enquiryId.customerId': {
-            select: 'customerName',
+            select: '',
         },
 
         'estimateCreatedUser': {
@@ -66,7 +66,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('DraftEstimate', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'enquiryId enquiryId.customerId','enquiryId enquiryId.customerId'));
 var model = {
 
     //- compile draft estimate & store it into the 6 collections.
@@ -230,6 +230,11 @@ var model = {
                                                                     tempProObj.estimateVersion = tempObj.estimateVersion,
                                                                         tempProObj.processingLevelId = savedPart._id;
                                                                     // tempProObj.processingObj = proObj;
+
+                                                                    if(tempProObj.processItem == ''){
+                                                                        delete tempProObj.processItem;
+                                                                    }   
+
                                                                     EstimateProcessing.saveData(tempProObj, function (err, savedPartProcess) {
                                                                         if (err) {
                                                                             console.log('**** error at partProcessing of DraftEstimate.js ****', err);
@@ -253,6 +258,11 @@ var model = {
                                                                         tempAddonObj.addonsLevel = "part";
                                                                     tempAddonObj.addonsLevelId = savedPart._id;
                                                                     // tempAddonObj.addonObj = addonsObj;
+
+                                                                    if(tempAddonObj.addonItem == ''){
+                                                                        delete tempAddonObj.addonItem;
+                                                                    }  
+
                                                                     EstimateAddons.saveData(tempAddonObj, function (err, savedPartAddon) {
                                                                         if (err) {
                                                                             console.log('**** error at partAddons of DraftEstimate.js ****', err);
@@ -329,6 +339,10 @@ var model = {
                                                                 // tempProObj.processingObj = proObj;
                                                                 // tempProObj.processingObj = {};
 
+                                                                if(tempProObj.processItem == ''){
+                                                                    delete tempProObj.processItem;
+                                                                } 
+
                                                                 EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
                                                                     if (err) {
                                                                         console.log('**** error at subAssProcessing of DraftEstimate.js ****', err);
@@ -353,6 +367,10 @@ var model = {
                                                                     tempAddonObj.addonsLevelId = savedSubAss._id;
                                                                 // tempAddonObj.addonObj = addonsObj;
                                                                 // tempAddonObj.addonObj = {};
+                                                                if(tempAddonObj.addonItem == ''){
+                                                                    delete tempAddonObj.addonItem;
+                                                                }  
+
                                                                 EstimateAddons.saveData(tempAddonObj, function (err, savedSubAssAddon) {
                                                                     if (err) {
                                                                         console.log('**** error at subAssAddons of DraftEstimate.js ****', err);
@@ -432,6 +450,9 @@ var model = {
                                                         tempProObj.processingLevelId = savedAssembly._id;
                                                     // tempProObj.processingObj = proObj;
                                                     // tempProObj.processingObj = {};
+                                                    if(tempProObj.processItem == ''){
+                                                        delete tempProObj.processItem;
+                                                    } 
                                                     EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
                                                         if (err) {
                                                             console.log('**** error at assProcessing of DraftEstimate.js ****', err);
@@ -456,6 +477,10 @@ var model = {
                                                         tempAddonObj.addonsLevelId = savedAssembly._id;
                                                     // tempAddonObj.addonObj = addonObj;
                                                     // tempAddonObj.addonObj = {};
+                                                    if(tempAddonObj.addonItem == ''){
+                                                        delete tempAddonObj.addonItem;
+                                                    }  
+
                                                     EstimateAddons.saveData(tempAddonObj, function (err, savedSubAssAddon) {
                                                         if (err) {
                                                             console.log('**** error at assAddons of DraftEstimate.js ****', err);
@@ -545,8 +570,8 @@ var model = {
             addonCost: null,
             extrasCost: null,
             totalCost: null,
-            estimateCreatedUser: null,
-            estimateUpdatedUser: null,
+            estimateCreatedUser: data.estimateCreatedUser,
+            estimateUpdatedUser: data.estimateCreatedUser,
             estimateDetails: {},
             estimateBoq: {},
             estimateAttachment: {},

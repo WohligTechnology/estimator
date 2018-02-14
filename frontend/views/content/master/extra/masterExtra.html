@@ -93,10 +93,12 @@
                             <th rowspan="2" class="align-left"> Id </th>
                             <th rowspan="2" class="align-left"> Extra Name </th>
                             <th colspan="2" class="text-center"> Rate </th>
-                            <th rowspan="2" class="text-center"> Action </th>
+                            <th  class="text-center"> Quantity </th>
+                            <th rowspan="2" class="align-left"> Action </th>
                         </tr>
                         <tr>
                             <th class="text-center">Value</th>
+                            <th class="text-center" title="Unit Of Measurement">UOM</th>
                             <th class="text-center" title="Unit Of Measurement">UOM</th>
                         </tr>
                         <tbody>
@@ -110,8 +112,9 @@
                                 </td>
                                 <td>{{$index+1}}</td>
                                 <td>{{extra.extraName | capitalize}}</td>
-                                <td>{{extra.rate.name}}</td>
-                                <td>{{extra.rate.uom.uomName}} </td>
+                                <td class="text-center">{{extra.rate.name}}</td>
+                                <td class="text-center">{{extra.rate.uom.uomName}} </td>
+                                <td class="text-center">{{extra.quantity.uom.uomName}} </td>
                                 <td class="edit-icon">
                                     <span class="label label-sm label-success" ng-click="addOrEditExtraModal('update', extra)">
                                         <i class="fa fa-pencil" title="Edit Extra"></i>

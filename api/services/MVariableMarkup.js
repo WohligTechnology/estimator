@@ -5,24 +5,20 @@ var schema = new Schema({
         required: true
     },
     overhead: Number,
-    minProfit: Number,
-    negotiation: Number,
-    commission: Number,
-    other: Number,
-    totalValue: Number
+    minProfit: Number
 });
 
 schema.plugin(deepPopulate, {});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
-module.exports = mongoose.model('MMarkup', schema);
+module.exports = mongoose.model('MVariableMarkup', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
     //-Get all markup data from MMarkup table.
     getMMarkupData: function (data, callback) {
-        MMarkup.find().lean().exec(function (err, found) {
+        MVariableMarkup.find().lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at getMMarkupData of MMarkup.js ****', err);
                 callback(err, null);

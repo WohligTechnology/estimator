@@ -4,6 +4,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   var pi = 3.1415;
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
+  $scope.activeTab = 'assembly';
   //- for title
   TemplateService.getTitle("Estimate");
   $scope.showSaveBtn = true;
@@ -129,6 +130,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
             //- enable save/update buttons
             $scope.showSaveBtn = false;
             $scope.showEditBtn = true;
+            $scope.disablePartFields.disableMaterial = false;
 
             $scope.estimatePartObj.formFactor = data.formFactor; //- formFactor
             $scope.estimatePartObj.length = data.length; //- length
@@ -180,7 +182,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
                 //- get selected materials
                 //- to get all available materials
                 $scope.disablePartFields.disableCustomMaterial = true;
-                $scope.disablePartFields.disableMaterial = false;
                 $scope.estimatePartObj.selectedMaterial = data.selectedMaterial;
                 createOrEditEstimateService.getAllMaterials(function (data) {
                   $scope.estimatePartObj.allMaterial = data;
@@ -223,6 +224,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         }
       });
     });
+    if (getViewName == 'assembly' || getViewName == 'subAssembly') {
+      createOrEditEstimateService.totalCostCalculations(getViewName, function (data) {});
+    }
   }
   //- to perform CRUD of custom material
   $scope.getAllMaterialData = function (getViewName) {
@@ -490,7 +494,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.updatePartDetail(partObject, function (data) {
       $scope.estimteData = data;
       toastr.success('Part Details Added Successfully...');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -503,6 +506,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.getEstimateData($scope.draftEstimateId, function (data) {
       $scope.estimteData = data;
       $scope.getAllMaterialData();
+      createOrEditEstimateService.totalCostCalculations('assembly', function (data) {});
     });
   }
   $scope.getCurretEstimateObj = function () {
@@ -526,6 +530,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     }
   }, true);
 
+  //- get all fixed markups & update total cost
+  $scope.addCNOToCost = function () {
+    createOrEditEstimateService.addCNOToCost();
+  }
   // **************************************** functions to be triggered form view begin here **************************************** //
   //- to edit assembly name
   //- Edit Assembly Name modal start
@@ -542,7 +550,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to edit assembly name
   $scope.editAssemblyName = function (assemblyName) {
     createOrEditEstimateService.editAssemblyName(assemblyName, $scope.draftEstimateId, function (data) {
-      $scope.getEstimateData();
+      //$scope.getEstimateData();
       $scope.cancelModal();
       toastr.success('Estimate data updated successfully');
     });
@@ -629,7 +637,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       toastr.success('SubAssembly deleted successfully');
       $scope.getEstimateView('assembly');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk subAssemblies
@@ -668,7 +675,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('SubAssembly imported successfully');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -731,7 +737,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       // $scope.getEstimateView('subAssembly');
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete multiple parts
@@ -744,7 +749,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       $scope.cancelModal();
       toastr.success('Parts deleted successfully');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- import part modal
@@ -772,7 +776,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Part imported successfully');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to create a duplicate part for same subAssembly or different subAssembly
@@ -792,7 +795,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
           if (option == 'import') {
             $scope.cancelModal();
           }
-          createOrEditEstimateService.totalCostCalculations(function (data) {});
           toastr.success('Part added successfully');
         });
       }
@@ -802,11 +804,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   }
   //- to import current part to  different subAssembly 
   $scope.importPartToDifferentSubAssemblyModal = function (subAssNumber, part) {
-    $scope.partData = part;
-    createOrEditEstimateService.getAllSubAssNumbers(function (data) {
+    createOrEditEstimateService.getAllSubAssData(subAssNumber, function (data) {
       if (_.isEmpty(data)) {
         toastr.warning('No SubAssemblies are available to import');
       } else {
+        $scope.partData = part;
         $scope.subAssemblyData = data;
         $scope.modalInstance = $uibModal.open({
           animation: true,
@@ -841,7 +843,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       toastr.success('Addon deleted successfully');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk addons
@@ -865,7 +866,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Addon imported successfully');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -1279,6 +1279,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.partProcessingObj.showMulFact = false;
       }
       if (proTypeObj.showQuantityFields) {
+        $scope.partProcessingObj.quantity.utilization = proTypeObj.quantity.utilization;
+        $scope.partProcessingObj.quantity.contengncyOrWastage = proTypeObj.quantity.contengncyOrWastage;
         $scope.partProcessingObj.showFields = true;
         $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = "";
         $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = "";
@@ -1298,10 +1300,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
           $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.grossWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
         } else if (tempLinkedKeyValue == "Nwt") {
           $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.netWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-        } else if (tempLinkedKeyValue == "Nos") {
-          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Nos) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-        } else if (tempLinkedKeyValue == "Hrs") {
-          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.Hrs) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
         }
       } else {
         $scope.partProcessingObj.showFields = false;
@@ -1353,12 +1351,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- 2nd toggle button at MProcess  is on
     if ($scope.partProcessingObj.showFields) {
       if ($scope.partProcessingObj.quantity.contengncyOrWastage != 0) {
-        $scope.partProcessingObj.totalCost = ($scope.partProcessingObj.quantity.totalQuantity * $scope.partProcessingObj.rate.actualRate * $scope.partProcessingObj.quantity.linkedKeyValue.keyValue) * (($scope.partProcessingObj.quantity.utilization) / 100) * ((100 + $scope.partProcessingObj.quantity.contengncyOrWastage) / 100);
+        $scope.partProcessingObj.totalCost = (parseFloat($scope.partProcessingObj.quantity.totalQuantity) * parseFloat($scope.partProcessingObj.rate.actualRate) * parseFloat($scope.partProcessingObj.quantity.linkedKeyValue.keyValue)) * ((parseFloat($scope.partProcessingObj.quantity.utilization)) / 100) * ((100 + parseFloat($scope.partProcessingObj.quantity.contengncyOrWastage)) / 100);
       } else {
-        $scope.partProcessingObj.totalCost = ($scope.partProcessingObj.quantity.totalQuantity * $scope.partProcessingObj.rate.actualRate * $scope.partProcessingObj.quantity.linkedKeyValue.keyValue) * (($scope.partProcessingObj.quantity.utilization) / 100);
+        $scope.partProcessingObj.totalCost = (parseFloat($scope.partProcessingObj.quantity.totalQuantity) * parseFloat($scope.partProcessingObj.rate.actualRate) * parseFloat($scope.partProcessingObj.quantity.linkedKeyValue.keyValue)) * ((parseFloat($scope.partProcessingObj.quantity.utilization)) / 100);
       }
     } else {
-      $scope.partProcessingObj.totalCost = $scope.partProcessingObj.rate.actualRate * $scope.partProcessingObj.quantity.totalQuantity;
+      $scope.partProcessingObj.totalCost = parseFloat($scope.partProcessingObj.rate.actualRate) * parseFloat($scope.partProcessingObj.quantity.totalQuantity);
     }
 
   }
@@ -1399,7 +1397,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.cancelModal();
       });
     }
-    createOrEditEstimateService.totalCostCalculations(function (data) {});
 
   }
 
@@ -1418,8 +1415,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       toastr.success('Processing deleted successfully');
       $scope.getEstimateView('processing', level, subAssemblyId, partId);
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
-
     });
   }
   //- to delete bulk processing
@@ -1432,7 +1427,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getEstimateView('processing', level, subAssId, partId);
       $scope.cancelModal();
       toastr.success('Processing deleted successfully');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to get all versions of selected processing
@@ -1445,7 +1439,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Processing imported successfully');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 
@@ -1503,6 +1496,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       } else if ('update') {
         $scope.extraObj.allExtraItem = data.allExtraItem;
         $scope.extraObj.selectedExtraItem = data.selecetdExtraItem;
+        $scope.extraObj.rate = data.rate;
         $scope.extraObj.extraNumber = data.extraNumber;
         $scope.extraObj.totalCost = data.totalCost;
         $scope.extraObj.remark = data.remark;
@@ -1524,14 +1518,14 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   $scope.getSelectedExtraItem = function (extraObjData) {
     //- calculate rate
-
     $scope.extraObj.selectedExtraItem = extraObjData;
-    $scope.extraObj.totalCost = parseFloat(extraObjData.rate.name) * 1;
+    $scope.extraObj.rate = parseFloat(extraObjData.rate.name);
     $scope.extraObj.uom = extraObjData.rate.uom.uomName;
+    $scope.updateExtraCost();
   }
 
-  $scope.changeExtraQuantity = function (q) {
-    $scope.extraObj.totalCost = parseFloat($scope.extraObj.selectedExtraItem.rate.name) * q;
+  $scope.updateExtraCost = function () {
+    $scope.extraObj.totalCost = parseFloat($scope.extraObj.rate) * parseFloat($scope.extraObj.quantity);
   }
 
   //- to add Extra at assembly or subssembly or at partLevel
@@ -1544,11 +1538,11 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       remark: extraData.remark,
       quantity: extraData.quantity,
       rate: extraData.selectedExtraItem.rate.name,
-      uom: extraData.uom
+      uom: extraData.uom,
+      rate: extraData.rate
     }
     createOrEditEstimateService.addExtra(extra, level, subAssemblyId, partId, function () {
       $scope.getEstimateView('extras', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Extra added successfully');
       $scope.cancelModal();
     });
@@ -1557,7 +1551,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.updateExtra = function (extraObj, level, subAssemblyId, partId, extraId) {
     createOrEditEstimateService.updateExtra(extraObj, level, subAssemblyId, partId, extraId, function (data) {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Extra updated successfully');
       $scope.cancelModal();
     });
@@ -1568,7 +1561,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.deleteExtra(extraId, level, subAssemblyId, partId, function () {
       toastr.success('Extra deleted successfully');
       $scope.getEstimateView('extras', level, subAssemblyId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
     });
   }
@@ -1580,7 +1572,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.checkboxStatus = false;
 
       $scope.getEstimateView('extras', level, subAssId, partId);
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       $scope.cancelModal();
       toastr.success('Extras deleted successfully');
     });
@@ -1593,7 +1584,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.importExtra = function (extraId, level, subAssemblyId, partId) {
     createOrEditEstimateService.getImportExtraData(extraId, level, subAssemblyId, partId, function () {
       $scope.getCurretEstimateObj();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
       toastr.success('Extra imported successfully');
       $scope.cancelModal();
     });
@@ -1688,6 +1678,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         if (operation == 'save') {
           //- get required data to add addon
           $scope.addonObj.allAddonTypes = data.allAddonTypes;
+          $scope.showSaveBtn = true;
+          $scope.showEditBtn = false;
         } else if (operation == 'update') {
 
           $scope.addonObj.allAddonTypes = data.allAddonTypes;
@@ -1755,6 +1747,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     }
     if ($scope.addonObj.showQuantityFields) {
+      $scope.addonObj.quantity.utilization = selectedAddonType.quantity.percentageUse;
+      //$scope.addonObj.quantity.contengncyOrWastage = selectedAddonType.quantity.contengncyOrWastage; 
       //- get it from selecetdAddonType
       $scope.addonObj.quantity.supportingVariable.supportingVariable = selectedAddonType.quantity.additionalInput;
       $scope.addonObj.quantity.supportingVariable.uom = selectedAddonType.quantity.additionalInputUom.uomName; //- get it from selecetdAddonType
@@ -1773,10 +1767,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.grossWeight) * parseFloat(selectedAddonType.quantity.mulFact);
       } else if (tempLinkedKeyValue == "Nwt") {
         $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.netWeight) * parseFloat(selectedAddonType.quantity.mulFact);
-      } else if (tempLinkedKeyValue == "Nos") {
-        $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.Nos) * parseFloat(selectedAddonType.quantity.mulFact);
-      } else if (tempLinkedKeyValue == "Hrs") {
-        $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.Hrs) * parseFloat(selectedAddonType.quantity.mulFact);
       }
     }
 
@@ -1818,11 +1808,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.updateAddonCost = function () {
     if ($scope.addonObj.showQuantityFields) {
       if ($scope.addonObj.quantity.contengncyOrWastage != 0) {
-        $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.keyValue.keyValue) * parseFloat($scope.addonObj.quantity.supportingVariable.value) * (($scope.addonObj.quantity.utilization) / 100) * ((100 + $scope.addonObj.quantity.contengncyOrWastage) / 100);
+        $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.keyValue.keyValue) * parseFloat($scope.addonObj.quantity.supportingVariable.value) * (parseFloat($scope.addonObj.quantity.utilization) / 100) * ((100 + parseFloat($scope.addonObj.quantity.contengncyOrWastage)) / 100);
       } else {
-        $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.keyValue.keyValue) * parseFloat($scope.addonObj.quantity.supportingVariable.value) * (($scope.addonObj.quantity.utilization) / 100);
+        $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.keyValue.keyValue) * parseFloat($scope.addonObj.quantity.supportingVariable.value) * (parseFloat($scope.addonObj.quantity.utilization) / 100);
       }
-
     } else {
       $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value);
     }
@@ -1862,14 +1851,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if (operation == 'save') {
       createOrEditEstimateService.createAddon(addon, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('addons', level, subAssemblyId, partId);
-        createOrEditEstimateService.totalCostCalculations(function (data) {});
         toastr.success('Addon added successfully');
         $scope.cancelModal();
       });
     } else if (operation == 'update') {
       createOrEditEstimateService.updateAddon(addon, level, subAssemblyId, partId, function () {
         $scope.getEstimateView('addons', level, subAssemblyId, partId);
-        createOrEditEstimateService.totalCostCalculations(function (data) {});
         toastr.success('Addon updated successfully');
         $scope.cancelModal();
       });
@@ -1888,7 +1875,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       toastr.success('Addon deleted successfully');
       $scope.getEstimateView('addons', level, subAssemblyId, partId);
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- to delete bulk addons
@@ -1900,7 +1886,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getEstimateView('addons', level, subAssId, partId);
       $scope.cancelModal();
       toastr.success('Addons deleted successfully');
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
   //- Import Addon
@@ -1909,7 +1894,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.getCurretEstimateObj();
       toastr.success('Addon imported successfully');
       $scope.cancelModal();
-      createOrEditEstimateService.totalCostCalculations(function (data) {});
     });
   }
 

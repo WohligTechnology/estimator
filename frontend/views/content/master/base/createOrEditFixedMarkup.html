@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-md-12 mar-b">
+        <div class="portlet box green ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Fixed Markups
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form class="form-horizontal" name="myForm">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Negotiation:</label>
+                            <div class="col-md-5">
+                                <input type="text" name="negotiation" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.negotiation" class="form-control">
+                                <span class="unit">%</span>
+                                <span class="error" ng-show="myForm.negotiation.$invalid && myForm.negotiation.$dirty">Please enter a number or floating point number</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Comission:</label>
+                            <div class="col-md-5">
+                                <input type="text" name="comission" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.commission" class="form-control">
+                                <span class="unit">%</span>
+                                <span class="error" ng-show="myForm.comission.$invalid && myForm.comission.$dirty">Please enter a number or floating point number</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Other:</label>
+                            <div class="col-md-5">
+                                <input type="text" name="other" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.other" class="form-control">
+                                <span class="unit">%</span>
+                                <span class="error" ng-show="myForm.other.$invalid && myForm.other.$dirty">Please enter a number or floating point number</span>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label class="col-md-4 control-label">Total Value:</label>
+                            <div class="col-md-5">
+                                <input type="text" ng-model="formData.totalValue" class="form-control">
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditFixedMarkup(formData)" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditFixedMarkup(formData)" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Update</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>

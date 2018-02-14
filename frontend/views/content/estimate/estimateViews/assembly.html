@@ -49,9 +49,9 @@
                                 <li>
                                     <a href="javascript:;"> Save as PDF </a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="javascript:;"> Export to Excel </a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                 <div class="portlet-title">
                     <div class="row">
                         <div class="col-md-3">
-                            <label> Assembly Name:</label> {{estimteData.assemblyName  | capitalize}}
+                            <label> Assembly Name:</label> {{estimteData.assemblyName | capitalize}}
                         </div>
                         <div class="col-md-3">
                             <label> Id:</label> {{estimteData.assemblyNumber}}
@@ -74,7 +74,7 @@
                         <table class="table table-bordered table-hover scroll-x">
                             <thead>
                                 <tr>
-                                    <th rowspan="2">
+                                    <th rowspan="3">
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                             <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="estimateViewData.length <= 0"
                                                 ng-model="checkAll" ng-change="selectAll('subAssembly', level, estimteData.subAssemblies, checkAll)"
@@ -82,22 +82,30 @@
                                             <span></span>
                                         </label>
                                     </th>
-                                    <th rowspan="2" class="align-left"> Id </th>
-                                    <th rowspan="2" class="align-left"> SubAssembly Name</th>
-                                    <th rowspan="2" class="align-left"> Quantity (Nos) </th>
-                                    <th colspan="6" class="text-center"> Per Item Detail </th>
-                                    <th colspan="2" class="align-left text-center"> Total</th>
-                                    <th rowspan="2" class="align-left"> Action </th>
+                                    <th rowspan="3" class="align-left"> Id </th>
+                                    <th rowspan="3" class="align-left"> SubAssembly Name</th>
+                                    <th rowspan="3" class="align-left"> Quantity (Nos) </th>
+                                    <th colspan="7" class="text-center"> Per Item Detail </th>
+                                    <th colspan="2" class="text-center"> SA Unit Detail </th>
+                                    <th colspan="2" class="align-left text-center">SA Quantity Total</th>
+                                    <th rowspan="3" class="align-left"> Action </th>
                                 </tr>
                                 <tr>
-                                    <th>Gross Weight(gwt)</th>
-                                    <th>Material Cost</th>
-                                    <th>Processing Cost</th>
-                                    <th>Addon Cost</th>
-                                    <th>Extra Cost</th>
-                                    <th>Total Cost</th>
-                                    <th>Weight</th>
-                                    <th>Price</th>
+                                    <th colspan="3" class="text-center">SA Total</th>
+                                    <th rowspan="2" class="align-left">Processing Cost (Rs)</th>
+                                    <th colspan="2" class="text-center">Addon</th>
+                                    <th rowspan="2" class="align-left">Extra Cost (Rs)</th>
+                                    <th rowspan="2" class="align-left">Weight (Kg)</th>
+                                    <th rowspan="2" class="align-left">Cost (Rs)</th>
+                                    <th rowspan="2" class="align-left">Weight (Kg)</th>
+                                    <th rowspan="2" class="align-left">Price (Rs)</th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">Net Weight (Kg)</th>
+                                    <th class="text-center">Gross Weight (Kg)</th>
+                                    <th class="text-center">Material Cost (Rs)</th>
+                                    <th class="text-center">Weight (Kg)</th>                                    
+                                    <th class="text-center">Cost (Rs)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,15 +118,18 @@
                                         </label>
                                     </td>
                                     <td> {{$index + 1}} </td>
-                                    <td> {{p.subAssemblyName  | capitalize}} </td>
+                                    <td ng-click="getEstimateView('subAssembly', 'assembly', p.subAssemblyNumber)" > {{p.subAssemblyName | capitalize}} </td>
                                     <td> {{p.quantity}} </td>
+                                    <td> {{p.totalNetWeight.toFixed(2)}} </td>
                                     <td> {{p.totalWeight.toFixed(2)}} </td>
-                                    <td> {{(p.materialCost * p.totalWeight).toFixed(2)}} </td>
+                                    <td> {{(p.materialCost).toFixed(2)}} </td>
                                     <td> {{p.processingCost.toFixed(2)}} </td>
+                                    <td> {{p.addonWeight.toFixed(2)}} </td>
                                     <td> {{p.addonCost.toFixed(2)}} </td>
                                     <td> {{p.extrasCost.toFixed(2)}} </td>
-                                    <td> {{(p.materialCost * p.totalWeight + p.processingCost + p.addonCost + p.extrasCost).toFixed(2)}}</td>
-                                    <td> {{(p.totalWeight * p.quantity).toFixed(2)}} </td>
+                                    <td> {{(p.totalWeight + p.addonWeight).toFixed(2)}} </td>
+                                    <td> {{(p.materialCost + p.processingCost + p.addonCost + p.extrasCost).toFixed(2)}}</td>
+                                    <td> {{((p.totalWeight + p.addonWeight) * p.quantity).toFixed(2)}} </td>
                                     <td> {{p.totalCost.toFixed(2)}} </td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" id="add_space" ng-click="addOrEditSubAssemblyModal('update', p)">

@@ -641,19 +641,6 @@ tree css*/
   }
 }
 //- CSS for toggle button at custom material end
-//- CSS for global variable toggle button start
-.myQquick-nav {
-  position: absolute;
-  z-index: 1012811111111;
-  right: 10px !important;
-  bottom: 15% !important;
-  pointer-events: none;
-}
-
-.quick-nav-bg{
-  height: 13% !important;
-}
-//- CSS for global variable toggle button end
 
 
 //- CSS for changing border color during validation start
@@ -690,3 +677,41 @@ textarea.ng-valid.ng-dirty {
   height: 20px;
 }
 //- css for Uom With variables @ShapeView end
+
+
+
+//- css for quick navigation 
+.myQuick-nav-trigger span {
+  // webkit-transition: background-color .2s;
+  // -moz-transition: background-color .2s;
+  // -ms-transition: background-color .2s;
+  // -o-transition: background-color .2s;
+  // transition: background-color .2s;
+  left: 50% !important;
+  // top: 50% !important;
+  right: auto !important;
+  // webkit-transform: translateX(-50%) translateY(-50%);
+  // -moz-transform: translateX(-50%) translateY(-50%);
+  // -ms-transform: translateX(-50%) translateY(-50%);
+  // -o-transform: translateX(-50%) translateY(-50%);
+  // transform: translateX(-50%) translateY(-50%);
+}
+
+.myQuick-nav-trigger {
+  // bottom: 0 !important;
+  top: unset !important;
+}
+
+//- CSS for global variable toggle button start
+.myQquick-nav {
+  position: absolute !important;
+  z-index: 1012811111111 !important;;
+  right: 10px !important;
+  pointer-events: none !important;;
+  top: unset !important;
+ }
+
+// .quick-nav-bg{
+//   height: 13% !important;
+// }
+//- CSS for global variable toggle button end

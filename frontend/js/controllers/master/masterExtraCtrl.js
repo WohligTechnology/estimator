@@ -9,10 +9,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   $scope.bulkExtras = [];
   //- for title
   TemplateService.getTitle("ExtraMaster");
-  //- obj for validation of select 
-  $scope.extraMaster = {
-    uom: ""
-  }
+
 
 
   // *************************** default functions begin here  ********************** //
@@ -31,7 +28,11 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   // *************************** functions to be triggered form view begin here ***** // 
   //- modal to create new extra 
   $scope.addOrEditExtraModal = function (operation, extra) {
-
+    //- obj for validation of select 
+    $scope.extraMaster = {
+      rateUom: "",
+      quantityUOm: ""
+    }
     masterExtraService.getExtraModalData(operation, extra, function (data) {
 
       $scope.formData = data.extra;
@@ -39,6 +40,10 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
 
       if (operation == "update") {
         $scope.selectedRateUom = extra.rate.uom;
+        $scope.selectedQuantityUom = extra.quantity.uom;
+      } else {
+        $scope.selectedRateUom = "";
+        $scope.selectedQuantityUom = "";
       }
 
       $scope.showSaveBtn = data.saveBtn;
@@ -52,14 +57,19 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
     });
   }
   //- function to  create new customer
-  $scope.addOrEditExtra = function (extraData, selectedRateUom) {
+  $scope.addOrEditExtra = function (extraData, selectedRateUom, selectedQuantityUom) {
     extraData.rate.uom = selectedRateUom;
+    extraData.quantity = {
+      uom: selectedQuantityUom
+    }
     var errorCount = 0;
     if (_.isEmpty(selectedRateUom)) {
-      $scope.extraMaster.uom = "Select UOM."
+      $scope.extraMaster.rateUom = "Select UOM for Rate."
       errorCount++;
-    } else {
-      $scope.extraMaster.uom = ""
+    }
+    if (_.isEmpty(selectedQuantityUom)) {
+      $scope.extraMaster.quantityUom = "Select UOM for Quantity."
+      errorCount++;
     }
     if (errorCount == 0) {
       masterExtraService.addOrEditExtra(extraData, function (data) {
