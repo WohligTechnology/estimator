@@ -463,6 +463,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		formData.assembly.totalCost = (parseFloat(formData.assembly.materialCost) + parseFloat(formData.assembly.processingCost) + parseFloat(formData.assembly.addonCost) + parseFloat(formData.assembly.extrasCost));
 		formData.assembly.totalCost += (formData.assembly.totalCost * ((parseFloat(formData.assembly.negotiation) + parseFloat(formData.assembly.commission) + parseFloat(formData.assembly.other)) / 100));
 	}
+	this.addScalingFactorToCost = function (type) {
+		NavigationService.boxCall('MFixedMarkup/search', function (data) {
+			formData.assembly.totalCost = (parseFloat(formData.assembly.materialCost) + parseFloat(formData.assembly.processingCost) + parseFloat(formData.assembly.addonCost) + parseFloat(formData.assembly.extrasCost));
+			//formData.assembly.totalCost += (formData.assembly.totalCost * (parseFloat(formData.assembly.scaleFactor) / 100));
+		});
+
+	}
 	//- to get processing totalCost
 	this.getProcessingTotalCost = function (level, processings, subAssId) {
 		var thisRef = this;
@@ -1632,10 +1639,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					}
 					if (addonObject.showRateFields) {
 						addonObject.selectedMaterial = tempAddonObj.addonItem;
-						addonObject.totalWeight = tempAddonObj.totalWeight;
 					}
 					addonObject.quantity.keyValue.uom = tempAddonObj.addonType.quantity.linkedKeyUom.uomName;
-
+					
+					addonObject.weightPerUnit = tempAddonObj.weightPerUnit;
+					addonObject.totalWeight = tempAddonObj.totalWeight;
 					addonObject.quantity.total = tempAddonObj.quantity.total;
 					addonObject.totalCost = tempAddonObj.totalCost;
 					addonObject.remarks = tempAddonObj.remarks;

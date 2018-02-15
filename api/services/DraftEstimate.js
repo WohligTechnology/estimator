@@ -28,6 +28,15 @@ var schema = new Schema({
     addonCost: Number,
     extrasCost: Number,
     totalCost: Number,
+    negotiation: Number,
+    commission: Number,
+    other: Number,
+    scaleFactors: {
+        low: Number,
+        medium: Number,
+        high: Number,
+        budgetory: Number
+    },
     estimateCreatedUser: {
         type: Schema.Types.ObjectId,
         ref: "User"

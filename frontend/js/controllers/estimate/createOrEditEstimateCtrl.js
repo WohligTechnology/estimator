@@ -534,6 +534,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.addCNOToCost = function () {
     createOrEditEstimateService.addCNOToCost();
   }
+  //- add markupScalling & update total cost
+  $scope.addScalingFactorToCost = function (type) {
+    createOrEditEstimateService.addScalingFactorToCost(type);
+  }
   // **************************************** functions to be triggered form view begin here **************************************** //
   //- to edit assembly name
   //- Edit Assembly Name modal start
@@ -1613,6 +1617,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       allMaterials: [],
       selectedAddonType: {},
       selectedMaterial: {},
+      weightPerUnit: "",
       showRateFields: true, //- for 1st toggle  @MProcess
       showQuantityFields: true, //- for 2nd toggle @MProcess
       rate: {
@@ -1689,7 +1694,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
           $scope.addonObj.showQuantityFields = data.showQuantityFields;
           if (data.showRateFields) {
             $scope.addonObj.selectedMaterial = data.selectedMaterial;
-            $scope.addonObj.totalWeight = data.totalWeight;
           }
           if (data.showQuantityFields) {
 
@@ -1703,19 +1707,20 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
             $scope.addonObj.quantity.utilization = data.quantity.utilization;
             $scope.addonObj.quantity.contengncyOrWastage = data.quantity.contengncyOrWastage;
           }
+          $scope.addonObj.weightPerUnit = parseFloat(data.weightPerUnit);
           $scope.addonObj.rate.value = parseFloat(data.rate.value);
           $scope.addonObj.rate.uom = data.rate.uom;
 
           $scope.addonObj.quantity.keyValue.uom = data.quantity.keyValue.uom;
           $scope.addonObj.totalCost = data.totalCost;
+          $scope.addonObj.totalWeight = data.totalWeight;
           $scope.addonObj.quantity.total = data.quantity.total;
           $scope.addonObj.remark = data.remarks;
           // $scope.addonObj.currentPartObj = data.currentPartObj;
           $scope.addonObj.addonNumber = data.addonNumber;
-          // $scope.addonObj.totalWeight = data;
           // $scope.addonObj.totalWeight = ;
 
-          $scope.addonObj.finalUom = data.selectedAddonType.quantity.finalUom.uomName;
+          //$scope.addonObj.finalUom = data.selectedAddonType.quantity.finalUom.uomName;
 
           $scope.showSaveBtn = false;
           $scope.showEditBtn = true;
@@ -1732,6 +1737,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   //- when user select an addonType
   $scope.getSelectedAddonType = function (selectedAddonType) {
+    //    $scope.getAddonObject();
     //- update selectedAddonType in selectedAddonType
     $scope.addonObj.selectedAddonType = selectedAddonType;
     $scope.addonObj.showQuantityFields = selectedAddonType.showQuantityFields;
@@ -1771,8 +1777,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     }
 
     $scope.addonObj.quantity.keyValue.uom = selectedAddonType.quantity.linkedKeyUom.uomName; //    
-    $scope.addonObj.finalUom = selectedAddonType.quantity.finalUom.uomName; //- selected selectedAddonType-->quantity-->finalUom 
-
+    //    $scope.addonObj.finalUom = selectedAddonType.quantity.finalUom.uomName; //- selected selectedAddonType-->quantity-->finalUom 
+    // $scope.updateAddonCost();
   }
 
   //- when user select an material
@@ -1796,6 +1802,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       //- i.e.  part level, subAssembly level or assemby level
       $scope.addonObj.selectedAddonType.rate.mulFact = parseFloat(selectedMaterial.efficiency);
     }
+    //- get weight per unit field
+    $scope.addonObj.weightPerUnit = parseFloat(selectedMaterial.weightPerUnit);
     //- get rate selectedAddonType-->rate * selectedMaterial --> typicalRatepeKg
     $scope.addonObj.rate.value = $scope.addonObj.selectedAddonType.rate.mulFact * selectedMaterial.typicalRatePerKg;
     $scope.updateAddonCost();
@@ -1806,17 +1814,27 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   }
   $scope.updateAddonCost = function () {
+    var rate = parseFloat($scope.addonObj.rate.value);
+    var quantity = parseFloat($scope.addonObj.quantity.total);
+    //- weight per unit
+    var weightPerUnit = parseFloat($scope.addonObj.weightPerUnit);
     if ($scope.addonObj.showQuantityFields) {
-      if ($scope.addonObj.quantity.contengncyOrWastage != 0) {
-        $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.keyValue.keyValue) * parseFloat($scope.addonObj.quantity.supportingVariable.value) * (parseFloat($scope.addonObj.quantity.utilization) / 100) * ((100 + parseFloat($scope.addonObj.quantity.contengncyOrWastage)) / 100);
-      } else {
-        $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value) * parseFloat($scope.addonObj.quantity.keyValue.keyValue) * parseFloat($scope.addonObj.quantity.supportingVariable.value) * (parseFloat($scope.addonObj.quantity.utilization) / 100);
+      //- case 1 & case 2
+      var keyValue = parseFloat($scope.addonObj.quantity.keyValue.keyValue);
+      var supportingVariable = parseFloat($scope.addonObj.quantity.supportingVariable.value);
+      var utilization = parseFloat($scope.addonObj.quantity.utilization);
+      var contengncyOrWastage = parseFloat($scope.addonObj.quantity.contengncyOrWastage);
+      var mulFact = parseFloat($scope.addonObj.selectedAddonType.quantity.mulFact);
+      $scope.addonObj.totalWeight = weightPerUnit * mulFact * keyValue * supportingVariable * (utilization / 100);
+      $scope.addonObj.totalCost = quantity * rate * keyValue * supportingVariable * (utilization / 100);
+      if (parseFloat(contengncyOrWastage) > 0) {
+        $scope.addonObj.totalWeight = $scope.addonObj.totalWeight * (1 + (contengncyOrWastage / 100));
+        $scope.addonObj.totalCost = $scope.addonObj.totalCost * (1 + (contengncyOrWastage / 100));
       }
     } else {
-      $scope.addonObj.totalCost = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.rate.value);
-    }
-    if ($scope.addonObj.showRateFields) {
-      $scope.addonObj.totalWeight = parseFloat($scope.addonObj.quantity.total) * parseFloat($scope.addonObj.selectedMaterial.weightPerUnit);
+      //- case 3 & case 4
+      $scope.addonObj.totalWeight = quantity * weightPerUnit;
+      $scope.addonObj.totalCost = quantity * rate;
     }
   }
 
@@ -1827,6 +1845,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       addonNumber: addonData.addonNumber,
       addonType: addonData.selectedAddonType,
       addonItem: addonData.selectedMaterial,
+      weightPerUnit: addonData.weightPerUnit,
       rate: addonData.rate.value,
       quantity: {
         supportingVariable: {

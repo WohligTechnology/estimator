@@ -38,7 +38,7 @@
                                 <div>
                                     <label class="padd-t">{{addonObj.rate.value.toFixed(2)}}</label>
                                     <span>
-                                        <b>{{addonObj.rate.uom}}</b>
+                                        <strong>{{addonObj.rate.uom}}</strong>
                                     </span>
                                 </div>
                             </div>
@@ -48,7 +48,8 @@
                                 <span class="error">&nbsp;&nbsp;*</span>
                             </label>
                             <div class="col-md-5 text-left">
-                                <input type="number" class="form-control" ng-model="addonObj.rate.value" name="rate" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-change="updateAddonCost()" required>
+                                <input type="number" class="form-control" ng-model="addonObj.rate.value" name="rate" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-change="updateAddonCost()"
+                                    required>
                                 <span class="unit">
                                     {{addonObj.rate.uom}}
                                 </span>
@@ -83,6 +84,24 @@
                                 </span> -->
                             </div>
                         </div>
+                        <div class="form-group" ng-show="!addonObj.showRateFields">
+                            <label class="col-md-4 control-label">Weight Per Unit :
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="weightPerUnit" ng-model="addonObj.weightPerUnit"  pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-change="updateAddonCost()" required>
+                                <span class="unit">Kg</span>
+                                <span class="error" ng-show="myForm.weightPerUnit.$invalid && myForm.weightPerUnit.$dirty">Please enter a number or floating point number</span>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="addonObj.showRateFields && !addonObj.showQuantityFields">
+                            <label class="col-md-4 control-label">Weight Per Unit :</label>
+                            <div class="col-md-5">
+                                <span>{{addonObj.weightPerUnit}}
+                                    <strong>Kg</strong>
+                                </span>
+                            </div>
+                        </div>
                         <div class="form-group" ng-show="addonObj.showQuantityFields">
                             <label class="col-md-4 control-label">Key Value:</label>
                             <div class="col-md-5">
@@ -106,9 +125,9 @@
                                 <span class="error">&nbsp;&nbsp;*</span>
                             </label>
                             <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="100" name="utilization" ng-change="updateAddonCost()" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="addonObj.quantity.utilization"
-                                        required>
-                                        <span class="unit">%</span>
+                                <input type="text" class="form-control" placeholder="100" name="utilization" ng-change="updateAddonCost()" pattern="[\-\+]?[0-9]*(\.[0-9]+)?"
+                                    ng-model="addonObj.quantity.utilization" required>
+                                <span class="unit">%</span>
                                 <span class="error" ng-show="myForm.utilization.$invalid && myForm.utilization.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
@@ -117,15 +136,15 @@
                                 <span class="error">&nbsp;&nbsp;*</span>
                             </label>
                             <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="10" ng-change="updateAddonCost()" name="contengncyOrWastage" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="addonObj.quantity.contengncyOrWastage"
-                                        required>
-                                        <span class="unit">%</span>
+                                <input type="text" class="form-control" placeholder="10" ng-change="updateAddonCost()" name="contengncyOrWastage" pattern="[\-\+]?[0-9]*(\.[0-9]+)?"
+                                    ng-model="addonObj.quantity.contengncyOrWastage" required>
+                                <span class="unit">%</span>
                                 <div class="display-inline">
                                     <span class="error" ng-show="myForm.contengncyOrWastage.$invalid && myForm.contengncyOrWastage.$dirty">Please enter a number or floating point number</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" ng-show="addonObj.showQuantityFields">
+                        <!-- <div class="form-group" ng-show="addonObj.showQuantityFields">
                             <label class="col-md-4 control-label">Total Quantity:
                                 <span class="error">&nbsp;&nbsp;*</span>
                             </label>
@@ -133,22 +152,25 @@
                                 <input type="text" class="form-control" ng-model="addonObj.quantity.total" ng-change="updateAddonCost(addonObj.quantity.total)"
                                     required>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group" ng-show="!addonObj.showQuantityFields">
                             <label class="col-md-4 control-label">Quantity:
                                 <span class="error">&nbsp;&nbsp;*</span>
                             </label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="addonObj.quantity.total" ng-change="updateAddonCost(addonObj.quantity.total)"
+                                <input type="text" class="form-control" name="quantity" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="addonObj.quantity.total" ng-change="updateAddonCost(addonObj.quantity.total)"
                                     required>
-                                    <span class="unit">{{addonObj.quantity.keyValue.uom}}</span>
+                                <span class="unit">{{addonObj.quantity.keyValue.uom}}</span>
+                                <span class="error" ng-show="myForm.quantity.$invalid && myForm.quantity.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
-                        <div class="form-group" ng-show="addonObj.showRateFields">
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Total Weight:</label>
                             <div class="col-md-5">
                                 <div>
-                                    <label class="padd-t">{{addonObj.totalWeight.toFixed(2)}} Kg</label>
+                                    <label class="padd-t">{{addonObj.totalWeight.toFixed(2)}}
+                                        <strong>Kg</strong>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +179,7 @@
                             <div class="col-md-5">
                                 <div>
                                     <label class="padd-t">{{addonObj.totalCost.toFixed(2)}}</label>
-                                    <strong>Rs.</strong>
+                                    <strong>Rs</strong>
                                 </div>
                             </div>
                         </div>
