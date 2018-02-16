@@ -9,9 +9,8 @@ var schema = new Schema({
         perimeter: Number,
         sheetMetalArea: Number,
         surfaceArea: Number,
-        weight: Number,
-        numbers: Number,
-        hours: Number
+        grossWeight: Number,
+        netWeight: Number 
     },
     estimateId: { // two way data binding
         type: Schema.Types.ObjectId,

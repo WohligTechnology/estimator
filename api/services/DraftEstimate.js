@@ -18,9 +18,8 @@ var schema = new Schema({
         perimeter: Number,
         sheetMetalArea: Number,
         surfaceArea: Number,
-        weight: Number,
-        numbers: Number,
-        hours: Number
+        grossWeight: Number,
+        netWeight: Number
     },
     totalWeight: Number,
     materialCost: Number,
@@ -32,6 +31,7 @@ var schema = new Schema({
     commission: Number,
     other: Number,
     scaleFactors: {
+        factor: String,
         low: Number,
         medium: Number,
         high: Number,
@@ -75,7 +75,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('DraftEstimate', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'enquiryId enquiryId.customerId','enquiryId enquiryId.customerId'));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, 'enquiryId enquiryId.customerId', 'enquiryId enquiryId.customerId'));
 var model = {
 
     //- compile draft estimate & store it into the 6 collections.
@@ -162,10 +162,10 @@ var model = {
                             } else if (_.isEmpty(savedAssembly)) {
                                 callback(null, 'noDataFound');
                             } else {
-                                
+
                                 var partError = {
-                                    status:true,
-                                    partName:""
+                                    status: true,
+                                    partName: ""
                                 };
 
                                 async.eachSeries(found.subAssemblies, function (subAss, callback) {
@@ -207,7 +207,7 @@ var model = {
                                                     material: part.material._id,
                                                     // shape:shape._id,
                                                     size: part.size,
-                                                    customMaterial:part.customMaterial._id,
+                                                    customMaterial: part.customMaterial._id,
                                                     quantity: part.quantity,
                                                     variable: part.variable,
                                                     scaleFactor: part.scaleFactor,
@@ -220,7 +220,7 @@ var model = {
                                                 };
                                                 EstimatePart.saveData(partObj, function (err, savedPart) {
                                                     if (err) {
-                                                        console.log('**** error attttttt $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ EstimatePart.saveData of DraftEstimate.js ****',err);
+                                                        console.log('**** error attttttt $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ EstimatePart.saveData of DraftEstimate.js ****', err);
                                                         partError.partName = part.partName;
                                                         partError.status = false;
                                                         callback();
@@ -239,10 +239,10 @@ var model = {
                                                                     tempProObj.estimateVersion = tempObj.estimateVersion,
                                                                         tempProObj.processingLevelId = savedPart._id;
                                                                     // tempProObj.processingObj = proObj;
-
-                                                                    if(tempProObj.processItem == ''){
+                                                                    console.log('**** %%%%%%%%%%%% ****', tempProObj.processItem);
+                                                                    if (tempProObj.processItem == '' || 'undefined') {
                                                                         delete tempProObj.processItem;
-                                                                    }   
+                                                                    }
 
                                                                     EstimateProcessing.saveData(tempProObj, function (err, savedPartProcess) {
                                                                         if (err) {
@@ -268,9 +268,9 @@ var model = {
                                                                     tempAddonObj.addonsLevelId = savedPart._id;
                                                                     // tempAddonObj.addonObj = addonsObj;
 
-                                                                    if(tempAddonObj.addonItem == ''){
+                                                                    if (tempAddonObj.addonItem == '' || 'undefined') {
                                                                         delete tempAddonObj.addonItem;
-                                                                    }  
+                                                                    }
 
                                                                     EstimateAddons.saveData(tempAddonObj, function (err, savedPartAddon) {
                                                                         if (err) {
@@ -348,9 +348,9 @@ var model = {
                                                                 // tempProObj.processingObj = proObj;
                                                                 // tempProObj.processingObj = {};
 
-                                                                if(tempProObj.processItem == ''){
+                                                                if (tempProObj.processItem == '') {
                                                                     delete tempProObj.processItem;
-                                                                } 
+                                                                }
 
                                                                 EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
                                                                     if (err) {
@@ -376,9 +376,9 @@ var model = {
                                                                     tempAddonObj.addonsLevelId = savedSubAss._id;
                                                                 // tempAddonObj.addonObj = addonsObj;
                                                                 // tempAddonObj.addonObj = {};
-                                                                if(tempAddonObj.addonItem == ''){
+                                                                if (tempAddonObj.addonItem == '' || 'undefined') {
                                                                     delete tempAddonObj.addonItem;
-                                                                }  
+                                                                }
 
                                                                 EstimateAddons.saveData(tempAddonObj, function (err, savedSubAssAddon) {
                                                                     if (err) {
@@ -459,9 +459,9 @@ var model = {
                                                         tempProObj.processingLevelId = savedAssembly._id;
                                                     // tempProObj.processingObj = proObj;
                                                     // tempProObj.processingObj = {};
-                                                    if(tempProObj.processItem == ''){
+                                                    if (tempProObj.processItem == '') {
                                                         delete tempProObj.processItem;
-                                                    } 
+                                                    }
                                                     EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
                                                         if (err) {
                                                             console.log('**** error at assProcessing of DraftEstimate.js ****', err);
@@ -486,9 +486,9 @@ var model = {
                                                         tempAddonObj.addonsLevelId = savedAssembly._id;
                                                     // tempAddonObj.addonObj = addonObj;
                                                     // tempAddonObj.addonObj = {};
-                                                    if(tempAddonObj.addonItem == ''){
+                                                    if (tempAddonObj.addonItem == '') {
                                                         delete tempAddonObj.addonItem;
-                                                    }  
+                                                    }
 
                                                     EstimateAddons.saveData(tempAddonObj, function (err, savedSubAssAddon) {
                                                         if (err) {

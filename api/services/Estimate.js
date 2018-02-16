@@ -17,9 +17,8 @@ var schema = new Schema({
         perimeter: Number,
         sheetMetalArea: Number,
         surfaceArea: Number,
-        weight: Number,
-        numbers: Number,
-        hours: Number
+        grossWeight: Number,
+        netWeight: Number
     },
     totalWeight: Number,
     materialCost: Number,
@@ -1096,7 +1095,8 @@ var model = {
                                 item: "",
                                 value: 0,
                                 uom: "",
-                                weight: 0,
+                                netWeight: 0,
+                                grossWeight: 0,
                                 partCost: 0,
                                 processingCost: 0,
 
@@ -1137,7 +1137,8 @@ var model = {
                                                 "Item": materialSubCatName.materialName,
                                                 "PartUnitdetails.QuantityWithinPart.Value": subAssPart.quantity,
                                                 "PartUnitdetails.QuantityWithinPart.UOM": "",
-                                                "PartUnitdetails.Part.Weight(kg)": subAssPart.keyValueCalculations.weight,
+                                                "PartUnitdetails.Part.netWeight(kg)": subAssPart.keyValueCalculations.netWeight,
+                                                "PartUnitdetails.Part.Weight(kg)": subAssPart.keyValueCalculations.grossWeight,
                                                 "PartUnitdetails.Part.Cost(Rs.)": subAssPart.finalCalculation.itemUnitPrice,
                                                 "PartUnitDetails.ProcessingCost(Rs.)": "",
                                                 "PartUnitDetails.Addons.Weight(Kg)": "",
@@ -1373,7 +1374,7 @@ var model = {
                                                         partTotalDetailTempRow.partUnitWeight = 0;
 
                                                         //-part unit total weight calculation
-                                                        partTotalDetailTempRow.partUnitWeight = (subAssPart.keyValueCalculations.weight + partTotalDetailTempRow.addonWeight);
+                                                        partTotalDetailTempRow.partUnitWeight = (subAssPart.keyValueCalculations.grossWeight + partTotalDetailTempRow.addonWeight);
 
                                                         console.log('****^^^^^^^^^ ****', partTotalDetailTempRow.partUnitWeight);
 
@@ -1403,7 +1404,8 @@ var model = {
                                                             "Item": "",
                                                             "PartUnitdetails.QuantityWithinPart.Value": "",
                                                             "PartUnitdetails.QuantityWithinPart.UOM": "",
-                                                            "PartUnitdetails.Part.Weight(kg)": subAssPart.keyValueCalculations.weight,
+                                                            "PartUnitdetails.Part.netWeight(kg)": subAssPart.keyValueCalculations.netWeight,
+                                                            "PartUnitdetails.Part.Weight(kg)": subAssPart.keyValueCalculations.grossWeight,
                                                             "PartUnitdetails.Part.Cost(Rs.)": subAssPart.finalCalculation.itemUnitPrice,
                                                             "PartUnitDetails.ProcessingCost(Rs.)": partTotalDetailTempRow.processingCost,
                                                             "PartUnitDetails.Addons.Weight(Kg)": partTotalDetailTempRow.addonWeight,
@@ -1425,7 +1427,6 @@ var model = {
                                                         rowsNum = row._number;
 
                                                         rowNumMoreOne = row._number + 1;
-                                                        ""
                                                         worksheet1.getCell('B' + rowNumMoreOne).value = partTotalDetailTempRow.partQty;
                                                         worksheet1.getCell('B' + rowNumMoreOne).font = {
                                                             bold: true
@@ -1441,7 +1442,7 @@ var model = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('E' + rowNumMoreOne).value = materialSubCatName.materialName
+                                                        worksheet1.getCell('E' + rowNumMoreOne).value = materialSubCatName.materialName;
                                                         worksheet1.getCell('E' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
@@ -1451,12 +1452,12 @@ var model = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('K' + rowNumMoreOne).value = "NetWeight";
+                                                        worksheet1.getCell('K' + rowNumMoreOne).value = subAssPart.keyValueCalculations.netWeight;
                                                         worksheet1.getCell('K' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('L' + rowNumMoreOne).value = subAssPart.keyValueCalculations.weight;
+                                                        worksheet1.getCell('L' + rowNumMoreOne).value = subAssPart.keyValueCalculations.grossWeight;
                                                         worksheet1.getCell('L' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
@@ -1516,7 +1517,8 @@ var model = {
                                                             "Item": "",
                                                             "PartUnitdetailsQuantityWithinPartValue": "",
                                                             "PartUnitdetailsQuantityWithinPartUOM": "",
-                                                            "PartUnitdetailsPartWeight": subAssPart.keyValueCalculations.weight,
+                                                            "PartUnitdetailsPartNetWeight": subAssPart.keyValueCalculations.netWeight,
+                                                            "PartUnitdetailsPartWeight": subAssPart.keyValueCalculations.grossWeight,
                                                             "PartUnitdetailsPartCost": subAssPart.finalCalculation.itemUnitPrice,
                                                             "PartUnitDetailsProcessingCost": partTotalDetailTempRow.processingCost,
                                                             "PartUnitDetailsAddonsWeight": partTotalDetailTempRow.addonWeight,
@@ -1706,7 +1708,6 @@ var model = {
                         subAss: ['part', function (partData, callback) {
                             subAssTotalData = [];
                             async.eachSeries(found.assemblyObj.subAssemblies, function (subAssObj, callback) {
-
                                 subAssQty = subAssObj.quantity;
                                 subSheetName = subAssObj.subAssemblyName;
                                 var subAssemblyNumber = subAssObj.subAssemblyNumber;
@@ -2146,7 +2147,6 @@ var model = {
                                     }
                                 };
 
-
                                 var getSubAssPartArray = [];
 
                                 _.find(partData.part, function (o) {
@@ -2155,6 +2155,7 @@ var model = {
                                         "PartQty": o.PartQty,
                                         "PartName": o.PartName,
                                         "PartNumber": o.PartNumber,
+                                        "Unitdetails.PartTotal.NetWeight(kg)": o.PartUnitdetailsPartNetWeight,
                                         "Unitdetails.PartTotal.Weight(kg)": o.PartUnitdetailsPartWeight,
                                         "Unitdetails.PartTotal.Cost(Rs.)": o.PartUnitdetailsPartCost,
                                         "UnitDetails.ProcessingCost(Rs.)": o.PartUnitDetailsProcessingCost,
@@ -2167,6 +2168,7 @@ var model = {
                                         "PartQuantityTotal.Cost(Rs)": o.QuantityTotalCost
                                     };
 
+
                                     if (o.PartNumber.includes(subAssemblyNumber)) {
 
                                         getSubAssPartArray.push(subAssFinalData);
@@ -2174,6 +2176,8 @@ var model = {
                                         worksheet.addRow(subAssFinalData);
                                     }
                                 });
+
+
 
                                 var partTotalCalArray = [];
                                 _.find(partData.part, function (o) {
@@ -2205,7 +2209,7 @@ var model = {
                                     //-Calculation of Unit details part total total cost
 
                                     partTotalTotalCost = partTotalTotalCost + g.PartUnitdetailsPartCost;
-                                    g.PartUnitdetailsPartCost = 0
+                                    g.PartUnitdetailsPartCost = 0;
 
                                     //-Calculation of Unit details processing total cost
 
@@ -2245,11 +2249,13 @@ var model = {
                                     PartTotalQuantityCost = PartTotalQuantityCost + g.QuantityTotalCost;
                                     g.QuantityTotalCost = 0;
                                     // console.log('**** %%%%%%%%%s ****', subAssPartTotalTotal);
-                                })
+                                });
+
                                 var subAssPartTotalTotal = {
                                     "PartQty": "",
                                     "PartName": "Total",
                                     "PartNumber": "",
+                                    "Unitdetails.PartTotal.NetWeight(kg)": "",
                                     "Unitdetails.PartTotal.Weight(kg)": partTotalTotalWeight,
                                     "Unitdetails.PartTotal.Cost(Rs.)": partTotalTotalCost,
                                     "UnitDetails.ProcessingCost(Rs.)": UnitDetailsTotalProcessingCost,
@@ -2265,6 +2271,7 @@ var model = {
                                 var subAssPartTotalFinal = {
                                     "SAQty": subAssQty,
                                     "SAName": subSheetName,
+                                    "UnitdetailsPartTotalNetWeight": partTotalTotalWeight,
                                     "UnitdetailsPartTotalWeight": partTotalTotalWeight,
                                     "UnitdetailsPartTotalCost": partTotalTotalCost,
                                     "UnitDetailsProcessingCost": UnitDetailsTotalProcessingCost,
@@ -2276,6 +2283,7 @@ var model = {
                                     "SAQuantityTotalWeighth": PartTotalQuantityWeight,
                                     "SAQuantityTotalCost": PartTotalQuantityCost
                                 };
+
 
                                 worksheet.addRow(subAssPartTotalTotal);
 
@@ -2424,6 +2432,7 @@ var model = {
                                     }
                                 };
 
+
                                 var tempSubAssSheetArrays = [];
                                 async.waterfall([
                                     function (callback) {
@@ -2467,6 +2476,7 @@ var model = {
                                                                         "PartQty": "",
                                                                         "PartName": "Processing",
                                                                         // "PartNumber": subAssProcessTypeData.processCat.processCatName,
+                                                                        "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                                         "Unitdetails.PartTotal.Weight(kg)": subAssProcessTypeData.processCat.processCatName,
                                                                         "Unitdetails.PartTotal.Cost(Rs.)": subAssProItemName.processItemName,
                                                                         "UnitDetails.ProcessingCost(Rs.)": subAssProc.quantity.totalQuantity,
@@ -2529,6 +2539,7 @@ var model = {
                                                                             "PartQty": "",
                                                                             "PartName": "",
                                                                             // "PartNumber": "",
+                                                                            "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                                             "Unitdetails.PartTotal.Weight(kg)": "",
                                                                             "Unitdetails.PartTotal.Cost(Rs.)": "",
                                                                             "UnitDetails.ProcessingCost(Rs.)": "",
@@ -2684,7 +2695,9 @@ var model = {
                                                                             }
                                                                         };
 
+
                                                                     }
+
                                                                     subAssExcelArray.push(subAssProExcelObj);
                                                                     index++;
                                                                     callback();
@@ -2742,6 +2755,7 @@ var model = {
                                                                         "PartQty": "",
                                                                         "PartName": "Addon",
                                                                         // "PartNumber":,
+                                                                        "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                                         "Unitdetails.PartTotal.Weight(kg)": addonMaterialSubCatName,
                                                                         "Unitdetails.PartTotal.Cost(Rs.)": addonsMatName.materialName,
                                                                         "UnitDetails.ProcessingCost(Rs.)": subAssAddons.quantity.total,
@@ -2779,7 +2793,7 @@ var model = {
 
                                                                         rowNumMoreOne = row._number + 1;
 
-                                                                        worksheet.getCell('B' + rowNumMoreOne).value = "Addon Name"
+                                                                        worksheet.getCell('B' + rowNumMoreOne).value = "Addon Name";
                                                                         worksheet.getCell('B' + rowNumMoreOne).font = {
                                                                             bold: true
                                                                         };
@@ -2809,6 +2823,7 @@ var model = {
                                                                         };
 
                                                                     }
+
                                                                     worksheet.addRow(subAssAddonsExcelObj);
                                                                     var lastIndex = subAssObj.addons.length - 1;
                                                                     if (lastIndex == index) {
@@ -2816,6 +2831,7 @@ var model = {
                                                                             "PartQty": "",
                                                                             "PartName": "",
                                                                             // "PartNumber": "",
+                                                                            "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                                             "Unitdetails.PartTotal.Weight(kg)": "",
                                                                             "Unitdetails.PartTotal.Cost(Rs.)": "",
                                                                             "UnitDetails.ProcessingCost(Rs.)": "",
@@ -2970,6 +2986,7 @@ var model = {
                                                                         };
 
                                                                     }
+
                                                                     subAssExcelArray.push(subAssAddonsExcelObj);
                                                                     index++;
                                                                     callback();
@@ -2990,8 +3007,10 @@ var model = {
                                         });
                                     },
                                     function (awee, callback) {
+                                        console.log('**** inside sub ass ****');
+
                                         var index = 0;
-                                        var extraTotalTotalCost = 0
+                                        var extraTotalTotalCost = 0;
 
                                         async.eachSeries(subAssObj.extras, function (subAssExtras, callback) {
                                             MExtra.findOne({
@@ -3012,6 +3031,7 @@ var model = {
                                                         } else if (_.isEmpty(extraUom)) {
                                                             callback(null, 'noDataFound');
                                                         } else {
+
                                                             var extraTotalCost = 0;
                                                             extraTotalCost = (subAssExtras.totalCost * subAssExtras.quantity);
 
@@ -3062,10 +3082,13 @@ var model = {
                                                                 };
 
                                                             }
+
+
                                                             subAssExtrasExcelObj = {
                                                                 "PartQty": "",
                                                                 "PartName": "Extra",
                                                                 // "PartNumber": "",
+                                                                "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                                 "Unitdetails.PartTotal.Weight(kg)": "",
                                                                 "Unitdetails.PartTotal.Cost(Rs.)": "",
                                                                 "UnitDetails.ProcessingCost(Rs.)": subAssExtras.quantity,
@@ -3084,6 +3107,7 @@ var model = {
                                                                     "PartQty": "",
                                                                     "PartName": "",
                                                                     // "PartNumber": "",
+                                                                    "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                                     "Unitdetails.PartTotal.Weight(kg)": "",
                                                                     "Unitdetails.PartTotal.Cost(Rs.)": "",
                                                                     "UnitDetails.ProcessingCost(Rs.)": "",
@@ -3752,6 +3776,7 @@ var model = {
                                 var finalAssemblyTotalData = {
                                     "SAQty": o.SAQty,
                                     "SubAssemblyName": o.SAName,
+                                    "Unitdetails.PartTotal.NetWeight(kg)": o.UnitdetailsPartTotalNetWeight,
                                     "Unitdetails.PartTotal.Weight(kg)": o.UnitdetailsPartTotalWeight,
                                     "Unitdetails.PartTotal.Cost(Rs.)": o.UnitdetailsPartTotalCost,
                                     "UnitDetails.ProcessingCost(Rs.)": o.UnitDetailsProcessingCost,
@@ -3799,6 +3824,7 @@ var model = {
                             var assTotalCalculatedData = {
                                 "SAQty": "",
                                 "SubAssemblyName": "Total",
+                                "Unitdetails.PartTotal.NetWeight(kg)": "",
                                 "Unitdetails.PartTotal.Weight(kg)": assFinalPartTotalWeight,
                                 "Unitdetails.PartTotal.Cost(Rs.)": assFinalPartTotalCost,
                                 "UnitDetails.ProcessingCost(Rs.)": assFinalProcessingCost,
@@ -3999,6 +4025,7 @@ var model = {
                                                                 var assProExcelObj = {
                                                                     "SAQty": "",
                                                                     "SubAssemblyName": "Processing",
+                                                                    "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                                     "Unitdetails.PartTotal.Weight(kg)": assProcessTypeData.processCat.processCatName,
                                                                     "Unitdetails.PartTotal.Cost(Rs.)": assProItemName.processItemName,
                                                                     "UnitDetails.ProcessingCost(Rs.)": assProc.quantity.totalQuantity,
@@ -4077,6 +4104,7 @@ var model = {
                                                                     worksheet2.addRow({
                                                                         "SAQty": "",
                                                                         "SubAssemblyName": " ",
+                                                                        "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                                         "Unitdetails.PartTotal.Weight(kg)": "",
                                                                         "Unitdetails.PartTotal.Cost(Rs.)": "",
                                                                         "UnitDetails.ProcessingCost(Rs.)": "",
@@ -4288,6 +4316,7 @@ var model = {
                                                                 assAddonsExcelObj = {
                                                                     "SAQty": "",
                                                                     "SubAssemblyName": "Addon",
+                                                                    "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                                     "Unitdetails.PartTotal.Weight(kg)": addonMaterialSubCatName,
                                                                     "Unitdetails.PartTotal.Cost(Rs.)": addonsMatName.materialName,
                                                                     "UnitDetails.ProcessingCost(Rs.)": assAddons.quantity.total,
@@ -4328,31 +4357,31 @@ var model = {
 
                                                                     rowNumMoreOne = row._number + 1;
 
-                                                                    worksheet2.getCell('B' + rowNumMoreOne).value = "Addon Name"
+                                                                    worksheet2.getCell('B' + rowNumMoreOne).value = "Addon Name";
                                                                     worksheet2.getCell('B' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
 
-                                                                    worksheet2.getCell('C' + rowNumMoreOne).value = "Category"
+                                                                    worksheet2.getCell('C' + rowNumMoreOne).value = "Category";
                                                                     worksheet2.getCell('C' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
 
-                                                                    worksheet2.getCell('D' + rowNumMoreOne).value = "Item"
+                                                                    worksheet2.getCell('D' + rowNumMoreOne).value = "Item";
                                                                     worksheet2.getCell('D' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
 
-                                                                    worksheet2.getCell('E' + rowNumMoreOne).value = "Quantity"
+                                                                    worksheet2.getCell('E' + rowNumMoreOne).value = "Quantity";
                                                                     worksheet2.getCell('E' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
 
-                                                                    worksheet2.getCell('F' + rowNumMoreOne).value = "UOM"
+                                                                    worksheet2.getCell('F' + rowNumMoreOne).value = "UOM";
                                                                     worksheet2.getCell('F' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
-                                                                    worksheet2.getCell('G' + rowNumMoreOne).value = "Total Cost"
+                                                                    worksheet2.getCell('G' + rowNumMoreOne).value = "Total Cost";
                                                                     worksheet2.getCell('G' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
@@ -4365,6 +4394,7 @@ var model = {
                                                                     worksheet2.addRow({
                                                                         "SAQty": "",
                                                                         "SubAssemblyName": "",
+                                                                        "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                                         "Unitdetails.PartTotal.Weight(kg)": "",
                                                                         "Unitdetails.PartTotal.Cost(Rs.)": "",
                                                                         "UnitDetails.ProcessingCost(Rs.)": "",
@@ -4594,21 +4624,21 @@ var model = {
 
                                                             rowNumMoreOne = row._number + 1;
 
-                                                            worksheet2.getCell('B' + rowNumMoreOne).value = "Extra Name"
+                                                            worksheet2.getCell('B' + rowNumMoreOne).value = "Extra Name";
                                                             worksheet2.getCell('B' + rowNumMoreOne).font = {
                                                                 bold: true
                                                             };
 
-                                                            worksheet2.getCell('E' + rowNumMoreOne).value = "Quantity"
+                                                            worksheet2.getCell('E' + rowNumMoreOne).value = "Quantity";
                                                             worksheet2.getCell('E' + rowNumMoreOne).font = {
                                                                 bold: true
                                                             };
 
-                                                            worksheet2.getCell('F' + rowNumMoreOne).value = "UOM"
+                                                            worksheet2.getCell('F' + rowNumMoreOne).value = "UOM";
                                                             worksheet2.getCell('F' + rowNumMoreOne).font = {
                                                                 bold: true
                                                             };
-                                                            worksheet2.getCell('G' + rowNumMoreOne).value = "Total Cost"
+                                                            worksheet2.getCell('G' + rowNumMoreOne).value = "Total Cost";
                                                             worksheet2.getCell('G' + rowNumMoreOne).font = {
                                                                 bold: true
                                                             };
@@ -4618,6 +4648,7 @@ var model = {
                                                         assExtrasExcelObj = {
                                                             "SAQty": "",
                                                             "SubAssemblyName": "Extra",
+                                                            "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                             "Unitdetails.PartTotal.Weight(kg)": "",
                                                             "Unitdetails.PartTotal.Cost(Rs.)": "",
                                                             "UnitDetails.ProcessingCost(Rs.)": assExtras.quantity,
@@ -4637,6 +4668,7 @@ var model = {
                                                             worksheet2.addRow({
                                                                 "SAQty": "",
                                                                 "SubAssemblyName": "",
+                                                                "Unitdetails.PartTotal.NetWeight(kg)": "",
                                                                 "Unitdetails.PartTotal.Weight(kg)": "",
                                                                 "Unitdetails.PartTotal.Cost(Rs.)": "",
                                                                 "UnitDetails.ProcessingCost(Rs.)": "",
