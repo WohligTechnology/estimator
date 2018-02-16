@@ -711,6 +711,14 @@ textarea.ng-valid.ng-dirty {
   top: unset !important;
  }
 
+//- active button @estimator screen for markup scaling
+.btnActive
+{
+  color: #333;
+  background-color:#d4d4d4;
+  border-bottom:2px solid #66c7d4 !important; 
+  padding-bottom: 2px; 
+}
 // .quick-nav-bg{
 //   height: 13% !important;
 // }

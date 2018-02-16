@@ -505,6 +505,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   $scope.getEstimateData = function () {
     createOrEditEstimateService.getEstimateData($scope.draftEstimateId, function (data) {
       $scope.estimteData = data;
+      $scope.activeMarkup = $scope.estimteData.scaleFactors.factor;
       $scope.getAllMaterialData();
       createOrEditEstimateService.totalCostCalculations('assembly', function (data) {});
     });
@@ -530,12 +531,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     }
   }, true);
 
-  //- get all fixed markups & update total cost
-  $scope.addCNOToCost = function () {
-    createOrEditEstimateService.addCNOToCost();
-  }
   //- add markupScalling & update total cost
   $scope.addScalingFactorToCost = function (type) {
+    $scope.activeMarkup = type;
     createOrEditEstimateService.addScalingFactorToCost(type);
   }
   // **************************************** functions to be triggered form view begin here **************************************** //

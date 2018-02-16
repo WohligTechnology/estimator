@@ -42,13 +42,19 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td rowspan="4" width="" style="width:230px!important">
+                                                <td rowspan="4" width="" style="width:300px!important">
                                                     <div class="row">
                                                         <div class="form-group col-md-12">
                                                             <div class="row">
                                                                 <label class="control-label col-md-4">Negotiation:</label>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-3" style="padding-left:0 !important;">
                                                                     <input type="text" name="negotiation" ng-model="estimteData.negotiation" ng-change="addCNOToCost()" class="form-control">
+                                                                    <span class="unit">%</span>
+                                                                </div>
+                                                                <div class="col-md-5" style="padding-left:0 !important;">
+                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiationAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                        disabled>
+                                                                    <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -57,8 +63,14 @@
                                                         <div class="form-group  col-md-12">
                                                             <div class="row">
                                                                 <label class="control-label  col-md-4">Commission: </label>
-                                                                <div class="col-md-8 ">
+                                                                <div class="col-md-3" style="padding-left:0 !important;">
                                                                     <input type="text" name="comission" ng-model="estimteData.commission" ng-change="addCNOToCost()" class="form-control">
+                                                                    <span class="unit">%</span>
+                                                                </div>
+                                                                <div class="col-md-5" style="padding-left:0 !important;">
+                                                                    <input type="text" name="comission" ng-model="estimteData.commissionAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                        disabled>
+                                                                    <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -67,8 +79,14 @@
                                                         <div class="form-group  col-md-12">
                                                             <div class="row">
                                                                 <label class="control-label  col-md-4">Other: </label>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-3" style="padding-left:0 !important;">
                                                                     <input type="text" name="other" ng-model="estimteData.other" ng-change="addCNOToCost()" class="form-control">
+                                                                    <span class="unit">%</span>
+                                                                </div>
+                                                                <div class="col-md-5" style="padding-left:0 !important;">
+                                                                    <input type="text" name="other" ng-model="estimteData.otherAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                        disabled>
+                                                                    <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -115,10 +133,10 @@
                                     </table>
                                 </div>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default" ng-click="addScalingFactorToCost('low')">Low</button>
-                                    <button type="button" class="btn btn-default" ng-click="addScalingFactorToCost('medium')">Medium</button>
-                                    <button type="button" class="btn btn-default" ng-click="addScalingFactorToCost('high')">High</button>
-                                    <button type="button" class="btn btn-default" ng-click="addScalingFactorToCost('budgetory')">Budgetory</button>
+                                    <button type="button" class="btn btn-default" ng-click="addScalingFactorToCost('low')" ng-class="{'btnActive' : activeMarkup == 'low'}">Low</button>
+                                    <button type="button" class="btn btn-default" ng-click="addScalingFactorToCost('medium')" ng-class="{'btnActive' : activeMarkup == 'medium'}">Medium</button>
+                                    <button type="button" class="btn btn-default" ng-click="addScalingFactorToCost('high')" ng-class="{'btnActive' : activeMarkup == 'high'}">High</button>
+                                    <button type="button" class="btn btn-default" ng-click="addScalingFactorToCost('budgetory')" ng-class="{'btnActive' : activeMarkup == 'budgetory'}">Budgetory</button>
                                 </div>
                             </div>
                         </div>
@@ -280,13 +298,19 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td rowspan="4" width="" style="width:230px!important">
+                                                <td rowspan="4" width="" style="width:300px!important">
                                                     <div class="row">
                                                         <div class="form-group col-md-12">
                                                             <div class="row">
                                                                 <label class="control-label col-md-4">Negotiation:</label>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-3" style="padding-left:0 !important;">
                                                                     <input type="text" name="negotiation" ng-model="estimteData.negotiation" ng-change="addCNOToCost()" class="form-control">
+                                                                    <span class="unit">%</span>
+                                                                </div>
+                                                                <div class="col-md-5" style="padding-left:0 !important;">
+                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiationAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                        disabled>
+                                                                    <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -295,8 +319,14 @@
                                                         <div class="form-group  col-md-12">
                                                             <div class="row">
                                                                 <label class="control-label  col-md-4">Commission: </label>
-                                                                <div class="col-md-8 ">
+                                                                <div class="col-md-3" style="padding-left:0 !important;">
                                                                     <input type="text" name="comission" ng-model="estimteData.commission" ng-change="addCNOToCost()" class="form-control">
+                                                                    <span class="unit">%</span>
+                                                                </div>
+                                                                <div class="col-md-5" style="padding-left:0 !important;">
+                                                                    <input type="text" name="comission" ng-model="estimteData.commissionAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                        disabled>
+                                                                    <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -305,8 +335,14 @@
                                                         <div class="form-group  col-md-12">
                                                             <div class="row">
                                                                 <label class="control-label  col-md-4">Other: </label>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-3" style="padding-left:0 !important;">
                                                                     <input type="text" name="other" ng-model="estimteData.other" ng-change="addCNOToCost()" class="form-control">
+                                                                    <span class="unit">%</span>
+                                                                </div>
+                                                                <div class="col-md-5" style="padding-left:0 !important;">
+                                                                    <input type="text" name="other" ng-model="estimteData.otherAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                        disabled>
+                                                                    <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
                                                         </div>

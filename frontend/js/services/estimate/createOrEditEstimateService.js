@@ -203,6 +203,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		getEstimateView = "views/content/estimate/estimateViews/" + estimateView + ".html";
 		callback(getEstimateView);
 	}
+	var count = 0;
 	//- to calculate total cost of addon/processing/extras
 	this.totalCostCalculations = function (viewName, callback) {
 		var costCalculations = {
@@ -387,12 +388,17 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to calculate selling cost 
 	this.addMarginsToCost = function () {
+		var thisRef = this;
 		var sellingObj = {
 			markups: [],
 			negotiation: 10,
 			commission: 10,
 			other: 10,
 			temp: {},
+			lowScaleFactor: 10,
+			mediumScaleFactor: 20,
+			highScaleFactor: 30,
+			budgetoryScaleFactor: 40
 		};
 		//- get all variable markups & update total cost
 		NavigationService.boxCall('MVariableMarkup/getMMarkupData', function (data) {
@@ -400,6 +406,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			angular.forEach(sellingObj.markups, function (markup) {
 				if (_.isNaN(parseFloat(markup.overhead))) {
 					markup.overhead = 10;
+				}
+				if (_.isNaN(parseFloat(markup.minProfit))) {
+					markup.minProfit = 10;
 				}
 				if (_.isNaN(parseFloat(markup.minProfit))) {
 					markup.minProfit = 10;
@@ -414,10 +423,10 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					formData.assembly.extrasCost += (formData.assembly.eCostAtAssemby * ((markup.overhead + markup.minProfit) / 100));
 				}
 			});
-			formData.assembly.totalCost = (formData.assembly.materialCost + formData.assembly.processingCost + formData.assembly.addonCost + formData.assembly.extrasCost);
+			//formData.assembly.totalCost = (formData.assembly.materialCost + formData.assembly.processingCost + formData.assembly.addonCost + formData.assembly.extrasCost);
 			sellingObj.markups = [];
 			//- only 1st time allow it
-			if (angular.isUndefined(formData.assembly.negotiation) || angular.isUndefined(formData.assembly.commission) || angular.isUndefined(formData.assembly.other)) {
+			if (angular.isUndefined(formData.assembly.negotiation) || angular.isUndefined(formData.assembly.commission) || angular.isUndefined(formData.assembly.other) || angular.isUndefined(formData.assembly.scaleFactors)) {
 				//- get all fixed markups & update total cost
 				NavigationService.boxCall('MFixedMarkup/search', function (data) {
 					if (data.value) {
@@ -435,41 +444,81 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 								sellingObj.other = sellingObj.markups.fixedMarkups.other;
 							}
 						}
-						if (angular.isDefined(formData.assembly.enquiryId)) {
-							sellingObj.temp = formData.assembly.enquiryId.customerId.margins;
-							if (angular.isDefined(sellingObj.temp.negotiation)) {
-								sellingObj.negotiation = parseFloat(sellingObj.temp.negotiation);
+						if (angular.isDefined(sellingObj.markups.scaleFactors)) {
+							if (!_.isNaN(parseFloat(sellingObj.markups.scaleFactors.low))) {
+								sellingObj.lowScaleFactor = sellingObj.markups.scaleFactors.low;
 							}
-							if (angular.isDefined(sellingObj.temp.commission)) {
-								sellingObj.commission = parseFloat(sellingObj.temp.commission);
+							if (!_.isNaN(parseFloat(sellingObj.markups.scaleFactors.medium))) {
+								sellingObj.mediumScaleFactor = sellingObj.markups.scaleFactors.medium;
 							}
-							if (angular.isDefined(sellingObj.temp.other)) {
-								sellingObj.other = parseFloat(sellingObj.temp.other);
+							if (!_.isNaN(parseFloat(sellingObj.markups.scaleFactors.high))) {
+								sellingObj.highScaleFactor = sellingObj.markups.scaleFactors.high;
+							}
+							if (!_.isNaN(parseFloat(sellingObj.markups.scaleFactors.budgetory))) {
+								sellingObj.budgetoryScaleFactor = sellingObj.markups.scaleFactors.budgetory;
 							}
 						}
-						formData.assembly.negotiation = sellingObj.negotiation;
-						formData.assembly.commission = sellingObj.commission;
-						formData.assembly.other = sellingObj.other;
-						formData.assembly.totalCost += (formData.assembly.totalCost * ((formData.assembly.negotiation + formData.assembly.commission + formData.assembly.other) / 100));
 					}
+					if (angular.isDefined(formData.assembly.enquiryId)) {
+						sellingObj.temp = formData.assembly.enquiryId.customerId.margins;
+						if (angular.isDefined(sellingObj.temp.negotiation)) {
+							sellingObj.negotiation = parseFloat(sellingObj.temp.negotiation);
+						}
+						if (angular.isDefined(sellingObj.temp.commission)) {
+							sellingObj.commission = parseFloat(sellingObj.temp.commission);
+						}
+						if (angular.isDefined(sellingObj.temp.other)) {
+							sellingObj.other = parseFloat(sellingObj.temp.other);
+						}
+					}
+					//- default it is low
+					formData.assembly.scaleFactors = {};
+					formData.assembly.scaleFactors.factor = "low";
+					formData.assembly.negotiation = sellingObj.negotiation;
+					formData.assembly.commission = sellingObj.commission;
+					formData.assembly.other = sellingObj.other;
+					formData.assembly.negotiationAmount = formData.assembly.totalCost * (1 + formData.assembly.negotiation / 100);
+					formData.assembly.commissionAmount =  formData.assembly.totalCost * (1 + formData.assembly.commission / 100);
+					formData.assembly.otherAmount =  formData.assembly.totalCost * (1 + formData.assembly.other / 100);
+					formData.assembly.scaleFactors.low = sellingObj.lowScaleFactor;
+					formData.assembly.scaleFactors.medium = sellingObj.mediumScaleFactor;
+					formData.assembly.scaleFactors.high = sellingObj.highScaleFactor;
+					formData.assembly.scaleFactors.budgetory = sellingObj.budgetoryScaleFactor;
+					formData.assembly.totalCost += (formData.assembly.totalCost * ((formData.assembly.negotiation + formData.assembly.commission + formData.assembly.other) / 100));
+					formData.assembly.totalCost = formData.assembly.totalCost * (1 + (formData.assembly.scaleFactors.low / 100));
 				});
 			} else {
-				formData.assembly.totalCost += (formData.assembly.totalCost * ((formData.assembly.negotiation + formData.assembly.commission + formData.assembly.other) / 100));
+				//- update cost based on scale factors
+				if (angular.isDefined(formData.assembly.scaleFactors)) {
+					thisRef.addScalingFactorToCost(formData.assembly.scaleFactors.factor);
+				} else {
+					thisRef.addScalingFactorToCost("low");
+				}
 			}
 		});
 	}
 	//-to update totalCost on the basis of negotiation, commission & other 
-	this.addCNOToCost = function () {
-		formData.assembly.totalCost = (parseFloat(formData.assembly.materialCost) + parseFloat(formData.assembly.processingCost) + parseFloat(formData.assembly.addonCost) + parseFloat(formData.assembly.extrasCost));
-		formData.assembly.totalCost += (formData.assembly.totalCost * ((parseFloat(formData.assembly.negotiation) + parseFloat(formData.assembly.commission) + parseFloat(formData.assembly.other)) / 100));
-	}
 	this.addScalingFactorToCost = function (type) {
-		NavigationService.boxCall('MFixedMarkup/search', function (data) {
-			formData.assembly.totalCost = (parseFloat(formData.assembly.materialCost) + parseFloat(formData.assembly.processingCost) + parseFloat(formData.assembly.addonCost) + parseFloat(formData.assembly.extrasCost));
-			formData.assembly.totalCost += (formData.assembly.totalCost * ((parseFloat(formData.assembly.negotiation) + parseFloat(formData.assembly.commission) + parseFloat(formData.assembly.other)) / 100));			
-			//formData.assembly.totalCost += (formData.assembly.totalCost * (parseFloat(formData.assembly.scaleFactor) / 100));
-		});
 
+		formData.assembly.scaleFactors.factor = type;
+		//- seleceted scaling factor value
+		var value = 0;
+		if (type == "low") {
+			value = formData.assembly.scaleFactors.low;
+		} else if (type == "medium") {
+			value = formData.assembly.scaleFactors.medium;
+		} else if (type == "high") {
+			value = formData.assembly.scaleFactors.high;
+		} else {
+			value = formData.assembly.scaleFactors.budgetory;
+		}
+		formData.assembly.totalCost = (parseFloat(formData.assembly.materialCost) + parseFloat(formData.assembly.processingCost) + parseFloat(formData.assembly.addonCost) + parseFloat(formData.assembly.extrasCost));
+		formData.assembly.negotiationAmount = formData.assembly.totalCost * (1 + formData.assembly.negotiation / 100);
+		formData.assembly.commissionAmount =  formData.assembly.totalCost * (1 + formData.assembly.commission / 100);
+		formData.assembly.otherAmount =  formData.assembly.totalCost * (1 + formData.assembly.other / 100);
+		formData.assembly.totalCost += (formData.assembly.totalCost * ((parseFloat(formData.assembly.negotiation) + parseFloat(formData.assembly.commission) + parseFloat(formData.assembly.other)) / 100));
+		formData.assembly.totalCost = (formData.assembly.totalCost * (1 + value / 100));
+		
 	}
 	//- to get processing totalCost
 	this.getProcessingTotalCost = function (level, processings, subAssId) {
@@ -560,22 +609,22 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				//- weight per unit
 				var weightPerUnit = parseFloat(addon.weightPerUnit);
 				if (addon.showQuantityFields) {
-				  //- case 1 & case 2
-				  var keyValue = parseFloat(addon.quantity.keyValue.keyValue);
-				  var supportingVariable = parseFloat(addon.quantity.supportingVariable.value);
-				  var utilization = parseFloat(addon.quantity.utilization);
-				  var contengncyOrWastage = parseFloat(addon.quantity.contengncyOrWastage);
-				  var mulFact = parseFloat(addon.addonType.quantity.mulFact);
-				  addon.totalWeight = weightPerUnit * mulFact * keyValue * supportingVariable * (utilization / 100);
-				  addon.totalCost = quantity * rate * keyValue * supportingVariable * (utilization / 100);
-				  if (parseFloat(contengncyOrWastage) > 0) {
-					addon.totalWeight = addon.totalWeight * (1 + (contengncyOrWastage / 100));
-					addon.totalCost = addon.totalCost * (1 + (contengncyOrWastage / 100));
-				  }
+					//- case 1 & case 2
+					var keyValue = parseFloat(addon.quantity.keyValue.keyValue);
+					var supportingVariable = parseFloat(addon.quantity.supportingVariable.value);
+					var utilization = parseFloat(addon.quantity.utilization);
+					var contengncyOrWastage = parseFloat(addon.quantity.contengncyOrWastage);
+					var mulFact = parseFloat(addon.addonType.quantity.mulFact);
+					addon.totalWeight = weightPerUnit * mulFact * keyValue * supportingVariable * (utilization / 100);
+					addon.totalCost = quantity * rate * keyValue * supportingVariable * (utilization / 100);
+					if (parseFloat(contengncyOrWastage) > 0) {
+						addon.totalWeight = addon.totalWeight * (1 + (contengncyOrWastage / 100));
+						addon.totalCost = addon.totalCost * (1 + (contengncyOrWastage / 100));
+					}
 				} else {
-				  //- case 3 & case 4
-				  addon.totalWeight = quantity * weightPerUnit;
-				  addon.totalCost = quantity * rate;
+					//- case 3 & case 4
+					addon.totalWeight = quantity * weightPerUnit;
+					addon.totalCost = quantity * rate;
 				}
 			}
 			obj.totalCost += addon.totalCost;
