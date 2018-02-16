@@ -281,7 +281,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				}
 				//- addons cost at part level
 				if (part.addons.length > 0) {
-					var obj = thisRef.getAddonTotalCost('part', part.addons);
+					var obj = thisRef.getAddonTotalCost('part', part.addons, subAssembly.subAssemblyNumber, part.partNumber);
 					costCalculations.aCostAtPart = obj.totalCost;
 					costCalculations.addonWtAtPart = obj.totalWeight;
 				}
@@ -405,18 +405,17 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					markup.minProfit = 10;
 				}
 				if (markup.markupType == "material") {
-					formData.assembly.materialCost += (formData.assembly.mtAtAssembly * (markup.overhead / 100)) + (formData.assembly.mtAtAssembly * (markup.minProfit / 100));
+					formData.assembly.materialCost += (formData.assembly.mtAtAssembly * ((markup.overhead + markup.minProfit) / 100));
 				} else if (markup.markupType == "process") {
-					formData.assembly.processingCost += (formData.assembly.pCostAtAssemby * (markup.overhead / 100)) + (formData.assembly.pCostAtAssemby * (markup.minProfit / 100));
+					formData.assembly.processingCost += (formData.assembly.pCostAtAssemby * ((markup.overhead + markup.minProfit) / 100));
 				} else if (markup.markupType == "addon") {
-					formData.assembly.addonCost += (formData.assembly.aCostAtAssemby * (markup.overhead / 100)) + (formData.assembly.aCostAtAssemby * (markup.minProfit / 100));
+					formData.assembly.addonCost += (formData.assembly.aCostAtAssemby * ((markup.overhead + markup.minProfit) / 100));
 				} else {
-					formData.assembly.extrasCost += (formData.assembly.eCostAtAssemby * (markup.overhead / 100)) + (formData.assembly.eCostAtAssemby * (markup.minProfit / 100));
+					formData.assembly.extrasCost += (formData.assembly.eCostAtAssemby * ((markup.overhead + markup.minProfit) / 100));
 				}
 			});
 			formData.assembly.totalCost = (formData.assembly.materialCost + formData.assembly.processingCost + formData.assembly.addonCost + formData.assembly.extrasCost);
 			sellingObj.markups = [];
-			debugger;
 			//- only 1st time allow it
 			if (angular.isUndefined(formData.assembly.negotiation) || angular.isUndefined(formData.assembly.commission) || angular.isUndefined(formData.assembly.other)) {
 				//- get all fixed markups & update total cost
@@ -451,16 +450,26 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						formData.assembly.negotiation = sellingObj.negotiation;
 						formData.assembly.commission = sellingObj.commission;
 						formData.assembly.other = sellingObj.other;
+						formData.assembly.totalCost += (formData.assembly.totalCost * ((formData.assembly.negotiation + formData.assembly.commission + formData.assembly.other) / 100));
 					}
 				});
+			} else {
+				formData.assembly.totalCost += (formData.assembly.totalCost * ((formData.assembly.negotiation + formData.assembly.commission + formData.assembly.other) / 100));
 			}
-			formData.assembly.totalCost += (formData.assembly.totalCost * (formData.assembly.negotiation / 100)) + (formData.assembly.totalCost * (formData.assembly.commission / 100)) + (formData.assembly.totalCost * (formData.assembly.other / 100));
 		});
 	}
 	//-to update totalCost on the basis of negotiation, commission & other 
 	this.addCNOToCost = function () {
 		formData.assembly.totalCost = (parseFloat(formData.assembly.materialCost) + parseFloat(formData.assembly.processingCost) + parseFloat(formData.assembly.addonCost) + parseFloat(formData.assembly.extrasCost));
-		formData.assembly.totalCost += (formData.assembly.totalCost * (parseFloat(formData.assembly.negotiation) / 100)) + (formData.assembly.totalCost * (parseFloat(formData.assembly.commission) / 100)) + (formData.assembly.totalCost * (parseFloat(formData.assembly.other) / 100));
+		formData.assembly.totalCost += (formData.assembly.totalCost * ((parseFloat(formData.assembly.negotiation) + parseFloat(formData.assembly.commission) + parseFloat(formData.assembly.other)) / 100));
+	}
+	this.addScalingFactorToCost = function (type) {
+		NavigationService.boxCall('MFixedMarkup/search', function (data) {
+			formData.assembly.totalCost = (parseFloat(formData.assembly.materialCost) + parseFloat(formData.assembly.processingCost) + parseFloat(formData.assembly.addonCost) + parseFloat(formData.assembly.extrasCost));
+			formData.assembly.totalCost += (formData.assembly.totalCost * ((parseFloat(formData.assembly.negotiation) + parseFloat(formData.assembly.commission) + parseFloat(formData.assembly.other)) / 100));			
+			//formData.assembly.totalCost += (formData.assembly.totalCost * (parseFloat(formData.assembly.scaleFactor) / 100));
+		});
+
 	}
 	//- to get processing totalCost
 	this.getProcessingTotalCost = function (level, processings, subAssId) {
@@ -507,7 +516,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		return totalCost;
 	}
 	//- to get addons totalCost
-	this.getAddonTotalCost = function (level, addons, subAssId) {
+	this.getAddonTotalCost = function (level, addons, subAssId, partId) {
 		var obj = {
 			totalCost: 0,
 			totalWeight: 0
@@ -530,22 +539,43 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 							keyValues = data;
 						});
 					}
-					if (addon.quantity.keyValue.keyVariable == "Perimeter") {
-						addon.quantity.keyValue.keyValue = parseFloat(keyValues.perimeter) * parseFloat(addon.addonType.quantity.mulFact);
-					} else if (addon.quantity.keyValue.keyVariable == "SMA") {
-						addon.quantity.keyValue.keyValue = parseFloat(keyValues.sheetMetalArea) * parseFloat(addon.addonType.quantity.mulFact);
-					} else if (addon.quantity.keyValue.keyVariable == "SA") {
-						processing.quantity.keyValue.keyValue = parseFloat(keyValues.surfaceArea) * parseFloat(addon.addonType.quantity.mulFact);
-					} else if (processing.quantity.keyValue.keyVariable == "Gwt") {
-						processing.quantity.keyValue.keyValue = parseFloat(keyValues.grossWeight) * parseFloat(addon.addonType.quantity.mulFact);
-					} else if (processing.quantity.keyValue.keyVariable == "Nwt") {
-						processing.quantity.keyValue.keyValue = parseFloat(keyValues.netWeight) * parseFloat(addon.addonType.quantity.mulFact);
-					}
-					if (addon.quantity.contengncyOrWastage != 0) {
-						addon.totalCost = parseFloat(addon.quantity.total) * parseFloat(addon.rate) * parseFloat(addon.quantity.keyValue.keyValue) * parseFloat(addon.quantity.supportingVariable.value) * (parseFloat(addon.quantity.utilization) / 100) * ((100 + parseFloat(addon.quantity.contengncyOrWastage)) / 100);
-					} else {
-						addon.totalCost = parseFloat(addon.quantity.total) * parseFloat(addon.rate.value) * parseFloat(addon.quantity.keyValue.keyValue) * parseFloat(addon.quantity.supportingVariable.value) * (parseFloat(addon.quantity.utilization) / 100);
-					}
+				} else {
+					var subAssIndex = thisRef.getSubAssemblyIndex(subAssId);
+					var partIndex = thisRef.getPartIndex(subAssIndex, partId);
+					keyValues = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
+				}
+				if (addon.quantity.keyValue.keyVariable == "Perimeter") {
+					addon.quantity.keyValue.keyValue = parseFloat(keyValues.perimeter) * parseFloat(addon.addonType.quantity.mulFact);
+				} else if (addon.quantity.keyValue.keyVariable == "SMA") {
+					addon.quantity.keyValue.keyValue = parseFloat(keyValues.sheetMetalArea) * parseFloat(addon.addonType.quantity.mulFact);
+				} else if (addon.quantity.keyValue.keyVariable == "SA") {
+					addon.quantity.keyValue.keyValue = parseFloat(keyValues.surfaceArea) * parseFloat(addon.addonType.quantity.mulFact);
+				} else if (processing.quantity.keyValue.keyVariable == "Gwt") {
+					addon.quantity.keyValue.keyValue = parseFloat(keyValues.grossWeight) * parseFloat(addon.addonType.quantity.mulFact);
+				} else if (processing.quantity.keyValue.keyVariable == "Nwt") {
+					addon.quantity.keyValue.keyValue = parseFloat(keyValues.netWeight) * parseFloat(addon.addonType.quantity.mulFact);
+				}
+				var rate = parseFloat(addon.rate);
+				var quantity = parseFloat(addon.quantity.total);
+				//- weight per unit
+				var weightPerUnit = parseFloat(addon.weightPerUnit);
+				if (addon.showQuantityFields) {
+				  //- case 1 & case 2
+				  var keyValue = parseFloat(addon.quantity.keyValue.keyValue);
+				  var supportingVariable = parseFloat(addon.quantity.supportingVariable.value);
+				  var utilization = parseFloat(addon.quantity.utilization);
+				  var contengncyOrWastage = parseFloat(addon.quantity.contengncyOrWastage);
+				  var mulFact = parseFloat(addon.addonType.quantity.mulFact);
+				  addon.totalWeight = weightPerUnit * mulFact * keyValue * supportingVariable * (utilization / 100);
+				  addon.totalCost = quantity * rate * keyValue * supportingVariable * (utilization / 100);
+				  if (parseFloat(contengncyOrWastage) > 0) {
+					addon.totalWeight = addon.totalWeight * (1 + (contengncyOrWastage / 100));
+					addon.totalCost = addon.totalCost * (1 + (contengncyOrWastage / 100));
+				  }
+				} else {
+				  //- case 3 & case 4
+				  addon.totalWeight = quantity * weightPerUnit;
+				  addon.totalCost = quantity * rate;
 				}
 			}
 			obj.totalCost += addon.totalCost;
@@ -1631,10 +1661,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					}
 					if (addonObject.showRateFields) {
 						addonObject.selectedMaterial = tempAddonObj.addonItem;
-						addonObject.totalWeight = tempAddonObj.totalWeight;
 					}
 					addonObject.quantity.keyValue.uom = tempAddonObj.addonType.quantity.linkedKeyUom.uomName;
 
+					addonObject.weightPerUnit = tempAddonObj.weightPerUnit;
+					addonObject.totalWeight = tempAddonObj.totalWeight;
 					addonObject.quantity.total = tempAddonObj.quantity.total;
 					addonObject.totalCost = tempAddonObj.totalCost;
 					addonObject.remarks = tempAddonObj.remarks;
@@ -1707,6 +1738,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		tempAddonObject.quantity.total = addonData.quantity.total;
 		tempAddonObject.quantity.contengncyOrWastage = addonData.quantity.contengncyOrWastage;
 		tempAddonObject.quantity.utilization = addonData.quantity.utilization;
+		tempAddonObject.showRateFields = addonData.showRateFields;
+		tempAddonObject.showQuantityFields = addonData.showQuantityFields;
 
 		tempAddonObject.remark = addonData.remark;
 		tempAddonObject.totalCost = addonData.totalCost;

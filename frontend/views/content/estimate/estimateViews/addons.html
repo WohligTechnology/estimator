@@ -94,7 +94,7 @@
                                 <th rowspan="2" class="align-left"> Addon Type </th>
                                 <th rowspan="2" class="align-left"> Material Type</th>
                                 <th rowspan="2" class="align-left"> Rate </th>
-                                <th colspan="5" class="text-center"> Quentity </th>
+                                <th colspan="5" class="text-center"> Quantity </th>
                                 <th> Total Cost</th>
                                 <th rowspan="2" class="align-left">Remark </th>
                                 <th rowspan="2" class="align-left"> Action </th>
@@ -140,7 +140,7 @@
                                 </td>
                                 <td><p  ng-show="p.showQuantityFields"> {{p.quantity.utilization}} </p></td>
                                 <td><p  ng-show="p.showQuantityFields"> {{p.quantity.contengncyOrWastage}}</p> </td>
-                                <td> {{p.quantity.total}} </td>
+                                <td> <span ng-hide="p.showQuantityFields">{{p.quantity.total}}</span> </td>
                                 <td> {{p.totalCost.toFixed(2)}} </td>
                                 <td> {{p.addonType.remarks}} </td>
                                 <td class="edit-icon">

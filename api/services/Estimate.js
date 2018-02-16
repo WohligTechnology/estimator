@@ -27,6 +27,15 @@ var schema = new Schema({
     addonCost: Number,
     extrasCost: Number,
     totalCost: Number,
+    negotiation: Number,
+    commission: Number,
+    other: Number,
+    scaleFactors: {
+        low: Number,
+        medium: Number,
+        high: Number,
+        budgetory: Number
+    },
     draftEstimateId: { // corresponding draft estimate --> _id
         type: Schema.Types.ObjectId,
         ref: "DraftEstimate",

@@ -27,6 +27,7 @@ var schema = new Schema({
         index: true,
     },
     rate: Number,
+    weightPerUnit: Number,
     quantity: {
         supportingVariable: {
             supportingVariable: String,
