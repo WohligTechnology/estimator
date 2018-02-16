@@ -1,7 +1,5 @@
 // estimate collection schema
 
-// var mongoXlsx = require('mongo-xlsx');
-
 var schema = new Schema({
     enquiryId: {
         type: Schema.Types.ObjectId,
@@ -547,12 +545,18 @@ var model = {
                                 {
                                     // header: '',
                                     key: 'PartUnitdetails.QuantityWithinPart.UOM',
-                                    width: 10,
+                                    width: 12,
                                 },
                                 {
                                     // header: '',
-                                    key: 'PartUnitdetails.Part.Weight(kg)',
-                                    width: 10,
+                                    key: 'PartUnitdetails.Part.NetWeight(kg)',
+                                    width: 15,
+                                },
+
+                                {
+                                    // header: '',
+                                    key: 'PartUnitdetails.Part.GrossWeight(kg)',
+                                    width: 15,
                                 },
                                 {
                                     // header: '',
@@ -637,7 +641,7 @@ var model = {
                             worksheet1.getCell('H3').font = {
                                 bold: true
                             };
-                            worksheet1.mergeCells('I2', 'P2');
+                            worksheet1.mergeCells('I2', 'Q2');
                             worksheet1.getCell('I2').value = '                                         Part Unit Details';
                             worksheet1.getCell('I2').font = {
                                 bold: true
@@ -655,70 +659,74 @@ var model = {
                             worksheet1.getCell('J4').font = {
                                 bold: true
                             };
-                            worksheet1.mergeCells('K3', 'L3');
-                            worksheet1.getCell('K3').value = '            Part';
+                            worksheet1.mergeCells('K3', 'M3');
+                            worksheet1.getCell('K3').value = '                       Part';
                             worksheet1.getCell('K3').font = {
                                 bold: true
                             };
-                            worksheet1.getCell('K4').value = 'Weight(kg)';
+                            worksheet1.getCell('K4').value = 'Net Weight(kg)';
                             worksheet1.getCell('K4').font = {
                                 bold: true
                             };
-                            worksheet1.getCell('L4').value = 'Cost(Rs.)';
+                            worksheet1.getCell('L4').value = 'Gross Weight(kg)';
                             worksheet1.getCell('L4').font = {
                                 bold: true
                             };
-                            worksheet1.mergeCells('M3', 'M4');
-                            worksheet1.getCell('M4').value = 'Processing Cost(Rs.)';
+                            worksheet1.getCell('M4').value = 'Cost(Rs.)';
                             worksheet1.getCell('M4').font = {
                                 bold: true
                             };
-                            worksheet1.mergeCells('N3', 'O3');
-                            worksheet1.getCell('N3').value = '             Addons';
-                            worksheet1.getCell('N3').font = {
-                                bold: true
-                            };
-                            worksheet1.getCell('N4').value = 'Weight(kg)';
+                            worksheet1.mergeCells('N3', 'N4');
+                            worksheet1.getCell('N4').value = 'Processing Cost(Rs.)';
                             worksheet1.getCell('N4').font = {
                                 bold: true
                             };
-                            worksheet1.getCell('O4').value = 'Cost(Rs.)';
+                            worksheet1.mergeCells('O3', 'P3');
+                            worksheet1.getCell('O3').value = '             Addons';
+                            worksheet1.getCell('O3').font = {
+                                bold: true
+                            };
+                            worksheet1.getCell('O4').value = 'Weight(kg)';
                             worksheet1.getCell('O4').font = {
                                 bold: true
                             };
-                            worksheet1.mergeCells('P3', 'P4');
-                            worksheet1.getCell('P3').value = 'Extra Cost(Rs.)';
-                            worksheet1.getCell('P3').font = {
-                                bold: true
-                            };
-                            worksheet1.mergeCells('Q2', 'R2');
-                            worksheet1.getCell('R2').value = '            Part Unit Total';
-                            worksheet1.getCell('R2').font = {
+                            worksheet1.getCell('P4').value = 'Cost(Rs.)';
+                            worksheet1.getCell('P4').font = {
                                 bold: true
                             };
                             worksheet1.mergeCells('Q3', 'Q4');
-                            worksheet1.getCell('Q3').value = 'Weight(Kg)';
+                            worksheet1.getCell('Q3').value = 'Extra Cost(Rs.)';
                             worksheet1.getCell('Q3').font = {
                                 bold: true
                             };
-                            worksheet1.mergeCells('R3', 'R4');
-                            worksheet1.getCell('R3').value = 'Cost(Rs.)';
-                            worksheet1.getCell('R3').font = {
-                                bold: true
-                            };
-                            worksheet1.mergeCells('S2', 'T2');
-                            worksheet1.getCell('S2').value = '     Quantity Total';
+                            worksheet1.mergeCells('R2', 'S2');
+                            worksheet1.getCell('S2').value = '            Part Unit Total';
                             worksheet1.getCell('S2').font = {
                                 bold: true
                             };
+                            worksheet1.mergeCells('R3', 'R4');
+                            worksheet1.getCell('R3').value = 'Weight(Kg)';
+                            worksheet1.getCell('R3').font = {
+                                bold: true
+                            };
                             worksheet1.mergeCells('S3', 'S4');
-                            worksheet1.getCell('S3').value = 'Weight(kg)';
+                            worksheet1.getCell('S3').value = 'Cost(Rs.)';
                             worksheet1.getCell('S3').font = {
                                 bold: true
                             };
+                            worksheet1.mergeCells('T2', 'U2');
+                            worksheet1.getCell('T2').value = '     Quantity Total';
+                            worksheet1.getCell('T2').font = {
+                                bold: true
+                            };
                             worksheet1.mergeCells('T3', 'T4');
-                            worksheet1.getCell('T3').value = 'Cost(Rs.)';
+                            worksheet1.getCell('T3').value = 'Weight(kg)';
                             worksheet1.getCell('T3').font = {
+                                bold: true
+                            };
+                            worksheet1.mergeCells('U3', 'U4');
+                            worksheet1.getCell('U3').value = 'Cost(Rs.)';
+                            worksheet1.getCell('U3').font = {
                                 bold: true
                             };
 
@@ -901,6 +909,8 @@ var model = {
                                     style: 'thin'
                                 }
                             };
+
+
                             worksheet1.getCell('L4').border = {
                                 top: {
                                     style: 'thin'
@@ -913,8 +923,7 @@ var model = {
                                     style: 'thin'
                                 }
                             };
-
-                            worksheet1.getCell('M3').border = {
+                            worksheet1.getCell('M4').border = {
                                 top: {
                                     style: 'thin'
                                 },
@@ -926,6 +935,7 @@ var model = {
                                     style: 'thin'
                                 }
                             };
+
                             worksheet1.getCell('N3').border = {
                                 top: {
                                     style: 'thin'
@@ -938,7 +948,7 @@ var model = {
                                     style: 'thin'
                                 }
                             };
-                            worksheet1.getCell('N4').border = {
+                            worksheet1.getCell('O3').border = {
                                 top: {
                                     style: 'thin'
                                 },
@@ -950,7 +960,6 @@ var model = {
                                     style: 'thin'
                                 }
                             };
-
                             worksheet1.getCell('O4').border = {
                                 top: {
                                     style: 'thin'
@@ -963,7 +972,8 @@ var model = {
                                     style: 'thin'
                                 }
                             };
-                            worksheet1.getCell('P3').border = {
+
+                            worksheet1.getCell('P4').border = {
                                 top: {
                                     style: 'thin'
                                 },
@@ -975,21 +985,20 @@ var model = {
                                     style: 'thin'
                                 }
                             };
-
-                            worksheet1.getCell('Q2').border = {
-                                top: {
-                                    style: 'thin'
-                                },
-                                // left: {style:'thin'},
-                                bottom: {
-                                    style: 'thin'
-                                },
-                                right: {
-                                    style: 'thin'
-                                }
-                            };
-
                             worksheet1.getCell('Q3').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('R2').border = {
                                 top: {
                                     style: 'thin'
                                 },
@@ -1014,18 +1023,6 @@ var model = {
                                     style: 'thin'
                                 }
                             };
-                            worksheet1.getCell('S2').border = {
-                                top: {
-                                    style: 'thin'
-                                },
-                                // left: {style:'thin'},
-                                bottom: {
-                                    style: 'thin'
-                                },
-                                right: {
-                                    style: 'thin'
-                                }
-                            };
 
                             worksheet1.getCell('S3').border = {
                                 top: {
@@ -1039,8 +1036,33 @@ var model = {
                                     style: 'thin'
                                 }
                             };
+                            worksheet1.getCell('T2').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
 
-                            worksheet1.getCell('T3  ').border = {
+                            worksheet1.getCell('T3').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+                            worksheet1.getCell('U3  ').border = {
                                 top: {
                                     style: 'thin'
                                 },
@@ -1220,7 +1242,6 @@ var model = {
                                                                             MMaterial.findOne({
                                                                                 _id: partAddons.addonItem
                                                                             }).select('materialName weightPerUnit').lean().exec(function (err, addonsMatName) {
-                                                                                console.log('****vijjjjjjj****', addonsMatName);
                                                                                 if (err) {
                                                                                     console.log('**** error at function_name of Estimate.js ****', err);
                                                                                     callback(err, null);
@@ -1234,7 +1255,6 @@ var model = {
                                                                                     partTotalDetailTempRow.addonCost = partTotalDetailTempRow.addonCost + partTotalCost;
 
                                                                                     partTotalDetailTempRow.addonWeight = partTotalDetailTempRow.addonWeight + addonsMatName.weightPerUnit;
-                                                                                    console.log('**** &&&&&&&&', partTotalDetailTempRow.addonWeight);
 
                                                                                     partAddonsExcelObj = {
                                                                                         "Part Qty.(Nos.)": "",
@@ -1352,7 +1372,7 @@ var model = {
 
                                                         //-part unit total cost calculation
                                                         partTotalDetailTempRow.partUnitCost = subAssPart.finalCalculation.itemUnitPrice + partTotalDetailTempRow.processingCost +
-                                                            partTotalDetailTempRow.addonCost + partTotalDetailTempRow.extraCost
+                                                            partTotalDetailTempRow.addonCost + partTotalDetailTempRow.extraCost;
 
                                                         //- part qunaityty total cost calculation
                                                         partTotalDetailTempRow.partQtyCost = 0;
@@ -1392,25 +1412,22 @@ var model = {
                                                         //-Push the part total rows in part sheets having blod rows.
 
                                                         var row = worksheet1.lastRow;
-                                                        var rowsNum = 0
+                                                        var rowsNum = 0;
                                                         rowsNum = row._number;
-                                                        console.log('**** %%%%%%%% ****', rowsNum);
 
                                                         rowNumMoreOne = row._number + 1;
-
-                                                        console.log('**** ============== ****', rowNumMoreOne);
-
-                                                        worksheet1.getCell('B' + rowNumMoreOne).value = partTotalDetailTempRow.partQty
+                                                        ""
+                                                        worksheet1.getCell('B' + rowNumMoreOne).value = partTotalDetailTempRow.partQty;
                                                         worksheet1.getCell('B' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('C' + rowNumMoreOne).value = partTotalDetailTempRow.partName
+                                                        worksheet1.getCell('C' + rowNumMoreOne).value = partTotalDetailTempRow.partName;
                                                         worksheet1.getCell('C' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('D' + rowNumMoreOne).value = partTotalDetailTempRow.partNum
+                                                        worksheet1.getCell('D' + rowNumMoreOne).value = partTotalDetailTempRow.partNum;
                                                         worksheet1.getCell('D' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
@@ -1420,57 +1437,62 @@ var model = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('F' + rowNumMoreOne).value = "Part Total"
+                                                        worksheet1.getCell('F' + rowNumMoreOne).value = "Part Total";
                                                         worksheet1.getCell('F' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('K' + rowNumMoreOne).value = subAssPart.keyValueCalculations.weight
+                                                        worksheet1.getCell('K' + rowNumMoreOne).value = "NetWeight";
                                                         worksheet1.getCell('K' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('L' + rowNumMoreOne).value = subAssPart.finalCalculation.itemUnitPrice
+                                                        worksheet1.getCell('L' + rowNumMoreOne).value = subAssPart.keyValueCalculations.weight;
                                                         worksheet1.getCell('L' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('M' + rowNumMoreOne).value = partTotalDetailTempRow.processingCost
+                                                        worksheet1.getCell('M' + rowNumMoreOne).value = subAssPart.finalCalculation.itemUnitPrice;
                                                         worksheet1.getCell('M' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('N' + rowNumMoreOne).value = partTotalDetailTempRow.addonWeight
+                                                        worksheet1.getCell('N' + rowNumMoreOne).value = partTotalDetailTempRow.processingCost;
                                                         worksheet1.getCell('N' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('O' + rowNumMoreOne).value = partTotalDetailTempRow.addonCost
+                                                        worksheet1.getCell('O' + rowNumMoreOne).value = partTotalDetailTempRow.addonWeight;
                                                         worksheet1.getCell('O' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('P' + rowNumMoreOne).value = partTotalDetailTempRow.extraCost
+                                                        worksheet1.getCell('P' + rowNumMoreOne).value = partTotalDetailTempRow.addonCost;
                                                         worksheet1.getCell('P' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('Q' + rowNumMoreOne).value = partTotalDetailTempRow.partUnitWeight
+                                                        worksheet1.getCell('Q' + rowNumMoreOne).value = partTotalDetailTempRow.extraCost;
                                                         worksheet1.getCell('Q' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('R' + rowNumMoreOne).value = partTotalDetailTempRow.partUnitCost
+                                                        worksheet1.getCell('R' + rowNumMoreOne).value = partTotalDetailTempRow.partUnitWeight;
                                                         worksheet1.getCell('R' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
 
-                                                        worksheet1.getCell('S' + rowNumMoreOne).value = partTotalDetailTempRow.partQtyWeight
+                                                        worksheet1.getCell('S' + rowNumMoreOne).value = partTotalDetailTempRow.partUnitCost;
                                                         worksheet1.getCell('S' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
-                                                        worksheet1.getCell('T' + rowNumMoreOne).value = partTotalDetailTempRow.partQtyCost
+
+                                                        worksheet1.getCell('T' + rowNumMoreOne).value = partTotalDetailTempRow.partQtyWeight;
                                                         worksheet1.getCell('T' + rowNumMoreOne).font = {
+                                                            bold: true
+                                                        };
+                                                        worksheet1.getCell('U' + rowNumMoreOne).value = partTotalDetailTempRow.partQtyCost;
+                                                        worksheet1.getCell('U' + rowNumMoreOne).font = {
                                                             bold: true
                                                         };
                                                         //-==================================================================================================================================================================
@@ -1640,6 +1662,12 @@ var model = {
                                                                 style: 'thin'
                                                             }
                                                         };
+                                                        worksheet1.getCell('U' + rowsNum).border = {
+                                                            bottom: {
+                                                                style: 'thin'
+                                                            }
+                                                        };
+
                                                         workbook.xlsx.writeFile('./assets/importFormat/EstimateSheet.xlsx').then(function () {
                                                             console.log('Part sheet is written');
                                                             callback();
@@ -1648,8 +1676,6 @@ var model = {
                                                 });
                                         }
                                     });
-
-
                                 }, function (err) {
                                     if (err) {
                                         console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -1694,6 +1720,11 @@ var model = {
                                         // header: 'Sub Assembly Name',
                                         key: 'PartName',
                                         width: 18
+                                    },
+                                    {
+                                        // header: '',
+                                        key: 'Unitdetails.PartTotal.NetWeight(kg)',
+                                        width: 15,
                                     },
                                     {
                                         // header: '',
@@ -1761,82 +1792,87 @@ var model = {
                                 worksheet.getCell('B5').font = {
                                     bold: true
                                 };
-                                worksheet.mergeCells('C4', 'H4');
-                                worksheet.getCell('E4').value = '                                                                               Unit details';
+                                worksheet.mergeCells('C4', 'I4');
+                                worksheet.getCell('E4').value = '                                                                                     Unit details';
                                 worksheet.getCell('E4').font = {
                                     bold: true
                                 };
-                                worksheet.mergeCells('C5', 'D5');
-                                worksheet.getCell('D5').value = '                          Part Total';
+                                worksheet.mergeCells('C5', 'E5');
+                                worksheet.getCell('D5').value = '                                     Part Total';
                                 worksheet.getCell('D5').font = {
                                     bold: true
                                 };
-
-                                worksheet.getCell('C6').value = 'Weight (kg)';
+                                worksheet.getCell('C6').value = 'Net Weight (kg)';
                                 worksheet.getCell('C6').font = {
                                     bold: true
                                 };
 
-                                worksheet.getCell('D6').value = 'Cost (Rs.)';
+
+                                worksheet.getCell('D6').value = 'Gross Weight (kg)';
                                 worksheet.getCell('D6').font = {
                                     bold: true
                                 };
 
-                                worksheet.mergeCells('E5', 'E6');
-                                worksheet.getCell('E5').value = 'Processing Cost (Rs.)';
-                                worksheet.getCell('E5').font = {
+                                worksheet.getCell('E6').value = 'Cost (Rs.)';
+                                worksheet.getCell('E6').font = {
                                     bold: true
                                 };
-                                worksheet.mergeCells('F5', 'G5');
-                                worksheet.getCell('F5').value = '                                  Addons';
+
+                                worksheet.mergeCells('F5', 'F6');
+                                worksheet.getCell('F5').value = 'Processing Cost (Rs.)';
                                 worksheet.getCell('F5').font = {
                                     bold: true
                                 };
-                                worksheet.getCell('F6').value = 'Weight(kg)';
-                                worksheet.getCell('F6').font = {
+                                worksheet.mergeCells('G5', 'H5');
+                                worksheet.getCell('G5').value = '                                  Addons';
+                                worksheet.getCell('G5').font = {
                                     bold: true
                                 };
-                                worksheet.getCell('G6').value = 'Cost(Rs.)';
+                                worksheet.getCell('G6').value = 'Weight(kg)';
                                 worksheet.getCell('G6').font = {
                                     bold: true
                                 };
-                                worksheet.mergeCells('H5', 'H6');
-                                worksheet.getCell('H5').value = 'Extra Cost(Rs.)';
-                                worksheet.getCell('H5').font = {
+                                worksheet.getCell('H6').value = 'Cost(Rs.)';
+                                worksheet.getCell('H6').font = {
                                     bold: true
                                 };
-
-                                worksheet.mergeCells('I4', 'J4');
-                                worksheet.getCell('I4').value = '                   Part Unit Total';
-                                worksheet.getCell('I4').font = {
-                                    bold: true
-                                };
-
-
                                 worksheet.mergeCells('I5', 'I6');
-                                worksheet.getCell('I5').value = 'Weight(kg)';
+                                worksheet.getCell('I5').value = 'Extra Cost(Rs.)';
                                 worksheet.getCell('I5').font = {
                                     bold: true
                                 };
-                                worksheet.mergeCells('J5', 'J6');
-                                worksheet.getCell('J5').value = 'Cost(Rs.)';
-                                worksheet.getCell('J5').font = {
+
+                                worksheet.mergeCells('J4', 'K4');
+                                worksheet.getCell('J4').value = '                   Part Unit Total';
+                                worksheet.getCell('J4').font = {
                                     bold: true
                                 };
 
-                                worksheet.mergeCells('K4', 'L4');
-                                worksheet.getCell('K4').value = '                     Part Quantity Total';
-                                worksheet.getCell('K4').font = {
+
+                                worksheet.mergeCells('J5', 'J6');
+                                worksheet.getCell('J5').value = 'Weight(kg)';
+                                worksheet.getCell('J5').font = {
                                     bold: true
                                 };
                                 worksheet.mergeCells('K5', 'K6');
-                                worksheet.getCell('K5').value = 'Weight(kg)';
+                                worksheet.getCell('K5').value = 'Cost(Rs.)';
                                 worksheet.getCell('K5').font = {
                                     bold: true
                                 };
+
+                                worksheet.mergeCells('L4', 'M4');
+                                worksheet.getCell('L4').value = '                     Part Quantity Total';
+                                worksheet.getCell('L4').font = {
+                                    bold: true
+                                };
                                 worksheet.mergeCells('L5', 'L6');
-                                worksheet.getCell('L5').value = 'Cost(Rs.)';
+                                worksheet.getCell('L5').value = 'Weight(kg)';
                                 worksheet.getCell('L5').font = {
+                                    bold: true
+                                };
+                                worksheet.mergeCells('M5', 'M6');
+                                worksheet.getCell('M5').value = 'Cost(Rs.)';
+                                worksheet.getCell('M5').font = {
                                     bold: true
                                 };
 
@@ -1885,7 +1921,7 @@ var model = {
                                     }
                                 };
 
-                                worksheet.getCell('C5').border = {
+                                worksheet.getCell('C6').border = {
                                     top: {
                                         style: 'thin'
                                     },
@@ -1898,7 +1934,19 @@ var model = {
                                     }
                                 };
 
-                                worksheet.getCell('C6').border = {
+                                worksheet.getCell('D4').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('D5').border = {
                                     top: {
                                         style: 'thin'
                                     },
@@ -1924,19 +1972,7 @@ var model = {
                                     }
                                 };
 
-                                worksheet.getCell('E5').border = {
-                                    top: {
-                                        style: 'thin'
-                                    },
-                                    // left: {style:'thin'},
-                                    bottom: {
-                                        style: 'thin'
-                                    },
-                                    right: {
-                                        style: 'thin'
-                                    }
-                                };
-                                worksheet.getCell('F5').border = {
+                                worksheet.getCell('E6').border = {
                                     top: {
                                         style: 'thin'
                                     },
@@ -1949,7 +1985,19 @@ var model = {
                                     }
                                 };
 
-                                worksheet.getCell('F6').border = {
+                                worksheet.getCell('F5').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+                                worksheet.getCell('G5').border = {
                                     top: {
                                         style: 'thin'
                                     },
@@ -1975,19 +2023,7 @@ var model = {
                                     }
                                 };
 
-                                worksheet.getCell('H5').border = {
-                                    top: {
-                                        style: 'thin'
-                                    },
-                                    // left: {style:'thin'},
-                                    bottom: {
-                                        style: 'thin'
-                                    },
-                                    right: {
-                                        style: 'thin'
-                                    }
-                                };
-                                worksheet.getCell('I4').border = {
+                                worksheet.getCell('H6').border = {
                                     top: {
                                         style: 'thin'
                                     },
@@ -2012,8 +2048,7 @@ var model = {
                                         style: 'thin'
                                     }
                                 };
-
-                                worksheet.getCell('J5').border = {
+                                worksheet.getCell('J4').border = {
                                     top: {
                                         style: 'thin'
                                     },
@@ -2025,7 +2060,8 @@ var model = {
                                         style: 'thin'
                                     }
                                 };
-                                worksheet.getCell('K4').border = {
+
+                                worksheet.getCell('J5').border = {
                                     top: {
                                         style: 'thin'
                                     },
@@ -2050,7 +2086,7 @@ var model = {
                                         style: 'thin'
                                     }
                                 };
-                                worksheet.getCell('K6').border = {
+                                worksheet.getCell('L4').border = {
                                     top: {
                                         style: 'thin'
                                     },
@@ -2063,7 +2099,32 @@ var model = {
                                     }
                                 };
 
+                                worksheet.getCell('L5').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
                                 worksheet.getCell('L6').border = {
+                                    top: {
+                                        style: 'thin'
+                                    },
+                                    // left: {style:'thin'},
+                                    bottom: {
+                                        style: 'thin'
+                                    },
+                                    right: {
+                                        style: 'thin'
+                                    }
+                                };
+
+                                worksheet.getCell('M6').border = {
                                     top: {
                                         style: 'thin'
                                     },
@@ -2164,7 +2225,7 @@ var model = {
 
                                     //-Calculation of  Part Unit Total Total Cost
 
-                                    PartUnitTotalCost = PartUnitTotalCost + g.PartUnitTotalCost
+                                    PartUnitTotalCost = PartUnitTotalCost + g.PartUnitTotalCost;
                                     g.PartUnitTotalCost = 0;
                                     //-Calculation of Part Qunaitity Total Total Weight
 
@@ -2172,7 +2233,7 @@ var model = {
                                     g.QuantityTotalWeighth = 0;
                                     //-Calculation of Part Quantity  Total Toal Cost
 
-                                    PartTotalQuantityCost = PartTotalQuantityCost + g.QuantityTotalCost
+                                    PartTotalQuantityCost = PartTotalQuantityCost + g.QuantityTotalCost;
                                     g.QuantityTotalCost = 0;
                                     // console.log('**** %%%%%%%%%s ****', subAssPartTotalTotal);
                                 })
@@ -2280,6 +2341,11 @@ var model = {
                                         style: 'thin'
                                     }
                                 };
+                                worksheet.getCell('M' + rowNumLessOne).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
 
 
                                 worksheet.getCell('A' + rowsNum).border = {
@@ -2338,12 +2404,17 @@ var model = {
                                         style: 'thin'
                                     }
                                 };
-
                                 worksheet.getCell('L' + rowsNum).border = {
                                     bottom: {
                                         style: 'thin'
                                     }
                                 };
+                                worksheet.getCell('M' + rowsNum).border = {
+                                    bottom: {
+                                        style: 'thin'
+                                    }
+                                };
+
                                 var tempSubAssSheetArrays = [];
                                 async.waterfall([
                                     function (callback) {
@@ -2462,7 +2533,7 @@ var model = {
                                                                         });
 
                                                                         var row = worksheet.lastRow;
-                                                                        var rowsNum = 0
+                                                                        var rowsNum = 0;
                                                                         rowsNum = row._number;
 
                                                                         rowNumLessOne = row._number - 1;
@@ -2529,6 +2600,12 @@ var model = {
                                                                             }
                                                                         };
 
+                                                                        worksheet.getCell('M' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+
 
                                                                         worksheet.getCell('A' + rowsNum).border = {
                                                                             bottom: {
@@ -2588,6 +2665,11 @@ var model = {
                                                                         };
 
                                                                         worksheet.getCell('L' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('M' + rowsNum).border = {
                                                                             bottom: {
                                                                                 style: 'thin'
                                                                             }
@@ -2693,22 +2775,22 @@ var model = {
                                                                             bold: true
                                                                         };
 
-                                                                        worksheet.getCell('C' + rowNumMoreOne).value = "Category"
+                                                                        worksheet.getCell('C' + rowNumMoreOne).value = "Category";
                                                                         worksheet.getCell('C' + rowNumMoreOne).font = {
                                                                             bold: true
                                                                         };
 
-                                                                        worksheet.getCell('D' + rowNumMoreOne).value = "Item"
+                                                                        worksheet.getCell('D' + rowNumMoreOne).value = "Item";
                                                                         worksheet.getCell('D' + rowNumMoreOne).font = {
                                                                             bold: true
                                                                         };
 
-                                                                        worksheet.getCell('E' + rowNumMoreOne).value = "Quantity"
+                                                                        worksheet.getCell('E' + rowNumMoreOne).value = "Quantity";
                                                                         worksheet.getCell('E' + rowNumMoreOne).font = {
                                                                             bold: true
                                                                         };
 
-                                                                        worksheet.getCell('F' + rowNumMoreOne).value = "UOM"
+                                                                        worksheet.getCell('F' + rowNumMoreOne).value = "UOM";
                                                                         worksheet.getCell('F' + rowNumMoreOne).font = {
                                                                             bold: true
                                                                         };
@@ -2803,6 +2885,11 @@ var model = {
                                                                                 style: 'thin'
                                                                             }
                                                                         };
+                                                                        worksheet.getCell('M' + rowNumLessOne).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
 
 
                                                                         worksheet.getCell('A' + rowsNum).border = {
@@ -2863,6 +2950,11 @@ var model = {
                                                                         };
 
                                                                         worksheet.getCell('L' + rowsNum).border = {
+                                                                            bottom: {
+                                                                                style: 'thin'
+                                                                            }
+                                                                        };
+                                                                        worksheet.getCell('M' + rowsNum).border = {
                                                                             bottom: {
                                                                                 style: 'thin'
                                                                             }
@@ -2943,19 +3035,19 @@ var model = {
 
                                                                 rowNumMoreOne = row._number + 1;
 
-                                                                worksheet.getCell('B' + rowNumMoreOne).value = "Extra Name"
+                                                                worksheet.getCell('B' + rowNumMoreOne).value = "Extra Name";
                                                                 worksheet.getCell('B' + rowNumMoreOne).font = {
                                                                     bold: true
                                                                 };
-                                                                worksheet.getCell('E' + rowNumMoreOne).value = "Quantity"
+                                                                worksheet.getCell('E' + rowNumMoreOne).value = "Quantity";
                                                                 worksheet.getCell('E' + rowNumMoreOne).font = {
                                                                     bold: true
                                                                 };
-                                                                worksheet.getCell('F' + rowNumMoreOne).value = "UOM"
+                                                                worksheet.getCell('F' + rowNumMoreOne).value = "UOM";
                                                                 worksheet.getCell('F' + rowNumMoreOne).font = {
                                                                     bold: true
                                                                 };
-                                                                worksheet.getCell('G' + rowNumMoreOne).value = "Total Cost"
+                                                                worksheet.getCell('G' + rowNumMoreOne).value = "Total Cost";
                                                                 worksheet.getCell('G' + rowNumMoreOne).font = {
                                                                     bold: true
                                                                 };
@@ -2995,7 +3087,7 @@ var model = {
                                                                     "PartQuantityTotal.Cost(Rs)": ""
                                                                 });
                                                                 var row = worksheet.lastRow;
-                                                                var rowsNum = 0
+                                                                var rowsNum = 0;
                                                                 rowsNum = row._number;
 
                                                                 rowNumLessOne = row._number - 1;
@@ -3061,6 +3153,11 @@ var model = {
                                                                         style: 'thin'
                                                                     }
                                                                 };
+                                                                worksheet.getCell('M' + rowNumLessOne).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
 
 
                                                                 worksheet.getCell('A' + rowsNum).border = {
@@ -3121,6 +3218,11 @@ var model = {
                                                                 };
 
                                                                 worksheet.getCell('L' + rowsNum).border = {
+                                                                    bottom: {
+                                                                        style: 'thin'
+                                                                    }
+                                                                };
+                                                                worksheet.getCell('M' + rowsNum).border = {
                                                                     bottom: {
                                                                         style: 'thin'
                                                                     }
@@ -3194,6 +3296,12 @@ var model = {
                                 },
                                 {
                                     // header: '',
+                                    key: 'Unitdetails.PartTotal.NetWeight(kg)',
+                                    width: 15,
+                                },
+
+                                {
+                                    // header: '',
                                     key: 'Unitdetails.PartTotal.Weight(kg)',
                                     width: 15,
                                 },
@@ -3258,82 +3366,88 @@ var model = {
                             worksheet2.getCell('B5').font = {
                                 bold: true
                             };
-                            worksheet2.mergeCells('C4', 'H4');
+                            worksheet2.mergeCells('C4', 'I4');
                             worksheet2.getCell('E4').value = '                                                                               Unit details';
                             worksheet2.getCell('E4').font = {
                                 bold: true
                             };
-                            worksheet2.mergeCells('C5', 'D5');
+                            worksheet2.mergeCells('C5', 'E5');
                             worksheet2.getCell('D5').value = '                          Part Total';
                             worksheet2.getCell('D5').font = {
                                 bold: true
                             };
 
-                            worksheet2.getCell('C6').value = 'Weight (kg)';
+                            worksheet2.getCell('C6').value = 'Net Weight (kg)';
                             worksheet2.getCell('C6').font = {
                                 bold: true
                             };
 
-                            worksheet2.getCell('D6').value = 'Cost (Rs.)';
+                            worksheet2.getCell('D6').value = 'Gross Weight (kg)';
                             worksheet2.getCell('D6').font = {
                                 bold: true
                             };
 
-                            worksheet2.mergeCells('E5', 'E6');
-                            worksheet2.getCell('E5').value = 'Processing Cost (Rs.)';
-                            worksheet2.getCell('E5').font = {
+
+                            worksheet2.getCell('E6').value = 'Cost (Rs.)';
+                            worksheet2.getCell('E6').font = {
                                 bold: true
                             };
-                            worksheet2.mergeCells('F5', 'G5');
-                            worksheet2.getCell('F5').value = '                                  Addons';
+
+                            worksheet2.mergeCells('F5', 'F6');
+                            worksheet2.getCell('F5').value = 'Processing Cost (Rs.)';
                             worksheet2.getCell('F5').font = {
                                 bold: true
                             };
-                            worksheet2.getCell('F6').value = 'Weight(kg)';
-                            worksheet2.getCell('F6').font = {
+                            worksheet2.mergeCells('G5', 'H5');
+                            worksheet2.getCell('G5').value = '                                  Addons';
+                            worksheet2.getCell('G5').font = {
                                 bold: true
                             };
-                            worksheet2.getCell('G6').value = 'Cost(Rs.)';
+                            worksheet2.getCell('G6').value = 'Weight(kg)';
                             worksheet2.getCell('G6').font = {
                                 bold: true
                             };
-                            worksheet2.mergeCells('H5', 'H6');
-                            worksheet2.getCell('H5').value = 'Extra Cost(Rs.)';
-                            worksheet2.getCell('H5').font = {
+                            worksheet2.getCell('H6').value = 'Cost(Rs.)';
+                            worksheet2.getCell('H6').font = {
                                 bold: true
                             };
-
-                            worksheet2.mergeCells('I4', 'J4');
-                            worksheet2.getCell('I4').value = '                 SA Unit Total';
-                            worksheet2.getCell('I4').font = {
-                                bold: true
-                            };
-
-
                             worksheet2.mergeCells('I5', 'I6');
-                            worksheet2.getCell('I5').value = 'Weight(kg)';
+                            worksheet2.getCell('I5').value = 'Extra Cost(Rs.)';
                             worksheet2.getCell('I5').font = {
                                 bold: true
                             };
-                            worksheet2.mergeCells('J5', 'J6');
-                            worksheet2.getCell('J5').value = 'Cost(Rs.)';
-                            worksheet2.getCell('J5').font = {
+
+                            worksheet2.mergeCells('J4', 'K4');
+                            worksheet2.getCell('J4').value = '                 SA Unit Total';
+                            worksheet2.getCell('J4').font = {
                                 bold: true
                             };
 
-                            worksheet2.mergeCells('K4', 'L4');
-                            worksheet2.getCell('K4').value = '             SA Quantity Total';
-                            worksheet2.getCell('K4').font = {
+
+                            worksheet2.mergeCells('J5', 'J6');
+                            worksheet2.getCell('J5').value = 'Weight(kg)';
+                            worksheet2.getCell('J5').font = {
                                 bold: true
                             };
                             worksheet2.mergeCells('K5', 'K6');
-                            worksheet2.getCell('K5').value = 'Weight(kg)';
+                            worksheet2.getCell('K5').value = 'Cost(Rs.)';
                             worksheet2.getCell('K5').font = {
                                 bold: true
                             };
+
+                            worksheet2.mergeCells('L4', 'M4');
+                            worksheet2.getCell('L4').value = '             SA Quantity Total';
+                            worksheet2.getCell('L4').font = {
+                                bold: true
+                            };
                             worksheet2.mergeCells('L5', 'L6');
-                            worksheet2.getCell('L5').value = 'Cost(Rs.)';
+                            worksheet2.getCell('L5').value = 'Weight(kg)';
                             worksheet2.getCell('L5').font = {
+                                bold: true
+                            };
+                            worksheet2.mergeCells('M5', 'M6');
+                            worksheet2.getCell('M5').value = 'Cost(Rs.)';
+                            worksheet2.getCell('M5').font = {
                                 bold: true
                             };
 
@@ -3408,6 +3522,19 @@ var model = {
                                 }
                             };
 
+                            worksheet2.getCell('D5').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
                             worksheet2.getCell('D6').border = {
                                 top: {
                                     style: 'thin'
@@ -3433,6 +3560,20 @@ var model = {
                                     style: 'thin'
                                 }
                             };
+
+                            worksheet2.getCell('E6').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
                             worksheet2.getCell('F5').border = {
                                 top: {
                                     style: 'thin'
@@ -3572,6 +3713,21 @@ var model = {
                                     style: 'thin'
                                 }
                             };
+
+                            worksheet2.getCell('M6').border = {
+                                top: {
+                                    style: 'thin'
+                                },
+                                // left: {style:'thin'},
+                                bottom: {
+                                    style: 'thin'
+                                },
+                                right: {
+                                    style: 'thin'
+                                }
+                            };
+
+
                             assFinalPartTotalWeight = 0;
                             assFinalPartTotalCost = 0;
                             assFinalProcessingCost = 0;
@@ -3716,6 +3872,11 @@ var model = {
                                 }
                             };
 
+                            worksheet2.getCell('M' + rowNumLessOne).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
 
                             worksheet2.getCell('A' + rowsNum).border = {
                                 bottom: {
@@ -3779,6 +3940,13 @@ var model = {
                                     style: 'thin'
                                 }
                             };
+
+                            worksheet2.getCell('M' + rowsNum).border = {
+                                bottom: {
+                                    style: 'thin'
+                                }
+                            };
+
                             //-add one more row for total calculation
                             var tempAssSheetArrays = [];
                             async.waterfall([
@@ -3863,31 +4031,31 @@ var model = {
 
                                                                     rowNumMoreOne = row._number + 1;
 
-                                                                    worksheet2.getCell('B' + rowNumMoreOne).value = "Processing Name"
+                                                                    worksheet2.getCell('B' + rowNumMoreOne).value = "Processing Name";
                                                                     worksheet2.getCell('B' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
 
-                                                                    worksheet2.getCell('C' + rowNumMoreOne).value = "Category"
+                                                                    worksheet2.getCell('C' + rowNumMoreOne).value = "Category";
                                                                     worksheet2.getCell('C' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
 
-                                                                    worksheet2.getCell('D' + rowNumMoreOne).value = "Item"
+                                                                    worksheet2.getCell('D' + rowNumMoreOne).value = "Item";
                                                                     worksheet2.getCell('D' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
 
-                                                                    worksheet2.getCell('E' + rowNumMoreOne).value = "Quantity"
+                                                                    worksheet2.getCell('E' + rowNumMoreOne).value = "Quantity";
                                                                     worksheet2.getCell('E' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
 
-                                                                    worksheet2.getCell('F' + rowNumMoreOne).value = "UOM"
+                                                                    worksheet2.getCell('F' + rowNumMoreOne).value = "UOM";
                                                                     worksheet2.getCell('F' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
-                                                                    worksheet2.getCell('G' + rowNumMoreOne).value = "Total Cost"
+                                                                    worksheet2.getCell('G' + rowNumMoreOne).value = "Total Cost";
                                                                     worksheet2.getCell('G' + rowNumMoreOne).font = {
                                                                         bold: true
                                                                     };
@@ -3979,6 +4147,11 @@ var model = {
                                                                             style: 'thin'
                                                                         }
                                                                     };
+                                                                    worksheet2.getCell('M' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
 
 
                                                                     worksheet2.getCell('A' + rowsNum).border = {
@@ -4039,6 +4212,11 @@ var model = {
                                                                     };
 
                                                                     worksheet2.getCell('L' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('M' + rowsNum).border = {
                                                                         bottom: {
                                                                             style: 'thin'
                                                                         }
@@ -4257,6 +4435,12 @@ var model = {
                                                                             style: 'thin'
                                                                         }
                                                                     };
+
+                                                                    worksheet2.getCell('M' + rowNumLessOne).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
                                                                     worksheet2.getCell('A' + rowsNum).border = {
                                                                         bottom: {
                                                                             style: 'thin'
@@ -4267,6 +4451,7 @@ var model = {
                                                                             style: 'thin'
                                                                         }
                                                                     };
+
                                                                     worksheet2.getCell('C' + rowsNum).border = {
                                                                         bottom: {
                                                                             style: 'thin'
@@ -4315,6 +4500,11 @@ var model = {
                                                                     };
 
                                                                     worksheet2.getCell('L' + rowsNum).border = {
+                                                                        bottom: {
+                                                                            style: 'thin'
+                                                                        }
+                                                                    };
+                                                                    worksheet2.getCell('M' + rowsNum).border = {
                                                                         bottom: {
                                                                             style: 'thin'
                                                                         }
@@ -4517,6 +4707,11 @@ var model = {
                                                                     style: 'thin'
                                                                 }
                                                             };
+                                                            worksheet2.getCell('M' + rowNumLessOne).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            };
 
 
                                                             worksheet2.getCell('A' + rowsNum).border = {
@@ -4581,6 +4776,11 @@ var model = {
                                                                     style: 'thin'
                                                                 }
                                                             };
+                                                            worksheet2.getCell('M' + rowsNum).border = {
+                                                                bottom: {
+                                                                    style: 'thin'
+                                                                }
+                                                            }
 
                                                         }
                                                         // tempSubAssSheetArrays.push(sa);
@@ -4606,7 +4806,6 @@ var model = {
                                 if (err) {
                                     console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
                                 } else {
-                                    var myUniqueId = (uniqid());
                                     workbook.xlsx.writeFile('./assets/importFormat/' + assSheetName + '_v' + estVersion + '.xlsx').then(function () {
                                         var excelFileName = './assets/importFormat/' + assSheetName + '_v' + estVersion + '.xlsx';
                                         // console.log('**** excel file nameeeeee ****', excelFileName);

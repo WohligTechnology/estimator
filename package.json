@@ -84,7 +84,6 @@
     "sails-wohlig-controller": "latest",
     "sails-wohlig-service": "latest",
     "sendgrid": "^5.2.0",
-    "uniqid": "^4.1.1",
     "wohlig": "^0.1.0"
   },
   "scripts": {
