@@ -281,7 +281,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				}
 				//- addons cost at part level
 				if (part.addons.length > 0) {
-					var obj = thisRef.getAddonTotalCost('part', part.addons);
+					var obj = thisRef.getAddonTotalCost('part', part.addons, subAssembly.subAssemblyNumber, part.partNumber);
 					costCalculations.aCostAtPart = obj.totalCost;
 					costCalculations.addonWtAtPart = obj.totalWeight;
 				}
@@ -515,7 +515,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		return totalCost;
 	}
 	//- to get addons totalCost
-	this.getAddonTotalCost = function (level, addons, subAssId) {
+	this.getAddonTotalCost = function (level, addons, subAssId, partId) {
 		var obj = {
 			totalCost: 0,
 			totalWeight: 0
@@ -538,22 +538,43 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 							keyValues = data;
 						});
 					}
-					if (addon.quantity.keyValue.keyVariable == "Perimeter") {
-						addon.quantity.keyValue.keyValue = parseFloat(keyValues.perimeter) * parseFloat(addon.addonType.quantity.mulFact);
-					} else if (addon.quantity.keyValue.keyVariable == "SMA") {
-						addon.quantity.keyValue.keyValue = parseFloat(keyValues.sheetMetalArea) * parseFloat(addon.addonType.quantity.mulFact);
-					} else if (addon.quantity.keyValue.keyVariable == "SA") {
-						processing.quantity.keyValue.keyValue = parseFloat(keyValues.surfaceArea) * parseFloat(addon.addonType.quantity.mulFact);
-					} else if (processing.quantity.keyValue.keyVariable == "Gwt") {
-						processing.quantity.keyValue.keyValue = parseFloat(keyValues.grossWeight) * parseFloat(addon.addonType.quantity.mulFact);
-					} else if (processing.quantity.keyValue.keyVariable == "Nwt") {
-						processing.quantity.keyValue.keyValue = parseFloat(keyValues.netWeight) * parseFloat(addon.addonType.quantity.mulFact);
-					}
-					if (addon.quantity.contengncyOrWastage != 0) {
-						addon.totalCost = parseFloat(addon.quantity.total) * parseFloat(addon.rate) * parseFloat(addon.quantity.keyValue.keyValue) * parseFloat(addon.quantity.supportingVariable.value) * (parseFloat(addon.quantity.utilization) / 100) * ((100 + parseFloat(addon.quantity.contengncyOrWastage)) / 100);
-					} else {
-						addon.totalCost = parseFloat(addon.quantity.total) * parseFloat(addon.rate.value) * parseFloat(addon.quantity.keyValue.keyValue) * parseFloat(addon.quantity.supportingVariable.value) * (parseFloat(addon.quantity.utilization) / 100);
-					}
+				} else {
+					var subAssIndex = thisRef.getSubAssemblyIndex(subAssId);
+					var partIndex = thisRef.getPartIndex(subAssIndex, partId);
+					keyValues = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
+				}
+				if (addon.quantity.keyValue.keyVariable == "Perimeter") {
+					addon.quantity.keyValue.keyValue = parseFloat(keyValues.perimeter) * parseFloat(addon.addonType.quantity.mulFact);
+				} else if (addon.quantity.keyValue.keyVariable == "SMA") {
+					addon.quantity.keyValue.keyValue = parseFloat(keyValues.sheetMetalArea) * parseFloat(addon.addonType.quantity.mulFact);
+				} else if (addon.quantity.keyValue.keyVariable == "SA") {
+					addon.quantity.keyValue.keyValue = parseFloat(keyValues.surfaceArea) * parseFloat(addon.addonType.quantity.mulFact);
+				} else if (processing.quantity.keyValue.keyVariable == "Gwt") {
+					addon.quantity.keyValue.keyValue = parseFloat(keyValues.grossWeight) * parseFloat(addon.addonType.quantity.mulFact);
+				} else if (processing.quantity.keyValue.keyVariable == "Nwt") {
+					addon.quantity.keyValue.keyValue = parseFloat(keyValues.netWeight) * parseFloat(addon.addonType.quantity.mulFact);
+				}
+				var rate = parseFloat(addon.rate);
+				var quantity = parseFloat(addon.quantity.total);
+				//- weight per unit
+				var weightPerUnit = parseFloat(addon.weightPerUnit);
+				if (addon.showQuantityFields) {
+				  //- case 1 & case 2
+				  var keyValue = parseFloat(addon.quantity.keyValue.keyValue);
+				  var supportingVariable = parseFloat(addon.quantity.supportingVariable.value);
+				  var utilization = parseFloat(addon.quantity.utilization);
+				  var contengncyOrWastage = parseFloat(addon.quantity.contengncyOrWastage);
+				  var mulFact = parseFloat(addon.addonType.quantity.mulFact);
+				  addon.totalWeight = weightPerUnit * mulFact * keyValue * supportingVariable * (utilization / 100);
+				  addon.totalCost = quantity * rate * keyValue * supportingVariable * (utilization / 100);
+				  if (parseFloat(contengncyOrWastage) > 0) {
+					addon.totalWeight = addon.totalWeight * (1 + (contengncyOrWastage / 100));
+					addon.totalCost = addon.totalCost * (1 + (contengncyOrWastage / 100));
+				  }
+				} else {
+				  //- case 3 & case 4
+				  addon.totalWeight = quantity * weightPerUnit;
+				  addon.totalCost = quantity * rate;
 				}
 			}
 			obj.totalCost += addon.totalCost;
@@ -1641,7 +1662,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						addonObject.selectedMaterial = tempAddonObj.addonItem;
 					}
 					addonObject.quantity.keyValue.uom = tempAddonObj.addonType.quantity.linkedKeyUom.uomName;
-					
+
 					addonObject.weightPerUnit = tempAddonObj.weightPerUnit;
 					addonObject.totalWeight = tempAddonObj.totalWeight;
 					addonObject.quantity.total = tempAddonObj.quantity.total;
@@ -1716,6 +1737,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		tempAddonObject.quantity.total = addonData.quantity.total;
 		tempAddonObject.quantity.contengncyOrWastage = addonData.quantity.contengncyOrWastage;
 		tempAddonObject.quantity.utilization = addonData.quantity.utilization;
+		tempAddonObject.showRateFields = addonData.showRateFields;
+		tempAddonObject.showQuantityFields = addonData.showQuantityFields;
 
 		tempAddonObject.remark = addonData.remark;
 		tempAddonObject.totalCost = addonData.totalCost;

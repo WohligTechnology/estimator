@@ -1657,7 +1657,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
   $scope.getAddonObject();
 
-  $scope.addOrEditAddonModal = function (operation, level, subAssemblyId, partId, addonId) {
+  $scope.addOrEditAddonModal = function (operation, level, subAssemblyId, partId, addonId) {    
     $scope.getAddonObject();
 
 
@@ -1778,7 +1778,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
     $scope.addonObj.quantity.keyValue.uom = selectedAddonType.quantity.linkedKeyUom.uomName; //    
     //    $scope.addonObj.finalUom = selectedAddonType.quantity.finalUom.uomName; //- selected selectedAddonType-->quantity-->finalUom 
-    // $scope.updateAddonCost();
+    $scope.updateAddonCost();
   }
 
   //- when user select an material
