@@ -466,6 +466,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	this.addScalingFactorToCost = function (type) {
 		NavigationService.boxCall('MFixedMarkup/search', function (data) {
 			formData.assembly.totalCost = (parseFloat(formData.assembly.materialCost) + parseFloat(formData.assembly.processingCost) + parseFloat(formData.assembly.addonCost) + parseFloat(formData.assembly.extrasCost));
+			formData.assembly.totalCost += (formData.assembly.totalCost * ((parseFloat(formData.assembly.negotiation) + parseFloat(formData.assembly.commission) + parseFloat(formData.assembly.other)) / 100));			
 			//formData.assembly.totalCost += (formData.assembly.totalCost * (parseFloat(formData.assembly.scaleFactor) / 100));
 		});
 
