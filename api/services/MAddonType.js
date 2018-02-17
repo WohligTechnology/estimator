@@ -37,8 +37,7 @@ var schema = new Schema({
         percentageUse: Number,
         finalUom: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'MUom',
-            required: true
+            ref: 'MUom'
         }
 
     },

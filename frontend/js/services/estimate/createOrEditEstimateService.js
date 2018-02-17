@@ -478,8 +478,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					formData.assembly.commission = sellingObj.commission;
 					formData.assembly.other = sellingObj.other;
 					formData.assembly.negotiationAmount = formData.assembly.totalCost * (1 + formData.assembly.negotiation / 100);
-					formData.assembly.commissionAmount =  formData.assembly.totalCost * (1 + formData.assembly.commission / 100);
-					formData.assembly.otherAmount =  formData.assembly.totalCost * (1 + formData.assembly.other / 100);
+					formData.assembly.commissionAmount = formData.assembly.totalCost * (1 + formData.assembly.commission / 100);
+					formData.assembly.otherAmount = formData.assembly.totalCost * (1 + formData.assembly.other / 100);
 					formData.assembly.scaleFactors.low = sellingObj.lowScaleFactor;
 					formData.assembly.scaleFactors.medium = sellingObj.mediumScaleFactor;
 					formData.assembly.scaleFactors.high = sellingObj.highScaleFactor;
@@ -514,11 +514,11 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 		formData.assembly.totalCost = (parseFloat(formData.assembly.materialCost) + parseFloat(formData.assembly.processingCost) + parseFloat(formData.assembly.addonCost) + parseFloat(formData.assembly.extrasCost));
 		formData.assembly.negotiationAmount = formData.assembly.totalCost * (1 + formData.assembly.negotiation / 100);
-		formData.assembly.commissionAmount =  formData.assembly.totalCost * (1 + formData.assembly.commission / 100);
-		formData.assembly.otherAmount =  formData.assembly.totalCost * (1 + formData.assembly.other / 100);
+		formData.assembly.commissionAmount = formData.assembly.totalCost * (1 + formData.assembly.commission / 100);
+		formData.assembly.otherAmount = formData.assembly.totalCost * (1 + formData.assembly.other / 100);
 		formData.assembly.totalCost += (formData.assembly.totalCost * ((parseFloat(formData.assembly.negotiation) + parseFloat(formData.assembly.commission) + parseFloat(formData.assembly.other)) / 100));
 		formData.assembly.totalCost = (formData.assembly.totalCost * (1 + value / 100));
-		
+
 	}
 	//- to get processing totalCost
 	this.getProcessingTotalCost = function (level, processings, subAssId) {
@@ -580,12 +580,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding subAssembly		
 						var subAssIndex = thisRef.getSubAssemblyIndex(subAssId);
 						thisRef.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
-							keyValues = data;
+							var subAssIndex = thisRef.getSubAssemblyIndex(subAssId);
+							formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = formData.assembly.keyValueCalculations = keyValues = data;
 						});
 					} else if (level == 'assembly') {
 						//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 						thisRef.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
-							keyValues = data;
+							formData.assembly.keyValueCalculations = keyValues = data;
 						});
 					}
 				} else {
@@ -1727,13 +1728,31 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		});
 	}
 	//- called when user will select a processType while adding a processing at any level
-	this.getSelectedAddonType = function (addonTypeId, callback) {
-
-		NavigationService.apiCall('MAddonType/getAddonMaterial', {
-			_id: addonTypeId
-		}, function (data) {
-			callback(data.data.materials);
-		});
+	this.getSelectedAddonType = function (addonTypeId, addonObj, subAssemblyId, partId, callback) {
+		var tempArray = [];
+		var t;
+		if (angular.isDefined(subAssemblyId) && angular.isDefined(partId)) {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			t = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].thickness;
+			if (!isNaN(parseFloat(angular.isDefined(t)))) {
+				t = parseFloat(t);
+			}
+		}
+		if (addonObj.showRateFields) {
+			NavigationService.apiCall('MAddonType/getAddonMaterial', {
+				_id: addonTypeId
+			}, function (data) {
+				if (data.value) {
+					tempArray = data.data.materials;
+				}
+				tempArray.thickness = t;
+				callback(tempArray);
+			});
+		} else {
+			tempArray.thickness = t;
+			callback(tempArray);
+		}
 	}
 
 	this.getAddonTypeData = function (callback) {}

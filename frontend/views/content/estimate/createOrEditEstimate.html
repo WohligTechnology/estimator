@@ -37,7 +37,7 @@
                                                 <th class="text-center">Processing</th>
                                                 <th class="text-center">Addon</th>
                                                 <th class="text-center">Extra</th>
-                                                <th class="text-center">Total</th>
+                                                <th colspan="2" class="text-center">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -97,36 +97,27 @@
                                                 <td rowspan="2" class="text-center"> {{estimteData.pCostAtAssemby.toFixed(2)}} </td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.aCostAtAssemby.toFixed(2)}} </td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.eCostAtAssemby.toFixed(2)}} </td>
-                                                <td>
-                                                    <span class="col-md-4">Net Weight :</span>
-                                                    <span class="col-md-6">{{estimteData.netWtAtAssembly.toFixed(2)}}&nbsp;
+                                                <td rowspan="2" class="text-center"> {{estimteData.costPrice.toFixed(2) | currency:"₹"}} </td>
+                                                <td style="width:200px!important">
+                                                    <span class="col-md-6">Net Weight :</span>
+                                                    <span class="col-md-6" style="padding-left:0 !important;">{{estimteData.netWtAtAssembly.toFixed(2)}}&nbsp;
                                                         <b>Kg</b>
                                                     </span>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="col-md-4">Gross Weight :</span>
-                                                    <span class="col-md-6">{{estimteData.wtAtAssembly.toFixed(2)}}&nbsp;
-                                                        <b>Kg</b>
-                                                    </span>
-                                                </td>
-                                            </tr>
+                                            <tr></tr>
                                             <tr>
                                                 <td rowspan="2" class="text-center">Selling Price</td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.materialCost.toFixed(2)}}</td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.processingCost.toFixed(2)}} </td>
                                                 <td rowspan="2" class="text-center">{{estimteData.addonCost.toFixed(2)}} </td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.extrasCost.toFixed(2)}}</td>
-                                                <td>
-                                                    <span class="col-md-4">Cost Price : </span>
-                                                    <span class="col-md-6">{{estimteData.costPrice.toFixed(2) | currency:"₹"}}</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="col-md-4">Selling Price :</span>
-                                                    <span class="col-md-6">{{estimteData.totalCost.toFixed(2) | currency:"₹"}}</span>
+                                                <td rowspan="2" class="text-center"> {{estimteData.totalCost.toFixed(2) | currency:"₹"}}</td>
+                                                <td style="width:250px!important"> 
+                                                    <span class="col-md-6">Gross Weight :</span>
+                                                    <span class="col-md-6" style="padding-left:0 !important;">{{estimteData.wtAtAssembly.toFixed(2)}}&nbsp;
+                                                        <b>Kg</b>
+                                                    </span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -293,7 +284,7 @@
                                                 <th class="text-center">Processing</th>
                                                 <th class="text-center">Addon</th>
                                                 <th class="text-center">Extra</th>
-                                                <th class="text-center">Total</th>
+                                                <th colspan="2" class="text-center">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -353,36 +344,27 @@
                                                 <td rowspan="2" class="text-center"> {{estimteData.pCostAtAssemby.toFixed(2)}} </td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.aCostAtAssemby.toFixed(2)}} </td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.eCostAtAssemby.toFixed(2)}} </td>
-                                                <td>
-                                                    <span class="col-md-4">Net Weight :</span>
-                                                    <span class="col-md-6">{{estimteData.netWtAtAssembly.toFixed(2)}}&nbsp;
+                                                <td rowspan="2" class="text-center"> {{estimteData.costPrice.toFixed(2) | currency:"₹"}} </td>
+                                                <td style="width:200px!important">
+                                                    <span class="col-md-6">Net Weight :</span>
+                                                    <span class="col-md-6" style="padding-left:0 !important;">{{estimteData.netWtAtAssembly.toFixed(2)}}&nbsp;
                                                         <b>Kg</b>
                                                     </span>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="col-md-4">Gross Weight :</span>
-                                                    <span class="col-md-6">{{estimteData.wtAtAssembly.toFixed(2)}}&nbsp;
-                                                        <b>Kg</b>
-                                                    </span>
-                                                </td>
-                                            </tr>
+                                            <tr></tr>
                                             <tr>
                                                 <td rowspan="2" class="text-center">Selling Price</td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.materialCost.toFixed(2)}}</td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.processingCost.toFixed(2)}} </td>
                                                 <td rowspan="2" class="text-center">{{estimteData.addonCost.toFixed(2)}} </td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.extrasCost.toFixed(2)}}</td>
-                                                <td>
-                                                    <span class="col-md-4">Cost Price : </span>
-                                                    <span class="col-md-6">{{estimteData.costPrice.toFixed(2) | currency:"₹"}}</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="col-md-4">Selling Price :</span>
-                                                    <span class="col-md-6">{{estimteData.totalCost.toFixed(2) | currency:"₹"}}</span>
+                                                <td rowspan="2" class="text-center"> {{estimteData.totalCost.toFixed(2) | currency:"₹"}}</td>
+                                                <td style="width:250px!important"> 
+                                                    <span class="col-md-6">Gross Weight :</span>
+                                                    <span class="col-md-6" style="padding-left:0 !important;">{{estimteData.wtAtAssembly.toFixed(2)}}&nbsp;
+                                                        <b>Kg</b>
+                                                    </span>
                                                 </td>
                                             </tr>
                                         </tbody>
