@@ -1433,12 +1433,31 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		});
 	}
 	//- called when user will select a processType while adding a processing at any level
-	this.getSelectedProessType = function (processTypeId, callback) {
-		NavigationService.apiCall('MProcessType/getProcessTypeItem', {
-			_id: processTypeId
-		}, function (data) {
-			callback(data.data.processItems);
-		});
+	this.getSelectedProessType = function (proTypeObj, subAssemblyId, partId, callback) {
+		var tempArray = [];
+		var t;
+		if (angular.isDefined(subAssemblyId) && angular.isDefined(partId)) {
+			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
+			var partIndex = this.getPartIndex(subAssIndex, partId);
+			t = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].thickness;
+			if (!isNaN(parseFloat(angular.isDefined(t)))) {
+				t = parseFloat(t);
+			}
+		}
+		if (proTypeObj.showRateFields) {
+			NavigationService.apiCall('MProcessType/getProcessTypeItem', {
+				_id: proTypeObj._id
+			}, function (data) {
+				if (data.value) {
+					tempArray = data.data.processItems;
+				}
+				tempArray.thickness = t;
+				callback(tempArray);
+			});
+		} else {
+			tempArray.thickness = t;
+			callback(tempArray);
+		}
 	}
 
 	// this.getSelectedProessItem = function (processItemId,callback) {

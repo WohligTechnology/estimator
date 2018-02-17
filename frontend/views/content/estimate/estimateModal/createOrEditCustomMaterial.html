@@ -54,7 +54,7 @@
                             <div class="form-group">
                                 <label class="control-label">Base Metal: </label>
                                 <select class="form-control" ng-options="m.materialName for m in customMaterialDataObj.allBaseMetals track by m._id" ng-model="formData.basePlate.baseMetal"
-                                    ng-click="getCostOfBaseMetal(formData, formData.freeIssue)"></select>
+                                    ng-change="getCostOfBaseMetal(formData, formData.freeIssue)"></select>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -116,7 +116,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <select class="form-control" name="alloy" ng-options="m.materialName for m in customMaterialDataObj.allAlloys track by m._id" ng-model="h.alloy"
-                                    ng-click="getCostOfAlloy(formData, h)" ng-required="true">
+                                    ng-change="getCostOfAlloy(formData, h)" ng-required="true">
                                 </select>
                             </div>
                         </div>
