@@ -239,7 +239,6 @@ var model = {
                                                                     tempProObj.estimateVersion = tempObj.estimateVersion,
                                                                         tempProObj.processingLevelId = savedPart._id;
                                                                     // tempProObj.processingObj = proObj;
-                                                                    console.log('**** %%%%%%%%%%%% ****', tempProObj.processItem);
                                                                     if (tempProObj.processItem == '' || 'undefined') {
                                                                         delete tempProObj.processItem;
                                                                     }
@@ -292,8 +291,8 @@ var model = {
                                                                 async.eachSeries(part.extras, function (extrasObj, callback) {
                                                                     var tempExtraObj = extrasObj;
                                                                     tempExtraObj.extraLevel = "part";
-                                                                    tempExtraObj.estimateVersion = tempObj.estimateVersion,
-                                                                        tempExtraObj.extraLevelId = savedPart._id;
+                                                                    tempExtraObj.estimateVersion = tempObj.estimateVersion;
+                                                                    tempExtraObj.extraLevelId = savedPart._id;
                                                                     // tempExtraObj.extraObj = extrasObj;
                                                                     EstimateExtras.saveData(tempExtraObj, function (err, savedPartExtra) {
                                                                         if (err) {
@@ -343,12 +342,12 @@ var model = {
 
                                                                 var tempProObj = proObj;
                                                                 tempProObj.processingLevel = "subAssembly";
-                                                                tempProObj.estimateVersion = tempObj.estimateVersion,
-                                                                    tempProObj.processingLevelId = savedSubAss._id;
+                                                                tempProObj.estimateVersion = tempObj.estimateVersion;
+                                                                tempProObj.processingLevelId = savedSubAss._id;
                                                                 // tempProObj.processingObj = proObj;
                                                                 // tempProObj.processingObj = {};
 
-                                                                if (tempProObj.processItem == '') {
+                                                                if (tempProObj.processItem == '' || "undefined") {
                                                                     delete tempProObj.processItem;
                                                                 }
 
@@ -372,8 +371,8 @@ var model = {
                                                             async.eachSeries(subAss.addons, function (addonsObj, callback) {
                                                                 var tempAddonObj = addonsObj;
                                                                 tempAddonObj.addonsLevel = "subAssembly";
-                                                                tempAddonObj.estimateVersion = tempObj.estimateVersion,
-                                                                    tempAddonObj.addonsLevelId = savedSubAss._id;
+                                                                tempAddonObj.estimateVersion = tempObj.estimateVersion;
+                                                                tempAddonObj.addonsLevelId = savedSubAss._id;
                                                                 // tempAddonObj.addonObj = addonsObj;
                                                                 // tempAddonObj.addonObj = {};
                                                                 if (tempAddonObj.addonItem == '' || 'undefined') {
@@ -455,8 +454,8 @@ var model = {
                                                 async.eachSeries(found.processing, function (proObj, callback) {
                                                     var tempProObj = proObj;
                                                     tempProObj.processingLevel = "estimate";
-                                                    tempProObj.estimateVersion = tempObj.estimateVersion,
-                                                        tempProObj.processingLevelId = savedAssembly._id;
+                                                    tempProObj.estimateVersion = tempObj.estimateVersion;
+                                                    tempProObj.processingLevelId = savedAssembly._id;
                                                     // tempProObj.processingObj = proObj;
                                                     // tempProObj.processingObj = {};
                                                     if (tempProObj.processItem == '') {
@@ -482,11 +481,11 @@ var model = {
                                                 async.eachSeries(found.addons, function (addonsObj, callback) {
                                                     var tempAddonObj = addonsObj;
                                                     tempAddonObj.addonsLevel = "estimate";
-                                                    tempAddonObj.estimateVersion = tempObj.estimateVersion,
-                                                        tempAddonObj.addonsLevelId = savedAssembly._id;
+                                                    tempAddonObj.estimateVersion = tempObj.estimateVersion;
+                                                    tempAddonObj.addonsLevelId = savedAssembly._id;
                                                     // tempAddonObj.addonObj = addonObj;
                                                     // tempAddonObj.addonObj = {};
-                                                    if (tempAddonObj.addonItem == '') {
+                                                    if (tempAddonObj.addonItem == '' || "undefined") {
                                                         delete tempAddonObj.addonItem;
                                                     }
 
@@ -510,8 +509,8 @@ var model = {
                                                 async.eachSeries(found.extras, function (extrasObj, callback) {
                                                     var tempExtraObj = extrasObj;
                                                     tempExtraObj.extraLevel = "estimate";
-                                                    tempExtraObj.estimateVersion = tempObj.estimateVersion,
-                                                        tempExtraObj.extraLevelId = savedAssembly._id;
+                                                    tempExtraObj.estimateVersion = tempObj.estimateVersion;
+                                                    tempExtraObj.extraLevelId = savedAssembly._id;
                                                     // tempExtraObj.extraObj = extrasObj;
                                                     // tempExtraObj.extraObj = {};
                                                     EstimateExtras.saveData(tempExtraObj, function (err, savedSubAssExtra) {
@@ -569,9 +568,8 @@ var model = {
                 perimeter: null,
                 sheetMetalArea: null,
                 surfaceArea: null,
-                weight: null,
-                numbers: null,
-                hours: null
+                grossWeight: null,
+                netWeight: null
             },
             totalWeight: null,
             materialCost: null,
