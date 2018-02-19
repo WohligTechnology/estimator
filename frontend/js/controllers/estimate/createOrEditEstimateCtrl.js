@@ -5,6 +5,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
   $scope.activeTab = 'assembly';
+  $scope.partNumber;
   //- for title
   TemplateService.getTitle("Estimate");
   $scope.showSaveBtn = true;
@@ -101,6 +102,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.disablePartFields = _.cloneDeep($scope.disablePartFieldsTemp);
 
       createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
+        $scope.partNumber = data.partId;
         $scope.loading = false;
         if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
           //- get all processing count, addon count & extras count
@@ -117,6 +119,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
           $scope.estimatePartObj.subAssNumber = data.subAssNumber;
           $scope.estimatePartObj.partNumber = data.partNumber;
+          $scope.partNumber = data.partNumber;
           $scope.estimatePartObj.partName = data.partName;
 
           $scope.estimatePartObj.partUpdateStatus = data.partUpdateStatus;
@@ -401,7 +404,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.keyValueCalculations.netWeight = partTypeObj.shape.partFormulae.netWeight; /////-
     $scope.updatePartCalculation();
   }
-
+// $scope.changeVariableData = function () {
+//   if (angular.isDefined($scope.estimatePartObj.selectedShortcut.shape)) {
+//     var partFormulae = $scope.estimatePartObj.selectedShortcut.shape.partFormulae;
+//     $scope.estimatePartObj.selectedSize = null;
+//   }
+//   $scope.updatePartCalculation();
+// }
   $scope.updatePartCalculation = function () {
     //- get shape formulae
     //- get updated variables 

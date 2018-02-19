@@ -1,7 +1,6 @@
 myApp.service('createOrEditEnquiryService', function ($http, $state, NavigationService) {
 
   this.getEnquiryObj = function (id, callback) {
-    debugger;
     var temp = {};
     if (angular.isDefined(id)) {
       NavigationService.apiCall('Enquiry/getOne', {
