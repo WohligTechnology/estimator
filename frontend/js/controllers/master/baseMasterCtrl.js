@@ -8,7 +8,7 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     $scope.showEditBtn = false;
     //- for title
     TemplateService.getTitle("BaseMaster");
-
+    $scope.markupType = ['material', 'process', 'addon', 'extra'];
     // validation for select case in Marksup
     $scope.fixedMarkupData = {
         fixedMarkups: {},
@@ -151,18 +151,23 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
 
     //- to add or edit Variable Markups name
     $scope.addOrEditVariableMarkupModal = function (operation, markup) {
-        baseMatserService.getMarkupModalData(operation, markup, function (data) {
-            $scope.formData = data.markup;
-            $scope.showSaveBtn = data.saveBtn;
-            $scope.showEditBtn = data.editBtn;
-            $scope.operation = operation;
+        baseMatserService.getMarkupModalData(operation, markup, $scope.markupData, function (data) {
+            $scope.markupType = data.markupType;
+            if (_.isEmpty(data.markupType)) {
+                toastr.info("Variables markups are already added...");
+            } else {
+                $scope.formData = data.markup;
+                $scope.showSaveBtn = data.saveBtn;
+                $scope.showEditBtn = data.editBtn;
+                $scope.operation = operation;
 
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/content/master/base/createOrEditVariableMarkup.html',
-                scope: $scope,
-                size: 'md'
-            });
+                $scope.modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'views/content/master/base/createOrEditVariableMarkup.html',
+                    scope: $scope,
+                    size: 'md'
+                });
+            }
         });
     }
     //- to add or edit Variable Markups name
@@ -195,7 +200,7 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
             }
         });
     }
-    $scope.addOrEditVariableMarkup = function (operation, markupData) {        
+    $scope.addOrEditVariableMarkup = function (operation, markupData) {
         $scope.validationObj = {
             errorCount: 0
         }
@@ -259,17 +264,17 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
             $scope.getMarkupData();
         });
     }
-    $scope.deleteFixedMarkup = function (markupId) {
-        baseMatserService.deleteFixedMarkup(markupId, function (data) {
-            if (_.isEmpty(data.data)) {
-                toastr.success('Record deleted successfully');
-            } else {
-                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
-            }
-            $scope.cancelModal();
-            $scope.getMarkupData();
-        });
-    }
+    // $scope.deleteFixedMarkup = function (markupId) {
+    //     baseMatserService.deleteFixedMarkup(markupId, function (data) {
+    //         if (_.isEmpty(data.data)) {
+    //             toastr.success('Record deleted successfully');
+    //         } else {
+    //             toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+    //         }
+    //         $scope.cancelModal();
+    //         $scope.getMarkupData();
+    //     });
+    // }
 
     //- to dismiss modal instance
     $scope.cancelModal = function () {

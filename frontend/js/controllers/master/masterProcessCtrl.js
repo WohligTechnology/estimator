@@ -298,6 +298,7 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
+        $scope.init();
     }
 
     //- modal to confirm bulk processes deletion

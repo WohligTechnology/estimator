@@ -72,6 +72,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
         masterShapeService.deleteShape(shapeId, function (data) {
             if (_.isEmpty(data.data)) {
                 toastr.success('Record deleted successfully');
+                $scope.createOrEditShapeData('save'); //- to clear deleted data from view 
             } else {
                 toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
             }
@@ -97,7 +98,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
         }
     }
     //- create formulae for net weight dynamically
-    $scope.calculateGrossWeight = function (nwt, wastage) {
+    $scope.calculateGrossWeight = function (nwt) {
         $scope.formData.partFormulae.grossWeight = "(" + nwt + ")*((wtg+" + 100 + ")/100)";
     }
 

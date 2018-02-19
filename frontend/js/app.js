@@ -360,7 +360,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
     // ******************************** master module ******************************** // 
 
     .state('app.baseMatser', {
-      url: "/master/baseMatser",
+      url: "/master/baseMaster",
       views: {
         "sidebar": {
           templateUrl: "views/tpl/sidebar.html",

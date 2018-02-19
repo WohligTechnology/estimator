@@ -460,15 +460,17 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						}
 					}
 					if (angular.isDefined(formData.assembly.enquiryId)) {
-						sellingObj.temp = formData.assembly.enquiryId.customerId.margins;
-						if (angular.isDefined(sellingObj.temp.negotiation)) {
-							sellingObj.negotiation = parseFloat(sellingObj.temp.negotiation);
-						}
-						if (angular.isDefined(sellingObj.temp.commission)) {
-							sellingObj.commission = parseFloat(sellingObj.temp.commission);
-						}
-						if (angular.isDefined(sellingObj.temp.other)) {
-							sellingObj.other = parseFloat(sellingObj.temp.other);
+						if (angular.isDefined(formData.assembly.enquiryId.customerId.margins)) {
+							sellingObj.temp = formData.assembly.enquiryId.customerId.margins;
+							if (angular.isDefined(sellingObj.temp.negotiation)) {
+								sellingObj.negotiation = parseFloat(sellingObj.temp.negotiation);
+							}
+							if (angular.isDefined(sellingObj.temp.commission)) {
+								sellingObj.commission = parseFloat(sellingObj.temp.commission);
+							}
+							if (angular.isDefined(sellingObj.temp.other)) {
+								sellingObj.other = parseFloat(sellingObj.temp.other);
+							}
 						}
 					}
 					//- default it is low

@@ -15,8 +15,8 @@ var schema = new Schema({
     enquiryDetails: {
         enquiryStatus: {
             type: String,
-            enum: ['open', 'close', 'hold'],
-            default: "open"
+            enum: ['Open', 'Active', 'Finalized'],
+            default: "Open"
         },
         // customerName:String                 // get it from customer collection
         // customerLocation:String             // get it from customer collection
