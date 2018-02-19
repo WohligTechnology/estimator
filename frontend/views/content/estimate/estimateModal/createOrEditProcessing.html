@@ -16,7 +16,7 @@
                             </label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="pt.processTypeName for pt in partProcessingObj.processingTypeData track by pt._id"
-                                    ng-model="partProcessingObj.selectedProcessingType" placeholder="Select" ng-change="getSelectedProessType(partProcessingObj.selectedProcessingType)"
+                                    ng-model="partProcessingObj.selectedProcessingType" placeholder="Select" ng-change="getSelectedProessType(partProcessingObj.selectedProcessingType, subAssemblyId, partId)"
                                     required>
                                 </select>
                             </div>
@@ -27,7 +27,7 @@
                             </label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="pi.processItemName for pi in partProcessingObj.processingItemData track by pi._id"
-                                    ng-model="partProcessingObj.selectedProcessingItem" placeholder="Select" ng-click="getSelectedProessItem(partProcessingObj.selectedProcessingItem)"
+                                    ng-model="partProcessingObj.selectedProcessingItem" placeholder="Select" ng-change="getSelectedProessItem(partProcessingObj.selectedProcessingItem)"
                                     ng-disabled="disableProcessingFields.disableProcessItem" required>
                                 </select>
                             </div>

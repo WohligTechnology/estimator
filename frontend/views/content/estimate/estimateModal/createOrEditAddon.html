@@ -18,7 +18,7 @@
                             </label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="at.addonTypeName for at in addonObj.allAddonTypes track by at._id" ng-model="addonObj.selectedAddonType"
-                                    placeholder="Select" ng-change="getSelectedAddonType(addonObj.selectedAddonType)">
+                                    placeholder="Select" ng-change="getSelectedAddonType(addonObj.selectedAddonType, subAssemblyId, partId)">
                                 </select>
                             </div>
                         </div>
