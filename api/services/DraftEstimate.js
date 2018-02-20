@@ -242,7 +242,7 @@ var model = {
                                                                     tempProObj.estimateVersion = tempObj.estimateVersion;
                                                                     tempProObj.processingLevelId = savedPart._id;
                                                                     // tempProObj.processingObj = proObj;
-                                                                    if (tempProObj.processItem == '' || 'undefined') {
+                                                                    if (tempProObj.processItem == '' || tempProObj.processItem == 'undefined') {
                                                                         delete tempProObj.processItem;
                                                                     }
 
@@ -270,7 +270,7 @@ var model = {
                                                                     tempAddonObj.addonsLevelId = savedPart._id;
                                                                     // tempAddonObj.addonObj = addonsObj;
 
-                                                                    if (tempAddonObj.addonItem == '' || 'undefined') {
+                                                                    if (tempAddonObj.addonItem == '' || tempAddonObj.addonItem == 'undefined') {
                                                                         delete tempAddonObj.addonItem;
                                                                     }
 
@@ -350,7 +350,7 @@ var model = {
                                                                 // tempProObj.processingObj = proObj;
                                                                 // tempProObj.processingObj = {};
 
-                                                                if (tempProObj.processItem == '' || "undefined") {
+                                                                if (tempProObj.processItem == '' || tempProObj.processItem == "undefined") {
                                                                     delete tempProObj.processItem;
                                                                 }
 
@@ -378,7 +378,7 @@ var model = {
                                                                 tempAddonObj.addonsLevelId = savedSubAss._id;
                                                                 // tempAddonObj.addonObj = addonsObj;
                                                                 // tempAddonObj.addonObj = {};
-                                                                if (tempAddonObj.addonItem == '' || 'undefined') {
+                                                                if (tempAddonObj.addonItem == '' || tempAddonObj.addonItem == 'undefined') {
                                                                     delete tempAddonObj.addonItem;
                                                                 }
 
@@ -461,7 +461,7 @@ var model = {
                                                     tempProObj.processingLevelId = savedAssembly._id;
                                                     // tempProObj.processingObj = proObj;
                                                     // tempProObj.processingObj = {};
-                                                    if (tempProObj.processItem == '') {
+                                                    if (tempProObj.processItem == '' || tempProObj.processItem == "undefined") {
                                                         delete tempProObj.processItem;
                                                     }
                                                     EstimateProcessing.saveData(tempProObj, function (err, savedSubAssProcess) {
@@ -488,7 +488,7 @@ var model = {
                                                     tempAddonObj.addonsLevelId = savedAssembly._id;
                                                     // tempAddonObj.addonObj = addonObj;
                                                     // tempAddonObj.addonObj = {};
-                                                    if (tempAddonObj.addonItem == '' || "undefined") {
+                                                    if (tempAddonObj.addonItem == '' || tempAddonObj.addonItem == "undefined") {
                                                         delete tempAddonObj.addonItem;
                                                     }
 
