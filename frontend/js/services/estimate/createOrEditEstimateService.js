@@ -278,7 +278,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				costCalculations.mtAtSubAssembly += costCalculations.mtPart * costCalculations.wtAtPart * part.quantity;
 				//- processing cost at part level
 				if (part.processing.length > 0) {
-					costCalculations.pCostAtPart = thisRef.getProcessingTotalCost('part', part.processing);
+					costCalculations.pCostAtPart = thisRef.getProcessingTotalCost('part', part.processing, subAssembly.subAssemblyNumber, part.partNumber);
 				}
 				//- addons cost at part level
 				if (part.addons.length > 0) {
@@ -523,7 +523,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 	}
 	//- to get processing totalCost
-	this.getProcessingTotalCost = function (level, processings, subAssId) {
+	this.getProcessingTotalCost = function (level, processings, subAssId, partId) {
 		var thisRef = this;
 		var totalCost = 0;
 		var keyValues;
@@ -544,22 +544,26 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 							keyValues = data;
 						});
 					}
-					if (processing.quantity.linkedKeyValue.keyVariable == "Perimeter") {
-						processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.perimeter) * parseFloat(processing.processType.quantity.mulfact);
-					} else if (processing.quantity.linkedKeyValue.keyVariable == "SMA") {
-						processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.sheetMetalArea) * parseFloat(processing.processType.quantity.mulfact);
-					} else if (processing.quantity.linkedKeyValue.keyVariable == "SA") {
-						processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.surfaceArea) * parseFloat(processing.processType.quantity.mulfact);
-					} else if (processing.quantity.linkedKeyValue.keyVariable == "Gwt") {
-						processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.grossWeight) * parseFloat(processing.processType.quantity.mulfact);
-					} else if (processing.quantity.linkedKeyValue.keyVariable == "Nwt") {
-						processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.netWeight) * parseFloat(processing.processType.quantity.mulfact);
-					}
-					if (processing.quantity.contengncyOrWastage != 0) {
-						processing.totalCost = (parseFloat(processing.quantity.totalQuantity) * parseFloat(processing.rate) * parseFloat(processing.quantity.linkedKeyValue.keyValue)) * ((parseFloat(processing.quantity.utilization)) / 100) * ((100 + parseFloat(processing.quantity.contengncyOrWastage)) / 100);
-					} else {
-						processing.totalCost = (parseFloat(processing.quantity.totalQuantity) * parseFloat(processing.rate) * parseFloat(processing.quantity.linkedKeyValue.keyValue)) * ((parseFloat(processing.quantity.utilization)) / 100);
-					}
+				} else {
+					var subAssIndex = thisRef.getSubAssemblyIndex(subAssId);
+					var partIndex = thisRef.getPartIndex(subAssIndex, partId);
+					keyValues = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].keyValueCalculations;
+				}
+				if (processing.quantity.linkedKeyValue.keyVariable == "Perimeter") {
+					processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.perimeter) * parseFloat(processing.processType.quantity.mulfact);
+				} else if (processing.quantity.linkedKeyValue.keyVariable == "SMA") {
+					processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.sheetMetalArea) * parseFloat(processing.processType.quantity.mulfact);
+				} else if (processing.quantity.linkedKeyValue.keyVariable == "SA") {
+					processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.surfaceArea) * parseFloat(processing.processType.quantity.mulfact);
+				} else if (processing.quantity.linkedKeyValue.keyVariable == "Gwt") {
+					processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.grossWeight) * parseFloat(processing.processType.quantity.mulfact);
+				} else if (processing.quantity.linkedKeyValue.keyVariable == "Nwt") {
+					processing.quantity.linkedKeyValue.keyValue = parseFloat(keyValues.netWeight) * parseFloat(processing.processType.quantity.mulfact);
+				}
+				if (processing.quantity.contengncyOrWastage != 0) {
+					processing.totalCost = (parseFloat(processing.quantity.totalQuantity) * parseFloat(processing.rate) * parseFloat(processing.quantity.linkedKeyValue.keyValue)) * ((parseFloat(processing.quantity.utilization)) / 100) * ((100 + parseFloat(processing.quantity.contengncyOrWastage)) / 100);
+				} else {
+					processing.totalCost = (parseFloat(processing.quantity.totalQuantity) * parseFloat(processing.rate) * parseFloat(processing.quantity.linkedKeyValue.keyValue)) * ((parseFloat(processing.quantity.utilization)) / 100);
 				}
 			}
 			totalCost += processing.totalCost;
@@ -2119,6 +2123,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to import processing
 	this.getImportProcessingData = function (processingId, level, subAssemblyId, partId, callback) {
+		var thisRef = this;
 		if (level == 'assembly') {
 			if (formData.assembly.processing.length == 0) {
 				temp = formData.assembly.assemblyNumber + 'PR0';
@@ -2131,6 +2136,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 			NavigationService.apiCall('EstimateProcessing/importProcessing', tempObj, function (data) {
 				formData.assembly.processing.push(data.data);
+				thisRef.getProcessingTotalCost('assembly', formData.assembly.processing);
 			});
 
 		} else if (level == 'subAssembly') {
@@ -2146,6 +2152,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 			NavigationService.apiCall('EstimateProcessing/importProcessing', tempObj, function (data) {
 				formData.assembly.subAssemblies[subAssIndex].processing.push(data.data);
+				thisRef.getProcessingTotalCost('subAssembly', formData.assembly.subAssemblies[subAssIndex].processing, subAssemblyId);
 			});
 		} else if (level == 'part') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
@@ -2161,12 +2168,14 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 			NavigationService.apiCall('EstimateProcessing/importProcessing', tempObj, function (data) {
 				formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.push(data.data)
+				thisRef.getProcessingTotalCost('part', formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing, subAssemblyId, partId);
 			});
 		}
 		callback();
 	}
 	//- to import addon
 	this.getImportAddonData = function (addonId, level, subAssemblyId, partId, callback) {
+		var thisRef = this;
 		if (level == 'assembly') {
 			if (formData.assembly.addons.length == 0) {
 				temp = formData.assembly.assemblyNumber + 'AD0';
@@ -2179,6 +2188,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 			NavigationService.apiCall('EstimateAddons/importAddon', tempObj, function (data) {
 				formData.assembly.addons.push(data.data);
+				thisRef.getAddonTotalCost('assembly', formData.assembly.addons);
 			});
 		} else if (level == 'subAssembly') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
@@ -2193,6 +2203,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 			NavigationService.apiCall('EstimateAddons/importAddon', tempObj, function (data) {
 				formData.assembly.subAssemblies[subAssIndex].addons.push(data.data);
+				thisRef.getAddonTotalCost('subAssembly', formData.assembly.subAssemblies[subAssIndex].addons, subAssemblyId);
 			});
 		} else if (level == 'part') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
@@ -2208,6 +2219,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 			NavigationService.apiCall('EstimateAddons/importAddon', tempObj, function (data) {
 				formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons.push(data.data)
+				thisRef.getAddonTotalCost('part', formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons, subAssemblyId, partId);
 			});
 
 		}
