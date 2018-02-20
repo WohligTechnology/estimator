@@ -93,7 +93,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   // **************************************** default functions begin here  **************************************** //
   //- to get all views of createOrEdit estimate screen dynamically 
   $scope.getEstimateView = function (getViewName, getLevelName, subAssemblyId, partId) {
-   debugger;
     $scope.loading = true;
     $scope.bulkItems = []; //- for multiple deletion
     createOrEditEstimateService.estimateView(getViewName, getLevelName, subAssemblyId, partId, function (data) {

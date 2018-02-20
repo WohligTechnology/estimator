@@ -78,12 +78,12 @@ myApp.service('createOrEditEnquiryService', function ($http, $state, NavigationS
     } else {
       enquiryValidation.estimator = ""
     }
-    if (_.isEmpty(enquiryData.enquiryDetails.enquiryStatus)) {
-      enquiryValidation.status = "Select Status."
-      enquiryValidation.errorCount++;
-    } else {
-      enquiryValidation.status = " "
-    }
+    // if (_.isEmpty(enquiryData.enquiryDetails.enquiryStatus)) {
+    //   enquiryValidation.status = "Select Status."
+    //   enquiryValidation.errorCount++;
+    // } else {
+    //   enquiryValidation.status = " "
+    // }
     callback(enquiryValidation);
   }
   this.createEnquiry = function (enquiryData, callback) {
