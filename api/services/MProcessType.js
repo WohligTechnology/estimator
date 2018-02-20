@@ -32,7 +32,8 @@ var schema = new Schema({
             ref: 'MUom',
             required: true
         },
-    }
+    },
+    allowAtAssSubAss: Boolean
 });
 
 schema.plugin(deepPopulate, {
@@ -100,7 +101,9 @@ var model = {
     },
 
     getProcessTypeItem: function (data, callback) {
-        MProcessType.findOne({_id:data._id}).lean().exec(function (err, myData) {
+        MProcessType.findOne({
+            _id: data._id
+        }).lean().exec(function (err, myData) {
             if (err) {
                 console.log('**** error at function_name of MProcessType.js ****', err);
                 callback(err, null);
@@ -125,8 +128,15 @@ var model = {
 
     //- Get all process type data from MProcess Type table without pagination
     getProcessTypeData: function (data, callback) {
-        MProcessType.find().lean().exec(function (err, found) {
-            
+        if (data.allowAtAssSubAss) {
+            var tempProObj = {
+                allowAtAssSubAss: true
+            }
+        }else{
+            var tempProObj = {};
+        }
+        MProcessType.find(tempProObj).lean().exec(function (err, found) {
+
             if (err) {
                 console.log('**** error at getProcessTypeData of MProcessType.js ****', err);
                 callback(err, null);
