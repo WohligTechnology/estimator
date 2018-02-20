@@ -283,8 +283,7 @@ var model = {
                 callback(null, 'noDataFound');
             } else {
                 async.eachSeries(found, function (f, callback) {
-                    materials = f.materialSubCat.materials
-
+                    materials = f.materialSubCat.materials;
                     callback();
 
                 }, function (err) {

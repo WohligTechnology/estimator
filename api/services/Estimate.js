@@ -111,7 +111,7 @@ var model = {
         delete data.createdAt;
         delete data.updatedAt;
         delete data.__v;
-        callback(data)
+        callback(data);
     },
 
     //- import assembly by passing assembly number
@@ -453,7 +453,6 @@ var model = {
                 },
             }]
         ).exec(function (err, found) {
-            console.log('**** 111111111111 ****', found);
             if (err) {
                 console.log('**** error at function_name of Estimate.js ****', err);
                 callback(err, null);
@@ -466,14 +465,11 @@ var model = {
                     versionDetail: []
                 };
                 async.eachSeries(found, function (n, callback) {
-                    console.log('**** 22222222222222****', n);
-
                     temp.push({
                         assemblyNumber: n._id,
                         versionDetail: n.versionDetail
                     });
                     callback();
-
                 }, function (err) {
                     if (err) {
                         console.log('***** error at final response of async.eachSeries in function_name of Estimate.js*****', err);
@@ -501,7 +497,7 @@ var model = {
                     enquirySheet: {},
                     subAssembliesSheets: [],
                     partSheet: []
-                }
+                };
                 var tempPartSheetArrays = [];
                 async.auto({
                         //- Operation to generate excel sheet for Sub Assembly Part.
@@ -1567,7 +1563,7 @@ var model = {
 
 
                                                         var row = worksheet1.lastRow;
-                                                        var rowsNum = 0
+                                                        var rowsNum = 0;
                                                         rowsNum = row._number;
 
 
@@ -2187,7 +2183,7 @@ var model = {
                                 var partTotalCalArray = [];
                                 _.find(partData.part, function (o) {
                                     if (o.PartNumber.includes(subAssemblyNumber)) {
-                                        partTotalCalArray.push(o)
+                                        partTotalCalArray.push(o);
                                     }
                                 });
 
@@ -2855,7 +2851,7 @@ var model = {
                                                                             "PartQuantityTotal.Cost(Rs)": "",
                                                                         });
                                                                         var row = worksheet.lastRow;
-                                                                        var rowsNum = 0
+                                                                        var rowsNum = 0;
                                                                         rowsNum = row._number;
 
                                                                         rowNumLessOne = row._number - 1;
@@ -3070,7 +3066,7 @@ var model = {
                                                                 //     "PartQuantityTotal.Cost(Rs)": "",
                                                                 // });
                                                                 var row = worksheet.lastRow;
-                                                                var rowsNum = 0
+                                                                var rowsNum = 0;
                                                                 rowsNum = row._number;
 
                                                                 rowNumMoreOne = row._number + 1;
@@ -3877,7 +3873,7 @@ var model = {
                                 "SAUnitTotal.Cost(kg)": AssSaUnitTotalCost,
                                 "SAQuantityTotal.Weight(Kg.)": AssSaQuantityTotalWeight,
                                 "SAQuantityTotal.Cost(Rs)": AssSaQuantityTotalCost,
-                            }
+                            };
 
                             worksheet2.addRow(assTotalCalculatedData);
 
@@ -4104,7 +4100,7 @@ var model = {
                                                                     //     "SAQuantityTotal.Cost(Rs)": "",
                                                                     // });
                                                                     var row = worksheet2.lastRow;
-                                                                    var rowsNum = 0
+                                                                    var rowsNum = 0;
                                                                     rowsNum = row._number;
 
                                                                     rowNumMoreOne = row._number + 1;
@@ -4154,13 +4150,12 @@ var model = {
                                                                         "UnitDetails.Addons.Cost(Rs)": "",
                                                                         "UnitDetails.ExtraCost(Rs)": "",
                                                                         "SAUnitTotal.Weight(Kg)": '',
-                                                                        "SAUnitTotal.Weight(Kg)": '',
                                                                         "SAUnitTotal.Cost(kg)": "",
                                                                         "SAQuantityTotal.Weight(Kg.)": "",
                                                                         "SAQuantityTotal.Cost(Rs)": "",
                                                                     });
                                                                     var row = worksheet2.lastRow;
-                                                                    var rowsNum = 0
+                                                                    var rowsNum = 0;
                                                                     rowsNum = row._number;
 
                                                                     rowNumLessOne = row._number - 1;
@@ -4394,7 +4389,7 @@ var model = {
                                                                     // });
 
                                                                     var row = worksheet2.lastRow;
-                                                                    var rowsNum = 0
+                                                                    var rowsNum = 0;
                                                                     rowsNum = row._number;
 
                                                                     rowNumMoreOne = row._number + 1;
@@ -4449,7 +4444,7 @@ var model = {
                                                                         "SAQuantityTotal.Cost(Rs)": "",
                                                                     });
                                                                     var row = worksheet2.lastRow;
-                                                                    var rowsNum = 0
+                                                                    var rowsNum = 0;
                                                                     rowsNum = row._number;
 
                                                                     rowNumLessOne = row._number - 1;
@@ -4659,7 +4654,7 @@ var model = {
                                                             //     "SAQuantityTotal.Cost(Rs)": "",
                                                             // });
                                                             var row = worksheet2.lastRow;
-                                                            var rowsNum = 0
+                                                            var rowsNum = 0;
                                                             rowsNum = row._number;
 
                                                             rowNumMoreOne = row._number + 1;
@@ -4720,7 +4715,7 @@ var model = {
                                                                 "SAQuantityTotal.Cost(Rs)": "",
                                                             });
                                                             var row = worksheet2.lastRow;
-                                                            var rowsNum = 0
+                                                            var rowsNum = 0;
                                                             rowsNum = row._number;
 
                                                             rowNumLessOne = row._number - 1;
@@ -4859,7 +4854,7 @@ var model = {
                                                                 bottom: {
                                                                     style: 'thin'
                                                                 }
-                                                            }
+                                                            };
 
                                                         }
                                                         // tempSubAssSheetArrays.push(sa);
