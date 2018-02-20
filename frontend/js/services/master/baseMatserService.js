@@ -48,10 +48,12 @@ myApp.service('baseMatserService', function (NavigationService) {
             callback(data);
         });
     }
-    this.deleteUom = function(uomId,callback){
+    this.deleteUom = function (uomId, callback) {
         idsArray = [];
         idsArray.push(uomId);
-        NavigationService.delete('Web/delRestrictions/MUom',{idsArray: idsArray}, function(data){
+        NavigationService.delete('Web/delRestrictions/MUom', {
+            idsArray: idsArray
+        }, function (data) {
             callback(data);
         });
     }
@@ -75,10 +77,12 @@ myApp.service('baseMatserService', function (NavigationService) {
             callback(data);
         });
     }
-    this.deleteVariable = function(variableId,callback){
+    this.deleteVariable = function (variableId, callback) {
         idsArray = [];
         idsArray.push(variableId);
-        NavigationService.delete('Web/delRestrictions/MVariables',{idsArray: idsArray}, function(data){
+        NavigationService.delete('Web/delRestrictions/MVariables', {
+            idsArray: idsArray
+        }, function (data) {
             callback(data);
         });
     }
@@ -97,22 +101,31 @@ myApp.service('baseMatserService', function (NavigationService) {
         }
         callback(dfDataObj);
     }
-    this.addOrEditDf= function (dfData, callback) {
+    this.addOrEditDf = function (dfData, callback) {
         NavigationService.apiCall('MDifficultyFactor/save', dfData, function (data) {
             callback(data);
         });
 
     }
-    this.deleteDf = function(dfId,callback){
+    this.deleteDf = function (dfId, callback) {
         idsArray = [];
         idsArray.push(dfId);
-        NavigationService.delete('Web/delRestrictions/MDifficultyFactor',{idsArray: idsArray}, function(data){
+        NavigationService.delete('Web/delRestrictions/MDifficultyFactor', {
+            idsArray: idsArray
+        }, function (data) {
             callback(data);
         });
     }
 
-    this.getMarkupModalData = function (operation, markup, callback) {
-        var markupDataObj = {};
+    this.getMarkupModalData = function (operation, markup, markupData, callback) {
+        var markupDataObj = {
+            markupType: ['material', 'process', 'addon', 'extra']
+        };
+        angular.forEach(markupData,  function (record) {
+            _.remove(markupDataObj.markupType, function (type) {
+                return record.markupType == type;
+            });
+        });
         if (angular.isDefined(markup)) {
             markupDataObj.markup = markup;
         }
@@ -135,24 +148,21 @@ myApp.service('baseMatserService', function (NavigationService) {
             callback(data);
         });
     }
-    this.deleteFixedMarkup = function(markupId,callback){
+    // this.deleteFixedMarkup = function (markupId, callback) {
+    //     idsArray = [];
+    //     idsArray.push(markupId);
+    //     NavigationService.delete('Web/delRestrictions/MMarkup', {
+    //         idsArray: idsArray
+    //     }, function (data) {
+    //         callback(data);
+    //     });
+    // }
+    this.deleteVariableMarkup = function (markupId, callback) {
         idsArray = [];
         idsArray.push(markupId);
-        NavigationService.delete('Web/delRestrictions/MMarkup',{idsArray: idsArray}, function(data){
-            callback(data);
-        });
-    }
-    this.deleteVariableMarkup = function(markupId,callback){
-        idsArray = [];
-        idsArray.push(markupId);
-        NavigationService.delete('Web/delRestrictions/MMarkup',{idsArray: idsArray}, function(data){
-            callback(data);
-        });
-    }
-    this.deleteFixedMarkup = function(markupId,callback){
-        idsArray = [];
-        idsArray.push(markupId);
-        NavigationService.delete('Web/delRestrictions/MMarkup',{idsArray: idsArray}, function(data){
+        NavigationService.delete('Web/delRestrictions/MVariableMarkup', {
+            idsArray: idsArray
+        }, function (data) {
             callback(data);
         });
     }

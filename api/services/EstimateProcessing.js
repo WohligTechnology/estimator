@@ -26,16 +26,16 @@ var schema = new Schema({
     },
     rate: Number,
     quantity: {
-        keyValue: {
+        linkedKeyValue: {
             keyVariable: String,
             keyValue: String
         },
         utilization: Number,
         contengncyOrWastage: Number,
-        total: Number
+        totalQuantity: Number
     },
     totalCost: Number,
-    remarks: String,
+    remark: String,
     processingObj: {},
     estimateVersion: {
         type: String,

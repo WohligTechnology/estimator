@@ -24,7 +24,7 @@ myApp.service('masterShapeService', function (
     }, {
         'varName': 'k'
     }];
-    
+
     this.geShapeData = function (callback) {
         NavigationService.boxCall('MShape/getMShapeData', function (data) {
             callback(data.data);
@@ -46,7 +46,7 @@ myApp.service('masterShapeService', function (
 
     this.createOrEditShapeData = function (operation, shape, callback) {
         var shapeDataObj = {
-            shapeVarWithoutChunck : []
+            shapeVarWithoutChunck: []
         };
 
         if (angular.isDefined(shape)) {
@@ -60,7 +60,7 @@ myApp.service('masterShapeService', function (
             shapeDataObj.editBtn = false;
             shapeDataObj.shapeVariables = _.cloneDeep(this.variableData);
 
-            _.map(shapeDataObj.shapeVariables, function (n) {                
+            _.map(shapeDataObj.shapeVariables, function (n) {
                 n.checkboxStatus = false;
             });
 
@@ -72,23 +72,23 @@ myApp.service('masterShapeService', function (
             shapeDataObj.editBtn = true;
             // shapeDataObj.shapeVarWithoutChunck = [];
 
-            var tempArray = _.cloneDeep(this.variableData);           
+            var tempArray = _.cloneDeep(this.variableData);
             _.map(tempArray, function (n) {
-                 
+
                 if (_.findIndex(shape.variable, ['varName', n.varName]) == -1) {
                     n.checkboxStatus = false;
                 } else {
-                     
-                    shapeDataObj.shapeVarWithoutChunck.push(_.cloneDeep(n));
+
                     n.checkboxStatus = true;
-                    _.forEach(shape.variable, function(record){
-                        if(record.varName == n.varName);                        
+                    _.forEach(shape.variable, function (record) {
+                        if (record.varName == n.varName);
                         n.uom = record.uom;
                     });
+                    shapeDataObj.shapeVarWithoutChunck.push(_.cloneDeep(n));
                 }
             });
             shapeDataObj.shapeVariables = _.chunk(tempArray, 3);
-            
+
             callback(shapeDataObj);
 
 
@@ -127,7 +127,9 @@ myApp.service('masterShapeService', function (
     this.deleteShape = function (shapeId, callback) {
         idsArray = [];
         idsArray.push(shapeId);
-        NavigationService.delete('Web/delRestrictions/MShape', {idsArray: idsArray}, function (data) {
+        NavigationService.delete('Web/delRestrictions/MShape', {
+            idsArray: idsArray
+        }, function (data) {
             callback(data);
         });
     }

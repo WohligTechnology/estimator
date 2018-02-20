@@ -88,7 +88,7 @@ var model = {
 
         EstimateExtras.findOne({
             _id: data._id
-        }).lean().exec(function (err, found) {
+        }).lean().deepPopulate('extraItem').exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of EstimateExtras.js ****', err);
                 callback(err, null);

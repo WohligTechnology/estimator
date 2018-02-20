@@ -29,16 +29,27 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   $scope.getEnquiryObj = function () {
     createOrEditEnquiryService.getEnquiryObj($stateParams.enquiryId, function (data) {
       $scope.formData = data;
-      if ($stateParams.enquiryId) {
+      if  ($stateParams.enquiryId) {
         $scope.formData.enquiryDetails.estimator = data.enquiryDetails.estimator;
         $scope.formData.customerDataObj = data.customerId;
         createOrEditEnquiryService.getEstimateData($scope.enquiryId, function (estimator) {
           if (estimator == 'true') {
             $scope.showEstimateBtn = false;
+            //- to get all versions data
+            createOrEditEnquiryService.getEstimateVersionData($scope.enquiryId, function (data) {
+              if (data.length > 0) {
+                $scope.formData.enquiryDetails.enquiryStatus = 'Finalized';
+              } else {
+                $scope.formData.enquiryDetails.enquiryStatus = 'Active';
+              }
+              $scope.versionData = data;
+            });
           } else if (estimator == 'false') {
             $scope.showEstimateBtn = true;
           }
         });
+      } else {
+        $scope.formData.enquiryDetails.enquiryStatus = 'Open';
       }
     });
     //- to get all customer names and their locations
@@ -48,10 +59,6 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
     //- to get all user names
     createOrEditEnquiryService.getUserData(function (data) {
       $scope.userData = data;
-    });
-    //- to get all versions data
-    createOrEditEnquiryService.getEstimateVersionData($scope.enquiryId, function (data) {
-      $scope.versionData = data;
     });
   }
 
@@ -132,7 +139,7 @@ myApp.controller('createOrEditEnquiryCtrl', function ($stateParams, $filter, toa
   }
   //- import assembly
   $scope.importAssembly = function (assemblyId) {
-    createOrEditEnquiryService.getImportAssemblyData(assemblyId, function (data) {
+    createOrEditEnquiryService.getImportAssemblyData(assemblyId, $scope.enquiryId, function (data) {
       if (data.value) {
         $state.go('app.createEstimate', {
           'estimateId': data.data._id,

@@ -47,12 +47,14 @@
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Status:</label>
                                                     <div class="col-md-3">
-                                                        <select class="form-control" ng-model="formData.enquiryDetails.enquiryStatus" ng-init="formData.enquiryDetails.enquiryStatus='open'">
+                                                        <!-- <select class="form-control" ng-model="formData.enquiryDetails.enquiryStatus" ng-init="formData.enquiryDetails.enquiryStatus='open'" disabled>
                                                             <option></option>
                                                             <option value='open'>Open</option>
                                                             <option value='close'>Close</option>
                                                             <option value='hold'>Hold</option>
-                                                        </select>
+                                                        </select> -->
+                                                        <input type="text" class="form-control" id="form_control_10" ng-model="formData.enquiryDetails.enquiryStatus" readonly>
+                                                        <div class="form-control-focus"> </div>
                                                         <span class="error">{{enquiryValidation.status}}</span>
                                                         <div class="form-control-focus"> </div>
                                                     </div>

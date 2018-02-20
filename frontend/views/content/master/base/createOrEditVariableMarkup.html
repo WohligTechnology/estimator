@@ -18,11 +18,11 @@
                             </label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-model="formData.markupType" required>
-                                    <option></option>
-                                    <option value="material">Material</option>
+                                    <option ng-repeat="m in markupType" value={{m}}>{{m | capitalize}}</option>
+                                    <!-- <option value="material">Material</option>
                                     <option value="process">Processing</option>
                                     <option value="addon">Addon</option>
-                                    <option value="extra">Extras</option>
+                                    <option value="extra">Extras</option> -->
                                 </select>
                                 <span class="error">{{validationObj.selectMarksup}}</span>
                             </div>

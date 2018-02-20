@@ -117,7 +117,7 @@ myApp.service('masterPartService', function (NavigationService) {
     }
 
 
-    this.addNewPreset = function (operation, partTypeId, callback) {
+    this.addNewPreset = function (operation, partTypeId, callback) {        
         var obj = {
             _id: partTypeId
         }
@@ -138,8 +138,8 @@ myApp.service('masterPartService', function (NavigationService) {
         NavigationService.apiCall('MPartPresets/getPresetSizes', partTypeObj, function (data) {
             if (data.data.length == 0) {
                 presetData.selectedShape = null;
-                NavigationService.boxCall('MShape/search', function (sapeData) {
-                    presetData.shapeData = sapeData.data.results;
+                NavigationService.boxCall('MShape/getMShapeData', function (sapeData) {
+                    presetData.shapeData = sapeData.data;
                     NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
                         presetData.partTypeData = partTypeData.data;
                         callback(presetData);
@@ -147,8 +147,8 @@ myApp.service('masterPartService', function (NavigationService) {
                 });
             } else {
                 presetData.selectedShape  = data.data[0].shape;
-                NavigationService.boxCall('MShape/search', function (sapeData) {
-                    presetData.shapeData = sapeData.data.results;
+                NavigationService.boxCall('MShape/getMShapeData', function (sapeData) {
+                    presetData.shapeData = sapeData.data;
                     NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
                         presetData.partTypeData = partTypeData.data;
                         callback(presetData);
@@ -215,8 +215,12 @@ myApp.service('masterPartService', function (NavigationService) {
             partPresetObj.editBtn = true;
         }
 
-        NavigationService.boxCall('MShape/search', function (data) {
-            partPresetObj.presetData.shapeData = data.data.results;
+        NavigationService.boxCall('MShape/getMShapeData', function (data) {
+            var tempArray = [];
+            if (data.value) {
+                tempArray = data.data;
+            }
+            partPresetObj.presetData.shapeData = tempArray;
             callback(partPresetObj);
         });
 
