@@ -106,24 +106,52 @@ var model = {
     //- import addon by passing addon number and get th e last to last addon number no. by giving addon number.
     importAddon: function (data, callback) {
         data.lastAddonNumber = data.lastAddonNumber.replace(/\d+$/, function (n) {
-            return ++n
+            return ++n;
         });
 
         EstimateAddons.findOne({
             _id: data._id
-        }).lean().exec(function (err, found) {
-
+        }).deepPopulate('addonItem addonType').lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at importAddon of EstimateAddons.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 callback(null, []);
             } else {
-                var lastAddonNumber = data.lastAddonNumber;
-                found.addonNumber = lastAddonNumber;
-                Estimate.removeUnwantedField(found, function (finalData) {
-                    callback(null, finalData);
+                MUom.findOne({
+                    _id: found.addonType.rate.uom
+                }).exec(function (err, foundRateUom) {
+                    if (err) {
+                        console.log('**** error at rate uom of MProcessType.js ****', err);
+                    } else {
+                        found.addonType.rate.uom = foundRateUom;
+                        MUom.findOne({
+                            _id: found.addonType.quantity.finalUom
+                        }).exec(function (err, foundQuantityFinalUom) {
+                            if (err) {
+                                console.log('**** error at quantity finalUom  of MProcessType.js ****', err);
+                            } else {
+                                found.addonType.quantity.finalUom = foundQuantityFinalUom;
+                                MUom.findOne({
+                                    _id: found.addonType.quantity.linkedKeyUom
+                                }).exec(function (err, foundQuantitylinkedKeyUom) {
+                                    if (err) {
+                                        console.log('**** error at quantity finalUom  of MProcessType.js ****', err);
+                                    } else {
+                                        found.addonType.quantity.linkedKeyUom = foundQuantitylinkedKeyUom;
+                                        var lastAddonNumber = data.lastAddonNumber;
+                                        found.processingNumber = lastAddonNumber;
+                                        Estimate.removeUnwantedField(found, function (finalData) {
+                                            console.log('**** inside function_name of EstimateProcessing.js ****');
+                                            callback(null, finalData);
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
                 });
+
             }
         });
     },

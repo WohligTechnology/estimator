@@ -94,25 +94,64 @@ var model = {
 
     importProcessing: function (data, callback) {
         data.lastProcessingNumber = data.lastProcessingNumber.replace(/\d+$/, function (n) {
-            return ++n
+            return ++n;
         });
         EstimateProcessing.findOne({
             _id: data._id
-        }).lean().exec(function (err, found) {
+        }).deepPopulate('processType processItem').lean().exec(function (err, found) {
+            // console.log('****hhhhhhhhhhhhhhh ****',found);
             if (err) {
                 console.log('**** error at importProcessing of EstimateProcessing.js ****', err);
                 callback(err, null);
             } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
-                var lastProcessingNumber = data.lastProcessingNumber;
-                found.processingNumber = lastProcessingNumber;
-                Estimate.removeUnwantedField(found, function (finalData) {
-                    console.log('**** inside function_name of EstimateProcessing.js ****');
-                    callback(null, finalData);
+                MUom.findOne({
+                    _id: found.processType.rate.uom
+                }).exec(function (err, foundRateUom) {
+                    if (err) {
+                        console.log('**** error at rate uom of MProcessType.js ****', err);
+                    } else {
+                        found.processType.rate.uom = foundRateUom;
+                        MUom.findOne({
+                            _id: found.processType.quantity.uom
+                        }).exec(function (err, foundQuantityUom) {
+                            console.log('****foundQuantityFinalUom ****',foundQuantityUom);
+                            if (err) {
+                                console.log('**** error at rate uom of MProcessType.js ****', err);
+                            } else {
+                                found.processType.quantity.uom = foundQuantityUom;
+                                MUom.findOne({
+                                    _id: found.processType.quantity.finalUom
+                                }).exec(function (err, foundQuantityFinalUom) {
+                                    if (err) {
+                                        console.log('**** error at quantity uom of MProcessType.js ****', err);
+                                    } else {
+                                        found.processType.quantity.finalUom = foundQuantityFinalUom;
+                                        MUom.findOne({
+                                            _id: found.processType.quantity.linkedKeyUom
+                                        }).exec(function (err, foundQuantitylinkedKeyUom) {
+                                            if (err) {
+                                                console.log('**** error at quantity finalUom  of MProcessType.js ****', err);
+                                            } else {
+                                                found.processType.quantity.linkedKeyUom = foundQuantitylinkedKeyUom;
+                                                var lastProcessingNumber = data.lastProcessingNumber;
+                                                found.processingNumber = lastProcessingNumber;
+                                                Estimate.removeUnwantedField(found, function (finalData) {
+                                                    console.log('**** inside function_name of EstimateProcessing.js ****');
+                                                    callback(null, finalData);
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
                 });
             }
         });
+
     },
 
     //-Get all estimate processing records from Estimate Processing table.

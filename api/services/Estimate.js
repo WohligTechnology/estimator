@@ -324,16 +324,11 @@ var model = {
                                     if (err) {
                                         console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
                                     } else {
-                                        // found.assemblyObj.enquiryId = data.enqryId;
-
-                                        console.log('****found found ****', found);
                                         callback(null, found);
                                     }
                                 });
                             }
                         });
-
-
                     }
                 });
             }

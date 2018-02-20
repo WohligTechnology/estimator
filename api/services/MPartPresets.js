@@ -58,7 +58,7 @@ schema.plugin(deepPopulate, {
         material: {
             select: "_id materialSubCategory materialName"
         },
-        shape:{
+        shape: {
             select: ""
         }
     }
@@ -138,7 +138,41 @@ var model = {
             } else if (_.isEmpty(found)) {
                 callback(null, []);
             } else {
-                callback(null, found);
+                async.eachSeries(found, function (f, callback) {
+                    index = 0;
+                        async.eachSeries(f.variable, function (varObj, callback) {
+                            console.log('**** inside function_name of var obj iddata is ****', varObj);
+                            MUom.findOne({
+                                _id: varObj.uom
+                            }).lean().exec(function (err, uomData) {
+                                console.log('**** uomData resets.js & data is ****', uomData);
+                                if (err) {
+                                    console.log('**** error at function_name of MPartPresets.js ****', err);
+                                    callback(err, null);
+                                } else if (_.isEmpty(uomData)) {
+                                    callback(null, 'noDataFound');
+                                } else {
+                                    f.variable[index].uom = uomData;
+                                    index++;
+                                    callback();
+                                }
+                            });
+
+                        }, function (err) {
+                            if (err) {
+                                console.log('***** error at final response of async.eachSeries in function_name of MPartPresets.js*****', err);
+                            } else {
+                                callback();
+                            }
+                        });
+                    },
+                    function (err) {
+                        if (err) {
+                            console.log('***** error at final response of async.eachSeries in function_name of MProcessType.js*****', err);
+                        } else {
+                            callback(null, found);
+                        }
+                    });
             }
         });
     },

@@ -320,7 +320,7 @@ var model = {
                     } else {
                         var index = 0;
                         async.eachSeries(found.results, function (enquiryObj, callback) {
-                                UserId = enquiryObj.enquiryDetails.estimator
+                                UserId = enquiryObj.enquiryDetails.estimator;
                                 User.find({
                                     _id: enquiryObj.enquiryDetails.estimator
                                 }).lean().select('name').exec(function (err, foundEnquiryDetailsEstimator) {
