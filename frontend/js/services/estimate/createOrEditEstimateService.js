@@ -652,7 +652,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	//- to get a view of the page
 	this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
 		var getViewData = [];
-
+		thisRef = this;
 		if (estimateView == 'assembly') {
 			//formData.assembly.quantity = 1;
 			getViewData = formData.assembly;
@@ -879,6 +879,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
 				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
 			}
+			thisRef.getProcessingTotalCost(getLevelName, getViewData, subAssemblyId, partId);
 		} else if (estimateView == 'addons') {
 			if (getLevelName == "assembly") {
 				getViewData = formData.assembly.addons;
@@ -893,6 +894,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
 				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
 			}
+			thisRef.getAddonTotalCost(getLevelName, getViewData, subAssemblyId, partId);
 		} else if (estimateView == 'extras') {
 			if (getLevelName == "assembly") {
 				getViewData = formData.assembly.extras;

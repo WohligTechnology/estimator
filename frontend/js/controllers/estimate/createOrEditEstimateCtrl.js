@@ -404,13 +404,30 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.keyValueCalculations.netWeight = partTypeObj.shape.partFormulae.netWeight; /////-
     $scope.updatePartCalculation();
   }
-// $scope.changeVariableData = function () {
-//   if (angular.isDefined($scope.estimatePartObj.selectedShortcut.shape)) {
-//     var partFormulae = $scope.estimatePartObj.selectedShortcut.shape.partFormulae;
-//     $scope.estimatePartObj.selectedSize = null;
-//   }
-//   $scope.updatePartCalculation();
-// }
+  // $scope.changeVariableData = function () {
+  //   debugger;
+  //   if (angular.isDefined) {}
+  //   var flag = true;
+  //   if (angular.isDefined($scope.estimatePartObj.selectedShortcut.variable)) {
+  //     _.forEach($scope.estimatePartObj.variables, function (record1) {
+  //       _.forEach($scope.estimatePartObj.selectedShortcut.variable, function (record2) {
+  //         if (record2.varName == record1.varName) {
+  //           if (parseFloat(record2.varValue) == parseFloat(record1.varValue)) {
+  //             flag = false;
+  //           }
+  //         }
+  //       });
+  //     });
+  //     console.log('**** flag .................. ****', flag);
+  //     if (flag) {
+  //       $scope.estimatePartObj.selectedSize = $scope.estimatePartObj.selectedShortcut;
+  //     } else {
+  //       $scope.estimatePartObj.selectedSize = null;
+  //     }
+  //     console.log('**** $scope.estimatePartObj.selectedSize .................. ****', $scope.estimatePartObj.selectedSize);
+  //   }
+  //   $scope.updatePartCalculation();
+  // }
   $scope.updatePartCalculation = function () {
     //- get shape formulae
     //- get updated variables 
