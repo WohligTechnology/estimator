@@ -2102,7 +2102,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	this.getImportPartData = function (subAssNumber, partId, callback) {
 		var subAssIndex = this.getSubAssemblyIndex(subAssNumber);
 		if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts.length == 0) {
-			temp = formData.assembly.assemblyNumber + 'PT0';
+			temp = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber + 'PT0';
 		} else {
 			temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts).partNumber;
 		}
@@ -2136,7 +2136,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (level == 'subAssembly') {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			if (formData.assembly.subAssemblies[subAssIndex].processing.length == 0) {
-				temp = subAssemblyId + 'EX0';
+				temp = subAssemblyId + 'PR0';
 			} else {
 				temp = _.last(formData.assembly.subAssemblies[subAssIndex].processing).processingNumber;
 			}
@@ -2151,7 +2151,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
 			if (formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing.length == 0) {
-				temp = partId + 'EX0';
+				temp = partId + 'PR0';
 			} else {
 				temp = _.last(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing).processingNumber;
 			}
