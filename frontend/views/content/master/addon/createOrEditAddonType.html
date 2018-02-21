@@ -18,6 +18,13 @@
                                 <input type="text" name="AddonTypeName" class="form-control" ng-model="formData.addonTypeName" placeholder="" required autofocus>
                                 <span class="error" ng-show="myForm.AddonTypeName.$invalid && myForm.AddonTypeName.$dirty"> Please fill in this field</span>
                             </div>
+                            <label class="col-md-2 control-label"> SubAssembly Access:</label>
+                            <div class="col-md-1" style="margin-top:10px;">
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox" id="checkAll" ng-model="formData.allowAtAssSubAss" />
+                                    <span></span>
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group" ng-show="formData.showRateFields">
                             <label class="col-md-2 control-label"> Material Category:</label>

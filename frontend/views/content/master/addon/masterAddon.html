@@ -99,6 +99,7 @@
                                     <th colspan="2" class="text-center">Rate</th>
                                     <th colspan="6" class="align-left text-center">Quantity</th>
                                     <th rowspan="2" class="align-left">% Use</th>
+                                    <th rowspan="2" class="align-left"> SubAssembly Access </th>
                                     <th rowspan="2" class="align-left">Action</th>
                                 </tr>
                                 <tr>
@@ -121,7 +122,7 @@
                                             <span></span>
                                         </label>
                                     </td>
-                                    <td>{{$index+1}} </td> 
+                                    <td>{{$index+1}} </td>
                                     <td>{{addon.addonTypeName|capitalize}}</td>
                                     <td>{{addon.materialCat.materialCatName}} </td>
                                     <td>{{addon.materialSubCat.materialSubCatName}}</td>
@@ -134,6 +135,12 @@
                                     <td>{{addon.quantity.mulFact}}</td>
                                     <td>{{addon.quantity.finalUom.uomName}} </td>
                                     <td>{{addon.quantity.percentageUse}}</td>
+                                    <td>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                            <input type="checkbox" id="checkAll" ng-model="addon.allowAtAssSubAss" />
+                                            <span></span>
+                                        </label>
+                                    </td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" ng-click="addOrEditAddonTypeModal('update',addon)">
                                             <i class="fa fa-pencil" title="Edit Addon"></i>

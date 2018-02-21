@@ -1357,7 +1357,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 		};
 
-
+		var tempObj = {}; //- to access processing which are available for particular level
 		//- to get keyValue calculations
 		if (level == 'part') {
 			//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
@@ -1372,6 +1372,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = data;
 				}
 			});
+			tempObj.allowAtAssSubAss = true;
 		} else if (level == 'assembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
@@ -1381,6 +1382,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					partProcessingObj.linkedKeyValuesAtAssemblyCalculation = data;
 				}
 			});
+			tempObj.allowAtAssSubAss = true;
 		}
 
 		//- to get part index to update it
@@ -1400,7 +1402,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 		}
 
-		NavigationService.boxCall('MProcessType/getProcessTypeData', function (proTypeData) {
+		NavigationService.apiCall('MProcessType/getProcessTypeData', tempObj, function (proTypeData) {
 
 			if (operation == 'save') {
 				partProcessingObj.processingTypeData = proTypeData.data;
@@ -1636,7 +1638,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				Hrs: null
 			}
 		};
-
+		var tempObj = {}; //- to access addon which are available for particular level
 		//- to get keyValue calculations
 		if (level == 'part') {
 			//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
@@ -1669,6 +1671,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					};
 				}
 			});
+			tempObj.allowAtAssSubAss = true;
 		} else if (level == 'assembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
@@ -1686,6 +1689,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					};
 				}
 			});
+			tempObj.allowAtAssSubAss = true;
 		}
 
 		//- to get part index to update it
@@ -1706,7 +1710,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 		}
 
-		NavigationService.boxCall('MAddonType/getAllMAddonTypeOfMuom', function (addonTypeData) {
+		NavigationService.apiCall('MAddonType/getAllMAddonTypeOfMuom', tempObj, function (addonTypeData) {
 			if (operation == 'save') {
 				addonObject.allAddonTypes = addonTypeData.data;
 				callback(addonObject);
