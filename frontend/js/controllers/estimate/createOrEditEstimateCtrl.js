@@ -198,7 +198,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
               $scope.estimatePartObj.quantity = 1;
             }
 
-            $scope.estimatePartObj.variables = data.variable;
+            $scope.estimatePartObj.variables = _.cloneDeep(data.variable);
             if (data.selectedShape.image) {
               $scope.estimatePartObj.shapeImage = data.selectedShape.image.file;
             }
@@ -266,7 +266,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.thickness = parseFloat(shortcutObj.thickness);
     $scope.estimatePartObj.wastage = parseFloat(shortcutObj.wastage);
 
-    $scope.estimatePartObj.variables = shortcutObj.variable;
+    $scope.estimatePartObj.variables = _.cloneDeep(shortcutObj.variable);
     $scope.estimatePartObj.keyValueCalculations.perimeter = shortcutObj.partFormulae.perimeter;
     $scope.estimatePartObj.keyValueCalculations.sheetMetalArea = shortcutObj.partFormulae.sheetMetalArea;
     $scope.estimatePartObj.keyValueCalculations.surfaceArea = shortcutObj.partFormulae.surfaceArea;
@@ -362,7 +362,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.getAllMaterials(function (data) {
       $scope.estimatePartObj.allMaterial = data;
     });
-    $scope.estimatePartObj.variables = shapeObj.variable;
+    $scope.estimatePartObj.variables = _.cloneDeep(shapeObj.variable);
     if (angular.isDefined(shapeObj.shape)) {
       if (shapeObj.shape.icon) {
         $scope.estimatePartObj.shapeIcon = shapeObj.shape.icon.file;
@@ -396,7 +396,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     }
 
     //- update shape related data
-    $scope.estimatePartObj.variables = partTypeObj.variable; /////-
+    $scope.estimatePartObj.variables = _.cloneDeep(partTypeObj.variable); /////-
     $scope.estimatePartObj.keyValueCalculations.perimeter = partTypeObj.shape.partFormulae.perimeter; /////-
     $scope.estimatePartObj.keyValueCalculations.sma = partTypeObj.shape.partFormulae.sma; /////-
     $scope.estimatePartObj.keyValueCalculations.sa = partTypeObj.shape.partFormulae.sa; /////-
@@ -404,30 +404,30 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.estimatePartObj.keyValueCalculations.netWeight = partTypeObj.shape.partFormulae.netWeight; /////-
     $scope.updatePartCalculation();
   }
-  // $scope.changeVariableData = function () {
-  //   debugger;
-  //   if (angular.isDefined) {}
-  //   var flag = true;
-  //   if (angular.isDefined($scope.estimatePartObj.selectedShortcut.variable)) {
-  //     _.forEach($scope.estimatePartObj.variables, function (record1) {
-  //       _.forEach($scope.estimatePartObj.selectedShortcut.variable, function (record2) {
-  //         if (record2.varName == record1.varName) {
-  //           if (parseFloat(record2.varValue) == parseFloat(record1.varValue)) {
-  //             flag = false;
-  //           }
-  //         }
-  //       });
-  //     });
-  //     console.log('**** flag .................. ****', flag);
-  //     if (flag) {
-  //       $scope.estimatePartObj.selectedSize = $scope.estimatePartObj.selectedShortcut;
-  //     } else {
-  //       $scope.estimatePartObj.selectedSize = null;
-  //     }
-  //     console.log('**** $scope.estimatePartObj.selectedSize .................. ****', $scope.estimatePartObj.selectedSize);
-  //   }
-  //   $scope.updatePartCalculation();
-  // }
+  $scope.changeVariableData = function () {
+    var flag = true;
+    if (angular.isDefined($scope.estimatePartObj.selectedShortcut.variable)) {
+      _.forEach($scope.estimatePartObj.variables, function (record1) {
+        _.forEach($scope.estimatePartObj.selectedShortcut.variable, function (record2) {
+          if (record2.varName == record1.varName) {
+            if (parseFloat(record2.varValue) != parseFloat(record1.varValue)) {
+              flag = false;
+            }
+          }
+        });
+      });
+      if (flag) {
+        if ($scope.disablePartFields.displayPresetSize) {
+          $scope.estimatePartObj.selectedSize = $scope.estimatePartObj.selectedShortcut.size;
+        } else {
+          $scope.estimatePartObj.selectedSize = $scope.estimatePartObj.selectedShortcut;
+        }
+      } else {
+        $scope.estimatePartObj.selectedSize = null;
+      }
+    }
+    $scope.updatePartCalculation();
+  }
   $scope.updatePartCalculation = function () {
     //- get shape formulae
     //- get updated variables 
@@ -564,6 +564,10 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     createOrEditEstimateService.addScalingFactorToCost(type);
   }
   // **************************************** functions to be triggered form view begin here **************************************** //
+  //- to get an excel sheet of a particular estimate version
+  $scope.getExcelSheet = function () {
+    createOrEditEstimateService.getExcelSheet();
+  }
   //- to edit assembly name
   //- Edit Assembly Name modal start
   $scope.editAssemblyNameModal = function (assembly) {

@@ -124,10 +124,15 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
 
 
-    $scope.addOrEditMaterialModal = function (operation, materialSubCatId, material) {
+    $scope.addOrEditMaterialModal = function (type, operation, materialSubCatId, material) {
         masterMaterialService.getMaterialModalData(operation, materialSubCatId, material, function (data) {
 
             $scope.formData = data.material;
+            if (operation == 'save') {
+                $scope.formData = {
+                    type: type
+                }
+            }
             $scope.subCatId = data.materialSubCategory; // pass it to parameter of addOrEditMaterial
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
@@ -143,7 +148,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.addOrEditMaterial = function (materialData, materialSubCatId) {
         masterMaterialService.addOrEditMaterial(materialData, materialSubCatId, function (data) {
             if (data.value) {
-                toastr.success('Material added/updated successfully');
+                //toastr.success('Material added/updated successfully');
                 $scope.cancelModal();
                 //$scope.getMaterialData();
                 $scope.getSubCatMaterials(materialSubCatId);
@@ -154,10 +159,12 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     //- instant edit particular master material
-    $scope.editMaterial = function (materialId) {
+    $scope.editMaterial = function (previousMatId, materialId) {
+        //- record is already editable so make it non-editble
         if ($scope.editMaterialId == materialId) {
             $scope.editMaterialId = '';
         } else {
+            //- record is already non-editable so make it editble
             $scope.editMaterialId = materialId;
         }
     }
@@ -293,6 +300,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     //- to dismiss modal instance
     $scope.cancelModal = function () {
         $scope.modalInstance.dismiss();
+        $scope.init();
     }
 
     $scope.helpMaterialModal = function () {
@@ -302,6 +310,13 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
             scope: $scope,
             size: 'md'
         });
+    }
+    $scope.duplicateMaterial = function (materialSubCatId, materialData) {
+        masterMaterialService.duplicateMaterial(materialData, function (matData) {
+            materialData = matData;
+            $scope.addOrEditMaterial(materialData, materialSubCatId);
+        });
+
     }
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 

@@ -34,7 +34,7 @@
                                 <!-- material sub category name -->
                                 <span class="tree_label partName" ng-click="getSubCatMaterials(msc._id)">{{msc.materialSubCatName | capitalize}}</span>
                                 <!-- create material -->
-                                <span ng-click="addOrEditMaterialModal('save',msc._id)" class="materialSubCreateIcon">
+                                <span ng-click="addOrEditMaterialModal(msc.materials[0].type, 'save',msc._id)" class="materialSubCreateIcon">
                                     <i class="fa fa-plus btn-info" title="Add Material"></i>
                                 </span>
                                 <!-- edit material sub category name -->
@@ -48,8 +48,12 @@
                                 <ul>
                                     <li ng-repeat="m in msc.materials">
                                         <span class="tree_label partName">{{m.materialName | capitalize}}</span>
+                                        <!-- duplicate material -->
+                                        <span ng-click="duplicateMaterial(msc._id,m)" class="materialDuplicateIcon">
+                                            <i class="fa fa-clone btn-success" title="Duplicate Material"></i>
+                                        </span>
                                         <!-- edit material -->
-                                        <span ng-click="addOrEditMaterialModal('update',msc._id,m)" class="materialEditIcon">
+                                        <span ng-click="addOrEditMaterialModal(m.type, 'update',msc._id,m)" class="materialEditIcon">
                                             <i class="fa fa-pencil btn-warning" title="Edit Material"></i>
                                         </span>
                                         <!-- delete material -->
@@ -142,7 +146,7 @@
                         <div class="col-md-2">
                             <div class="btn-group pull-right">
                                 <button id="sample_editable_2_new" class="btn green" ng-click="instantEditAllMaterial(editAll)">
-                                        <i class="fa fa-pencil" title="Edit All Material"></i>
+                                    <i class="fa fa-pencil" title="Edit All Material"></i>
                             </div>
                             <div class="btn-group pull-right">
                                 <button ng-hide="bulkMaterials.length == 0" class="btn red" ng-click="deleteBulkMaterialsModal(bulkMaterials, 'deleteBulkMaterials')">
@@ -238,7 +242,7 @@
                                         />
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="m.efficiency" ng-disabled="editMaterialId != m._id && !editAll" class="form-control"
+                                            <input type="text" ng-model="m.efficiency" ng-disabled="editMaterialId != m._id && !editAll" class="form-control"
                                             ng-change="addOrEditMaterial(m, materialSubCategory)" />
                                     </td>
                                     <td>

@@ -333,6 +333,11 @@ label.tree_label:after {
    right: 29%;
   position: absolute;
 }
+.materialDuplicateIcon{
+  right:38%;
+  position: absolute;
+  
+}
 .materialEditIcon{
   right:29%;
   position: absolute;

@@ -59,11 +59,13 @@ myApp
                 model: '=ngModel',
                 fileLocation: '@fileLocation',
                 isMultiple: '=isMultiple',
-                icon: '@icon'
+                icon: '@icon',
+                width: '@width',
+                height: '@height'
             },
             templateUrl: '/views/directive/uploadAllFiles.html',
 
-            link: function (scope, element, attrs) {
+            link: function (scope, element, attrs) {                
                 if (scope.isMultiple) {
                    if (!scope.model) {
                         scope.model = [];
@@ -79,8 +81,10 @@ myApp
                         scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
                     }
                 }
-
+                
                 scope.uploadImage = function (files) {
+                    // //- to remove previous selecetd files
+                    // scope.model = [];
                     // scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
                     var fileName = _.split(files[0].name, '.');
                     var fileType = fileName[1];
@@ -100,7 +104,7 @@ myApp
                     // scope.isDocs = (fileType == 'doc' || fileType == 'docx');
                     // scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
 
-                    if (files.length > 1 && scope.isMultiple) {
+                    if (scope.isMultiple) {
                         angular.forEach(files, function (file) {
                             var fd = new FormData();
                             fd.append('file', file);

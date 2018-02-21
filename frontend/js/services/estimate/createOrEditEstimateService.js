@@ -761,7 +761,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				selectedShortcut: {}, //- selected partType presets 
 				selectedPartType: {}, //- selected partType
 				selectedMaterial: {}, //- selected material     
-				selectedSize: {}, //- slected size
+				selectedSize: null, //- slected size
 				selectedShape: {}, //- selected shape
 
 				customMaterials: [], //- get all custom material from  API
@@ -2635,6 +2635,18 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			cmArray: tempArray
 		}, function (data) {
 			callback(data);
+		});
+	}
+	this.getExcelSheet = function () {
+		debugger;
+		var tempObj = {
+			_id: formData.assembly._id
+		}
+		NavigationService.apiCall('DraftEstimate/generateDraftEstimateExcel', tempObj, function (data) {
+			if (data.value) {
+				window.open(adminurl + "DraftEstimate/downloadExcel/" + data.data, '_blank');
+			}
+
 		});
 	}
 });
