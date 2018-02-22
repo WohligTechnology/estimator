@@ -87,8 +87,20 @@ var controller = {
                 data: {
                     message: 'Invalid Request'
                 }
-            })
+            });
         }
+    },
+    downloadDraftExcel: function (req, res) {
+        var file = req.params.file;
+        var path = require('path');
+        path = path.resolve(".") + '/assets/importFormat/' + file;
+        res.download(path, file, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('downloading successful');
+            }
+        });
     },
 
 };
