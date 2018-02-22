@@ -52,20 +52,20 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="control-label">Base Metal: </label>
+                                <label class="control-label">Material: </label>
                                 <select class="form-control" ng-options="m.materialName for m in customMaterialDataObj.allBaseMetals track by m._id" ng-model="formData.basePlate.baseMetal"
                                     ng-change="getCostOfBaseMetal(formData, formData.freeIssue)"></select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="control-label">Cost Of Deposit (Rs/kg): </label>
+                                <label class="control-label">Cost Of Base Plate (Rs/kg): </label>
                                 <input type="text" class="form-control" ng-model="formData.basePlate.costOfDepRsPerKg" disabled>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="control-label">Cost Of Deposit (Rs/m
+                                <label class="control-label">Cost Of Base Plate (Rs/m
                                     <sup>2</sup>): </label>
                                 <input type="text" class="form-control" ng-model="formData.basePlate.costOfDepRsPerSm" disabled>
                             </div>
@@ -145,12 +145,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3"></div>
                         <div class="col-md-3">
-                            <label class="control-label">Average: </label>
+                                <label class="control-label">HardFacing Details >></label>
                         </div>
-                        <div class="col-md-3">{{formData.hardFacingAlloys.agvRsPerKg.toFixed(2)}}</div>
-                        <div class="col-md-3">{{formData.hardFacingAlloys.agvRsPerSm.toFixed(2)}}</div>
+                        <div class="col-md-3">
+                            <label class="control-label">Average Density:&nbsp; {{formData.hardFacingAlloys.avgDensity.toFixed(2)}}&nbsp;<b>g/cc</b></label>
+                        </div>
+                        <div class="col-md-3">Average Cost:&nbsp; {{formData.hardFacingAlloys.agvRsPerKg.toFixed(2)}} &nbsp;<b>Rs/kg</b></div>
+                        <div class="col-md-3">Total Cost:&nbsp; {{formData.hardFacingAlloys.agvRsPerSm.toFixed(2)}}<b>Rs/m<sup>2</sup></b></div>
                     </div>
                     <br>
                     <br>
@@ -165,11 +167,11 @@
                                 <b>'Ctrl Key'</b>.</span>
                         </div>
                         <div class="col-md-3">
-                            <label class="control-label">Total Cost Of Deposit (Rs/kg): </label>
+                            <label class="control-label">Wearplate Cost (Rs/kg): </label>
                             <input type="text" class="form-control" ng-model="formData.totalCostRsPerKg" disabled>
                         </div>
                         <div class="col-md-3">
-                            <label class="control-label">Total Cost Of Deposit (Rs/m
+                            <label class="control-label">Wearplate Cost (Rs/m
                                 <sup>2</sup>): </label>
                             <input type="text" class="form-control" ng-model="formData.totalCostRsPerSm" disabled>
                         </div>
@@ -180,7 +182,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditCustomMaterial(formData)" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditCustomMaterial(formData)" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditCustomMaterial(formData)" >Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
