@@ -652,7 +652,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	//- to get a view of the page
 	this.estimateViewData = function (estimateView, getLevelName, subAssemblyId, partId, callback) {
 		var getViewData = [];
-
+		thisRef = this;
 		if (estimateView == 'assembly') {
 			//formData.assembly.quantity = 1;
 			getViewData = formData.assembly;
@@ -761,7 +761,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				selectedShortcut: {}, //- selected partType presets 
 				selectedPartType: {}, //- selected partType
 				selectedMaterial: {}, //- selected material     
-				selectedSize: {}, //- slected size
+				selectedSize: null, //- slected size
 				selectedShape: {}, //- selected shape
 
 				customMaterials: [], //- get all custom material from  API
@@ -879,6 +879,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
 				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
 			}
+			thisRef.getProcessingTotalCost(getLevelName, getViewData, subAssemblyId, partId);
 		} else if (estimateView == 'addons') {
 			if (getLevelName == "assembly") {
 				getViewData = formData.assembly.addons;
@@ -893,6 +894,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
 				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
 			}
+			thisRef.getAddonTotalCost(getLevelName, getViewData, subAssemblyId, partId);
 		} else if (estimateView == 'extras') {
 			if (getLevelName == "assembly") {
 				getViewData = formData.assembly.extras;
@@ -1355,7 +1357,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 		};
 
-
+		var tempObj = {}; //- to access processing which are available for particular level
 		//- to get keyValue calculations
 		if (level == 'part') {
 			//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
@@ -1370,6 +1372,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					partProcessingObj.linkedKeyValuesAtSubAssemblyCalculation = data;
 				}
 			});
+			tempObj.allowAtAssSubAss = true;
 		} else if (level == 'assembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
@@ -1379,6 +1382,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					partProcessingObj.linkedKeyValuesAtAssemblyCalculation = data;
 				}
 			});
+			tempObj.allowAtAssSubAss = true;
 		}
 
 		//- to get part index to update it
@@ -1398,7 +1402,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 		}
 
-		NavigationService.boxCall('MProcessType/getProcessTypeData', function (proTypeData) {
+		NavigationService.apiCall('MProcessType/getProcessTypeData', tempObj, function (proTypeData) {
 
 			if (operation == 'save') {
 				partProcessingObj.processingTypeData = proTypeData.data;
@@ -1634,7 +1638,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				Hrs: null
 			}
 		};
-
+		var tempObj = {}; //- to access addon which are available for particular level
 		//- to get keyValue calculations
 		if (level == 'part') {
 			//- get linkedKeyValue object from the part on the base of provided subAssemblyId, partId
@@ -1667,6 +1671,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					};
 				}
 			});
+			tempObj.allowAtAssSubAss = true;
 		} else if (level == 'assembly') {
 			//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 			//- i.e  calculate all linkedKeyValuesAtSubAssemblyCalculation for all subAssemblies 
@@ -1684,6 +1689,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					};
 				}
 			});
+			tempObj.allowAtAssSubAss = true;
 		}
 
 		//- to get part index to update it
@@ -1704,7 +1710,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			}
 		}
 
-		NavigationService.boxCall('MAddonType/getAllMAddonTypeOfMuom', function (addonTypeData) {
+		NavigationService.apiCall('MAddonType/getAllMAddonTypeOfMuom', tempObj, function (addonTypeData) {
 			if (operation == 'save') {
 				addonObject.allAddonTypes = addonTypeData.data;
 				callback(addonObject);
@@ -2629,6 +2635,18 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			cmArray: tempArray
 		}, function (data) {
 			callback(data);
+		});
+	}
+	this.getExcelSheet = function () {
+		debugger;
+		var tempObj = {
+			_id: formData.assembly._id
+		}
+		NavigationService.apiCall('DraftEstimate/generateDraftEstimateExcel', tempObj, function (data) {
+			if (data.value) {
+				window.open(adminurl + "DraftEstimate/downloadExcel/" + data.data, '_blank');
+			}
+
 		});
 	}
 });

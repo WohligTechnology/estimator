@@ -18,6 +18,16 @@
                                 <input type="text" class="form-control" ng-model="formData.processTypeName" autofocus required>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">SubAssembly Access:
+                            </label>
+                            <div class="col-md-5">
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox" id="checkAll" ng-model="formData.allowAtAssSubAss" />
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
                         <div class="form-group" ng-show="formData.showMulFact">
                             <label class="col-md-4 control-label">Process Category:
                                 <span class="error">&nbsp;*</span>
@@ -33,15 +43,18 @@
                             <label class="col-md-2 ">
                                 <b>Rate -</b>
                             </label>
-                            <div class="col-md-4 text-right">Calculations &nbsp;&nbsp;&nbsp;&nbsp;<b>OFF</b></div>
+                            <div class="col-md-4 text-right">Calculations &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>OFF</b>
+                            </div>
                             <div class="col-md-2" style="margin-left: -20px;">
-                                <div class="btn-switch" ng-class="{'btn-switch--on':formData.showRateFields}" ng-model="formData.showRateFields"
-                                    ng-click="setToggleForRate(formData)">
+                                <div class="btn-switch" ng-class="{'btn-switch--on':formData.showRateFields}" ng-model="formData.showRateFields" ng-click="setToggleForRate(formData)">
                                     <div class="btn-switch-circle" ng-class="{'btn-switch-circle--on':formData.showRateFields}" ng-model="formData.showRateFields"
                                         ng-click="setToggleForRate(formData)"></div>
                                 </div>
                             </div>
-                            <div class="col-md-4 text-left" style="margin-left: -50px;"> <b>ON</b></div>
+                            <div class="col-md-4 text-left" style="margin-left: -50px;">
+                                <b>ON</b>
+                            </div>
                         </div>
                         <div class="form-group" ng-show="formData.showMulFact">
                             <label class="col-md-4 control-label">Multiplication Factor:
@@ -51,7 +64,7 @@
                                 <input type="text" class="form-control" ng-model="formData.rate.mulFact" required>
                                 <span class="error">{{validationSelect.rateMultiplicationFactor}}</span>
                             </div>
-                            
+
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">UOM:
@@ -67,7 +80,9 @@
                             <label class="col-md-2">
                                 <b>Quantity -</b>
                             </label>
-                            <div class="col-md-4 text-right">Calculations &nbsp;&nbsp;&nbsp;&nbsp;<b>OFF</b></div>
+                            <div class="col-md-4 text-right">Calculations &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>OFF</b>
+                            </div>
                             <div class="col-md-2" style="margin-left: -20px;">
                                 <div class="btn-switch" ng-class="{'btn-switch--on':formData.showQuantityFields}" ng-model="formData.showQuantityFields"
                                     ng-click="setToggleForQuantity(formData)">
@@ -75,7 +90,9 @@
                                         ng-click="setToggleForQuantity(formData)"></div>
                                 </div>
                             </div>
-                            <div class="col-md-4 text-left" style="margin-left: -50px;"><b>ON</b></div>
+                            <div class="col-md-4 text-left" style="margin-left: -50px;">
+                                <b>ON</b>
+                            </div>
                         </div>
                         <div class="form-group" ng-show="formData.showFields">
                             <label class="col-md-4 control-label">Linkedkey Value:
@@ -109,8 +126,8 @@
                             </label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="formData.quantity.mulfact" required>
-                                <span class="error">{{validationSelect.quantityMultiplicationFactor}}</span> 
-                                
+                                <span class="error">{{validationSelect.quantityMultiplicationFactor}}</span>
+
                             </div>
                         </div>
                         <div class="form-group" ng-show="formData.showFields">
@@ -119,7 +136,7 @@
                             </label>
                             <div class="col-md-5">
                                 <input type="text" name="utilization" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.quantity.utilization">
-                                <span class="error">{{validationSelect.quantityUtilization}}</span> 
+                                <span class="error">{{validationSelect.quantityUtilization}}</span>
                                 <span class="error" ng-show="myForm.utilization.$invalid && myForm.utilization.$dirty">Please enter a number or floating point number</span>
                                 <span class="unit">%</span>
                             </div>
@@ -129,7 +146,8 @@
                                 <span class="error">*</span>
                             </label>
                             <div class="col-md-5">
-                                <input type="text" name="wastage" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.quantity.contengncyOrWastage" required>
+                                <input type="text" name="wastage" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.quantity.contengncyOrWastage"
+                                    required>
                                 <span class="error">{{validationSelect.quantityWastage}}</span>
                                 <span class="error" ng-show="myForm.wastage.$invalid && myForm.wastage.$dirty">Please enter a number or floating point number</span>
                                 <span class="unit">%</span>
@@ -150,9 +168,9 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-show="showSaveBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)"
-                                >Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-show="showEditBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)" ng-disabled="myForm.$pristine">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-show="showSaveBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-show="showEditBtn" ng-click="addOrEditProcessType(formData,selectedProcessCat._id,selectedRateMUlFactUom._id,selectedQuaLinkedKeyUom._id,selectedQuaFinalUom._id)"
+                                    ng-disabled="myForm.$pristine">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

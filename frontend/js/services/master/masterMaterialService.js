@@ -179,4 +179,8 @@ myApp.service('masterMaterialService', function (NavigationService) {
       callback(data);
     });
   }
+  this.duplicateMaterial = function (materialData, callback) {
+    materialData = _.omit(materialData, ['_id', '__v', 'createdAt', 'updatedAt']);
+    callback(materialData);
+  }
 });

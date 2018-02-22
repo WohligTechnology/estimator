@@ -136,11 +136,12 @@
                                             <span></span>
                                         </label>
                                     </th>
-                                    <th rowspan="2" class="align-top"> Process type Name </th>
-                                    <th rowspan="2" class="align-top"> ProcessCat</th>
+                                    <th rowspan="2" class="align-left"> Process type Name </th>
+                                    <th rowspan="2" class="align-left"> ProcessCat</th>
                                     <th colspan="2" class="text-center"> Rate </th>
                                     <th colspan="6" class="text-center"> Quantity</th>
-                                    <th rowspan="2" class="align-top"> Action </th>
+                                    <th rowspan="2" class="align-left"> SubAssembly Access </th>
+                                    <th rowspan="2" class="align-left"> Action </th>
                                 </tr>
                                 <tr>
                                     <th>Multiplication Factor</th>
@@ -172,6 +173,12 @@
                                     <td> {{process.quantity.finalUom.uomName}}</td>
                                     <td> {{process.quantity.utilization}}</td>
                                     <td> {{process.quantity.contengncyOrWastage}}</td>
+                                    <td>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                            <input type="checkbox" id="checkAll" ng-model="process.allowAtAssSubAss" />
+                                            <span></span>
+                                        </label>
+                                    </td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" ng-click="addOrEditProcessTypeModal('update',process)">
                                             <i class="fa fa-pencil" title="Edit Process Type"></i>
