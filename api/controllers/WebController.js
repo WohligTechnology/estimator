@@ -63,13 +63,13 @@ module.exports = {
             var myModel = [{
                 models: "Enquiry",
                 fieldName: ["customerId"]
-            }]
+            }];
         }
         if (modelName == 'DraftEstimate') {
             var myModel = [{
                 models: "Estimate",
                 fieldName: ["draftEstimateId"]
-            }]
+            }];
         }
         if (modelName == 'Enquiry') {
             var myModel = [{
@@ -80,7 +80,7 @@ module.exports = {
                     models: "Estimate",
                     fieldName: ["enquiryId"]
                 }
-            ]
+            ];
         }
         if (modelName == 'Estimate') {
             var myModel = [{
@@ -91,7 +91,7 @@ module.exports = {
                     models: "MMaterial",
                     fieldName: ["estimateId"]
                 }
-            ]
+            ];
         }
         if (modelName == 'EstimateAddons') {
             var myModel = [{
@@ -106,7 +106,7 @@ module.exports = {
                     models: "EstimatePart",
                     fieldName: ["addons"]
                 }
-            ]
+            ];
         }
         if (modelName == 'EstimateExtras') {
             var myModel = [{
@@ -122,13 +122,13 @@ module.exports = {
                     fieldName: ["extras"]
                 }
 
-            ]
+            ];
         }
         if (modelName == 'EstimatePart') {
             var myModel = [{
                 models: "EstimateSubAssembly",
                 fieldName: ["subAssemblyParts"]
-            }]
+            }];
         }
         if (modelName == 'EstimateProcessing') {
             var myModel = [{
@@ -143,7 +143,7 @@ module.exports = {
                     models: "EstimateSubAssembly",
                     fieldName: ["processing"]
                 }
-            ]
+            ];
         }
         if (modelName == 'EstimateSubAssembly') {
             var myModel = [{
@@ -154,7 +154,7 @@ module.exports = {
                     models: "EstimatePart",
                     fieldName: ["subAssemblyId"]
                 }
-            ]
+            ];
         }
         // if (data.modelName == 'MAddonsPresets') {
         //     var myModel = [{
@@ -172,7 +172,7 @@ module.exports = {
                     models: "MPartType",
                     fieldName: ["addons"]
                 }
-            ]
+            ];
         }
         if (modelName == 'MExtras') {
             var myModel = [{
@@ -183,7 +183,7 @@ module.exports = {
                     models: "MPartType",
                     fieldName: ["extras"]
                 }
-            ]
+            ];
         }
         // if (data.modelName == 'MExtrasPreset') {
         //     var myModel = [{
@@ -210,9 +210,7 @@ module.exports = {
                     models: "MPartType",
                     fieldName: ["material"]
                 }
-
-
-            ]
+            ];
         }
         if (modelName == 'MMaterialCat') {
             var myModel = [{
@@ -223,7 +221,7 @@ module.exports = {
                     models: "MMaterialSubCat",
                     fieldName: ["catId"]
                 }
-            ]
+            ];
         }
         if (modelName == 'MMaterialSubCat') {
             var myModel = [{
@@ -240,7 +238,7 @@ module.exports = {
                     base: true
                 },
 
-            ]
+            ];
         }
         if (modelName == 'MPartPresets') {
             var myModel = [{
@@ -262,13 +260,13 @@ module.exports = {
                     models: "MPartTypeCat",
                     fieldName: ["partTypes"]
                 }
-            ]
+            ];
         }
         if (modelName == 'MPartTypeCat') {
             var myModel = [{
                 models: "MPartType",
                 fieldName: ["partTypeCat"]
-            }]
+            }];
         }
         if (modelName == 'MProcessCat') {
             var myModel = [{
@@ -277,7 +275,7 @@ module.exports = {
             }, {
                 models: "MProcessType",
                 fieldName: ["processCat"]
-            }]
+            }];
         }
         // if (data.modelName == 'MProcessingPresets') {
         //     var myModel = [{
@@ -294,7 +292,7 @@ module.exports = {
                     models: "MProcessCat",
                     fieldName: ["processItems"]
                 }
-            ]
+            ];
         }
         if (modelName == 'MProcessType') {
             var myModel = [{
@@ -305,13 +303,13 @@ module.exports = {
                     models: "MPartType",
                     fieldName: ["proccessing"]
                 }
-            ]
+            ];
         }
         if (modelName == 'MShape') {
             var myModel = [{
                 models: "MPartPresets",
                 fieldName: ["shape"]
-            }]
+            }];
         }
         if (modelName == 'MUom') {
             var myModel = [{
@@ -330,7 +328,7 @@ module.exports = {
                     models: "MProcessType",
                     fieldName: ["rate.uom", "quantity.uom", "quantity.finalUom"]
                 }
-            ]
+            ];
         }
         if (modelName == 'User') {
             var myModel = [{
@@ -345,22 +343,25 @@ module.exports = {
                     models: "Estimate",
                     fieldName: ["estimateCreatedUser", "estimateUpdatedUser"]
                 }
-            ]
+            ];
         }
         var allDependency = [];
         async.eachSeries(req.body.idsArray, function (ids, callback) {
+                console.log('**** idss ****', ids);
                 async.eachSeries(myModel, function (m, callback) {
                         async.eachSeries(m.fieldName, function (f, callback) {
+
                                 this[m.models].findOne({
                                     [f]: ids
                                 }).select('_id').lean().exec(function (err, found) {
+                                    console.log('**** m.models m.models ****', m.models);
+                                    console.log('**** foundfound found ****', found);
+
                                     if (err) {
                                         console.log('**** error at delRestrictions ****', err);
                                         callback(err, null);
                                     } else if (_.isEmpty(found)) {
                                         console.log(' no dependency of the table ' + m.models + ' with attribute ' + [f]);
-                                        callback(null, []);
-                                    } else if ([f] == "materials" || "subCat") {
                                         callback(null, []);
                                     } else {
                                         allDependency.push({
@@ -387,7 +388,7 @@ module.exports = {
                             console.log('**** error at delRestrictions ****', err);
                         } else {
                             if (_.isEmpty(allDependency)) {
-                                this[modelName].remove({
+                                this[modelName].remove({ //remove record
                                     _id: ids
                                 }).lean().exec(function (err, found1) {
                                     if (err) {
@@ -425,7 +426,7 @@ module.exports = {
                                                         } else if (_.isEmpty(found2)) {
                                                             callback(null, []);
                                                         } else {
-                                                            callback(null,found2);
+                                                            callback(null, found2);
                                                         }
                                                     });
                                                 }
@@ -458,7 +459,7 @@ module.exports = {
         if (req.body) {
             var modelName = req.url.split("/").pop();
             console.log('****%%%%%%%%%%% ****', modelName);
-            var myModel = modelName
+            var myModel = modelName;
             global[modelName].find({
                 _id: {
                     $in: req.body.idsArray
