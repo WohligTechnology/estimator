@@ -8,7 +8,8 @@ var schema = new Schema({
     margins: {
         negotiation: Number,
         commission: Number,
-        other: Number
+        other: Number,
+        scaleFactor: String
     }
 });
 

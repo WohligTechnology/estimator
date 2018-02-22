@@ -1011,6 +1011,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       hardFacingAlloys.push(_.cloneDeep(tempArray));
     }
   }
+  //-to add a hard facing alloy
+  $scope.deleteLayer = function (formData, hardFacingAlloyObj) {
+    _.remove(formData.hardFacingAlloys, function (h) {
+      return h.alloy == hardFacingAlloyObj.alloy && h.thickness == hardFacingAlloyObj.thickness;
+    });
+    $scope.calAvgCost(formData);
+  }
   //- modal to delete custom material
   $scope.deleteCustomMaterialModal = function (customMaterialId, getFunction) {
     $scope.idToDelete = customMaterialId;

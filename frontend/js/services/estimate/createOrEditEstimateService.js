@@ -429,6 +429,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			if (angular.isUndefined(formData.assembly.negotiation) || angular.isUndefined(formData.assembly.commission) || angular.isUndefined(formData.assembly.other) || angular.isUndefined(formData.assembly.scaleFactors)) {
 				//- get all fixed markups & update total cost
 				NavigationService.boxCall('MFixedMarkup/search', function (data) {
+					//- default it is low
+					formData.assembly.scaleFactors = {};
+					formData.assembly.scaleFactors.factor = "low";
 					if (data.value) {
 						sellingObj.markups = data.data.results;
 						sellingObj.markups = sellingObj.markups[sellingObj.markups.length - 1]
@@ -463,19 +466,25 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						if (angular.isDefined(formData.assembly.enquiryId.customerId.margins)) {
 							sellingObj.temp = formData.assembly.enquiryId.customerId.margins;
 							if (angular.isDefined(sellingObj.temp.negotiation)) {
-								sellingObj.negotiation = parseFloat(sellingObj.temp.negotiation);
+								if (!isNaN(parseFloat(sellingObj.temp.negotiation))) {
+									sellingObj.negotiation = parseFloat(sellingObj.temp.negotiation);
+								}
 							}
 							if (angular.isDefined(sellingObj.temp.commission)) {
-								sellingObj.commission = parseFloat(sellingObj.temp.commission);
+								if (!isNaN(parseFloat(sellingObj.temp.commission))) {
+									sellingObj.commission = parseFloat(sellingObj.temp.commission);
+								}
 							}
 							if (angular.isDefined(sellingObj.temp.other)) {
-								sellingObj.other = parseFloat(sellingObj.temp.other);
+								if (!isNaN(parseFloat(sellingObj.temp.other))) {
+									sellingObj.other = parseFloat(sellingObj.temp.other);
+								}
+							}
+							if (angular.isDefined(sellingObj.temp.scaleFactor)) {
+								formData.assembly = sellingObj.temp.scaleFactor;
 							}
 						}
 					}
-					//- default it is low
-					formData.assembly.scaleFactors = {};
-					formData.assembly.scaleFactors.factor = "low";
 					formData.assembly.negotiation = sellingObj.negotiation;
 					formData.assembly.commission = sellingObj.commission;
 					formData.assembly.other = sellingObj.other;
