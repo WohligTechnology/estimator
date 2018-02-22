@@ -258,6 +258,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			//- summation of material cost of all subAssembly
 			mtAtAssembly: 0
 		}
+		debugger;
 		formData.assembly.totalCost = formData.assembly.materialCost = formData.assembly.processingCost = formData.assembly.addonCost = formData.assembly.extrasCost = 0;
 		var thisRef = this;
 		angular.forEach(formData.assembly.subAssemblies, function (subAssembly) {
@@ -481,7 +482,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 								}
 							}
 							if (angular.isDefined(sellingObj.temp.scaleFactor)) {
-								formData.assembly = sellingObj.temp.scaleFactor;
+								formData.assembly.scaleFactors.factor = sellingObj.temp.scaleFactor;
 							}
 						}
 					}
@@ -546,12 +547,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						var subAssIndex = thisRef.getSubAssemblyIndex(subAssId);
 						thisRef.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
 							keyValues = data;
-						});
+						}, true);
 					} else if (level == 'assembly') {
 						//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 						thisRef.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
 							keyValues = data;
-						});
+						}, true);
 					}
 				} else {
 					var subAssIndex = thisRef.getSubAssemblyIndex(subAssId);
@@ -597,12 +598,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 						thisRef.KeyValueCalculations(level, formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (data) {
 							var subAssIndex = thisRef.getSubAssemblyIndex(subAssId);
 							formData.assembly.subAssemblies[subAssIndex].keyValueCalculations = formData.assembly.keyValueCalculations = keyValues = data;
-						});
+						}, true);
 					} else if (level == 'assembly') {
 						//- get linkedKeyValue object by calculating the average of all parts belongs to the corresponding assembly
 						thisRef.KeyValueCalculations(level, formData.assembly.subAssemblies, function (data) {
 							formData.assembly.keyValueCalculations = keyValues = data;
-						});
+						}, true);
 					}
 				} else {
 					var subAssIndex = thisRef.getSubAssemblyIndex(subAssId);
@@ -1005,7 +1006,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	//- to get all subAssembly numbers of all assemblies
 	this.getAllSubAssNumbers = function (callback) {
 		// var subAssNumbersArray = [];
-		// angular.forEach(formData.assembly.subAssemblies,  function (record) {
+		// angular.forEach(formData.assembly.subAssemblies,  function (record) {
 		// 	subAssNumbersArray.push(record.subAssemblyNumber);
 		// });
 		// _.remove(subAssNumbersArray, function (n) {
@@ -1019,7 +1020,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	//- to get all subAssembly numbers of current assemblies
 	this.getAllSubAssData = function (subAssNumber, callback) {
 		var subAssNumbersArray = [];
-		angular.forEach(formData.assembly.subAssemblies,  function (record) {
+		angular.forEach(formData.assembly.subAssemblies, function (record) {
 			subAssNumbersArray.push(record.subAssemblyNumber);
 		});
 		_.remove(subAssNumbersArray, function (n) {
@@ -1050,7 +1051,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to delete bulk subAssemblies
 	this.deleteMultipleSubAssemblies = function (bulkArray, callback) {
-		angular.forEach(bulkArray,  function (record) {
+		angular.forEach(bulkArray, function (record) {
 			_.remove(formData.assembly.subAssemblies, function (obj) {
 				return record == obj.subAssemblyNumber;
 			});
@@ -1159,7 +1160,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		callback(formData.assembly);
 	}
 	//- keyValue calculation
-	this.KeyValueCalculations = function (level, records, callback) {
+	this.KeyValueCalculations = function (level, records, callback, costCal) {
 		var count = records.length;
 		var tempObj = {
 			perimeter: 0,
@@ -1170,8 +1171,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		};
 		//- to check access permission
 		var temp = true;
+		debugger;
 		if (level == 'subAssembly') {
-			_.forEach(records,  function (part) {
+			_.forEach(records, function (part) {
 				if (temp) {
 					if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
 						tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
@@ -1206,8 +1208,8 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				}
 			});
 		} else {
-			_.forEach(records,  function (subAssembly) {
-				_.forEach(subAssembly.subAssemblyParts,  function (part) {
+			_.forEach(records, function (subAssembly) {
+				_.forEach(subAssembly.subAssemblyParts, function (part) {
 					if (temp) {
 						if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
 							tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
@@ -1242,7 +1244,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				});
 			});
 		}
-		if (temp && records.length != 0) {
+		if ((temp && records.length != 0) || (records.length != 0 && costCal)) {
 			callback(tempObj);
 		} else {
 			callback();
@@ -1265,7 +1267,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	//- to delete bulk parts
 	this.deleteMultipleParts = function (subAssemblyId, bulkArray, callback) {
 		subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-		angular.forEach(bulkArray,  function (record) {
+		angular.forEach(bulkArray, function (record) {
 			_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (obj) {
 				return record == obj.partNumber;
 			});
@@ -1281,16 +1283,16 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		duplicatePart.partName = this.generatePartName(subAssId).partName;
 		var partIndex = this.getPartIndex(subAssIndex, duplicatePart.partNumber);
 
-		angular.forEach(duplicatePart.processing,  function (obj) {
+		angular.forEach(duplicatePart.processing, function (obj) {
 			var processingNumber = obj.processingNumber;
 			temp2 = _.split(obj.processingNumber, 'PR');
 			obj.processingNumber = duplicatePart.partNumber + 'PR' + temp2[1];
 		});
-		angular.forEach(duplicatePart.addons,  function (obj) {
+		angular.forEach(duplicatePart.addons, function (obj) {
 			temp2 = _.split(obj.addonNumber, 'AD');
 			obj.addonNumber = duplicatePart.partNumber + 'AD' + temp2[1];
 		});
-		angular.forEach(duplicatePart.extras,  function (obj) {
+		angular.forEach(duplicatePart.extras, function (obj) {
 			temp2 = _.split(obj.extraNumber, 'EX');
 			obj.extraNumber = duplicatePart.partNumber + 'EX' + temp2[1];
 		});
@@ -1570,14 +1572,14 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	//- to delete bulk processing
 	this.deleteMultipleProcessing = function (level, bulkIds, subAssemblyId, partId, callback) {
 		if (level == 'assembly') {
-			angular.forEach(bulkIds,  function (record) {
+			angular.forEach(bulkIds, function (record) {
 				_.remove(formData.assembly.processing, function (obj) {
 					return record == obj.processingNumber;
 				});
 			});
 		} else if (level == 'subAssembly') {
 			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			angular.forEach(bulkIds,  function (record) {
+			angular.forEach(bulkIds, function (record) {
 				_.remove(formData.assembly.subAssemblies[subAssIndex].processing, function (obj) {
 					return record == obj.processingNumber;
 				});
@@ -1585,7 +1587,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (level == 'part') {
 			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			partIndex = this.getPartIndex(subAssIndex, partId);
-			angular.forEach(bulkIds,  function (record) {
+			angular.forEach(bulkIds, function (record) {
 				_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing, function (obj) {
 					return record == obj.processingNumber;
 				});
@@ -1769,14 +1771,23 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- called when user will select a processType while adding a processing at any level
 	this.getSelectedAddonType = function (addonTypeId, addonObj, subAssemblyId, partId, callback) {
-		var tempArray = [];
-		var t;
+		var tempObj = {
+			tempArray: []
+		};
 		if (angular.isDefined(subAssemblyId) && angular.isDefined(partId)) {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
-			t = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].thickness;
-			if (!isNaN(parseFloat(angular.isDefined(t)))) {
-				t = parseFloat(t);
+			tempObj.t = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].thickness;
+			tempObj.l = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].length;
+			tempObj.wtg = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].wastage;
+			if (!isNaN(parseFloat(angular.isDefined(tempObj.t)))) {
+				tempObj.t = parseFloat(tempObj.t);
+			}
+			if (!isNaN(parseFloat(angular.isDefined(tempObj.l)))) {
+				tempObj.l = parseFloat(tempObj.l);
+			}
+			if (!isNaN(parseFloat(angular.isDefined(tempObj.wtg)))) {
+				tempObj.wtg = parseFloat(tempObj.wtg);
 			}
 		}
 		if (addonObj.showRateFields) {
@@ -1784,14 +1795,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				_id: addonTypeId
 			}, function (data) {
 				if (data.value) {
-					tempArray = data.data.materials;
+					tempObj.tempArray = data.data.materials;
 				}
-				tempArray.thickness = t;
-				callback(tempArray);
+				callback(tempObj);
 			});
 		} else {
-			tempArray.thickness = t;
-			callback(tempArray);
+			callback(tempObj);
 		}
 	}
 
@@ -1885,14 +1894,14 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	//- to delete bulk addons
 	this.deleteMultipleAddons = function (level, bulkIds, subAssemblyId, partId, callback) {
 		if (level == 'assembly') {
-			angular.forEach(bulkIds,  function (record) {
+			angular.forEach(bulkIds, function (record) {
 				_.remove(formData.assembly.addons, function (obj) {
 					return record == obj.addonNumber;
 				});
 			});
 		} else if (level == 'subAssembly') {
 			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			angular.forEach(bulkIds,  function (record) {
+			angular.forEach(bulkIds, function (record) {
 				_.remove(formData.assembly.subAssemblies[subAssIndex].addons, function (obj) {
 					return record == obj.addonNumber;
 				});
@@ -1900,7 +1909,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (level == 'part') {
 			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			partIndex = this.getPartIndex(subAssIndex, partId);
-			angular.forEach(bulkIds,  function (record) {
+			angular.forEach(bulkIds, function (record) {
 				_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons, function (obj) {
 					return record == obj.addonNumber;
 				});
@@ -2327,68 +2336,68 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		if (checkboxStatus == true) {
 			if (type == 'processing') {
 				if (level == 'assembly') {
-					angular.forEach(formData.assembly.processing,  function (obj) {
+					angular.forEach(formData.assembly.processing, function (obj) {
 						bulkArray.push(obj.processingNumber);
 					});
 				} else if (level == 'subAssembly') {
 					subAssIndex = this.getSubAssemblyIndex(subAssId);
-					angular.forEach(formData.assembly.subAssemblies[subAssIndex].processing,  function (obj) {
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].processing, function (obj) {
 						bulkArray.push(obj.processingNumber);
 					});
 				} else if (level == 'part') {
 					subAssIndex = this.getSubAssemblyIndex(subAssId);
 					partIndex = this.getPartIndex(subAssIndex, partId);
-					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing,  function (obj) {
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].processing, function (obj) {
 						bulkArray.push(obj.processingNumber);
 					});
 				}
 			} else if (type == 'addons') {
 				if (level == 'assembly') {
-					angular.forEach(formData.assembly.addons,  function (obj) {
+					angular.forEach(formData.assembly.addons, function (obj) {
 						bulkArray.push(obj.addonNumber);
 					});
 				} else if (level == 'subAssembly') {
 					subAssIndex = this.getSubAssemblyIndex(subAssId);
-					angular.forEach(formData.assembly.subAssemblies[subAssIndex].addons,  function (obj) {
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].addons, function (obj) {
 						bulkArray.push(obj.addonNumber);
 					});
 				} else if (level == 'part') {
 					subAssIndex = this.getSubAssemblyIndex(subAssId);
 					partIndex = this.getPartIndex(subAssIndex, partId);
-					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons,  function (obj) {
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].addons, function (obj) {
 						bulkArray.push(obj.addonNumber);
 					});
 				}
 			} else if (type == 'extras') {
 				if (level == 'assembly') {
-					angular.forEach(formData.assembly.extras,  function (obj) {
+					angular.forEach(formData.assembly.extras, function (obj) {
 						bulkArray.push(obj.extraNumber);
 					});
 				} else if (level == 'subAssembly') {
 					subAssIndex = this.getSubAssemblyIndex(subAssId);
-					angular.forEach(formData.assembly.subAssemblies[subAssIndex].extras,  function (obj) {
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].extras, function (obj) {
 						bulkArray.push(obj.extraNumber);
 					});
 				} else if (level == 'part') {
 					subAssIndex = this.getSubAssemblyIndex(subAssId);
 					partIndex = this.getPartIndex(subAssIndex, partId);
-					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras,  function (obj) {
+					angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
 						bulkArray.push(obj.extraNumber);
 					});
 				}
 			} else if (type == 'subAssembly') {
-				angular.forEach(formData.assembly.subAssemblies,  function (obj) {
+				angular.forEach(formData.assembly.subAssemblies, function (obj) {
 					bulkArray.push(obj.subAssemblyNumber);
 				});
 			} else if (type == 'part') {
 				subAssIndex = this.getSubAssemblyIndex(subAssId);
-				angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts,  function (obj) {
+				angular.forEach(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts, function (obj) {
 					bulkArray.push(obj.partNumber);
 				});
 			} else if (type == 'customMaterial') {
 				this.getAllMaterialData(function (data) {
 					var allCustomMaterials = data;
-					angular.forEach(allCustomMaterials,  function (obj) {
+					angular.forEach(allCustomMaterials, function (obj) {
 						bulkArray.push(obj._id);
 					})
 				});
@@ -2517,14 +2526,14 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	//- to delete bulk extras
 	this.deleteMultipleExtras = function (level, bulkIds, subAssemblyId, partId, callback) {
 		if (level == 'assembly') {
-			angular.forEach(bulkIds,  function (record) {
+			angular.forEach(bulkIds, function (record) {
 				_.remove(formData.assembly.extras, function (obj) {
 					return record == obj.extraNumber;
 				});
 			});
 		} else if (level == 'subAssembly') {
 			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
-			angular.forEach(bulkIds,  function (record) {
+			angular.forEach(bulkIds, function (record) {
 				_.remove(formData.assembly.subAssemblies[subAssIndex].extras, function (obj) {
 					return record == obj.extraNumber;
 				});
@@ -2532,7 +2541,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		} else if (level == 'part') {
 			subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			partIndex = this.getPartIndex(subAssIndex, partId);
-			angular.forEach(bulkIds,  function (record) {
+			angular.forEach(bulkIds, function (record) {
 				_.remove(formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras, function (obj) {
 					return record == obj.extraNumber;
 				});
@@ -2588,7 +2597,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		}
 		NavigationService.boxCall('MMaterial/getAllMaterials', function (data) {
 			allMaterials = data.data;
-			angular.forEach(allMaterials,  function (record) {
+			angular.forEach(allMaterials, function (record) {
 				if (record.type == 'customBase') {
 					customMaterialObj.allBaseMetals.push(record);
 				} else if (record.type == 'customOverlay') {
@@ -2611,7 +2620,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	this.deleteCustomMaterial = function (customMaterialId, customMaterialIds, callback) {
 		var idsArray = [];
 		if (angular.isDefined(customMaterialIds)) {
-			angular.forEach(customMaterialIds,  function (record) {
+			angular.forEach(customMaterialIds, function (record) {
 				idsArray.push(record);
 			});
 		} else {
