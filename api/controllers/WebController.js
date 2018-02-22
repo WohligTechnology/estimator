@@ -347,114 +347,103 @@ module.exports = {
         }
         var allDependency = [];
         async.eachSeries(req.body.idsArray, function (ids, callback) {
-                console.log('**** idss ****', ids);
-                async.eachSeries(myModel, function (m, callback) {
-                        async.eachSeries(m.fieldName, function (f, callback) {
-
-                                this[m.models].findOne({
-                                    [f]: ids
-                                }).select('_id').lean().exec(function (err, found) {
-                                    console.log('**** m.models m.models ****', m.models);
-                                    console.log('**** foundfound found ****', found);
-
-                                    if (err) {
-                                        console.log('**** error at delRestrictions ****', err);
-                                        callback(err, null);
-                                    } else if (_.isEmpty(found)) {
-                                        console.log(' no dependency of the table ' + m.models + ' with attribute ' + [f]);
-                                        callback(null, []);
-                                    } else {
-                                        allDependency.push({
-                                            model: m.models,
-                                            fieldName: f,
-                                            _id: found,
-                                            for_id: ids
-                                        });
-                                        console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
-                                        callback();
-                                    }
+            async.eachSeries(myModel, function (m, callback) {
+                async.eachSeries(m.fieldName, function (f, callback) {
+                        this[m.models].findOne({
+                            [f]: ids
+                        }).select('_id').lean().exec(function (err, found) {
+                            if (err) {
+                                console.log('**** error at delRestrictions ****', err);
+                                callback(err, null);
+                            } else if (_.isEmpty(found)) {
+                                console.log(' no dependency of the table ' + m.models + ' with attribute ' + [f]);
+                                callback(null, []);
+                            } else {
+                                allDependency.push({
+                                    model: m.models,
+                                    fieldName: f,
+                                    _id: found,
+                                    for_id: ids
                                 });
-                            },
-                            function (err) {
-                                if (err) {
-                                    console.log('***** error at final response of async.eachSeries in function_name of MMaterial.js*****', err);
-                                } else {
-                                    callback();
-                                }
-                            });
+                                console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
+                                callback();
+                            }
+                        });
                     },
                     function (err) {
                         if (err) {
-                            console.log('**** error at delRestrictions ****', err);
+                            console.log('***** error at final response of async.eachSeries in function_name of MMaterial.js*****', err);
                         } else {
-                            if (_.isEmpty(allDependency)) {
-                                this[modelName].remove({ //remove record
-                                    _id: ids
-                                }).lean().exec(function (err, found1) {
-                                    if (err) {
-                                        console.log('**** error at function_name of MMaterial.js ****', err);
-                                        callback(err, null);
-                                    } else if (_.isEmpty(found1)) {
-                                        callback(null, []);
-                                    } else {
-                                        callback(null, found1);
-                                    }
-                                });
-                            } else {
-                                async.eachSeries(myModel, function (m, callback) {
-                                        if (m.base == true) {
-                                            var myId = _.map(allDependency, '_id._id');
-                                            this[m.models].findOneAndUpdate({
-                                                _id: myId
-                                            }, {
-                                                $pull: {
-                                                    [m.fieldName]: ids
-                                                },
-                                            }).exec(function (err, updatedData) {
-                                                if (err) {
-                                                    console.log('**** error at function_name of WebController.js ****', err);
-                                                    callback(err, null);
-                                                } else if (_.isEmpty(updatedData)) {
-                                                    callback(null, []);
-                                                } else {
-                                                    this[modelName].remove({
-                                                        _id: ids
-                                                    }).lean().exec(function (err, found2) {
-                                                        if (err) {
-                                                            console.log('**** error at function_name of MMaterial.js ****', err);
-                                                            callback(err, null);
-                                                        } else if (_.isEmpty(found2)) {
-                                                            callback(null, []);
-                                                        } else {
-                                                            callback(null, found2);
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        } else {
-                                            callback(null, allDependency);
-                                        }
-                                    },
-                                    function (err) {
-                                        if (err) {
-                                            console.log('***** error at final response of async.eachSeries in function_name of WebController.js*****', err);
-                                        } else {
-                                            callback();
-                                        }
-                                    });
-                            }
+                            callback();
                         }
                     });
-            },
-            function (err) {
+            }, function (err) {
                 if (err) {
-                    console.log('***** error at final response of async.eachSeries in function_name of WebController.js*****', err);
+                    console.log('**** error at delRestrictions ****', err);
+                } else if (_.isEmpty(allDependency)) {
+                    this[modelName].remove({ //remove record
+                        _id: ids
+                    }).lean().exec(function (err, found1) {
+                        if (err) {
+                            console.log('**** error at function_name of MMaterial.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(found1)) {
+                            callback(null, []);
+                        } else {
+                            callback(null, found1);
+                        }
+                    });
+                } else if (myModel[2].base == true && allDependency.length <2) {
+                    // async.eachSeries(myModel[2], function (m, callback) {
+                    var myId = _.map(allDependency, '_id._id');
+                    this[myModel[2].models].findOneAndUpdate({
+                        _id: {
+                            $in: myId
+                        }
+                    }, {
+                        $pull: {
+                            [myModel[2].fieldName]: ids
+                        },
+                    }).exec(function (err, updatedData) {
+                        if (err) {
+                            console.log('**** error at function_name of WebController.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(updatedData)) {
+                            callback(null, []);
+                        } else {
+                            this[modelName].remove({ //remove record
+                                _id: ids
+                            }).lean().exec(function (err, found2) {
+                                if (err) {
+                                    console.log('**** error at function_name of MMaterial.js ****', err);
+                                    callback(err, null);
+                                } else if (_.isEmpty(found2)) {
+                                    callback(null, []);
+                                } else {
+                                    callback(null, found2);
+                                }
+                            });
+                        }
+                    });
+                    // }, function (err) {
+                    //     if (err) {
+                    //         console.log('***** error at final response of async.eachSeries in function_name of WebController.js*****', err);
+                    //     } else {
+                    //         callback();
+                    //     }
+                    // });
                 } else {
-                    callback(null, allDependency);
+                    callback(null, 'dependency of tables');
                 }
             });
+        }, function (err) {
+            if (err) {
+                console.log('***** error at final response of async.eachSeries in function_name of WebController.js*****', err);
+            } else {
+                callback(null, allDependency);
+            }
+        });
     },
-
     deleteMultipleModelRecords: function (req, res) {
         if (req.body) {
             var modelName = req.url.split("/").pop();
@@ -480,7 +469,7 @@ module.exports = {
                 data: {
                     message: 'Invalid Request'
                 }
-            })
+            });
         }
     },
 };
