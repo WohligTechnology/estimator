@@ -127,20 +127,44 @@ var model = {
 
     //-Find single record from MPartType table and remove the material Id from material array.
     deletePartTypeMaterial: function (data, callback) {
-        MPartType.findOneAndUpdate({
+        MPartType.findOne({
             _id: data._id,
-        }, {
-            $pull: {
-                material: data.materialId
-            },
-        }).exec(function (err, updatedData) {
+        }).exec(function (err, found) {
             if (err) {
                 console.log('**** error at deletePartTypeMaterial of MPartType.js ****', err);
                 callback(err, null);
-            } else if (_.isEmpty(updatedData)) {
+            } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
-                callback(null, updatedData);
+                EstimatePart.find({
+                    material: {
+                        $in: found.material
+                    }
+                }).exec(function (err, found1) {
+                    if (err) {
+                        console.log('**** error at function_name of MPartType.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(found1)) {
+                        MPartType.findOneAndUpdate({
+                            _id: data._id,
+                        }, {
+                            $pull: {
+                                material: data.materialId
+                            },
+                        }).exec(function (err, updatedData) {
+                            if (err) {
+                                console.log('**** error at function_name of MPartType.js ****', err);
+                                callback(err, null);
+                            } else if (_.isEmpty(updatedData)) {
+                                callback(null, 'noDataFound');
+                            } else {
+                                callback(null, 'records are updated');
+                            }
+                        });
+                    } else {
+                        callback(null, 'dependency of table Estimate Part');
+                    }
+                });
             }
         });
 
