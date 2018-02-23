@@ -48,11 +48,11 @@
                                                             <div class="row">
                                                                 <label class="control-label col-md-4">Negotiation:</label>
                                                                 <div class="col-md-3" style="padding-left:0 !important;">
-                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiation" ng-change="addCNOToCost()" class="form-control">
+                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiation" ng-change="addScalingFactorToCost(activeMarkup)" class="form-control">
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiationAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                    <input type="text" ng-model="estimteData.negotiationAmount | number : 2" class="form-control"
                                                                         disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
@@ -64,11 +64,11 @@
                                                             <div class="row">
                                                                 <label class="control-label  col-md-4">Commission: </label>
                                                                 <div class="col-md-3" style="padding-left:0 !important;">
-                                                                    <input type="text" name="comission" ng-model="estimteData.commission" ng-change="addCNOToCost()" class="form-control">
+                                                                    <input type="text" name="comission" ng-model="estimteData.commission" ng-change="addScalingFactorToCost(activeMarkup)" class="form-control">
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" name="comission" ng-model="estimteData.commissionAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                    <input type="text" ng-model="estimteData.commissionAmount | number : 2" class="form-control"
                                                                         disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
@@ -80,11 +80,11 @@
                                                             <div class="row">
                                                                 <label class="control-label  col-md-4">Other: </label>
                                                                 <div class="col-md-3" style="padding-left:0 !important;">
-                                                                    <input type="text" name="other" ng-model="estimteData.other" ng-change="addCNOToCost()" class="form-control">
+                                                                    <input type="text" name="other" ng-model="estimteData.other" ng-change="addScalingFactorToCost(activeMarkup)" class="form-control">
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" name="other" ng-model="estimteData.otherAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                    <input type="text" ng-model="estimteData.otherAmount | number : 2" class="form-control"
                                                                         disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
@@ -295,11 +295,11 @@
                                                             <div class="row">
                                                                 <label class="control-label col-md-4">Negotiation:</label>
                                                                 <div class="col-md-3" style="padding-left:0 !important;">
-                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiation" ng-change="addCNOToCost()" class="form-control">
+                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiation" ng-change="addScalingFactorToCost(activeMarkup)" class="form-control">
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiationAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                    <input type="text" ng-model="estimteData.negotiationAmount | number : 2" class="form-control"
                                                                         disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
@@ -311,11 +311,11 @@
                                                             <div class="row">
                                                                 <label class="control-label  col-md-4">Commission: </label>
                                                                 <div class="col-md-3" style="padding-left:0 !important;">
-                                                                    <input type="text" name="comission" ng-model="estimteData.commission" ng-change="addCNOToCost()" class="form-control">
+                                                                    <input type="text" name="comission" ng-model="estimteData.commission" ng-change="addScalingFactorToCost(activeMarkup)" class="form-control">
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" name="comission" ng-model="estimteData.commissionAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                    <input type="text" ng-model="estimteData.commissionAmount | number : 2" class="form-control"
                                                                         disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
@@ -327,11 +327,11 @@
                                                             <div class="row">
                                                                 <label class="control-label  col-md-4">Other: </label>
                                                                 <div class="col-md-3" style="padding-left:0 !important;">
-                                                                    <input type="text" name="other" ng-model="estimteData.other" ng-change="addCNOToCost()" class="form-control">
+                                                                    <input type="text" name="other" ng-model="estimteData.other" ng-change="addScalingFactorToCost(activeMarkup)" class="form-control">
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" name="other" ng-model="estimteData.otherAmount | number : 2" ng-change="addCNOToCost()" class="form-control"
+                                                                    <input type="text" ng-model="estimteData.otherAmount | number : 2" class="form-control"
                                                                         disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
