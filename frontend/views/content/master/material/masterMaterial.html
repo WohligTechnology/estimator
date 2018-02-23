@@ -57,7 +57,7 @@
                                             <i class="fa fa-pencil btn-warning" title="Edit Material"></i>
                                         </span>
                                         <!-- delete material -->
-                                        <span ng-click="deleteMaterialModal(m._id,'deleteMaterial')" class="materialDeleteIcon">
+                                        <span ng-click="deleteMaterialModal(m._id,msc._id,'deleteMaterial')" class="materialDeleteIcon">
                                             <i class="fa fa-trash-o btn-danger" title="Delete Material"></i>
                                         </span>
                                     </li>
@@ -149,7 +149,7 @@
                                     <i class="fa fa-pencil" title="Edit All Material"></i>
                             </div>
                             <div class="btn-group pull-right">
-                                <button ng-hide="bulkMaterials.length == 0" class="btn red" ng-click="deleteBulkMaterialsModal(bulkMaterials, 'deleteBulkMaterials')">
+                                <button ng-hide="bulkMaterials.length == 0" class="btn red" ng-click="deleteBulkMaterialsModal(subCatMaterials[0].materialSubCategory, bulkMaterials, 'deleteBulkMaterials')">
                                     <i class="fa fa-trash-o" title="Delete Selected Material"></i>
                                 </button>
                             </div>
@@ -210,46 +210,46 @@
                                     </td>
                                     <td>{{$index+1}}</td>
                                     <td>
-                                        <input type="text" ng-model="m.materialName" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
+                                        <input type="text" ng-model="m.materialName" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m,subCatMaterials[0].materialSubCategory)"
                                         />
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="m.typicalRatePerKg" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
+                                        <input type="text" ng-model="m.typicalRatePerKg" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, m.materialSubCategory)"
                                         />
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="m.weightPerUnit" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
+                                        <input type="text" ng-model="m.weightPerUnit" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, m.materialSubCategory)"
                                         />
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="m.density" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
+                                        <input type="text" ng-model="m.density" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, m.materialSubCategory)"
                                         />
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="m.rollingIndex" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
+                                        <input type="text" ng-model="m.rollingIndex" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, m.materialSubCategory)"
                                         />
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="m.cuttingIndex" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
+                                        <input type="text" ng-model="m.cuttingIndex" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, m.materialSubCategory)"
                                         />
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="m.bendingIndex" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
+                                        <input type="text" ng-model="m.bendingIndex" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, m.materialSubCategory)"
                                         />
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="m.fabrictionIndex" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, materialSubCategory)"
+                                        <input type="text" ng-model="m.fabrictionIndex" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, m.materialSubCategory)"
                                         />
                                     </td>
                                     <td>
-                                            <input type="text" ng-model="m.efficiency" ng-disabled="editMaterialId != m._id && !editAll" class="form-control"
-                                            ng-change="addOrEditMaterial(m, materialSubCategory)" />
+                                        <input type="text" ng-model="m.efficiency" ng-disabled="editMaterialId != m._id && !editAll" class="form-control" ng-change="addOrEditMaterial(m, m.materialSubCategory)"
+                                        />
                                     </td>
                                     <td>
                                         <span class="label label-sm label-success" id="add_space" ng-click="editMaterial(m._id)">
                                             <i class="fa fa-pencil" title="Edit Material"></i>
                                         </span>
-                                        <span class="label label-sm label-danger" id="add_space" ng-click="deleteMaterialModal(m._id, 'deleteMaterial')">
+                                        <span class="label label-sm label-danger" id="add_space" ng-click="deleteMaterialModal(m._id,subCatMaterials[0].materialSubCategory, 'deleteMaterial')">
                                             <i class="fa fa-trash" title="Delete Material"></i>
                                         </span>
                                     </td>
