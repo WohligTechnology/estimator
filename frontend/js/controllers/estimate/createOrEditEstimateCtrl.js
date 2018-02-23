@@ -342,6 +342,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.disablePartFields.disableAllMaterial = true;
     //$scope.disablePartFields.disableMaterial = true;
     $scope.estimatePartObj.selectedCustomMaterial = materialObj;
+    $scope.estimatePartObj.thickness = parseFloat(materialObj.thickness);
     $scope.updatePartCalculation();
   }
 
@@ -916,7 +917,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       };
       $scope.showSaveBtn = data.saveBtn;
       $scope.showEditBtn = data.editBtn;
- 
+
       //- to calculate average cost to display
       if (operation == 'update') {
         $scope.calAvgCost(customMaterial);
@@ -930,15 +931,33 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     });
   }
   //- to add or edit custom material
-  $scope.addOrEditCustomMaterial = function (customMaterialdata) {
+  $scope.addOrEditCustomMaterial = function (customMaterialdata, type) {
+    if (type == 'favourite') {
+      customMaterialdata.favourite = false;
+    }
     createOrEditEstimateService.createCustomMaterial(customMaterialdata, function (data) {
-      if (data.value) {
-        $scope.getAllMaterialData();
-        toastr.success("Custom Material Added/Updated Successfully");
+      if (type == 'favourite') {
+        createOrEditEstimateService.getImportCustomMaterialData(function (data) {
+          if (data.value) {
+            if (data.data.length == 0) {
+              $scope.cancelModal();
+            } else {
+              $scope.favouriteCustomMaterial = data.data;
+              toastr.success("Custom Material removed from favourite list Successfully");
+            }
+          } else {
+            toastr.error("There is some error while deleting custom material");
+          }
+        });
       } else {
-        toatre.error('Custom Material is not added');
+        if (data.value) {
+          $scope.getAllMaterialData();
+          toastr.success("Custom Material Added/Updated Successfully");
+        } else {
+          toatre.error('Custom Material is not added');
+        }
+        $scope.cancelModal();
       }
-      $scope.cancelModal();
     });
   }
   //- to get cost of base metal
@@ -977,10 +996,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     var temp1 = temp2 = 0;
     //- to calculate density
     var temp3 = 0;
+    customMaterial.thickness = 0
     customMaterial.hardFacingAlloys.agvRsPerSm = customMaterial.hardFacingAlloys.agvRsPerKg = customMaterial.hardFacingAlloys.avgDensity = 0;
     angular.forEach(customMaterial.hardFacingAlloys,  function (record) {
       customMaterial.hardFacingAlloys.agvRsPerSm += record.costOfDepRsPerSm;
       customMaterial.hardFacingAlloys.agvRsPerKg += record.costOfDepRsPerKg;
+      customMaterial.thickness += parseFloat(record.thickness);
       temp1 += parseFloat(record.thickness) * record.alloy.density;
       temp2 += parseFloat(record.thickness);
     });
@@ -1002,6 +1023,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- calculate total density
     temp3 += parseFloat(customMaterial.basePlate.thickness) * customMaterial.basePlate.baseMetal.density;
     customMaterial.density = temp3 / temp2;
+    customMaterial.thickness += parseFloat(customMaterial.basePlate.thickness);
   }
   //-to add a hard facing alloy
   $scope.addNewLayer = function (hardFacingAlloys) {
@@ -1085,6 +1107,24 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         toastr.error('Custom material is not imported');
       }
       $scope.cancelModal();
+    });
+  }
+  //- to display list of all favourite custom materials
+  $scope.favouriteCustoMaterialModal = function () {
+    createOrEditEstimateService.getImportCustomMaterialData(function (data) {
+      if (data.value) {
+        if (data.data.length == 0) {
+          toastr.info("Custom material favourite list is empty");
+        } else {
+          $scope.favouriteCustomMaterial = data.data;
+          $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/estimate/estimateModal/favouriteCustomMaterials.html',
+            scope: $scope,
+            size: 'lg',
+          });
+        }
+      }
     });
   }
   //- ..................................Custom Material Module end.......................... -//

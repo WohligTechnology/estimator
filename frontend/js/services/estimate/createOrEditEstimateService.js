@@ -2632,6 +2632,22 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			callback(data);
 		});
 	}
+	//- to delete favourite custom material
+	this.deleteFavouriteCustomMaterial = function (customMaterialId, estimateId, callback) {
+		var idsArray = [];
+		if (angular.isDefined(customMaterialIds)) {
+			angular.forEach(customMaterialIds, function (record) {
+				idsArray.push(record);
+			});
+		} else {
+			idsArray.push(customMaterialId);
+		}
+		NavigationService.delete('Web/delRestrictions/CustomMaterial', {
+			idsArray: idsArray
+		}, function (data) {
+			callback(data);
+		});
+	}
 	//- to get all favourite custom material 
 	this.getImportCustomMaterialData = function (callback) {
 		NavigationService.boxCall('CustomMaterial/getAllFavouriteCm', function (data) {

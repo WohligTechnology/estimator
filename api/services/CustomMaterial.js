@@ -187,7 +187,7 @@ var model = {
     getAllFavouriteCm: function (data, callback) {
         CustomMaterial.find({
             favourite: true
-        }).exec(function (err, found) {
+        }).deepPopulate('difficultyFactor hardFacingAlloys.alloy basePlate.baseMetal').exec(function (err, found) {
             if (err) {
                 console.log('**** error at function_name of CustomMaterial.js ****', err);
                 callback(err, null);

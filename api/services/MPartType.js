@@ -136,11 +136,10 @@ var model = {
             } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
-                EstimatePart.find({
-                    material: {
-                        $in: found.material
-                    }
+                EstimatePart.findOne({
+                    material:  data.material
                 }).exec(function (err, found1) {
+                    console.log('**** found1 found1 ****',found1);
                     if (err) {
                         console.log('**** error at function_name of MPartType.js ****', err);
                         callback(err, null);
@@ -149,7 +148,7 @@ var model = {
                             _id: data._id,
                         }, {
                             $pull: {
-                                material: data.materialId
+                                material: data.material
                             },
                         }).exec(function (err, updatedData) {
                             if (err) {
@@ -158,11 +157,11 @@ var model = {
                             } else if (_.isEmpty(updatedData)) {
                                 callback(null, 'noDataFound');
                             } else {
-                                callback(null, 'records are updated');
+                                callback(null, 'Records Are Updated');
                             }
                         });
                     } else {
-                        callback(null, 'dependency of table Estimate Part');
+                        callback(null, 'Dependency of Table Estimate Part');
                     }
                 });
             }

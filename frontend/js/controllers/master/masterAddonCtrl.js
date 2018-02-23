@@ -59,7 +59,8 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
           showQuantityFields: true,
           showRateFields: true,
           rate: {},
-          quantity: {}
+          quantity: {},
+          allowAtAssSubAss: false
         }
         $scope.selectedMatCat = "";
         $scope.selectedMatSubCat = "";

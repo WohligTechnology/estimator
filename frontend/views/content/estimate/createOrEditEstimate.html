@@ -254,6 +254,9 @@
                                             <span ng-click="importCustoMaterialModal()" class="assemblyEditIcon">
                                                 <i class="fa fa-files-o btn-success" title="Import Custom Material"></i>
                                             </span>
+                                            <span ng-click="favouriteCustoMaterialModal()" class="subAssemblyDeleteIcon">
+                                                    <i class="fa fa-list btn-primary" title="Favourite Custom Material List"></i>
+                                                </span>
                                             <ul class="tree_animation">
                                                 <li ng-repeat="cm in customMaterial track by $index">
                                                     <span ng-click="getAllMaterialData('customMaterial')" class="tree_label">{{cm.customMaterialName | capitalize}}

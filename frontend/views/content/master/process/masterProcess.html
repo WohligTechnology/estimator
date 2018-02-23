@@ -173,12 +173,7 @@
                                     <td> {{process.quantity.finalUom.uomName}}</td>
                                     <td> {{process.quantity.utilization}}</td>
                                     <td> {{process.quantity.contengncyOrWastage}}</td>
-                                    <td>
-                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                            <input type="checkbox" id="checkAll" ng-model="process.allowAtAssSubAss" />
-                                            <span></span>
-                                        </label>
-                                    </td>
+                                    <td>{{process.allowAtAssSubAss}} </td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" ng-click="addOrEditProcessTypeModal('update',process)">
                                             <i class="fa fa-pencil" title="Edit Process Type"></i>

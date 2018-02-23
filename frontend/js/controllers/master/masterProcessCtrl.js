@@ -190,7 +190,8 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
                     showFields: true,
                     showMulFact: true,
                     rate: {},
-                    quantity: {}
+                    quantity: {},
+                    allowAtAssSubAss: false
                 }
                 $scope.selectedProcessCat = "";
                 $scope.selectedRateMUlFactUom = "";
