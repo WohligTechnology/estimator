@@ -9,18 +9,6 @@ var controller = {
                 data: {
                     message: 'Invalid Request'
                 }
-            });
-        }
-    },
-    delRestrictionOfMPartTypeCat: function (req, res) {
-        if (req.body) {
-            MPartTypeCat.delRestrictionOfMPartTypeCat(req.body, res.callback);
-        } else {
-            res.json({
-                value: false,
-                data: {
-                    message: 'Invalid Request'
-                }
             })
         }
     },

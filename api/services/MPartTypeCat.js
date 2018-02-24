@@ -31,8 +31,8 @@ var model = {
             }
         });
     },
-    // what this function will do ?
-    // req data --> ?
+
+    //- req data --> ? part type cat _id
     delRestrictionOfMPartTypeCat: function (data, callback) {
         MPartTypeCat.findOne({
             _id: data._id
@@ -70,14 +70,14 @@ var model = {
                             function (callback) {
                                 MPartPresets.remove({
                                     partType: found.partTypes
-                                }).exec(function (err, mPartPresetsData) {
+                                }).exec(function (err, mPartPresetsRemoved) {
                                     if (err) {
                                         console.log('**** error at function_name of MPartTypeCat.js ****', err);
                                         callback(err, null);
-                                    } else if (_.isEmpty(mPartPresetsData)) {
+                                    } else if (_.isEmpty(mPartPresetsRemoved)) {
                                         callback(null, 'noDataFound');
                                     } else {
-                                        callback(null, mPartPresetsData);
+                                        callback(null, mPartPresetsRemoved);
                                     }
                                 });
                             },
