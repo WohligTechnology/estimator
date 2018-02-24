@@ -347,6 +347,25 @@ module.exports = {
                 }
             ];
         }
+        if (modelName == 'MDifficultyFactor') {
+            var myModel = [{
+                    models: "CustomMaterial",
+                    fieldName: ["difficultyFactor"]
+                },
+                {
+                    models: "Estimate",
+                    fieldName: ["estimateId"]
+                },
+                {
+                    models: "MMaterial",
+                    fieldName: ["hardFacingAlloys.alloy"]
+                },
+                {
+                    models: "MMaterial",
+                    fieldName: ["basePlate.baseMetal"]
+                }
+            ];
+        }
         var allDependency = [];
         async.eachSeries(req.body.idsArray, function (ids, callback) {
             async.eachSeries(myModel, function (m, callback) {
