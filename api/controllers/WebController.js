@@ -193,7 +193,12 @@ module.exports = {
         // }
 
         if (modelName == 'MMaterial') {
-            var myModel = [{
+            var myModel = [
+                {
+                    models: "MMaterialSubCat",
+                    fieldName: ["materials"],
+                    base: true
+                },{
                     models: "EstimateAddons",
                     fieldName: ["addonItem"]
                 },
@@ -201,11 +206,7 @@ module.exports = {
                     models: "EstimatePart",
                     fieldName: ["material", "customMaterial"]
                 },
-                {
-                    models: "MMaterialSubCat",
-                    fieldName: ["materials"],
-                    base: true
-                },
+                
                 {
                     models: "MPartType",
                     fieldName: ["material"]
@@ -224,7 +225,12 @@ module.exports = {
             ];
         }
         if (modelName == 'MMaterialSubCat') {
-            var myModel = [{
+            var myModel = [
+                {
+                    models: "MMaterialCat",
+                    fieldName: ["subCat"],
+                    base: true
+                },{
                     models: "MAddonType",
                     fieldName: ["materialSubCat"]
                 },
@@ -232,11 +238,7 @@ module.exports = {
                     models: "MMaterial",
                     fieldName: ["materialSubCategory"]
                 },
-                {
-                    models: "MMaterialCat",
-                    fieldName: ["subCat"],
-                    base: true
-                },
+     
 
             ];
         }
@@ -377,7 +379,7 @@ module.exports = {
                             callback();
                         }
                     });
-            }, function (err) {
+            }, function (err) {                
                 if (err) {
                     console.log('**** error at delRestrictions ****', err);
                 } else if (_.isEmpty(allDependency)) {
@@ -393,16 +395,17 @@ module.exports = {
                             callback(null, found1);
                         }
                     });
-                } else if (myModel[2].base == true && allDependency.length <2) {
+
+                } else if (myModel[0].base == true && allDependency.length <2) {                    
                     // async.eachSeries(myModel[2], function (m, callback) {
                     var myId = _.map(allDependency, '_id._id');
-                    this[myModel[2].models].findOneAndUpdate({
+                    this[myModel[0].models].findOneAndUpdate({
                         _id: {
                             $in: myId
                         }
                     }, {
                         $pull: {
-                            [myModel[2].fieldName]: ids
+                            [myModel[0].fieldName]: ids
                         },
                     }).exec(function (err, updatedData) {
                         if (err) {
