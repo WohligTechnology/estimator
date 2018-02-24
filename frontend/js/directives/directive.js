@@ -61,7 +61,8 @@ myApp
                 isMultiple: '=isMultiple',
                 icon: '@icon',
                 width: '@width',
-                height: '@height'
+                height: '@height',
+                totalWidth : '@totalWidth'
             },
             templateUrl: '/views/directive/uploadAllFiles.html',
 

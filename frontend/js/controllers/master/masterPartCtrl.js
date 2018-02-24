@@ -167,6 +167,9 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
             $scope.selectedShape = data.selectedShape;
             $scope.showSaveBtn = data.saveBtn;
             $scope.showEditBtn = data.editBtn;
+            _.map(data.selectedShape.variable, function (n) {
+                n.varValue = 0;
+            });
         });
     }
 

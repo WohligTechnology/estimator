@@ -7060,6 +7060,7 @@ tbody.collapse.in {
     overflow-y: auto; }
   @media (min-width: 768px) {
     .navbar-collapse {
+      width: auto;
       border-top: 0;
       box-shadow: none; }
       .navbar-collapse.collapse {
@@ -9289,7 +9290,7 @@ header {
       -ms-flex-direction: row;
           flex-direction: row; }
   .leftPosition img {
-    margin-right: 0.5em; }
+    margin-right: 0.5 em; }
 
 .rightPosition {
   display: -webkit-box;
@@ -9531,7 +9532,7 @@ body {
 
 .overflow-scroll {
   overflow-y: scroll;
-  height: 130px; }
+  height: 200px; }
 
 .material-plus {
   right: 11%;
@@ -9539,7 +9540,7 @@ body {
 
 .tree-overflow {
   overflow-y: scroll;
-  max-height: 200px; }
+  max-height: 300px; }
 
 .inside-custom-table td {
   padding: 6px 0px; }
@@ -9720,6 +9721,10 @@ body {
 .redColor {
   color: red; }
 
+.treeActive {
+  color: #e7505a;
+  font-weight: bold; }
+
 .mt-checkbox.mt-checkbox-outline > input:checked ~ span {
   border-color: #548391 !important;
   background: #3d4957 !important;
@@ -9802,11 +9807,21 @@ textarea.ng-valid.ng-dirty {
   top: unset !important; }
 
 .myQquick-nav {
-  position: absolute;
-  z-index: 1012811111111;
+  position: absolute !important;
+  z-index: 1012811111111 !important;
   right: 10px !important;
-  pointer-events: none;
+  pointer-events: none !important;
   top: unset !important; }
+
+.btnActive {
+  color: #333;
+  background-color: #d4d4d4;
+  border-bottom: 2px solid #66c7d4 !important;
+  padding-bottom: 2px; }
+
+.alignAlloy {
+  margin-left: -2px !important;
+  margin-right: -2px !important; }
 
 #fancybox-loading,
 .fancybox-close,

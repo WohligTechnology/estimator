@@ -81,6 +81,20 @@ var model = {
                                     }
                                 });
                             },
+                            function (callback) {
+                                MPartTypeCat.remove({
+                                    partTypes: found.partTypes
+                                }).exec(function (err, mPartTypeCatRemoved) {
+                                    if (err) {
+                                        console.log('**** error at function_name of MPartTypeCat.js ****', err);
+                                        callback(err, null);
+                                    } else if (_.isEmpty(mPartTypeCatRemoved)) {
+                                        callback(null, 'noDataFound');
+                                    } else {
+                                        callback(null, mPartTypeCatRemoved);
+                                    }
+                                });
+                            },
                         ], function (err, finalResults) {
                             if (err) {
                                 console.log('********** error at final response of async.parallel  MPartTypeCat.js ************', err);

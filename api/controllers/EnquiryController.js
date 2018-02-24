@@ -138,10 +138,9 @@ var controller = {
         }
     },
 
-    getOne: function (req, res) {
+    getOneEnquiry: function (req, res) {
         if (req.body) {
-            // please remove Controller.js from below line
-            Enquiry.getOne(req.body, res.callback);
+            Enquiry.getOneEnquiry(req.body, res.callback);
         } else {
             res.json({
                 value: false,

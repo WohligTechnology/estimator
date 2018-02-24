@@ -3,7 +3,7 @@ myApp.service('createOrEditEnquiryService', function ($http, $state, NavigationS
   this.getEnquiryObj = function (id, callback) {
     var temp = {};
     if (angular.isDefined(id)) {
-      NavigationService.apiCall('Enquiry/getOne', {
+      NavigationService.apiCall('Enquiry/getOneEnquiry', {
         _id: id
       }, function (data) {
         if (data.data != "ObjectId Invalid") {

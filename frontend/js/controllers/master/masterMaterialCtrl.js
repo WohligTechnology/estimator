@@ -151,7 +151,14 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
                 //toastr.success('Material added/updated successfully');
                 //$scope.getMaterialData();
                 $scope.getSubCatMaterials(materialSubCatId);
-                if (angular.isUndefined(type)) {
+                if (angular.isDefined(type)) {
+                    if (type == 'duplicate') {
+                        toastr.success('Material Duplicated Successfully');
+                    } else if (type != 'edit') {
+                        toastr.success("Material added/updated Successfully");
+                    }
+                } else {
+                    toastr.success("Material added/updated succesfully");
                     $scope.cancelModal();
                 }
             } else {

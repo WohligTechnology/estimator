@@ -174,9 +174,9 @@ module.exports = {
                 }
             ];
         }
-        if (modelName == 'MExtras') {
+        if (modelName == 'MExtra') {
             var myModel = [{
-                    models: "EstimateExtra",
+                    models: "EstimateExtras",
                     fieldName: ["extraItem"]
                 },
                 {
@@ -272,9 +272,10 @@ module.exports = {
         }
         if (modelName == 'MProcessCat') {
             var myModel = [{
-                models: "MProcessItem",
-                fieldName: ["processCat"]
-            }, {
+            //     models: "MProcessItem",
+            //     fieldName: ["processCat"]
+            // },
+            //  {
                 models: "MProcessType",
                 fieldName: ["processCat"]
             }];
@@ -289,11 +290,11 @@ module.exports = {
             var myModel = [{
                     models: "EstimateProcessing",
                     fieldName: ["processItem"]
-                },
-                {
-                    models: "MProcessCat",
-                    fieldName: ["processItems"]
                 }
+                // {
+                //     models: "MProcessCat",
+                //     fieldName: ["processItems"]
+                // }
             ];
         }
         if (modelName == 'MProcessType') {
@@ -339,7 +340,7 @@ module.exports = {
                 },
                 {
                     models: "Enquiry",
-                    fieldName: ["estimator"]
+                    fieldName: ["enquiryDetails.estimator"]
                 },
                 {
                     models: "Estimate",

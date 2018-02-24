@@ -1,4 +1,4 @@
-<div style="width: 500px!important;" class="form-group horizontal_scroll" ng-class="{'leftPosition':fileLocation=='left' || icon,'rightPosition':fileLocation=='right', 'topPosition':fileLocation=='top', 'iconWidth':icon}">
+<div style="width: {{totalWidth}}px!important;" class="form-group horizontal_scroll" ng-class="{'leftPosition':fileLocation=='left' || icon,'rightPosition':fileLocation=='right', 'topPosition':fileLocation=='top', 'iconWidth':icon}">
     <!-- In case of single file -->
     <div class="clearfix" ng-if="!isMultiple">
         <div class="img-box" style="float:left;">

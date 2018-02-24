@@ -77,7 +77,7 @@ myApp.service('masterPartService', function (NavigationService) {
             _id: partTypeCatId
         };
 
-        NavigationService.apiCall('MPartTypeCat/delete', deletePTCatObj, function (data) {
+        NavigationService.apiCall('MPartTypeCat/delRestrictionOfMPartTypeCat', deletePTCatObj, function (data) {
             callback(data);
         });
     }
@@ -145,6 +145,16 @@ myApp.service('masterPartService', function (NavigationService) {
                 });
             } else {
                 presetData.selectedShape  = data.data[0].shape;
+                //- to get uom of variables
+                presetData.selectedShape.variable = data.data[0].variable;
+                presetData.thickness = presetData.selectedShape.thickness;
+                presetData.length = presetData.selectedShape.length;
+                presetData.wastage = presetData.selectedShape.wastage;
+                presetData.formFactor = presetData.selectedShape.formFactor;
+                presetData.sizeFactor = presetData.selectedShape.sizeFactor;
+                if (presetData.selectedShape.image) {
+                    presetData.image = presetData.selectedShape.image.file;
+                }
                 NavigationService.boxCall('MShape/getMShapeData', function (sapeData) {
                     presetData.shapeData = sapeData.data;
                     NavigationService.apiCall('MPartType/getOne', obj, function (partTypeData) {
