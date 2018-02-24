@@ -345,6 +345,25 @@ module.exports = {
                 }
             ];
         }
+        if (modelName == 'MDifficultyFactor') {
+            var myModel = [{
+                    models: "CustomMaterial",
+                    fieldName: ["difficultyFactor"]
+                },
+                {
+                    models: "Estimate",
+                    fieldName: ["estimateId"]
+                },
+                {
+                    models: "MMaterial",
+                    fieldName: ["hardFacingAlloys.alloy"]
+                },
+                {
+                    models: "MMaterial",
+                    fieldName: ["basePlate.baseMetal"]
+                }
+            ];
+        }
         var allDependency = [];
         async.eachSeries(req.body.idsArray, function (ids, callback) {
             async.eachSeries(myModel, function (m, callback) {
@@ -393,7 +412,7 @@ module.exports = {
                             callback(null, found1);
                         }
                     });
-                } else if (myModel[2].base == true && allDependency.length <2) {
+                } else if (myModel[2].base == true && allDependency.length < 2) {
                     // async.eachSeries(myModel[2], function (m, callback) {
                     var myId = _.map(allDependency, '_id._id');
                     this[myModel[2].models].findOneAndUpdate({

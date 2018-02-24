@@ -31,5 +31,22 @@ var model = {
             }
         });
     },
+    // what this function will do ?
+    // req data --> ?
+    delRestrictionOfMPartTypeCat: function (data, callback) {
+        MPartTypeCat.find({
+            partTypes: data.partTypes
+        }).exec(function (err, found) {
+            console.log('**** found found ****', found);
+            if (err) {
+                console.log('**** error at function_name of MPartTypeCat.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                callback(null, found);
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);

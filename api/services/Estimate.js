@@ -2795,7 +2795,7 @@ var model = {
                                                                         //     "PartQuantityTotal.Cost(Rs)": "",
                                                                         // });
                                                                         var row = worksheet.lastRow;
-                                                                        var rowsNum = 0
+                                                                        var rowsNum = 0;
                                                                         rowsNum = row._number;
 
                                                                         rowNumMoreOne = row._number + 1;
