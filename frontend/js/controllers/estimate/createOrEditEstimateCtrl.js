@@ -342,6 +342,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     $scope.disablePartFields.disableAllMaterial = true;
     //$scope.disablePartFields.disableMaterial = true;
     $scope.estimatePartObj.selectedCustomMaterial = materialObj;
+    $scope.estimatePartObj.thickness = parseFloat(materialObj.thickness);
     $scope.updatePartCalculation();
   }
 
@@ -916,7 +917,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       };
       $scope.showSaveBtn = data.saveBtn;
       $scope.showEditBtn = data.editBtn;
- 
+
       //- to calculate average cost to display
       if (operation == 'update') {
         $scope.calAvgCost(customMaterial);
@@ -930,15 +931,33 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     });
   }
   //- to add or edit custom material
-  $scope.addOrEditCustomMaterial = function (customMaterialdata) {
+  $scope.addOrEditCustomMaterial = function (customMaterialdata, type) {
+    if (type == 'favourite') {
+      customMaterialdata.favourite = false;
+    }
     createOrEditEstimateService.createCustomMaterial(customMaterialdata, function (data) {
-      if (data.value) {
-        $scope.getAllMaterialData();
-        toastr.success("Custom Material Added/Updated Successfully");
+      if (type == 'favourite') {
+        createOrEditEstimateService.getImportCustomMaterialData(function (data) {
+          if (data.value) {
+            if (data.data.length == 0) {
+              $scope.cancelModal();
+            } else {
+              $scope.favouriteCustomMaterial = data.data;
+              toastr.success("Custom Material removed from favourite list Successfully");
+            }
+          } else {
+            toastr.error("There is some error while deleting custom material");
+          }
+        });
       } else {
-        toatre.error('Custom Material is not added');
+        if (data.value) {
+          $scope.getAllMaterialData();
+          toastr.success("Custom Material Added/Updated Successfully");
+        } else {
+          toatre.error('Custom Material is not added');
+        }
+        $scope.cancelModal();
       }
-      $scope.cancelModal();
     });
   }
   //- to get cost of base metal
@@ -977,10 +996,12 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     var temp1 = temp2 = 0;
     //- to calculate density
     var temp3 = 0;
+    customMaterial.thickness = 0
     customMaterial.hardFacingAlloys.agvRsPerSm = customMaterial.hardFacingAlloys.agvRsPerKg = customMaterial.hardFacingAlloys.avgDensity = 0;
     angular.forEach(customMaterial.hardFacingAlloys,  function (record) {
       customMaterial.hardFacingAlloys.agvRsPerSm += record.costOfDepRsPerSm;
       customMaterial.hardFacingAlloys.agvRsPerKg += record.costOfDepRsPerKg;
+      customMaterial.thickness += parseFloat(record.thickness);
       temp1 += parseFloat(record.thickness) * record.alloy.density;
       temp2 += parseFloat(record.thickness);
     });
@@ -1002,6 +1023,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     //- calculate total density
     temp3 += parseFloat(customMaterial.basePlate.thickness) * customMaterial.basePlate.baseMetal.density;
     customMaterial.density = temp3 / temp2;
+    customMaterial.thickness += parseFloat(customMaterial.basePlate.thickness);
   }
   //-to add a hard facing alloy
   $scope.addNewLayer = function (hardFacingAlloys) {
@@ -1085,6 +1107,24 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         toastr.error('Custom material is not imported');
       }
       $scope.cancelModal();
+    });
+  }
+  //- to display list of all favourite custom materials
+  $scope.favouriteCustoMaterialModal = function () {
+    createOrEditEstimateService.getImportCustomMaterialData(function (data) {
+      if (data.value) {
+        if (data.data.length == 0) {
+          toastr.info("Custom material favourite list is empty");
+        } else {
+          $scope.favouriteCustomMaterial = data.data;
+          $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/content/estimate/estimateModal/favouriteCustomMaterials.html',
+            scope: $scope,
+            size: 'lg',
+          });
+        }
+      }
     });
   }
   //- ..................................Custom Material Module end.......................... -//
@@ -1318,19 +1358,35 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- get done with all calculation dependent on processTYpe
   $scope.getSelectedProessType = function (proTypeObj, subAssemblyId, partId) {
     createOrEditEstimateService.getSelectedProessType(proTypeObj, subAssemblyId, partId, function (data) {
-      if (!isNaN(parseFloat(data.thickness))) {
-        $scope.partProcessingObj.thickness = parseFloat(data.thickness);
+      if (!isNaN(parseFloat(data.t))) {
+        $scope.partProcessingObj.thickness = parseFloat(data.t);
         var t = $scope.partProcessingObj.thickness;
       }
+      if (!isNaN(parseFloat(data.l))) {
+        $scope.partProcessingObj.length = parseFloat(data.l);
+        var l = $scope.partProcessingObj.length;
+      }
+      if (!isNaN(parseFloat(data.wtg))) {
+        $scope.partProcessingObj.wastage = parseFloat(data.wtg);
+        var wtg = $scope.partProcessingObj.wastage;
+      }
+      $scope.disableProcessingFields.disableProcessItem = false;
+      $scope.partProcessingObj.processingItemData = data.tempArray;
+      $scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom.uomName;
+      $scope.partProcessingObj.finalUom = $scope.partProcessingObj.selectedProcessingType.quantity.finalUom.uomName;
       if (proTypeObj.showRateFields) {
         $scope.partProcessingObj.showMulFact = true;
       } else {
         $scope.partProcessingObj.showMulFact = false;
       }
       if (proTypeObj.showQuantityFields) {
-        if (!proTypeObj.showRateFields) {
+        var p = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.perimeter);
+        var sma = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.sheetMetalArea);
+        var sa = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.surfaceArea);
+        var gwt = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.grossWeight);
+        var nwt = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.netWeight);
+ 
           $scope.partProcessingObj.selectedProcessingType.quantity.mulfact = eval($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-        }
         $scope.partProcessingObj.quantity.utilization = proTypeObj.quantity.utilization;
         $scope.partProcessingObj.quantity.contengncyOrWastage = proTypeObj.quantity.contengncyOrWastage;
         $scope.partProcessingObj.showFields = true;
@@ -1343,24 +1399,19 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         $scope.partProcessingObj.quantity.linkedKeyValue.keyVariable = tempLinkedKeyValue;
 
         if (tempLinkedKeyValue == "Perimeter") {
-          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.perimeter) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = p * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
         } else if (tempLinkedKeyValue == "SMA") {
-          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.sheetMetalArea) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = sma * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
         } else if (tempLinkedKeyValue == "SA") {
-          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.surfaceArea) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-        } else if (tempLinkedKeyValue == "Gwt") {
-          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.grossWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = sa * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        } else if (tempLinkedKeyValue == "Gwt") {partProcessingObj
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = gwt * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
         } else if (tempLinkedKeyValue == "Nwt") {
-          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.netWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+          $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = nwt * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
         }
       } else {
         $scope.partProcessingObj.showFields = false;
       }
-      $scope.disableProcessingFields.disableProcessItem = false;
-      $scope.partProcessingObj.processingItemData = data;
-      $scope.partProcessingObj.rate.uom = $scope.partProcessingObj.selectedProcessingType.rate.uom.uomName;
-
-      $scope.partProcessingObj.finalUom = $scope.partProcessingObj.selectedProcessingType.quantity.finalUom.uomName;
       $scope.updateProcessingCost();
       // $scope.partProcessingObj.totalCost = $scope.partProcessingObj.selectedProcessingType.quantity.totalQuantity * $scope.partProcessingObj.rate;
 
@@ -1376,28 +1427,38 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if (!isNaN(parseFloat($scope.partProcessingObj.thickness))) {
       var t = parseFloat($scope.partProcessingObj.thickness);
     }
+    if (!isNaN(parseFloat($scope.partProcessingObj.wastage))) {
+      var wtg = parseFloat($scope.partProcessingObj.wastage);
+    }
+    if (!isNaN(parseFloat($scope.partProcessingObj.length))) {
+      var l = parseFloat($scope.partProcessingObj.length);
+    }
+  
     $scope.partProcessingObj.selectedProcessingType.rate.mulFact = eval($scope.partProcessingObj.selectedProcessingType.rate.mulFact);
+    $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);    
     if ($scope.partProcessingObj.showFields) {
+      var p = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.perimeter);
+      var sma = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.sheetMetalArea);
+      var sa = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.surfaceArea);
+      var gwt = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.grossWeight);
+      var nwt = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.netWeight);
       $scope.partProcessingObj.selectedProcessingType.quantity.mulfact = eval($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
 
       //- get the value of selected linkedKeyValue of processType from part --> keyValueCalculation --> selected linkedKeyValue   
       var tempLinkedKeyValue = $scope.partProcessingObj.selectedProcessingType.quantity.linkedKeyValue;
 
       if (tempLinkedKeyValue == "Perimeter") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.perimeter) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = p * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
       } else if (tempLinkedKeyValue == "SMA") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.sheetMetalArea) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = sma * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
       } else if (tempLinkedKeyValue == "SA") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.surfaceArea) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = sa * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
       } else if (tempLinkedKeyValue == "Gwt") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.grossWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = gwt * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
       } else if (tempLinkedKeyValue == "Nwt") {
-        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.netWeight) * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+        $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = nwt * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
       }
     }
-
-    $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);
-
     $scope.updateProcessingCost();
 
   }
@@ -1730,7 +1791,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       }
       var tempObj = $scope.addonObj.linkedKeyValuesCalculation;
       if ((isNaN(parseFloat(tempObj.perimeter))) && (isNaN(parseFloat(tempObj.sheetMetalArea))) && (isNaN(parseFloat(tempObj.surfaceArea))) && (isNaN(parseFloat(tempObj.weight)))) {
-        toastr.warning('You cannot able to access it now');
+        toastr.warning('You cannot access it now');
       } else {
         if (operation == 'save') {
           //- get required data to add addon
@@ -1822,18 +1883,24 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
       var tempLinkedKeyValue = $scope.addonObj.selectedAddonType.quantity.linkedKey;
       $scope.addonObj.quantity.keyValue.keyVariable = tempLinkedKeyValue;
+      //- is there anything else  user will put in mul5fact while adding addon type
+      var p = parseFloat($scope.addonObj.linkedKeyValuesCalculation.perimeter);
+      var sma = parseFloat($scope.addonObj.linkedKeyValuesCalculation.SMA);
+      var sa = parseFloat($scope.addonObj.linkedKeyValuesCalculation.SA);
+      var gwt = parseFloat($scope.addonObj.linkedKeyValuesCalculation.grossWeight);
+      var nwt = parseFloat($scope.addonObj.linkedKeyValuesCalculation.netWeight);
       $scope.addonObj.selectedAddonType.quantity.mulFact = eval($scope.addonObj.selectedAddonType.quantity.mulFact);
       if (!isNaN(parseFloat($scope.addonObj.selectedAddonType.quantity.mulFact))) {
         if (tempLinkedKeyValue == "Perimeter") {
-          $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.perimeter) * parseFloat(selectedAddonType.quantity.mulFact);
+          $scope.addonObj.quantity.keyValue.keyValue = p * parseFloat(selectedAddonType.quantity.mulFact);
         } else if (tempLinkedKeyValue == "SMA") {
-          $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.SMA) * parseFloat(selectedAddonType.quantity.mulFact);
+          $scope.addonObj.quantity.keyValue.keyValue = sma * parseFloat(selectedAddonType.quantity.mulFact);
         } else if (tempLinkedKeyValue == "SA") {
-          $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.SA) * parseFloat(selectedAddonType.quantity.mulFact);
+          $scope.addonObj.quantity.keyValue.keyValue = sa * parseFloat(selectedAddonType.quantity.mulFact);
         } else if (tempLinkedKeyValue == "Gwt") {
-          $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.grossWeight) * parseFloat(selectedAddonType.quantity.mulFact);
+          $scope.addonObj.quantity.keyValue.keyValue = gwt * parseFloat(selectedAddonType.quantity.mulFact);
         } else if (tempLinkedKeyValue == "Nwt") {
-          $scope.addonObj.quantity.keyValue.keyValue = parseFloat($scope.addonObj.linkedKeyValuesCalculation.netWeight) * parseFloat(selectedAddonType.quantity.mulFact);
+          $scope.addonObj.quantity.keyValue.keyValue = nwt * parseFloat(selectedAddonType.quantity.mulFact);
         }
       }
     }

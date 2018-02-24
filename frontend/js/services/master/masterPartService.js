@@ -107,11 +107,9 @@ myApp.service('masterPartService', function (NavigationService) {
         });
     }
     this.deletePartType = function (partTypeId, callback) {
-        var deleteMatCat = {
-            _id: partTypeId
-        };
-
-        NavigationService.apiCall('MPartType/delete', deleteMatCat, function (data) {
+        var idsArray = [];
+        idsArray.push(partTypeId);
+        NavigationService.apiCall('Web/delRestrictions/MPartType', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }
@@ -265,10 +263,11 @@ myApp.service('masterPartService', function (NavigationService) {
         });
     }
     this.deletePartTypeMaterial = function (materialId, partTypeId, callback) {
-        idsArray = [];
-        idsArray.push(materialId);
-
-        NavigationService.apiCall('Web/delRestrictions/MPartType', {idsArray: idsArray}, function (data) {
+        var tempObj = {
+            _id: partTypeId,
+            material: materialId
+        }
+        NavigationService.apiCall('MPartType/deletePartTypeMaterial', tempObj, function (data) {
             callback(data);
         });
     }

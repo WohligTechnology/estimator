@@ -387,18 +387,10 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     $scope.deletePartTypeMaterial = function (materialId, partTypeId) {
         masterPartService.deletePartTypeMaterial(materialId, partTypeId, function (data) {
-            if (_.isEmpty(data.data)) {
-                toastr.success('Record deleted successfully');
+            if (data.value) {
+                toastr.success(data.data);
             } else {
-
-                // if(_.isEmpty(data.data)){
-                //     _.remove(selectedMaterial, function (Id) {
-                //         return Id == materialId;
-                //     });
-                //     toastr.success('Record deleted successfully');
-                // }
-                // else{
-                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+                toastr.error('There is some dependency');
             }
             $scope.cancelModal();
             $scope.getPartTypeSizes(partTypeId);

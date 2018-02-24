@@ -1455,14 +1455,23 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- called when user will select a processType while adding a processing at any level
 	this.getSelectedProessType = function (proTypeObj, subAssemblyId, partId, callback) {
-		var tempArray = [];
-		var t;
+		var tempObj = {
+			tempArray: []
+		};
 		if (angular.isDefined(subAssemblyId) && angular.isDefined(partId)) {
 			var subAssIndex = this.getSubAssemblyIndex(subAssemblyId);
 			var partIndex = this.getPartIndex(subAssIndex, partId);
-			t = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].thickness;
-			if (!isNaN(parseFloat(angular.isDefined(t)))) {
-				t = parseFloat(t);
+			tempObj.t = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].thickness;
+			tempObj.l = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].length;
+			tempObj.wtg = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].wastage;
+			if (!isNaN(parseFloat(angular.isDefined(tempObj.t)))) {
+				tempObj.t = parseFloat(tempObj.t);
+			}
+			if (!isNaN(parseFloat(angular.isDefined(tempObj.l)))) {
+				tempObj.l = parseFloat(tempObj.l);
+			}
+			if (!isNaN(parseFloat(angular.isDefined(tempObj.wtg)))) {
+				tempObj.wtg = parseFloat(tempObj.wtg);
 			}
 		}
 		if (proTypeObj.showRateFields) {
@@ -1470,14 +1479,12 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				_id: proTypeObj._id
 			}, function (data) {
 				if (data.value) {
-					tempArray = data.data.processItems;
+					tempObj.tempArray = data.data.processItems;
 				}
-				tempArray.thickness = t;
-				callback(tempArray);
+				callback(tempObj);
 			});
 		} else {
-			tempArray.thickness = t;
-			callback(tempArray);
+			callback(tempObj);
 		}
 	}
 
@@ -2618,6 +2625,22 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	}
 	//- to delete custom material
 	this.deleteCustomMaterial = function (customMaterialId, customMaterialIds, callback) {
+		var idsArray = [];
+		if (angular.isDefined(customMaterialIds)) {
+			angular.forEach(customMaterialIds, function (record) {
+				idsArray.push(record);
+			});
+		} else {
+			idsArray.push(customMaterialId);
+		}
+		NavigationService.delete('Web/delRestrictions/CustomMaterial', {
+			idsArray: idsArray
+		}, function (data) {
+			callback(data);
+		});
+	}
+	//- to delete favourite custom material
+	this.deleteFavouriteCustomMaterial = function (customMaterialId, estimateId, callback) {
 		var idsArray = [];
 		if (angular.isDefined(customMaterialIds)) {
 			angular.forEach(customMaterialIds, function (record) {

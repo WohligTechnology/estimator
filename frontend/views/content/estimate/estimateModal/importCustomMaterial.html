@@ -19,7 +19,7 @@
                             <div class="col-md-5">
                                 <!-- <select class="form-control" ng-options="c.customMaterialName for c in allCustMat" ng-model="customMat" autofocus required>
                                 </select> -->
-                                <select multiple class="form-control" ng-options="c.customMaterialName for c in allCustMat track by $index" ng-model="customMat">
+                                <select multiple class="form-control" ng-options="c.customMaterialName for c in allCustMat track by c._id" ng-model="customMat">
                                 </select>
                             </div>
                         </div>
