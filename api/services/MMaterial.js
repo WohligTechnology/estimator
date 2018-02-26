@@ -202,8 +202,99 @@ var model = {
             } else if (_.isEmpty(found)) {
                 callback(null, []);
             } else {
-                finalData = _.groupBy(found,"type");
+                finalData = _.groupBy(found, "type");
                 callback(null, finalData);
+            }
+        });
+    },
+    // del restrictions of Material to restrict and delete data on the basis of conditions
+    // req data --> id's arrays
+    delRestrctionsOfMaterial: function (data, callback) {
+        async.eachSeries(data.idsArray, function (ids, callback) {
+            MMaterial.findOne({
+                _id: {
+                    $in: data.ids
+                }
+            }).exec(function (err, matData) {
+                if (err) {
+                    console.log('**** error at function_name of MMaterial.js ****', err);
+                    callback(err, null);
+                } else if (_.isEmpty(matData)) {
+                    callback(null, 'noDataFound');
+                } else {
+                    EstimateAddons.find({
+                        addonItem: data._id
+                    }).exec(function (err, found) {
+                        if (err) {
+                            console.log('**** error at function_name of MMaterial.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(found)) {
+                            EstimatePart.find({
+                                material: data._id
+                            }).exec(function (err, partData) {
+                                if (err) {
+                                    console.log('**** error at function_name of MMaterial.js ****', err);
+                                    callback(err, null);
+                                } else if (_.isEmpty(partData)) {
+                                    async.parallel([
+                                            function (callback) {
+                                                MMaterialSubCat.findOneAndUpdate({
+                                                    materials: data._id,
+                                                }, {
+                                                    $pull: {
+                                                        materials: data._id
+                                                    }
+                                                }).exec(function (err, updatedData) {
+                                                    if (err) {
+                                                        console.log('**** error at function_name of MMaterial.js ****', err);
+                                                        callback(err, null);
+                                                    } else if (_.isEmpty(updatedData)) {
+                                                        callback(null, 'noDataFound');
+                                                    } else {
+                                                        callback(null, updatedData);
+                                                    }
+                                                });
+                                            },
+                                            function (callback) {
+                                                MMaterial.remove({
+                                                    _id: data._id
+                                                }).exec(function (err, found) {
+                                                    if (err) {
+                                                        console.log('**** error at function_name of MMaterial.js ****', err);
+                                                        callback(err, null);
+                                                    } else if (_.isEmpty(found)) {
+                                                        callback(null, 'noDataFound');
+                                                    } else {
+                                                        callback(null, found);
+                                                    }
+                                                });
+                                            },
+                                        ],
+                                        function (err, finalResults) {
+                                            if (err) {
+                                                console.log('********** error at final response of async.parallel  MMaterial.js ************', err);
+                                                callback(err, null);
+                                            } else if (_.isEmpty(finalResults)) {
+                                                callback(null, 'noDataFound');
+                                            } else {
+                                                callback(null, 'Records updated successfully');
+                                            }
+                                        });
+                                } else {
+                                    callback(null, 'dependecny of table Estimate Part');
+                                }
+                            });
+                        } else {
+                            callback(null, 'dependecy of table Estimate Addon');
+                        }
+                    });
+                }
+            });
+        }, function (err) {
+            if (err) {
+                console.log('***** error at final response of async.eachSeries in function_name of MMaterial.js*****', err);
+            } else {
+                callback();
             }
         });
     },
