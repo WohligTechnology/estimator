@@ -293,7 +293,8 @@ var model = {
                                         callback(null, removedMPartPresets);
                                     }
                                 });
-                            }
+                            },
+                            //-delete entry of mpart type from mpartcat table.
                         ], function (err, finalResults) {
                             if (err) {
                                 console.log('********** error at final response of async.parallel  MPartType.js ************', err);

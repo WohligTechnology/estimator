@@ -41,5 +41,74 @@ var model = {
             }
         });
     },
+
+    // req data --> _id?
+    delRestrictionsMProcessCat: function (data, callback) {
+        MProcessCat.findOne({
+            _id: data._id
+        }).lean().exec(function (err, processCatData) {
+            if (err) {
+                console.log('**** error at function_name of MProcessCat.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(processCatData)) {
+                callback(null, 'noDataFound');
+            } else {
+                MProcessType.findOne({
+                    processCat: data._id
+                }).lean().exec(function (err, processTypeData) {
+                    console.log('****processCatData processCatData ****', processCatData);
+                    if (err) {
+                        console.log('**** error at function_name of MProcessCat.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(processCatData)) {
+                        async.parallel([
+                            function (callback) {
+                                MProcessItem.remove({
+                                    _id: {
+                                        $in: processCatData.processItems
+                                    }
+                                }).exec(function (err, found) {
+                                    if (err) {
+                                        console.log('**** error at function_name of MProcessCat.js ****', err);
+                                        callback(err, null);
+                                    } else if (_.isEmpty(found)) {
+                                        callback(null, 'noDataFound');
+                                    } else {
+                                        callback(null, found);
+                                    }
+                                });
+                            },
+                            function (callback) {
+                                MProcessCat.remove({
+                                    _id: data._id
+                                }).exec(function (err, found) {
+                                    if (err) {
+                                        console.log('**** error at function_name of MProcessCat.js ****', err);
+                                        callback(err, null);
+                                    } else if (_.isEmpty(found)) {
+                                        callback(null, 'noDataFound');
+                                    } else {
+                                        callback(null, found);
+                                    }
+                                });
+                            },
+                        ], function (err, finalResults) {
+                            if (err) {
+                                console.log('********** error at final response of async.parallel  MProcessCat.js ************', err);
+                                callback(err, null);
+                            } else if (_.isEmpty(finalResults)) {
+                                callback(null, 'noDataFound');
+                            } else {
+                                callback(null, finalResults);
+                            }
+                        });
+
+                    } else {
+                        callback(null, 'dependency of table MProcessType');
+                    }
+                });
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);
