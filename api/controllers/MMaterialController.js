@@ -60,7 +60,7 @@ var controller = {
                 data: {
                     message: 'Invalid Request'
                 }
-            })
+            });
         }
     },
     getAllCustomeBaseOverlay: function (req, res) {
@@ -72,7 +72,7 @@ var controller = {
                 data: {
                     message: 'Invalid Request'
                 }
-            })
+            });
         }
     },
 };
