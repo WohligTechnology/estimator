@@ -102,7 +102,7 @@ var model = {
                             } else if (_.isEmpty(finalResults)) {
                                 callback(null, 'noDataFound');
                             } else {
-                                callback(null, finalResults);
+                                callback(null, 'Records deleted successfully');
                             }
                         });
                     } else {
