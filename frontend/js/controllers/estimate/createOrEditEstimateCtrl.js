@@ -1941,7 +1941,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       var fi = parseFloat(selectedMaterial.fabrictionIndex);
     }
     if (!isNaN(parseFloat(selectedMaterial.weightPerUnit))) {
-      var wup = parseFloat(selectedMaterial.weightPerUnit);
+      var wpu = parseFloat(selectedMaterial.weightPerUnit);
       //- get weight per unit field
       $scope.addonObj.weightPerUnit = wup;
     }

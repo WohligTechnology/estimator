@@ -89,11 +89,10 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     }
     $scope.deletePartTypeCat = function (partTypeCatId) {
         masterPartService.deletePartTypeCat(partTypeCatId, function (data) {
-            if (_.isEmpty(data.data)) {
-                toastr.success('Record deleted successfully');
+            if (data.value) {
+                toastr.info(data.data);
             } else {
-                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
-
+                toastr.error('There is some error');
             }
             $scope.getPartData();
             $scope.cancelModal();
@@ -129,10 +128,10 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
 
     $scope.deletePartType = function (partTypeId) {
         masterPartService.deletePartType(partTypeId, function (data) {
-            if (_.isEmpty(data.data)) {
-                toastr.success('Record deleted successfully');
+            if (data.value) {
+                toastr.info(data.data);
             } else {
-                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+                toastr.error("There is some error");
             }
             $scope.cancelModal();
             $scope.getPartData();

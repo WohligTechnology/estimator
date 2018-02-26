@@ -56,11 +56,11 @@ var model = {
                 MProcessType.findOne({
                     processCat: data._id
                 }).lean().exec(function (err, processTypeData) {
-                    console.log('****processCatData processCatData ****', processCatData);
+                    console.log('****processCatData processCatData ****', processTypeData);
                     if (err) {
                         console.log('**** error at function_name of MProcessCat.js ****', err);
                         callback(err, null);
-                    } else if (_.isEmpty(processCatData)) {
+                    } else if (_.isEmpty(processTypeData)) {
                         async.parallel([
                             function (callback) {
                                 MProcessItem.remove({
@@ -88,7 +88,7 @@ var model = {
                                     } else if (_.isEmpty(found)) {
                                         callback(null, 'noDataFound');
                                     } else {
-                                        callback(null, found);
+                                        callback(null, "Records updated successfuly");
                                     }
                                 });
                             },

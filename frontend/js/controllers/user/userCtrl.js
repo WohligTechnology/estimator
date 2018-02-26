@@ -75,6 +75,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, T
         } else {
           toastr.success('Record updated successfully');
         }
+        TemplateService.getUserDetails(userData);
       } else {
         toastr.error("Email must be unique");
       }

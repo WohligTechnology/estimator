@@ -98,10 +98,10 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessCat = function (processCatId) {
         masterProcessService.deleteProcessCat(processCatId, function (data) {
-            if (_.isEmpty(data.data)) {
-                toastr.success('Record deleted successfully');
+            if (data.value) {
+                toastr.info(data.data);
             } else {
-                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+                toastr.error('There is some error');
             }
             $scope.cancelModal();
             $scope.getProcessData();
@@ -145,10 +145,10 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessItem = function (processItemId) {
         masterProcessService.deleteProcessItem(processItemId, function (data) {
-            if (_.isEmpty(data.data)) {
-                toastr.success('Record deleted successfully');
+            if (data.value) {
+                toastr.info(data.data);
             } else {
-                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+                toastr.error('There is some error');
             }
             $scope.cancelModal();
             $scope.getProcessData();
@@ -244,10 +244,14 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     }
     $scope.deleteProcessType = function (processId) {
         masterProcessService.deleteProcessType(processId, function (data) {
-            if (_.isEmpty(data.data)) {
-                toastr.success('Record deleted successfully');
+            if (data.value) {
+                if (_.isEmpty(data.data)) {
+                    toastr.success('Record deleted successfully');
+                } else {
+                    toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+                }
             } else {
-                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+                toastr.error('There is some error');
             }
             $scope.cancelModal();
             $scope.getProcessTypeData();

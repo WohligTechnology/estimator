@@ -55,7 +55,7 @@ var model = {
     // allow to delete and restrictions for material sub category on the basis of conditions.
     // req data --> _id
     delRestrictionMMaterialSubCat: function (data, callback) {
-        MMaterialSubCat.find({
+        MMaterialSubCat.findOne({
             _id: data._id
         }).lean().exec(function (err, subCatData) {
             if (err) {
@@ -66,23 +66,24 @@ var model = {
             } else {
                 MAddonType.findOne({
                     materialSubCat: data._id
-                }).lean().exec(function (err, found) {
+                }).lean().exec(function (err, addonTypeData) {
                     if (err) {
                         console.log('**** error at function_name of MMaterialSubCat.js ****', err);
                         callback(err, null);
-                    } else if (_.isEmpty(found)) {
+                    } else if (_.isEmpty(addonTypeData)) {
                         EstimatePart.find({
                             material: {
                                 $in: subCatData.materials
                             }
-                        }).exec(function (err, found) {
+                        }).exec(function (err, partData) {
                             if (err) {
                                 console.log('**** error at function_name of MMaterialSubCat.js ****', err);
                                 callback(err, null);
-                            } else if (_.isEmpty(found)) {
+                            } else if (_.isEmpty(partData)) {
+                                console.log('**** outside  async praller ****', partData);
                                 async.parallel([
                                     function (callback) {
-                                        Material.remove({
+                                        MMaterial.remove({
                                             materialSubCategory: data._id
                                         }).exec(function (err, removedMat) {
                                             if (err) {
@@ -96,7 +97,7 @@ var model = {
                                         });
                                     },
                                     function (callback) {
-                                        MaterialSubCat.find({
+                                        MMaterialSubCat.remove({
                                             _id: data._id
                                         }).exec(function (err, removedMatSubCat) {
                                             if (err) {
@@ -106,6 +107,24 @@ var model = {
                                                 callback(null, []);
                                             } else {
                                                 callback(null, removedMatSubCat);
+                                            }
+                                        });
+                                    },
+                                    function (callback) {
+                                        MMaterialCat.findOneAndUpdate({
+                                            _id: subCatData.catId
+                                        }, {
+                                            $pull: {
+                                                subCat: data._id
+                                            }
+                                        }).exec(function (err, removedMatCat) {
+                                            if (err) {
+                                                console.log('**** error at function_name of MMaterialSubCat.js ****', err);
+                                                callback(err, null);
+                                            } else if (_.isEmpty(removedMatCat)) {
+                                                callback(null, []);
+                                            } else {
+                                                callback(null, removedMatCat);
                                             }
                                         });
                                     },

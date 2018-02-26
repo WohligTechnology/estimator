@@ -1,4 +1,4 @@
-myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, loginService) {
+myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, loginService, TemplateService) {
 
     // *************************** default variables/tasks begin here ***************** //
     if ($.jStorage.get('loggedInUser') != null) {
@@ -18,12 +18,9 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
 
             // if user is not available --> api will send --> []
             if (!_.isEmpty($scope.userData)) {
-                $scope.loggedInUser = {};
-                $scope.loggedInUser._id = $scope.userData._id;
-                $scope.loggedInUser.email = $scope.userData.email;
-                $scope.loggedInUser.name = $scope.userData.name;
-                $scope.loggedInUser.photo = $scope.userData.photo;
-                $.jStorage.set("loggedInUser", $scope.loggedInUser);
+                //- for user photo and user name
+                TemplateService.getUserDetails($scope.userData);
+               // $scope.template = TemplateService;
                 $state.go('app.dashboard');
                 $scope.$parent.loginTemplate = true;
             } else {

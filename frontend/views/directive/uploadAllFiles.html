@@ -1,11 +1,16 @@
 <div style="width: {{totalWidth}}px!important;" class="form-group horizontal_scroll" ng-class="{'leftPosition':fileLocation=='left' || icon,'rightPosition':fileLocation=='right', 'topPosition':fileLocation=='top', 'iconWidth':icon}">
     <!-- In case of single file -->
-    <div class="clearfix" ng-if="!isMultiple">
+    <div class="clearfix" ng-if="!isMultiple && model.length">
         <div class="img-box" style="float:left;">
             <a ng-if="model != 'broken'" href="{{model|readFile}}" target="_blank">
+               <!-- in case of jpg, jpeg & png images -->
                 <img alt="" ng-if="isPhoto" ng-src="{{model|downloadpath}}" class="img-responsive" style="width:{{width}}px!important;height:{{height}}px!important;"
                 />
-                <img alt="" ng-if="!isPhoto" ng-src="{{fileImage}}" class="img-responsive" />
+                <!-- in case of pdf, docs and any other file -->
+                <img alt="" ng-if="fileImage" ng-src="{{fileImage}}" class="img-responsive"  style="width:{{width}}px!important;height:{{height}}px!important;"/>
+                <!-- in case of user profile -->
+                <img alt="" ng-if="!isPhoto && !fileImage && model" ng-src="{{model|downloadpath}}" class="img-responsive" style="width:{{width}}px!important;height:{{height}}px!important;"
+                />
                 <!-- <img alt="" ng-if="isDocs" ng-src="frontend/img/doc.png" class="img-responsive" />
                 <img alt="" ng-if="isOtherFile" ng-src="frontend/img/file.png" class="img-responsive" /> -->
             </a>
@@ -27,7 +32,7 @@
             </a>
         </div>
 </div>
-    Total : {{model.length}}
+<span ng-if="isMultiple">Total : {{model.length}}</span>
     <br>
     <!-- button to select file/files -->
     <div class="btn-upload btn btn-primary btn-outline btn-small create-btn" ng-hide="disabled" style="width: 19em;height:3em">

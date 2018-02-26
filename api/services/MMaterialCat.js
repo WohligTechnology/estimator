@@ -36,9 +36,9 @@ var model = {
     // allow to delete and restrictions for material category on the basis of conditions.
     // req data --> _id
     delRestrictionMaterialCat: function (data, callback) {
-        MMaterialCat.find({
+        MMaterialCat.findOne({
             _id: data._id
-        }).exec(function (err, matData) {
+        }).lean().exec(function (err, matData) {
             if (err) {
                 console.log('**** error at function_name of MMaterialCat.js ****', err);
                 callback(err, null);
@@ -47,14 +47,14 @@ var model = {
             } else {
                 MAddonType.findOne({
                     materialCat: data._id
-                }).exec(function (err, addonTypeData) {
+                }).lean().exec(function (err, addonTypeData) {
                     if (err) {
                         console.log('**** error at function_name of MMaterialCat.js ****', err);
                         callback(err, null);
                     } else if (_.isEmpty(addonTypeData)) {
                         MMaterialSubCat.findOne({
                             catId: data._id
-                        }).exec(function (err, subCatData) {
+                        }).lean().exec(function (err, subCatData) {
                             if (err) {
                                 console.log('**** error at function_name of MMaterialCat.js ****', err);
                                 callback(err, null);
@@ -63,7 +63,7 @@ var model = {
                             } else {
                                 EstimatePart.find({
                                     material: subCatData.materials
-                                }).exec(function (err, partData) {
+                                }).lean().exec(function (err, partData) {
                                     if (err) {
                                         console.log('**** error at function_name of MMaterialCat.js ****', err);
                                         callback(err, null);
@@ -120,7 +120,7 @@ var model = {
                                             } else if (_.isEmpty(finalResults)) {
                                                 callback(null, 'noDataFound');
                                             } else {
-                                                callback(null, 'Records updated succesfully');
+                                                callback(null, 'Records deleted succesfully');
                                             }
                                         });
                                     } else {
@@ -130,7 +130,7 @@ var model = {
                             }
                         });
                     } else {
-                        callback(null, 'dependecy of table MMaterialCat');
+                        callback(null, 'dependecy of table MAddonType');
                     }
                 });
             }

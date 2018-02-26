@@ -107,9 +107,10 @@ myApp.service('masterPartService', function (NavigationService) {
         });
     }
     this.deletePartType = function (partTypeId, callback) {
-        var idsArray = [];
-        idsArray.push(partTypeId);
-        NavigationService.apiCall('Web/delRestrictions/MPartType', {idsArray: idsArray}, function (data) {
+        var deletePTObj = {
+            _id: partTypeId
+        }
+        NavigationService.apiCall('MPartType/delRestrictionPartType', deletePTObj, function (data) {
             callback(data);
         });
     }

@@ -88,18 +88,15 @@ myApp.factory('settings', ['$rootScope', function ($rootScope) {
 }]);
 
 /* Setup App Main Controller */
-myApp.controller('AppController', function ($scope, $rootScope, $state, $uibModal) {
+myApp.controller('AppController', function ($scope, $rootScope, $state, TemplateService, $uibModal) {
 
   $scope.$on('$viewContentLoaded', function () {
     App.initComponents(); // init core components
     Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
   });
   $scope.loginTemplate = true;
-  if ($.jStorage.get('loggedInUser') != null) {
-    $scope.userPhoto = $.jStorage.get('loggedInUser').photo;
-    $scope.userName = $.jStorage.get('loggedInUser').name;
-  }
-
+  $scope.template = TemplateService;
+  // TemplateService.getUserDetails(formData, 'userProfile');
   $scope.getGlobalVariableModal = function () {
     $scope.modalInstance = $uibModal.open({
       animation: true,

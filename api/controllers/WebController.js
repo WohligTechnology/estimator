@@ -195,10 +195,10 @@ module.exports = {
         if (modelName == 'MMaterial') {
             var myModel = [
                 {
-                    models: "MMaterialSubCat",
-                    fieldName: ["materials"],
-                    base: true
-                },{
+                //     models: "MMaterialSubCat",
+                //     fieldName: ["materials"],
+                //     base: true
+                // },{
                     models: "EstimateAddons",
                     fieldName: ["addonItem"]
                 },
@@ -217,26 +217,26 @@ module.exports = {
             var myModel = [{
                     models: "MAddonType",
                     fieldName: ["materialCat"]
-                },
-                {
-                    models: "MMaterialSubCat",
-                    fieldName: ["catId"]
+                // },
+                // {
+                //     models: "MMaterialSubCat",
+                //     fieldName: ["catId"]
                 }
             ];
         }
         if (modelName == 'MMaterialSubCat') {
             var myModel = [
                 {
-                    models: "MMaterialCat",
-                    fieldName: ["subCat"],
-                    base: true
-                },{
+                //     models: "MMaterialCat",
+                //     fieldName: ["subCat"],
+                //     base: true
+                // },{
                     models: "MAddonType",
                     fieldName: ["materialSubCat"]
-                },
-                {
-                    models: "MMaterial",
-                    fieldName: ["materialSubCategory"]
+                // },
+                // {
+                //     models: "MMaterial",
+                //     fieldName: ["materialSubCategory"]
                 },
      
 

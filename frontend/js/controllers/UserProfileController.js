@@ -1,4 +1,4 @@
-myApp.controller('UserProfileController', function ($scope, toastr, userProfileService) {
+myApp.controller('UserProfileController', function ($scope, toastr, userProfileService, TemplateService) {
 
     // *************************** default variables/tasks begin here ***************** //
     $scope.$parent.isSidebarActive = false;
@@ -23,6 +23,8 @@ myApp.controller('UserProfileController', function ($scope, toastr, userProfileS
     $scope.updateProfile = function (formData) {
         userProfileService.updateProfile(formData, function (data) {
             toastr.success("Your Profile has been updated successfully");
+            //- for user photo and user name
+            TemplateService.getUserDetails(formData, 'userProfile');
         });
     }
 
@@ -50,4 +52,3 @@ myApp.controller('UserProfileController', function ($scope, toastr, userProfileS
     }
     $scope.init();
 });
-

@@ -36,7 +36,6 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
   //- add or edit user
   this.addOrEditUser = function (operation, userData, callback) {
-    userData.photo = null;
     if (operation == 'update') {
       NavigationService.apiCall('User/save', userData, function (data) {
         callback(data);

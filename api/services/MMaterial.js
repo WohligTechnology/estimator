@@ -211,9 +211,11 @@ var model = {
     // req data --> id's arrays
     delRestrctionsOfMaterial: function (data, callback) {
         async.eachSeries(data.idsArray, function (ids, callback) {
+            // if (!ids)
+            console.log('**** %%%% ****', ids);
             MMaterial.findOne({
                 _id: {
-                    $in: data.ids
+                    $in: ids
                 }
             }).exec(function (err, matData) {
                 if (err) {
@@ -222,15 +224,22 @@ var model = {
                 } else if (_.isEmpty(matData)) {
                     callback(null, 'noDataFound');
                 } else {
+                    console.log('**** inside function_name of MMaterial.js ****', matData);
                     EstimateAddons.find({
-                        addonItem: data._id
+                        // addonItem: ids
+                        addonItem: {
+                            $in: ids
+                        }
                     }).exec(function (err, found) {
                         if (err) {
                             console.log('**** error at function_name of MMaterial.js ****', err);
                             callback(err, null);
                         } else if (_.isEmpty(found)) {
                             EstimatePart.find({
-                                material: data._id
+                                // material: ids
+                                material: {
+                                    $in: ids
+                                }
                             }).exec(function (err, partData) {
                                 if (err) {
                                     console.log('**** error at function_name of MMaterial.js ****', err);
@@ -238,13 +247,18 @@ var model = {
                                 } else if (_.isEmpty(partData)) {
                                     async.parallel([
                                             function (callback) {
-                                                MMaterialSubCat.findOneAndUpdate({
-                                                    materials: data._id,
+                                                MMaterialSubCat.update({
+                                                    materials: {
+                                                        $in: ids
+                                                    }
                                                 }, {
                                                     $pull: {
-                                                        materials: data._id
+                                                        materials: {
+                                                            $in: ids
+                                                        }
                                                     }
                                                 }).exec(function (err, updatedData) {
+
                                                     if (err) {
                                                         console.log('**** error at function_name of MMaterial.js ****', err);
                                                         callback(err, null);
@@ -257,15 +271,18 @@ var model = {
                                             },
                                             function (callback) {
                                                 MMaterial.remove({
-                                                    _id: data._id
-                                                }).exec(function (err, found) {
+                                                    _id: {
+                                                        $in: ids
+                                                    }
+                                                }).exec(function (err, removedMaterial) {
+                                                    console.log('**** inside paralle ****', removedMaterial);
                                                     if (err) {
-                                                        console.log('**** error at function_name of MMaterial.js ****', err);
+                                                        console.log('**** error at materil removed of MMaterial.js ****', err);
                                                         callback(err, null);
-                                                    } else if (_.isEmpty(found)) {
+                                                    } else if (_.isEmpty(removedMaterial)) {
                                                         callback(null, 'noDataFound');
                                                     } else {
-                                                        callback(null, found);
+                                                        callback(null, removedMaterial);
                                                     }
                                                 });
                                             },
@@ -294,7 +311,7 @@ var model = {
             if (err) {
                 console.log('***** error at final response of async.eachSeries in function_name of MMaterial.js*****', err);
             } else {
-                callback();
+                callback(null,'done');
             }
         });
     },

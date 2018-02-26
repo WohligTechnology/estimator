@@ -61,10 +61,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterialCat = function (materialCatId) {
         masterMaterialService.deleteMaterialCat(materialCatId, function (data) {
-            if (_.isEmpty(data.data)) {
-                toastr.success('Record deleted successfully');
+            if (data.value) {
+                toastr.info(data.data);
             } else {
-                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+                toastr.error('There is some error');
             }
             $scope.cancelModal();
             $scope.getMaterialData();
@@ -113,10 +113,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     }
     $scope.deleteMaterialSubCat = function (materialSubCatId) {
         masterMaterialService.deleteMaterialSubCat(materialSubCatId, function (data) {
-            if (_.isEmpty(data.data)) {
-                toastr.success('Record deleted successfully');
+            if (data.value) {
+                toastr.info(data.data);
             } else {
-                toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+                toastr.error('There is some error');
             }
             $scope.cancelModal();
             $scope.getMaterialData();
@@ -201,10 +201,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.deleteMaterial = function (materialSubCatId, materialId) {
         masterMaterialService.deleteMaterial(materialId, function (data) {
             if (data.value) {
-                if (_.isEmpty(data.data)) {
-                    toastr.success('Record deleted successfully');
+                if (data.value) {
+                    toastr.info(data.data);
                 } else {
-                    toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+                    toastr.error('There is some error');
                 }
                 $scope.cancelModal();
                 $scope.getSubCatMaterials(materialSubCatId);
@@ -287,10 +287,10 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     $scope.deleteBulkMaterials = function (materialSubCatId, materials) {
         masterMaterialService.deleteBulkMaterials(materials, function (data) {
             if (data.value) {
-                if (_.isEmpty(data.data)) {
-                    toastr.success('Record deleted successfully');
+                if (data.value) {
+                    toastr.info(data.data);
                 } else {
-                    toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
+                    toastr.error('There is some error');
                 }
                 $scope.cancelModal();
                 $scope.bulkMaterials = [];

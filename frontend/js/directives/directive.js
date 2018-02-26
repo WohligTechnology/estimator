@@ -75,11 +75,16 @@ myApp
                     if (scope.model) {
                         var fileName = _.split(scope.model, '.');
                         var fileType = fileName[1];
-
-                        scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
-                        scope.isPdf = (fileType == 'pdf');
-                        scope.isDocs = (fileType == 'doc' || fileType == 'docx');
-                        scope.isOtherFile = !scope.isPhoto && !scope.isPdf && !scope.isDocs;
+                        scope.isPhoto = false;
+                        if(fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png'){
+                            scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
+                        }else if(fileType == 'pdf'){
+                            scope.fileImage = "frontend/img/pdf.jpg";
+                        }else if(fileType == 'doc' || fileType == 'docx'){
+                            scope.fileImage = "frontend/img/doc.png";
+                        }else {
+                            scope.fileImage = "frontend/img/file.png";
+                        }
                     }
                 }
                 
@@ -87,19 +92,20 @@ myApp
                     // //- to remove previous selecetd files
                     // scope.model = [];
                     // scope.isNoFile = !scope.model && !scope.pdfFile && !scope.icon;
-                    var fileName = _.split(files[0].name, '.');
-                    var fileType = fileName[1];
-
-                    if(fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png'){
-                        scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
-                    }else if(fileType == 'pdf'){
-                        scope.fileImage = "frontend/img/pdf.jpg";
-                    }else if(fileType == 'doc' || fileType == 'docx'){
-                        scope.fileImage = "frontend/img/doc.png";
-                    }else {
-                        scope.fileImage = "frontend/img/file.png";
+                    if (!scope.isMultiple) {
+                        var fileName = _.split(files[0].name, '.');
+                        var fileType = fileName[1];
+                        scope.isPhoto = false;
+                        if(fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png'){
+                            scope.isPhoto = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
+                        }else if(fileType == 'pdf'){
+                            scope.fileImage = "frontend/img/pdf.jpg";
+                        }else if(fileType == 'doc' || fileType == 'docx'){
+                            scope.fileImage = "frontend/img/doc.png";
+                        }else {
+                            scope.fileImage = "frontend/img/file.png";
+                        }
                     }
-
                     //  = (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png');
                     // scope.isPdf = (fileType == 'pdf');
                     // scope.isDocs = (fileType == 'doc' || fileType == 'docx');

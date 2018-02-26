@@ -1171,7 +1171,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		};
 		//- to check access permission
 		var temp = true;
-		debugger;
 		if (level == 'subAssembly') {
 			_.forEach(records, function (part) {
 				if (temp) {
