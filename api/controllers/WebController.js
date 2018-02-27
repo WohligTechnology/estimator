@@ -368,6 +368,7 @@ module.exports = {
             ];
         }
         var allDependency = [];
+        console.log('**** myModel myModel ****');
         async.eachSeries(req.body.idsArray, function (ids, callback) {
             async.eachSeries(myModel, function (m, callback) {
                 async.eachSeries(m.fieldName, function (f, callback) {
@@ -403,6 +404,10 @@ module.exports = {
                 if (err) {
                     console.log('**** error at delRestrictions ****', err);
                 } else if (_.isEmpty(allDependency)) {
+                    console.log('**** allDependency ****',allDependency);
+                    console.log('**** ids ****',ids);
+                    console.log('**** modelName ****',modelName);
+                    
                     this[modelName].remove({ //remove record
                         _id: ids
                     }).lean().exec(function (err, found1) {

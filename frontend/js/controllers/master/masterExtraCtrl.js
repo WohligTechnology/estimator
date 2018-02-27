@@ -6,7 +6,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   $scope.$parent.isSidebarActive = true;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
-  $scope.bulkExtras = [];
+//  $scope.bulkExtras = [];
   //- for title
   TemplateService.getTitle("ExtraMaster");
 
@@ -14,12 +14,11 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
 
   // *************************** default functions begin here  ********************** //
   //- function to get all extras data
-  $scope.getMasterExtraData = function () {
-    masterExtraService.getMasterExtraData(function (data) {
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
+    masterExtraService.getPaginationData(page, numberOfRecords, keyword, function (data) {
       $scope.extraData = data.results;
-      masterExtraService.getPaginationDetails(1, 10, data, function (obj) {
+      masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
         $scope.obj = obj;
-        $scope.page = 1;
       });
     });
   }
@@ -74,7 +73,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
     if (errorCount == 0) {
       masterExtraService.addOrEditExtra(extraData, function (data) {
         toastr.success('Extra added/updated successfully');
-        $scope.getMasterExtraData();
+        $scope.getPaginationData(1, 10, undefined);
         $scope.cancelModal();
       });
     }
@@ -94,71 +93,21 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   }
   //- function for  extra deletion
   $scope.deleteExtra = function (extraId) {
-    masterExtraService.deleteExtra(extraId, function (data) {
+    masterExtraService.deleteBulkExtras(extraId, function (data) {
       if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
       } else {
         toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
-      $scope.getMasterExtraData();
-    });
+      $scope.getPaginationData(1, 10, undefined);
+    },'singleExtra');
   }
-
-  //- function for pagination of master extras' records
-  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    // if (angular.isUndefined(keyword) || keyword == '') {
-    //   if (numberOfRecords != '10') {
-    //     masterExtraService.getPaginationData(page, numberOfRecords, null, function (data) {
-    //       $scope.extraData = data.results;
-    //       masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-    //         $scope.obj = obj;
-    //       });
-    //     });
-    //   } else {
-    //     masterExtraService.getPaginationData(page, null, null, function (data) {
-    //       $scope.extraData = data.results;
-    //       masterExtraService.getPaginationDetails(page, 10, data, function (obj) {
-    //         $scope.obj = obj;
-    //       });
-    //     });
-    //   }
-    // } else {
-    masterExtraService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-      $scope.extraData = data.results;
-      masterExtraService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-        $scope.obj = obj;
-      });
-    });
-    // }
-  }
-
-  // //- function to search the text in table
-  // $scope.serachText = function (keyword, count) {
-  //   masterExtraService.getPaginationData(null, null, keyword, function (data) {
-  //     $scope.extraData = data.results;
-  //     masterExtraService.getPaginationDetails(1, count, data, function (obj) {
-  //       $scope.obj = obj;
-  //     });
-  //   });
-  // }
 
   //- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
-  }
-
-  //- modal to confirm bulk extras deletion
-  $scope.deleteBulkExtrasModal = function (addonIdArray, getFunction) {
-    $scope.idsToDelete = addonIdArray;
-    $scope.functionToCall = getFunction;
-
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/deleteBulkModal.html',
-      scope: $scope,
-      size: 'md'
-    });
+    $scope.init();
   }
   //- function to delete extra
   $scope.deleteBulkExtras = function (extras) {
@@ -169,8 +118,10 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
         toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
-      $scope.getMasterExtraData();
+      $scope.getPaginationData(1, 10, undefined);
       $scope.bulkExtras = [];
+      $scope.checkAll = false;
+      $scope.checkboxStatus = false;
     });
   }
   //- function to get bulk extras
@@ -190,7 +141,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 
   $scope.init = function () {
-    $scope.getMasterExtraData();
+    $scope.getPaginationData(1, 10, undefined);
   }
   $scope.init();
 

@@ -201,7 +201,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
         });
     }
     $scope.deleteMaterial = function (materialSubCatId, materialId) {
-        masterMaterialService.deleteMaterial(materialId, function (data) {
+        masterMaterialService.deleteBulkMaterials(materialId, function (data) {
             if (data.value) {
                 if (data.value) {
                     toastr.info(data.data);
@@ -214,7 +214,7 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
             } else {
                 toastr.error("There is some error while deleting it");
             }
-        });
+        }, 'singleMaterial');
     }
 
     $scope.getSubCatMaterials = function (materialSubCatId) {

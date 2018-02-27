@@ -2,9 +2,13 @@ myApp.service('masterExtraService', function (NavigationService) {
 
   var bulkArray = [];
 
-  //- get master extra view
-  this.getMasterExtraData = function (callback) {
-    NavigationService.boxCall('MExtra/search', function (data) {
+  //- get pagination data
+  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
+    NavigationService.apiCall('MExtra/search', {
+      keyword: searchKeyword,
+      totalRecords: count,
+      page: pageNumber
+    }, function (data) {
       callback(data.data);
     });
   }
@@ -23,9 +27,8 @@ myApp.service('masterExtraService', function (NavigationService) {
         extraDataObj.editBtn = false;
       } else if (operation == "update") {
         extraDataObj.saveBtn = false;
-        extraDataObj.editBtn = true;     
+        extraDataObj.editBtn = true;
       }
-
       callback(extraDataObj);
     });
   }
@@ -35,24 +38,7 @@ myApp.service('masterExtraService', function (NavigationService) {
       callback(data);
     });
   }
-  //- delete extra
-  this.deleteExtra = function (extraId, callback) {
-    idsArray = [];
-    idsArray.push(extraId);
-    NavigationService.apiCall('Web/delRestrictions/MExtra', {idsArray: idsArray}, function (data) {
-      callback(data);
-    });
-  }
-  //- get pagination data
-  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
-    NavigationService.apiCall('MExtra/search', {
-      keyword: searchKeyword,
-      totalRecords: count,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
+
   //- get details about pagination
   this.getPaginationDetails = function (pageNumber, count, data, callback) {
     var obj = {};
@@ -72,17 +58,8 @@ myApp.service('masterExtraService', function (NavigationService) {
     obj.count = data.options.count;
     callback(obj);
   }
-  //- get pagination data with search-keyword
-  this.getPaginationDataWithKeyword = function (pageNumber, searchKeyword, callback) {
-    NavigationService.apiCall('MExtra/search', {
-      keyword: searchKeyword,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
   //- form an array of bulk Ids
-  this.selectBulkUsers = function (checkboxStatus, extraId, callback) {
+  this.selectBulkExtras = function (checkboxStatus, extraId, callback) {
     if (checkboxStatus == true) {
       bulkArray.push(extraId);
     } else {
@@ -100,12 +77,22 @@ myApp.service('masterExtraService', function (NavigationService) {
         var extraId = obj._id;
         bulkArray.push(extraId);
       });
+    } else {
+      bulkArray = [];
     }
     callback(bulkArray);
   }
   //- delete bulk extras
-  this.deleteBulkUsers = function (extras, callback) {
-    NavigationService.apiCall('Web/delRestrictions/MExtra', {idsArray: extras}, function (data) {
+  this.deleteBulkExtras = function (extras, callback, type) {
+    var tempObj = {};
+    if (type == 'singleExtra') {
+      tempObj.idsArray = [];
+      tempObj.idsArray.push(extras);
+    } else {
+      tempObj.idsArray = extras;
+      bulkArray = [];
+    }
+    NavigationService.apiCall('Web/delRestrictions/MExtra', tempObj, function (data) {
       callback(data);
     });
   }
