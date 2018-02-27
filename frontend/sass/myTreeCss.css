@@ -214,7 +214,7 @@ label.tree_label:after {
 .editAssembly {}
 
 .subssemblyName {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .createSubAssembly {

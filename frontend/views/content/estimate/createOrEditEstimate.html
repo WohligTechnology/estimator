@@ -48,12 +48,12 @@
                                                             <div class="row">
                                                                 <label class="control-label col-md-4">Negotiation:</label>
                                                                 <div class="col-md-3" style="padding-left:0 !important;">
-                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiation" ng-change="addScalingFactorToCost(activeMarkup)" class="form-control">
+                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiation" ng-change="addScalingFactorToCost(activeMarkup)"
+                                                                        class="form-control">
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" ng-model="estimteData.negotiationAmount | number : 2" class="form-control"
-                                                                        disabled>
+                                                                    <input type="text" ng-model="estimteData.negotiationAmount | number : 2" class="form-control" disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
@@ -68,8 +68,7 @@
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" ng-model="estimteData.commissionAmount | number : 2" class="form-control"
-                                                                        disabled>
+                                                                    <input type="text" ng-model="estimteData.commissionAmount | number : 2" class="form-control" disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
@@ -84,8 +83,7 @@
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" ng-model="estimteData.otherAmount | number : 2" class="form-control"
-                                                                        disabled>
+                                                                    <input type="text" ng-model="estimteData.otherAmount | number : 2" class="form-control" disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
@@ -113,7 +111,7 @@
                                                 <td rowspan="2" class="text-center">{{estimteData.addonCost.toFixed(2)}} </td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.extrasCost.toFixed(2)}}</td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.totalCost.toFixed(2) | currency:"₹"}}</td>
-                                                <td style="width:250px!important"> 
+                                                <td style="width:250px!important">
                                                     <span class="col-md-6">Gross Weight :</span>
                                                     <span class="col-md-6" style="padding-left:0 !important;">{{estimteData.wtAtAssembly.toFixed(2)}}&nbsp;
                                                         <b>Kg</b>
@@ -140,7 +138,7 @@
                                         <li class="mainLi">
                                             <input type="checkbox" id="c5" />
                                             <label class="tree_label" for="c5"></label>
-                                            <span ng-click="getEstimateView('assembly')" class="assebmlyName">{{estimteData.assemblyName | capitalize}} ({{estimteData.subAssemblies.length}})</span>
+                                            <span ng-click="getEstimateView('assembly')" class="assebmlyName treeActive">{{estimteData.assemblyName | capitalize}} ({{estimteData.subAssemblies.length}})</span>
                                             <span ng-click="addOrEditSubAssemblyModal('save')" class="assemblyCreateIcon">
                                                 <i class="fa fa-plus btn-info" title="Add SubAssembly"></i>
                                             </span>
@@ -152,7 +150,7 @@
                                                 <li ng-repeat="sa in estimteData.subAssemblies track by $index">
                                                     <input type="checkbox" id="{{sa.subAssemblyName+$index}}" />
                                                     <label for="{{sa.subAssemblyName+$index}}" class="tree_label"></label>
-                                                    <span ng-click="getEstimateView('subAssembly', 'assembly', sa.subAssemblyNumber)" class="subssemblyName">{{sa.subAssemblyName | capitalize}} ({{sa.subAssemblyParts.length}})</span>
+                                                    <span ng-click="getEstimateView('subAssembly', 'assembly', sa.subAssemblyNumber)" class="subssemblyName" ng-class="{'treeActive':sa.subAssemblyNumber==treeActive.subAssemblyNumber}">{{sa.subAssemblyName | capitalize}} ({{sa.subAssemblyParts.length}})</span>
                                                     <span ng-click="addOrEditPartModal('save',sa.subAssemblyNumber)" class="subAssemblyCreateIcon">
                                                         <i class="fa fa-plus btn-info" title="Add Part"></i>
                                                     </span>
@@ -166,7 +164,8 @@
                                                         <li ng-repeat="p in sa.subAssemblyParts track by $index">
                                                             <input type="checkbox" id="{{p.partName+$index+$parent.$index}}" />
                                                             <label for="{{p.partName+$index+$parent.$index}}" class="tree_label"></label>
-                                                            <span ng-click="getEstimateView('partDetail', 'subAssembly', sa.subAssemblyNumber, p.partNumber)" class="tree_label partName" ng-class="{'treeActive':p.partNumber==partNumber}">{{p.partName | capitalize}}</span>
+                                                            <span ng-click="getEstimateView('partDetail', 'subAssembly', sa.subAssemblyNumber, p.partNumber)" class="tree_label partName"
+                                                                ng-class="{'treeActive':p.partNumber==treeActive.partNumber}">{{p.partName | capitalize}}</span>
                                                             <span ng-click="addOrEditPartModal('update', sa.subAssemblyNumber, p)" class="partEditIcon">
                                                                 <i class="fa fa-pencil btn-warning" title="Edit Part"></i>
                                                             </span>
@@ -182,22 +181,22 @@
 
                                                             <ul>
                                                                 <li>
-                                                                    <span ng-click="getEstimateView('editPartItemDetail', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label" ng-class="{'treeActive':p.partNumber==partNumber}">Item Detail</span>
+                                                                    <span ng-click="getEstimateView('editPartItemDetail', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label">Item Detail</span>
                                                                 </li>
                                                                 <li>
-                                                                    <span ng-click="getEstimateView('processing', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label" ng-class="{'treeActive':p.partNumber==partNumber}">Processing ({{p.processing.length}})</span>
+                                                                    <span ng-click="getEstimateView('processing', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label" ng-class="{'treeActive':estimateViewData[0].processingNumber==treeActive.itemNumber && p.partNumber==treeActive.partNumber && treeActive.level=='part'}">Processing ({{p.processing.length}})</span>
                                                                     <span ng-click="addOrEditProcessingModal('save', 'part', sa.subAssemblyNumber, p.partNumber)" class="partAdd">
                                                                         <i class="fa fa-plus btn-info" title="Add Processing"></i>
                                                                     </span>
                                                                 </li>
                                                                 <li>
-                                                                    <span ng-click="getEstimateView('addons', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label" ng-class="{'treeActive':p.partNumber==partNumber}">Addons ({{p.addons.length}})</span>
+                                                                    <span ng-click="getEstimateView('addons', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label" ng-class="{'treeActive':estimateViewData[0].addonNumber==treeActive.itemNumber && p.partNumber==treeActive.partNumber && treeActive.level=='part'}">Addons ({{p.addons.length}})</span>
                                                                     <span ng-click="addOrEditAddonModal('save', 'part', sa.subAssemblyNumber, p.partNumber)" class="partAdd">
                                                                         <i class="fa fa-plus btn-info" title="Add Addon"></i>
                                                                     </span>
                                                                 </li>
                                                                 <li>
-                                                                    <span ng-click="getEstimateView('extras', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label" ng-class="{'treeActive':p.partNumber==partNumber}">Extras ({{p.extras.length}})</span>
+                                                                    <span ng-click="getEstimateView('extras', 'part', sa.subAssemblyNumber, p.partNumber)" class="tree_label" ng-class="{'treeActive':estimateViewData[0].extraNumber==treeActive.itemNumber && p.partNumber==treeActive.partNumber && treeActive.level=='part'}">Extras ({{p.extras.length}})</span>
                                                                     <span ng-click="addOrEditExtraModal('save', 'part', sa.subAssemblyNumber, p.partNumber)" class="partAdd">
                                                                         <i class="fa fa-plus btn-info" title="Add Extra"></i>
                                                                     </span>
@@ -205,19 +204,19 @@
                                                             </ul>
                                                         </li>
                                                         <li>
-                                                            <span ng-click="getEstimateView('processing', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Processing ({{sa.processing.length}})</span>
+                                                            <span ng-click="getEstimateView('processing', 'subAssembly', sa.subAssemblyNumber)" class="tree_label" ng-class="{'treeActive':estimateViewData[0].processingNumber==treeActive.itemNumber && sa.subAssemblyNumber==treeActive.subAssemblyNumber && treeActive.level=='subAssembly'}">Processing ({{sa.processing.length}})</span>
                                                             <span ng-click="addOrEditProcessingModal('save', 'subAssembly', sa.subAssemblyNumber)" class="subAssemblyAdd">
                                                                 <i class="fa fa-plus btn-info" title="Add Processing"></i>
                                                             </span>
                                                         </li>
                                                         <li>
-                                                            <span ng-click="getEstimateView('addons', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Addons ({{sa.addons.length}})</span>
+                                                            <span ng-click="getEstimateView('addons', 'subAssembly', sa.subAssemblyNumber)" class="tree_label" ng-class="{'treeActive':estimateViewData[0].addonNumber==treeActive.itemNumber && sa.subAssemblyNumber==treeActive.subAssemblyNumber && treeActive.level=='subAssembly'}">Addons ({{sa.addons.length}})</span>
                                                             <span ng-click="addOrEditAddonModal('save', 'subAssembly', sa.subAssemblyNumber)" class="subAssemblyAdd">
                                                                 <i class="fa fa-plus btn-info" title="Add Addon"></i>
                                                             </span>
                                                         </li>
                                                         <li>
-                                                            <span ng-click="getEstimateView('extras', 'subAssembly', sa.subAssemblyNumber)" class="tree_label">Extras ({{sa.extras.length}})</span>
+                                                            <span ng-click="getEstimateView('extras', 'subAssembly', sa.subAssemblyNumber)" class="tree_label" ng-class="{'treeActive':estimateViewData[0].extraNumber==treeActive.itemNumber && sa.subAssemblyNumber==treeActive.subAssemblyNumber && treeActive.level=='subAssembly'}">Extras ({{sa.extras.length}})</span>
                                                             <span ng-click="addOrEditExtraModal('save', 'subAssembly', sa.subAssemblyNumber)" class="subAssemblyAdd">
                                                                 <i class="fa fa-plus btn-info" title="Add Extra"></i>
                                                             </span>
@@ -225,19 +224,19 @@
                                                     </ul>
                                                 </li>
                                                 <li>
-                                                    <span ng-click="getEstimateView('processing', 'assembly')" class="tree_label">Processing ({{estimteData.processing.length}})</span>
+                                                    <span ng-click="getEstimateView('processing', 'assembly')" class="tree_label" ng-class="{'treeActive':estimateViewData[0].processingNumber==treeActive.itemNumber && treeActive.level=='assembly'}">Processing ({{estimteData.processing.length}})</span>
                                                     <span ng-click="addOrEditProcessingModal('save', 'assembly')" class="assemblyAdd">
                                                         <i class="fa fa-plus btn-info" title="Add Processing"></i>
                                                     </span>
                                                 </li>
                                                 <li>
-                                                    <span ng-click="getEstimateView('addons', 'assembly')" class="tree_label">Addons ({{estimteData.addons.length}})</span>
+                                                    <span ng-click="getEstimateView('addons', 'assembly')" class="tree_label" ng-class="{'treeActive':estimateViewData[0].addonNumber==treeActive.itemNumber && treeActive.level=='assembly'}">Addons ({{estimteData.addons.length}})</span>
                                                     <span ng-click="addOrEditAddonModal('save', 'assembly')" class="assemblyAdd">
                                                         <i class="fa fa-plus btn-info" title="Add Addon"></i>
                                                     </span>
                                                 </li>
                                                 <li>
-                                                    <span ng-click="getEstimateView('extras', 'assembly')" class="tree_label">Extras ({{estimteData.extras.length}})</span>
+                                                    <span ng-click="getEstimateView('extras', 'assembly')" class="tree_label" ng-class="{'treeActive':estimateViewData[0].extraNumber==treeActive.itemNumber && treeActive.level=='assembly'}">Extras ({{estimteData.extras.length}})</span>
                                                     <span ng-click="addOrEditExtraModal('save', 'assembly')" class="assemblyAdd">
                                                         <i class="fa fa-plus btn-info" title="Add Extra"></i>
                                                     </span>
@@ -255,8 +254,8 @@
                                                 <i class="fa fa-files-o btn-success" title="Import Custom Material"></i>
                                             </span>
                                             <span ng-click="favouriteCustoMaterialModal()" class="subAssemblyDeleteIcon">
-                                                    <i class="fa fa-list btn-primary" title="Favourite Custom Material List"></i>
-                                                </span>
+                                                <i class="fa fa-list btn-primary" title="Favourite Custom Material List"></i>
+                                            </span>
                                             <ul class="tree_animation">
                                                 <li ng-repeat="cm in customMaterial track by $index">
                                                     <span ng-click="getAllMaterialData('customMaterial')" class="tree_label">{{cm.customMaterialName | capitalize}}
@@ -298,12 +297,12 @@
                                                             <div class="row">
                                                                 <label class="control-label col-md-4">Negotiation:</label>
                                                                 <div class="col-md-3" style="padding-left:0 !important;">
-                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiation" ng-change="addScalingFactorToCost(activeMarkup)" class="form-control">
+                                                                    <input type="text" name="negotiation" ng-model="estimteData.negotiation" ng-change="addScalingFactorToCost(activeMarkup)"
+                                                                        class="form-control">
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" ng-model="estimteData.negotiationAmount | number : 2" class="form-control"
-                                                                        disabled>
+                                                                    <input type="text" ng-model="estimteData.negotiationAmount | number : 2" class="form-control" disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
@@ -318,8 +317,7 @@
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" ng-model="estimteData.commissionAmount | number : 2" class="form-control"
-                                                                        disabled>
+                                                                    <input type="text" ng-model="estimteData.commissionAmount | number : 2" class="form-control" disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
@@ -334,8 +332,7 @@
                                                                     <span class="unit">%</span>
                                                                 </div>
                                                                 <div class="col-md-5" style="padding-left:0 !important;">
-                                                                    <input type="text" ng-model="estimteData.otherAmount | number : 2" class="form-control"
-                                                                        disabled>
+                                                                    <input type="text" ng-model="estimteData.otherAmount | number : 2" class="form-control" disabled>
                                                                     <span class="unit">Rs</span>
                                                                 </div>
                                                             </div>
@@ -363,7 +360,7 @@
                                                 <td rowspan="2" class="text-center">{{estimteData.addonCost.toFixed(2)}} </td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.extrasCost.toFixed(2)}}</td>
                                                 <td rowspan="2" class="text-center"> {{estimteData.totalCost.toFixed(2) | currency:"₹"}}</td>
-                                                <td style="width:250px!important"> 
+                                                <td style="width:250px!important">
                                                     <span class="col-md-6">Gross Weight :</span>
                                                     <span class="col-md-6" style="padding-left:0 !important;">{{estimteData.wtAtAssembly.toFixed(2)}}&nbsp;
                                                         <b>Kg</b>

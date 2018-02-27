@@ -55,20 +55,20 @@
                                                         </select> -->
                                                         <input type="text" class="form-control" id="form_control_10" ng-model="formData.enquiryDetails.enquiryStatus" readonly>
                                                         <div class="form-control-focus"> </div>
-                                                        <span class="error">{{enquiryValidation.status}}</span>
+                                                        <span class="redColor">{{enquiryValidation.status}}</span>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Name:
-                                                        <span class="error">&nbsp;&nbsp;*</span>
+                                                        <span class="redColor">&nbsp;&nbsp;*</span>
                                                     </label>
                                                     <div class="col-md-3">
                                                         <select class="form-control" name="customername" ng-options="c.customerName for c in customerData track by c._id" ng-model="formData.customerDataObj"
                                                             ng-change="setCustomerData(formData.customerDataObj)" required>
                                                         </select>
-                                                        <span class="error">{{enquiryValidation.customerName}}</span>
-                                                        <span class="error" ng-show="myForm1.customername.$invalid && myForm1.customername.$dirty">Please fill in this field.</span>
+                                                        <span class="redColor">{{enquiryValidation.customerName}}</span>
+                                                        <span class="redColor" ng-show="myForm1.customername.$invalid && myForm1.customername.$dirty">Please fill in this field.</span>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Enquiry Type:</label>
@@ -86,13 +86,13 @@
 
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Estimator:
-                                                        <span class="error">&nbsp;&nbsp;*</span>
+                                                        <span class="redColor">&nbsp;&nbsp;*</span>
                                                     </label>
                                                     <div class="col-md-3">
                                                         <select class="form-control" ng-options="u.name for u in userData track by u._id" ng-model="formData.enquiryDetails.estimator"
                                                             ng-change="setEstimator(formData.enquiryDetails.estimator)" required>
                                                         </select>
-                                                        <span class="error">{{enquiryValidation.estimator}}</span>
+                                                        <span class="redColor">{{enquiryValidation.estimator}}</span>
                                                         <div class="form-control-focus"> </div>
                                                     </div>
                                                     <label class="col-md-2 control-label" for="form_control_1">Customer Contact:</label>
@@ -118,12 +118,12 @@
                                                 </div>
                                                 <div class="form-group form-md-line-input has-success">
                                                     <label class="col-md-2 control-label" for="form_control_1">Delivery Location:
-                                                        <span class="error">&nbsp;&nbsp;*</span>
+                                                        <span class="redColor">&nbsp;&nbsp;*</span>
                                                     </label>
                                                     <div class="col-md-3">
                                                         <input type="text" class="form-control" name="deliverylocation" id="form_control_1" ng-model="formData.enquiryDetails.deliveryLocation"
                                                             required>
-                                                        <span class="error" ng-show="myForm1.deliverylocation.$invalid && myForm1.deliverylocation.$dirty">Please fill in this field </span>
+                                                        <span class="redColor" ng-show="myForm1.deliverylocation.$invalid && myForm1.deliverylocation.$dirty">Please fill in this field </span>
 
                                                         <div class="form-control-focus"> </div>
                                                     </div>

@@ -14,7 +14,7 @@
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Extra Item:
-                                <span class="error">&nbsp;&nbsp;*</span>
+                                <span class="redColor">&nbsp;&nbsp;*</span>
                             </label>
                             <div class="col-md-5">
                                 <select class="form-control" ng-options="ei.extraName for ei in extraObj.allExtraItem track by ei._id" ng-model="extraObj.selectedExtraItem"
@@ -24,7 +24,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Rate:
-                                <span class="error">&nbsp;&nbsp;*</span>
+                                <span class="redColor">&nbsp;&nbsp;*</span>
                             </label>
                             <div class="col-md-5">
                                 <input type="number" class="form-control" ng-model="extraObj.rate" name="rate" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-change="updateExtraCost()"
@@ -32,13 +32,13 @@
                                 <span class="unit">
                                     {{extraObj.selectedExtraItem.rate.uom.uomName}}
                                 </span>
-                                <span class="error" ng-show="myForm.rate.$invalid && myForm.rate.$dirty">Please enter a number or floating point number</span>
+                                <span class="redColor" ng-show="myForm.rate.$invalid && myForm.rate.$dirty">Please enter a number or floating point number</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">
                                 <b>Quantity:
-                                    <span class="error">&nbsp;&nbsp;*</span>
+                                    <span class="redColor">&nbsp;&nbsp;*</span>
                                 </b>
                             </label>
                             <div class="col-md-5">

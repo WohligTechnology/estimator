@@ -5,7 +5,13 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to show/hide sidebar of dashboard 
   $scope.$parent.isSidebarActive = false;
   $scope.activeTab = 'assembly';
-  $scope.partNumber;
+  //- tree highlight obj
+  $scope.treeActive = {
+    subAssemblyNumber: "",
+    partNumber: "",
+    itemNumber: "1",
+    level: ""
+  }
   //- for title
   TemplateService.getTitle("Estimate");
   $scope.showSaveBtn = true;
@@ -102,7 +108,15 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
       $scope.disablePartFields = _.cloneDeep($scope.disablePartFieldsTemp);
 
       createOrEditEstimateService.estimateViewData(getViewName, getLevelName, subAssemblyId, partId, function (data) {
-        $scope.partNumber = data.partId;
+        debugger;
+        $scope.treeActive.subAssemblyNumber = subAssemblyId;
+        $scope.treeActive.partNumber = partId;
+        $scope.treeActive.level = getLevelName;
+        if (angular.isDefined(data.itemNumber)) {
+          $scope.treeActive.itemNumber = data.itemNumber;
+        } else {
+          $scope.treeActive.itemNumber = "1";
+        }
         $scope.loading = false;
         if (getViewName == 'editPartItemDetail' || getViewName == 'partDetail') {
           //- get all processing count, addon count & extras count
@@ -119,7 +133,6 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
 
           $scope.estimatePartObj.subAssNumber = data.subAssNumber;
           $scope.estimatePartObj.partNumber = data.partNumber;
-          $scope.partNumber = data.partNumber;
           $scope.estimatePartObj.partName = data.partName;
 
           $scope.estimatePartObj.partUpdateStatus = data.partUpdateStatus;
@@ -1943,7 +1956,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if (!isNaN(parseFloat(selectedMaterial.weightPerUnit))) {
       var wpu = parseFloat(selectedMaterial.weightPerUnit);
       //- get weight per unit field
-      $scope.addonObj.weightPerUnit = wup;
+      $scope.addonObj.weightPerUnit = wpu;
     }
     $scope.addonObj.selectedAddonType.rate.mulFact = eval($scope.addonObj.selectedAddonType.rate.mulFact);
     if ($scope.addonObj.showQuantityFields) {
