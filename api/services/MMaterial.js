@@ -209,14 +209,10 @@ var model = {
     },
     // del restrictions of Material to restrict and delete data on the basis of conditions
     // req data --> id's arrays
-    delRestrctionsOfMaterial: function (data, callback) {
+    delRestrictionsOfMaterial: function (data, callback) {
         async.eachSeries(data.idsArray, function (ids, callback) {
-            // if (!ids)
-            console.log('**** %%%% ****', ids);
-            MMaterial.findOne({
-                _id: {
-                    $in: ids
-                }
+            MMaterial.find({
+                _id: ids
             }).exec(function (err, matData) {
                 if (err) {
                     console.log('**** error at function_name of MMaterial.js ****', err);
@@ -224,12 +220,8 @@ var model = {
                 } else if (_.isEmpty(matData)) {
                     callback(null, 'noDataFound');
                 } else {
-                    console.log('**** inside function_name of MMaterial.js ****', matData);
                     EstimateAddons.find({
-                        // addonItem: ids
-                        addonItem: {
-                            $in: ids
-                        }
+                        addonItem: ids
                     }).exec(function (err, found) {
                         if (err) {
                             console.log('**** error at function_name of MMaterial.js ****', err);
@@ -237,9 +229,8 @@ var model = {
                         } else if (_.isEmpty(found)) {
                             EstimatePart.find({
                                 // material: ids
-                                material: {
-                                    $in: ids
-                                }
+                                material: ids
+
                             }).exec(function (err, partData) {
                                 if (err) {
                                     console.log('**** error at function_name of MMaterial.js ****', err);
@@ -248,14 +239,10 @@ var model = {
                                     async.parallel([
                                             function (callback) {
                                                 MMaterialSubCat.update({
-                                                    materials: {
-                                                        $in: ids
-                                                    }
+                                                    materials: ids
                                                 }, {
                                                     $pull: {
-                                                        materials: {
-                                                            $in: ids
-                                                        }
+                                                        materials: ids
                                                     }
                                                 }).exec(function (err, updatedData) {
 
@@ -271,11 +258,9 @@ var model = {
                                             },
                                             function (callback) {
                                                 MMaterial.remove({
-                                                    _id: {
-                                                        $in: ids
-                                                    }
+                                                    _id: ids
                                                 }).exec(function (err, removedMaterial) {
-                                                    console.log('**** inside paralle ****', removedMaterial);
+                                                    console.log('**** inside paralle ****');
                                                     if (err) {
                                                         console.log('**** error at materil removed of MMaterial.js ****', err);
                                                         callback(err, null);
@@ -302,7 +287,7 @@ var model = {
                                 }
                             });
                         } else {
-                            callback(null, 'dependecy of table Estimate Addon');
+                            callback(null, 'dependecny of table Estimate Addon');
                         }
                     });
                 }
@@ -311,7 +296,7 @@ var model = {
             if (err) {
                 console.log('***** error at final response of async.eachSeries in function_name of MMaterial.js*****', err);
             } else {
-                callback(null,'done');
+                callback(null, 'Records updated successfully');
             }
         });
     },

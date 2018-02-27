@@ -75,9 +75,9 @@ var controller = {
             });
         }
     },
-    delRestrctionsOfMaterial: function (req, res) {
+    delRestrictionsOfMaterial: function (req, res) {
         if (req.body) {
-            MMaterial.delRestrctionsOfMaterial(req.body, res.callback);
+            MMaterial.delRestrictionsOfMaterial(req.body, res.callback);
         } else {
             res.json({
                 value: false,
