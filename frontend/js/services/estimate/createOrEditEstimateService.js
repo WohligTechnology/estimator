@@ -405,13 +405,13 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		NavigationService.boxCall('MVariableMarkup/getMMarkupData', function (data) {
 			sellingObj.markups = data.data;
 			angular.forEach(sellingObj.markups, function (markup) {
-				if (_.isNaN(parseFloat(markup.overhead))) {
+				if (isNaN(parseFloat(markup.overhead))) {
 					markup.overhead = 10;
 				}
-				if (_.isNaN(parseFloat(markup.minProfit))) {
+				if (isNaN(parseFloat(markup.minProfit))) {
 					markup.minProfit = 10;
 				}
-				if (_.isNaN(parseFloat(markup.minProfit))) {
+				if (isNaN(parseFloat(markup.minProfit))) {
 					markup.minProfit = 10;
 				}
 				if (markup.markupType == "material") {
@@ -435,30 +435,31 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 					formData.assembly.scaleFactors.factor = "low";
 					if (data.value) {
 						sellingObj.markups = data.data.results;
+						//- to get first object
 						sellingObj.markups = sellingObj.markups[sellingObj.markups.length - 1]
 
 						if (angular.isDefined(sellingObj.markups.fixedMarkups)) {
-							if (!_.isNaN(parseFloat(sellingObj.markups.fixedMarkups.negotiation))) {
+							if (!isNaN(parseFloat(sellingObj.markups.fixedMarkups.negotiation))) {
 								sellingObj.negotiation = sellingObj.markups.fixedMarkups.negotiation;
 							}
-							if (!_.isNaN(parseFloat(sellingObj.markups.fixedMarkups.commission))) {
+							if (!isNaN(parseFloat(sellingObj.markups.fixedMarkups.commission))) {
 								sellingObj.commission = sellingObj.markups.fixedMarkups.commission;
 							}
-							if (!_.isNaN(parseFloat(sellingObj.markups.fixedMarkups.other))) {
+							if (!isNaN(parseFloat(sellingObj.markups.fixedMarkups.other))) {
 								sellingObj.other = sellingObj.markups.fixedMarkups.other;
 							}
 						}
 						if (angular.isDefined(sellingObj.markups.scaleFactors)) {
-							if (!_.isNaN(parseFloat(sellingObj.markups.scaleFactors.low))) {
+							if (!isNaN(parseFloat(sellingObj.markups.scaleFactors.low))) {
 								sellingObj.lowScaleFactor = sellingObj.markups.scaleFactors.low;
 							}
-							if (!_.isNaN(parseFloat(sellingObj.markups.scaleFactors.medium))) {
+							if (!isNaN(parseFloat(sellingObj.markups.scaleFactors.medium))) {
 								sellingObj.mediumScaleFactor = sellingObj.markups.scaleFactors.medium;
 							}
-							if (!_.isNaN(parseFloat(sellingObj.markups.scaleFactors.high))) {
+							if (!isNaN(parseFloat(sellingObj.markups.scaleFactors.high))) {
 								sellingObj.highScaleFactor = sellingObj.markups.scaleFactors.high;
 							}
-							if (!_.isNaN(parseFloat(sellingObj.markups.scaleFactors.budgetory))) {
+							if (!isNaN(parseFloat(sellingObj.markups.scaleFactors.budgetory))) {
 								sellingObj.budgetoryScaleFactor = sellingObj.markups.scaleFactors.budgetory;
 							}
 						}
@@ -503,8 +504,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				//- update cost based on scale factors
 				if (angular.isDefined(formData.assembly.scaleFactors)) {
 					thisRef.addScalingFactorToCost(formData.assembly.scaleFactors.factor);
-				} else {
-					thisRef.addScalingFactorToCost("low");
 				}
 			}
 		});
@@ -889,6 +888,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
 				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
 			}
+			if(getViewData.length >= 1) {
+				getViewData.itemNumber = getViewData[0].processingNumber;				
+			}
 			thisRef.getProcessingTotalCost(getLevelName, getViewData, subAssemblyId, partId);
 		} else if (estimateView == 'addons') {
 			if (getLevelName == "assembly") {
@@ -904,6 +906,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
 				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
 			}
+			if(getViewData.length >= 1) {
+				getViewData.itemNumber = getViewData[0].addonNumber;
+			}
 			thisRef.getAddonTotalCost(getLevelName, getViewData, subAssemblyId, partId);
 		} else if (estimateView == 'extras') {
 			if (getLevelName == "assembly") {
@@ -918,6 +923,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 				getViewData = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].extras;
 				getViewData.subAssemblyId = formData.assembly.subAssemblies[subAssIndex].subAssemblyNumber;
 				getViewData.partId = formData.assembly.subAssemblies[subAssIndex].subAssemblyParts[partIndex].partNumber;
+			}
+			if(getViewData.length >= 1) {
+				getViewData.itemNumber = getViewData[0].extraNumber;				
 			}
 		}
 
@@ -1175,32 +1183,32 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			_.forEach(records, function (part) {
 				if (temp) {
 					if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
-						tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
+						tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter) * part.quantity;
 					} else {
 						//- if perimeter is not present break the loop
 						temp = false;
 						return false;
 					}
 					if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
-						tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
+						tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea) * part.quantity;
 					} else {
 						temp = false;
 						return false;
 					}
 					if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
-						tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
+						tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea) * part.quantity;
 					} else {
 						temp = false;
 						return false;
 					}
 					if (!isNaN(parseFloat(part.keyValueCalculations.grossWeight))) {
-						tempObj.grossWeight += parseFloat(part.keyValueCalculations.grossWeight);
+						tempObj.grossWeight += parseFloat(part.keyValueCalculations.grossWeight) * part.quantity;
 					} else {
 						temp = false;
 						return false;
 					}
 					if (!isNaN(parseFloat(part.keyValueCalculations.netWeight))) {
-						tempObj.netWeight += parseFloat(part.keyValueCalculations.netWeight);
+						tempObj.netWeight += parseFloat(part.keyValueCalculations.netWeight) * part.quantity;
 					} else {
 						temp = false;
 					}
@@ -1208,39 +1216,46 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 			});
 		} else {
 			_.forEach(records, function (subAssembly) {
-				_.forEach(subAssembly.subAssemblyParts, function (part) {
-					if (temp) {
-						if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
-							tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter);
-						} else {
-							temp = false;
-							return false;
+				if (temp) {
+					_.forEach(subAssembly.subAssemblyParts, function (part) {
+						if (temp) {
+							if (!isNaN(parseFloat(part.keyValueCalculations.perimeter))) {
+								tempObj.perimeter += parseFloat(part.keyValueCalculations.perimeter) * part.quantity;
+							} else {
+								temp = false;
+								return false;
+							}
+							if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
+								tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea) * part.quantity;
+							} else {
+								temp = false;
+								return false;
+							}
+							if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
+								tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea) * part.quantity;
+							} else {
+								temp = false;
+								return false;
+							}
+							if (!isNaN(parseFloat(part.keyValueCalculations.grossWeight))) {
+								tempObj.grossWeight += parseFloat(part.keyValueCalculations.grossWeight) * part.quantity;
+							} else {
+								temp = false;
+								return false;
+							}
+							if (!isNaN(parseFloat(part.keyValueCalculations.netWeight))) {
+								tempObj.netWeight += parseFloat(part.keyValueCalculations.netWeight) * part.quantity;
+							} else {
+								temp = false;
+							}
 						}
-						if (!isNaN(parseFloat(part.keyValueCalculations.sheetMetalArea))) {
-							tempObj.sheetMetalArea += parseFloat(part.keyValueCalculations.sheetMetalArea);
-						} else {
-							temp = false;
-							return false;
-						}
-						if (!isNaN(parseFloat(part.keyValueCalculations.surfaceArea))) {
-							tempObj.surfaceArea += parseFloat(part.keyValueCalculations.surfaceArea);
-						} else {
-							temp = false;
-							return false;
-						}
-						if (!isNaN(parseFloat(part.keyValueCalculations.grossWeight))) {
-							tempObj.grossWeight += parseFloat(part.keyValueCalculations.grossWeight);
-						} else {
-							temp = false;
-							return false;
-						}
-						if (!isNaN(parseFloat(part.keyValueCalculations.netWeight))) {
-							tempObj.netWeight += parseFloat(part.keyValueCalculations.netWeight);
-						} else {
-							temp = false;
-						}
-					}
-				});
+					});
+					tempObj.perimeter = tempObj.perimeter * subAssembly.quantity;
+					tempObj.sheetMetalArea = tempObj.sheetMetalArea * subAssembly.quantity;
+					tempObj.surfaceArea = tempObj.surfaceArea * subAssembly.quantity;
+					tempObj.grossWeight = tempObj.grossWeight * subAssembly.quantity;
+					tempObj.netWeight = tempObj.netWeight * subAssembly.quantity; 
+				}
 			});
 		}
 		if ((temp && records.length != 0) || (records.length != 0 && costCal)) {

@@ -16,7 +16,7 @@
                             <label class="col-md-2 control-label">Addon Type Name:</label>
                             <div class="col-md-3">
                                 <input type="text" name="AddonTypeName" class="form-control" ng-model="formData.addonTypeName" placeholder="" required autofocus>
-                                <span class="error" ng-show="myForm.AddonTypeName.$invalid && myForm.AddonTypeName.$dirty"> Please fill in this field</span>
+                                <span class="redColor" ng-show="myForm.AddonTypeName.$invalid && myForm.AddonTypeName.$dirty"> Please fill in this field</span>
                             </div>
                             <label class="col-md-2 control-label"> SubAssembly Access:</label>
                             <div class="col-md-1" style="margin-top:10px;">
@@ -32,14 +32,14 @@
                                 <select class="form-control select_tag_dashboard" name="MaterialCategory" ng-model="selectedMatCat" ng-options="mc.materialCatName for mc in mMatCatData track by mc._id "
                                     ng-change="getMatSubCat(selectedMatCat._id)" required>
                                 </select>
-                                <span class="error" ng-show="myForm.MaterialCategory.$invalid && myForm.MaterialCategory.$dirty"> Please fill in this field</span>
+                                <span class="redColor" ng-show="myForm.MaterialCategory.$invalid && myForm.MaterialCategory.$dirty"> Please fill in this field</span>
                             </div>
                             <label class="col-md-2 control-label"> Material SubCategory:</label>
                             <div class="col-md-3">
                                 <select ng-model="selectedMatSubCat" name="MaterialSubcategory" class="form-control select_tag_dashboard" ng-options="msc.materialSubCatName for msc in selectedMatCat.subCat track by msc._id "
                                     required>
                                 </select>
-                                <span class="error" ng-show="myForm.MaterialSubcategory.$invalid &&  myForm.MaterialSubcategory.$dirty"> Please fill in this field</span>
+                                <span class="redColor" ng-show="myForm.MaterialSubcategory.$invalid &&  myForm.MaterialSubcategory.$dirty"> Please fill in this field</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -69,7 +69,7 @@
                                 <select ng-model="selectedRateUom" name="uomm" class="form-control select_tag_dashboard" ng-options="u.uomName for u in mUomData track by u._id"
                                     required>
                                 </select>
-                                <span class="error" ng-show="myForm.uomm.$invalid &&  myForm.uomm.$dirty"> Please fill in this field</span>
+                                <span class="redColor" ng-show="myForm.uomm.$invalid &&  myForm.uomm.$dirty"> Please fill in this field</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -94,7 +94,7 @@
                             <label class="col-md-2 control-label"> Additional Input</label>
                             <div class="col-md-3">
                                 <input type="text" name="AdditionInput" class="form-control" ng-model="formData.quantity.additionalInput" required>
-                                <span class="error" ng-show="myForm.AdditionInput.$invalid &&  myForm.AdditionInput.$dirty"> Please fill in this field</span>
+                                <span class="redColor" ng-show="myForm.AdditionInput.$invalid &&  myForm.AdditionInput.$dirty"> Please fill in this field</span>
                             </div>
                             <label class="col-md-2 control-label">UOM</label>
                             <div class="col-md-3">
