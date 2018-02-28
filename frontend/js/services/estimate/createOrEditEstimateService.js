@@ -1881,6 +1881,9 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 
 		tempAddonObject.remark = addonData.remark;
 		tempAddonObject.totalCost = addonData.totalCost;
+		tempAddonObject.totalWeight = addonData.totalWeight;
+		tempAddonObject.weightPerUnit = addonData.weightPerUnit;
+		
 
 		if (level == 'assembly') {
 			formData.assembly.addons[getAddonIndex] = tempAddonObject;

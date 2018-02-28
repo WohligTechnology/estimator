@@ -73,7 +73,6 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
     if (errorCount == 0) {
       masterExtraService.addOrEditExtra(extraData, function (data) {
         toastr.success('Extra added/updated successfully');
-        $scope.getPaginationData(1, 10, undefined);
         $scope.cancelModal();
       });
     }
@@ -100,14 +99,13 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
         toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
-      $scope.getPaginationData(1, 10, undefined);
     },'singleExtra');
   }
 
   //- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
-    $scope.init();
+    $scope.getPaginationData(1, 10);
   }
   //- function to delete extra
   $scope.deleteBulkExtras = function (extras) {
@@ -118,7 +116,6 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
         toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
-      $scope.getPaginationData(1, 10, undefined);
       $scope.bulkExtras = [];
       $scope.checkAll = false;
       $scope.checkboxStatus = false;
@@ -141,7 +138,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 
   $scope.init = function () {
-    $scope.getPaginationData(1, 10, undefined);
+    $scope.getPaginationData(1, 10);
   }
   $scope.init();
 
