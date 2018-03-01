@@ -40,17 +40,6 @@ myApp
         };
     })
 
-    .factory('accessApp', function ($location) {
-        return {
-            isLoggedIn: function () {
-                if ($.jStorage.get("loggedInUser")) {
-                    return true;
-                } else {
-                    return $location.path('/');
-                }
-            }
-        }
-    })
 
     .directive('uploadAllFiles', function ($http) {
         return {
