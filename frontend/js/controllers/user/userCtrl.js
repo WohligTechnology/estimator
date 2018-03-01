@@ -24,18 +24,17 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, T
 
 
   // *************************** default functions begin here  ********************** //
-  //- function to get all users from database
-  $scope.getUserData = function () {
+  //- for pagination of users' records
+  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     $scope.loading = true;
-    userService.getUserData(function (data) {
+    userService.getPaginationData(page, numberOfRecords, keyword, function (data) {
       $scope.loading = false;
       $scope.userData = data.results;
-      userService.getPaginationDetails(1, 10, data, function (obj) {
+      userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
         $scope.obj = obj;
       });
     });
   }
-
 
   // *************************** functions to be triggered form view begin here ***** //
   $scope.checkEmailAvailability = function (obj) {
@@ -75,10 +74,10 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, T
         } else {
           toastr.success('Record updated successfully');
         }
+        TemplateService.getUserDetails(userData);
       } else {
-        toastr.error("Email must be unique");
+        toastr.error("There is some error");
       }
-      $scope.getUserData();
     });
   }
   //- user deletion modal
@@ -94,37 +93,27 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, T
   }
   //- to delete user
   $scope.deleteUser = function (userId) {
-    userService.deleteUser(userId, function (data) {
+    userService.deleteBulkUsers(userId, function (data) {
       if (_.isEmpty(data.data)) {
         toastr.success('Record deleted successfully');
       } else {
         toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
-      $scope.getUserData();
-    });
+    }, 'singleUser');
   }
-  //- for pagination of users' records
-  $scope.getPaginationData = function (page, numberOfRecords, keyword) {
-    userService.getPaginationData(page, numberOfRecords, keyword, function (data) {
-      $scope.userData = data.results;
-      userService.getPaginationDetails(page, numberOfRecords, data, function (obj) {
-        $scope.obj = obj;
-      });
-    });
-  }
-  //- bulk users deletion modal
-  $scope.deleteBulkUsersModal = function (userIdArray, getFunction) {
-    $scope.idsToDelete = userIdArray;
-    $scope.functionToCall = getFunction;
+  // //- bulk users deletion modal
+  // $scope.deleteBulkUsersModal = function (userIdArray, getFunction) {
+  //   $scope.idsToDelete = userIdArray;
+  //   $scope.functionToCall = getFunction;
 
-    $scope.modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'views/content/deleteBulkModal.html',
-      scope: $scope,
-      size: 'md'
-    });
-  }
+  //   $scope.modalInstance = $uibModal.open({
+  //     animation: true,
+  //     templateUrl: 'views/content/deleteBulkModal.html',
+  //     scope: $scope,
+  //     size: 'md'
+  //   });
+  // }
   //-to delete bulk users
   $scope.deleteBulkUsers = function (users) {
     userService.deleteBulkUsers(users, function (data) {
@@ -137,7 +126,6 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, T
       $scope.bulkUsers = [];
       $scope.checkAll = false;
       $scope.checkboxStatus = false;
-      $scope.getUserData();
     });
   }
   //- to get bulk users
@@ -155,13 +143,14 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, T
   //- to dismiss modal instance
   $scope.cancelModal = function () {
     $scope.modalInstance.dismiss();
+    $scope.getPaginationData(1, 10);
   }
 
 
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 
   $scope.init = function () {
-    $scope.getUserData();
+    $scope.getPaginationData(1, 10);
   }
   $scope.init();
 

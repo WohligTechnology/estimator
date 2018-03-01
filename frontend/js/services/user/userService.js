@@ -1,14 +1,15 @@
 myApp.service('userService', function ($http, $uibModal, NavigationService) {
 
   var bulkArray = [];
-  //- get user view
-  this.getUserData = function (callback) {
-    NavigationService.boxCall('User/search', function (data) {
-      callback(data.data);
-    });
-  }
+  // //- get user view
+  // this.getUserData = function (callback) {
+  //   NavigationService.boxCall('User/search', function (data) {
+  //     callback(data.data);
+  //   });
+  // }
   this.checkEmailAvailability = function (obj, callback) {
-    this.getUserData(function (data) {
+    //- check email availability in 100 records
+    this.getPaginationData(1, 100, undefined, function (data) {
       var users = data.results;
       var temp = false;
       _.forEach(users, function (user) {
@@ -36,7 +37,6 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   }
   //- add or edit user
   this.addOrEditUser = function (operation, userData, callback) {
-    userData.photo = null;
     if (operation == 'update') {
       NavigationService.apiCall('User/save', userData, function (data) {
         callback(data);
@@ -46,16 +46,6 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
         callback(data);
       });
     }
-  }
-  //- delete useraddOrEditUser
-  this.deleteUser = function (userId, callback) {
-    var idsArray = [];
-    idsArray.push(userId);
-    NavigationService.delete('Web/delRestrictions/User', {
-      idsArray: idsArray
-    }, function (data) {
-      callback(data);
-    });
   }
   //- get pagination data
   this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
@@ -109,10 +99,16 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
     callback(bulkArray);
   }
   //- delete bulk users
-  this.deleteBulkUsers = function (users, callback) {
-    NavigationService.apiCall('Web/delRestrictions/User', {
-      idsArray: users
-    }, function (data) {
+  this.deleteBulkUsers = function (users, callback, type) {
+    var tempObj = {};
+    if (type == 'singleUser') {
+      tempObj.idsArray = [];
+      tempObj.idsArray.push(users);
+    } else {
+      tempObj.idsArray = users;
+    }
+    NavigationService.apiCall('Web/delRestrictions/User', tempObj, function (data) {
+      bulkArray = [];      
       callback(data);
     });
   }

@@ -31,5 +31,86 @@ var model = {
             }
         });
     },
+
+    //- req data --> ? part type cat _id
+    delRestrictionOfMPartTypeCat: function (data, callback) {
+        MPartTypeCat.findOne({
+            _id: data._id
+        }).lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of MPartTypeCat.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, []);
+            } else {
+                console.log('****found.partTypesfound.partTypes ****', found.partTypes);
+                EstimatePart.find({
+                    partType: found.partTypes
+                }).lean().exec(function (err, partData) {
+                    if (err) {
+                        console.log('**** error at function_name of MPartTypeCat.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(partData)) {
+                        async.parallel([
+                            function (callback) {
+                                MPartType.remove({
+                                    _id: found.partTypes
+                                }).exec(function (err, mPartTypeRemoved) {
+                                    console.log('****part typeppp ****', mPartTypeRemoved);
+                                    if (err) {
+                                        console.log('**** error at function_name of MPartTypeCat.js ****', err);
+                                        callback(err, null);
+                                    } else if (_.isEmpty(mPartTypeRemoved)) {
+                                        callback(null, 'noDataFound');
+                                    } else {
+                                        callback(null, mPartTypeRemoved);
+                                    }
+                                });
+                            },
+                            function (callback) {
+                                MPartPresets.remove({
+                                    partType: found.partTypes
+                                }).exec(function (err, mPartPresetsRemoved) {
+                                    if (err) {
+                                        console.log('**** error at function_name of MPartTypeCat.js ****', err);
+                                        callback(err, null);
+                                    } else if (_.isEmpty(mPartPresetsRemoved)) {
+                                        callback(null, 'noDataFound');
+                                    } else {
+                                        callback(null, mPartPresetsRemoved);
+                                    }
+                                });
+                            },
+                            function (callback) {
+                                MPartTypeCat.remove({
+                                    partTypes: found.partTypes
+                                }).exec(function (err, mPartTypeCatRemoved) {
+                                    if (err) {
+                                        console.log('**** error at function_name of MPartTypeCat.js ****', err);
+                                        callback(err, null);
+                                    } else if (_.isEmpty(mPartTypeCatRemoved)) {
+                                        callback(null, 'noDataFound');
+                                    } else {
+                                        callback(null, mPartTypeCatRemoved);
+                                    }
+                                });
+                            },
+                        ], function (err, finalResults) {
+                            if (err) {
+                                console.log('********** error at final response of async.parallel  MPartTypeCat.js ************', err);
+                                callback(err, null);
+                            } else if (_.isEmpty(finalResults)) {
+                                callback(null, 'noDataFound');
+                            } else {
+                                callback(null, 'Records deleted successfully');
+                            }
+                        });
+                    } else {
+                        callback(null, 'dependecy of table estimate part');
+                    }
+                });
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);

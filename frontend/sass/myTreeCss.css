@@ -214,7 +214,7 @@ label.tree_label:after {
 .editAssembly {}
 
 .subssemblyName {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .createSubAssembly {
@@ -332,6 +332,11 @@ label.tree_label:after {
 .materialSubEditIcon{
    right: 29%;
   position: absolute;
+}
+.materialDuplicateIcon{
+  right:38%;
+  position: absolute;
+  
 }
 .materialEditIcon{
   right:29%;

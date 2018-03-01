@@ -46,10 +46,7 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessCat = function (processCatId, callback) {
-    var idsArray = [];
-    idsArray.push(processCatId);
-
-    NavigationService.apiCall('Web/delRestrictions/MProcessCat', {idsArray: idsArray}, function (data) {
+    NavigationService.apiCall('MProcessCat/delRestrictionsMProcessCat', {_id: processCatId}, function (data) {
       callback(data);
     });
   }
@@ -78,10 +75,7 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessItem = function (processItemId, callback) {
-    idsArray = [];
-    idsArray.push(processItemId);
-
-    NavigationService.apiCall('Web/delRestrictions/MProcessItem', {idsArray: idsArray}, function (data) {
+    NavigationService.apiCall('MProcessItem/delRestrictionMProcessItem', {_id: processItemId}, function (data) {
       callback(data);
     });
   }

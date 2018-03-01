@@ -107,7 +107,7 @@ var controller = {
                 data: {
                     message: 'Invalid Request'
                 }
-            })
+            });
         }
     },
     downloadExcel: function (req, res) {

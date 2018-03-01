@@ -60,12 +60,24 @@ var controller = {
                 data: {
                     message: 'Invalid Request'
                 }
-            })
+            });
         }
     },
     getAllCustomeBaseOverlay: function (req, res) {
         if (req.body) {
             MMaterial.getAllCustomeBaseOverlay(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            });
+        }
+    },
+    delRestrictionsOfMaterial: function (req, res) {
+        if (req.body) {
+            MMaterial.delRestrictionsOfMaterial(req.body, res.callback);
         } else {
             res.json({
                 value: false,

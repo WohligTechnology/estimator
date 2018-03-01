@@ -29,62 +29,125 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" id="checkbox-f" ng-model="isUserSelected" ng-disabled="userC || userR || userU ||userD">User</td>
-                                        <td>
-                                            <span ng-show="isUserSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="userC">Create</span>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="isUserSelected" ng-disabled="userC || userR || userU ||userD"
+                                                />
+                                                <span></span>User
+                                            </label>
                                         </td>
                                         <td>
                                             <span ng-show="isUserSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="userR">Read</span>
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="userC" />
+                                                    <span></span>Create
+                                                </label>
+                                            </span>
                                         </td>
                                         <td>
                                             <span ng-show="isUserSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="userU">Update</span>
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="userR" />
+                                                    <span></span>Read
+                                                </label>
+                                            </span>
                                         </td>
                                         <td>
                                             <span ng-show="isUserSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="userD">Delete</span>
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="userU" />
+                                                    <span></span>Update
+                                                </label>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-show="isUserSelected">
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="userD" />
+                                                    <span></span>Delete
+                                                </label>
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" id="checkbox-f" ng-model="isCustomerSelected" ng-disabled="customerC || customerR || customerU || customerD">Customer</td>
-                                        <td>
-                                            <span ng-show="isCustomerSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="customerC">Create</span>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="isCustomerSelected" ng-disabled="customerC || customerR || customerU || customerD"
+                                                />
+                                                <span></span>Customer
+                                            </label>
                                         </td>
                                         <td>
                                             <span ng-show="isCustomerSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="customerR">Read</span>
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="customerC" />
+                                                    <span></span>Create
+                                                </label>
+                                            </span>
                                         </td>
                                         <td>
                                             <span ng-show="isCustomerSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="customerU">Update</span>
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="customerR" />
+                                                    <span></span>Read
+                                                </label>
+                                            </span>
                                         </td>
                                         <td>
                                             <span ng-show="isCustomerSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="customerD">Delete</span>
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="customerU" />
+                                                    <span></span>Update
+                                                </label>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-show="isCustomerSelected">
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="customerD" />
+                                                    <span></span>Delete
+                                                </label>
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" id="checkbox-f" ng-model="isEnquirySelected" ng-disabled="enquiryC || enquiryR || enquiryU || enquiryD">Enquiry</td>
-                                        <td>
-                                            <span ng-show="isEnquirySelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="enquiryC">Create</span>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="isEnquirySelected" ng-disabled="enquiryC || enquiryR || enquiryU || enquiryD"
+                                                />
+                                                <span></span>Enquiry
+                                            </label>
                                         </td>
                                         <td>
                                             <span ng-show="isEnquirySelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="enquiryR">Read</span>
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="enquiryC" />
+                                                    <span></span>Create
+                                                </label>
+                                            </span>
                                         </td>
                                         <td>
                                             <span ng-show="isEnquirySelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="enquiryU">Update</span>
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="enquiryR" />
+                                                    <span></span>Read
+                                                </label>
+                                            </span>
                                         </td>
                                         <td>
                                             <span ng-show="isEnquirySelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="enquiryD">Delete</span>
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="enquiryU" />
+                                                    <span></span>Update
+                                                </label>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-show="isEnquirySelected">
+                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="enquiryD" />
+                                                    <span></span>Delete
+                                                </label>
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr>

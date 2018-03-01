@@ -1,5 +1,5 @@
 myApp.service('masterMaterialService', function (NavigationService) {
-    
+
     var bulkArray = []; //- get master material view
     this.getMaterialView = function (callback) {
         callback();
@@ -34,7 +34,9 @@ myApp.service('masterMaterialService', function (NavigationService) {
     this.deleteMaterialCat = function (materialCatId, callback) {
         idsArray = [];
         idsArray.push(materialCatId);
-        NavigationService.apiCall('Web/delRestrictions/MMaterialCat', {idsArray: idsArray}, function (data) {
+        NavigationService.apiCall('MMaterialCat/delRestrictionMaterialCat', {
+            _id: materialCatId
+        }, function (data) {
             callback(data);
         });
     }
@@ -65,7 +67,9 @@ myApp.service('masterMaterialService', function (NavigationService) {
     this.deleteMaterialSubCat = function (materialSubCatId, callback) {
         idsArray = [];
         idsArray.push(materialSubCatId);
-        NavigationService.apiCall('Web/delRestrictions/MMaterialSubCat', {idsArray: idsArray}, function (data) {
+        NavigationService.apiCall('MMaterialSubCat/delRestrictionMMaterialSubCat', {
+            _id: materialSubCatId
+        }, function (data) {
             callback(data);
         });
     }
@@ -82,7 +86,7 @@ myApp.service('masterMaterialService', function (NavigationService) {
             materialObj.saveBtn = false;
             materialObj.editBtn = true;
         }
-        materialObj.materialSubCategory = materialSubCatId;        
+        materialObj.materialSubCategory = materialSubCatId;
         callback(materialObj);
     }
     this.addOrEditMaterial = function (materialData, materialSubCatId, callback) {
@@ -90,13 +94,6 @@ myApp.service('masterMaterialService', function (NavigationService) {
             materialData.materialSubCategory = materialSubCatId;
         }
         NavigationService.apiCall('MMaterial/save', materialData, function (data) {
-            callback(data);
-        });
-    }
-    this.deleteMaterial = function (materialId, callback) {
-        idsArray = [];
-        idsArray.push(materialId);
-        NavigationService.apiCall('Web/delRestrictions/MMaterial', {idsArray: idsArray}, function (data) {
             callback(data);
         });
     }
@@ -122,61 +119,72 @@ myApp.service('masterMaterialService', function (NavigationService) {
             callback(data);
         });
     }
-  //- get pagination data
-  this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
-    NavigationService.apiCall('MMaterial/search', {
-      keyword: searchKeyword,
-      totalRecords: count,
-      page: pageNumber
-    }, function (data) {
-      callback(data.data);
-    });
-  }
-  //- get details about pagination
-  this.getPaginationDetails = function (pageNumber, count, data, callback) {
-    var obj = {};
-    obj.pageNumber = pageNumber;
-    obj.pageStart = (pageNumber - 1) * count + 1;
-    obj.total = data.total;
-    if (obj.total <= pageNumber * count) {
-      obj.pageEnd = obj.total;
-    } else {
-      obj.pageEnd = pageNumber * count;
+    //- get pagination data
+    this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
+        NavigationService.apiCall('MMaterial/search', {
+            keyword: searchKeyword,
+            totalRecords: count,
+            page: pageNumber
+        }, function (data) {
+            callback(data.data);
+        });
     }
-    obj.numberOfPages = Math.ceil((obj.total) / count);
-    obj.pagesArray = [];
-    for (var i = 0; i < obj.numberOfPages; i++) {
-      obj.pagesArray[i] = i + 1;
+    //- get details about pagination
+    this.getPaginationDetails = function (pageNumber, count, data, callback) {
+        var obj = {};
+        obj.pageNumber = pageNumber;
+        obj.pageStart = (pageNumber - 1) * count + 1;
+        obj.total = data.total;
+        if (obj.total <= pageNumber * count) {
+            obj.pageEnd = obj.total;
+        } else {
+            obj.pageEnd = pageNumber * count;
+        }
+        obj.numberOfPages = Math.ceil((obj.total) / count);
+        obj.pagesArray = [];
+        for (var i = 0; i < obj.numberOfPages; i++) {
+            obj.pagesArray[i] = i + 1;
+        }
+        obj.count = data.options.count;
+        callback(obj);
     }
-    obj.count = data.options.count;
-    callback(obj);
-  }
-//   //- form an array of bulk Ids
-  this.selectBulkMaterials = function (checkboxStatus, materialId, callback) {
-    if (checkboxStatus == true) {
-      bulkArray.push(materialId);
-    } else {
-      _.remove(bulkArray, function (record) {
-        return record == materialId;
-      });
+    //   //- form an array of bulk Ids
+    this.selectBulkMaterials = function (checkboxStatus, materialId, callback) {
+        if (checkboxStatus == true) {
+            bulkArray.push(materialId);
+        } else {
+            _.remove(bulkArray, function (record) {
+                return record == materialId;
+            });
+        }
+        callback(bulkArray);
     }
-    callback(bulkArray);
-  }
-//   //- form an array of Ids of all materials for deletion
-  this.selectAll = function(materials, checkboxStatus, callback) {
-    bulkArray = [];
-    if (checkboxStatus == true) {
-      angular.forEach(materials,  function (obj) {
-        var materialId = obj._id;
-        bulkArray.push(materialId);
-      });
-    } 
-    callback(bulkArray);
-  }
-//   //- delete bulk materials
-  this.deleteBulkMaterials = function (materials, callback) {
-    NavigationService.apiCall('Web/delRestrictions/MMaterial', {idsArray: materials}, function (data) {
-      callback(data);
-    });
-  }
+    //   //- form an array of Ids of all materials for deletion
+    this.selectAll = function (materials, checkboxStatus, callback) {
+        bulkArray = [];
+        if (checkboxStatus == true) {
+            angular.forEach(materials,  function (obj) {
+                var materialId = obj._id;
+                bulkArray.push(materialId);
+            });
+        }
+        callback(bulkArray);
+    }
+    //   //- delete bulk materials
+    this.deleteBulkMaterials = function (materials, callback, type) {
+        var tempObj = {};
+        if (type == 'singleMaterial') {
+            tempObj.idsArray = [];
+            tempObj.idsArray.push(materials);
+        } else {
+            tempObj.idsArray = materials;
+        }
+        NavigationService.apiCall('MMaterial/delRestrictionsOfMaterial', tempObj, function (data) {
+            callback(data);
+        });
+    }
+    this.duplicateMaterial = function (materialData, callback) {
+        materialData = _.omit(materialData, ['_id', '__v', 'createdAt', 'updatedAt']);
+        callback(materialData);
+    }
 });

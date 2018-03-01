@@ -127,20 +127,43 @@ var model = {
 
     //-Find single record from MPartType table and remove the material Id from material array.
     deletePartTypeMaterial: function (data, callback) {
-        MPartType.findOneAndUpdate({
+        MPartType.findOne({
             _id: data._id,
-        }, {
-            $pull: {
-                material: data.materialId
-            },
-        }).exec(function (err, updatedData) {
+        }).exec(function (err, found) {
             if (err) {
                 console.log('**** error at deletePartTypeMaterial of MPartType.js ****', err);
                 callback(err, null);
-            } else if (_.isEmpty(updatedData)) {
+            } else if (_.isEmpty(found)) {
                 callback(null, 'noDataFound');
             } else {
-                callback(null, updatedData);
+                EstimatePart.findOne({
+                    material: data.material
+                }).exec(function (err, found1) {
+                    console.log('**** found1 found1 ****', found1);
+                    if (err) {
+                        console.log('**** error at function_name of MPartType.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(found1)) {
+                        MPartType.findOneAndUpdate({
+                            _id: data._id,
+                        }, {
+                            $pull: {
+                                material: data.material
+                            },
+                        }).exec(function (err, updatedData) {
+                            if (err) {
+                                console.log('**** error at function_name of MPartType.js ****', err);
+                                callback(err, null);
+                            } else if (_.isEmpty(updatedData)) {
+                                callback(null, 'noDataFound');
+                            } else {
+                                callback(null, 'Records Are Updated');
+                            }
+                        });
+                    } else {
+                        callback(null, 'Dependency of Table Estimate Part');
+                    }
+                });
             }
         });
 
@@ -222,6 +245,72 @@ var model = {
                 callback(null, found);
             }
         });
-    }
+    },
+    // what this function will do ?
+    // req data --> ?
+    delRestrictionPartType: function (data, callback) {
+        MPartType.findOne({
+            _id: data._id
+        }).lean().exec(function (err, found) {
+            if (err) {
+                console.log('**** error at function_name of MPartType.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(found)) {
+                callback(null, 'noDataFound');
+            } else {
+                EstimatePart.findOne({
+                    partType: data._id
+                }).lean().exec(function (err, found) {
+                    if (err) {
+                        console.log('**** error at function_name of MPartType.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(found)) {
+                        async.parallel([
+                            function (callback) {
+                                MPartType.remove({
+                                    _id: data._id
+                                }).exec(function (err, removedMPartType) {
+                                    if (err) {
+                                        console.log('**** error at function_name of MPartType.js ****', err);
+                                        callback(err, null);
+                                    } else if (_.isEmpty(removedMPartType)) {
+                                        callback(null, []);
+                                    } else {
+                                        callback(null, removedMPartType);
+                                    }
+                                });
+                            },
+                            function (callback) {
+                                MPartPresets.remove({
+                                    partType: data._id
+                                }).exec(function (err, removedMPartPresets) {
+                                    if (err) {
+                                        console.log('**** error at function_name of MPartType.js ****', err);
+                                        callback(err, null);
+                                    } else if (_.isEmpty(removedMPartPresets)) {
+                                        callback(null, []);
+                                    } else {
+                                        callback(null, removedMPartPresets);
+                                    }
+                                });
+                            },
+                            //-delete entry of mpart type from mpartcat table.
+                        ], function (err, finalResults) {
+                            if (err) {
+                                console.log('********** error at final response of async.parallel  MPartType.js ************', err);
+                                callback(err, null);
+                            } else if (_.isEmpty(finalResults)) {
+                                callback(null, 'noDataFound');
+                            } else {
+                                callback(null, 'Records deleted successfully');
+                            }
+                        });
+                    } else {
+                        callback(null, 'dependency of table estimate part');
+                    }
+                });
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);

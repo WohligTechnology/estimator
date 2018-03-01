@@ -77,6 +77,10 @@ module.exports.routes = {
         controller: "EstimateController",
         action: "downloadExcel"
     },
+    "/api/DraftEstimate/downloadDraftExcel/:file(*)": {
+        controller: "DraftEstimateController",
+        action: "downloadDraftExcel"
+    },
 
 
     /***************************************************************************

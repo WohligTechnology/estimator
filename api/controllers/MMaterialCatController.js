@@ -9,6 +9,18 @@ var controller = {
                 data: {
                     message: 'Invalid Request'
                 }
+            });
+        }
+    },
+    delRestrictionMaterialCat: function (req, res) {
+        if (req.body) {
+            MMaterialCat.delRestrictionMaterialCat(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
             })
         }
     },

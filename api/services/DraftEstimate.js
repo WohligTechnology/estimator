@@ -50,8 +50,8 @@ var schema = new Schema({
     estimateAttachment: [{
         file: String
     }],
-    draftEstimateExcel:{
-        type:String
+    draftEstimateExcel: {
+        type: String
     },
     subAssemblies: [],
     processing: [],
@@ -722,303 +722,6 @@ var model = {
                         });
                     }
                 });
-    },
-
-    generateDraftEstExcel: function (data, callback) {
-        DraftEstimate.findOne({
-            _id: data._id
-        }).lean().exec(function (err, found) {
-            if (err) {
-                console.log('**** error at function_name of DraftEstimate.js ****', err);
-                callback(err, null);
-            } else if (_.isEmpty(found)) {
-                callback(null, []);
-            } else {
-                var workbook = new Excel.Workbook();
-                var worksheet1 = workbook.addWorksheet(found.assemblyName);
-                worksheet1.columns = [{
-                        // header: 'Sub Assembly Number',
-                        key: 'Sub Assembly No.',
-                        width: 17
-                    }, {
-                        // header: 'SA Qty (Nos.)',
-                        key: 'SA Qty (Nos.)',
-                        width: 15
-                    },
-                    {
-                        // header: 'SA name',
-                        key: 'SA name',
-                        width: 15
-                    },
-                    {
-                        // header: 'Unit details',
-                        key: 'Unit details.Part Total.Weight(kg)',
-                        width: 15,
-                    },
-                    {
-                        // header: '',
-                        key: 'Unit details.Part Total.Cost(Rs)',
-                        width: 10,
-                    },
-
-                    {
-                        // header: '',
-                        key: 'Unit details.Processing Cost(Rs.)',
-                        width: 20,
-                    },
-                    {
-                        // header: '',
-                        key: 'Unit details.Addons.Weight(kg)',
-                        width: 20,
-                    },
-                    {
-                        // header: '',
-                        key: 'Unit details.Addons.Cost(kg)',
-                        width: 10,
-                    },
-                    {
-                        // header: '',
-                        key: 'Unit details.Extra Cost(Rs.)',
-                        width: 15,
-                    },
-                    {
-                        // header: '',
-                        key: 'SA Unit Total.Weight(kg)',
-                        width: 10,
-                    },
-                    {
-                        // header: '',
-                        key: 'SA Unit Total.Cost(Rs.)',
-                        width: 10,
-                    },
-                    {
-                        // header: '',
-                        key: 'SA Quantity Total.Weight(kg)',
-                        width: 15,
-                    },
-                    {
-                        // header: '',
-                        key: 'SA Quantity Total.Cost(Rs.',
-                        width: 10,
-                    }
-                ];
-
-                worksheet1.mergeCells('A4', 'A6');
-                worksheet1.getCell('A5').value = 'Sub Assembly No.';
-
-                worksheet1.getCell('A5').font = {
-                    bold: true
-                };
-
-
-                worksheet1.mergeCells('B4', 'B6');
-                worksheet1.getCell('B5').value = 'SA Qty (Nos.)';
-
-                worksheet1.getCell('B5').font = {
-                    bold: true
-                };
-
-                worksheet1.mergeCells('C4', 'C6');
-                worksheet1.getCell('C5').value = 'SA name';
-                worksheet1.getCell('C5').font = {
-                    bold: true
-                };
-
-                worksheet1.mergeCells('D4', 'I4');
-                worksheet1.getCell('D4').font = {
-                    bold: true
-                };
-
-                // worksheet1.getCell('G1').value = 'Unit Details';
-
-                worksheet1.mergeCells('D5', 'E5');
-                worksheet1.getCell('D5').value = '                 Part Total';
-                worksheet1.getCell('D5').font = {
-                    bold: true
-                };
-
-                worksheet1.getCell('D6').value = 'Weight(kg)';
-                worksheet1.getCell('D6').font = {
-                    bold: true
-                };
-
-                worksheet1.getCell('E6').value = 'Cost(Rs)';
-                worksheet1.getCell('E6').font = {
-                    bold: true
-                };
-
-                worksheet1.mergeCells('F5', 'F6');
-                worksheet1.getCell('F5').value = 'Processing Cost(Rs.)';
-                worksheet1.getCell('F5').font = {
-                    bold: true
-                };
-
-                worksheet1.mergeCells('G5', 'H5');
-                worksheet1.getCell('G5').value = '                      Addons';
-                worksheet1.getCell('G5').font = {
-                    bold: true
-                };
-
-                worksheet1.getCell('G6').value = 'Weight(kg)';
-                worksheet1.getCell('G6').font = {
-                    bold: true
-                };
-
-                worksheet1.getCell('H6').value = 'Cost(Rs)';
-                worksheet1.getCell('H6').font = {
-                    bold: true
-                };
-
-                worksheet1.mergeCells('I5', 'I6');
-                worksheet1.getCell('I5').value = 'Extra Cost(Rs.)';
-                worksheet1.getCell('I5').font = {
-                    bold: true
-                };
-
-                worksheet1.mergeCells('J4', 'K4');
-                worksheet1.getCell('J4').value = '         SA Unit Total';
-                worksheet1.getCell('J4').font = {
-                    bold: true
-                };
-
-                worksheet1.mergeCells('J5', 'J6');
-                worksheet1.getCell('J5').value = 'Weight(kg)';
-                worksheet1.getCell('J5').font = {
-                    bold: true
-                };
-
-                worksheet1.mergeCells('K5', 'K6');
-                worksheet1.getCell('K5').value = 'Cost(Rs.)';
-                worksheet1.getCell('K5').font = {
-                    bold: true
-                };
-
-                worksheet1.mergeCells('L5', 'L6');
-                worksheet1.getCell('L5').value = 'Weight(kg)';
-                worksheet1.getCell('L5').font = {
-                    bold: true
-                };
-
-                worksheet1.mergeCells('L4', 'M4');
-                worksheet1.getCell('L4').value = '        SA Quantity Total';
-                worksheet1.getCell('L4').font = {
-                    bold: true
-                };
-
-                worksheet1.mergeCells('M5', 'M6');
-                worksheet1.getCell('M5').value = 'Cost(Rs.)';
-                worksheet1.getCell('M5').font = {
-                    bold: true
-                };
-
-                worksheet1.getCell('D4').value = '                                                                       Unit details';
-                worksheet1.getCell('D4').font = {
-                    bold: true
-                };
-                var assObj = [];
-                worksheet1.getCell('D5:E6').border = {
-                    top: {
-                        style: 'double',
-                        color: {
-                            argb: '#07040d'
-                        }
-                    },
-                    left: {
-                        style: 'double',
-                        color: {
-                            argb: '#07040d'
-                        }
-                    },
-                    bottom: {
-                        style: 'double',
-                        color: {
-                            argb: '#07040d'
-                        }
-                    },
-                    right: {
-                        style: 'double',
-                        color: {
-                            argb: '#07040d'
-                        }
-                    }
-                };
-                worksheet1.getCell('D4', 'I4').border = {
-                    top: {
-                        style: 'double',
-                        color: {
-                            argb: '#405e43'
-                        }
-                    },
-                    left: {
-                        style: 'double',
-                        color: {
-                            argb: '#405e43'
-                        }
-                    },
-                    bottom: {
-                        style: 'double',
-                        color: {
-                            argb: '#405e43'
-                        }
-                    },
-                    right: {
-                        style: 'double',
-                        color: {
-                            argb: '#405e43'
-                        }
-                    }
-                };
-
-
-                async.parallel([
-                    function (callback) {
-                        async.eachSeries(found.subAssemblies, function (subAss, callback) {
-                            console.log('**** &&&&&& ****', subAss);
-                            subAssObj = [];
-
-                            subAssObj.push({
-                                'Sub Assembly No.': 11,
-                                'Unit details.Part Total.Weight(kg)': 10
-                            });
-
-                            console.log('****&&&&&&&& ****', subAssObj);
-
-                            worksheet1.addRow({
-                                'Sub Assembly No.': 11,
-                                'Unit details.Part Total.Weight(kg)': 10
-                            });
-
-                            workbook.xlsx.writeFile('./EstimateSheet.xlsx').then(function () {
-                                console.log('sheet 1 is written');
-                                callback();
-                            });
-                        }, function (err) {
-                            if (err) {
-                                console.log('***** error at final response of async.eachSeries in function_name of DraftEstimate.js*****', err);
-                            } else {
-                                callback();
-                            }
-                        });
-                    },
-                    // function (callback) {
-                    //     callback(null, data);
-                    // },
-                    // function (callback) {
-                    //     callback(null, data);
-                    // }
-                ], function (err, finalResults) {
-                    if (err) {
-                        console.log('********** error at final response of async.parallel  DraftEstimate.js ************', err);
-                        callback(err, null);
-                    } else if (_.isEmpty(finalResults)) {
-                        callback(null, 'noDataFound');
-                    } else {
-                        callback(null, finalResults);
-                    }
-                });
-
-            }
-        });
     },
 
     checkEnquiryEstimate: function (data, callback) {
@@ -2847,7 +2550,6 @@ var model = {
                                     "SAQuantityTotalCost": PartTotalQuantityCost
                                 };
 
-
                                 worksheet.addRow(subAssPartTotalTotal);
 
                                 subAssTotalData.push(subAssPartTotalFinal);
@@ -3257,10 +2959,7 @@ var model = {
                                                                                 style: 'thin'
                                                                             }
                                                                         };
-
-
                                                                     }
-
                                                                     subAssExcelArray.push(subAssProExcelObj);
                                                                     index++;
                                                                     callback();
@@ -3282,10 +2981,12 @@ var model = {
                                         var subAssAddonsTotalTotalCost = 0;
                                         var index = 0;
                                         async.eachSeries(subAssObj.addons, function (subAssAddons, callback) {
+                                            console.log('**** subAssAddons subAssAddons ****', subAssAddons);
                                             MAddonType.findOne({
-                                                _id: subAssAddons.addonType
+                                                _id: subAssAddons.addonType._id
                                             }).deepPopulate('materialSubCat').lean().exec(function (err, addMatSubCatName) {
                                                 var addonMaterialSubCatName = addMatSubCatName.materialSubCat.materialSubCatName;
+                                                console.log('**** subAssProc subAssProc ****');
                                                 if (err) {
                                                     console.log('**** error at function_name of Estimate.js ****', err);
                                                     callback(err, null);
@@ -3351,7 +3052,7 @@ var model = {
                                                                         //     "PartQuantityTotal.Cost(Rs)": "",
                                                                         // });
                                                                         var row = worksheet.lastRow;
-                                                                        var rowsNum = 0
+                                                                        var rowsNum = 0;
                                                                         rowsNum = row._number;
 
                                                                         rowNumMoreOne = row._number + 1;
@@ -3862,10 +3563,10 @@ var model = {
 
                         //-Operation to generate excel sheet for Assembly.
                         assembly: ['subAss', function (subAssData, callback) {
+                            console.log('**** subAssData subAssData****', subAssData);
                             assSheetName = found.assemblyName;
                             var assemblyNumber = found.assemblyNumber;
                             // var estVersion = found.assemblyObj.estimateVersion;
-
 
                             //- creating Assembly sheet dynamically
                             var worksheet2 = workbook.addWorksheet(assSheetName);
@@ -5434,8 +5135,8 @@ var model = {
                                 if (err) {
                                     console.log('***** error at final response of async.waterfall in function_name of Components.js *****', err);
                                 } else {
-                                    workbook.xlsx.writeFile('./assets/importFormat/' + assSheetName +'.xlsx').then(function () {
-                                        var excelFileName = './assets/importFormat/' + assSheetName +'.xlsx';
+                                    workbook.xlsx.writeFile('./assets/importFormat/' + assSheetName + '.xlsx').then(function () {
+                                        var excelFileName = './assets/importFormat/' + assSheetName + '.xlsx';
                                         // console.log('**** excel file nameeeeee ****', excelFileName);
                                         file = excelFileName.split('/').pop();
                                         DraftEstimate.findOneAndUpdate({

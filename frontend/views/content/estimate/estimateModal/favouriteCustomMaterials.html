@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="col-md-12 mar-b">
+        <div class="portlet box green ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Favourite Custom Material
+                </div>
+                <div>
+                    <span style="padding-top: 12px;" ng-click="cancelModal()" class="pull-right">
+                        <i class="fa fa-times btn-info"></i>
+                    </span>
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <br>
+                <br>
+                <div class="vertical_scroll">
+                    <table class="table table-bordered table-hover scroll-x">
+                        <thead>
+                            <th rowspan="2" class="align-left"> Id </th>
+                            <th rowspan="2" class="align-left"> Material Name </th>
+                            <th colspan="2" class="align-top text-center"> Base Material</th>
+                            <th colspan="2" class="align-top text-center"> Hardfacing </th>
+                            <th rowspan="2" class="align-left"> Difficulty Factor </th>
+                            <th rowspan="2" class="align-left"> Total Cost Rs/kg</th>
+                            <th rowspan="2" class="align-left"> Total Cost Rs/m
+                                <sup>2</sup>
+                            </th>
+                            <th rowspan="2" class="align-left"> Free Issue </th>
+                            <th rowspan="2" class="align-left"> Action </th>
+                            </tr>
+                            <tr>
+                                <th>Thickness</th>
+                                <th>Base Metal</th>
+                                <th>Thickness</th>
+                                <th>Alloy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="c in favouriteCustomMaterial track by c._id">
+                                <td>{{$index + 1}} </td>
+                                <td>{{c.customMaterialName | capitalize}} </td>
+                                <td> {{c.basePlate.thickness}} </td>
+                                <td>{{c.basePlate.baseMetal.materialName}} </td>
+                                <td>
+                                    <table class="inside-custom-table">
+                                        <tr ng-repeat="h in c.hardFacingAlloys">
+                                            <td>{{h.thickness}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table class="inside-custom-table">
+                                        <tr ng-repeat="h in c.hardFacingAlloys">
+                                            <td>{{h.alloy.materialName}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table class="inside-custom-table">
+                                        <tr ng-repeat="df in c.difficultyFactor">
+                                            <td>{{df.difficultyFactor}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td> {{c.totalCostRsPerKg.toFixed(2)}} </td>
+                                <td> {{c.totalCostRsPerSm.toFixed(2)}}</td>
+                                <td> {{c.freeIssue}}</td>
+                                <td class="edit-icon">
+                                    <span class="label label-sm label-danger" ng-click="addOrEditCustomMaterial(c,'favourite')">
+                                        <i class="fa fa-trash-o"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

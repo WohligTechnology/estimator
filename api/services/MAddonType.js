@@ -43,7 +43,8 @@ var schema = new Schema({
     },
     remarks: {
         type: String
-    }
+    },
+    allowAtAssSubAss: Boolean
 });
 
 schema.plugin(deepPopulate, {});
@@ -210,7 +211,14 @@ var model = {
 
     //- Get all addon type data from MAddon Type table without pagination.
     getAllMAddonTypeOfMuom: function (data, callback) {
-        MAddonType.find().lean().exec(function (err, found) {
+        if (data.allowAtAssSubAss) {
+            var tempAddonObj = {
+                allowAtAssSubAss: true
+            }
+        }else{
+            var tempAddonObj = {};
+        }
+        MAddonType.find(tempAddonObj).lean().exec(function (err, found) {
             if (err) {
                 console.log('**** error at getAllMAddonType of MAddonType.js ****', err);
                 callback(err, null);

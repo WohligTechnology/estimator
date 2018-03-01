@@ -97,8 +97,9 @@
                                     <th rowspan="2" class="align-left">Mat Cat</th>
                                     <th rowspan="2" class="align-left">Mat Sub Cat</th>
                                     <th colspan="2" class="text-center">Rate</th>
-                                    <th colspan="6" class="align-left text-center">Quantity</th>
+                                    <th colspan="5" class="align-left text-center">Quantity</th>
                                     <th rowspan="2" class="align-left">% Use</th>
+                                    <th rowspan="2" class="align-left"> SubAssembly Access </th>
                                     <th rowspan="2" class="align-left">Action</th>
                                 </tr>
                                 <tr>
@@ -109,7 +110,6 @@
                                     <th>Linked Key Value</th>
                                     <th title="Unit Of Measurement">UOM</th>
                                     <th>Mulfact</th>
-                                    <th>Final UOM</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,7 +121,7 @@
                                             <span></span>
                                         </label>
                                     </td>
-                                    <td>{{$index+1}} </td> 
+                                    <td>{{$index+1}} </td>
                                     <td>{{addon.addonTypeName|capitalize}}</td>
                                     <td>{{addon.materialCat.materialCatName}} </td>
                                     <td>{{addon.materialSubCat.materialSubCatName}}</td>
@@ -132,8 +132,8 @@
                                     <td>{{addon.quantity.linkedKey}} </td>
                                     <td>{{addon.quantity.linkedKeyUom.uomName}} </td>
                                     <td>{{addon.quantity.mulFact}}</td>
-                                    <td>{{addon.quantity.finalUom.uomName}} </td>
                                     <td>{{addon.quantity.percentageUse}}</td>
+                                    <td>{{addon.allowAtAssSubAss}}</td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" ng-click="addOrEditAddonTypeModal('update',addon)">
                                             <i class="fa fa-pencil" title="Edit Addon"></i>
@@ -156,7 +156,10 @@
                         <div class="pull-right">
                             <div class="zui-pager small">
                                 <ol class="btn-group">
-                                    <li class="btn-group__item">
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber != 1">
+                                        <i class="i-chevron-left"></i>
+                                    </li>
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber == 1" ng-click="getPaginationData(obj.pageNumber - 1, obj.count, keyword)">
                                         <i class="i-chevron-left"></i>
                                     </li>
                                     <li class="btn-group__item">
@@ -170,7 +173,10 @@
                                             </select>
                                         </div>
                                     </li>
-                                    <li class="btn-group__item">
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber == obj.numberOfPages" ng-click="getPaginationData(obj.pageNumber + 1, obj.count, keyword)">
+                                        <i class="i-chevron-right"></i>
+                                    </li>
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber != obj.numberOfPages">
                                         <i class="i-chevron-right"></i>
                                     </li>
                                 </ol>

@@ -17,7 +17,7 @@
                             </button>
                         </div>
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_2_new" ng-hide="bulkUsers.length == 0" class="btn red" ng-click="deleteBulkUsersModal(bulkUsers, 'deleteBulkUsers')">
+                            <button id="sample_editable_2_new" ng-show="bulkUsers.length >= 1" class="btn red" ng-click="deleteUserModal(bulkUsers, 'deleteBulkUsers')">
                                 <i class="fa fa-trash-o" title="Delete Selected Users"></i>
                             </button>
                         </div>

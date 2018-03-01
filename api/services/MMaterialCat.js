@@ -33,6 +33,109 @@ var model = {
                 }
             });
     },
+    // allow to delete and restrictions for material category on the basis of conditions.
+    // req data --> _id
+    delRestrictionMaterialCat: function (data, callback) {
+        MMaterialCat.findOne({
+            _id: data._id
+        }).lean().exec(function (err, matData) {
+            if (err) {
+                console.log('**** error at function_name of MMaterialCat.js ****', err);
+                callback(err, null);
+            } else if (_.isEmpty(matData)) {
+                callback(null, 'noDataFound');
+            } else {
+                MAddonType.findOne({
+                    materialCat: data._id
+                }).lean().exec(function (err, addonTypeData) {
+                    if (err) {
+                        console.log('**** error at function_name of MMaterialCat.js ****', err);
+                        callback(err, null);
+                    } else if (_.isEmpty(addonTypeData)) {
+                        MMaterialSubCat.findOne({
+                            catId: data._id
+                        }).lean().exec(function (err, subCatData) {
+                            if (err) {
+                                console.log('**** error at function_name of MMaterialCat.js ****', err);
+                                callback(err, null);
+                            } else if (_.isEmpty(subCatData)) {
+                                callback(null, 'noDataFound');
+                            } else {
+                                EstimatePart.find({
+                                    material: subCatData.materials
+                                }).lean().exec(function (err, partData) {
+                                    if (err) {
+                                        console.log('**** error at function_name of MMaterialCat.js ****', err);
+                                        callback(err, null);
+                                    } else if (_.isEmpty(partData)) {
+                                        async.parallel([
+                                            function (callback) {
+                                                MMaterial.remove({
+                                                    _id: {
+                                                        $in: subCatData.materials
+                                                    }
+                                                }).exec(function (err, allMatRemoved) {
+                                                    if (err) {
+                                                        console.log('**** error at function_name of MMaterialCat.js ****', err);
+                                                        callback(err, null);
+                                                    } else if (_.isEmpty(allMatRemoved)) {
+                                                        callback(null, 'noDataFound');
+                                                    } else {
+                                                        callback(null, allMatRemoved);
+                                                    }
+                                                });
+                                            },
+                                            function (callback) {
+                                                MMaterialSubCat.remove({
+                                                    catId: data._id
+                                                }).exec(function (err, matSubCatRemoved) {
+                                                    if (err) {
+                                                        console.log('**** error at function_name of MMaterialCat.js ****', err);
+                                                        callback(err, null);
+                                                    } else if (_.isEmpty(matSubCatRemoved)) {
+                                                        callback(null, 'noDataFound');
+                                                    } else {
+                                                        callback(null, matSubCatRemoved);
+                                                    }
+                                                });
+                                            },
+                                            function (callback) {
+                                                MMaterialCat.remove({
+                                                    _id: data._id
+                                                }).exec(function (err, matCatRemoved) {
+                                                    if (err) {
+                                                        console.log('**** error at function_name of MMaterialCat.js ****', err);
+                                                        callback(err, null);
+                                                    } else if (_.isEmpty(matCatRemoved)) {
+                                                        callback(null, 'noDataFound');
+                                                    } else {
+                                                        callback(null, matCatRemoved);
+                                                    }
+                                                });
+                                            }
+                                        ], function (err, finalResults) {
+                                            if (err) {
+                                                console.log('********** error at final response of async.parallel  MMaterialCat.js ************', err);
+                                                callback(err, null);
+                                            } else if (_.isEmpty(finalResults)) {
+                                                callback(null, 'noDataFound');
+                                            } else {
+                                                callback(null, 'Records deleted succesfully');
+                                            }
+                                        });
+                                    } else {
+                                        callback(null, 'dependecny of table estimate part');
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        callback(null, 'dependecy of table MAddonType');
+                    }
+                });
+            }
+        });
+    },
 
 };
 module.exports = _.assign(module.exports, exports, model);

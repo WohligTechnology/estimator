@@ -9,20 +9,25 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                <form  class="form-horizontal" name="myForm">
+                <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Customer Name:<b class="error">&nbsp;&nbsp;*</b></label>
+                            <label class="col-md-4 control-label">Customer Name:
+                                <b class="redColor">&nbsp;&nbsp;*</b>
+                            </label>
                             <div class="col-md-5">
-                                <input type="text" name="name" ng-pattern="/^[a-zA-Z\s]*$/" class="form-control" ng-model="formData.customerName" required autofocus>
-                                <span class="error" ng-show="myForm.name.$dirty && formData.customerName.length == null">Name field is required !!!</span>
+                                <input type="text" name="name" ng-pattern="/^[a-zA-Z\s]*$/" class="form-control" ng-model="formData.customerName" required
+                                    autofocus>
+                                <span class="redColor" ng-show="myForm.name.$dirty && formData.customerName.length == null">Name field is required !!!</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Location:<b class="error">&nbsp;&nbsp;*</b></label>
+                            <label class="col-md-4 control-label">Location:
+                                <b class="redColor">&nbsp;&nbsp;*</b>
+                            </label>
                             <div class="col-md-5">
-                                <input type="text" name="location" ng-pattern="/^[a-zA-Z\s]*$/"  class="form-control" ng-model="formData.location" required>
-                                <span class="error" ng-show="myForm.location.$dirty && formData.location.length == null">Location field is required !!!</span>                                                                
+                                <input type="text" name="location" ng-pattern="/^[a-zA-Z\s]*$/" class="form-control" ng-model="formData.location" required>
+                                <span class="redColor" ng-show="myForm.location.$dirty && formData.location.length == null">Location field is required !!!</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -33,45 +38,66 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label"><b>Margins:</b></label>
+                            <label class="col-md-4 control-label">
+                                <b>Margins:</b>
+                            </label>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Negotiation:</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" name='negotiation' pattern="[\-\+]?[0-9]*(\.[0-9]+)?"  ng-model="formData.margins.negotiation">
-                                <span class="error" ng-show="myForm.negotiation.$invalid && myForm.negotiation.$dirty">Please enter a number or floating point number</span>
-                                <span class ="unit">%</span>
-                            <!-- <span ng-show="myForm.negotiation.$touched && myForm.negotiation.$error.minlength" class="error"> Negotiation can not be less than 0.</span>
+                                <input type="text" class="form-control" name='negotiation' pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.margins.negotiation">
+                                <span class="redColor" ng-show="myForm.negotiation.$invalid && myForm.negotiation.$dirty">Please enter a number or floating point number</span>
+                                <span class="unit">%</span>
+                                <!-- <span ng-show="myForm.negotiation.$touched && myForm.negotiation.$error.minlength" class="error"> Negotiation can not be less than 0.</span>
                                 <span ng-show="myForm.negotiation.$error.maxlength" class="error">Negotiation cannot be greater than 100.</span> -->
-                            </div>                     
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Commission:</label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" name='commission' pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.margins.commission">
-                                <span class="error" ng-show="myForm.commission.$invalid && myForm.commission.$dirty">Please enter a number or floating point number</span>
-                                <span class ="unit">%</span>
+                                <span class="redColor" ng-show="myForm.commission.$invalid && myForm.commission.$dirty">Please enter a number or floating point number</span>
+                                <span class="unit">%</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Others:</label>
                             <div class="col-md-5">
                                 <input type="text" name="other" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.margins.other">
-                                <span class="error" ng-show="myForm.other.$invalid && myForm.other.$dirty">Please enter a number or floating point number</span>
-                                <span class ="unit">%</span>
+                                <span class="redColor" ng-show="myForm.other.$invalid && myForm.other.$dirty">Please enter a number or floating point number</span>
+                                <span class="unit">%</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Scale Factor:</label>
+                            <div class="col-md-6" style="word-spacing:5px">
+                                <label>
+                                    <input type="radio" ng-model="formData.margins.scaleFactor" value="low"> Low
+                                </label>
+                                <label>
+                                    <input type="radio" ng-model="formData.margins.scaleFactor" value="medium"> Medium
+                                </label>
+                                <label>
+                                    <input type="radio" ng-model="formData.margins.scaleFactor" value="high"> High
+                                </label>
+                                <label>
+                                    <input type="radio" ng-model="formData.margins.scaleFactor" value="budgetory"> Budgetory
+                                </label>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine" ng-click="addOrEditCustomer(operation, formData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine" ng-click="addOrEditCustomer(operation, formData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine"
+                                    ng-click="addOrEditCustomer(operation, formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="myForm.$invalid && myForm.$dirty || myForm.$pristine"
+                                    ng-click="addOrEditCustomer(operation, formData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
                     </div>
-               </div>
+            </div>
             </form>
         </div>
     </div>

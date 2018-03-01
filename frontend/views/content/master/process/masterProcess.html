@@ -136,11 +136,12 @@
                                             <span></span>
                                         </label>
                                     </th>
-                                    <th rowspan="2" class="align-top"> Process type Name </th>
-                                    <th rowspan="2" class="align-top"> ProcessCat</th>
+                                    <th rowspan="2" class="align-left"> Process type Name </th>
+                                    <th rowspan="2" class="align-left"> ProcessCat</th>
                                     <th colspan="2" class="text-center"> Rate </th>
                                     <th colspan="6" class="text-center"> Quantity</th>
-                                    <th rowspan="2" class="align-top"> Action </th>
+                                    <th rowspan="2" class="align-left"> SubAssembly Access </th>
+                                    <th rowspan="2" class="align-left"> Action </th>
                                 </tr>
                                 <tr>
                                     <th>Multiplication Factor</th>
@@ -172,6 +173,7 @@
                                     <td> {{process.quantity.finalUom.uomName}}</td>
                                     <td> {{process.quantity.utilization}}</td>
                                     <td> {{process.quantity.contengncyOrWastage}}</td>
+                                    <td>{{process.allowAtAssSubAss}} </td>
                                     <td class="edit-icon">
                                         <span class="label label-sm label-success" ng-click="addOrEditProcessTypeModal('update',process)">
                                             <i class="fa fa-pencil" title="Edit Process Type"></i>
@@ -187,7 +189,7 @@
                 </div>
                 <!-- END BORDERED TABLE PORTLET-->
 
-                <div class="row" ng-hide="processData.length == 0">
+                <div class="row" ng-show="processData.length >= 1">
                     <div class="col-md-6">
                         <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing {{obj.pageStart}} to {{obj.pageEnd}} of {{obj.total}} records</div>
                     </div>
@@ -195,7 +197,10 @@
                         <div class="pull-right">
                             <div class="zui-pager small">
                                 <ol class="btn-group">
-                                    <li class="btn-group__item">
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber != 1">
+                                        <i class="i-chevron-left"></i>
+                                    </li>
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber == 1" ng-click="getPaginationData(obj.pageNumber - 1, obj.count, keyword)">
                                         <i class="i-chevron-left"></i>
                                     </li>
                                     <li class="btn-group__item">
@@ -209,7 +214,10 @@
                                             </select>
                                         </div>
                                     </li>
-                                    <li class="btn-group__item">
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber == obj.numberOfPages" ng-click="getPaginationData(obj.pageNumber + 1, obj.count, keyword)">
+                                        <i class="i-chevron-right"></i>
+                                    </li>
+                                    <li class="btn-group__item" ng-hide="obj.pageNumber != obj.numberOfPages">
                                         <i class="i-chevron-right"></i>
                                     </li>
                                 </ol>

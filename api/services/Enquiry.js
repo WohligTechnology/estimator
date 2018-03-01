@@ -393,8 +393,7 @@ var model = {
 
     // what this function will do ?
     // req data --> ?
-    getOne: function (data, callback) {
-        console.log('**** inside &&&&&&&&&&&&&&&&&& of Enquiry.js ****', data);
+    getOneEnquiry: function (data, callback) {
         Enquiry.findOne({
             _id: data._id
         }).populate('customerId').exec(function (err, found) {
@@ -404,7 +403,7 @@ var model = {
             } else if (_.isEmpty(found)) {
                 callback(null, {});
             } else {
-
+                console.log('**** foundnnnnn****', found);
                 User.findOne({
                     _id: found.enquiryDetails.estimator
                 }).exec(function (err, getOneUser) {
@@ -418,8 +417,6 @@ var model = {
                         callback(null, found);
                     }
                 });
-
-                // callback(null, found);
             }
         });
 

@@ -63,13 +63,13 @@ module.exports = {
             var myModel = [{
                 models: "Enquiry",
                 fieldName: ["customerId"]
-            }]
+            }];
         }
         if (modelName == 'DraftEstimate') {
             var myModel = [{
                 models: "Estimate",
                 fieldName: ["draftEstimateId"]
-            }]
+            }];
         }
         if (modelName == 'Enquiry') {
             var myModel = [{
@@ -80,7 +80,7 @@ module.exports = {
                     models: "Estimate",
                     fieldName: ["enquiryId"]
                 }
-            ]
+            ];
         }
         if (modelName == 'Estimate') {
             var myModel = [{
@@ -91,7 +91,7 @@ module.exports = {
                     models: "MMaterial",
                     fieldName: ["estimateId"]
                 }
-            ]
+            ];
         }
         if (modelName == 'EstimateAddons') {
             var myModel = [{
@@ -106,7 +106,7 @@ module.exports = {
                     models: "EstimatePart",
                     fieldName: ["addons"]
                 }
-            ]
+            ];
         }
         if (modelName == 'EstimateExtras') {
             var myModel = [{
@@ -122,13 +122,13 @@ module.exports = {
                     fieldName: ["extras"]
                 }
 
-            ]
+            ];
         }
         if (modelName == 'EstimatePart') {
             var myModel = [{
                 models: "EstimateSubAssembly",
                 fieldName: ["subAssemblyParts"]
-            }]
+            }];
         }
         if (modelName == 'EstimateProcessing') {
             var myModel = [{
@@ -143,7 +143,7 @@ module.exports = {
                     models: "EstimateSubAssembly",
                     fieldName: ["processing"]
                 }
-            ]
+            ];
         }
         if (modelName == 'EstimateSubAssembly') {
             var myModel = [{
@@ -154,7 +154,7 @@ module.exports = {
                     models: "EstimatePart",
                     fieldName: ["subAssemblyId"]
                 }
-            ]
+            ];
         }
         // if (data.modelName == 'MAddonsPresets') {
         //     var myModel = [{
@@ -172,18 +172,18 @@ module.exports = {
                     models: "MPartType",
                     fieldName: ["addons"]
                 }
-            ]
+            ];
         }
-        if (modelName == 'MExtras') {
+        if (modelName == 'MExtra') {
             var myModel = [{
-                    models: "EstimateExtra",
+                    models: "EstimateExtras",
                     fieldName: ["extraItem"]
                 },
                 {
                     models: "MPartType",
                     fieldName: ["extras"]
                 }
-            ]
+            ];
         }
         // if (data.modelName == 'MExtrasPreset') {
         //     var myModel = [{
@@ -193,7 +193,12 @@ module.exports = {
         // }
 
         if (modelName == 'MMaterial') {
-            var myModel = [{
+            var myModel = [
+                {
+                //     models: "MMaterialSubCat",
+                //     fieldName: ["materials"],
+                //     base: true
+                // },{
                     models: "EstimateAddons",
                     fieldName: ["addonItem"]
                 },
@@ -201,46 +206,41 @@ module.exports = {
                     models: "EstimatePart",
                     fieldName: ["material", "customMaterial"]
                 },
-                {
-                    models: "MMaterialSubCat",
-                    fieldName: ["materials"],
-                    base: true
-                },
+                
                 {
                     models: "MPartType",
                     fieldName: ["material"]
                 }
-
-
-            ]
+            ];
         }
         if (modelName == 'MMaterialCat') {
             var myModel = [{
                     models: "MAddonType",
                     fieldName: ["materialCat"]
-                },
-                {
-                    models: "MMaterialSubCat",
-                    fieldName: ["catId"]
+                // },
+                // {
+                //     models: "MMaterialSubCat",
+                //     fieldName: ["catId"]
                 }
-            ]
+            ];
         }
         if (modelName == 'MMaterialSubCat') {
-            var myModel = [{
+            var myModel = [
+                {
+                //     models: "MMaterialCat",
+                //     fieldName: ["subCat"],
+                //     base: true
+                // },{
                     models: "MAddonType",
                     fieldName: ["materialSubCat"]
+                // },
+                // {
+                //     models: "MMaterial",
+                //     fieldName: ["materialSubCategory"]
                 },
-                {
-                    models: "MMaterial",
-                    fieldName: ["materialSubCategory"]
-                },
-                {
-                    models: "MMaterialCat",
-                    fieldName: ["subCat"],
-                    base: true
-                },
+     
 
-            ]
+            ];
         }
         if (modelName == 'MPartPresets') {
             var myModel = [{
@@ -262,22 +262,23 @@ module.exports = {
                     models: "MPartTypeCat",
                     fieldName: ["partTypes"]
                 }
-            ]
+            ];
         }
         if (modelName == 'MPartTypeCat') {
             var myModel = [{
                 models: "MPartType",
                 fieldName: ["partTypeCat"]
-            }]
+            }];
         }
         if (modelName == 'MProcessCat') {
             var myModel = [{
-                models: "MProcessItem",
-                fieldName: ["processCat"]
-            }, {
+            //     models: "MProcessItem",
+            //     fieldName: ["processCat"]
+            // },
+            //  {
                 models: "MProcessType",
                 fieldName: ["processCat"]
-            }]
+            }];
         }
         // if (data.modelName == 'MProcessingPresets') {
         //     var myModel = [{
@@ -289,12 +290,12 @@ module.exports = {
             var myModel = [{
                     models: "EstimateProcessing",
                     fieldName: ["processItem"]
-                },
-                {
-                    models: "MProcessCat",
-                    fieldName: ["processItems"]
                 }
-            ]
+                // {
+                //     models: "MProcessCat",
+                //     fieldName: ["processItems"]
+                // }
+            ];
         }
         if (modelName == 'MProcessType') {
             var myModel = [{
@@ -305,13 +306,13 @@ module.exports = {
                     models: "MPartType",
                     fieldName: ["proccessing"]
                 }
-            ]
+            ];
         }
         if (modelName == 'MShape') {
             var myModel = [{
                 models: "MPartPresets",
                 fieldName: ["shape"]
-            }]
+            }];
         }
         if (modelName == 'MUom') {
             var myModel = [{
@@ -330,7 +331,7 @@ module.exports = {
                     models: "MProcessType",
                     fieldName: ["rate.uom", "quantity.uom", "quantity.finalUom"]
                 }
-            ]
+            ];
         }
         if (modelName == 'User') {
             var myModel = [{
@@ -339,126 +340,143 @@ module.exports = {
                 },
                 {
                     models: "Enquiry",
-                    fieldName: ["estimator"]
+                    fieldName: ["enquiryDetails.estimator"]
                 },
                 {
                     models: "Estimate",
                     fieldName: ["estimateCreatedUser", "estimateUpdatedUser"]
                 }
-            ]
+            ];
+        }
+        if (modelName == 'MDifficultyFactor') {
+            var myModel = [{
+                    models: "CustomMaterial",
+                    fieldName: ["difficultyFactor"]
+                },
+                {
+                    models: "Estimate",
+                    fieldName: ["estimateId"]
+                },
+                {
+                    models: "MMaterial",
+                    fieldName: ["hardFacingAlloys.alloy"]
+                },
+                {
+                    models: "MMaterial",
+                    fieldName: ["basePlate.baseMetal"]
+                }
+            ];
         }
         var allDependency = [];
+        console.log('**** myModel myModel ****');
         async.eachSeries(req.body.idsArray, function (ids, callback) {
-                async.eachSeries(myModel, function (m, callback) {
-                        async.eachSeries(m.fieldName, function (f, callback) {
-                                this[m.models].findOne({
-                                    [f]: ids
-                                }).select('_id').lean().exec(function (err, found) {
-                                    if (err) {
-                                        console.log('**** error at delRestrictions ****', err);
-                                        callback(err, null);
-                                    } else if (_.isEmpty(found)) {
-                                        console.log(' no dependency of the table ' + m.models + ' with attribute ' + [f]);
-                                        callback(null, []);
-                                    } else if ([f] == "materials" || "subCat") {
-                                        callback(null, []);
-                                    } else {
-                                        allDependency.push({
-                                            model: m.models,
-                                            fieldName: f,
-                                            _id: found,
-                                            for_id: ids
-                                        });
-                                        console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
-                                        callback();
-                                    }
+            async.eachSeries(myModel, function (m, callback) {
+                async.eachSeries(m.fieldName, function (f, callback) {
+                        this[m.models].findOne({
+                            [f]: ids
+                        }).select('_id').lean().exec(function (err, found) {
+                            if (err) {
+                                console.log('**** error at delRestrictions ****', err);
+                                callback(err, null);
+                            } else if (_.isEmpty(found)) {
+                                console.log(' no dependency of the table ' + m.models + ' with attribute ' + [f]);
+                                callback(null, []);
+                            } else {
+                                allDependency.push({
+                                    model: m.models,
+                                    fieldName: f,
+                                    _id: found,
+                                    for_id: ids
                                 });
-                            },
-                            function (err) {
-                                if (err) {
-                                    console.log('***** error at final response of async.eachSeries in function_name of MMaterial.js*****', err);
-                                } else {
-                                    callback();
-                                }
-                            });
+                                console.log('dependency of the table ' + m.models + ' with attribute ' + [f]);
+                                callback();
+                            }
+                        });
                     },
                     function (err) {
                         if (err) {
-                            console.log('**** error at delRestrictions ****', err);
+                            console.log('***** error at final response of async.eachSeries in function_name of MMaterial.js*****', err);
                         } else {
-                            if (_.isEmpty(allDependency)) {
-                                this[modelName].remove({
-                                    _id: ids
-                                }).lean().exec(function (err, found1) {
-                                    if (err) {
-                                        console.log('**** error at function_name of MMaterial.js ****', err);
-                                        callback(err, null);
-                                    } else if (_.isEmpty(found1)) {
-                                        callback(null, []);
-                                    } else {
-                                        callback(null, found1);
-                                    }
-                                });
-                            } else {
-                                async.eachSeries(myModel, function (m, callback) {
-                                        if (m.base == true) {
-                                            var myId = _.map(allDependency, '_id._id');
-                                            this[m.models].findOneAndUpdate({
-                                                _id: myId
-                                            }, {
-                                                $pull: {
-                                                    [m.fieldName]: ids
-                                                },
-                                            }).exec(function (err, updatedData) {
-                                                if (err) {
-                                                    console.log('**** error at function_name of WebController.js ****', err);
-                                                    callback(err, null);
-                                                } else if (_.isEmpty(updatedData)) {
-                                                    callback(null, []);
-                                                } else {
-                                                    this[modelName].remove({
-                                                        _id: ids
-                                                    }).lean().exec(function (err, found2) {
-                                                        if (err) {
-                                                            console.log('**** error at function_name of MMaterial.js ****', err);
-                                                            callback(err, null);
-                                                        } else if (_.isEmpty(found2)) {
-                                                            callback(null, []);
-                                                        } else {
-                                                            callback(null,found2);
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        } else {
-                                            callback(null, allDependency);
-                                        }
-                                    },
-                                    function (err) {
-                                        if (err) {
-                                            console.log('***** error at final response of async.eachSeries in function_name of WebController.js*****', err);
-                                        } else {
-                                            callback();
-                                        }
-                                    });
-                            }
+                            callback();
                         }
                     });
-            },
-            function (err) {
+            }, function (err) {                
                 if (err) {
-                    console.log('***** error at final response of async.eachSeries in function_name of WebController.js*****', err);
+                    console.log('**** error at delRestrictions ****', err);
+                } else if (_.isEmpty(allDependency)) {
+                    console.log('**** allDependency ****',allDependency);
+                    console.log('**** ids ****',ids);
+                    console.log('**** modelName ****',modelName);
+                    
+                    this[modelName].remove({ //remove record
+                        _id: ids
+                    }).lean().exec(function (err, found1) {
+                        if (err) {
+                            console.log('**** error at function_name of MMaterial.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(found1)) {
+                            callback(null, []);
+                        } else {
+                            callback(null, found1);
+                        }
+                    });
+
+                } else if (myModel[0].base == true && allDependency.length <2) {                    
+                    // async.eachSeries(myModel[2], function (m, callback) {
+                    var myId = _.map(allDependency, '_id._id');
+                    this[myModel[0].models].findOneAndUpdate({
+                        _id: {
+                            $in: myId
+                        }
+                    }, {
+                        $pull: {
+                            [myModel[0].fieldName]: ids
+                        },
+                    }).exec(function (err, updatedData) {
+                        if (err) {
+                            console.log('**** error at function_name of WebController.js ****', err);
+                            callback(err, null);
+                        } else if (_.isEmpty(updatedData)) {
+                            callback(null, []);
+                        } else {
+                            this[modelName].remove({ //remove record
+                                _id: ids
+                            }).lean().exec(function (err, found2) {
+                                if (err) {
+                                    console.log('**** error at function_name of MMaterial.js ****', err);
+                                    callback(err, null);
+                                } else if (_.isEmpty(found2)) {
+                                    callback(null, []);
+                                } else {
+                                    callback(null, found2);
+                                }
+                            });
+                        }
+                    });
+                    // }, function (err) {
+                    //     if (err) {
+                    //         console.log('***** error at final response of async.eachSeries in function_name of WebController.js*****', err);
+                    //     } else {
+                    //         callback();
+                    //     }
+                    // });
                 } else {
-                    callback(null, allDependency);
+                    callback(null, 'dependency of tables');
                 }
             });
+        }, function (err) {
+            if (err) {
+                console.log('***** error at final response of async.eachSeries in function_name of WebController.js*****', err);
+            } else {
+                callback(null, allDependency);
+            }
+        });
     },
-
     deleteMultipleModelRecords: function (req, res) {
         if (req.body) {
             var modelName = req.url.split("/").pop();
             console.log('****%%%%%%%%%%% ****', modelName);
-            var myModel = modelName
+            var myModel = modelName;
             global[modelName].find({
                 _id: {
                     $in: req.body.idsArray
@@ -479,7 +497,7 @@ module.exports = {
                 data: {
                     message: 'Invalid Request'
                 }
-            })
+            });
         }
     },
 };
