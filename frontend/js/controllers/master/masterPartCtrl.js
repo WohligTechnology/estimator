@@ -1,4 +1,4 @@
-myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPartService, TemplateService) {
+myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPartService, TemplateService, usersRoleService) {
 
     // *************************** default variables/tasks begin here ***************** //
     var pi = 3.1415;
@@ -38,6 +38,22 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
 
 
     // *************************** default functions begin here  ********************** //
+    //- to get access permissions
+    $scope.getAccessPermissions = function () {
+        //- for authorization
+        usersRoleService.getUserCrudRole('Master', 'Part_Master', function (response) {
+            if (response) {
+                $scope.role = response;
+                console.log('****.......... $scope.role in UsPart_Masterers...... ****', $scope.role);
+            } else {
+                // Infinite toastr. hide only when clicked to it.
+                toastr[response.status]('', response.message, {
+                    timeOut: 0,
+                    extendedTimeOut: 0
+                });
+            }
+        });
+    }
     $scope.getPartData = function () {
         masterPartService.getPartData(function (data) {
             $scope.partStructureData = data;
@@ -425,8 +441,13 @@ myApp.controller('masterPartCtrl', function ($scope, $uibModal, toastr, masterPa
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
     $scope.init = function () {
-        // to get BaseMaster Data
-        $scope.getPartData();
+        $scope.getAccessPermissions();
+        if (angular.isDefined($scope.role)) {
+            if ($scope.role.read) {
+                // to get BaseMaster Data
+                $scope.getPartData();
+            }
+        }
     }
 
     $scope.init();

@@ -1,4 +1,4 @@
-myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, masterMaterialService, TemplateService) {
+myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, masterMaterialService, TemplateService, usersRoleService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -19,6 +19,22 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
 
 
     // *************************** default functions begin here  ********************** //
+    //- to get access permissions
+    $scope.getAccessPermissions = function () {
+        //- for authorization
+        usersRoleService.getUserCrudRole('Master', 'Material_Master', function (response) {
+            if (response) {
+                $scope.role = response;
+                console.log('****.......... $scope.role in Material_Master...... ****', $scope.role);
+            } else {
+                // Infinite toastr. hide only when clicked to it.
+                toastr[response.status]('', response.message, {
+                    timeOut: 0,
+                    extendedTimeOut: 0
+                });
+            }
+        });
+    }
     $scope.getMaterialData = function () {
         masterMaterialService.getMaterialData(function (data) {
             $scope.materialStructureData = data;
@@ -342,8 +358,13 @@ myApp.controller('masterMaterialCtrl', function ($scope, $uibModal, toastr, mast
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
     $scope.init = function () {
-        // to get BaseMaster Data
-        $scope.getMaterialData();
+        $scope.getAccessPermissions();
+        if (angular.isDefined($scope.role)) {
+            if ($scope.role.read) {
+                // to get BaseMaster Data
+                $scope.getMaterialData();
+            }
+        }
     }
 
     $scope.init();

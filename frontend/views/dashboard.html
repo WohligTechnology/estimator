@@ -13,10 +13,10 @@
 <h3 class="page-title"> Dashboard </h3>
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
-<div ng-controller="DashboardController">
+<div ng-controller="DashboardController" ng-if="role.read === true">
     <!-- BEGIN DASHBOARD STATS -->
     <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ui-sref="app.customer">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ui-sref="app.customer" ng-if="role.subModules.Dash_icon1.read === true">
             <div class="dashboard-stat blue">
                 <div class="visual">
                     <i class="fa fa-comments"></i>
@@ -30,7 +30,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ui-sref="app.enquiry">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ui-sref="app.enquiry" ng-if="role.subModules.Dash_icon2.read === true">
             <div class="dashboard-stat red">
                 <div class="visual">
                     <i class="fa fa-bar-chart-o"></i>
@@ -44,7 +44,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ui-sref="app.estimate">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ui-sref="app.estimate" ng-if="role.subModules.Dash_icon3.read === true">
             <div class="dashboard-stat green">
                 <div class="visual">
                     <i class="fa fa-shopping-cart"></i>
@@ -58,7 +58,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ui-sref="app.users">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ui-sref="app.users" ng-if="role.subModules.Dash_icon4.read === true">
             <div class="dashboard-stat purple">
                 <div class="visual">
                     <i class="fa fa-globe"></i>
@@ -76,3 +76,6 @@
     <!-- END DASHBOARD STATS -->
 </div>
 <!-- END MAIN CONTENT -->
+<div class="page page-tables pull-to-header text-center" ng-if="role.read === false">
+    <h4>You do not have permission to access!</h4>
+</div>

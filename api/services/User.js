@@ -43,16 +43,16 @@ var schema = new Schema({
         }],
         index: true
     },
-    accessLevel: {
-        type: String,
-        default: "User",
-        enum: ['User', 'superAdmin']
-    }
+    accessLevel: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Role',
+        index: true
+    }]
 });
 
 schema.plugin(deepPopulate, {
     populate: {
-        'user': {
+        'accessLevel': {
             select: 'name _id'
         }
     }
@@ -62,7 +62,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('User', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "user", "user"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "accessLevel", "accessLevel"));
 var model = {
 
     existsSocial: function (user, callback) {
@@ -248,7 +248,7 @@ var model = {
         User.findOne({
             email: data.email,
             password: data.password
-        }).exec(function (err, found) {
+        }).populate('accessLevel').exec(function (err, found) {
             if (err) {
                 console.log('**** error at loginUser of User.js ****', err);
                 callback(err, null);
@@ -433,8 +433,8 @@ var model = {
         }
         var field = data.field;
         var options = {
-            field: data.field,
             filters: {
+                field: [''],
                 keyword: {
                     fields: ['name'],
                     term: data.keyword
@@ -449,6 +449,8 @@ var model = {
         User.find({}).sort({
                 createdAt: -1
             })
+            .deepPopulate('accessLevel')
+            .field(options)
             .order(options)
             .keyword(options)
             .page(options,

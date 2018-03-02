@@ -137,9 +137,16 @@ var model = {
     // what this function will do ?
     // req data --> ?
     createCustomMat: function (data, callback) {
-        CustomMaterial.findOne().sort({
+        CustomMaterial.find({
+            // estimateId:data.estimateId
+        }).sort({
             createdAt: -1
-        }).limit(1).lean().exec(function (err, found) {
+        }).lean().exec(function (err, result) {
+
+            // callback(null,found);
+            
+            var found = result[0];     
+            console.log('**** inside found of CustomMaterial.js ****',found);
             if (err) {
                 callback(err, null);
             } else if (_.isEmpty(found)) {
@@ -159,12 +166,16 @@ var model = {
                     data._id = data._id;
                 } else {
                     var custMatNewId = found.customMaterialId;
+                    console.log('**** inside inside CM b4 replace of CustomMaterial.js ****',custMatNewId);
                     custMatNewId = custMatNewId.replace(/\d+$/, function (n) {
-                        return ++n
+                        return ++n;
                     });
                     data.customMaterialId = custMatNewId;
                     data.customMaterialName = data.customMaterialName + "_" + custMatNewId;
+                    console.log('**** inside inside CM of CustomMaterial.js ****',custMatNewId);
                 }
+
+                
 
                 CustomMaterial.saveData(data, function (err, savedData) {
                     if (err) {

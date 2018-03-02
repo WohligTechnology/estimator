@@ -1,4 +1,4 @@
-myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, masterProcessService, TemplateService) {
+myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, masterProcessService, TemplateService, usersRoleService) {
 
 
     // *************************** default variables/tasks begin here ***************** //
@@ -25,6 +25,22 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     TemplateService.getTitle("ProcessMaster");
 
     // *************************** default functions begin here  ********************** //
+    //- to get access permissions
+    $scope.getAccessPermissions = function () {
+        //- for authorization
+        usersRoleService.getUserCrudRole('Master', 'Process_Master', function (response) {
+            if (response) {
+                $scope.role = response;
+                console.log('****.......... $scope.role in Process_Master...... ****', $scope.role);
+            } else {
+                // Infinite toastr. hide only when clicked to it.
+                toastr[response.status]('', response.message, {
+                    timeOut: 0,
+                    extendedTimeOut: 0
+                });
+            }
+        });
+    }
     $scope.getProcessData = function () {
         masterProcessService.getProcessData(function (data) {
             $scope.processStructureData = data;
@@ -359,8 +375,13 @@ myApp.controller('masterProcessCtrl', function ($scope, toastr, $uibModal, maste
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
     $scope.init = function () {
-        $scope.getProcessTypeData();
-        $scope.getProcessData();
+        $scope.getAccessPermissions();
+        if (angular.isDefined($scope.role)) {
+            if ($scope.role.read) {
+                $scope.getProcessTypeData();
+                $scope.getProcessData();
+            }
+        }
     }
     $scope.init();
 

@@ -36,7 +36,7 @@ var schema = new Schema({
 
     customMaterial: {
         type: Schema.Types.ObjectId,
-        ref: "MMaterial",
+        ref: "CustomMaterial",
         index: true,
     },
     quantity: Number,

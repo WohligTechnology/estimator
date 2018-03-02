@@ -1,4 +1,4 @@
-myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterShapeService, TemplateService) {
+myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterShapeService, TemplateService, usersRoleService) {
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
     $scope.$parent.isSidebarActive = false;
@@ -11,6 +11,22 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     TemplateService.getTitle("ShapeMaster");
 
     // *************************** default functions begin here  ********************** //
+    //- to get access permissions
+    $scope.getAccessPermissions = function () {
+        //- for authorization
+        usersRoleService.getUserCrudRole('Master', 'Shape_Master', function (response) {
+            if (response) {
+                $scope.role = response;
+                console.log('****.......... $scope.role in Shape_Master...... ****', $scope.role);
+            } else {
+                // Infinite toastr. hide only when clicked to it.
+                toastr[response.status]('', response.message, {
+                    timeOut: 0,
+                    extendedTimeOut: 0
+                });
+            }
+        });
+    }
     //- get data to generate material tree structure dynamically 
     $scope.getShapeData = function () {
         masterShapeService.geShapeData(function (data) {
@@ -34,7 +50,7 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
         $scope.shapeView = 'views/content/master/shape/shapeView.html';
     }
 
-    $scope.createOrEditShapeData = function (operation, shape) {        
+    $scope.createOrEditShapeData = function (operation, shape) {
         masterShapeService.createOrEditShapeData(operation, shape, function (data) {
             $scope.shapeView = 'views/content/master/shape/tempView.html';
             $scope.formData = data.shape;
@@ -110,8 +126,13 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
     $scope.init = function () {
-        $scope.getShapeData();
-        $scope.getVariablesData();
+        $scope.getAccessPermissions();
+        if (angular.isDefined($scope.role)) {
+            if ($scope.role.read) {
+                $scope.getShapeData();
+                $scope.getVariablesData();
+            }
+        }
     }
     $scope.init();
 });

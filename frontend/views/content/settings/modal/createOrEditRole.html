@@ -1,212 +1,241 @@
-<div class="row">
-    <div class="col-md-12 mar-b">
-        <div class="portlet box green ">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>Role
-                </div>
-                <div class="tools">
-                </div>
-            </div>
-            <div class="portlet-body form">
-                <!-- BEGIN FORM-->
-                <form class="form-horizontal">
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Enter Role :</label>
-                            <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="roleData.roleName" placeholder="Enter Role" required autofocus>
+<div class="portlet-body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab_1_2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet light portlet-fit bordered">
+                            <!-- BEGIN PAGE HEADER-->
+                            <div class="page-bar">
+                                <ul class="page-breadcrumb">
+                                    <li>
+                                        <a ui-sref="app.dashboard">Home</a>
+                                        <i class="fa fa-circle"></i>
+                                    </li>
+                                    <li>
+                                        <a ui-sref="app.roles">Role</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="portlet-title">
+                                    <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="caption">
+                                                    <i class="icon-settings font-red"></i>
+                                                    <span class="caption-subject font-red sbold uppercase">Roles</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                <!-- <div class="caption">
+                                    <i class="fa fa-gift"></i>
+                                    <span class="caption-subject font-red sbold uppercase">Create Role</span>
+                                </div>
+                                <div class="tools">
+                                </div> -->
+                            </div>
+                            <div class="portlet-body form">
+                                <!-- BEGIN FORM-->
+                                <form class="form-horizontal" name="myForm">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label"> Role Name :
+                                                <b class="error">&nbsp;&nbsp;*</b>
+                                            </label>
+                                            <div class="col-md-6">
+                                                <input class="form-control" placeholder="Role Name" ng-model="roles.name" required>
+                                            </div>
+                                        </div>
+    
+                                        <div class="form-group">
+                                            <div class="clearfix"></div>
+                                            <div class="col-md-12">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input id="selectAll" type="checkbox" ng-model="selectAll" ng-click="selectAllCheckbox(selectAll)">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </th>
+                                                            <th>Create</th>
+                                                            <th ng-if="showPermission">Create Perm</th>
+                                                            <th>Read</th>
+                                                            <th ng-if="showPermission">Read Perm</th>
+                                                            <th>Update</th>
+                                                            <th ng-if="showPermission">Update Perm</th>
+                                                            <th>Delete</th>
+                                                            <th ng-if="showPermission">Delete Perm</th>
+                                                            <th>Navigation</th>
+                                                            <th ng-if="showPermission">Navigation Perm</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat-start="(key, value) in roles.roles track by $index">
+                                                            <td>
+                                                                <b>{{key}}</b>
+                                                            </td>
+                                                            <td>
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="allRowCheck" ng-click="selectRow(key,allRowCheck)">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                                <label ng-if="value.createPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="value.create">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td ng-if="showPermission">
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="value.createPerm">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                                <label ng-if="value.readPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="value.read">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td ng-if="showPermission">
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="value.readPerm">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                                <label ng-if="value.updatePerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="value.update">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td ng-if="showPermission">
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="value.updatePerm">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                                <label ng-if="value.deletePerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="value.delete">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td ng-if="showPermission">
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="value.deletePerm">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                                <label ng-if="value.navigationPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="value.navigation">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td ng-if="showPermission">
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="value.navigationPerm">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+    
+                                                        <tr ng-repeat-end ng-repeat="(subKey,subValue) in value.subModules track by $index">
+                                                            <td> &nbsp;&nbsp;&nbsp;{{subKey}}</td>
+                                                            <td>
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="allSubRowCheck" ng-click="selectSubRow(key,subKey,allSubRowCheck)">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                                <label ng-if="subValue.createPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="subValue.create">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td ng-if="showPermission">
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="subValue.createPerm">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                                <label ng-if="subValue.readPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="subValue.read">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td ng-if="showPermission">
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="subValue.readPerm">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                                <label ng-if="subValue.updatePerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="subValue.update">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td ng-if="showPermission">
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="subValue.updatePerm">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                                <label ng-if="subValue.deletePerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="subValue.delete">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td ng-if="showPermission">
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="subValue.deletePerm">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                                <label ng-if="subValue.navigationPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="subValue.navigation">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                            <td ng-if="showPermission">
+                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
+                                                                    <input type="checkbox" ng-model="subValue.navigationPerm">
+                                                                    <div class="input-indicator"></div>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+    
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="addRole(roles)" ng-if="showSaveBtn && roles.roles" ng-disabled="button.$invalid && button.$dirty || button.$pristine">
+                                                        <i class="fa fa-arrow-right"></i> Save</button>
+                                                    <button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="updateRole(roles)" ng-if="showEditBtn && roles.roles"
+                                                        ng-disabled="button.$invalid && button.$dirty || button.$pristine">
+                                                        <i class="fa fa-arrow-right"></i> Update</button>
+                                                    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ui-sref="app.roles">
+                                                        <i class="fa fa-arrow-left"></i> Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </form>
+                                <!-- END FORM-->
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <table class="table table-striped table-hover text-left">
-                                <thead>
-                                    <tr>
-                                        <th class="align-top">Module Names</th>
-                                        <th colspan="4" class="text-center" class="align-top"> Access Permissions </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="isUserSelected" ng-disabled="userC || userR || userU ||userD"
-                                                />
-                                                <span></span>User
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isUserSelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="userC" />
-                                                    <span></span>Create
-                                                </label>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isUserSelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="userR" />
-                                                    <span></span>Read
-                                                </label>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isUserSelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="userU" />
-                                                    <span></span>Update
-                                                </label>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isUserSelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="userD" />
-                                                    <span></span>Delete
-                                                </label>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="isCustomerSelected" ng-disabled="customerC || customerR || customerU || customerD"
-                                                />
-                                                <span></span>Customer
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isCustomerSelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="customerC" />
-                                                    <span></span>Create
-                                                </label>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isCustomerSelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="customerR" />
-                                                    <span></span>Read
-                                                </label>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isCustomerSelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="customerU" />
-                                                    <span></span>Update
-                                                </label>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isCustomerSelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="customerD" />
-                                                    <span></span>Delete
-                                                </label>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="isEnquirySelected" ng-disabled="enquiryC || enquiryR || enquiryU || enquiryD"
-                                                />
-                                                <span></span>Enquiry
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isEnquirySelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="enquiryC" />
-                                                    <span></span>Create
-                                                </label>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isEnquirySelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="enquiryR" />
-                                                    <span></span>Read
-                                                </label>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isEnquirySelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="enquiryU" />
-                                                    <span></span>Update
-                                                </label>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isEnquirySelected">
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" ng-model="enquiryD" />
-                                                    <span></span>Delete
-                                                </label>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" id="checkbox-f" ng-model="isEstimateSelected" ng-disabled="estimateC || estimateR || estimateU || estimateD">Estimate</td>
-                                        <td>
-                                            <span ng-show="isEstimateSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="estimateC">Create</span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isEstimateSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="estimateR">Read</span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isEstimateSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="estimateU">Update</span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isEstimateSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="estimateD">Delete</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" id="checkbox-f" ng-model="isMasterSelected" ng-disabled="masterC || masterR || masterU || masterD">Master</td>
-                                        <td></td>
-                                        <td>
-                                            <span ng-show="isMasterSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="masterC">Create</span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isMasterSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="masterR">Read</span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isMasterSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="masterU">Update</span>
-                                        </td>
-                                        <td>
-                                            <span ng-show="isMasterSelected">
-                                                <input type="checkbox" id="checkbox-f" ng-model="masterD">Delete</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-                    <div class="form-actions">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn">Update</button>
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <!-- END FORM-->
+                </div>
             </div>
         </div>
-    </div>
-</div>

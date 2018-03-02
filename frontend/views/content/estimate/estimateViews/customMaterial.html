@@ -36,8 +36,9 @@
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
+                        <pre>{{bulkItems | json}}</pre>
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_2_new" ng-hide="bulkItems.length == 0" class="btn red" ng-click="deleteMultipleItemsModal(level, bulkItems, 'deleteMultipleCustomMaterial')">
+                            <button id="sample_editable_2_new" ng-show="bulkItems.length >= 1" class="btn red" ng-click="deleteMultipleItemsModal(level, bulkItems, 'deleteMultipleCustomMaterial')">
                                 <i class="fa fa-trash-o"></i>
                             </button>
                         </div>

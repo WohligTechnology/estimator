@@ -2,14 +2,17 @@ myApp.service('loginService', function (NavigationService) {
 
     //search a user in database with usename and password
     this.verifyUser = function (username, password, callback) {
+        var tempObj = [];
         NavigationService.apiCall('User/loginUser', {
             email: username,
             password: password
         }, function (data) {
-            if (data.data == 'ObjectId Invalid' || data.data == 'noDataFound') {
-                data.data = [];
+            if (data.value) {
+                if (data.data != 'ObjectId Invalid' && data.data != 'noDataFound') {
+                    tempObj = data.data;
+                }
             }
-            callback(data.data);
+            callback(tempObj);
         });
     }
     //seach user with emailId in db

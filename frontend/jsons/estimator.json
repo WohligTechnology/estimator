@@ -1,0 +1,291 @@
+{
+  "Dashboard": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false,
+    "navigation": false,
+    "createPerm": true,
+    "readPerm": true,
+    "updatePerm": true,
+    "deletePerm": true,
+    "navigationPerm": true,
+    "subModules": {
+      "Dash_icon1": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "download":false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "Dash_icon2": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "Dash_icon3": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "Dash_icon4": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      }
+    }
+  },
+  "Enquiries": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false,
+    "navigation": false,
+    "createPerm": true,
+    "readPerm": true,
+    "updatePerm": true,
+    "deletePerm": true,
+    "navigationPerm": true,
+    "subModules": {}
+  },
+  "Estimates": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false,
+    "navigation": false,
+    "createPerm": true,
+    "readPerm": true,
+    "updatePerm": true,
+    "deletePerm": true,
+    "navigationPerm": true,
+    "subModules": {
+      "Estimator": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "Details": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "BOQ": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "Attachments": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      }
+    }
+  },
+  "Customers": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false,
+    "navigation": false,
+    "createPerm": true,
+    "readPerm": true,
+    "updatePerm": true,
+    "deletePerm": true,
+    "navigationPerm": true,
+    "subModules": {}
+  },
+  "Users": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false,
+    "navigation": false,
+    "createPerm": true,
+    "readPerm": true,
+    "updatePerm": true,
+    "deletePerm": true,
+    "navigationPerm": true,
+    "subModules": {}
+  },
+  "Master": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false,
+    "navigation": false,
+    "createPerm": true,
+    "readPerm": true,
+    "updatePerm": true,
+    "deletePerm": true,
+    "navigationPerm": true,
+    "subModules": {
+      "Material_Master": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "Shape_Master": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "Part_Master": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "Process_Master": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "Addon_Master": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "Base_Master": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      },
+      "Extra_Master": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true
+      }
+    }
+  },
+  "Settings": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false,
+    "navigation": false,
+    "createPerm": true,
+    "readPerm": true,
+    "updatePerm": true,
+    "deletePerm": true,
+    "navigationPerm": true,
+    "subModules": {
+      "Roles": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "createPerm": true,
+        "readPerm": true,
+        "updatePerm": true,
+        "deletePerm": true,
+        "navigationPerm": true,
+        "subModules": {}
+      }
+    }
+  }
+}

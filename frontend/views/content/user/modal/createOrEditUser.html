@@ -13,40 +13,53 @@
                 <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Name :<span class="error">&nbsp;&nbsp;*</span></label>
+                            <label class="col-md-4 control-label">Name :
+                                <span class="error">&nbsp;&nbsp;*</span>
+                            </label>
                             <div class="col-md-5">
-                                
-                                <input type="text" class="form-control" ng-pattern="/^[a-zA-Z\s]*$/" name="name" ng-model="formData.name" placeholder="Enter User Name" required autofocus>
+
+                                <input type="text" class="form-control" ng-pattern="/^[a-zA-Z\s]*$/" name="name" ng-model="formData.name" placeholder="Enter User Name"
+                                    required autofocus>
                                 <span class="error" ng-show="myForm.name.$dirty && formData.name.$invalid">Name field is required !!!</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Email Id :<b class="error">&nbsp;&nbsp;*</b></label>
+                            <label class="col-md-4 control-label">Email Id :
+                                <b class="error">&nbsp;&nbsp;*</b>
+                            </label>
                             <div class="col-md-5">
-                                <input type="email" class="form-control" name="email" ng-change="checkEmailAvailability(formData)" pattern="[A-Za-z]+[A-Za-z0-9._]+@[A-Z0-9a-z]+\.[A-Za-z]{2,3}$"  ng-model="formData.email" placeholder="Enter Email-Id Number" required>
+                                <input type="email" class="form-control" name="email" ng-change="checkEmailAvailability(formData)" pattern="[A-Za-z]+[A-Za-z0-9._]+@[A-Z0-9a-z]+\.[A-Za-z]{2,3}$"
+                                    ng-model="formData.email" placeholder="Enter Email-Id Number" required>
                                 <span class="error" ng-show="myForm.email.$dirty && formData.email.$invalid">Please Enter a valid Email !!!</span>
                                 <b class="error" ng-show="isEmailIdPresent">&nbsp;&nbsp;Email Id is already present</b>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Mobile :<b class="error">&nbsp;&nbsp;*</b></label>
+                            <label class="col-md-4 control-label">Mobile :
+                                <b class="error">&nbsp;&nbsp;*</b>
+                            </label>
                             <div class="col-md-5">
-                                <input type="mobile" class="form-control" name="mobile" minlength="10" maxlength="10" pattern="^([+][9][1]|[9][1]|[0]){0,1}([7-9]{1})([0-9]{9})$"  placeholder="Enter Mobile Number" ng-model="formData.mobile" required>
+                                <input type="mobile" class="form-control" name="mobile" minlength="10" maxlength="10" pattern="^([+][9][1]|[9][1]|[0]){0,1}([7-9]{1})([0-9]{9})$"
+                                    placeholder="Enter Mobile Number" ng-model="formData.mobile" required>
                                 <span class="error" ng-show="myForm.mobile.$dirty && formData.mobile.$invalid">Mobile field is required !!!</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Role :</label>
                             <div class="col-md-5">
-                                <input type="text" placeholder="Select Role" class="form-control" ng-model="formData.accessLevel" />
+                                <select multiple class="form-control" ng-options="r.name for r in allRoles track by ei._id" ng-model="formData.accessLevel"
+                                    placeholder="Select" required>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="isEmailIdPresent || myForm.$invalid && myForm.$dirty || myForm.$pristine" ng-click="addOrEditUser(operation, formData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="isEmailIdPresent || myForm.$invalid && myForm.$dirty || myForm.$pristine" ng-click="addOrEditUser(operation, formData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="isEmailIdPresent || myForm.$invalid && myForm.$dirty || myForm.$pristine"
+                                    ng-click="addOrEditUser(operation, formData)">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="isEmailIdPresent || myForm.$invalid && myForm.$dirty || myForm.$pristine"
+                                    ng-click="addOrEditUser(operation, formData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>

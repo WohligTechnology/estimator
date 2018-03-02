@@ -367,6 +367,13 @@ module.exports = {
                 }
             ];
         }
+        if (modelName == 'CustomMaterial') {
+            var myModel = [{
+                    models: "EstimatePart",
+                    fieldName: ["customMaterial"]
+                }
+            ];
+        }
         var allDependency = [];
         console.log('**** myModel myModel ****');
         async.eachSeries(req.body.idsArray, function (ids, callback) {

@@ -1,4 +1,4 @@
-myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $stateParams, createOrEditEstimateService, $uibModal, TemplateService) {
+myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $stateParams, createOrEditEstimateService, $uibModal, TemplateService, usersRoleService) {
 
   // **************************************** default variables/tasks begin here **************************************** //
   var pi = 3.1415;
@@ -255,6 +255,22 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     });
   }
   //- =================== part functionality/calculation start =================== //
+  //- to get access permissions
+  $scope.getAccessPermissions = function (subModule) {
+    // //- for authorization
+    // usersRoleService.getUserCrudRole('Estimates', subModule, function (response) {
+    //   if (response) {
+    //     $scope.role = response;
+    //     console.log('****.......... $scope.role in Base_Master...... ****', $scope.role);
+    //   } else {
+    //     // Infinite toastr. hide only when clicked to it.
+    //     toastr[response.status]('', response.message, {
+    //       timeOut: 0,
+    //       extendedTimeOut: 0
+    //     });
+    //   }
+    // });
+  }
 
   //- call when user will select shortcut/preset name 
   //- update dependent data on the base of  selected shortcut data
@@ -1398,8 +1414,8 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
         var sa = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.surfaceArea);
         var gwt = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.grossWeight);
         var nwt = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.netWeight);
- 
-          $scope.partProcessingObj.selectedProcessingType.quantity.mulfact = eval($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
+
+        $scope.partProcessingObj.selectedProcessingType.quantity.mulfact = eval($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
         $scope.partProcessingObj.quantity.utilization = proTypeObj.quantity.utilization;
         $scope.partProcessingObj.quantity.contengncyOrWastage = proTypeObj.quantity.contengncyOrWastage;
         $scope.partProcessingObj.showFields = true;
@@ -1417,7 +1433,7 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
           $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = sma * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
         } else if (tempLinkedKeyValue == "SA") {
           $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = sa * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
-        } else if (tempLinkedKeyValue == "Gwt") {partProcessingObj
+        } else if (tempLinkedKeyValue == "Gwt") {
           $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = gwt * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
         } else if (tempLinkedKeyValue == "Nwt") {
           $scope.partProcessingObj.quantity.linkedKeyValue.keyValue = nwt * parseFloat($scope.partProcessingObj.selectedProcessingType.quantity.mulfact);
@@ -1446,9 +1462,9 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
     if (!isNaN(parseFloat($scope.partProcessingObj.length))) {
       var l = parseFloat($scope.partProcessingObj.length);
     }
-  
+
     $scope.partProcessingObj.selectedProcessingType.rate.mulFact = eval($scope.partProcessingObj.selectedProcessingType.rate.mulFact);
-    $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);    
+    $scope.partProcessingObj.rate.actualRate = parseFloat($scope.partProcessingObj.selectedProcessingType.rate.mulFact) * parseFloat($scope.partProcessingObj.selectedProcessingItem.rate);
     if ($scope.partProcessingObj.showFields) {
       var p = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.perimeter);
       var sma = parseFloat($scope.partProcessingObj.linkedKeyValuesCalculation.sheetMetalArea);
@@ -1724,10 +1740,15 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   // **************************************** init all default functions begin here **************************************** //
   //- to initilize the default function 
   $scope.init = function () {
-    // to get default view
-    $scope.getEstimateData();
-    $scope.getEstimateView('assembly');
-    //to get estimate tree structure data 
+    // $scope.getAccessPermissions('Estimator');
+    // if (angular.isDefined($scope.role)) {
+    //   if ($scope.role.read === true) {
+        // to get default view
+        $scope.getEstimateData();
+        $scope.getEstimateView('assembly');
+        //to get estimate tree structure data 
+    //   }
+    // }
   }
   $scope.init();
 

@@ -1,4 +1,4 @@
-myApp.controller('customerCtrl', function ($scope, toastr, $uibModal, customerService,TemplateService) {
+myApp.controller('customerCtrl', function ($scope, toastr, $uibModal, customerService, TemplateService, usersRoleService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -23,6 +23,22 @@ myApp.controller('customerCtrl', function ($scope, toastr, $uibModal, customerSe
       customerService.getPaginationDetails(1, 10, data, function (obj) {
         $scope.obj = obj;
       });
+    });
+  }
+
+  $scope.getAccessPermissions = function () {
+    //- for authrization
+    usersRoleService.getUserCrudRole('Customers', '', function (response) {
+      if (response) {
+        $scope.role = response;
+        console.log('****.......... $scope.role in Customers...... ****', $scope.role);
+      } else {
+        // Infinite toastr. hide only when clicked to it.
+        toastr[response.status]('', response.message, {
+          timeOut: 0,
+          extendedTimeOut: 0
+        });
+      }
     });
   }
 
@@ -170,7 +186,12 @@ myApp.controller('customerCtrl', function ($scope, toastr, $uibModal, customerSe
   //- to initilize the default function 
   $scope.init = function () {
     // to get customer Data
-    $scope.getCustomerData();
+    $scope.getAccessPermissions();
+    if (angular.isDefined($scope.role)) {
+      if ($scope.role.read) {
+        $scope.getCustomerData();
+      }
+    }
   }
   $scope.init();
 

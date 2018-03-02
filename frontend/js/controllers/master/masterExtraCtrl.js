@@ -1,4 +1,4 @@
-myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterExtraService, TemplateService) {
+myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterExtraService, TemplateService, usersRoleService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -6,13 +6,29 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   $scope.$parent.isSidebarActive = true;
   $scope.showSaveBtn = true;
   $scope.showEditBtn = false;
-//  $scope.bulkExtras = [];
+  //  $scope.bulkExtras = [];
   //- for title
   TemplateService.getTitle("ExtraMaster");
 
 
 
   // *************************** default functions begin here  ********************** //
+  //- to get access permissions
+  $scope.getAccessPermissions = function () {
+    //- for authorization
+    usersRoleService.getUserCrudRole('Master', 'Extra_Master', function (response) {
+      if (response) {
+        $scope.role = response;
+        console.log('****.......... $scope.role in Extra_Master...... ****', $scope.role);
+      } else {
+        // Infinite toastr. hide only when clicked to it.
+        toastr[response.status]('', response.message, {
+          timeOut: 0,
+          extendedTimeOut: 0
+        });
+      }
+    });
+  }
   //- function to get all extras data
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     masterExtraService.getPaginationData(page, numberOfRecords, keyword, function (data) {
@@ -99,7 +115,7 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
         toastr.error('Record cannot deleted.Dependency on ' + data.data[0].model + ' database');
       }
       $scope.cancelModal();
-    },'singleExtra');
+    }, 'singleExtra');
   }
 
   //- to dismiss modal instance
@@ -138,7 +154,12 @@ myApp.controller('masterExtraCtrl', function ($scope, toastr, $uibModal, masterE
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 
   $scope.init = function () {
-    $scope.getPaginationData(1, 10);
+    $scope.getAccessPermissions();
+    if (angular.isDefined($scope.role)) {
+      if ($scope.role.read) {
+        $scope.getPaginationData(1, 10);
+      }
+    }
   }
   $scope.init();
 

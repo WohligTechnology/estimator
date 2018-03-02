@@ -1,11 +1,12 @@
-<div class="row">
+<!-- <pre>{{role | json}}</pre> -->
+<div class="row" ng-if="role.read === true">
     <div class="col-md-3 vertical_scroll" style="height: 555px;">
         <ul class="tree">
             <li class="mainLi">
                 <input type="checkbox" id="c5" />
                 <label class="tree_label" for="c5"></label>
                 <span ng-click="getAssemblyView()" class="assebmlyName">Process Categories</span>
-                <span ng-click="addOrEditProcessCatModal('save')" class="assemblyCreateIcon">
+                <span ng-click="addOrEditProcessCatModal('save')" class="assemblyCreateIcon" ng-if="role.create === true">
                     <i class="fa fa-plus btn-info" title="Add Process Category"></i>
                 </span>
                 <ul>
@@ -16,24 +17,24 @@
                         <!-- process cat name -->
                         <span ng-click="getSubAssemblyView()" class="subssemblyName">{{pc.processCatName | capitalize}}</span>
                         <!-- create  process items  -->
-                        <span ng-click="addOrEditProcessItemModal('save',pc)" class="subAssemblyCreateIcon">
+                        <span ng-click="addOrEditProcessItemModal('save',pc)" class="subAssemblyCreateIcon" ng-if="role.create === true">
                             <i class="fa fa-plus btn-info" title="Add Process Item"></i>
                         </span>
                         <!-- edit process category -->
-                        <span ng-click="addOrEditProcessCatModal('update', pc)" class="subAssemblyEditIcon">
+                        <span ng-click="addOrEditProcessCatModal('update', pc)" class="subAssemblyEditIcon" ng-if="role.update === true">
                             <i class="fa fa-pencil btn-warning" title="Edit Process Category"></i>
                         </span>
                         <!-- delete process category -->
-                        <span ng-click="deleteProcessCatModal(pc._id,'deleteProcessCat')" class="subAssemblyDeleteIcon">
+                        <span ng-click="deleteProcessCatModal(pc._id,'deleteProcessCat')" class="subAssemblyDeleteIcon" ng-if="role.delete === true">
                             <i class="fa fa-trash-o btn-danger" title="Delete Process Category"></i>
                         </span>
                         <ul class="">
                             <li ng-repeat="pi in pc.processItems">
                                 <span class="tree_label" class="partName">{{pi.processItemName | capitalize}} ({{pi.rate}} {{pc.uom.uomName}})</span>
-                                <span ng-click="addOrEditProcessItemModal('update',pc,pi)" class="partEditIcon">
+                                <span ng-click="addOrEditProcessItemModal('update',pc,pi)" class="partEditIcon" ng-if="role.update === true">
                                     <i class="fa fa-pencil btn-warning" title="Edit Process Item"></i>
                                 </span>
-                                <span ng-click="deleteProcessItemModal(pi._id,'deleteProcessItem')" class="partDeleteIcon">
+                                <span ng-click="deleteProcessItemModal(pi._id,'deleteProcessItem')" class="partDeleteIcon" ng-if="role.delete === true">
                                     <i class="fa fa-trash-o btn-danger" title="Delete Process Item"></i>
                                 </span>
                             </li>
@@ -56,12 +57,12 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditProcessTypeModal('save');">
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditProcessTypeModal('save')" ng-if="role.create === true">
                                 <i class="fa fa-plus" title="Add Process Type"></i>
                             </button>
                         </div>
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_2_new" ng-hide="bulkProcesses.length == 0" class="btn red" ng-click="deleteBulkProcessesModal(bulkProcesses, 'deleteBulkProcesses')">
+                            <button id="sample_editable_2_new" ng-hide="bulkProcesses.length == 0" class="btn red" ng-click="deleteBulkProcessesModal(bulkProcesses, 'deleteBulkProcesses')" ng-if="role.delete === true">
                                 <i class="fa fa-trash-o" title="Delete Selected Records"></i>
                             </button>
                         </div>
@@ -175,10 +176,10 @@
                                     <td> {{process.quantity.contengncyOrWastage}}</td>
                                     <td>{{process.allowAtAssSubAss}} </td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" ng-click="addOrEditProcessTypeModal('update',process)">
+                                        <span class="label label-sm label-success" ng-click="addOrEditProcessTypeModal('update',process)" ng-if="role.update === true">
                                             <i class="fa fa-pencil" title="Edit Process Type"></i>
                                         </span>&nbsp;
-                                        <span class="label label-sm label-danger" ng-click="deleteProcessTypeModal(process._id,'deleteProcessType')">
+                                        <span class="label label-sm label-danger" ng-click="deleteProcessTypeModal(process._id,'deleteProcessType')" ng-if="role.delete === true">
                                             <i class="fa fa-trash-o" title="Delete Process Type"></i>
                                         </span>
                                     </td>
@@ -229,4 +230,7 @@
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
+</div>
+<div class="page page-tables pull-to-header text-center" ng-if="role.read === false">
+    <h4>You do not have permission to access!</h4>
 </div>

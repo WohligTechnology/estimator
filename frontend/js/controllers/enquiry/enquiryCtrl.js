@@ -1,4 +1,4 @@
-myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryService, TemplateService) {
+myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryService, TemplateService, usersRoleService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -29,6 +29,21 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
       enquiryService.getPaginationDetails(1, 10, data, function (obj) {
         $scope.obj = obj;
       });
+    });
+  }
+  $scope.getAccessPermissions = function () {
+    //- for authrization
+    usersRoleService.getUserCrudRole('Enquiries', '', function (response) {
+      if (response) {
+        $scope.role = response;
+        console.log('****.......... $scope.roles in Enquiries...... ****', $scope.role);
+      } else {
+        // Infinite toastr. hide only when clicked to it.
+        toastr[response.status]('', response.message, {
+          timeOut: 0,
+          extendedTimeOut: 0
+        });
+      }
     });
   }
 
@@ -150,7 +165,12 @@ myApp.controller('enquiryCtrl', function ($scope, toastr, $uibModal, enquiryServ
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function   
   $scope.init = function () {
-    $scope.getEnquiryData();
+    $scope.getAccessPermissions();
+    if (angular.isDefined($scope.role)) {
+      if ($scope.role.read) {
+        $scope.getEnquiryData();
+      }
+    }
   }
   $scope.init();
 

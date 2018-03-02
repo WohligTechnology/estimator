@@ -1,4 +1,5 @@
-<div class="page-content-wrapper">
+<!-- <pre>{{role | json}}</pre> -->
+<div class="page-content-wrapper" ng-if="role.read === true">
     <div class="portlet light portlet-fit full-height-content full-height-content-scrollable bordered">
         <div class="portlet-title">
             <div class="caption">
@@ -17,7 +18,7 @@
                             </div>
                             <div class="padd-action">
                                 <div class="btn-group">
-                                    <a class="btn green-haze btn-outline btn-circle btn-sm" ng-click="addOrEditUomModal('save')">
+                                    <a class="btn green-haze btn-outline btn-circle btn-sm" ng-click="addOrEditUomModal('save')" ng-if="role.create === true">
                                         <i class="fa fa-plus" title="Add UOM"></i>
                                     </a>
                                 </div>
@@ -35,7 +36,7 @@
                                             <span ng-click="addOrEditUomModal('update',u)" class="baseMasterEditIcon">
                                                 <i class="fa fa-pencil btn-warning" title="Edit UOM"></i>
                                             </span>
-                                            <span ng-click="deleteUomModal(u._id,'deleteUom')" class="subAssemblyDeleteIcon">
+                                            <span ng-click="deleteUomModal(u._id,'deleteUom')" class="subAssemblyDeleteIcon" ng-if="role.delete === true">
                                                 <i class="fa fa-trash-o btn-danger" title="Delete UOM"></i>
                                             </span>
                                         </li>
@@ -52,7 +53,7 @@
                                 <i class="icon-bubble font-green-sharp"></i>
                                 <span class="caption-subject font-green-sharp sbold">Difficulty Factor</span>
                             </div>
-                            <div class="padd-action">
+                            <div class="padd-action" ng-if="role.create === true">
                                 <div class="btn-group">
                                     <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown"
                                         data-close-others="true" ng-click="addOrEditDfModal('save')">
@@ -70,10 +71,10 @@
                                     <ul>
                                         <li ng-repeat="fa in dfData">
                                             <span class="tree_label" class="partName">{{fa.difficultyFactor}} ({{fa.mulfact}})</span>
-                                            <span ng-click="addOrEditDfModal('update',fa)" class="baseMasterEditIcon">
+                                            <span ng-click="addOrEditDfModal('update',fa)" class="baseMasterEditIcon" ng-if="role.update === true">
                                                 <i class="fa fa-pencil btn-warning" title="Edit Difficulty Factor"></i>
                                             </span>
-                                            <span ng-click="deleteDfModal(fa._id,'deleteDf')" class="subAssemblyDeleteIcon">
+                                            <span ng-click="deleteDfModal(fa._id,'deleteDf')" class="subAssemblyDeleteIcon" ng-if="role.delete === true">
                                                 <i class="fa fa-trash-o btn-danger" title="Delete Difficulty Factor"></i>
                                             </span>
                                         </li>
@@ -90,7 +91,7 @@
                                 <i class="icon-bubble font-green-sharp"></i>
                                 <span class="caption-subject font-green-sharp sbold">Variables Markups</span>
                             </div>
-                            <div class="padd-action">
+                            <div class="padd-action" ng-if="role.create === true">
                                 <div class="btn-group">
                                     <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown"
                                         data-close-others="true" ng-click="addOrEditVariableMarkupModal('save')">
@@ -112,10 +113,10 @@
                                             <input type="checkbox" id="{{ma.markupType+$index}}" />
                                             <label class="tree_label" for="{{ma.markupType+$index}}"></label>
                                             <span class="tree_label" class="partName">{{ma.markupType}}</span>
-                                            <span ng-click="addOrEditVariableMarkupModal('update',ma)" class="baseMasterEditIcon">
+                                            <span ng-click="addOrEditVariableMarkupModal('update',ma)" class="baseMasterEditIcon" ng-if="role.update === true">
                                                 <i class="fa fa-pencil btn-warning" title="Edit Markup"></i>
                                             </span>
-                                            <span ng-click="deleteMarkupModal(ma._id,'deleteVariableMarkup')" class="subAssemblyDeleteIcon">
+                                            <span ng-click="deleteMarkupModal(ma._id,'deleteVariableMarkup')" class="subAssemblyDeleteIcon" ng-if="role.delete === true">
                                                 <i class="fa fa-trash-o btn-danger" title="Delete Markup"></i>
                                             </span>
                                             <ul>
@@ -182,7 +183,8 @@
                                 <div class="form-group">
                                     <label class="col-md-5 control-label">Negotiation:</label>
                                     <div class="col-md-6">
-                                        <input type="text" name="negotiation" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="fixedMarkupData.fixedMarkups.negotiation" class="form-control">
+                                        <input type="text" name="negotiation" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="fixedMarkupData.fixedMarkups.negotiation"
+                                            class="form-control">
                                         <span class="unit">%</span>
                                         <span class="error" ng-show="myForm1.negotiation.$invalid && myForm1.negotiation.$touched">Please enter a number or floating point number</span>
                                     </div>
@@ -190,7 +192,8 @@
                                 <div class="form-group">
                                     <label class="col-md-5 control-label">Commission:</label>
                                     <div class="col-md-6">
-                                        <input type="text" name="comission" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="fixedMarkupData.fixedMarkups.commission" class="form-control">
+                                        <input type="text" name="comission" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="fixedMarkupData.fixedMarkups.commission"
+                                            class="form-control">
                                         <span class="unit">%</span>
                                         <span class="error" ng-show="myForm1.comission.$invalid && myForm1.comission.$touched">Please enter a number or floating point number</span>
                                     </div>
@@ -206,9 +209,9 @@
                                 <div class="row" style="padding-left:60px;">
                                     <div class="col-md-12">
                                         <button type="submit" class="btn btn-circle green" ng-if="showMarkupSaveBtn" ng-disabled="myForm1.$dirty && myForm1.$invalid || myForm1.$pristine"
-                                            ng-click="addOrEditFixedMarkup('save', fixedMarkupData)">Save</button>
+                                            ng-click="addOrEditFixedMarkup('save', fixedMarkupData)" ng-if="role.create === true">Save</button>
                                         <button type="submit" class="btn btn-circle green" ng-if="showMarkupEditBtn" ng-disabled="myForm1.$dirty && myForm1.$invalid || myForm1.$pristine"
-                                            ng-click="addOrEditFixedMarkup('update', fixedMarkupData)">Update</button>
+                                            ng-click="addOrEditFixedMarkup('update', fixedMarkupData)" ng-if="role.update === true">Update</button>
                                     </div>
                                 </div>
                                 </li>
@@ -295,11 +298,11 @@
                                 <div class="row" style="padding-left:60px;">
                                     <div class="col-md-12">
                                         <button type="submit" class="btn btn-circle green" ng-if="showScaleSaveBtn" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine"
-                                            ng-click="addOrEditMarkupScaling('save', fixedMarkupData)">Save</button>
-                                        <button type="submit" class="btn btn-circle green" ng-if="showScaleEditBtn" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine"
+                                            ng-click="addOrEditMarkupScaling('save', fixedMarkupData)" ng-if="role.create === true">Save</button>
+                                        <button type="submit" class="btn btn-circle green" ng-if="showScaleEditBtn && role.update === true" ng-disabled="myForm.$dirty && myForm.$invalid || myForm.$pristine"
                                             ng-click="addOrEditMarkupScaling('update', fixedMarkupData)">Update</button>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
                         </form>
                     </div>
@@ -307,3 +310,7 @@
             </div>
         </div>
     </div>
+</div>
+<div class="page page-tables pull-to-header text-center" ng-if="role.read === false">
+    <h4>You do not have permission to access!</h4>
+</div>

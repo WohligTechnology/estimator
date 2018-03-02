@@ -1,11 +1,12 @@
-<div class="row">
+<!-- <pre>{{role | json}}</pre> -->
+<div class="row" ng-if="role.read === true">
     <div class="col-md-3 vertical_scroll" style="height: 555px;">
         <ul class="tree">
             <li class="mainLi">
                 <input type="checkbox" id="c5" />
                 <label class="tree_label" for="c5"></label>
                 <span class="assebmlyName">Material Master</span>
-                <span ng-click="addOrEditMaterialCatModal('save')" class="assemblyCreateIcon">
+                <span ng-click="addOrEditMaterialCatModal('save')" class="assemblyCreateIcon" ng-if="role.create === true">
                     <i class="fa fa-plus btn-info" title="Add New Category"></i>
                 </span>
                 <ul>
@@ -16,15 +17,15 @@
                         <!-- material cat name -->
                         <span ng-click="" class="subssemblyName">{{mc.materialCatName | capitalize}}</span>
                         <!-- create sub material category -->
-                        <span ng-click="addOrEditMaterialSubCatModal('save',mc._id)" class="subAssemblyCreateIcon">
+                        <span ng-click="addOrEditMaterialSubCatModal('save',mc._id)" class="subAssemblyCreateIcon" ng-if="role.create === true">
                             <i class="fa fa-plus btn-info" title="Add SubCategory"></i>
                         </span>
                         <!-- edit material category -->
-                        <span ng-click="addOrEditMaterialCatModal('update',mc)" class="subAssemblyEditIcon">
+                        <span ng-click="addOrEditMaterialCatModal('update',mc)" class="subAssemblyEditIcon" ng-if="role.update === true">
                             <i class="fa fa-pencil btn-warning" title="Edit Category Name"></i>
                         </span>
                         <!-- delete material category -->
-                        <span ng-click="deleteMaterialCatModal(mc._id,'deleteMaterialCat')" class="subAssemblyDeleteIcon">
+                        <span ng-click="deleteMaterialCatModal(mc._id,'deleteMaterialCat')" class="subAssemblyDeleteIcon" ng-if="role.delete === true">
                             <i class="fa fa-trash-o btn-danger" title="Delete Category"></i>
                         </span>
                         <ul>
@@ -34,15 +35,15 @@
                                 <!-- material sub category name -->
                                 <span class="tree_label partName" ng-click="getSubCatMaterials(msc._id)">{{msc.materialSubCatName | capitalize}}</span>
                                 <!-- create material -->
-                                <span ng-click="addOrEditMaterialModal(msc.materials[0].type, 'save',msc._id)" class="materialSubCreateIcon">
+                                <span ng-click="addOrEditMaterialModal(msc.materials[0].type, 'save',msc._id)" class="materialSubCreateIcon" ng-if="role.create === true">
                                     <i class="fa fa-plus btn-info" title="Add Material"></i>
                                 </span>
                                 <!-- edit material sub category name -->
-                                <span ng-click="addOrEditMaterialSubCatModal('update',mc._id,msc)" class="partEditIcon">
+                                <span ng-click="addOrEditMaterialSubCatModal('update',mc._id,msc)" class="partEditIcon" ng-if="role.update === true">
                                     <i class="fa fa-pencil btn-warning" title="Edit SubCategory Name"></i>
                                 </span>
                                 <!-- delete material sub category -->
-                                <span ng-click="deleteMaterialSubCatModal(msc._id,'deleteMaterialSubCat')" class="partDeleteIcon">
+                                <span ng-click="deleteMaterialSubCatModal(msc._id,'deleteMaterialSubCat')" class="partDeleteIcon" ng-if="role.delete === true">
                                     <i class="fa fa-trash-o btn-danger" title="Delete SubCategory"></i>
                                 </span>
                                 <ul>
@@ -53,11 +54,11 @@
                                             <i class="fa fa-clone btn-success" title="Duplicate Material"></i>
                                         </span>
                                         <!-- edit material -->
-                                        <span ng-click="addOrEditMaterialModal(m.type, 'update',msc._id,m)" class="materialEditIcon">
+                                        <span ng-click="addOrEditMaterialModal(m.type, 'update',msc._id,m)" class="materialEditIcon" ng-if="role.update === true">
                                             <i class="fa fa-pencil btn-warning" title="Edit Material"></i>
                                         </span>
                                         <!-- delete material -->
-                                        <span ng-click="deleteMaterialModal(m._id,msc._id,'deleteMaterial')" class="materialDeleteIcon">
+                                        <span ng-click="deleteMaterialModal(m._id,msc._id,'deleteMaterial')" class="materialDeleteIcon" ng-if="role.delete === true">
                                             <i class="fa fa-trash-o btn-danger" title="Delete Material"></i>
                                         </span>
                                     </li>
@@ -149,7 +150,7 @@
                                     <i class="fa fa-pencil" title="Edit All Material"></i>
                             </div>
                             <div class="btn-group pull-right">
-                                <button ng-hide="bulkMaterials.length == 0" class="btn red" ng-click="deleteBulkMaterialsModal(subCatMaterials[0].materialSubCategory, bulkMaterials, 'deleteBulkMaterials')">
+                                <button ng-hide="bulkMaterials.length == 0" class="btn red" ng-if="role.delete === true" ng-click="deleteBulkMaterialsModal(subCatMaterials[0].materialSubCategory, bulkMaterials, 'deleteBulkMaterials')">
                                     <i class="fa fa-trash-o" title="Delete Selected Material"></i>
                                 </button>
                             </div>
@@ -246,10 +247,10 @@
                                         />
                                     </td>
                                     <td>
-                                        <span class="label label-sm label-success" id="add_space" ng-click="editMaterial(m._id)">
+                                        <span class="label label-sm label-success" id="add_space" ng-click="editMaterial(m._id)" ng-if="role.update === true">
                                             <i class="fa fa-pencil" title="Edit Material"></i>
                                         </span>
-                                        <span class="label label-sm label-danger" id="add_space" ng-click="deleteMaterialModal(m._id,subCatMaterials[0].materialSubCategory, 'deleteMaterial')">
+                                        <span class="label label-sm label-danger" id="add_space" ng-click="deleteMaterialModal(m._id,subCatMaterials[0].materialSubCategory, 'deleteMaterial')" ng-if="role.delete === true">
                                             <i class="fa fa-trash" title="Delete Material"></i>
                                         </span>
                                     </td>
@@ -312,4 +313,7 @@
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
+</div>
+<div class="page page-tables pull-to-header text-center" ng-if="role.read === false">
+    <h4>You do not have permission to access!</h4>
 </div>

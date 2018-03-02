@@ -1,4 +1,4 @@
-myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, TemplateService) {
+myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, TemplateService, usersRoleService) {
 
 
 
@@ -24,6 +24,34 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, T
 
 
   // *************************** default functions begin here  ********************** //
+  $scope.getAccessPermissions = function () {
+    //- for authorization
+    usersRoleService.getUserCrudRole('Users', '', function (response) {
+      if (response) {
+        $scope.role = response;
+        console.log('****.......... $scope.role in Users...... ****', $scope.role);
+      } else {
+        // Infinite toastr. hide only when clicked to it.
+        toastr[response.status]('', response.message, {
+          timeOut: 0,
+          extendedTimeOut: 0
+        });
+      }
+    });
+  }
+  //- get all access levels
+  $scope.getAccessLevels = function () {
+    userService.getAccessLevels(function (data) {
+      if (data.value) {
+        $scope.allRoles = data.data;
+      } else {
+        toastr.error('There is some error');
+      }
+    });
+  }
+
+
+
   //- for pagination of users' records
   $scope.getPaginationData = function (page, numberOfRecords, keyword) {
     $scope.loading = true;
@@ -150,7 +178,12 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, T
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 
   $scope.init = function () {
-    $scope.getPaginationData(1, 10);
+    $scope.getAccessPermissions();
+    if (angular.isDefined($scope.role)) {
+      if ($scope.role.read) {
+        $scope.getPaginationData(1, 10);
+      }
+    }
   }
   $scope.init();
 

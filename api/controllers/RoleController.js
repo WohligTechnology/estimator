@@ -37,6 +37,18 @@ var controller = {
             })
         }
     },
+    getAccessLevels: function (req, res) {
+        if (req.body) {
+            Role.getAccessLevels(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: 'Invalid Request'
+                }
+            })
+        }
+    },
     createRole: function (req, res) {
         console.log('****!!!!!!!!!!!!****',req.body);
         if (req.body) {

@@ -1,12 +1,11 @@
 var schema = new Schema({
-    roleName: {
+    name: {
         type: String,
         index: true
     },
-    permission: [{
-        model: String,
-        action: {}
-    }],
+    roles: {
+        type: {}
+    },
 
 
 });
@@ -105,6 +104,19 @@ var model = {
             });
 
     },
+          //-Get all customer Name and loation and Payment Terms from customer tables.
+          getAccessLevels: function (data, callback) {
+            Role.find().select('name').lean().exec(function (err, found) {
+                if (err) {
+                    console.log('**** error at function_name of Customer.js ****', err);
+                    callback(err, null);
+                } else if (_.isEmpty(found)) {
+                    callback(null, 'noDataFound');
+                } else {
+                    callback(null, found);
+                }
+            });
+        },
 
 
 

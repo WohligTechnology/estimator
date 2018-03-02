@@ -1,20 +1,21 @@
-<div class="row">
+<!-- <pre>{{role | json}}</pre> -->
+<div class="row" ng-if="role.read === true">
     <div class="col-md-3 vertical_scroll" style="height: 555px;">
         <ul class="tree">
             <li class="mainLi">
                 <input type="checkbox" id="c5" />
                 <label class="tree_label" for="c5"></label>
                 <span class="assebmlyName">Shapes</span>
-                <span ng-click="createOrEditShapeData('save')" class="assemblyCreateIcon">
+                <span ng-click="createOrEditShapeData('save')" class="assemblyCreateIcon" ng-if="role.create === true">
                     <i class="fa fa-plus btn-info" title="Add Shape"></i>
                 </span>
                 <ul>
                     <li ng-repeat="sh in shapeData">
-                        <span class="tree_label" class="partName" ng-click="createOrEditShapeData('update',sh)" >{{sh.shapeName | capitalize}}</span>
-                        <span ng-click="createOrEditShapeData('update',sh)" class="subAssemblyEditIcon">
+                        <span class="tree_label" class="partName" ng-click="createOrEditShapeData('update',sh)" ng-if="role.update === true">{{sh.shapeName | capitalize}}</span>
+                        <span ng-click="createOrEditShapeData('update',sh)" class="subAssemblyEditIcon" ng-if="role.update === true">
                             <i class="fa fa-pencil btn-warning" title="Edit Shape"></i>
                         </span>
-                        <span ng-click="deleteShapeModal(sh._id,'deleteShape')" class="subAssemblyDeleteIcon">
+                        <span ng-click="deleteShapeModal(sh._id,'deleteShape')" class="subAssemblyDeleteIcon" ng-if="role.delete === true">
                             <i class="fa fa-trash-o btn-danger" title="Delete Shape"></i>
                         </span>
                     </li>
@@ -23,4 +24,7 @@
         </ul>
     </div>
     <div class="col-md-9" ng-include="shapeView"></div>
+</div>
+<div class="page page-tables pull-to-header text-center" ng-if="role.read === false">
+    <h4>You do not have permission to access!</h4>
 </div>

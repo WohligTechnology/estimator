@@ -2682,7 +2682,7 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 	this.importCustomMaterial = function (customMaterialData, callback) {
 		var tempArray = [];
 		_.forEach(customMaterialData, function (customMaterialObj) {
-			customMaterialObj = _.omit(customMaterialObj, ['_id', 'customMaterialId']);
+			customMaterialObj = _.omit(customMaterialObj, ['_id', 'customMaterialId', '__v', 'createdAt', 'updatedAt']);
 			customMaterialObj.estimateId = formData.assembly._id;
 			customMaterialObj.favourite = false;
 			var temp = _.split(customMaterialObj.customMaterialName, '_');
@@ -2696,7 +2696,6 @@ myApp.service('createOrEditEstimateService', function (NavigationService) {
 		});
 	}
 	this.getExcelSheet = function () {
-		debugger;
 		var tempObj = {
 			_id: formData.assembly._id
 		}

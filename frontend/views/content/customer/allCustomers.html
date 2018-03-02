@@ -1,4 +1,5 @@
-<div class="row">
+<!-- <pre>{{role | json}}</pre> -->
+<div class="row" ng-if="role.read === true">
     <div class="col-md-12">
         <!-- BEGIN  TABLE -->
         <div class="portlet light portlet-fit bordered">
@@ -12,12 +13,12 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditCustomerModal('save')">
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditCustomerModal('save')" ng-if="role.create">
                                 <i class="fa fa-plus" title="Add New Customer"></i>
                             </button>
                         </div>
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_2_new" ng-hide="bulkCustomers.length == 0" class="btn red" ng-click="deleteBulkCustomersModal(bulkCustomers, 'deleteBulkCustomers')">
+                            <button id="sample_editable_2_new" ng-hide="bulkCustomers.length == 0" class="btn red" ng-if="role.delete" ng-click="deleteBulkCustomersModal(bulkCustomers, 'deleteBulkCustomers')">
                                 <i class="fa fa-trash-o" title="Delete Selected Customers"></i>
                             </button>
                         </div>
@@ -119,10 +120,10 @@
                             <td class="text-center">{{customer.margins.commission}}</td>
                             <td class="text-center">{{customer.margins.other}}</td>
                             <td>
-                                <span class="label label-sm label-success" ng-click="addOrEditCustomerModal('update',customer)">
+                                <span class="label label-sm label-success" ng-click="addOrEditCustomerModal('update',customer)" ng-if="role.update">
                                     <i class="fa fa-pencil" title="Edit Customers Details"></i>
                                 </span>&nbsp;
-                                <span class="label label-sm label-danger" ng-click="deleteCustomerModal(customer._id,'deleteCustomer')">
+                                <span class="label label-sm label-danger" ng-click="deleteCustomerModal(customer._id,'deleteCustomer')" ng-if="role.delete">
                                     <i class="fa fa-trash-o" title="Delete Customer"></i>
                                 </span>
                             </td>
@@ -169,4 +170,7 @@
         </div>
         <!-- END TABLE-->
     </div>
+</div>
+<div class="page page-tables pull-to-header text-center" ng-if="role.read === false">
+    <h4>You do not have permission to access!</h4>
 </div>

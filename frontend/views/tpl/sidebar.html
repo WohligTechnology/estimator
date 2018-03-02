@@ -1,104 +1,106 @@
 <div class="page-sidebar navbar-collapse collapse">
-    <!-- BEGIN SIDEBAR MENU -->
-    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
-    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
-    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
-    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
-    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
-    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-    <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
-        <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
-        <li class="start nav-item">
-            <br>
-        </li>
-        <li class="start nav-item" id="dashboard" ng-class="{'active': currentState == 'dashboard'}">
-            <a ui-sref="app.dashboard">
-                <i class="icon-home"></i>
-                <span class="title">Dashboard</span>
-            </a>
-        </li>
-        <li class="nav-item" id="enquiry" ng-class="{'active': currentState == 'enquiry'}">
-            <a ui-sref="app.enquiry" class="nav-link ">
-                <i class="icon-settings"></i>
-                <span class="title">Enquiries</span>
-            </a>
-        </li>
-        <li class="nav-item" id="estimate" ng-class="{'active': currentState == 'estimate'}">
-            <a ui-sref="app.estimate">
-                <i class="icon-check"></i>
-                <span class="title">Estimates</span>
-            </a>
-        </li>
-        <li class="nav-item" id="customer" ng-class="{'active': currentState == 'customer'}">
-            <a ui-sref="app.customer" class="nav-link nav-toggle">
-                <i class="icon-refresh"></i>
-                <span class="title">Customers</span>
-            </a>
-        </li>
-        <li class="nav-item" id="user" ng-class="{'active': currentState == 'user'}">
-            <a ui-sref="app.users" id="sidebar_menu_link_profile">
-                <i class="icon-user"></i>
-                <span class="title">Users</span>
-            </a>
-        </li>
-        <li class="nav-item" id="master" ng-class="{'active': currentState == 'master'}">
-            <a class="nav-link nav-toggle">
-                <i class="icon-settings"></i>
-                <span class="title">Master</span>
-                <span class="arrow"></span>
-            </a>
-            <ul class="sub-menu">
-                <li id="masterMaterial" ng-class="{'activeSubMenu': subMenuState == 'masterMaterial'}">
-                    <a ui-sref="app.masterMaterial">
-                        <i class="icon-puzzle"></i> Material Master </span>
-                    </a>
-                </li>
-                <li id="masterShape" ng-class="{'activeSubMenu': subMenuState == 'masterShape'}">
-                    <a ui-sref="app.masterShape">
-                        <i class="icon-paper-clip"></i> Shape Master</span>
-                    </a>
-                </li>
-                <li id="masterPart" ng-class="{'activeSubMenu': subMenuState == 'masterPart'}">
-                    <a ui-sref="app.masterPart">
-                        <i class="icon-check"></i> Part Master</span>
-                    </a>
-                </li>
-                <li id="masterProcess" ng-class="{'activeSubMenu': subMenuState == 'masterProcess'}">
-                    <a ui-sref="app.masterProcess">
-                        <i class="icon-check"></i> Process Master</span>
-                    </a>
-                </li>
-                <li id="masterAddon" ng-class="{'activeSubMenu': subMenuState == 'masterAddon'}">
-                    <a ui-sref="app.masterAddon">
-                        <i class="icon-check"></i> Addon Master</span>
-                    </a>
-                </li>
-                <li id="masterBaseMaster" ng-class="{'activeSubMenu': subMenuState == 'masterBaseMaster'}">
-                    <a ui-sref="app.baseMatser">
-                        <i class="icon-check"></i> BaseMaster Master</span>
-                    </a>
-                </li>
-                <li id="masterExtra" ng-class="{'activeSubMenu': subMenuState == 'masterExtra'}">
-                    <a ui-sref="app.masterExtra">
-                        <i class="icon-check"></i> Extra Master</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item" id="setting" ng-class="{'active': currentState == 'setting'}">
-            <a class="nav-link nav-toggle">
-                <i class="icon-wrench"></i>
-                <span class="title">Settings</span>
-                <span class="arrow"></span>
-            </a>
-            <ul class="sub-menu" id="settingRole">
-                <li class="nav-item" id="role" ng-class="{'active': currentState == 'role'}">
-                    <a ui-sref="app.roles" id="sidebar_menu_link_profile">
-                        <i class="icon-puzzle"></i> Roles</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <!-- END SIDEBAR MENU -->
-</div>
+        <!-- BEGIN SIDEBAR MENU -->
+        <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+        <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+        <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+        <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+        <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+        <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+        <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
+            <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+            <li class="start nav-item">
+                <br>
+            </li>
+            <li class="start nav-item" id="dashboard" ng-class="{'active': currentState == 'dashboard'}" ng-if="navigationFlags.Dashboard.flag">
+                <a ui-sref="app.dashboard">
+                    <i class="icon-home"></i>
+                    <span class="title">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item" id="enquiry" ng-class="{'active': currentState == 'enquiry'}" ng-if="navigationFlags.Enquiries.flag">
+                <a ui-sref="app.enquiry" class="nav-link ">
+                    <i class="icon-settings"></i>
+                    <span class="title">Enquiries</span>
+                </a>
+            </li>
+            <li class="nav-item" id="estimate" ng-class="{'active': currentState == 'estimate'}" ng-if="navigationFlags.Estimates.flag">
+                <a ui-sref="app.estimate">
+                    <i class="icon-check"></i>
+                    <span class="title">Estimates</span>
+                </a>
+            </li>
+            <li class="nav-item" id="customer" ng-class="{'active': currentState == 'customer'}" ng-if="navigationFlags.Customers.flag">
+                <a ui-sref="app.customer" class="nav-link nav-toggle">
+                    <i class="icon-refresh"></i>
+                    <span class="title">Customers</span>
+                </a>
+            </li>
+            <li class="nav-item" id="user" ng-class="{'active': currentState == 'user'}" ng-if="navigationFlags.Users.flag">
+                <a ui-sref="app.users" id="sidebar_menu_link_profile">
+                    <i class="icon-user"></i>
+                    <span class="title">Users</span>
+                </a>
+            </li>
+            <li class="nav-item" id="master" ng-class="{'active': currentState == 'master'}" ng-if="navigationFlags.Master.flag">
+                <a class="nav-link nav-toggle">
+                    <i class="icon-settings"></i>
+                    <span class="title">Master</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu" ng-if="navigationFlags.Master.flag">
+                    <li id="masterMaterial" ng-class="{'activeSubMenu': subMenuState == 'masterMaterial'}" ng-if="navigationFlags.Master.Material_Master">
+                        <a ui-sref="app.masterMaterial">
+                            <i class="icon-puzzle"></i> Material Master </span>
+                        </a>
+                    </li>
+                    <li id="masterShape" ng-class="{'activeSubMenu': subMenuState == 'masterShape'}" ng-if="navigationFlags.Master.Shape_Master">
+                        <a ui-sref="app.masterShape">
+                            <i class="icon-paper-clip"></i> Shape Master</span>
+                        </a>
+                    </li>
+                    <li id="masterPart" ng-class="{'activeSubMenu': subMenuState == 'masterPart'}" ng-if="navigationFlags.Master.Part_Master">
+                        <a ui-sref="app.masterPart">
+                            <i class="icon-check"></i> Part Master</span>
+                        </a>
+                    </li>
+                    <li id="masterProcess" ng-class="{'activeSubMenu': subMenuState == 'masterProcess'}" ng-if="navigationFlags.Master.Process_Master">
+                        <a ui-sref="app.masterProcess">
+                            <i class="icon-check"></i> Process Master</span>
+                        </a>
+                    </li>
+                    <li id="masterAddon" ng-class="{'activeSubMenu': subMenuState == 'masterAddon'}" ng-if="navigationFlags.Master.Addon_Master">
+                        <a ui-sref="app.masterAddon">
+                            <i class="icon-check"></i> Addon Master</span>
+                        </a>
+                    </li>
+                    <li id="masterBaseMaster" ng-class="{'activeSubMenu': subMenuState == 'masterBaseMaster'}" ng-if="navigationFlags.Master.Base_Master">
+                        <a ui-sref="app.baseMatser">
+                            <i class="icon-check"></i> Base Master</span>
+                        </a>
+                    </li>
+                    <li id="masterExtra" ng-class="{'activeSubMenu': subMenuState == 'masterExtra'}" ng-if="navigationFlags.Master.Extra_Master">
+                        <a ui-sref="app.masterExtra">
+                            <i class="icon-check"></i> Extra Master</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item" id="setting" ng-class="{'active': currentState == 'setting'}" ng-if="navigationFlags.Settings.flag">
+                <a class="nav-link nav-toggle">
+                    <i class="icon-wrench"></i>
+                    <span class="title">Settings</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu" id="settingRole">
+                    <li class="nav-item" id="role" ng-class="{'active': currentState == 'role'}" ng-if="navigationFlags.Settings.Roles">
+                        <a ui-sref="app.roles" id="sidebar_menu_link_profile">
+                            <i class="icon-puzzle"></i> Roles</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- <pre>{{navigationFlags.Master | json}}</pre> -->
+        <!-- END SIDEBAR MENU -->
+    </div>
+    

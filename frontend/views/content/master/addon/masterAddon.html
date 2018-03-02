@@ -1,4 +1,5 @@
-<div class="row">
+<!-- <pre>{{role | json}}</pre> -->
+<div class="row" ng-if="role.read === true">
     <div class="col-md-12">
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="portlet light portlet-fit bordered">
@@ -12,12 +13,12 @@
                     </div>
                     <div class="col-md-5">
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditAddonTypeModal('save',undefined)">
+                            <button id="sample_editable_1_new" class="btn green" ng-click="addOrEditAddonTypeModal('save',undefined)" ng-if="role.create === true">
                                 <i class="fa fa-plus" title="Add New Addon"></i>
                             </button>
                         </div>
                         <div class="btn-group pull-right">
-                            <button id="sample_editable_2_new" ng-hide="bulkAddons.length == 0" class="btn red" ng-click="deleteBulkAddonsModal(bulkAddons, 'deleteBulkAddons')">
+                            <button id="sample_editable_2_new" ng-hide="bulkAddons.length == 0" class="btn red" ng-if="role.delete === true" ng-click="deleteBulkAddonsModal(bulkAddons, 'deleteBulkAddons')">
                                 <i class="fa fa-trash-o" title="Delete Selected Addons"></i>
                             </button>
                         </div>
@@ -135,10 +136,10 @@
                                     <td>{{addon.quantity.percentageUse}}</td>
                                     <td>{{addon.allowAtAssSubAss}}</td>
                                     <td class="edit-icon">
-                                        <span class="label label-sm label-success" ng-click="addOrEditAddonTypeModal('update',addon)">
+                                        <span class="label label-sm label-success" ng-click="addOrEditAddonTypeModal('update',addon)" ng-if="role.update === true">
                                             <i class="fa fa-pencil" title="Edit Addon"></i>
                                         </span>&nbsp;
-                                        <span class="label label-sm label-danger" ng-click="deleteAddonTypeModal(addon._id,'deleteAddonType')">
+                                        <span class="label label-sm label-danger" ng-click="deleteAddonTypeModal(addon._id,'deleteAddonType')" ng-if="role.delete === true">
                                             <i class="fa fa-trash-o" title="Delete Addon"></i>
                                         </span>
                                     </td>
@@ -188,4 +189,7 @@
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
+</div>
+<div class="page page-tables pull-to-header text-center" ng-if="role.read === false">
+    <h4>You do not have permission to access!</h4>
 </div>

@@ -1,4 +1,4 @@
-myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMatserService, TemplateService) {
+myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMatserService, TemplateService, usersRoleService) {
 
     // *************************** default variables/tasks begin here ***************** //
     //- to show/hide sidebar of dashboard 
@@ -15,6 +15,22 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
         scaleFactors: {}
     };
     // *************************** default functions begin here  ********************** //
+    //- to get access permissions
+    $scope.getAccessPermissions = function () {
+        //- for authorization
+        usersRoleService.getUserCrudRole('Master', 'Base_Master', function (response) {
+            if (response) {
+                $scope.role = response;
+                console.log('****.......... $scope.role in Base_Master...... ****', $scope.role);
+            } else {
+                // Infinite toastr. hide only when clicked to it.
+                toastr[response.status]('', response.message, {
+                    timeOut: 0,
+                    extendedTimeOut: 0
+                });
+            }
+        });
+    }
     $scope.getBaseMasterData = function () {
         $scope.getUomData();
         $scope.getDfData();
@@ -287,8 +303,13 @@ myApp.controller('baseMasterCtrl', function ($scope, toastr, $uibModal, baseMats
     // *************************** init all default functions begin here ************** //
     //- to initilize the default function 
     $scope.init = function () {
-        // to get BaseMaster Data
-        $scope.getBaseMasterData();
+        $scope.getAccessPermissions();
+        if (angular.isDefined($scope.role)) {
+            if ($scope.role.read === true) {
+                // to get BaseMaster Data
+                $scope.getBaseMasterData();
+            }
+        }
     }
 
     $scope.init();

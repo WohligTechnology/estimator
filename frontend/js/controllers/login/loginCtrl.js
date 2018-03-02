@@ -15,14 +15,28 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
     $scope.verifyUser = function (username, password) {
         loginService.verifyUser(username, password, function (data) {
             $scope.userData = data;
-
+            debugger;
             // if user is not available --> api will send --> []
             if (!_.isEmpty($scope.userData)) {
-                //- for user photo and user name
-                TemplateService.getUserDetails($scope.userData);
-               // $scope.template = TemplateService;
-                $state.go('app.dashboard');
-                $scope.$parent.loginTemplate = true;
+                debugger;
+                if (angular.isDefined($scope.userData.accessLevel[0])) {
+                    //- for user photo and user name
+                    TemplateService.getUserDetails($scope.userData);
+                    TemplateService.setUserRole($scope.userData.accessLevel[0], function (data) {
+                        if (data) {
+                            $state.go('app.dashboard');
+                            $scope.$parent.loginTemplate = true;
+                        } else {
+                            $state.go('login');
+                        }
+                    });
+                } else {
+                    $timeout(function () {
+                        $scope.error = "You do not have permmission to access";
+                    }, 100);                    
+                }
+
+                // $scope.template = TemplateService;
             } else {
                 $timeout(function () {
                     $scope.error = "Invalid username or password !!!";
@@ -98,4 +112,3 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
     }
 
 });
-

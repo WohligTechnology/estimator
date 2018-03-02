@@ -37,6 +37,18 @@ myApp.service('TemplateService', function () {
         }
     }
 
+    //Set user role
+    this.setUserRole = function (allRoles, callback) {
+        if(_.isUndefined(allRoles.roles)){
+            callback(false);
+        } else {
+            $.jStorage.set("allRoles", allRoles.roles);
+            callback(true);
+        }
+    }
+
+
+    
     this.init = function () {
         this.header = "views/template/header.html";
         this.menu = "views/template/menu.html";

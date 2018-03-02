@@ -1,4 +1,4 @@
-myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterAddonService, TemplateService) {
+myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterAddonService, TemplateService, usersRoleService) {
 
 
   // *************************** default variables/tasks begin here ***************** //
@@ -24,6 +24,22 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
 
 
   // *************************** default functions begin here  ********************** //
+  //- to get access permissions
+  $scope.getAccessPermissions = function () {
+    //- for authorization
+    usersRoleService.getUserCrudRole('Master', 'Addon_Master', function (response) {
+      if (response) {
+        $scope.role = response;
+        console.log('****.......... $scope.role in Addon_Master...... ****', $scope.role);
+      } else {
+        // Infinite toastr. hide only when clicked to it.
+        toastr[response.status]('', response.message, {
+          timeOut: 0,
+          extendedTimeOut: 0
+        });
+      }
+    });
+  }
   //- function to get all addons data
   $scope.getAddonData = function () {
     masterAddonService.getAddonData(function (data) {
@@ -81,7 +97,7 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
 
   //- function to  create new addon     
   $scope.addOrEditAddonType = function (addonTypeData, selectedMatCatId, selectedMatSubCatId, selectedRateUomId, selectedAdditionalUomId, selectedKinkedKeyUomId, selectedFinalUomId) {
-    
+
     addonTypeData.materialCat = selectedMatCatId;
     addonTypeData.materialSubCat = selectedMatSubCatId;
     addonTypeData.rate.uom = selectedRateUomId;
@@ -272,7 +288,12 @@ myApp.controller('masterAddonCtrl', function ($scope, toastr, $uibModal, masterA
   // *************************** init all default functions begin here ************** //
   //- to initilize the default function 
   $scope.init = function () {
-    $scope.getAddonData();
+    $scope.getAccessPermissions();
+    if (angular.isDefined($scope.role)) {
+      if ($scope.role.read) {
+        $scope.getAddonData();
+      }
+    }
   }
   $scope.init();
 

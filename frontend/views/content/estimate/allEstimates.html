@@ -1,4 +1,5 @@
-<div class="row">
+<!-- <pre>{{role | json}}</pre> -->
+<div class="row" ng-if="role.read === true">
   <div class="col-md-12">
     <!-- BEGIN EXAMPLE TABLE PORTLET-->
     <div class="portlet light portlet-fit bordered">
@@ -12,7 +13,7 @@
           </div>
           <div class="col-md-5">
             <div class="btn-group pull-right">
-              <button id="sample_editable_2_new" ng-hide="bulkEstimates.length == 0" class="btn red" ng-click="deleteBulkEstimatesModal(bulkEstimates, 'deleteBulkEstimates')">
+              <button id="sample_editable_2_new" ng-hide="bulkEstimates.length == 0" class="btn red" ng-if="role.delete === true" ng-click="deleteBulkEstimatesModal(bulkEstimates, 'deleteBulkEstimates')">
                 <i class="fa fa-trash-o" title="Delete Selected Estimates"></i>
               </button>
             </div>
@@ -119,13 +120,13 @@
               <td>{{table.extrasCost.toFixed(2)}}</td>
               <td>{{table.totalCost.toFixed(2)}}</td>
               <td>
-                <span class="label label-sm label-info" id="add_space" ui-sref="app.createEstimate({estimateId:table._id})">
+                <span class="label label-sm label-info" id="add_space" ui-sref="app.createEstimate({estimateId:table._id})" ng-if="role.update === true">
                   <i class="fa fa-calculator" title="Estimate"></i>
                 </span>
                 <!-- <span class="label label-sm label-success" id="add_space" ng-click="allEstimateEdit()">
                   <i class="fa fa-pencil" title="Edit Estimate "></i>
                 </span> -->
-                <span class="label label-sm label-danger" ng-click="deleteEstimateModal(table._id, 'deleteEstimate')">
+                <span class="label label-sm label-danger" ng-click="deleteEstimateModal(table._id, 'deleteEstimate')" ng-if="role.delete === true">
                   <i class="fa fa-trash-o" title="Delete Estimate"></i>
                 </span>
               </td>
@@ -172,4 +173,7 @@
     </div>
     <!-- END EXAMPLE TABLE PORTLET-->
   </div>
+</div>
+<div class="page page-tables pull-to-header text-center" ng-if="role.read === false">
+    <h4>You do not have permission to access!</h4>
 </div>

@@ -1,4 +1,5 @@
-<div class="row">
+<!-- <pre>{{role | json}}</pre> -->
+<div class="row" ng-if="role.read === true">
     <div class="col-md-3">
         <!-- tree structure -->
         <div class="tree-overflow">
@@ -7,7 +8,7 @@
                     <input type="checkbox" id="c5" />
                     <label class="tree_label" for="c5"></label>
                     <span class="assebmlyName">Part Master</span>
-                    <span ng-click="addOrEditPartTypeCatModal('save')" class="assemblyCreateIcon">
+                    <span ng-click="addOrEditPartTypeCatModal('save')" class="assemblyCreateIcon" ng-if="role.create === true">
                         <i class="fa fa-plus btn-info" title="Add Part Type Category"></i>
                     </span>
                     <ul>
@@ -16,26 +17,26 @@
                             <input type="checkbox" id="{{ptCat.name+$index}}" />
                             <label for="{{ptCat.name+$index}}" class="tree_label"></label>
                             <span class="subssemblyName">{{ptCat.partTypeCatName | capitalize}}</span>
-                            <span ng-click="addOrEditPartTypeModal('save',ptCat._id)" class="subAssemblyCreateIcon">
+                            <span ng-click="addOrEditPartTypeModal('save',ptCat._id)" class="subAssemblyCreateIcon" ng-if="role.create === true">
                                 <i class="fa fa-plus btn-info" title="Add Part Type"></i>
                             </span>
-                            <span ng-click="addOrEditPartTypeCatModal('update',ptCat)" class="subAssemblyEditIcon">
+                            <span ng-click="addOrEditPartTypeCatModal('update',ptCat)" class="subAssemblyEditIcon" ng-if="role.update === true">
                                 <i class="fa fa-pencil btn-warning" title="Edit Part Type Category"></i>
                             </span>
-                            <span ng-click="deletePartTypeCatModal(ptCat._id,'deletePartTypeCat')" class="subAssemblyDeleteIcon">
+                            <span ng-click="deletePartTypeCatModal(ptCat._id,'deletePartTypeCat')" class="subAssemblyDeleteIcon" ng-if="role.delete === true">
                                 <i class="fa fa-trash-o btn-danger" title="Delete Part Type Category"></i>
                             </span>
                             <ul>
                                 <li ng-repeat="pt in ptCat.partTypes">
                                     <span class="tree_label partName" ng-click="getPartTypeSizes(pt._id)">{{pt.partTypeName | capitalize}}</span>
                                     <span ng-click="addNewPreset('save',pt._id)" class="partPresetAdd
-                                        ">
+                                        " ng-if="role.create === true">
                                         <i class="fa fa-plus btn-info" title="Add New Preset"></i>
                                     </span>
-                                    <span ng-click="addOrEditPartTypeModal('save',ptCat._id,pt)" class="partEditIcon">
+                                    <span ng-click="addOrEditPartTypeModal('save',ptCat._id,pt)" class="partEditIcon" ng-if="role.create === true">
                                         <i class="fa fa-pencil btn-warning" title="Edit Part Type Modal"></i>
                                     </span>
-                                    <span ng-click="deletePartTypeModal(pt._id, 'deletePartType')" class="partDeleteIcon">
+                                    <span ng-click="deletePartTypeModal(pt._id, 'deletePartType')" class="partDeleteIcon" ng-if="role.delete === true">
                                         <i class="fa fa-trash-o btn-danger" title="Delete Item"></i>
                                     </span>
                                 </li>
@@ -50,7 +51,7 @@
             <label>
                 <b>Sizes</b>
             </label>
-            <p ng-repeat="s in partTypeSizes" ng-click="getPresetViewWithData('update',s)">{{s.size}}</p>
+            <p ng-repeat="s in partTypeSizes" ng-click="getPresetViewWithData('update',s)" ng-if="role.update === true">{{s.size}}</p>
         </div>
         <!-- paty type materials -->
         <div class="mar-t" ng-if="showPartTypeMaterial">
@@ -71,7 +72,7 @@
                     <tr ng-repeat="m in partTypeMaterials">
                         <td ng-click="getPresetFinalData(presetFormData,selectedShape,m)">{{m.materialName}}</td>
                         <td class="edit-icon">
-                            <a ng-click="deletePartTypeMaterialModal(partTypeId,m._id,'deletePartTypeMaterial')">
+                            <a ng-click="deletePartTypeMaterialModal(partTypeId,m._id,'deletePartTypeMaterial')" ng-if="role.delete === true">
                                 <span class="label label-sm label-danger">
                                     <i class="fa fa-trash-o" title="Delete Part Type"></i>
                                 </span>
@@ -632,4 +633,7 @@
             </div>
         </div>
     </div>
+</div>
+<div class="page page-tables pull-to-header text-center" ng-if="role.read === false">
+    <h4>You do not have permission to access!</h4>
 </div>
