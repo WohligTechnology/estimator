@@ -156,6 +156,18 @@ myApp.run(["$rootScope", "settings", "$state", function ($rootScope, settings, $
   $rootScope.$settings = settings; // state to be accessed from view
 }]);
 
+myApp.factory('accessApp', function ($location) {
+  return {
+      isLoggedIn: function () {
+          if ($.jStorage.get("loggedInUser")) {
+              return true;
+          } else {
+              return $location.path('/');
+          }
+      }
+  }
+})
+
 
 // Define all the routes below
 myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
