@@ -56,9 +56,9 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-disabled="isEmailIdPresent || myForm.$invalid && myForm.$dirty || myForm.$pristine"
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn && !myForm.$pristine" ng-disabled="isEmailIdPresent || myForm.$invalid && myForm.$dirty"
                                     ng-click="addOrEditUser(operation, formData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-disabled="isEmailIdPresent || myForm.$invalid && myForm.$dirty || myForm.$pristine"
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn && !myForm.$pristine" ng-disabled="isEmailIdPresent || myForm.$invalid && myForm.$dirty"
                                     ng-click="addOrEditUser(operation, formData)">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>

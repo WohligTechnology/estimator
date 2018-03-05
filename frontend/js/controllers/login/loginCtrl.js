@@ -15,10 +15,8 @@ myApp.controller('loginCtrl', function ($scope, $uibModal, $state, $timeout, log
     $scope.verifyUser = function (username, password) {
         loginService.verifyUser(username, password, function (data) {
             $scope.userData = data;
-            debugger;
             // if user is not available --> api will send --> []
             if (!_.isEmpty($scope.userData)) {
-                debugger;
                 if (angular.isDefined($scope.userData.accessLevel[0])) {
                     //- for user photo and user name
                     TemplateService.getUserDetails($scope.userData);

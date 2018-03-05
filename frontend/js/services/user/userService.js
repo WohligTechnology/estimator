@@ -7,12 +7,12 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
   //     callback(data.data);
   //   });
   // }
-      //- get access level data
-      this.getAccessLevels = function (callback) {
-        NavigationService.boxCall('Role/getAccessLevels', function (data) {
-          callback(data);
-        });
-      }
+  //- get access level data
+  this.getAccessLevels = function (callback) {
+    NavigationService.boxCall('Role/getAccessLevels', function (data) {
+      callback(data);
+    });
+  }
   this.checkEmailAvailability = function (obj, callback) {
     //- check email availability in 100 records
     this.getPaginationData(1, 100, undefined, function (data) {
@@ -114,7 +114,7 @@ myApp.service('userService', function ($http, $uibModal, NavigationService) {
       tempObj.idsArray = users;
     }
     NavigationService.apiCall('Web/delRestrictions/User', tempObj, function (data) {
-      bulkArray = [];      
+      bulkArray = [];
       callback(data);
     });
   }

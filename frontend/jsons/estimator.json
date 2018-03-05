@@ -5,11 +5,13 @@
     "update": false,
     "delete": false,
     "navigation": false,
-    "createPerm": true,
+    "download": false,
+    "createPerm": false,
     "readPerm": true,
-    "updatePerm": true,
-    "deletePerm": true,
+    "updatePerm": false,
+    "deletePerm": false,
     "navigationPerm": true,
+    "downloadPerm": false,
     "subModules": {
       "Dash_icon1": {
         "create": false,
@@ -17,12 +19,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
-        "download":false,
-        "createPerm": true,
+        "download": false,
+        "createPerm": false,
         "readPerm": true,
-        "updatePerm": true,
-        "deletePerm": true,
-        "navigationPerm": true
+        "updatePerm": false,
+        "deletePerm": false,
+        "navigationPerm": true,
+        "downloadPerm": false
       },
       "Dash_icon2": {
         "create": false,
@@ -30,11 +33,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
-        "createPerm": true,
+        "download": false,
+        "createPerm": false,
         "readPerm": true,
-        "updatePerm": true,
-        "deletePerm": true,
-        "navigationPerm": true
+        "updatePerm": false,
+        "deletePerm": false,
+        "navigationPerm": true,
+        "downloadPerm": false
       },
       "Dash_icon3": {
         "create": false,
@@ -42,11 +47,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
-        "createPerm": true,
+        "download": false,
+        "createPerm": false,
         "readPerm": true,
-        "updatePerm": true,
-        "deletePerm": true,
-        "navigationPerm": true
+        "updatePerm": false,
+        "deletePerm": false,
+        "navigationPerm": true,
+        "downloadPerm": false
       },
       "Dash_icon4": {
         "create": false,
@@ -54,11 +61,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
-        "createPerm": true,
+        "download": false,
+        "createPerm": false,
         "readPerm": true,
-        "updatePerm": true,
-        "deletePerm": true,
-        "navigationPerm": true
+        "updatePerm": false,
+        "deletePerm": false,
+        "navigationPerm": true,
+        "downloadPerm": false
       }
     }
   },
@@ -68,11 +77,13 @@
     "update": false,
     "delete": false,
     "navigation": false,
+    "download": false,
     "createPerm": true,
     "readPerm": true,
     "updatePerm": true,
     "deletePerm": true,
     "navigationPerm": true,
+    "downloadPerm": true,
     "subModules": {}
   },
   "Estimates": {
@@ -81,11 +92,13 @@
     "update": false,
     "delete": false,
     "navigation": false,
+    "download": false,
     "createPerm": true,
     "readPerm": true,
     "updatePerm": true,
     "deletePerm": true,
     "navigationPerm": true,
+    "downloadPerm": true,
     "subModules": {
       "Estimator": {
         "create": false,
@@ -93,23 +106,41 @@
         "update": false,
         "delete": false,
         "navigation": false,
+        "download": false,
         "createPerm": true,
         "readPerm": true,
         "updatePerm": true,
         "deletePerm": true,
-        "navigationPerm": true
+        "navigationPerm": true,
+        "downloadPerm": true
       },
-      "Details": {
+      "Cost_Price": {
         "create": false,
         "read": false,
         "update": false,
         "delete": false,
         "navigation": false,
-        "createPerm": true,
+        "download": false,
+        "createPerm": false,
         "readPerm": true,
-        "updatePerm": true,
-        "deletePerm": true,
-        "navigationPerm": true
+        "updatePerm": false,
+        "deletePerm": false,
+        "navigationPerm": true,
+        "downloadPerm": false
+      },
+      "Selling_Price": {
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false,
+        "navigation": false,
+        "download": false,
+        "createPerm": false,
+        "readPerm": true,
+        "updatePerm": false,
+        "deletePerm": false,
+        "navigationPerm": true,
+        "downloadPerm": false
       },
       "BOQ": {
         "create": false,
@@ -117,11 +148,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
-        "createPerm": true,
+        "download": false,
+        "createPerm": false,
         "readPerm": true,
-        "updatePerm": true,
-        "deletePerm": true,
-        "navigationPerm": true
+        "updatePerm": false,
+        "deletePerm": false,
+        "navigationPerm": true,
+        "downloadPerm": true
       },
       "Attachments": {
         "create": false,
@@ -129,11 +162,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
+        "download": false,
         "createPerm": true,
         "readPerm": true,
         "updatePerm": true,
         "deletePerm": true,
-        "navigationPerm": true
+        "navigationPerm": true,
+        "downloadPerm": true
       }
     }
   },
@@ -143,11 +178,13 @@
     "update": false,
     "delete": false,
     "navigation": false,
+    "download": false,
     "createPerm": true,
     "readPerm": true,
     "updatePerm": true,
     "deletePerm": true,
     "navigationPerm": true,
+    "downloadPerm": true,
     "subModules": {}
   },
   "Users": {
@@ -156,11 +193,13 @@
     "update": false,
     "delete": false,
     "navigation": false,
+    "download": false,
     "createPerm": true,
     "readPerm": true,
     "updatePerm": true,
     "deletePerm": true,
     "navigationPerm": true,
+    "downloadPerm": true,
     "subModules": {}
   },
   "Master": {
@@ -169,11 +208,13 @@
     "update": false,
     "delete": false,
     "navigation": false,
+    "download": false,
     "createPerm": true,
     "readPerm": true,
     "updatePerm": true,
     "deletePerm": true,
     "navigationPerm": true,
+    "downloadPerm": false,
     "subModules": {
       "Material_Master": {
         "create": false,
@@ -181,11 +222,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
+        "download": false,
         "createPerm": true,
         "readPerm": true,
         "updatePerm": true,
         "deletePerm": true,
-        "navigationPerm": true
+        "navigationPerm": true,
+        "downloadPerm": false
       },
       "Shape_Master": {
         "create": false,
@@ -193,11 +236,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
+        "download": false,
         "createPerm": true,
         "readPerm": true,
         "updatePerm": true,
         "deletePerm": true,
-        "navigationPerm": true
+        "navigationPerm": true,
+        "downloadPerm": false
       },
       "Part_Master": {
         "create": false,
@@ -205,11 +250,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
+        "download": false,
         "createPerm": true,
         "readPerm": true,
         "updatePerm": true,
         "deletePerm": true,
-        "navigationPerm": true
+        "navigationPerm": true,
+        "downloadPerm": false
       },
       "Process_Master": {
         "create": false,
@@ -217,11 +264,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
+        "download": false,
         "createPerm": true,
         "readPerm": true,
         "updatePerm": true,
         "deletePerm": true,
-        "navigationPerm": true
+        "navigationPerm": true,
+        "downloadPerm": false
       },
       "Addon_Master": {
         "create": false,
@@ -229,11 +278,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
+        "download": false,
         "createPerm": true,
         "readPerm": true,
         "updatePerm": true,
         "deletePerm": true,
-        "navigationPerm": true
+        "navigationPerm": true,
+        "downloadPerm": false
       },
       "Base_Master": {
         "create": false,
@@ -241,11 +292,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
+        "download": false,
         "createPerm": true,
         "readPerm": true,
         "updatePerm": true,
         "deletePerm": true,
-        "navigationPerm": true
+        "navigationPerm": true,
+        "downloadPerm": false
       },
       "Extra_Master": {
         "create": false,
@@ -253,11 +306,13 @@
         "update": false,
         "delete": false,
         "navigation": false,
+        "download": false,
         "createPerm": true,
         "readPerm": true,
         "updatePerm": true,
         "deletePerm": true,
-        "navigationPerm": true
+        "navigationPerm": true,
+        "downloadPerm": false
       }
     }
   },
@@ -267,11 +322,13 @@
     "update": false,
     "delete": false,
     "navigation": false,
-    "createPerm": true,
+    "download": false,
+    "createPerm": false,
     "readPerm": true,
-    "updatePerm": true,
-    "deletePerm": true,
+    "updatePerm": false,
+    "deletePerm": false,
     "navigationPerm": true,
+    "downloadPerm": false,
     "subModules": {
       "Roles": {
         "create": false,
@@ -279,13 +336,30 @@
         "update": false,
         "delete": false,
         "navigation": false,
+        "download": false,
         "createPerm": true,
         "readPerm": true,
         "updatePerm": true,
         "deletePerm": true,
         "navigationPerm": true,
+        "downloadPerm": false,
         "subModules": {}
       }
     }
+  },
+  "Global_Variables": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false,
+    "navigation": false,
+    "download": false,
+    "createPerm": false,
+    "readPerm": true,
+    "updatePerm": false,
+    "deletePerm": false,
+    "navigationPerm": true,
+    "downloadPerm": false,
+    "subModules": {}
   }
 }

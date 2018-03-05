@@ -62,16 +62,20 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
         });
     }
     $scope.createOrEditShape = function (shape, shapeVariables) {
-        shape.variable = shapeVariables;
-        masterShapeService.createOrEditShape(shape, function (data) {
-            if (data.value) {
-                toastr.success('Shape added/updated successfully');
-                $scope.getShapeData();
-            } else {
-                toastr.error('Shape is not added/updated');
-            }
-
-        });
+        if (_.isEmpty(shapeVariables)) {
+            toastr.error("Please select variables");
+        } else {
+            shape.variable = shapeVariables;
+            masterShapeService.createOrEditShape(shape, function (data) {
+                if (data.value) {
+                    toastr.success('Shape added/updated successfully');
+                    $scope.getShapeData();
+                } else {
+                    toastr.error('Shape is not added/updated');
+                }
+    
+            });
+        }
     }
     $scope.deleteShapeModal = function (shapeId, getFunction) {
         $scope.idToDelete = shapeId;
@@ -98,21 +102,40 @@ myApp.controller('masterShapeCtrl', function ($scope, toastr, $uibModal, masterS
     }
 
     //- to add/remove seleted variables in the shape's-->variable array 
-    $scope.addVariableToShape = function (checkboxStatus, variableName, uom) {
-        if (checkboxStatus == 'unchecked') {
-            var index = _.findIndex($scope.shapeVariables, ['varName', variableName]);
-            //- removing shape from array 
-            $scope.shapeVariables.splice(index, 1);
-            // $scope.variablesData.splice(index, 1);
-        } else if (checkboxStatus == 'checked') {
-            var tempVarObj = {
-                varName: variableName,
-                uom: uom
-            };
-            $scope.shapeVariables.push(tempVarObj);
-            // $scope.variablesData.push(tempVarObj);
+    $scope.addVariableToShape = function (checkboxStatus, variable) {
+        if (angular.isDefined(variable.uom)) {
+            if (checkboxStatus == 'unchecked') {
+                var index = _.findIndex($scope.shapeVariables, ['varName', variable.varName]);
+                variable.checkboxStatus = false; 
+                //- removing shape from array 
+                $scope.shapeVariables.splice(index, 1);
+                // $scope.variablesData.splice(index, 1);
+            } else if (checkboxStatus == 'checked') {
+                var tempVarObj = {
+                    varName: variable.varName,
+                    uom: variable.uom
+                };
+                variable.checkboxStatus = true; 
+                $scope.shapeVariables.push(tempVarObj);
+                // $scope.variablesData.push(tempVarObj);
+            }
         }
     }
+    // $scope.addVariableToShape = function (checkboxStatus, variableName, uom) {
+    //     if (checkboxStatus == 'unchecked') {
+    //         var index = _.findIndex($scope.shapeVariables, ['varName', variableName]);
+    //         //- removing shape from array 
+    //         $scope.shapeVariables.splice(index, 1);
+    //         // $scope.variablesData.splice(index, 1);
+    //     } else if (checkboxStatus == 'checked') {
+    //         var tempVarObj = {
+    //             varName: variableName,
+    //             uom: uom
+    //         };
+    //         $scope.shapeVariables.push(tempVarObj);
+    //         // $scope.variablesData.push(tempVarObj);
+    //     }
+    // }
     //- create formulae for net weight dynamically
     $scope.calculateGrossWeight = function (nwt) {
         $scope.formData.partFormulae.grossWeight = "(" + nwt + ")*((wtg+" + 100 + ")/100)";

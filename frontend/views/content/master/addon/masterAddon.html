@@ -149,7 +149,7 @@
                     </div>
                 </div>
                 <!-- END BORDERED TABLE PORTLET-->
-                <div class="row" ng-hide="addonData.length == 0">
+                <div class="row" ng-show="addonData.length >= 1">
                     <div class="col-md-6">
                         <div class="dataTables_info showing-records" id="sample_1_info" role="status" aria-live="polite">Showing {{obj.pageStart}} to {{obj.pageEnd}} of {{obj.total}} records</div>
                     </div>

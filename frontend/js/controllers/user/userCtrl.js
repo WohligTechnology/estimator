@@ -181,6 +181,7 @@ myApp.controller('userCtrl', function ($scope, toastr, $uibModal, userService, T
     $scope.getAccessPermissions();
     if (angular.isDefined($scope.role)) {
       if ($scope.role.read) {
+        $scope.getAccessLevels();
         $scope.getPaginationData(1, 10);
       }
     }

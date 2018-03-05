@@ -1,241 +1,272 @@
 <div class="portlet-body">
-        <div class="tab-content">
-            <div class="tab-pane active" id="tab_1_2">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="portlet light portlet-fit bordered">
-                            <!-- BEGIN PAGE HEADER-->
-                            <div class="page-bar">
-                                <ul class="page-breadcrumb">
-                                    <li>
-                                        <a ui-sref="app.dashboard">Home</a>
-                                        <i class="fa fa-circle"></i>
-                                    </li>
-                                    <li>
-                                        <a ui-sref="app.roles">Role</a>
-                                    </li>
-                                </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1_2">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet light portlet-fit bordered">
+                        <!-- BEGIN PAGE HEADER-->
+                        <div class="page-bar">
+                            <ul class="page-breadcrumb">
+                                <li>
+                                    <a ui-sref="app.dashboard">Home</a>
+                                    <i class="fa fa-circle"></i>
+                                </li>
+                                <li>
+                                    <a ui-sref="app.roles">Role</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="portlet-title">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="caption">
+                                        <i class="icon-settings font-red"></i>
+                                        <span class="caption-subject font-red sbold uppercase">Roles</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="portlet-title">
-                                    <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="caption">
-                                                    <i class="icon-settings font-red"></i>
-                                                    <span class="caption-subject font-red sbold uppercase">Roles</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                <!-- <div class="caption">
+                            <!-- <div class="caption">
                                     <i class="fa fa-gift"></i>
                                     <span class="caption-subject font-red sbold uppercase">Create Role</span>
                                 </div>
                                 <div class="tools">
                                 </div> -->
-                            </div>
-                            <div class="portlet-body form">
-                                <!-- BEGIN FORM-->
-                                <form class="form-horizontal" name="myForm">
-                                    <div class="form-body">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label"> Role Name :
-                                                <b class="error">&nbsp;&nbsp;*</b>
-                                            </label>
-                                            <div class="col-md-6">
-                                                <input class="form-control" placeholder="Role Name" ng-model="roles.name" required>
+                        </div>
+                        <div class="portlet-body form">
+                            <!-- BEGIN FORM-->
+                            <form class="form-horizontal" name="myForm">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label"> Role Name :
+                                            <b class="error">&nbsp;&nbsp;*</b>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <input class="form-control" placeholder="Role Name" ng-model="roles.name" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-12">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <!-- <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                            <input type="checkbox" id="checkAll" class="group-checkable" data-set="#sample_1 .checkboxes" ng-disabled="userData.length <= 0"
+                                                                ng-model="checkAll" ng-change="selectAll(userData, checkAll)" />
+                                                            <span></span>
+                                                        </label> -->
+                                                        <th></th>
+                                                        <th>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input id="selectAll" type="checkbox" ng-model="selectAll" ng-click="selectAllCheckbox(selectAll)">
+                                                                <span></span>
+                                                            </label>
+                                                        </th>
+                                                        <th>Create</th>
+                                                        <th ng-if="showPermission">Create Perm</th>
+                                                        <th>Read</th>
+                                                        <th ng-if="showPermission">Read Perm</th>
+                                                        <th>Update</th>
+                                                        <th ng-if="showPermission">Update Perm</th>
+                                                        <th>Delete</th>
+                                                        <th ng-if="showPermission">Delete Perm</th>
+                                                        <th>Navigation</th>
+                                                        <th ng-if="showPermission">Navigation Perm</th>
+                                                        <th>Download</th>
+                                                        <th ng-if="showPermission">Download Perm</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat-start="(key, value) in roles.roles track by $index">
+                                                        <td>
+                                                            <b>{{key}}</b>
+                                                        </td>
+                                                        <td>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="allRowCheck" ng-click="selectRow(key,allRowCheck)">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="value.createPerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.create">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.createPerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="value.readPerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.read">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.readPerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="value.updatePerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.update">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.updatePerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="value.deletePerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.delete">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.deletePerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="value.navigationPerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.navigation">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.navigationPerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="value.downloadPerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.download">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="value.downloadPerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr ng-repeat-end ng-repeat="(subKey,subValue) in value.subModules track by $index">
+                                                        <td> &nbsp;&nbsp;&nbsp;{{subKey}}</td>
+                                                        <td>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="allSubRowCheck" ng-click="selectSubRow(key,subKey,allSubRowCheck)">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="subValue.createPerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.create">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.createPerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="subValue.readPerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.read">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.readPerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="subValue.updatePerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.update">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.updatePerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="subValue.deletePerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.delete">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.deletePerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="subValue.navigationPerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.navigation">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.navigationPerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="subValue.downloadPerm" class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.download">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td ng-if="showPermission">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                <input type="checkbox" ng-model="subValue.downloadPerm">
+                                                                <span></span>
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="modal-footer">
+                                                <button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="addRole(roles)" ng-if="showSaveBtn && roles.roles" ng-disabled="button.$invalid && button.$dirty || button.$pristine">
+                                                    <i class="fa fa-arrow-right"></i> Save</button>
+                                                <button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="updateRole(roles)" ng-if="showEditBtn && roles.roles"
+                                                    ng-disabled="button.$invalid && button.$dirty || button.$pristine">
+                                                    <i class="fa fa-arrow-right"></i> Update</button>
+                                                <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ui-sref="app.roles">
+                                                    <i class="fa fa-arrow-left"></i> Cancel</button>
                                             </div>
                                         </div>
-    
-                                        <div class="form-group">
-                                            <div class="clearfix"></div>
-                                            <div class="col-md-12">
-                                                <table class="table table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th></th>
-                                                            <th>
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input id="selectAll" type="checkbox" ng-model="selectAll" ng-click="selectAllCheckbox(selectAll)">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </th>
-                                                            <th>Create</th>
-                                                            <th ng-if="showPermission">Create Perm</th>
-                                                            <th>Read</th>
-                                                            <th ng-if="showPermission">Read Perm</th>
-                                                            <th>Update</th>
-                                                            <th ng-if="showPermission">Update Perm</th>
-                                                            <th>Delete</th>
-                                                            <th ng-if="showPermission">Delete Perm</th>
-                                                            <th>Navigation</th>
-                                                            <th ng-if="showPermission">Navigation Perm</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr ng-repeat-start="(key, value) in roles.roles track by $index">
-                                                            <td>
-                                                                <b>{{key}}</b>
-                                                            </td>
-                                                            <td>
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="allRowCheck" ng-click="selectRow(key,allRowCheck)">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td>
-                                                                <label ng-if="value.createPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="value.create">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td ng-if="showPermission">
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="value.createPerm">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td>
-                                                                <label ng-if="value.readPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="value.read">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td ng-if="showPermission">
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="value.readPerm">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td>
-                                                                <label ng-if="value.updatePerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="value.update">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td ng-if="showPermission">
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="value.updatePerm">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td>
-                                                                <label ng-if="value.deletePerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="value.delete">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td ng-if="showPermission">
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="value.deletePerm">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td>
-                                                                <label ng-if="value.navigationPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="value.navigation">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td ng-if="showPermission">
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="value.navigationPerm">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                        </tr>
-    
-                                                        <tr ng-repeat-end ng-repeat="(subKey,subValue) in value.subModules track by $index">
-                                                            <td> &nbsp;&nbsp;&nbsp;{{subKey}}</td>
-                                                            <td>
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="allSubRowCheck" ng-click="selectSubRow(key,subKey,allSubRowCheck)">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td>
-                                                                <label ng-if="subValue.createPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="subValue.create">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td ng-if="showPermission">
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="subValue.createPerm">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td>
-                                                                <label ng-if="subValue.readPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="subValue.read">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td ng-if="showPermission">
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="subValue.readPerm">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td>
-                                                                <label ng-if="subValue.updatePerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="subValue.update">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td ng-if="showPermission">
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="subValue.updatePerm">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td>
-                                                                <label ng-if="subValue.deletePerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="subValue.delete">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td ng-if="showPermission">
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="subValue.deletePerm">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td>
-                                                                <label ng-if="subValue.navigationPerm" class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="subValue.navigation">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                            <td ng-if="showPermission">
-                                                                <label class="checkbox minotaur-checkbox m-0 checkbox-layout">
-                                                                    <input type="checkbox" ng-model="subValue.navigationPerm">
-                                                                    <div class="input-indicator"></div>
-                                                                </label>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-    
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="addRole(roles)" ng-if="showSaveBtn && roles.roles" ng-disabled="button.$invalid && button.$dirty || button.$pristine">
-                                                        <i class="fa fa-arrow-right"></i> Save</button>
-                                                    <button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="updateRole(roles)" ng-if="showEditBtn && roles.roles"
-                                                        ng-disabled="button.$invalid && button.$dirty || button.$pristine">
-                                                        <i class="fa fa-arrow-right"></i> Update</button>
-                                                    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ui-sref="app.roles">
-                                                        <i class="fa fa-arrow-left"></i> Cancel</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                </form>
-                                <!-- END FORM-->
-                                </div>
+                                    </div>
+                            </form>
+                            <!-- END FORM-->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
