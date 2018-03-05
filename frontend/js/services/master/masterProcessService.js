@@ -46,7 +46,9 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessCat = function (processCatId, callback) {
-    NavigationService.apiCall('MProcessCat/delRestrictionsMProcessCat', {_id: processCatId}, function (data) {
+    NavigationService.apiCall('MProcessCat/delRestrictionsMProcessCat', {
+      _id: processCatId
+    }, function (data) {
       callback(data);
     });
   }
@@ -75,7 +77,9 @@ myApp.service('masterProcessService', function (NavigationService) {
     });
   }
   this.deleteProcessItem = function (processItemId, callback) {
-    NavigationService.apiCall('MProcessItem/delRestrictionMProcessItem', {_id: processItemId}, function (data) {
+    NavigationService.apiCall('MProcessItem/delRestrictionMProcessItem', {
+      _id: processItemId
+    }, function (data) {
       callback(data);
     });
   }
@@ -123,83 +127,85 @@ myApp.service('masterProcessService', function (NavigationService) {
   this.deleteProcessType = function (processId, callback) {
     idsArray = [];
     idsArray.push(processId);
-    NavigationService.delete('Web/delRestrictions/MProcessType', {idsArray: idsArray}, function (data) {
+    NavigationService.delete('Web/delRestrictions/MProcessType', {
+      idsArray: idsArray
+    }, function (data) {
       callback(data);
     });
   }
-  this.validationOfProcessType =  function (processData, selectedProcessCatId, selectedRateMUlFactUom, selectedQuaLinkedKeyUom, selectedQuaFinalUom, callback){
+  this.validationOfProcessType = function (processData, selectedProcessCatId, selectedRateMUlFactUom, selectedQuaLinkedKeyUom, selectedQuaFinalUom, callback) {
     //-  Validation of select in process Type
     var validationSelect = {
       errorCount: 0
     }
     if ((processData.showRateFields) == true) {
-        if (angular.isUndefined(selectedProcessCatId)) {
-         validationSelect.processCategory = "Select Process Catergory."
-            validationSelect.errorCount++;
-        } else {
-         validationSelect.processCategory = ""
-        }
-        if (_.isEmpty(selectedProcessCatId)) {
-          validationSelect.processCatValidation = " Process Category field is required."
-            validationSelect.errorCount++;
-        } else {
-            validationSelect.processCatValidation = " "
-        }
-        if (_.isEmpty(processData.rate.mulFact)) {
-            validationSelect.rateMultiplicationFactor = "Multiplication Factor field is required."
-            validationSelect.errorCount++;
-        } else {
-            validationSelect.rateMultiplicationFactor = " "
-        }
-    }
-    if (angular.isUndefined(processData.rate.uom)) {
-        validationSelect.rateUom = "Select UOM"
+      if (_.isEmpty(selectedProcessCatId)) {
+        validationSelect.processCategory = "Select Process Catergory."
         validationSelect.errorCount++;
+      } else {
+        validationSelect.processCategory = ""
+      }
+      if (_.isEmpty(selectedProcessCatId)) {
+        validationSelect.processCatValidation = " Process Category field is required."
+        validationSelect.errorCount++;
+      } else {
+        validationSelect.processCatValidation = " "
+      }
+      if (_.isEmpty(processData.rate.mulFact)) {
+        validationSelect.rateMultiplicationFactor = "Multiplication Factor field is required."
+        validationSelect.errorCount++;
+      } else {
+        validationSelect.rateMultiplicationFactor = " "
+      }
+    }
+    if (_.isEmpty(processData.rate.uom)) {
+      validationSelect.rateUom = "Select UOM"
+      validationSelect.errorCount++;
     } else {
-        validationSelect.rateUom = ""
+      validationSelect.rateUom = ""
     }
     if (_.isEmpty(processData.quantity.uom)) {
-        validationSelect.quantityUom = "Select UOM"
-        validationSelect.errorCount++;
+      validationSelect.quantityUom = "Select UOM"
+      validationSelect.errorCount++;
     } else {
-        validationSelect.quantityUom = ""
+      validationSelect.quantityUom = ""
     }
     if ((processData.showQuantityFields) == true) {
-        if (_.isEmpty(processData.quantity.linkedKeyValue)) {
-            validationSelect.linkedkeyValue = "Select LinkedKey Value."
-            validationSelect.errorCount++;
-        } else {
-            validationSelect.linkedkeyValue = " "
-        }
-        if (_.isEmpty(processData.quantity.mulfact)) {
-            validationSelect.quantityMultiplicationFactor = "Multiplication Factor field is required."
-            validationSelect.errorCount++;
-        } else {
-            validationSelect.quantityMultiplicationFactor = " "
-        }
-        if (isNaN(parseFloat(processData.quantity.utilization))){
-          validationSelect.quantityUtilization = "Utilization field is required."
-          validationSelect.errorCount++;
+      if (_.isEmpty(processData.quantity.linkedKeyValue)) {
+        validationSelect.linkedkeyValue = "Select LinkedKey Value."
+        validationSelect.errorCount++;
+      } else {
+        validationSelect.linkedkeyValue = " "
+      }
+      if (_.isEmpty(processData.quantity.mulfact)) {
+        validationSelect.quantityMultiplicationFactor = "Multiplication Factor field is required."
+        validationSelect.errorCount++;
+      } else {
+        validationSelect.quantityMultiplicationFactor = " "
+      }
+      if (isNaN(parseFloat(processData.quantity.utilization))) {
+        validationSelect.quantityUtilization = "Utilization field is required."
+        validationSelect.errorCount++;
       } else {
         validationSelect.quantityUtilization = " "
       }
-      if (isNaN(parseFloat(processData.quantity.contengncyOrWastage))){
+      if (isNaN(parseFloat(processData.quantity.contengncyOrWastage))) {
         validationSelect.quantityWastage = "Contegency or Wastage field is required."
-          validationSelect.errorCount++;
+        validationSelect.errorCount++;
       } else {
         validationSelect.quantityWastage = " "
       }
 
-  } else {
-    validationSelect.linkedkeyValue = " "
-  }
-     if (_.isEmpty(processData.quantity.finalUom)) {
-        validationSelect.finalUom = "Select FinalUOM"
-        validationSelect.errorCount++
     } else {
-        validationSelect.finalUom = ""
+      validationSelect.linkedkeyValue = " "
     }
-callback(validationSelect);
+    if (_.isEmpty(processData.quantity.finalUom)) {
+      validationSelect.finalUom = "Select FinalUOM"
+      validationSelect.errorCount++
+    } else {
+      validationSelect.finalUom = ""
+    }
+    callback(validationSelect);
   }
   //- get pagination data
   this.getPaginationData = function (pageNumber, count, searchKeyword, callback) {
@@ -250,12 +256,14 @@ callback(validationSelect);
         var processId = obj._id;
         bulkArray.push(processId);
       });
-    } 
+    }
     callback(bulkArray);
   }
   //- delete bulk processes
   this.deleteBulkProcesses = function (processes, callback) {
-    NavigationService.apiCall('Web/delRestrictions/MProcessType', {idsArray: processes}, function (data) {
+    NavigationService.apiCall('Web/delRestrictions/MProcessType', {
+      idsArray: processes
+    }, function (data) {
       callback(data);
     });
   }

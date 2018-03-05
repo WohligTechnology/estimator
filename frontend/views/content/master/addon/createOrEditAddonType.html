@@ -13,10 +13,11 @@
                 <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Addon Type Name:</label>
+                            <label class="col-md-2 control-label">Addon Type Name: </label>
                             <div class="col-md-3">
                                 <input type="text" name="AddonTypeName" class="form-control" ng-model="formData.addonTypeName" placeholder="" required autofocus>
                                 <span class="redColor" ng-show="myForm.AddonTypeName.$invalid && myForm.AddonTypeName.$dirty"> Please fill in this field</span>
+                                <span class="error">{{validationObj.addonName}}</span>
                             </div>
                             <label class="col-md-2 control-label"> SubAssembly Access:</label>
                             <div class="col-md-1" style="margin-top:10px;">
@@ -33,6 +34,7 @@
                                     ng-change="getMatSubCat(selectedMatCat._id)" required>
                                 </select>
                                 <span class="redColor" ng-show="myForm.MaterialCategory.$invalid && myForm.MaterialCategory.$dirty"> Please fill in this field</span>
+                                <span class="error">{{validationObj.materialCat}}</span>
                             </div>
                             <label class="col-md-2 control-label"> Material SubCategory:</label>
                             <div class="col-md-3">
@@ -40,6 +42,7 @@
                                     required>
                                 </select>
                                 <span class="redColor" ng-show="myForm.MaterialSubcategory.$invalid &&  myForm.MaterialSubcategory.$dirty"> Please fill in this field</span>
+                                <span class="error">{{validationObj.materialSubCat}}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -63,13 +66,15 @@
                             <label class="col-md-2 control-label" ng-show="formData.showRateFields">Multiplication Factor</label>
                             <div class="col-md-3" ng-show="formData.showRateFields">
                                 <input type="text" class="form-control" ng-model="formData.rate.mulFact" placeholder="" required>
+                                <span class="error">{{validationObj.rateMulfact}}</span>
                             </div>
-                            <label class="col-md-2 control-label"> UOM</label>
+                            <label class="col-md-2 control-label"> UOM </label>
                             <div class="col-md-3">
                                 <select ng-model="selectedRateUom" name="uomm" class="form-control select_tag_dashboard" ng-options="u.uomName for u in mUomData track by u._id"
                                     required>
                                 </select>
                                 <span class="redColor" ng-show="myForm.uomm.$invalid &&  myForm.uomm.$dirty"> Please fill in this field</span>
+                                <span class="error">{{validationObj.rateUom}}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -95,12 +100,14 @@
                             <div class="col-md-3">
                                 <input type="text" name="AdditionInput" class="form-control" ng-model="formData.quantity.additionalInput" required>
                                 <span class="redColor" ng-show="myForm.AdditionInput.$invalid &&  myForm.AdditionInput.$dirty"> Please fill in this field</span>
+                                <span class="error">{{validationObj.additionalInput}}</span>
                             </div>
                             <label class="col-md-2 control-label">UOM</label>
                             <div class="col-md-3">
                                 <select ng-model="selectedAdditionalUom" name="uom" class="form-control select_tag_dashboard" ng-options="u.uomName for u in mUomData track by u._id"
                                     required>
                                 </select>
+                                <span class="error">{{validationObj.additionalInputUom}}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -115,24 +122,29 @@
                                     <option>Nwt</option>
                                 </select>
                                 <span class="error" ng-show="myForm.Linkedkey.$invalid &&  myForm.Linkedkey.$dirty"> Please fill in this field</span>
+                                <span class="error">{{validationObj.linkedKey}}</span>
                             </div>
-                            <label class="col-md-2 control-label">UOM</label>
+                            <label class="col-md-2 control-label">UOM </label>
                             <div class="col-md-3">
                                 <select ng-model="selectedKinkedKeyUom" name="u" class="form-control select_tag_dashboard" ng-options="u.uomName for u in mUomData track by u._id"
                                     required>
                                 </select>
                                 <span class="error" ng-show="myForm.u.$invalid  &&  myForm.u.$dirty"> Please fill in this field</span>
+                                <span class="error">{{validationObj.linkedKeyUom}}</span>
                             </div>
                         </div>
                         <div class="form-group" ng-show="formData.showQuantityFields">
                             <label class="col-md-2 control-label">Multiplication Factor</label>
                             <div class="col-md-3" ng-show="formData.showQuantityFields">
-                                <input type="text" class="form-control" ng-model="formData.quantity.mulFact" required>
+                                <input type="text" class="form-control" name="quantityMulFact" ng-model="formData.quantity.mulFact" required>
+                                <span class="error">{{validationObj.quantityMulFact}}</span>
+                                <span class="error" ng-show="myForm.use.$invalid && myForm.use.$dirty">Please fill in this field</span>
                             </div>
                             <label class="col-md-2 control-label">% use</label>
                             <div class="col-md-3">
                                 <input type="text" name="use" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-model="formData.quantity.percentageUse">
                                 <span class="error" ng-show="myForm.use.$invalid && myForm.use.$dirty">Please enter a number or floating point number</span>
+                                <span class="error">{{validationObj.quantityUtilization}}</span>
                             </div>
                             <!-- <label class="col-md-2 control-label">Final UOM</label>
                             <div class="col-md-3">

@@ -1,18 +1,27 @@
-myApp.service('TemplateService', function () {
+myApp.service('TemplateService', function (usersRoleService) {
     this.title = "Dashboard";
     this.meta = "";
     this.metadesc = "";
     this.userPhoto = "";
     this.userName = "";
-
+    this.visibleGlobalVar = {};
     var d = new Date();
     this.year = d.getFullYear();
 
+    // if ($.jStorage.set("allRoles") != null) {
+    //        usersRoleService.getUserCrudRole('Global_Variables', '', function (response) {
+    //            if (response) {
+    //                this.visibleGlobalVar = response;
+    //                console.log('****.......... $scope.visibleGlobalVar in Dashboard...... ****', this.visibleGlobalVar);
+    //            }
+    //        });
+    //    }
     if ($.jStorage.get('loggedInUser') != null) {
         var loggedInUser = $.jStorage.get('loggedInUser');
         this.userPhoto = loggedInUser.photo;
-        this.userName =  loggedInUser.name;
+        this.userName = loggedInUser.name;
     }
+
 
     this.getTitle = function (title) {
         console.log('**** inside function_name of template.js ****');
@@ -27,6 +36,14 @@ myApp.service('TemplateService', function () {
             this.userName = loggedInUser.name = formData.name;
             this.userPhoto = loggedInUser.photo = formData.photo;
             $.jStorage.set("loggedInUser", loggedInUser);
+            // debugger;
+            // $.jStorage.set("allRoles", formData.accessLevel[0].roles);
+            // usersRoleService.getUserCrudRole('Global_Variables', '', function (response) {
+            //     if (response) {
+            //         this.visibleGlobalVar = response;
+            //         console.log('****.......... $scope.visibleGlobalVar in Dashboard...... ****', this.visibleGlobalVar);
+            //     }
+            // });
         } else {
             if (loggedInUser._id == formData._id) {
                 this.userName = loggedInUser.name = formData.name;
@@ -39,16 +56,22 @@ myApp.service('TemplateService', function () {
 
     //Set user role
     this.setUserRole = function (allRoles, callback) {
-        if(_.isUndefined(allRoles.roles)){
+        if (_.isUndefined(allRoles.roles)) {
             callback(false);
         } else {
             $.jStorage.set("allRoles", allRoles.roles);
+            // usersRoleService.getUserCrudRole('Global_Variables', '', function (response) {
+            //     if (response) {
+            //         this.visibleGlobalVar = response;
+            //         console.log('****.......... $scope.visibleGlobalVar in Dashboard...... ****', this.visibleGlobalVar);
+            //     }
+            // });
             callback(true);
         }
     }
 
 
-    
+
     this.init = function () {
         this.header = "views/template/header.html";
         this.menu = "views/template/menu.html";

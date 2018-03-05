@@ -98,9 +98,9 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="caption">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartPreset(presetFormData)">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData, 'saveAsNew')">Save as new</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData)">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditPartPreset(presetFormData)" ng-disabled ="myForm.$dirty && myForm.$invalid">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData, 'saveAsNew')" ng-disabled ="myForm.$dirty && myForm.$invalid">Save as new</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditPartPreset(presetFormData)" ng-disabled ="myForm.$dirty && myForm.$invalid">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="hidePartPresetView()">Cancel</button>
                             </div>
                         </div>
@@ -111,18 +111,18 @@
                         <form class="form-horizontal" name="myForm">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">Shape :</label>
+                                    <label class="col-md-2 control-label">Shape:<span class="error">&nbsp;*</span></label>
                                     <div class="col-md-2">
                                         <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape"
-                                            ng-change="showSelectedShapeData(selectedShape)">
+                                            ng-change="showSelectedShapeData(selectedShape)" required>
                                         </select>
                                     </div>
-                                    <label class="col-md-2 control-label">Part Type Code :</label>
+                                    <label class="col-md-2 control-label">Part Type Code:<span class="error">&nbsp;*</span></label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" ng-disabled="presetFormData.partTypeData.partTypeCode" ng-model="presetFormData.partTypeData.partTypeCode"
                                             required>
                                     </div>
-                                    <label class="col-md-2 control-label">Preset Size :</label>
+                                    <label class="col-md-2 control-label">Preset Size:<span class="error">&nbsp;*</span></label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" ng-model="presetFormData.size" required>
                                     </div>
@@ -140,7 +140,7 @@
                                             </label>
                                         </div>
                                         <div class="form-group" ng-repeat="v in selectedShape.variable track by $index">
-                                            <label class="col-md-3 control-label">{{v.varName}}</label>
+                                            <label class="col-md-3 control-label">{{v.varName}}<span class="error">&nbsp;*</span></label>
                                             <div class="col-md-3">
                                                 <input type="text" name="variable" class="form-control" pattern="[\-\+]?[0-9]*(\.[0-9]+)?" ng-change="getPresetFinalData(presetFormData,selectedShape)"
                                                     ng-model="v.varValue" required>
@@ -160,20 +160,20 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">Wastage (wtg)</label>
+                                            <label class="col-md-3 control-label">Wastage (wtg)<span class="error">&nbsp;*</span></label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " ng-model="presetFormData.wastage" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                                <input type="text" class="form-control " ng-model="presetFormData.wastage" ng-change="getPresetFinalData(presetFormData,selectedShape)" required>
                                                 <span class="unit">%</span>
                                             </div>
-                                            <label class="col-md-3 control-label">Form Factor (ff)</label>
+                                            <label class="col-md-3 control-label">Form Factor (ff)<span class="error">&nbsp;*</span></label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " ng-model="presetFormData.formFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                                <input type="text" class="form-control " ng-model="presetFormData.formFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">Size Factor (sf)</label>
+                                            <label class="col-md-3 control-label">Size Factor (sf)<span class="error">&nbsp;*</span></label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " ng-model="presetFormData.sizeFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                                <input type="text" class="form-control " ng-model="presetFormData.sizeFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)" required>
                                             </div>
                                             <label class="col-md-3 control-label">Preset Shortcut</label>
                                             <div class="col-md-3">
@@ -240,21 +240,21 @@
                 </div>
                 <div class="portlet-body" ng-show="showPresetUpdateForm">
                     <div class="portlet-body">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" name="myForm">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">Shape :</label>
+                                    <label class="col-md-2 control-label">Shape:<span class="error">&nbsp;*</span></label>
                                     <div class="col-md-2">
                                         <select class="form-control" ng-options="s.shapeName for s in presetFormData.shapeData track by s._id" ng-model="selectedShape"
-                                            ng-change="showSelectedShapeData(selectedShape)">
+                                            ng-change="showSelectedShapeData(selectedShape)" required>
                                         </select>
                                     </div>
-                                    <label class="col-md-2 control-label">Part Type Code :</label>
+                                    <label class="col-md-2 control-label">Part Type Code:<span class="error">&nbsp;*</span></label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" ng-disabled="presetFormData.partTypeData.partTypeCode" ng-model="presetFormData.partTypeData.partTypeCode"
                                             required>
                                     </div>
-                                    <label class="col-md-2 control-label">Preset Size :</label>
+                                    <label class="col-md-2 control-label">Preset Size:<span class="error">&nbsp;*</span></label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" ng-model="presetFormData.size" required>
                                     </div>
@@ -271,7 +271,7 @@
                                             </label>
                                         </div>
                                         <div class="form-group" ng-repeat="v in selectedShape.variable track by $index">
-                                            <label class="col-md-3 control-label">{{v.varName}}</label>
+                                            <label class="col-md-3 control-label">{{v.varName}}<span class="error">&nbsp;*</span></label>
                                             <div class="col-md-3">
                                                 <input type="number" class="form-control" ng-change="getPresetFinalData(presetFormData,selectedShape)" ng-model="v.varValue"
                                                     required>
@@ -291,24 +291,24 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">Wastage (wtg)</label>
+                                            <label class="col-md-3 control-label">Wastage (wtg)<span class="error">&nbsp;*</span></label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " ng-model="presetFormData.wastage" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                                <input type="text" class="form-control " ng-model="presetFormData.wastage" ng-change="getPresetFinalData(presetFormData,selectedShape)" required>
                                                 <span class="unit">%</span>
                                             </div>
-                                            <label class="col-md-3 control-label">Form Factor (ff)</label>
+                                            <label class="col-md-3 control-label">Form Factor (ff)<span class="error">&nbsp;*</span></label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " ng-model="presetFormData.formFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                                <input type="text" class="form-control " ng-model="presetFormData.formFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">Size Factor (sf)</label>
+                                            <label class="col-md-3 control-label">Size Factor (sf)<span class="error">&nbsp;*</span></label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " ng-model="presetFormData.sizeFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)">
+                                                <input type="text" class="form-control " ng-model="presetFormData.sizeFactor" ng-change="getPresetFinalData(presetFormData,selectedShape)" required>
                                             </div>
-                                            <label class="col-md-3 control-label">Preset Shortcut</label>
+                                            <label class="col-md-3 control-label">Preset Shortcut<span class="error">&nbsp;*</span></label>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control " ng-model="presetFormData.presetName">
+                                                <input type="text" class="form-control " ng-model="presetFormData.presetName" required>
                                             </div>
                                         </div>
                                     </div>

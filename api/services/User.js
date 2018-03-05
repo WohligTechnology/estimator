@@ -196,7 +196,8 @@ var model = {
                     var saveDataObj = {
                         email: data.email,
                         name: data.name,
-                        mobile:data.mobile
+                        mobile:data.mobile,
+                        accessLevel:data.accessLevel
                     };
                     User.saveData(saveDataObj, function (err, savedData) {
                         if (err) {

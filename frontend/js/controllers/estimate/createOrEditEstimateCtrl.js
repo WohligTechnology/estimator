@@ -258,18 +258,17 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   //- to get access permissions
   $scope.getAccessPermissions = function (subModule) {
     // //- for authorization
-    // usersRoleService.getUserCrudRole('Estimates', subModule, function (response) {
-    //   if (response) {
-    //     $scope.role = response;
-    //     console.log('****.......... $scope.role in Base_Master...... ****', $scope.role);
-    //   } else {
-    //     // Infinite toastr. hide only when clicked to it.
-    //     toastr[response.status]('', response.message, {
-    //       timeOut: 0,
-    //       extendedTimeOut: 0
-    //     });
-    //   }
-    // });
+    usersRoleService.getUserCrudRole('Estimates', subModule, function (response) {
+      if (response) {
+        $scope.role = response;
+      } else {
+        // Infinite toastr. hide only when clicked to it.
+        toastr[response.status]('', response.message, {
+          timeOut: 0,
+          extendedTimeOut: 0
+        });
+      }
+    });
   }
 
   //- call when user will select shortcut/preset name 
@@ -1740,15 +1739,15 @@ myApp.controller('createOrEditEstimateCtrl', function ($scope, $state, toastr, $
   // **************************************** init all default functions begin here **************************************** //
   //- to initilize the default function 
   $scope.init = function () {
-    // $scope.getAccessPermissions('Estimator');
-    // if (angular.isDefined($scope.role)) {
-    //   if ($scope.role.read === true) {
+    $scope.getAccessPermissions('Estimator');
+    if (angular.isDefined($scope.role)) {
+      if ($scope.role.read === true) {
         // to get default view
         $scope.getEstimateData();
         $scope.getEstimateView('assembly');
         //to get estimate tree structure data 
-    //   }
-    // }
+      }
+    }
   }
   $scope.init();
 

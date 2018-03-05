@@ -5,10 +5,10 @@
                 <div class="portlet-title tabbable-line tabs-left">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a href="#" data-target="#tab_1_2" data-toggle="tab">Estimate</a>
+                            <a href="#" data-target="#tab_1_2" data-toggle="tab" ng-click="getAccessPermissions('Estimator')">Estimate</a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_1" data-toggle="tab" ng-click="getAccessPermissions('Details')">Details</a>
+                            <a href="#" data-target="#tab_1_1" data-toggle="tab" ng-click="getAccessPermissions('Cost_Price')">Details</a>
                         </li>
                         <li>
                             <a href="#" data-target="#tab_1_3" data-toggle="tab" ng-click="getAccessPermissions('BOQ')">BOQ</a>
@@ -253,7 +253,7 @@
                                             <span ng-click="importCustoMaterialModal()" class="assemblyEditIcon">
                                                 <i class="fa fa-files-o btn-success" title="Import Custom Material"></i>
                                             </span>
-                                            <span ng-click="favouriteCustoMaterialModal()" class="subAssemblyDeleteIcon">
+                                            <span ng-click="favouriteCustoMaterialModal()"  class="subAssemblyDeleteIcon">
                                                 <i class="fa fa-list btn-primary" title="Favourite Custom Material List"></i>
                                             </span>
                                             <ul class="tree_animation">

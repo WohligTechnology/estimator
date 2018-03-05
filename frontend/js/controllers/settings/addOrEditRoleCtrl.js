@@ -11,6 +11,13 @@ myApp.controller('addOrEditRoleCtrl', function ($scope, toastr, $stateParams, ro
   $scope.showPermission = false;
   //- for title
   TemplateService.getTitle("Role");
+    // Get Roles view from json file
+    $scope.getRolesView = function () {
+      $http.get('jsons/estimator.json')
+        .then(function (res) {
+          $scope.roles.roles = res.data;
+        });
+    }
   //-  check wherther it is edit or
   if ($stateParams.id) {
     //- Get roles.json file
@@ -38,15 +45,6 @@ myApp.controller('addOrEditRoleCtrl', function ($scope, toastr, $stateParams, ro
   //- ********************************* functions to be triggered form view begin here *************** // 
   //- define all functions triggered from view in this section only
 
-  // Get Roles view from json file
-  $scope.getRolesView = function () {
-    $http.get('jsons/estimator.json')
-      .then(function (res) {
-        debugger;
-        console.log("res : ", res.data);
-        $scope.roles.roles = res.data;
-      });
-  }
 
 
 

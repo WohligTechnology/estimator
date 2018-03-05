@@ -237,15 +237,16 @@ myApp.service('masterPartService', function (NavigationService) {
     this.addOrEditPartPreset = function (presetData, action, callback) {
 
         if (action == "saveAsNew") {
+            presetData = _.omit(presetData, ['_id', 'customMaterialId', '__v', 'createdAt', 'updatedAt', '$$hashKey']);
             // _.findKey(presetData,   ['_id', '__v', 'createdAt', 'updatedAt', '$$hashKey']);
-            delete presetData._id;
-            delete presetData.__v;
-            delete presetData.createdAt;
-            delete presetData.updatedAt;
-            delete presetData.$$hashKey;
+            // delete presetData._id;
+            // delete presetData.__v;
+            // delete presetData.createdAt;
+            // delete presetData.updatedAt;
+            // delete presetData.$$hashKey;
         }
 
-        presetData.partType = presetData.partTypeData._id;
+        presetData.partType = presetData.partTypeData.partTypeId;
         NavigationService.apiCall('MPartPresets/save', presetData, function (data) {
             callback(data);
         });

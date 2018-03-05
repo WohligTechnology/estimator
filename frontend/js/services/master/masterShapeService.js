@@ -81,8 +81,9 @@ myApp.service('masterShapeService', function (
 
                     n.checkboxStatus = true;
                     _.forEach(shape.variable, function (record) {
-                        if (record.varName == n.varName);
+                        if (record.varName == n.varName) {
                         n.uom = record.uom;
+                        }
                     });
                     shapeDataObj.shapeVarWithoutChunck.push(_.cloneDeep(n));
                 }

@@ -64,6 +64,7 @@ myApp.service('roleService', function (NavigationService) {
         allRoles[field].update = checkStatus(allRoles[field].updatePerm, status);
         allRoles[field].delete = checkStatus(allRoles[field].deletePerm, status);
         allRoles[field].navigation = checkStatus(allRoles[field].navigationPerm, status);
+        allRoles[field].download = checkStatus(allRoles[field].downloadPerm, status);
         callback(allRoles);
     }
 
@@ -74,6 +75,7 @@ myApp.service('roleService', function (NavigationService) {
         allRoles[field]['subModules'][subField].update = checkStatus(allRoles[field]['subModules'][subField].updatePerm, status);
         allRoles[field]['subModules'][subField].delete = checkStatus(allRoles[field]['subModules'][subField].deletePerm, status);
         allRoles[field]['subModules'][subField].navigation = checkStatus(allRoles[field]['subModules'][subField].navigationPerm, status);
+        allRoles[field]['subModules'][subField].download = checkStatus(allRoles[field]['subModules'][subField].downloadPerm, status);
         callback(allRoles);
     }
 
@@ -94,6 +96,7 @@ myApp.service('roleService', function (NavigationService) {
             value.update = checkStatus(value.updatePerm, status);
             value.delete = checkStatus(value.deletePerm, status);
             value.navigation = checkStatus(value.navigationPerm, status);
+            value.download = checkStatus(value.downloadPerm, status);
         }
 
         callback(allRoles);

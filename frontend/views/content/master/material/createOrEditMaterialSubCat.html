@@ -11,7 +11,7 @@
                 <form class="form-horizontal" name="myForm">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-5 control-label">Enter Sub Category Name:</label>
+                            <label class="col-md-5 control-label">Enter Sub Category Name:<span class="error">&nbsp;*</span></label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="formData.materialSubCatName" autofocus required>
                             </div>
@@ -20,8 +20,8 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn" ng-click="addOrEditMaterialSubCat(formData,catId)" ng-disabled ="formData.materialSubCatName.length == null">Save</button>
-                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn" ng-click="addOrEditMaterialSubCat(formData)" ng-disabled ="formData.materialSubCatName.length == null">Update</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showSaveBtn && !myForm.$pristine" ng-click="addOrEditMaterialSubCat(formData,catId)" ng-disabled ="myForm.$dirty && myForm.$invalid">Save</button>
+                                <button type="submit" class="btn btn-circle green" ng-if="showEditBtn && !myForm.$pristine" ng-click="addOrEditMaterialSubCat(formData)" ng-disabled ="myForm.$dirty && myForm.$invalid">Update</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" ng-click="cancelModal()">Cancel</button>
                             </div>
                         </div>
